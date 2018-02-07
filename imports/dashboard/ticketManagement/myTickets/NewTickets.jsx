@@ -45,7 +45,7 @@ export default class NewTickets extends TrackerReact(Component){
                         }
                         
                     }
-                    console.log("allTickets :"+JSON.stringify(allTickets));
+                    // console.log("allTickets :"+JSON.stringify(allTickets));
                     
                     if(allTickets){
                         this.setState({
@@ -80,7 +80,7 @@ export default class NewTickets extends TrackerReact(Component){
                             {  this.state.tableListData.map((data, index)=>{
                                 return(
                                     <tr key={index}>
-                                        <td>{data.ticketNumber}</td>
+                                        <td id={data._id}>{data.ticketNumber}</td>
                                         <td>{data.orderNo}</td>
                                         <td>{data.serviceName}</td>
                                         <td>{moment(data.ticketStatus[0].createdAt).format('l')}</td>
