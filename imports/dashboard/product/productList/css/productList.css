@@ -1,0 +1,129 @@
+.admin-product-list-table th, .admin-product-list-table td {
+    text-align: center;
+    border: 1px solid #266fb9 !important;
+}
+
+.admin-product-list-table th {
+    background: #266fb9;
+    color: #fff;
+}
+
+.edit-pruduct-list-prod {
+    background: #777;
+    color: #fff;
+    padding: 5px 10px;
+    cursor: pointer;
+    display: inline-block;
+    margin-right: 2px;
+}
+
+.view-pruduct-list-prod {
+    background: #3c8dbc;
+    color: #fff;
+    padding: 5px 10px;
+    cursor: pointer;
+    display: inline-block;
+    margin-right: 2px;
+}
+
+.delete-pruduct-list-prod {
+    background: #d23838;
+    color: #fff;
+    padding: 5px 10px;
+    cursor: pointer;
+    display: inline-block;
+    margin-top: 3px;
+}
+
+.deleteListBtn {
+    margin-left: 5px
+}
+
+.viewMore-pruduct-desc {
+    background: #444;
+    margin-left: 5px;
+    color: #fff;
+    padding: 0px 7px;
+    cursor: pointer;
+}
+
+.productListModalMarginBtm {
+    margin-bottom: 10px
+}
+
+.productListModalTitle {
+    font-size: 16px;
+    color: #000;
+}
+
+.prodCheckboxDim {
+    font-size: 30px;
+    cursor: pointer;
+    color: #ccc;
+}
+
+.prodCheckboxDimSelected {
+    color: #00a65a;
+}
+
+/*.prodCheckboxDimC {
+    opacity: 0;
+    width: 0;
+}*/
+
+.prodCheckboxDimSelected:hover {
+    color: #dd4b39;
+}
+.prodCheckboxDimNotSelected:hover {
+    color: #00a65a;
+}
+
+.prodListOfImages {
+    margin-bottom: 10px;
+    overflow: hidden;
+}
+
+.prodListOfImagesImg img {
+    width: 100%;
+    height: 100%;
+}
+
+.prodListOfImagesImg {
+    height: 160px;
+    width: 160px;
+    border: 6px solid #eee;
+    /*cursor: pointer;*/
+}
+
+.prodListOfImagesImg:hover{
+    border: 6px solid #999;
+}
+
+.prodListRow {
+    background: #f4f4f4;
+padding: 20px 12px;
+margin-top: 10px;
+}
+
+.prodStatPublish {
+    background: #00a65a;
+color: #fff;
+margin-top: 4px;
+padding: 5px 0px;
+cursor: pointer;
+}
+.prodStatUnpublish {
+    background: #dd4b39;
+color: #fff;
+margin-top: 4px;
+padding: 5px 0px;
+cursor: pointer;
+}
+
+.prodStatDraft {
+    background: #555;;
+color: #fff;
+margin-top: 4px;
+padding: 5px 0px;
+cursor: pointer;
+}
