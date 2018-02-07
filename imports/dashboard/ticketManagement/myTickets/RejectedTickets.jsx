@@ -9,52 +9,51 @@ import validator from 'validator';
 import {Tracker} from 'meteor/tracker';
 import { browserHistory } from 'react-router';
 
-import {TicketMaster} from "/imports/website/ServiceProcess/api/TicketMaster.js";
+import {Order} from "/imports/website/ServiceProcess/api/Order.js";
 
 
 // import { UserSubscriptions } from '/imports/website/contactUs/api/SubscriptionMaster.js';
 
 
-export default class NewTickets extends TrackerReact(Component){
+export default class RejectedTickets extends TrackerReact(Component){
 	constructor(props){
         super(props);
-        this.state = {
-            "tableListData":[],
-            "tatDate": "",
-            "subscribe": Meteor.subscribe("allTickets"),
-        }
+        // this.state = {
+        //     "tableListData":[],
+        //     "tatDate": "",
+        //     "subscribe": Meteor.subscribe("allOrders"),
+        // }
         
     }
 
     componentDidMount(){
 
-            this.userTracker = Tracker.autorun(()=>{
-                if(this.state.subscribe.ready()){
-                    var allTickets = TicketMaster.find({"ticketStatus.status":"New"}).fetch();
-                    for(var i=0;i<allTickets.length;i++){
-                        for(var j=0;j<allTickets[i].ticketStatus.length;j++){
-                            var dateValue = allTickets[i].ticketStatus[0].createdAt;
-                            var startdate = moment(dateValue).format('L');
-                            var new_date  = moment(startdate, "MM-DD-YYYY").add(1, 'days');
-                            var day       = new_date.format('DD');
-                            var month     = new_date.format('MM');
-                            var year      = new_date.format('YYYY');
-                            var tatDate   = day + '/' + month + '/' + year
+            // this.userTracker = Tracker.autorun(()=>{
+            //     if(this.state.subscribe.ready()){
+            //         var allOrders = Order.find({"delieveryStatus.status":"New Order"}).fetch();
+            //         for(var i=0;i<allOrders.length;i++){
+            //             for(var j=0;j<allOrders[i].delieveryStatus.length;j++){
+            //                 var dateValue = allOrders[i].delieveryStatus[0].createdAt;
+            //                 var startdate = moment(dateValue).format('L');
+            //                 var new_date  = moment(startdate, "MM-DD-YYYY").add(1, 'days');
+            //                 var day       = new_date.format('DD');
+            //                 var month     = new_date.format('MM');
+            //                 var year      = new_date.format('YYYY');
+            //                 var tatDate   = day + '/' + month + '/' + year
                           
                             
-                        }
+            //             }
                         
-                    }
-                    console.log("allTickets :"+JSON.stringify(allTickets));
+            //         }
                     
-                    if(allTickets){
-                        this.setState({
-                            'tableListData' : allTickets,
-                            'tatDate'       : tatDate
-                        })
-                    }
-                }
-            });
+            //         if(allOrders){
+            //             this.setState({
+            //                 'tableListData' : allOrders,
+            //                 'tatDate'       : tatDate
+            //             })
+            //         }
+            //     }
+            // });
     }
    
     render(){
@@ -77,19 +76,19 @@ export default class NewTickets extends TrackerReact(Component){
                       </thead>
                             <tbody>
 
-                            {  this.state.tableListData.map((data, index)=>{
+                            {/* {  this.state.tableListData.map((data, index)=>{
                                 return(
                                     <tr key={index}>
-                                        <td>{data.ticketNumber}</td>
+                                        <td></td>
                                         <td>{data.orderNo}</td>
                                         <td>{data.serviceName}</td>
-                                        <td>{moment(data.ticketStatus[0].createdAt).format('l')}</td>
+                                        <td>{moment(data.delieveryStatus[0].createdAt).format('l')}</td>
                                         <td> {this.state.tatDate}</td>
-                                        <td><button type="button" className=" newOrderbtn btn btn-primary">New</button></td>                                    
+                                        <td><button type="button" className=" newOrderbtn btn btn-primary">Rejected</button></td>                                    
                                     </tr>
                                 );
                             })
-                            }
+                            } */}
 
                             </tbody>
                         </table>

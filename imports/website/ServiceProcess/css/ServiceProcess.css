@@ -1,0 +1,142 @@
+.zeroSpace{
+	padding: 0px;
+	margin: 0px;
+}
+
+.serviceInfoColumn{
+  font-size: 14px;
+  padding-top: 2%;
+  color: #4a4a4a;
+  font-weight: 100;
+  line-height: 1.6;
+  letter-spacing: 0.025em;
+}
+
+.serviceInfoDesc{
+	font-size: 14px;
+  padding-top: 2%;
+  color: #4a4a4a;
+  font-weight: 100;
+  line-height: 1.6;
+  letter-spacing: 0.025em;
+  text-align: justify;
+}
+
+.spaceDiv{
+	padding: 1%;
+}
+
+.outerServiceBlock{
+   padding-top: 23px;
+    padding-bottom: 23px;
+    background-color: #f0f0f0;
+}
+.servieInnerBlock{
+   padding-top: 15px;
+    padding-bottom: 15px;
+    background-color: #fff;
+    /*min-height: 372px;*/
+    margin-bottom: 15px;
+}   
+.servieInnerBlock h1{
+    text-rendering: optimizeLegibility;
+    color: #4a4a4a;
+    line-height: 1.6;
+    letter-spacing: 1px;
+    font-size: 20px;
+    font-weight: 700;
+}
+.serviceImage{
+  height: 200px;
+  width: 200px;
+  box-shadow: 0px 0px 4px #999;
+}
+.outerServiceImage{
+  padding-top: 2%;
+}
+.ServiceProcessButtons{
+    margin-bottom: 30px;
+    height: 40px;
+    border-radius: 0px !important;
+    background-color: #00b8ff;
+    border-color: #00b8ff;
+    color: #fff;
+    transition-property: border-color, color;
+    transition-duration: 0.3s;
+    transition-timing-function:
+    cubic-bezier(0.42,1,0.58,1);
+    transition-delay: initial;
+}
+.ServiceProcessButtons:hover, .ServiceProcessButtons:focus, .ServiceProcessButtons:active {
+    border-radius: 0px;
+    height: 40px;
+    color: #fff;
+    background-color: #00b8ff;
+    border-color: #00b8ff;
+    outline: none;
+}
+.outerButtonDiv{
+	padding-top: 3%;
+	padding-left: 0px;
+	padding-right: 0px;
+}
+.invoiceCompanyName h3{
+  text-rendering: optimizeLegibility;
+  color: #4a4a4a;
+  line-height: 1.6;
+  letter-spacing: 1px;
+  font-size: 18px;
+  font-weight: 700;
+}
+.bannerTextFont{
+  text-rendering: optimizeLegibility;
+  color: #4a4a4a;
+  line-height: 1.6;
+  letter-spacing: 1px;
+  font-size: 14px;
+  font-weight: 700;
+}
+.bannerSpanTextFont{
+  font-size: 14px;
+  padding-top: 2%;
+  color: #4a4a4a;
+  font-weight: 100;
+  line-height: 1.6;
+  letter-spacing: 0.025em;
+}
+.bannerInvMar{
+  margin-top: 2%;
+  padding-top: 2%;
+  padding-bottom: 2%;
+  border: 1px solid rgba(74, 74, 74, .5);
+}
+.noPadLeftRight{
+  padding-left: 0;
+  padding-right: 0;
+}
+.invoicetitleHeader{
+  text-rendering: optimizeLegibility;
+  color: #4a4a4a;
+  line-height: 1.6;
+  letter-spacing: 1px;
+  font-size: 14px;
+  font-weight: 700;
+  padding-top: 2%;
+/*  border: 1px solid #4a4a4a;*/
+  padding-bottom: 2%;
+} 
+.invoiceValue{
+  font-size: 14px;
+  padding-top: 2%;
+  color: #4a4a4a;
+  font-weight: 100;
+  line-height: 1.6;
+  letter-spacing: 0.025em;
+  padding-top: 2%;
+/*  border: 1px solid #4a4a4a;*/
+  padding-bottom: 2%;
+} 
+ 
+.notDisplay{
+  display: none;
+}
