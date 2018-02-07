@@ -10,6 +10,7 @@ import {Tracker} from 'meteor/tracker';
 import { browserHistory } from 'react-router';
 
 import {TicketMaster} from "/imports/website/ServiceProcess/api/TicketMaster.js";
+import {Order} from "/imports/website/ServiceProcess/api/Order.js";
 
 
 // import { UserSubscriptions } from '/imports/website/contactUs/api/SubscriptionMaster.js';
@@ -22,6 +23,8 @@ export default class NewTickets extends TrackerReact(Component){
             "tableListData":[],
             "tatDate": "",
             "subscribe": Meteor.subscribe("allTickets"),
+            "subscribeOrder": Meteor.subscribe("allOrders"),
+            "userSubscribe" : Meteor.subscribe("userData"),
         }
         
     }
@@ -30,8 +33,11 @@ export default class NewTickets extends TrackerReact(Component){
 
             this.userTracker = Tracker.autorun(()=>{
                 if(this.state.subscribe.ready()){
+                    
                     var allTickets = TicketMaster.find({"ticketStatus.status":"New"}).fetch();
                     for(var i=0;i<allTickets.length;i++){
+                        var allOrders = Order.findOne({"_id":allTickets[i].orderId});
+                        
                         for(var j=0;j<allTickets[i].ticketStatus.length;j++){
                             var dateValue = allTickets[i].ticketStatus[0].createdAt;
                             var startdate = moment(dateValue).format('L');
@@ -39,8 +45,8 @@ export default class NewTickets extends TrackerReact(Component){
                             var day       = new_date.format('DD');
                             var month     = new_date.format('MM');
                             var year      = new_date.format('YYYY');
-                            var tatDate   = day + '/' + month + '/' + year
-                          
+                            var tatDate   = month  + '/' + day + '/' + year
+                            
                             
                         }
                         
@@ -50,13 +56,32 @@ export default class NewTickets extends TrackerReact(Component){
                     if(allTickets){
                         this.setState({
                             'tableListData' : allTickets,
-                            'tatDate'       : tatDate
+                            'tatDate'       : tatDate,
+                            'orderId'       : allOrders.orderNo,
                         })
                     }
                 }
             });
     }
-   
+    changeStatus(event){
+        event.preventDefault();
+        var ticketId =  $(event.currentTarget).attr('data-id');
+        console.log("ticketId :"+ticketId);
+        var userID = Meteor.userId();
+        console.log("userID :"+userID);
+        var userData = Meteor.users.findOne({"_id":userID});
+        console.log("userData :"+JSON.stringify(userData));
+        if(userData){
+            var firstName = profile.firstname;
+            var lastName =  profile.lastname;
+            console.log("firstName :"+firstName);
+            console.log("lastName :"+lastName);
+
+        }
+        
+
+
+    }
     render(){
         return( 
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -80,12 +105,12 @@ export default class NewTickets extends TrackerReact(Component){
                             {  this.state.tableListData.map((data, index)=>{
                                 return(
                                     <tr key={index}>
-                                        <td id={data._id}>{data.ticketNumber}</td>
-                                        <td>{data.orderNo}</td>
+                                        <td>{data.ticketNumber}</td>
+                                        <td>{this.state.orderId}</td>
                                         <td>{data.serviceName}</td>
-                                        <td>{moment(data.ticketStatus[0].createdAt).format('l')}</td>
+                                        <td>{moment(data.ticketStatus[0].createdAt).format('L')}</td>
                                         <td> {this.state.tatDate}</td>
-                                        <td><button type="button" className=" newOrderbtn btn btn-primary">New</button></td>                                    
+                                        <td><button type="button" data-id={data._id} onClick={this.changeStatus.bind(this)} className=" newOrderbtn btn btn-primary">New</button></td>                                    
                                     </tr>
                                 );
                             })

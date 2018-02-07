@@ -8,10 +8,30 @@ import Validation from 'react-validation';
 import validator from 'validator';
 import {Tracker} from 'meteor/tracker';
 import { browserHistory } from 'react-router';
+import NewTickets from "/imports/dashboard/ticketManagement/myTickets/NewTickets.jsx";
+import AcceptedTickets from "/imports/dashboard/ticketManagement/myTickets/AcceptedTickets.jsx";
+import ApprovedTickets from "/imports/dashboard/ticketManagement/myTickets/ApprovedTickets.jsx";
+import RejectedTickets from "/imports/dashboard/ticketManagement/myTickets/RejectedTickets.jsx";
+import EscalationTickets from "/imports/dashboard/ticketManagement/myTickets/EscalationTickets.jsx";
+
 
 // import { UserSubscriptions } from '/imports/website/contactUs/api/SubscriptionMaster.js';
-
 export default class MyTickets extends TrackerReact(Component){
+
+    constructor(props){
+      super(props);
+      this.state = {
+          'currentTabView': "New",
+      }
+    }
+
+    changeReportComponent(event){
+      var currentComp = $(event.currentTarget).attr('data-currentComp');
+
+      this.setState({
+        'currentTabView': currentComp,
+      })
+    }
    
     render(){
         return( 
@@ -27,7 +47,9 @@ export default class MyTickets extends TrackerReact(Component){
                     <div className="col-md-12">
                       <div className="box">
                         <div className="box-header with-border">
-                         <h2 className="box-title">My Tickets</h2> 
+                          {/* <h3 className="box-title">
+                            Sales Report
+                          </h3> */}
                         
                         </div>
                         {/* /.box-header */}
@@ -35,25 +57,25 @@ export default class MyTickets extends TrackerReact(Component){
                           <div className="row">
                             <div className="col-md-12">
                               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                {/*<h1 className="reportTitleName"> My Tickets</h1>
-                                <hr/>*/}
+                                <h1 className="reportTitleName"> My Tickets</h1>
+                                <hr/>
 
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                   <div className="sales-report-main-class">
                                     <div className="sales-report-commonpre">
-                                        <div onClick="{this.changeReportComponent.bind(this)}" data-currentComp="New" className="sales-report-common sales-report-today">
+                                        <div onClick={this.changeReportComponent.bind(this)}  data-currentComp="New" className="sales-report-common sales-report-today">
                                         New
                                         </div>
-                                        <div onClick="{this.changeReportComponent.bind(this)}" data-currentComp="Accepted" className="sales-report-common sales-report-thisweek">
+                                        <div onClick={this.changeReportComponent.bind(this)}  data-currentComp="Accepted" className="sales-report-common sales-report-thisweek">
                                         Accepted
                                         </div>
-                                        <div onClick="{this.changeReportComponent.bind(this)}" data-currentComp="Approved" className="sales-report-common sales-report-thismonth">
+                                        <div onClick={this.changeReportComponent.bind(this)}  data-currentComp="Approved" className="sales-report-common sales-report-thismonth">
                                         Approved
                                         </div>
-                                        <div onClick="{this.changeReportComponent.bind(this)}" data-currentComp="Rejected" className="sales-report-common sales-report-thisyear">
+                                        <div onClick={this.changeReportComponent.bind(this)}  data-currentComp="Rejected" className="sales-report-common sales-report-thisyear">
                                         Rejected
                                         </div>
-                                        <div onClick="{this.changeReportComponent.bind(this)}" data-currentComp="Escalation" className="sales-report-common sales-report-costomised">
+                                        <div onClick={this.changeReportComponent.bind(this)}  data-currentComp="Escalation" className="sales-report-common sales-report-costomised">
                                         Escalation
                                         </div>
                                     </div>
@@ -62,7 +84,7 @@ export default class MyTickets extends TrackerReact(Component){
 
                                 <div className="col-lg-12">
                                   <table className="table table-bordered table-striped table-hover myTable dataTable no-footer">
-                                    <thead className="table-head umtblhdr">
+                                    {/* <thead className="table-head umtblhdr">
                                       <tr className="hrTableHeader info UML-TableTr">
                                         <th className=""> Sr No.</th>
                                         <th className=""> Order ID </th>
@@ -72,7 +94,7 @@ export default class MyTickets extends TrackerReact(Component){
                                         <th className=""> Status </th>
                                         
                                       </tr>
-                                    </thead>
+                                    </thead> */}
                                     <tbody className="noLRPad">
                                       {/* { this.usersListData().map( (usersData)=>{
                                         return <UMUsers key={usersData._id} usersDataValues={usersData}/>
@@ -82,15 +104,16 @@ export default class MyTickets extends TrackerReact(Component){
                                     </tbody>
                                   </table>
                                 </div>
-
-                                
+                              
                                 {
                                   this.state.currentTabView == "New" ? <NewTickets /> : 
-                                  this.state.currentTabView == "Accepted" ? <ReportsWeeklyList /> : 
-                                  this.state.currentTabView == "Rejected" ? <ReportsMonthlyList /> : 
-                                  this.state.currentTabView == "Escalation" ? <ReportsYearlyList /> : 
-                                  <ReportsCustomisedList />  
-                                }
+                                  this.state.currentTabView == "Accepted" ? <AcceptedTickets /> : 
+                                  this.state.currentTabView == "Approved" ? <ApprovedTickets /> : 
+                                  this.state.currentTabView == "Rejected" ? <RejectedTickets /> : 
+                                  this.state.currentTabView == "Escalation" ? <EscalationTickets /> : 
+                                  ""
+                                  // <ReportsCustomisedList />  
+                                } 
                                 
                               </div>
                             </div>
