@@ -12,6 +12,7 @@ import { Link } from 'react-router';
 import UserInformation from './UserInformation.jsx';
 import { TicketMaster } from '../../website/ServiceProcess/api/TicketMaster.js';
 import  ServiceInformation from './ServiceInformation.jsx';
+import VerifiedDocuments from './VerifiedDocuments.jsx';
 
 export default class Ticket extends TrackerReact(Component){
   constructor(props){
@@ -24,7 +25,7 @@ export default class Ticket extends TrackerReact(Component){
   }
 
 	 render(){
-    console.log("id = ",this.props.params.id);
+    // console.log("id = ",this.props.params.id);
     return(            
       <div>
         <div className="content-wrapper">
@@ -51,6 +52,7 @@ export default class Ticket extends TrackerReact(Component){
                        </div>
                        <UserInformation ticketId={this.props.params.id}/>
                        <ServiceInformation ticketId={this.props.params.id}/>
+                       <VerifiedDocuments ticketId={this.props.params.id}/>
                      </div> 
                   </div>
                 </div>

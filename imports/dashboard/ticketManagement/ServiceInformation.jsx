@@ -12,8 +12,7 @@ import { Link } from 'react-router';
 import { TicketMaster } from '../../website/ServiceProcess/api/TicketMaster.js'; 
 import { Services } from '../reactCMS/api/Services.js';
 
-export default class ServiceInformation extends TrackerReact(Component){
-    
+export default class ServiceInformation extends TrackerReact(Component){   
   constructor(props){
     super(props);
     this.state = {
@@ -25,7 +24,7 @@ export default class ServiceInformation extends TrackerReact(Component){
   } 
   serviceData(){
 	  var getTicket = TicketMaster.findOne({"_id" : this.props.ticketId});
-  	console.log("getTicket",getTicket); 
+  	// console.log("getTicket",getTicket); 
   	if (getTicket) {
        var service = Services.findOne({"_id" : getTicket.serviceId});
        return(

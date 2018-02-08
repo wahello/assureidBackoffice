@@ -6153,7 +6153,7 @@ td input:focus {
 }
 .userInformationWrapper{
  padding: 2%;
- height: 176px;
+ height: 200px;
  border-bottom: 1px solid rgba(74,74,74,0.3);
  border-top: 1px solid rgba(74,74,74,0.3);
  border-right: 1px solid rgba(74,74,74,0.3);
@@ -6190,10 +6190,29 @@ td input:focus {
 }
 .ticketServiceWrapper{
  padding: 2%;
-  height: 176px;
+  height: 200px;
  border-bottom: 1px solid rgba(74,74,74,0.3);
  border-top: 1px solid rgba(74,74,74,0.3);
 }
 .outerTickeBlock{
   padding-top: 7%;
+}
+.viewProfileLink{
+  font-size: 13px;
+  color: #4a4a4a !important;
+  font-weight: 700;
+  line-height: 1.6;
+  letter-spacing: 0.025em;
+  cursor: pointer;
+}
+.verifiedDocumentsWrapper{
+ padding: 2%;
+ border-bottom: 1px solid rgba(74,74,74,0.3);
+}
+.verifiedDocumentsHeader h5{
+  font-size: 13px;
+  color: #4a4a4a;
+  font-weight: 700;
+  line-height: 1.6;
+  letter-spacing: 0.025em; 
 }
