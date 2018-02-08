@@ -8,7 +8,7 @@ import Validation from 'react-validation';
 import validator from 'validator';
 import {Tracker} from 'meteor/tracker';
 import { browserHistory } from 'react-router';
-
+import { Link } from 'react-router';
 import {TicketMaster} from "/imports/website/ServiceProcess/api/TicketMaster.js";
 import {Order} from "/imports/website/ServiceProcess/api/Order.js";
 
@@ -105,7 +105,7 @@ export default class NewTickets extends TrackerReact(Component){
                             {  this.state.tableListData.map((data, index)=>{
                                 return(
                                     <tr key={index}>
-                                        <td>{data.ticketNumber}</td>
+                                        <td><Link to={"/admin/ticket/"+data._id}>{data.ticketNumber}</Link></td>
                                         <td>{this.state.orderId}</td>
                                         <td>{data.serviceName}</td>
                                         <td>{moment(data.ticketStatus[0].createdAt).format('L')}</td>

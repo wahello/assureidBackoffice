@@ -8,6 +8,9 @@ if(Meteor.isServer){
 	Meteor.publish('allTickets',()=>{
         return TicketMaster.find({});
 	});
+	Meteor.publish('singleTicket',(_id)=>{
+        return TicketMaster.find({"_id" : _id});
+	});
 	
 
 	  Meteor.methods({
