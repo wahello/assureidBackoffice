@@ -49,6 +49,16 @@ export default class ServiceInformation extends TrackerReact(Component){
                 <p>{getTicket.serviceName}</p>
               </div> 
             </div> 
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
+              <div className="col-lg-5 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
+              Date :<span className="pull-right">:</span>
+              </div>  
+              <div className="col-lg-7 col-md-8 col-sm-8 col-xs-8 text-left userValue">
+                {/* <p>{getTicket.createdAt}</p> */}
+                <p> - </p>
+              </div> 
+            </div> 
+            
 	        </div>
        	 </div>
        	);

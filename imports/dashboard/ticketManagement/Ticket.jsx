@@ -13,6 +13,7 @@ import UserInformation from './UserInformation.jsx';
 import { TicketMaster } from '../../website/ServiceProcess/api/TicketMaster.js';
 import  ServiceInformation from './ServiceInformation.jsx';
 import VerifiedDocuments from './VerifiedDocuments.jsx';
+import ScreeningCommittee from '/imports/dashboard/ticketManagement/ScreeningCommittee.jsx';
 
 export default class Ticket extends TrackerReact(Component){
   constructor(props){
@@ -53,6 +54,7 @@ export default class Ticket extends TrackerReact(Component){
                        <UserInformation ticketId={this.props.params.id}/>
                        <ServiceInformation ticketId={this.props.params.id}/>
                        <VerifiedDocuments ticketId={this.props.params.id}/>
+                       <ScreeningCommittee />
                      </div> 
                   </div>
                 </div>
