@@ -4,7 +4,6 @@ import {Meteor} from 'meteor/meteor';
 export const TicketMaster = new Mongo.Collection("ticketMaster");
 
 if(Meteor.isServer){
-
 	Meteor.publish('allTickets',()=>{
         return TicketMaster.find({});
 	});
@@ -12,8 +11,7 @@ if(Meteor.isServer){
         return TicketMaster.find({"_id" : _id});
 	});
 	
-
-	  Meteor.methods({
+	Meteor.methods({
    	 'createTicket':function(id,userId,serviceId,serviceName,totalAmount,paymentStatus,delieveryStatus) {
    	 	   var ticketObj = TicketMaster.findOne({}, {sort: { createdAt : -1}});
 			    if(ticketObj){
@@ -78,7 +76,45 @@ if(Meteor.isServer){
              }
           });
 			  return ticketId;
-   	 },      
+		},    
+		
+
+		'updateTicket':function(ticketElem){
+			var updateTicket = TicketMaster.update(
+				{'_id':ticketElem.ticketid},
+				{$push:{
+						ticketElement:{
+						'staffId'  : ticketElem.staffId,
+						'staffName': ticketElem.staffname,
+						'staffRole': ticketElem.role,
+						'roleTicketStatus':[{
+							'ticketstatus':"Accepted",
+							'createdOn'   : new Date(),
+						}]
+						}
+					}
+				}
+			);
+			Meteor.call('updateOuterStatus',ticketElem);
+			return updateTicket;
+			
+		},
+
+			'updateOuterStatus':function(ticketElem){
+				TicketMaster.update(
+				{'_id':ticketElem.ticketid},
+				{   $set:{
+						"ticketStatus.0.status":"Accepted",
+					}
+				}
+				)
+				
+			}
+
+
+	
+		
+
 	  });
 
 

@@ -79,12 +79,13 @@ Meteor.methods({
       username        : formValues.signupEmail,
       email           : formValues.signupEmail,
       password        : formValues.signupPassword,
-      
       profile     : {   
         firstname     : formValues.firstname,
         lastname      : formValues.lastname,
         mobNumber     : formValues.mobNumber,
-        servicesName    : formValues.servicesName,
+        servicesName  : formValues.servicesName,
+        reportToRole      : formValues.reportToRole,
+        reportToName      : formValues.reportToName,
         userProfile   : '',
         status        : 'Blocked',
         profileInsert : true,

@@ -45,7 +45,7 @@ export default class NewTickets extends TrackerReact(Component){
                             var day       = new_date.format('DD');
                             var month     = new_date.format('MM');
                             var year      = new_date.format('YYYY');
-                            var tatDate   = month  + '/' + day + '/' + year
+                            var tatDate   = month  + '/' + day + '/' + year;
                             
                             
                         }
@@ -66,16 +66,28 @@ export default class NewTickets extends TrackerReact(Component){
     changeStatus(event){
         event.preventDefault();
         var ticketId =  $(event.currentTarget).attr('data-id');
-        console.log("ticketId :"+ticketId);
+        // console.log("ticketId :"+ticketId);
         var userID = Meteor.userId();
-        console.log("userID :"+userID);
+        // console.log("userID :"+userID);
         var userData = Meteor.users.findOne({"_id":userID});
-        console.log("userData :"+JSON.stringify(userData));
+        // console.log("userData :"+JSON.stringify(userData));
         if(userData){
-            var firstName = profile.firstname;
-            var lastName =  profile.lastname;
-            console.log("firstName :"+firstName);
-            console.log("lastName :"+lastName);
+            
+            var staffName = userData.profile.firstname +" "+ userData.profile.lastname;
+            // console.log("staffName :"+staffName);
+            var role = userData.roles;
+            var ticketElem={
+                 ticketid  : ticketId,
+                 staffId   : userID,
+                 staffname : staffName,
+                 role      : userData.roles,
+                 
+            }
+            Meteor.call('updateTicket',ticketElem,function(error,result){
+                if(result){
+                    swal('Ticket Accepted!');
+                }
+            });
 
         }
         

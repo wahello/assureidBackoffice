@@ -8,22 +8,34 @@ export default class CreateUser extends TrackerReact(Component) {
   constructor(props){
     super(props);
     this.state={
-      "roles" : [],
+      "roleList" :[],
       "service" :[],
+      "userList" :[],
+      "userUniqueData":[],
+      "userSubscribe": Meteor.subscribe('userfunction'),
     }
   }
 	createUser(event){
 		event.preventDefault();
-
+        var reportrefValue = this.refs.reportToRef.value;
+        console.log("reportrefValue :"+reportrefValue);
+        var splitValue   =  reportrefValue.split("(");
+        var reportToRole = splitValue[0];
+        var reportToName = splitValue[1].slice(0, -1)
+        
         var formValues = {
                           'firstname'        : this.refs.firstname.value,
                           'lastname'         : this.refs.lastname.value,
                           'signupEmail'      : this.refs.signupEmail.value,
                           'mobNumber'        : this.refs.mobNumber.value,
                           'servicesName'     : this.refs.servicesRef.value,
+                          'reportToRole'         : reportToRole,
+                          'reportToName'     : reportToName,
                           'signupPassword'   : "user123",
                         }   
-                        var assignedrole = this.refs.roleRef.value;    
+        var assignedrole = this.refs.roleRef.value; 
+        var defaultRoleWith = ["backofficestaff"];
+        defaultRoleWith.push(assignedrole);
         
         
         Meteor.call('userCreateAccount', formValues ,(error,result) => {
@@ -40,7 +52,7 @@ export default class CreateUser extends TrackerReact(Component) {
 
             // ADD USER ROLE 
             var newID = result;
-            Meteor.call('addRoles', newID , assignedrole, function(error,result){
+            Meteor.call('addRoles', newID , defaultRoleWith, function(error,result){
               if(error){
                 swal(error);
               }else{              	
@@ -78,12 +90,49 @@ export default class CreateUser extends TrackerReact(Component) {
 
     this.roleTracker = Tracker.autorun( ()=> {
       var handle = Meteor.subscribe("rolefunction");
+    
       if(handle.ready()){
-        var allRoles = Meteor.roles.find({},{field:{'roles':1}}).fetch();
-       
-        this.setState({
-          "roles": allRoles,
-        });
+        if(this.state.userSubscribe.ready()){
+          var allusers = Meteor.users.find({"roles":{$nin:["user","superAdmin","admin"]}}).fetch();
+          var allRoles = Meteor.roles.find({}).fetch();
+          
+          if(allusers.length >0 && allRoles.length >0){
+            var newArr = [];
+            // console.log("allusers: ",allusers);
+            for(var i=0;i<allusers.length;i++){
+              
+              var currentText = allusers[i].profile.firstname +" "+ allusers[i].profile.lastname;
+              var reportName  = allusers[i].profile.firstname +" "+ allusers[i].profile.lastname;
+              var userLen = allusers[i].roles;
+              if(userLen.length){
+                for(k=0;k<userLen.length;k++){
+                  if(userLen[k]!="backofficestaff"){
+                    currentText = userLen[k] +"("+currentText+")" ;
+                  }
+                }
+              }
+             
+              newArr.push(currentText);
+            }
+            var roleArray = [];
+            for(var j=0;j<allRoles.length;j++){
+              if((allRoles[j].name!="superAdmin") && (allRoles[j].name!= "admin") && (allRoles[j].name!= "user"))  {
+                var rolevalue = allRoles[j].name;
+                roleArray.push(rolevalue);
+              }
+            }
+            
+
+            this.setState({
+              "roles": allRoles,
+              "userUniqueData":newArr,
+              "roleList"      : roleArray,
+              "reporttoName"  : reportName
+           
+          });            
+          }
+         
+        }
       }
    
     });
@@ -151,7 +200,7 @@ export default class CreateUser extends TrackerReact(Component) {
 											</span>
 									    </div>
 
-                      <div className="form-group col-lg-6 col-md-6 col-xs-12 col-sm-12 inputContent">
+                      <div className="form-group col-lg-4 col-md-4 col-xs-12 col-sm-12 inputContent">
 								   			<span className="blocking-span">
 								   			  <label className="floating-label">Assign Service</label>
                            {/* <span className="input-group-addon" id="basic-addon1"><i className="fa fa-gg" aria-hidden="true"></i></span> */}
@@ -163,20 +212,38 @@ export default class CreateUser extends TrackerReact(Component) {
                                   })
                                   }
                               </select>
-											</span>
+										  	</span>
 									    </div>
-                      <div className="form-group col-lg-6 col-md-6 col-xs-12 col-sm-12 inputContent">
+                      <div className="form-group col-lg-4 col-md-4 col-xs-12 col-sm-12 inputContent">
 								   			<span className="blocking-span">
 								   			  <label className="floating-label">Assign Role</label>
                            <select className="form-control allProductSubCategories" aria-describedby="basic-addon1" ref="roleRef">
-                                  { this.state.roles.map( (data, index)=>{
+                                  { this.state.roleList.map( (data, index)=>{
                                       return (
-                                          <option key={index}>{data.name}</option>
+                                          <option key={index}>{data}</option>
                                       );
                                   })
                                   }
                            </select>
 											</span>
+									    </div>
+                      <div className="form-group col-lg-4 col-md-4 col-xs-12 col-sm-12 inputContent">
+								   			<span className="blocking-span">
+								   			  <label className="floating-label">Reporting To</label>
+                           {/* <span className="input-group-addon" id="basic-addon1"><i className="fa fa-gg" aria-hidden="true"></i></span> */}
+                           
+                              <select className="form-control allProductSubCategories" aria-describedby="basic-addon1" ref="reportToRef">
+                                  { this.state.userUniqueData.map( (data, index)=>{
+                                      return (
+                                          <option key={index}>
+                                            
+                                            {data}
+                                          </option>
+                                      );
+                                  })
+                                  }
+                              </select>
+										  	</span>
 									    </div>
 
 										<div className="form-group col-lg-12 col-md-12 col-xs-12 col-sm-12 ">
