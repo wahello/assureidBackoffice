@@ -249,6 +249,12 @@ export default class Sidebar extends TrackerReact(Component){
                       <i className="fa fa-circle-o" /> My Ticket
                     </Link>
                   </li>
+                  <li>
+                    <Link to="/admin/maxnoofticketallocate">
+                      <i className="fa fa-circle-o" /> Allocate Max No. Tickets
+                    </Link>
+                  </li>
+                  
                   {/* <li>
                     <Link to="/ComingSoon">
                       <i className="fa fa-circle-o" /> List Packages

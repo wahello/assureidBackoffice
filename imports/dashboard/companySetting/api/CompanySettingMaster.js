@@ -268,6 +268,18 @@ Meteor.methods({
 
       }
   },
+  'insertMaxTicketAllocate':function(formValues){
+    CompanySettings.update({'companyId': 1},
+          {$push:{ maxnoOfTicketAllocate :{
+
+            maxTicketAllocate : formValues.maxTicketAllocate,
+            role              : formValues.role,
+              
+            }
+          }
+        },
+        );
+  }
 
   
 });

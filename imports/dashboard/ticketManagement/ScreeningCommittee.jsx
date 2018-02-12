@@ -10,6 +10,7 @@ import {Tracker} from 'meteor/tracker';
 import { browserHistory } from 'react-router'; 
 import { Link } from 'react-router';
 import { TicketMaster } from '../../website/ServiceProcess/api/TicketMaster.js'; 
+import AcceptReject from '/imports/dashboard/ticketManagement/AcceptReject.jsx';
 
 export default class ScreeningCommittee extends TrackerReact(Component){
 	constructor(props){
@@ -26,10 +27,10 @@ export default class ScreeningCommittee extends TrackerReact(Component){
     return(            
       <div className="verifiedDocumentsWrapper col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div className="verifiedDocumentsHeader text-left col-lg-12 col-md-12 col-sm-12 col-xs-12">
-           <h5>Verify Documents :</h5>
+           <h5>Screening Committee:</h5>
         </div>
         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-           
+           <AcceptReject />
         </div>
       </div>    
     );

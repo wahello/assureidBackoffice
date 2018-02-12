@@ -138,6 +138,7 @@ export default class CompanySettingTabs extends TrackerReact(Component) {
                               <div id="CompanyTaxDetails" className="tab-pane fade">
                                 <CompanyTaxDetails/>
                               </div>
+                              
                             </div>
                           </div>
                         </div>
