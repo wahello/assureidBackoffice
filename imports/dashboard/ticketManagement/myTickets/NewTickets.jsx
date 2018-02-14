@@ -45,22 +45,14 @@ export default class NewTickets extends TrackerReact(Component){
                             var day       = new_date.format('DD');
                             var month     = new_date.format('MM');
                             var year      = new_date.format('YYYY');
-<<<<<<< Updated upstream
                             var tatDate   = month  + '/' + day + '/' + year;
-=======
-                            var tatDate   = month  + '/' + day + '/' + year
->>>>>>> Stashed changes
                             
                             
                         }
                         
                     }
-<<<<<<< Updated upstream
                     // console.log("allTickets :"+JSON.stringify(allTickets));
                     
-=======
-                           
->>>>>>> Stashed changes
                     if(allTickets){
                         this.setState({
                             'tableListData' : allTickets,
