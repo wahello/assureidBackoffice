@@ -100,19 +100,27 @@ if(Meteor.isServer){
 			
 		},
 
-			'updateOuterStatus':function(ticketElem){
-				TicketMaster.update(
-				{'_id':ticketElem.ticketid},
-				{   $set:{
-						"ticketStatus.0.status":"Accepted",
+		'updateOuterStatus':function(ticketElem){
+			TicketMaster.update(
+			{'_id':ticketElem.ticketid},
+			{   $set:{
+					"ticketStatus.0.status":"Accepted",
+				}
+			}
+			)
+			
+		},
+		'addDocument':function(currentObj,id,keyValue){
+			console.log("currentObj :"+currentObj);
+			console.log("id :"+id);	
+			TicketMaster.update(
+				{'userId':id},
+					{   $set:{
+							'ticketElement.permanentAddress':currentObj
 					}
 				}
 				)
-				
-			}
-
-
-	
+		}
 		
 
 	  });
