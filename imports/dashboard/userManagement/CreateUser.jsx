@@ -21,7 +21,7 @@ export default class CreateUser extends TrackerReact(Component) {
         console.log("reportrefValue :"+reportrefValue);
         var splitValue   =  reportrefValue.split("(");
         var reportToRole = splitValue[0];
-        var reportToName = splitValue[1].slice(0, -1)
+        var reportToName = splitValue[1].slice(0, -1);
         
         var formValues = {
                           'firstname'        : this.refs.firstname.value,
@@ -117,7 +117,8 @@ export default class CreateUser extends TrackerReact(Component) {
             var roleArray = [];
             for(var j=0;j<allRoles.length;j++){
               if((allRoles[j].name!="superAdmin") && (allRoles[j].name!= "admin") && (allRoles[j].name!= "user"))  {
-                var rolevalue = allRoles[j].name;
+
+                var rolevalue =   [j].name;
                 roleArray.push(rolevalue);
               }
             }
@@ -129,7 +130,10 @@ export default class CreateUser extends TrackerReact(Component) {
               "roleList"      : roleArray,
               "reporttoName"  : reportName
            
-          });            
+          });   
+          
+          console.log("roleList :"+JSON.stringify(userUniqueData));
+          console.log("roleList :"+JSON.stringify(roleList));
           }
          
         }

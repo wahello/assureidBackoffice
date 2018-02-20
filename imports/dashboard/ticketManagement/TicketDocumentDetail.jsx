@@ -16,7 +16,6 @@ import { UserProfile } from '/imports/website/forms/api/userProfile.js';
 
 export default class TicketDocumentDetails extends TrackerReact(Component){
   constructor(props){
-    var ticketObj = TicketMaster.findOne({'_id':ticketId,'ticketElement.empid':Meteor.userId()});
     super(props);
     
     this.state = {
@@ -53,6 +52,7 @@ export default class TicketDocumentDetails extends TrackerReact(Component){
             if(this.state.subscription.singleTicket.ready()){
                 var ticketId = this.props.ticketId;
                 console.log("ticketId :"+ticketId);
+                var ticketObj = TicketMaster.findOne({'_id':ticketId,'ticketElement.empid':Meteor.userId()});
                 
                 
                 if(ticketObj){
@@ -119,12 +119,27 @@ export default class TicketDocumentDetails extends TrackerReact(Component){
     updateTicketStatus(event){
 
         event.preventDefault();
+        console.log("inside onclick");
+        var ticketId = $(event.currentTarget).attr('data-id');  
+        console.log("ticketId :"+ticketId);
+        var ticketObj = TicketMaster.findOne({'_id':ticketId,'ticketElement.empid':Meteor.userId()});                         
         if(ticketObj){
-            if((ticketObj.ticketElement.permanentAddress.status == "Approved") &&(ticketObj.ticketElement.currentAddress.status == "Approved")){
+            console.log(ticketObj);
+                var permanentLen = ticketObj.ticketElement.permanentAddress.length;
+                var currentLen = ticketObj.ticketElement.currentAddress.length;
+            console.log("ticketObj.ticketElement.permanentAddress.status:"+ticketObj.ticketElement.permanentAddress[permanentLen-1].status);
+            console.log("ticketObj.ticketElement.currentAddress.status:"+ticketObj.ticketElement.currentAddress[currentLen-1].status);
+            if((ticketObj.ticketElement.permanentAddress[permanentLen-1].status == "Approved")&&(ticketObj.ticketElement.currentAddress[currentLen-1].status== "Approved")){
+                console.log("Inside if");
                 var finalStatus = "Approved";
+            }else if((ticketObj.ticketElement.permanentAddress[permanentLen-1].status == "Approved") || (ticketObj.ticketElement.currentAddress[currentLen-1].status== "Approved")){
+                var finalStatus = "Approved";
+              
             }else{
                 var finalStatus = "Rejected";
             }
+
+        
         }
     }
 
@@ -264,7 +279,7 @@ export default class TicketDocumentDetails extends TrackerReact(Component){
 
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 approvedstatus">
                                     {/* <div className="col-lg-4 col-lg-offset-2 col-md-12 col-sm-12 col-xs-12"> */}
-                                        <button type="button" className="btn btn-primary btnapproved" onClick={this.updateTicketStatus.bind(this)}>Submit</button>
+                                        <button type="button" className="btn btn-primary btnapproved" data-id={this.state.ticketId} onClick={this.updateTicketStatus.bind(this)}>Submit</button>
                                     {/* </div> */}
                                 </div>
                             </div>  
