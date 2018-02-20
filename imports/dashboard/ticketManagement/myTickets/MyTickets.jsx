@@ -63,9 +63,9 @@ export default class MyTickets extends TrackerReact(Component){
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                   <div className="sales-report-main-class">
                                     <div className="sales-report-commonpre">
-                                        <div onClick={this.changeReportComponent.bind(this)}  data-currentComp="New" className="sales-report-common sales-report-today">
+                                        {/* <div onClick={this.changeReportComponent.bind(this)}  data-currentComp="New" className="sales-report-common sales-report-today">
                                         New
-                                        </div>
+                                        </div> */}
                                         <div onClick={this.changeReportComponent.bind(this)}  data-currentComp="Accepted" className="sales-report-common sales-report-thisweek">
                                         Accepted
                                         </div>
@@ -79,6 +79,17 @@ export default class MyTickets extends TrackerReact(Component){
                                         Escalation
                                         </div>
                                     </div>
+                                  </div>
+                                </div>
+                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tllistwrap" >
+                                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                              
+                                      <select className="tlselect">
+                                          <option value="Anagha Madhamshetti">Anagha Madhamshetti</option>
+                                          <option value="Nilam Badadhe">Nilam Badadhe</option>
+                                          <option value="Karishma Kottarwar">Karishma`</option>
+                                          <option value="Pooja Patil">Pooja Patil</option>
+                                      </select>
                                   </div>
                                 </div>
 

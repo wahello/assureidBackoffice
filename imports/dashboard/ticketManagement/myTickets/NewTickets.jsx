@@ -47,7 +47,6 @@ export default class NewTickets extends TrackerReact(Component){
                             var year      = new_date.format('YYYY');
                             var tatDate   = month  + '/' + day + '/' + year;
                             
-                            
                         }
                         
                     }

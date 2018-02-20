@@ -17,37 +17,103 @@ import { UserProfile } from '/imports/website/forms/api/userProfile.js';
 export default class TicketDocumentDetails extends TrackerReact(Component){
   constructor(props){
     super(props);
+    
     this.state = {
-      "subscription" : {
-        "singleTicket" : Meteor.subscribe("singleTicket"), 
-        "userProfileSubscribe": Meteor.subscribe("userProfileData"),   
+        "ticketDocDetails" : {},
+        "ticketDocDetailsBoth" : {},
+        "ticketId" :'',
+        "index"         : '',
+        "addressType":'',
+         "subscription" : {
+          "singleTicket" : Meteor.subscribe("allTickets"),    
+          "userProfileSubscribe": Meteor.subscribe("userProfileData"),   
       } 
     }
   }
   acceptpermanentTicket(event){
     event.preventDefault();
-    var id = "ffuEFEKHTAovKhqR6";
-    var keyValue = "permanentAddress";
-    var userProfile = UserProfile.findOne({"userId":id});
+    // var id = "ffuEFEKHTAovKhqR6";
+    // var keyValue = "permanentAddress";
+    // var userProfile = UserProfile.findOne({"userId":id});
     var status = $(event.currentTarget).attr('data-status');
-    console.log("status :"+status);
-    var arrLen = userProfile+"."+keyValue+"."+length;
-
-    if(arrLen){
-        var currentObj = userProfile.permanentAddress[arrLen-1];
-        currentObj.status = status;
-        currentObj.date   = new Date();
-    }
+    var index = $(event.currentTarget).attr('data-index');
+    var id = $(event.currentTarget).attr('data-id');
+    var addressType = $(event.currentTarget).attr('data-addresstype');
+   
     
-    Meteor.call("addDocument",currentObj,id,keyValue,function(error,result){
+    console.log("status :"+status);
+    console.log("index :"+index);
+    // var arrLen = userProfile+"."+keyValue+"."+length;
+
+    // if(arrLen){
+    //     var currentObj = userProfile.permanentAddress[arrLen-1];
+    //     currentObj.status = status;
+    //     currentObj.date   = new Date();
+    // }
+    
+    Meteor.call("addDocument",id,index,status,addressType,function(error,result){
         if(result){
             console.log("add successfully");
         }
-    });
-
-   
+    });  
 
   }
+
+    componentDidMount(){
+        this.ticketTracket=Tracker.autorun(()=>{
+            if(this.state.subscription.singleTicket.ready()){
+                var ticketId = this.props.ticketId;
+                console.log("ticketId :"+ticketId);
+                var ticketObj = TicketMaster.findOne({'_id':ticketId,'ticketElement.empid':Meteor.userId()});
+                
+                if(ticketObj){
+                    if(ticketObj.addressType == "currentAddress"){
+                        
+                        var arrLen = ticketObj.ticketElement.currentAddress.length;
+                        var index  = arrLen-1;
+                                          
+                        this.setState({
+                            'ticketId': ticketId,
+                            'index': index,
+                            'addressType': "Current Address",
+                            'ticketDocDetails':ticketObj.ticketElement.currentAddress[arrLen-1],
+                        });
+                        console.log(this.state.ticketDocDetails);
+                    } else if(ticketObj.addressType == "permanentAddress"){
+                        var currentPos = 0;
+                        var arrLen = ticketObj.ticketElement.permanentAddress.length;
+                        var index  = arrLen-1;
+                        this.setState({
+                            'ticketId': ticketId,
+                            'index': index,
+                            'addressType': "Permanent Address",
+                            'ticketDocDetails':ticketObj.ticketElement.permanentAddress[arrLen-1],
+                        });
+                    } else {
+                        // var currentPos = ;
+                        // ticketDocDetailsBoth
+                        var currentPosCurrent = 1;
+                        var arrLen = ticketObj.ticketElement.currentAddress.length;
+                        
+                        this.setState({
+                            'ticketDocDetails':ticketObj.ticketElement.currentAddress[arrLen-1],
+                        });
+
+                        var currentPosPerm = 0;
+                        var arrLen = ticketObj.ticketElement.permanentAddress.length;
+                        this.setState({
+                            'ticketDocDetailsBoth':ticketObj.ticketElement.permanentAddress[arrLen-1],
+                        });
+
+                    }
+                    
+    
+                }
+            }
+        });
+       
+
+    }
 
     acceptTicket(event){
         $(event.target).css({'backgroundColor':'#00b8ff','color':'#fff'});
@@ -88,7 +154,7 @@ export default class TicketDocumentDetails extends TrackerReact(Component){
                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 docwrap">
 
-                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 singledocwrp">
+                                {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 singledocwrp">
                                     <div className="col-lg-3 col-md-12 col-sm-12 col-xs-12">
                                     <img src="/images/assureid/userIcon.png" className="ticketUserImage" /> 
                                     </div>
@@ -100,84 +166,36 @@ export default class TicketDocumentDetails extends TrackerReact(Component){
                                         </div>
                                     </div>
                                     
-                                </div>
-                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 singledocwrp">
-                                    <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12">
-                                        <h5>Permanent Address</h5>
-                                        <p>
-                                            11/56, Premjyoti Co Op HSG Soc.
-                                            Rambaug – 5, Kalyan (W), 
-                                            Maharashtra - 421301
-                                        </p>
-                                    </div>
-                                    <div className="col-lg-2 col-md-4 col-sm-6 col-xs-6">
-                                        <img src="/images/assureid/pdf.png" className=" img-thumbnail ticketUserImage" /> 
-                                    </div>
-                                    <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12 otherInfoForm pull-right detailsbtn">
-                                        <div className="col-lg-12 col-md-4 col-sm-6 col-xs-6">
-                                                <button type="button" className="btn btn-info acceptTicket acceptreject" data-status = "Approved" onClick={this.acceptpermanentTicket.bind(this)}>Approved</button>
-                                                <button type="button" className="btn btn-info rejectTicket acceptreject" data-status = "Reject" onClick={this.acceptpermanentTicket.bind(this)}>Reject</button>
+                                </div> */}
+                                {
+                                    this.state.addressType == "Current Address" || this.state.addressType == "Permanent Address" ?
+                                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 singledocwrp">
+                                            <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                                               <h5> {this.state.addressType}</h5>
+                                               
+                                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 addressdetails">
+                                                  {this.state.ticketDocDetails.tempLine1}
+                                                  {this.state.ticketDocDetails.tempLine2}
+                                                  {this.state.ticketDocDetails.tempLine3}, &nbsp;
+                                                  {this.state.ticketDocDetails.tempLandmark},
+                                                  {this.state.ticketDocDetails.tempCity},{this.state.ticketDocDetails.tempState}, {this.state.ticketDocDetails.tempState},{this.state.ticketDocDetails.tempPincode}
+                                                </div>
+                                            </div>
+                                            <div className="col-lg-2 col-md-4 col-sm-6 col-xs-6">
+                                                <img src="/images/assureid/pdf.png" className=" img-thumbnail ticketUserImage" /> 
+                                            </div>
+                                            <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12 otherInfoForm pull-right detailsbtn">
+                                                <div className="col-lg-12 col-md-4 col-sm-6 col-xs-6">
+                                                        <button type="button" className="btn btn-info acceptTicket acceptreject" data-addresstype={this.state.addressType} data-id={this.state.ticketId} data-index={this.state.index} data-status = "Approved" onClick={this.acceptpermanentTicket.bind(this)}>Approved</button>
+                                                        <button type="button" className="btn btn-info rejectTicket acceptreject" data-addresstype = {this.state.addressType} data-id={this.state.ticketId} data-index={this.state.index} data-status = "Reject" onClick={this.acceptpermanentTicket.bind(this)}>Reject</button>
+                                                </div>
+                                            </div>
+                                        
                                         </div>
-                                    </div>
-                                    
-                                </div>
-                                
-
-                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 singledocwrp">
-                                    <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12">
-                                        <h5>Current Address</h5>
-                                        <p>
-                                            11/56, Premjyoti Co Op HSG Soc.
-                                            Rambaug – 5, Kalyan (W), 
-                                            Maharashtra - 421301
-                                        </p>
-                                    </div>
-                                    <div className="col-lg-2 col-md-4 col-sm-6 col-xs-6">
-                                        <img src="/images/assureid/pdf.png" className=" img-thumbnail ticketUserImage" /> 
-                                    </div>
-                                    <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12 otherInfoForm pull-right detailsbtn">
-                                        <div className="col-lg-12 col-md-4 col-sm-6 col-xs-6">
-                                                <button type="button" className="btn btn-info acceptreject" onClick="{this.acceptTicket.bind(this)}">Approved</button>
-                                                <button type="button" className="btn btn-info acceptreject" onClick="{this.rejectTicket.bind(this)}">Reject</button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 singledocwrp">
-                                    <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12">
-                                        <h5>Date of Birth</h5>
-                                        <p>
-                                        15 – August - 1982
-                                        </p>
-                                    </div>
-                                    <div className="col-lg-2 col-md-4 col-sm-6 col-xs-6">
-                                        <img src="/images/assureid/pdf.png" className=" img-thumbnail ticketUserImage" /> 
-                                    </div>
-                                    <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12 otherInfoForm pull-right detailsbtn">
-                                        <div className="col-lg-12 col-md-4 col-sm-6 col-xs-6">
-                                                <button type="button" className="btn btn-info acceptreject" onClick="{this.acceptTicket.bind(this)}">Approved</button>
-                                                <button type="button" className="btn btn-info acceptreject" onClick="{this.rejectTicket.bind(this)}">Reject</button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 singledocwrp">
-                                    <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12">
-                                        <h5>Adhar Card</h5>
-                                        <p>
-                                        123456789012
-                                        </p>
-                                    </div>
-                                    <div className="col-lg-2 col-md-4 col-sm-6 col-xs-6">
-                                        <img src="/images/assureid/pdf.png" className=" img-thumbnail ticketUserImage" /> 
-                                    </div>
-                                    <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12 otherInfoForm pull-right detailsbtn">
-                                        <div className="col-lg-12 col-md-4 col-sm-6 col-xs-6">
-                                                <button type="button" className="btn btn-info acceptreject" onClick="{this.acceptTicket.bind(this)}">Approved</button>
-                                                <button type="button" className="btn btn-info acceptreject" onClick="{this.rejectTicket.bind(this)}">Reject</button>
-                                        </div>
-                                    </div>
-                                </div>
+                                    :
+                                    ""
+                                }
+                               
 
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 approvedstatus">
                                     {/* <div className="col-lg-4 col-lg-offset-2 col-md-12 col-sm-12 col-xs-12"> */}
