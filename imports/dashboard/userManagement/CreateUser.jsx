@@ -95,6 +95,9 @@ export default class CreateUser extends TrackerReact(Component) {
         if(this.state.userSubscribe.ready()){
           var allusers = Meteor.users.find({"roles":{$nin:["user","superAdmin","admin"]}}).fetch();
           var allRoles = Meteor.roles.find({}).fetch();
+          console.log("allusers :"+allusers);
+          console.log("allRoles :"+allRoles);
+          
           
           if(allusers.length >0 && allRoles.length >0){
             var newArr = [];
@@ -118,7 +121,7 @@ export default class CreateUser extends TrackerReact(Component) {
             for(var j=0;j<allRoles.length;j++){
               if((allRoles[j].name!="superAdmin") && (allRoles[j].name!= "admin") && (allRoles[j].name!= "user"))  {
 
-                var rolevalue =   [j].name;
+                var rolevalue = allRoles[j].name;
                 roleArray.push(rolevalue);
               }
             }
@@ -132,8 +135,8 @@ export default class CreateUser extends TrackerReact(Component) {
            
           });   
           
-          console.log("roleList :"+JSON.stringify(userUniqueData));
-          console.log("roleList :"+JSON.stringify(roleList));
+          console.log("roleList :"+JSON.stringify(this.state.userUniqueData));
+          console.log("roleList :"+JSON.stringify(this.state.roleList));
           }
          
         }

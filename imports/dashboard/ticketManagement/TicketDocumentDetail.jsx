@@ -51,9 +51,8 @@ export default class TicketDocumentDetails extends TrackerReact(Component){
         this.ticketTracket=Tracker.autorun(()=>{
             if(this.state.subscription.singleTicket.ready()){
                 var ticketId = this.props.ticketId;
-                console.log("ticketId :"+ticketId);
-                var ticketObj = TicketMaster.findOne({'_id':ticketId,'ticketElement.empid':Meteor.userId()});
                 
+                var ticketObj = TicketMaster.findOne({'_id':ticketId,'ticketElement.empid':Meteor.userId()});
                 
                 if(ticketObj){
                     if(ticketObj.addressType == "currentAddress"){
@@ -79,6 +78,7 @@ export default class TicketDocumentDetails extends TrackerReact(Component){
                             'ticketDocDetails':ticketObj.ticketElement.permanentAddress[arrLen-1],
                         });
                     } else {
+                        
                         // var currentPos = ;
                         // ticketDocDetailsBoth
                         var currentPosCurrent = 1;
@@ -102,6 +102,7 @@ export default class TicketDocumentDetails extends TrackerReact(Component){
                             'ticketDocDetailsBoth':ticketObj.ticketElement.permanentAddress[arrLen-1],
                         });
 
+                        console.log(this.state.ticketDocDetails);
                         console.log(this.state.ticketDocDetailsBoth);
 
                         
@@ -127,17 +128,96 @@ export default class TicketDocumentDetails extends TrackerReact(Component){
             console.log(ticketObj);
                 var permanentLen = ticketObj.ticketElement.permanentAddress.length;
                 var currentLen = ticketObj.ticketElement.currentAddress.length;
-            console.log("ticketObj.ticketElement.permanentAddress.status:"+ticketObj.ticketElement.permanentAddress[permanentLen-1].status);
-            console.log("ticketObj.ticketElement.currentAddress.status:"+ticketObj.ticketElement.currentAddress[currentLen-1].status);
-            if((ticketObj.ticketElement.permanentAddress[permanentLen-1].status == "Approved")&&(ticketObj.ticketElement.currentAddress[currentLen-1].status== "Approved")){
-                console.log("Inside if");
-                var finalStatus = "Approved";
-            }else if((ticketObj.ticketElement.permanentAddress[permanentLen-1].status == "Approved") || (ticketObj.ticketElement.currentAddress[currentLen-1].status== "Approved")){
-                var finalStatus = "Approved";
-              
-            }else{
-                var finalStatus = "Rejected";
-            }
+            // console.log("ticketObj.ticketElement.permanentAddress.status:"+ticketObj.ticketElement.permanentAddress[permanentLen-1].status);
+            // console.log("ticketObj.ticketElement.currentAddress.status:"+ticketObj.ticketElement.currentAddress[currentLen-1].status);
+            // if((ticketObj.ticketElement.permanentAddress.length> 0) && (ticketObj.ticketElement.currentAddress.length> 0)){
+            //     if((ticketObj.ticketElement.permanentAddress[permanentLen-1].status == "Approved")&&(ticketObj.ticketElement.currentAddress[currentLen-1].status== "Approved")){
+            //         console.log("Inside if");
+            //         var finalStatus = "Approved";
+            //     }else{
+            //         var finalStatus = "Rejected"
+            //     }
+            // }else if((ticketObj.ticketElement.permanentAddress.length> 0) || (ticketObj.ticketElement.currentAddress.length==0)){
+            //     var finalStatus = "Approved";
+            // }
+            // else if((ticketObj.ticketElement.permanentAddress[permanentLen-1].status == "Approved") || (ticketObj.ticketElement.currentAddress[currentLen-1].status== "Approved")){
+                           
+            // }else{
+            //     var finalStatus = "Rejected";
+            // }
+            // console.log("finalStatus :"+finalStatus);
+            Meteor.call('updateTicketFinalStatus',ticketId,"Approved",function(error,result){
+                if(result){
+                    console.log("result :"+ticketId);
+                    // var totalTicketCount =  TicketBucket.find({}).count();
+					var memberDetails = Meteor.users.find({"roles":"team leader"},{sort:{'count':1}}).fetch();
+					// var companyObj = CompanySettings.findOne({"maxnoOfTicketAllocate.role":"screening committee"});
+					// for(var i=0;i<companyObj.maxnoOfTicketAllocate.length;i++){
+					// 	if(companyObj.maxnoOfTicketAllocate[i].role == "team leader"){
+					// 		var allocatedtickets = companyObj.maxnoOfTicketAllocate[i].maxTicketAllocate;
+					// 		console.log("allocatedtickets :"+allocatedtickets);
+					// 	}
+					// }
+					// var totalmulti = allocatedtickets*memberDetails.length;
+					// if(totalTicketCount<totalmulti){
+					// var allocateticket = companyObj.maxnoOfTicketAllocate.maxTicketAllocate;
+					// console.log("allocateticket :"+allocateticket);
+					// console.log("companyObj :"+companyObj);
+					console.log("memberDetails :"+memberDetails);
+					for(var k=0;k<memberDetails.length;k++){
+					console.log("memberDetails length :"+memberDetails.length);						
+					console.log("memberDetails length :"+memberDetails[k]._id);						
+					console.log("memberDetails[k].count :"+memberDetails[k].count);						
+						if(memberDetails[k].count==undefined || memberDetails[k].count<allocatedtickets){
+					console.log("inside if memberDetails[k].count :"+memberDetails[k].count);						
+							
+							var newTicketAllocated = {
+								ticketid : ticketId,
+								empID    : memberDetails[k]._id,
+								role     : 'team leader',
+							}
+							console.log(newTicketAllocated);
+							Meteor.call('updateTicketBucket',newTicketAllocated,function(error,result){
+								if(result){
+									console.log("Onsuccess insertTicketBucket");
+									var ticketBucketDetail = TicketBucket.findOne({"_id":result});
+										console.log("ticketBucketDetail:"+ticketBucketDetail);
+									
+									if(ticketBucketDetail){
+										console.log("ticketBucketDetail:"+ticketBucketDetail);
+										var ticketId = newTicketAllocated.ticketid;
+										var empid    = newTicketAllocated.empID;
+										var role    = newTicketAllocated.role;
+										
+										console.log("ticketId :"+ticketId);
+										console.log("empID :"+empID);
+										console.log("role :"+role);
+										console.log(permanentAddress);
+										console.log(currentAddress);
+										Meteor.call("updateTicketElement",ticketId,empID,role,permanentAddress,currentAddress);
+										Meteor.call("updateOuterStatus",ticketId,memberDetails._id);
+		
+									} 
+								}
+							});
+							
+
+							if(memberDetails[k].count){
+								console.log("memberDetails[k].count :"+memberDetails[k].count);
+								
+								var newCount = memberDetails[k].count + 1;
+							} else{
+								var newCount = 1;
+							}
+							Meteor.call('updateCommitteeUserCount',newCount,memberDetails[k]._id);
+							break;
+						}else{
+							console.log("Inside else updateCommitteeUserCount");							
+							// Meteor.call('updateCommitteeUserCount',0,memberDetails[k]._id);
+						}
+					}
+                }
+            });
 
         
         }

@@ -2,6 +2,7 @@ import {Mongo} from 'meteor/mongo';
 import {Meteor} from 'meteor/meteor';
 
 export const TicketMaster = new Mongo.Collection("ticketMaster");
+export const TicketBucket = new Mongo.Collection("ticketbucket");
 
 if(Meteor.isServer){
 	Meteor.publish('allTickets',()=>{
@@ -9,6 +10,10 @@ if(Meteor.isServer){
 	});
 	Meteor.publish('singleTicket',(_id)=>{
         return TicketMaster.find({"_id" : _id});
+	});
+
+	Meteor.publish('allTicketBucket',()=>{
+        return TicketBucket.find({});
 	});
 	
 	Meteor.methods({
@@ -155,6 +160,29 @@ if(Meteor.isServer){
 				)
 			}
 			
+		},
+		'updateTicketFinalStatus':function(id,status){
+			return TicketMaster.update(
+				{'_id':id},
+					{   $set:{
+							'ticketStatus.0.status':status,
+							'ticketStatus.0.createdAt': new Date(),
+					}
+				}
+			)
+		},
+		'updateTicketBucket':function(ticket){
+			 TicketBucket.update(
+				{'_id':ticket.ticketid},
+					{   $set:{
+						"empID"    : ticket.empID,
+						"role"     : ticket.role,
+						"createdAt" : new Date(),
+					}
+				}
+			)
+
+			return ticket.ticketid;
 		}
 		
 
