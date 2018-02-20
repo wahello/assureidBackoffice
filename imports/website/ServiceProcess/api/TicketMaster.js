@@ -111,10 +111,7 @@ if(Meteor.isServer){
 			
 		},
 		'addDocument':function(id,index,status,addressType){
-		console.log("id :"+id);
-		console.log("index :"+index);
-		console.log("status :"+status);
-		console.log("addressType :"+addressType);
+		
 			if(addressType == "Current Address"){
 				TicketMaster.update(
 					{'_id':id},
@@ -126,6 +123,27 @@ if(Meteor.isServer){
 					}
 				)
 			}else if(addressType == "Permanent Address"){
+				TicketMaster.update(
+					{'_id':id},
+						{   $set:{
+								["ticketElement.permanentAddress."+index+".status"]:status,
+								["ticketElement.permanentAddress."+index+".statusDate"] : new Date(),
+								
+						}
+					}
+				)
+			}else{
+
+				TicketMaster.update(
+					{'_id':id},
+						{   $set:{
+								["ticketElement.currentAddress."+index+".status"]:status,
+								["ticketElement.currentAddress."+index+".statusDate"] : new Date(),
+								
+						}
+					}
+				),
+
 				TicketMaster.update(
 					{'_id':id},
 						{   $set:{

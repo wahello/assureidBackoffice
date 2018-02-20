@@ -16,6 +16,7 @@ import { UserProfile } from '/imports/website/forms/api/userProfile.js';
 
 export default class TicketDocumentDetails extends TrackerReact(Component){
   constructor(props){
+    var ticketObj = TicketMaster.findOne({'_id':ticketId,'ticketElement.empid':Meteor.userId()});
     super(props);
     
     this.state = {
@@ -32,25 +33,13 @@ export default class TicketDocumentDetails extends TrackerReact(Component){
   }
   acceptpermanentTicket(event){
     event.preventDefault();
-    // var id = "ffuEFEKHTAovKhqR6";
-    // var keyValue = "permanentAddress";
-    // var userProfile = UserProfile.findOne({"userId":id});
+    $(event.target).css({'backgroundColor':'#00b8ff','color':'#fff'});
+    $(event.target).siblings().css({'backgroundColor':'#fff','color':'#00b8ff'});
     var status = $(event.currentTarget).attr('data-status');
     var index = $(event.currentTarget).attr('data-index');
     var id = $(event.currentTarget).attr('data-id');
     var addressType = $(event.currentTarget).attr('data-addresstype');
-   
-    
-    console.log("status :"+status);
-    console.log("index :"+index);
-    // var arrLen = userProfile+"."+keyValue+"."+length;
-
-    // if(arrLen){
-    //     var currentObj = userProfile.permanentAddress[arrLen-1];
-    //     currentObj.status = status;
-    //     currentObj.date   = new Date();
-    // }
-    
+       
     Meteor.call("addDocument",id,index,status,addressType,function(error,result){
         if(result){
             console.log("add successfully");
@@ -64,14 +53,14 @@ export default class TicketDocumentDetails extends TrackerReact(Component){
             if(this.state.subscription.singleTicket.ready()){
                 var ticketId = this.props.ticketId;
                 console.log("ticketId :"+ticketId);
-                var ticketObj = TicketMaster.findOne({'_id':ticketId,'ticketElement.empid':Meteor.userId()});
+                
                 
                 if(ticketObj){
                     if(ticketObj.addressType == "currentAddress"){
                         
                         var arrLen = ticketObj.ticketElement.currentAddress.length;
                         var index  = arrLen-1;
-                                          
+                                            
                         this.setState({
                             'ticketId': ticketId,
                             'index': index,
@@ -93,33 +82,57 @@ export default class TicketDocumentDetails extends TrackerReact(Component){
                         // var currentPos = ;
                         // ticketDocDetailsBoth
                         var currentPosCurrent = 1;
+                        var index  = arrLen-1;                 
+                        console.log("ticketObj.ticketElement.currentAddress.length :"+ticketObj.ticketElement.currentAddress.length)
                         var arrLen = ticketObj.ticketElement.currentAddress.length;
-                        
                         this.setState({
+                            'ticketId': ticketId,
+                            'index': index,
+                            'addressType': "both",
                             'ticketDocDetails':ticketObj.ticketElement.currentAddress[arrLen-1],
                         });
 
                         var currentPosPerm = 0;
-                        var arrLen = ticketObj.ticketElement.permanentAddress.length;
+                        var arrLen =ticketObj.ticketElement.permanentAddress.length;
+                        var index  = arrLen-1;
                         this.setState({
+                            'ticketId': ticketId,
+                            'index': index,
+                            'addressType': "both",
                             'ticketDocDetailsBoth':ticketObj.ticketElement.permanentAddress[arrLen-1],
                         });
 
+                        console.log(this.state.ticketDocDetailsBoth);
+
+                        
+
                     }
                     
-    
+
                 }
             }
         });
-       
+        
 
+    }
+
+    updateTicketStatus(event){
+
+        event.preventDefault();
+        if(ticketObj){
+            if((ticketObj.ticketElement.permanentAddress.status == "Approved") &&(ticketObj.ticketElement.currentAddress.status == "Approved")){
+                var finalStatus = "Approved";
+            }else{
+                var finalStatus = "Rejected";
+            }
+        }
     }
 
     acceptTicket(event){
         $(event.target).css({'backgroundColor':'#00b8ff','color':'#fff'});
         $(event.target).siblings().css({'backgroundColor':'#fff','color':'#00b8ff'});
-        var path = "/admin/ticketdocumentdetails";
-        browserHistory.replace(path);
+        // var path = "/admin/ticketdocumentdetails";
+        // browserHistory.replace(path);
 
     }
     rejectTicket(event){
@@ -193,13 +206,65 @@ export default class TicketDocumentDetails extends TrackerReact(Component){
                                         
                                         </div>
                                     :
-                                    ""
+                                    <div>
+
+                                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 singledocwrp">
+                                            <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                                            <h5> Permanent Address</h5>
+                                            
+                                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 addressdetails">
+                                                {this.state.ticketDocDetailsBoth.line1}
+                                                {this.state.ticketDocDetailsBoth.line2}
+                                                {this.state.ticketDocDetailsBoth.line3}, &nbsp;
+                                                {this.state.ticketDocDetailsBoth.landmark},
+                                                {this.state.ticketDocDetailsBoth.city},{this.state.ticketDocDetailsBoth.state}, {this.state.ticketDocDetailsBoth.country},{this.state.ticketDocDetailsBoth.pincode}
+                                                {this.state.ticketDocDetailsBoth.residingFrom} - {this.state.ticketDocDetailsBoth.residingTo}
+                                                </div>
+                                            </div>
+                                            <div className="col-lg-2 col-md-4 col-sm-6 col-xs-6">
+                                                <img src="/images/assureid/pdf.png" className=" img-thumbnail ticketUserImage" /> 
+                                            </div>
+                                            <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12 otherInfoForm pull-right detailsbtn">
+                                                <div className="col-lg-12 col-md-4 col-sm-6 col-xs-6">
+                                                        <button type="button" className="btn btn-info acceptTicket acceptreject" data-addresstype={this.state.addressType} data-id={this.state.ticketId} data-index={this.state.index} data-status = "Approved" onClick={this.acceptpermanentTicket.bind(this)}>Approved</button>
+                                                        <button type="button" className="btn btn-info rejectTicket acceptreject" data-addresstype = {this.state.addressType} data-id={this.state.ticketId} data-index={this.state.index} data-status = "Reject" onClick={this.acceptpermanentTicket.bind(this)}>Reject</button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 singledocwrp">
+                                                <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                                                <h5> Current Address</h5>
+                                                
+                                                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 addressdetails">
+                                                    {this.state.ticketDocDetails.tempLine1}
+                                                    {this.state.ticketDocDetails.tempLine2}
+                                                    {this.state.ticketDocDetails.tempLine3}, &nbsp;
+                                                    {this.state.ticketDocDetails.tempLandmark},
+                                                    {this.state.ticketDocDetails.tempCity},{this.state.ticketDocDetails.tempState}, {this.state.ticketDocDetails.tempState},{this.state.ticketDocDetails.tempPincode}
+                                                    {this.state.ticketDocDetails.tempresidingFrom} - {this.state.ticketDocDetails.tempresidingTo}
+                                                    
+                                                    </div>
+                                                </div>
+                                                <div className="col-lg-2 col-md-4 col-sm-6 col-xs-6">
+                                                    <img src="/images/assureid/pdf.png" className=" img-thumbnail ticketUserImage" /> 
+                                                </div>
+                                                <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12 otherInfoForm pull-right detailsbtn">
+                                                    <div className="col-lg-12 col-md-4 col-sm-6 col-xs-6">
+
+                                                            <button type="button" className="btn btn-info acceptTicket acceptreject" data-addresstype={this.state.addressType} data-id={this.state.ticketId} data-index={this.state.index} data-status = "Approved" onClick={this.acceptpermanentTicket.bind(this)}>Approved</button>
+                                                            <button type="button" className="btn btn-info rejectTicket acceptreject" data-addresstype = {this.state.addressType} data-id={this.state.ticketId} data-index={this.state.index} data-status = "Reject" onClick={this.acceptpermanentTicket.bind(this)}>Reject</button>
+                                                    </div>
+                                                </div>
+                                            
+                                        </div>
+                                    </div>
                                 }
                                
 
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 approvedstatus">
                                     {/* <div className="col-lg-4 col-lg-offset-2 col-md-12 col-sm-12 col-xs-12"> */}
-                                        <button type="button" className="btn btn-primary btnapproved">Submit</button>
+                                        <button type="button" className="btn btn-primary btnapproved" onClick={this.updateTicketStatus.bind(this)}>Submit</button>
                                     {/* </div> */}
                                 </div>
                             </div>  
