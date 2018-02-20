@@ -34,7 +34,8 @@ export default class AcceptedTickets extends TrackerReact(Component){
             this.userTracker = Tracker.autorun(()=>{
                 if(this.state.subscribe.ready()){
                     
-                    var allTickets = TicketMaster.find({"ticketStatus.status":"Accepted"}).fetch();
+                    // var allTickets = TicketMaster.find({"ticketElement.empid":Meteor.userId(),"ticketStatus.status":"Accepted"}).fetch();
+                    var allTickets = TicketMaster.find({"ticketElement.empid":Meteor.userId()}).fetch();
                     for(var i=0;i<allTickets.length;i++){
                         var allOrders = Order.findOne({"_id":allTickets[i].orderId});
                         

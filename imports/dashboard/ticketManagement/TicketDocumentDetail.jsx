@@ -11,7 +11,9 @@ import { browserHistory } from 'react-router';
 import { Link } from 'react-router';
 import UserInformation from './UserInformation.jsx';
 import { TicketMaster } from '../../website/ServiceProcess/api/TicketMaster.js';
+import { TicketBucket } from '../../website/ServiceProcess/api/TicketMaster.js';
 import { UserProfile } from '/imports/website/forms/api/userProfile.js';
+
 
 
 export default class TicketDocumentDetails extends TrackerReact(Component){
@@ -25,7 +27,8 @@ export default class TicketDocumentDetails extends TrackerReact(Component){
         "index"         : '',
         "addressType":'',
          "subscription" : {
-          "singleTicket" : Meteor.subscribe("allTickets"),    
+          "singleTicket" : Meteor.subscribe("allTickets"),  
+          "ticketBucket" : Meteor.subscribe("allTicketBucket"),
           "userProfileSubscribe": Meteor.subscribe("userProfileData"),   
       } 
     }
@@ -52,61 +55,55 @@ export default class TicketDocumentDetails extends TrackerReact(Component){
             if(this.state.subscription.singleTicket.ready()){
                 var ticketId = this.props.ticketId;
                 
-                var ticketObj = TicketMaster.findOne({'_id':ticketId,'ticketElement.empid':Meteor.userId()});
                 
+                var ticketObj = TicketMaster.findOne({'_id':ticketId,'ticketElement.empid':Meteor.userId()});
                 if(ticketObj){
                     if(ticketObj.addressType == "currentAddress"){
                         
-                        var arrLen = ticketObj.ticketElement.currentAddress.length;
+                        var arrLen = ticketObj.ticketElement[0].currentAddress.length;
                         var index  = arrLen-1;
                                             
                         this.setState({
                             'ticketId': ticketId,
                             'index': index,
                             'addressType': "Current Address",
-                            'ticketDocDetails':ticketObj.ticketElement.currentAddress[arrLen-1],
+                            'ticketDocDetails':ticketObj.ticketElement[0].currentAddress[arrLen-1],
                         });
-                        console.log(this.state.ticketDocDetails);
+                        
                     } else if(ticketObj.addressType == "permanentAddress"){
                         var currentPos = 0;
-                        var arrLen = ticketObj.ticketElement.permanentAddress.length;
+                        var arrLen = ticketObj.ticketElement[0].permanentAddress.length;
                         var index  = arrLen-1;
                         this.setState({
                             'ticketId': ticketId,
                             'index': index,
                             'addressType': "Permanent Address",
-                            'ticketDocDetails':ticketObj.ticketElement.permanentAddress[arrLen-1],
+                            'ticketDocDetails':ticketObj.ticketElement[0].permanentAddress[arrLen-1],
                         });
                     } else {
                         
-                        // var currentPos = ;
-                        // ticketDocDetailsBoth
+                       
                         var currentPosCurrent = 1;
                         var index  = arrLen-1;                 
-                        console.log("ticketObj.ticketElement.currentAddress.length :"+ticketObj.ticketElement.currentAddress.length)
-                        var arrLen = ticketObj.ticketElement.currentAddress.length;
+                        var arrLen = ticketObj.ticketElement[0].currentAddress.length;
                         this.setState({
                             'ticketId': ticketId,
                             'index': index,
                             'addressType': "both",
-                            'ticketDocDetails':ticketObj.ticketElement.currentAddress[arrLen-1],
+                            'ticketDocDetails':ticketObj.ticketElement[0].currentAddress[arrLen-1],
                         });
 
                         var currentPosPerm = 0;
-                        var arrLen =ticketObj.ticketElement.permanentAddress.length;
+                        var arrLen =ticketObj.ticketElement[0].permanentAddress.length;
                         var index  = arrLen-1;
                         this.setState({
                             'ticketId': ticketId,
                             'index': index,
                             'addressType': "both",
-                            'ticketDocDetailsBoth':ticketObj.ticketElement.permanentAddress[arrLen-1],
+                            'ticketDocDetailsBoth':ticketObj.ticketElement[0].permanentAddress[arrLen-1],
                         });
 
-                        console.log(this.state.ticketDocDetails);
-                        console.log(this.state.ticketDocDetailsBoth);
-
-                        
-
+                    
                     }
                     
 
@@ -126,21 +123,23 @@ export default class TicketDocumentDetails extends TrackerReact(Component){
         var ticketObj = TicketMaster.findOne({'_id':ticketId,'ticketElement.empid':Meteor.userId()});                         
         if(ticketObj){
             console.log(ticketObj);
-                var permanentLen = ticketObj.ticketElement.permanentAddress.length;
-                var currentLen = ticketObj.ticketElement.currentAddress.length;
-            // console.log("ticketObj.ticketElement.permanentAddress.status:"+ticketObj.ticketElement.permanentAddress[permanentLen-1].status);
-            // console.log("ticketObj.ticketElement.currentAddress.status:"+ticketObj.ticketElement.currentAddress[currentLen-1].status);
-            // if((ticketObj.ticketElement.permanentAddress.length> 0) && (ticketObj.ticketElement.currentAddress.length> 0)){
-            //     if((ticketObj.ticketElement.permanentAddress[permanentLen-1].status == "Approved")&&(ticketObj.ticketElement.currentAddress[currentLen-1].status== "Approved")){
+                var permanentLen = ticketObj.ticketElement[0].permanentAddress.length;
+                var currentLen = ticketObj.ticketElement[0].currentAddress.length;
+                console.log("permanentLen :"+permanentLen);
+                console.log("currentLen :"+currentLen);
+            // console.log("ticketObj.ticketElement[0].permanentAddress.status:"+ticketObj.ticketElement[0].permanentAddress[permanentLen-1].status);
+            // console.log("ticketObj.ticketElement[0].currentAddress.status:"+ticketObj.ticketElement[0].currentAddress[currentLen-1].status);
+            // if((ticketObj.ticketElement[0].permanentAddress.length> 0) && (ticketObj.ticketElement[0].currentAddress.length> 0)){
+            //     if((ticketObj.ticketElement[0].permanentAddress[permanentLen-1].status == "Approved")&&(ticketObj.ticketElement[0].currentAddress[currentLen-1].status== "Approved")){
             //         console.log("Inside if");
             //         var finalStatus = "Approved";
             //     }else{
             //         var finalStatus = "Rejected"
             //     }
-            // }else if((ticketObj.ticketElement.permanentAddress.length> 0) || (ticketObj.ticketElement.currentAddress.length==0)){
+            // }else if((ticketObj.ticketElement[0].permanentAddress.length> 0) || (ticketObj.ticketElement[0].currentAddress.length==0)){
             //     var finalStatus = "Approved";
             // }
-            // else if((ticketObj.ticketElement.permanentAddress[permanentLen-1].status == "Approved") || (ticketObj.ticketElement.currentAddress[currentLen-1].status== "Approved")){
+            // else if((ticketObj.ticketElement[0].permanentAddress[permanentLen-1].status == "Approved") || (ticketObj.ticketElement[0].currentAddress[currentLen-1].status== "Approved")){
                            
             // }else{
             //     var finalStatus = "Rejected";
@@ -168,34 +167,41 @@ export default class TicketDocumentDetails extends TrackerReact(Component){
 					console.log("memberDetails length :"+memberDetails.length);						
 					console.log("memberDetails length :"+memberDetails[k]._id);						
 					console.log("memberDetails[k].count :"+memberDetails[k].count);						
-						if(memberDetails[k].count==undefined || memberDetails[k].count<allocatedtickets){
+						// if(memberDetails[k].count==undefined || memberDetails[k].count<allocatedtickets){
 					console.log("inside if memberDetails[k].count :"+memberDetails[k].count);						
 							
 							var newTicketAllocated = {
-								ticketid : ticketId,
-								empID    : memberDetails[k]._id,
-								role     : 'team leader',
+								'ticketid' : ticketId,
+								'empID'    : memberDetails[k]._id,
+								'role'     : 'team leader',
 							}
-							console.log(newTicketAllocated);
+							// console.log(newTicketAllocated);
 							Meteor.call('updateTicketBucket',newTicketAllocated,function(error,result){
 								if(result){
 									console.log("Onsuccess insertTicketBucket");
-									var ticketBucketDetail = TicketBucket.findOne({"_id":result});
+									var ticketBucketDetail = TicketBucket.findOne({"ticketid":"C63QuhxRN8oNHhyXf"});
 										console.log("ticketBucketDetail:"+ticketBucketDetail);
 									
 									if(ticketBucketDetail){
 										console.log("ticketBucketDetail:"+ticketBucketDetail);
 										var ticketId = newTicketAllocated.ticketid;
-										var empid    = newTicketAllocated.empID;
-										var role    = newTicketAllocated.role;
+										var empID    = newTicketAllocated.empID;
+										var role     = newTicketAllocated.role;
 										
-										console.log("ticketId :"+ticketId);
-										console.log("empID :"+empID);
-										console.log("role :"+role);
-										console.log(permanentAddress);
-										console.log(currentAddress);
-										Meteor.call("updateTicketElement",ticketId,empID,role,permanentAddress,currentAddress);
-										Meteor.call("updateOuterStatus",ticketId,memberDetails._id);
+	                                    var permanentAddresslen = ticketObj.ticketElement[0].permanentAddress.length;
+                                        var currentAddresslen   = ticketObj.ticketElement[0].currentAddress.length;
+                                        var permanentAddress   = [];
+                                        var currentAddress     = ticketObj.ticketElement[0].currentAddress[currentLen-1];
+
+                                        // console.log("ticketId :"+ticketId);
+										// console.log("empID :"+empID);
+										// console.log("role :"+role);
+										// console.log(permanentAddress);
+                                        // console.log(currentAddress);
+										Meteor.call('updateTicketElement',ticketId,empID,role,permanentAddress,currentAddress,function(error,result){
+                                            console.log("success updateTicketElement");
+                                        });
+										// Meteor.call("updateOuterStatus",ticketId,memberDetails._id);
 		
 									} 
 								}
@@ -211,10 +217,10 @@ export default class TicketDocumentDetails extends TrackerReact(Component){
 							}
 							Meteor.call('updateCommitteeUserCount',newCount,memberDetails[k]._id);
 							break;
-						}else{
-							console.log("Inside else updateCommitteeUserCount");							
-							// Meteor.call('updateCommitteeUserCount',0,memberDetails[k]._id);
-						}
+						// }else{
+						// 	console.log("Inside else updateCommitteeUserCount");							
+						// 	// Meteor.call('updateCommitteeUserCount',0,memberDetails[k]._id);
+						// }
 					}
                 }
             });

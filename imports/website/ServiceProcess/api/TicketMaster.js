@@ -121,8 +121,8 @@ if(Meteor.isServer){
 				TicketMaster.update(
 					{'_id':id},
 						{   $set:{
-								["ticketElement.currentAddress."+index+".status"]:status,
-								["ticketElement.currentAddress."+index+".statusDate"] : new Date(),
+								["ticketElement.0.currentAddress."+index+".status"]:status,
+								["ticketElement.0.currentAddress."+index+".statusDate"] : new Date(),
 								
 						}
 					}
@@ -131,8 +131,8 @@ if(Meteor.isServer){
 				TicketMaster.update(
 					{'_id':id},
 						{   $set:{
-								["ticketElement.permanentAddress."+index+".status"]:status,
-								["ticketElement.permanentAddress."+index+".statusDate"] : new Date(),
+								["ticketElement.0.permanentAddress."+index+".status"]:status,
+								["ticketElement.0.permanentAddress."+index+".statusDate"] : new Date(),
 								
 						}
 					}
@@ -142,8 +142,8 @@ if(Meteor.isServer){
 				TicketMaster.update(
 					{'_id':id},
 						{   $set:{
-								["ticketElement.currentAddress."+index+".status"]:status,
-								["ticketElement.currentAddress."+index+".statusDate"] : new Date(),
+								["ticketElement.0.currentAddress."+index+".status"]:status,
+								["ticketElement.0.currentAddress."+index+".statusDate"] : new Date(),
 								
 						}
 					}
@@ -152,8 +152,8 @@ if(Meteor.isServer){
 				TicketMaster.update(
 					{'_id':id},
 						{   $set:{
-								["ticketElement.permanentAddress."+index+".status"]:status,
-								["ticketElement.permanentAddress."+index+".statusDate"] : new Date(),
+								["ticketElement.0.permanentAddress."+index+".status"]:status,
+								["ticketElement.0.permanentAddress."+index+".statusDate"] : new Date(),
 								
 						}
 					}
@@ -172,17 +172,50 @@ if(Meteor.isServer){
 			)
 		},
 		'updateTicketBucket':function(ticket){
+			// console.log("Inside updateTicketBucket ");
+			// console.log(ticket);
 			 TicketBucket.update(
-				{'_id':ticket.ticketid},
+				{'ticketid':ticket.ticketid},
 					{   $set:{
-						"empID"    : ticket.empID,
+						"empid"    : ticket.empID,
 						"role"     : ticket.role,
 						"createdAt" : new Date(),
 					}
 				}
 			)
-
+			// console.log(ticket.ticketid)
 			return ticket.ticketid;
+		},
+
+
+		'updateCommitteeUserCount':function(count,id){
+			Meteor.users.update(
+				{'_id':id},
+				{$set:{
+					'count':count
+				}}
+			
+			)
+		},
+
+		'updateTicketElement':function(ticketId,empid,role,permanentAddress,currentAddress){
+			console.log("Inside updateTicketElement");
+			console.log(ticketId,empid,role);
+			// console.log(permanentAddress);
+			// console.log(currentAddress);
+			TicketMaster.update(
+				{'_id':ticketId},
+				{   $push:{
+						'ticketElement':{
+							'empid': empid,
+							'role' : role,
+							'createdAt': new Date(),
+							'permanentAddress' : permanentAddress,
+							'currentAddress'   : currentAddress,
+						}
+					}
+				}
+			)
 		}
 		
 
