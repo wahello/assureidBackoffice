@@ -13,6 +13,7 @@ import UserInformation from './UserInformation.jsx';
 import { TicketMaster } from '../../website/ServiceProcess/api/TicketMaster.js';
 import { TicketBucket } from '../../website/ServiceProcess/api/TicketMaster.js';
 import { UserProfile } from '/imports/website/forms/api/userProfile.js';
+import {CompanySettings} from '/imports/dashboard/companySetting/api/CompanySettingMaster.js';
 
 
 
@@ -30,6 +31,7 @@ export default class TicketDocumentDetails extends TrackerReact(Component){
           "singleTicket" : Meteor.subscribe("allTickets"),  
           "ticketBucket" : Meteor.subscribe("allTicketBucket"),
           "userProfileSubscribe": Meteor.subscribe("userProfileData"),   
+          "companyData"  : Meteor.subscribe("companyData"),
       } 
     }
   }
@@ -56,13 +58,15 @@ export default class TicketDocumentDetails extends TrackerReact(Component){
                 var ticketId = this.props.ticketId;
                 
                 
-                var ticketObj = TicketMaster.findOne({'_id':ticketId,'ticketElement.empid':Meteor.userId()});
+                var ticketObj = TicketMaster.findOne({'_id':ticketId,'ticketElement.0.empid':Meteor.userId()});
+                console.log(ticketObj);
                 if(ticketObj){
                     if(ticketObj.addressType == "currentAddress"){
-                        
+                        console.log(ticketObj.addressType);
                         var arrLen = ticketObj.ticketElement[0].currentAddress.length;
                         var index  = arrLen-1;
-                                            
+                        console.log(arrLen);
+                        
                         this.setState({
                             'ticketId': ticketId,
                             'index': index,
@@ -80,33 +84,7 @@ export default class TicketDocumentDetails extends TrackerReact(Component){
                             'addressType': "Permanent Address",
                             'ticketDocDetails':ticketObj.ticketElement[0].permanentAddress[arrLen-1],
                         });
-                    } else {
-                        
-                       
-                        var currentPosCurrent = 1;
-                        var index  = arrLen-1;                 
-                        var arrLen = ticketObj.ticketElement[0].currentAddress.length;
-                        this.setState({
-                            'ticketId': ticketId,
-                            'index': index,
-                            'addressType': "both",
-                            'ticketDocDetails':ticketObj.ticketElement[0].currentAddress[arrLen-1],
-                        });
-
-                        var currentPosPerm = 0;
-                        var arrLen =ticketObj.ticketElement[0].permanentAddress.length;
-                        var index  = arrLen-1;
-                        this.setState({
-                            'ticketId': ticketId,
-                            'index': index,
-                            'addressType': "both",
-                            'ticketDocDetailsBoth':ticketObj.ticketElement[0].permanentAddress[arrLen-1],
-                        });
-
-                    
-                    }
-                    
-
+                    } 
                 }
             }
         });
@@ -123,89 +101,92 @@ export default class TicketDocumentDetails extends TrackerReact(Component){
         var ticketObj = TicketMaster.findOne({'_id':ticketId,'ticketElement.empid':Meteor.userId()});                         
         if(ticketObj){
             console.log(ticketObj);
+            if(ticketObj.serviceName == 'Address Verification'){
                 var permanentLen = ticketObj.ticketElement[0].permanentAddress.length;
                 var currentLen = ticketObj.ticketElement[0].currentAddress.length;
                 console.log("permanentLen :"+permanentLen);
                 console.log("currentLen :"+currentLen);
-            // console.log("ticketObj.ticketElement[0].permanentAddress.status:"+ticketObj.ticketElement[0].permanentAddress[permanentLen-1].status);
-            // console.log("ticketObj.ticketElement[0].currentAddress.status:"+ticketObj.ticketElement[0].currentAddress[currentLen-1].status);
-            // if((ticketObj.ticketElement[0].permanentAddress.length> 0) && (ticketObj.ticketElement[0].currentAddress.length> 0)){
-            //     if((ticketObj.ticketElement[0].permanentAddress[permanentLen-1].status == "Approved")&&(ticketObj.ticketElement[0].currentAddress[currentLen-1].status== "Approved")){
-            //         console.log("Inside if");
-            //         var finalStatus = "Approved";
-            //     }else{
-            //         var finalStatus = "Rejected"
-            //     }
-            // }else if((ticketObj.ticketElement[0].permanentAddress.length> 0) || (ticketObj.ticketElement[0].currentAddress.length==0)){
-            //     var finalStatus = "Approved";
-            // }
-            // else if((ticketObj.ticketElement[0].permanentAddress[permanentLen-1].status == "Approved") || (ticketObj.ticketElement[0].currentAddress[currentLen-1].status== "Approved")){
-                           
-            // }else{
-            //     var finalStatus = "Rejected";
-            // }
-            // console.log("finalStatus :"+finalStatus);
-            Meteor.call('updateTicketFinalStatus',ticketId,"Approved",function(error,result){
+                // if((ticketObj.ticketElement[0].permanentAddress.length> 0) || (ticketObj.ticketElement[0].currentAddress.length>0)){
+                //     if((ticketObj.ticketElement[0].permanentAddress[permanentLen-1].status == "Approved") || (ticketObj.ticketElement[0].currentAddress[currentLen-1].status== "Approved")){
+                //         var finalStatus = "Approved";           
+                //     }else{
+                //         var finalStatus = "Rejected";
+                //     }
+                //     console.log("finalStatus :"+finalStatus);
+
+                // }
+                if(ticketObj.ticketElement[0].permanentAddress.length> 0){
+                    if(ticketObj.ticketElement[0].permanentAddress[permanentLen-1].status == "Approved"){
+                        var finalStatus = "Approved";           
+                    }else{
+                        var finalStatus = "Rejected";
+                    }    
+                }else if(ticketObj.ticketElement[0].currentAddress.length> 0){
+                    if(ticketObj.ticketElement[0].currentAddress[currentLen-1].status == "Approved"){
+                        var finalStatus = "Approved";           
+                    }else{
+                        var finalStatus = "Rejected";
+                    }    
+                }
+            }
+            Meteor.call('updateTicketFinalStatus',ticketId,finalStatus,function(error,result){
                 if(result){
-                    console.log("result :"+ticketId);
-                    // var totalTicketCount =  TicketBucket.find({}).count();
 					var memberDetails = Meteor.users.find({"roles":"team leader"},{sort:{'count':1}}).fetch();
-					// var companyObj = CompanySettings.findOne({"maxnoOfTicketAllocate.role":"screening committee"});
-					// for(var i=0;i<companyObj.maxnoOfTicketAllocate.length;i++){
-					// 	if(companyObj.maxnoOfTicketAllocate[i].role == "team leader"){
-					// 		var allocatedtickets = companyObj.maxnoOfTicketAllocate[i].maxTicketAllocate;
-					// 		console.log("allocatedtickets :"+allocatedtickets);
-					// 	}
-					// }
-					// var totalmulti = allocatedtickets*memberDetails.length;
-					// if(totalTicketCount<totalmulti){
-					// var allocateticket = companyObj.maxnoOfTicketAllocate.maxTicketAllocate;
-					// console.log("allocateticket :"+allocateticket);
-					// console.log("companyObj :"+companyObj);
+					var companyObj = CompanySettings.findOne({"maxnoOfTicketAllocate.role":"team leader"});
+					for(var i=0;i<companyObj.maxnoOfTicketAllocate.length;i++){
+						if(companyObj.maxnoOfTicketAllocate[i].role == "team leader"){
+							var allocatedtickets = companyObj.maxnoOfTicketAllocate[i].maxTicketAllocate;
+							console.log("allocatedtickets :"+allocatedtickets);
+						}
+					}
 					console.log("memberDetails :"+memberDetails);
 					for(var k=0;k<memberDetails.length;k++){
-					console.log("memberDetails length :"+memberDetails.length);						
-					console.log("memberDetails length :"+memberDetails[k]._id);						
-					console.log("memberDetails[k].count :"+memberDetails[k].count);						
+    					console.log("memberDetails length :"+memberDetails.length);						
+	    				console.log("memberDetails length :"+memberDetails[k]._id);						
+		    			console.log("memberDetails[k].count :"+memberDetails[k].count);						
 						// if(memberDetails[k].count==undefined || memberDetails[k].count<allocatedtickets){
-					console.log("inside if memberDetails[k].count :"+memberDetails[k].count);						
+			    		console.log("inside if memberDetails[k].count :"+memberDetails[k].count);						
 							
-							var newTicketAllocated = {
-								'ticketid' : ticketId,
-								'empID'    : memberDetails[k]._id,
-								'role'     : 'team leader',
-							}
-							// console.log(newTicketAllocated);
-							Meteor.call('updateTicketBucket',newTicketAllocated,function(error,result){
-								if(result){
-									console.log("Onsuccess insertTicketBucket");
-									var ticketBucketDetail = TicketBucket.findOne({"ticketid":"C63QuhxRN8oNHhyXf"});
-										console.log("ticketBucketDetail:"+ticketBucketDetail);
-									
-									if(ticketBucketDetail){
-										console.log("ticketBucketDetail:"+ticketBucketDetail);
-										var ticketId = newTicketAllocated.ticketid;
-										var empID    = newTicketAllocated.empID;
-										var role     = newTicketAllocated.role;
-										
-	                                    var permanentAddresslen = ticketObj.ticketElement[0].permanentAddress.length;
-                                        var currentAddresslen   = ticketObj.ticketElement[0].currentAddress.length;
-                                        var permanentAddress   = [];
-                                        var currentAddress     = ticketObj.ticketElement[0].currentAddress[currentLen-1];
+                        var newTicketAllocated = {
+                            'ticketid' : ticketId,
+                            'empID'    : memberDetails[k]._id,
+                            'role'     : 'team leader',
+                        }
+					    console.log(newTicketAllocated);
+                        Meteor.call('updateTicketBucket',newTicketAllocated,function(error,result){
+                            if(result){
+                                console.log("ticketid :"+newTicketAllocated.ticketid);
+                                
+                                var ticketBucketDetail = TicketBucket.findOne({"ticketid":newTicketAllocated.ticketid});
+                                console.log("ticketBucketDetail:"+ticketBucketDetail);
+                                
+                                if(ticketBucketDetail){
+                                    console.log("ticketBucketDetail:"+ticketBucketDetail);
+                                    var ticketId = newTicketAllocated.ticketid;
+                                    var empID    = newTicketAllocated.empID;
+                                    var role     = newTicketAllocated.role;
+                                    console.log("ticketId :"+ticketId);
+                                    console.log("empID :"+empID);
+                                    console.log("role :"+role);
+                                    console.log("ticketObj.ticketElement[0].permanentAddress.length :"+ticketObj.ticketElement[0].permanentAddress.length);
+                                    console.log("ticketObj.ticketElement[0].currentAddress.length :"+ticketObj.ticketElement[0].currentAddress.length);
 
-                                        // console.log("ticketId :"+ticketId);
-										// console.log("empID :"+empID);
-										// console.log("role :"+role);
-										// console.log(permanentAddress);
-                                        // console.log(currentAddress);
-										Meteor.call('updateTicketElement',ticketId,empID,role,permanentAddress,currentAddress,function(error,result){
-                                            console.log("success updateTicketElement");
-                                        });
-										// Meteor.call("updateOuterStatus",ticketId,memberDetails._id);
-		
-									} 
-								}
-							});
+                                    if(ticketObj.ticketElement[0].permanentAddress.length> 0){
+                                        var permanentAddress   = ticketObj.ticketElement[0].permanentAddress[permanentLen-1];
+                                    }else{
+                                        var permanentAddress = [];
+                                    }
+                                    if(ticketObj.ticketElement[0].currentAddress.length> 0){
+                                        var currentAddress     = ticketObj.ticketElement[0].currentAddress[currentLen-1];
+                                    }else{
+                                        var currentAddress = [];
+                                    }
+                                    Meteor.call('updateTicketElement',ticketId,empID,role,permanentAddress,currentAddress,function(error,result){
+                                        console.log("success updateTicketElement");
+                                    });
+                                } 
+                            }
+						});
 							
 
 							if(memberDetails[k].count){
@@ -306,60 +287,8 @@ export default class TicketDocumentDetails extends TrackerReact(Component){
                                             </div>
                                         
                                         </div>
-                                    :
-                                    <div>
-
-                                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 singledocwrp">
-                                            <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12">
-                                            <h5> Permanent Address</h5>
-                                            
-                                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 addressdetails">
-                                                {this.state.ticketDocDetailsBoth.line1}
-                                                {this.state.ticketDocDetailsBoth.line2}
-                                                {this.state.ticketDocDetailsBoth.line3}, &nbsp;
-                                                {this.state.ticketDocDetailsBoth.landmark},
-                                                {this.state.ticketDocDetailsBoth.city},{this.state.ticketDocDetailsBoth.state}, {this.state.ticketDocDetailsBoth.country},{this.state.ticketDocDetailsBoth.pincode}
-                                                {this.state.ticketDocDetailsBoth.residingFrom} - {this.state.ticketDocDetailsBoth.residingTo}
-                                                </div>
-                                            </div>
-                                            <div className="col-lg-2 col-md-4 col-sm-6 col-xs-6">
-                                                <img src="/images/assureid/pdf.png" className=" img-thumbnail ticketUserImage" /> 
-                                            </div>
-                                            <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12 otherInfoForm pull-right detailsbtn">
-                                                <div className="col-lg-12 col-md-4 col-sm-6 col-xs-6">
-                                                        <button type="button" className="btn btn-info acceptTicket acceptreject" data-addresstype={this.state.addressType} data-id={this.state.ticketId} data-index={this.state.index} data-status = "Approved" onClick={this.acceptpermanentTicket.bind(this)}>Approved</button>
-                                                        <button type="button" className="btn btn-info rejectTicket acceptreject" data-addresstype = {this.state.addressType} data-id={this.state.ticketId} data-index={this.state.index} data-status = "Reject" onClick={this.acceptpermanentTicket.bind(this)}>Reject</button>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 singledocwrp">
-                                                <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12">
-                                                <h5> Current Address</h5>
-                                                
-                                                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 addressdetails">
-                                                    {this.state.ticketDocDetails.tempLine1}
-                                                    {this.state.ticketDocDetails.tempLine2}
-                                                    {this.state.ticketDocDetails.tempLine3}, &nbsp;
-                                                    {this.state.ticketDocDetails.tempLandmark},
-                                                    {this.state.ticketDocDetails.tempCity},{this.state.ticketDocDetails.tempState}, {this.state.ticketDocDetails.tempState},{this.state.ticketDocDetails.tempPincode}
-                                                    {this.state.ticketDocDetails.tempresidingFrom} - {this.state.ticketDocDetails.tempresidingTo}
-                                                    
-                                                    </div>
-                                                </div>
-                                                <div className="col-lg-2 col-md-4 col-sm-6 col-xs-6">
-                                                    <img src="/images/assureid/pdf.png" className=" img-thumbnail ticketUserImage" /> 
-                                                </div>
-                                                <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12 otherInfoForm pull-right detailsbtn">
-                                                    <div className="col-lg-12 col-md-4 col-sm-6 col-xs-6">
-
-                                                            <button type="button" className="btn btn-info acceptTicket acceptreject" data-addresstype={this.state.addressType} data-id={this.state.ticketId} data-index={this.state.index} data-status = "Approved" onClick={this.acceptpermanentTicket.bind(this)}>Approved</button>
-                                                            <button type="button" className="btn btn-info rejectTicket acceptreject" data-addresstype = {this.state.addressType} data-id={this.state.ticketId} data-index={this.state.index} data-status = "Reject" onClick={this.acceptpermanentTicket.bind(this)}>Reject</button>
-                                                    </div>
-                                                </div>
-                                            
-                                        </div>
-                                    </div>
+                                    : ""
+                                    
                                 }
                                
 

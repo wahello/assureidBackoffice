@@ -216,6 +216,16 @@ if(Meteor.isServer){
 					}
 				}
 			)
+
+			TicketMaster.update(
+				{'_id':ticketId},
+				{   $set:{
+						'ticketStatus.0.status': "Accepted",					
+						'ticketStatus.0.role': "team leader",
+						'ticketStatus.0.createdAt': new Date()
+					}
+				}
+			)
 		}
 		
 

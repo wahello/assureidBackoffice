@@ -35,7 +35,9 @@ export default class AcceptedTickets extends TrackerReact(Component){
                 if(this.state.subscribe.ready()){
                     
                     // var allTickets = TicketMaster.find({"ticketElement.empid":Meteor.userId(),"ticketStatus.status":"Accepted"}).fetch();
-                    var allTickets = TicketMaster.find({"ticketElement.empid":Meteor.userId()}).fetch();
+                    // var allTickets = TicketMaster.find({"ticketElement.empid":Meteor.userId()}).fetch();
+                    var allTickets = TicketMaster.find({"ticketElement.empid":Meteor.userId(),"ticketElement.status":"Accepted"}).fetch();
+                    console.log(allTickets);
                     for(var i=0;i<allTickets.length;i++){
                         var allOrders = Order.findOne({"_id":allTickets[i].orderId});
                         

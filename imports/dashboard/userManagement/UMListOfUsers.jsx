@@ -89,7 +89,7 @@ export default class UMListOfUsers extends TrackerReact(Component) {
 
 	rolesListData(){
 		var roleSetArray = [];
-		var roles =  Meteor.roles.find({"name":{ $nin: ["superAdmin"] } }).fetch();
+		var roles =  Meteor.roles.find({"name":{ $nin: ["superAdmin","user"] } }).fetch();
 		if(roles){
 			return roles;
 		}else{
@@ -120,24 +120,24 @@ export default class UMListOfUsers extends TrackerReact(Component) {
 	           (!roleSetVar && activeBlockSetVar == '-')         ||
 	           (roleSetVar == '-' && activeBlockSetVar == '-'))
 	        {
-	          return Meteor.users.find({"roles":{ $nin: ["superAdmin"] } });
+	          return Meteor.users.find({"roles":{ $in: ["backofficestaff"] } });
 	        }else if((roleSetVar == "all" && activeBlockSetVar) || 
 	                 (roleSetVar == "-" && activeBlockSetVar)   || 
 	                 (!roleSetVar && activeBlockSetVar))
 	        {
-	          return Meteor.users.find({"profile.status": activeBlockSetVar,"roles":{ $nin: ["superAdmin"] } });
+	          return Meteor.users.find({"profile.status": activeBlockSetVar,"roles":{ $in: ["backofficestaff"] } });
 	        }else if((roleSetVar && activeBlockSetVar == '-') || 
 	                 (roleSetVar && !activeBlockSetVar))
 	        {
-	          return Meteor.users.find({"roles":{ $nin: ["superAdmin"], $in: [roleSetVar]} });
+	          return Meteor.users.find({"roles":{ $in: ["backofficestaff"], $in: [roleSetVar]} });
 	        }else if(roleSetVar && activeBlockSetVar){
-	          return Meteor.users.find({"profile.status": activeBlockSetVar,"roles":{ $nin: ["superAdmin"], $in: [roleSetVar]} });
+	          return Meteor.users.find({"profile.status": activeBlockSetVar,"roles":{ $in: ["backofficestaff"], $in: [roleSetVar]} });
 	        }else{
-	          return Meteor.users.find({"roles":{ $nin: ["superAdmin"] } });
+	          return Meteor.users.find({"roles":{ $in: ["backofficestaff"] } });
 	        }
 	           
 	      }else{
-	        return Meteor.users.find({"roles":{ $nin: ["superAdmin"] } });
+	        return Meteor.users.find({"roles":{ $in: ["backofficestaff"] } });
 	      }
 	}
  
