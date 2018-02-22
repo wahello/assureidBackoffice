@@ -25,18 +25,15 @@ export default class UserInformation extends TrackerReact(Component){
   }
   userData(){
   	var getTicket = TicketMaster.findOne({"_id" : this.props.ticketId});
-    // var componentRole = this.props.role;
     if (getTicket){
-
-      // var role    = getTicket.ticketElement.role;
       var newCommeeteeArr = [];
 
       for(var i=0;i<getTicket.ticketElement.length;i++){
-        console.log("getTicket.ticketElement[i].empid :"+getTicket.ticketElement[i].empid);
+
         var roleDetails = Meteor.users.findOne({"_id":getTicket.ticketElement[i].empid});
-        
           newCommeeteeArr.push(
-            <div>
+            <div key = {i} className="col-lg-12">
+
               <h5 className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 {getTicket.ticketElement[i].role}
               </h5>
@@ -95,9 +92,11 @@ export default class UserInformation extends TrackerReact(Component){
   }
  
 	render(){
-    return(            
-      <div className="userInformationWrapper col-lg-6 col-md-6 col-sm-6 col-xs-6">
-          {this.userData()}
+    return(
+      <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+         {/* <div className="userInformationWrapper col-lg-6 col-md-6 col-sm-6 col-xs-6"> */}
+            {this.userData()}
+          {/* </div>     */}
       </div>    
     );
    }
