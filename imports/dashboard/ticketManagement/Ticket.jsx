@@ -21,14 +21,29 @@ export default class Ticket extends TrackerReact(Component){
   constructor(props){
     super(props);
     this.state = {
+      'userDetails': {},
       "subscription" : {
-        "singleTicket" : Meteor.subscribe("singleTicket"),      
+        "singleTicket" : Meteor.subscribe("singleTicket"),    
+        "userfunction" : Meteor.subscribe('userfunction'),
+        "allTickets"   : Meteor.subscribe("allTickets"), 
+
       } 
     }
   }
 
+  componentDidMount(){
+    console.log("id = "+this.props.params.id);
+    var getTicket = TicketMaster.findOne({"_id" : this.props.params.id});
+    console.log(getTicket);
+    var user = Meteor.users.findOne({"_id": getTicket.userId});
+    this.setState({
+        'userDetails':user
+    });
+
+  }
+
 	 render(){
-    // console.log("id = ",this.props.params.id);
+    console.log("id = ",this.props.params.id);
     return(            
       <div>
         <div className="content-wrapper">
@@ -53,11 +68,70 @@ export default class Ticket extends TrackerReact(Component){
                        <div className="ticketPills col-lg-12 col-md-12 col-sm-12 col-xs-12">
                      
                        </div>
-                       <UserInformation ticketId={this.props.params.id}/>
+                       {/* <UserInformation ticketId={this.props.params.id} role="user"/> */}
+
+                       {/* <div>
+                        <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                          { this.state.userDetails.profile.userProfile ?
+                            <img src={this.state.userDetails.profile.userProfile} className="ticketUserImage" /> :
+                            <img src="/images/assureid/userIcon.png" className="ticketUserImage" /> 
+                          }
+                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight assureidValue">
+                              <p>MHP1234567IN</p>
+                          </div>
+                        </div>
+                        <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
+                            <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
+                            Name <span className="pull-right">:</span>
+                            </div>  
+                            <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-left userValue">
+                              <p>{this.state.userDetails.profile.firstname} {this.state.userDetails.profile.lastname}</p>
+                            </div> 
+                          </div>
+                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
+                            <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
+                            Email Id <span className="pull-right">:</span>
+                            </div>  
+                            <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-left userValue">
+                              <p>{this.state.userDetails.emails[0].address}</p>
+                            </div> 
+                          </div>
+                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
+                            <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
+                            Gender <span className="pull-right">:</span>
+                            </div>  
+                            <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-left userValue">
+                              <p></p>
+                            </div> 
+                          </div>
+                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
+                            <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
+                            Age<span className="pull-right">:</span>
+                            </div>  
+                            <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-left userValue">
+                              <p></p>
+                            </div> 
+                          </div>
+                        </div>
+                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right viewProfileLink noPadLeftRight">
+                          <Link>View profile</Link>
+                        </div>
+                      </div> */}
+
+
                        <ServiceInformation ticketId={this.props.params.id}/>
                        <VerifiedDocuments ticketId={this.props.params.id}/>
                        {/* <ScreeningCommittee /> */}
                        <TicketDocumentDetails ticketId={this.props.params.id}/>
+
+
+
+
+                       
+                       {/* <UserInformation ticketId={this.props.params.id} /> */}
+                       <UserInformation ticketId={this.props.params.id} />
+                       
 
                      </div> 
                   </div>

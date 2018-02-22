@@ -25,62 +25,73 @@ export default class UserInformation extends TrackerReact(Component){
   }
   userData(){
   	var getTicket = TicketMaster.findOne({"_id" : this.props.ticketId});
-  	// console.log("getTicket",getTicket);
-  	if (getTicket) {
-     	var user    = Meteor.users.findOne({"_id": getTicket.userId});
-     	// console.log("user",user);
-      return (
-      	<div>
-	      	<div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-            { user.profile.userProfile ?
-               <img src={user.profile.userProfile} className="ticketUserImage" /> :
-               <img src="/images/assureid/userIcon.png" className="ticketUserImage" /> 
-            }
-             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight assureidValue">
-                <p>MHP1234567IN</p>
-            </div>
-	        </div>
-	        <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-	          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
-	            <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
-               Name <span className="pull-right">:</span>
-              </div>  
-              <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-left userValue">
-                <p>{user.profile.firstname} {user.profile.lastname}</p>
-              </div> 
-	          </div>
-            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
-              <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
-               Email Id <span className="pull-right">:</span>
-              </div>  
-              <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-left userValue">
-                <p>{user.emails[0].address}</p>
-              </div> 
-            </div>
-            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
-              <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
-               Gender <span className="pull-right">:</span>
-              </div>  
-              <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-left userValue">
-                <p></p>
-              </div> 
-            </div>
-            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
-              <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
-               Age<span className="pull-right">:</span>
-              </div>  
-              <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-left userValue">
-                <p></p>
-              </div> 
-            </div>
-	        </div>
-          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right viewProfileLink noPadLeftRight">
-            <Link>View profile</Link>
-          </div>
-        </div>
-      	);
+    // var componentRole = this.props.role;
+    if (getTicket){
 
-  	}
+      // var role    = getTicket.ticketElement.role;
+      var newCommeeteeArr = [];
+
+      for(var i=0;i<getTicket.ticketElement.length;i++){
+        console.log("getTicket.ticketElement[i].empid :"+getTicket.ticketElement[i].empid);
+        var roleDetails = Meteor.users.findOne({"_id":getTicket.ticketElement[i].empid});
+        
+          newCommeeteeArr.push(
+            <div>
+              <h5 className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                {getTicket.ticketElement[i].role}
+              </h5>
+              <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                { roleDetails.profile.userProfile ?
+                   <img src={roleDetails.profile.userProfile} className="ticketUserImage" /> :
+                   <img src="/images/assureid/userIcon.png" className="ticketUserImage" /> 
+                }
+                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight assureidValue">
+                    <p>MHP1234567IN</p>
+                </div>
+              </div>
+              <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
+                  <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
+                   Name <span className="pull-right">:</span>
+                  </div>  
+                  <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-left userValue">
+                    <p>{roleDetails.profile.firstname} {roleDetails.profile.lastname}</p>
+                  </div> 
+                </div>
+                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
+                  <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
+                   Email Id <span className="pull-right">:</span>
+                  </div>  
+                  <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-left userValue">
+                    <p>{roleDetails.emails[0].address}</p>
+                  </div> 
+                </div>
+                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
+                  <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
+                   Gender <span className="pull-right">:</span>
+                  </div>  
+                  <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-left userValue">
+                    <p></p>
+                  </div> 
+                </div>
+                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
+                  <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
+                   Age<span className="pull-right">:</span>
+                  </div>  
+                  <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-left userValue">
+                    <p></p>
+                  </div> 
+                </div>
+              </div>
+              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right viewProfileLink noPadLeftRight">
+                <Link>View profile</Link>
+              </div>
+            </div>
+          );
+      }
+      return newCommeeteeArr;
+    
+    }
   }
  
 	render(){

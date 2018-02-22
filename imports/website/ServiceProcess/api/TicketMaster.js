@@ -209,6 +209,7 @@ if(Meteor.isServer){
 						'ticketElement':{
 							'empid': empid,
 							'role' : role,
+							'role_status':'Accepted',
 							'createdAt': new Date(),
 							'permanentAddress' : permanentAddress,
 							'currentAddress'   : currentAddress,

@@ -22,7 +22,7 @@ export default class UMUsers extends TrackerReact(Component) {
 	render(){
        return(
 				<tr className="">
-					<td> <input type="checkbox" ref="userCheckbox" name="userCheckbox" className="userCheckbox" value={this.props.usersDataValues._id} /> </td>		
+					<td> <input type="checkbox" ref="userCheckbox" name="userCheckbox" className="userCheckbox abc" value={this.props.usersDataValues._id} /> </td>		
 							
 					<td> {this.props.usersDataValues.username} </td>		
 					<td> {this.props.usersDataValues.profile.status} </td>		

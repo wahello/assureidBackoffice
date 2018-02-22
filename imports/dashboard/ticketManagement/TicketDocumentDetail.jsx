@@ -84,6 +84,8 @@ export default class TicketDocumentDetails extends TrackerReact(Component){
                             'addressType': "Permanent Address",
                             'ticketDocDetails':ticketObj.ticketElement[0].permanentAddress[arrLen-1],
                         });
+                        console.log(this.state.ticketDocDetails);
+                        
                     } 
                 }
             }
@@ -240,40 +242,25 @@ export default class TicketDocumentDetails extends TrackerReact(Component){
                   </div>
                   <div className="box-body">
                      <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                     	 {/* <div className="ticketHeader col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                     	   <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                     	   	  <img src="/images/assureid/Assure-ID-logo-Grey.png" className="assureidLogo" />
-                     	   </div>
-                         
-                     	 </div>  */}
+                     	
                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 docwrap">
 
-                                {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 singledocwrp">
-                                    <div className="col-lg-3 col-md-12 col-sm-12 col-xs-12">
-                                    <img src="/images/assureid/userIcon.png" className="ticketUserImage" /> 
-                                    </div>
-                                    
-                                    <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12 otherInfoForm  pull-right detailsbtn">
-                                        <div className="col-lg-12 col-md-4 col-sm-6 col-xs-6">
-                                                <button type="button" className="btn btn-info acceptreject">Approved</button>
-                                                <button type="button" className="btn btn-info acceptreject">Reject</button>
-                                        </div>
-                                    </div>
-                                    
-                                </div> */}
+                               
                                 {
-                                    this.state.addressType == "Current Address" || this.state.addressType == "Permanent Address" ?
+                                    this.state.addressType == "Current Address" ?
                                         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 singledocwrp">
                                             <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12">
                                                <h5> {this.state.addressType}</h5>
                                                
                                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 addressdetails">
-                                                  {this.state.ticketDocDetails.tempLine1}
-                                                  {this.state.ticketDocDetails.tempLine2}
-                                                  {this.state.ticketDocDetails.tempLine3}, &nbsp;
-                                                  {this.state.ticketDocDetails.tempLandmark},
-                                                  {this.state.ticketDocDetails.tempCity},{this.state.ticketDocDetails.tempState}, {this.state.ticketDocDetails.tempState},{this.state.ticketDocDetails.tempPincode}
+                                                {this.state.ticketDocDetails.tempLine1}
+                                                {this.state.ticketDocDetails.tempLine2}
+                                                {this.state.ticketDocDetails.tempLine3}, &nbsp;
+                                                {this.state.ticketDocDetails.tempLandmark},
+                                                {this.state.ticketDocDetails.tempCity},{this.state.ticketDocDetails.tempState}, {this.state.ticketDocDetails.tempState},{this.state.ticketDocDetails.tempPincode}
+
+                                                  
                                                 </div>
                                             </div>
                                             <div className="col-lg-2 col-md-4 col-sm-6 col-xs-6">
@@ -287,7 +274,34 @@ export default class TicketDocumentDetails extends TrackerReact(Component){
                                             </div>
                                         
                                         </div>
-                                    : ""
+                                    :
+
+                                    // this.state.addressType == "Permanent Address"
+                                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 singledocwrp">
+                                            <h5> {this.state.addressType}</h5>
+                                        
+                                        <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                                        
+                                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 addressdetails">
+                                                  {this.state.ticketDocDetails.line1}
+                                                  {this.state.ticketDocDetails.line2}
+                                                  {this.state.ticketDocDetails.line3}, &nbsp;
+                                                  {this.state.ticketDocDetails.landmark},
+                                                  {this.state.ticketDocDetails.city},{this.state.ticketDocDetails.state}, {this.state.ticketDocDetails.country},{this.state.ticketDocDetails.pincode}
+                                                  {this.state.ticketDocDetails.residingFrom} - {this.state.ticketDocDetails.residingTo}
+                                            </div>
+                                        </div>
+                                        <div className="col-lg-2 col-md-4 col-sm-6 col-xs-6">
+                                            <img src="/images/assureid/pdf.png" className=" img-thumbnail ticketUserImage" /> 
+                                        </div>
+                                        <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12 otherInfoForm pull-right detailsbtn">
+                                            <div className="col-lg-12 col-md-4 col-sm-6 col-xs-6">
+                                                    <button type="button" className="btn btn-info acceptTicket acceptreject" data-addresstype={this.state.addressType} data-id={this.state.ticketId} data-index={this.state.index} data-status = "Approved" onClick={this.acceptpermanentTicket.bind(this)}>Approved</button>
+                                                    <button type="button" className="btn btn-info rejectTicket acceptreject" data-addresstype = {this.state.addressType} data-id={this.state.ticketId} data-index={this.state.index} data-status = "Reject" onClick={this.acceptpermanentTicket.bind(this)}>Reject</button>
+                                            </div>
+                                        </div>
+                                
+                                    </div>
                                     
                                 }
                                
@@ -300,6 +314,9 @@ export default class TicketDocumentDetails extends TrackerReact(Component){
                             </div>  
                             
                                           
+                       </div>
+
+                       <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                        </div>
 
 
