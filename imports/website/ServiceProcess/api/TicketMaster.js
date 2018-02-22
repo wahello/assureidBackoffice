@@ -228,8 +228,7 @@ if(Meteor.isServer){
 				}
 			)
 		}
-		
-
+	
 	  });
 
 

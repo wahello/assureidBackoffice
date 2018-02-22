@@ -119,20 +119,14 @@ export default class Ticket extends TrackerReact(Component){
                         </div>
                       </div> */}
 
-
                        <ServiceInformation ticketId={this.props.params.id}/>
                        <VerifiedDocuments ticketId={this.props.params.id}/>
-                       {/* <ScreeningCommittee /> */}
+                       {/* <ScreeningCommittee /> */} 
                        <TicketDocumentDetails ticketId={this.props.params.id}/>
-
-
-
-
                        
                        {/* <UserInformation ticketId={this.props.params.id} /> */}
                        <UserInformation ticketId={this.props.params.id} />
                        
-
                      </div> 
                   </div>
                 </div>

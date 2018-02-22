@@ -59,7 +59,7 @@ export default class TicketDocumentDetails extends TrackerReact(Component){
                 
                 
                 var ticketObj = TicketMaster.findOne({'_id':ticketId,'ticketElement.0.empid':Meteor.userId()});
-                console.log(ticketObj);
+                // console.log(ticketObj);
                 if(ticketObj){
                     if(ticketObj.addressType == "currentAddress"){
                         console.log(ticketObj.addressType);
