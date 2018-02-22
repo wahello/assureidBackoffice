@@ -66,7 +66,7 @@ class ServiceInformation extends TrackerReact(Component){
   render(){
     if (!this.props.loading) {
      return(            
-        <div className="ticketServiceWrapper col-lg-6 col-md-6 col-sm-6 col-xs-6">
+        <div className="ticketServiceWrapper col-lg-12 col-md-6 col-sm-6 col-xs-6">
           {/* {this.serviceData()} */}
           <div>
             <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">

@@ -15,6 +15,9 @@ import  ServiceInformation from './ServiceInformation.jsx';
 import VerifiedDocuments from './VerifiedDocuments.jsx';
 import ScreeningCommittee from '/imports/dashboard/ticketManagement/ScreeningCommittee.jsx';
 import TicketDocumentDetails from '/imports/dashboard/ticketManagement/TicketDocumentDetail.jsx';
+import RoleTicketStatus from './RoleTicketStatus.jsx';
+
+
 
 
 class Ticket extends TrackerReact(Component){
@@ -130,9 +133,12 @@ class Ticket extends TrackerReact(Component){
                                 <Link>View profile</Link>
                               </div>
                          </div>
+                         <div className="col-lg-6">
+                         <ServiceInformation ticketId={this.props.params.id}/>
+                         </div>
                         </div>
   
-                         <ServiceInformation ticketId={this.props.params.id}/>
+                         
                          <VerifiedDocuments ticketId={this.props.params.id}/>
                          {/* <TicketDocumentDetails ticketId={this.props.params.id}/> */}
                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -140,7 +146,7 @@ class Ticket extends TrackerReact(Component){
                                 <UserInformation ticketId={this.props.params.id} /> 
                               </div>
                              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                lorem1200
+                                <RoleTicketStatus ticketId={this.props.params.id}/>
                              </div>
                          </div>
                        </div> 
