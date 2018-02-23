@@ -131,6 +131,5 @@ verifiedDocumentsContainer = withTracker(props => {
           getTicket : getTicket,
           firstTicketElen : firstTicketElen,
       };
-    // }
 })(VerifiedDocuments);
 export default verifiedDocumentsContainer;

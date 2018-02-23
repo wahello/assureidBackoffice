@@ -227,6 +227,65 @@ if(Meteor.isServer){
 					}
 				}
 			)
+		},
+
+		'allocateToTeamMember':function(ticketId,firstName,lastName,allocateToMemberDetails){
+			var teamMemberDetails = Meteor.users.findOne({'profile.firstname':firstName,'profile.lastname':lastName})
+			TicketMaster.update(
+				{'_id':ticketId},
+				{   $push:{
+						'ticketElement':{
+							'empid': teamMemberDetails._id,
+							'role' : "team member",
+							'role_status':'New',
+							'createdAt': new Date(),
+							'permanentAddress' : allocateToMemberDetails.permanentAddress,
+							'currentAddress'   : allocateToMemberDetails.currentAddress,
+						}
+					}
+				}
+			)
+
+			TicketMaster.update(
+				{'_id':ticketId},
+				{   $set:{
+						'ticketElement.2.permanentAddress.status':"New",
+						'ticketElement.2.permanentAddress.statusDate': new Date(),
+						'ticketElement.1.role_status': "Allocated",					
+						'ticketElement.1.createdAt': new Date(),
+						'ticketElement.1.allocatedTo': firstName+" "+lastName,	
+					}
+				}
+			)
+
+		},
+
+		'updateTMStatus':function(ticketId,addressType,status){
+			console.log(ticketId,addressType,status);
+			if(addressType=="permanentAddress"){
+				TicketMaster.update(
+					{'_id':ticketId},
+					{   $set:{
+							
+							'ticketElement.2.permanentAddress.status': status,					
+							'ticketElement.2.permanentAddress.createdAt': new Date(),
+							
+						}
+					}
+				)
+			}else{
+				TicketMaster.update(
+					{'_id':ticketId},
+					{   $set:{
+							
+							'ticketElement.2.status': status,					
+							'ticketElement.2.createdAt': new Date(),
+							'ticketElement.2.Remark':""
+						}
+					}
+				)
+			}
+			
 		}
 	
 	  });

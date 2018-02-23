@@ -94,10 +94,7 @@ export default class CreateUser extends TrackerReact(Component) {
       if(handle.ready()){
         if(this.state.userSubscribe.ready()){
           var allusers = Meteor.users.find({"roles":{$nin:["user","superAdmin","admin"]}}).fetch();
-          var allRoles = Meteor.roles.find({}).fetch();
-          console.log("allusers :"+allusers);
-          console.log("allRoles :"+allRoles);
-          
+          var allRoles = Meteor.roles.find({}).fetch();         
           
           if(allusers.length >0 && allRoles.length >0){
             var newArr = [];

@@ -111,21 +111,17 @@ class ServiceInformation extends TrackerReact(Component){
    }
 }
 serviceContainer = withTracker(props => {
-  console.log('props: ',this.props);
+  
     var _id = props.ticketId;
-    // console.log("_id",_id);
     const postHandle = Meteor.subscribe('singleTicket',_id);
-    const getTicket  = TicketMaster.findOne({"_id" : _id}) || {};  
-    // console.log("getTicket",getTicket); 
-   
+    const getTicket  = TicketMaster.findOne({"_id" : _id}) || {};     
     const loading = !postHandle.ready();
 
-    // if(_id){
+    
       return {
           loading  : loading,
           getTicket : getTicket,
       };
-    // }
 })(ServiceInformation);
 export default serviceContainer;
 
