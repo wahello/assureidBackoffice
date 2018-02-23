@@ -6267,3 +6267,7 @@ td input:focus {
 .addressdetails{
   word-wrap: break-word;
 }
+.addressImage{
+  height: 120px;
+  width: 120px;
+}
