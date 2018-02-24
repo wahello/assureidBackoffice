@@ -7,7 +7,7 @@ import UMadd_role from './UMadd_role.jsx';
 export default class UMRolesList extends TrackerReact(Component) {
 
 	rolesListData(){
-		return Meteor.roles.find({"name":{ $nin: ["superAdmin"] } }).fetch();
+		return Meteor.roles.find({"name":{ $nin: ["superAdmin"] },"insertedFrom":"backOffice" }).fetch();
 	}
 
 	constructor(){

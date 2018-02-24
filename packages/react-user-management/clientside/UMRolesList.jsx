@@ -3,13 +3,10 @@ import { render } from 'react-dom';
 import TrackerReact from 'meteor/ultimatejs:tracker-react';
 import UMaddRoles from './UMaddRoles.jsx';
 import UMadd_role from './UMadd_role.jsx';
-
 export default class UMRolesList extends TrackerReact(Component) {
-
 	rolesListData(){
 		return Meteor.roles.find({}).fetch();
 	}
-
 	constructor(){
 		super();
 		this.state = {
@@ -18,11 +15,8 @@ export default class UMRolesList extends TrackerReact(Component) {
 			}
 		}
 	}
-
 	render(){
-
        return(
-
 				<section className="Content">
 					<div className="reportWrapper">
 						<div className="col-md-10 col-lg-12 col-sm-12 col-xs-12 noLRPad">
@@ -30,8 +24,6 @@ export default class UMRolesList extends TrackerReact(Component) {
 							<h1 className="reportTitleName tableTitle">LIST OF ROLES</h1>
 							<hr/>				
 								<UMaddRoles/>
-
-
 								<table className="table-responsive table table-striped table-hover myTable dataTable no-footer">
 									<thead className="table-head umtblhdr">
 										<tr className="hrTableHeader">
@@ -46,14 +38,10 @@ export default class UMRolesList extends TrackerReact(Component) {
 										}						
 									</tbody>
 								</table>
-
 							</div>
 						</div>
 					</div>
 				</section>
-       		
 	    );
-
 	} 
-
 }

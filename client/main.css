@@ -2112,3 +2112,10 @@ border-top: 0px;
 @media screen and (min-width: 992px) and (max-width: 1199px){
 }
 
+.searchDisplayHide{
+  display: none;
+}
+
+.searchDisplayShow{
+  display: block;
+}

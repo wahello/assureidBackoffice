@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import TrackerReact from 'meteor/ultimatejs:tracker-react';
-
 export default class UMaddRoles extends TrackerReact(Component) {
-
 	addRole(event){
 		  event.preventDefault();
 	      var roleName   = $("input[name=roleName]").val();
@@ -11,23 +9,20 @@ export default class UMaddRoles extends TrackerReact(Component) {
 	      // console.log('roleName : ' + roleName);
 	      // console.log('inputId : ' + inputId);
 	      Meteor.call('addrole', roleName,
-	                function(error, result) { 
-	                    if (error) {
-	                        console.log ( error ); 
-	                    } //info about what went wrong 
-	                    else {
-	                         // FlowRouter.go("/UMroles");
-	                    }//the _id of new object if successful
-	                }
-
-
+				function(error, result) { 
+					if (error) {
+						console.log ( error ); 
+					} //info about what went wrong 
+					else {
+						console.log ( 'result ',result ); 
+						Meteor.call('updaterole_from',result);
+							// FlowRouter.go("/UMroles");
+					}//the _id of new object if successful
+				}
 	        );
 	      $("input[name=roleName]").val('');	
-
 	}
-
 	render(){
-
        return(
 			<form id="addroles" className="col-lg-12 col-md-12 col-sm-12 col-xs-12 paddingLeftz noLRPad">
 				<div className="form-group col-lg-5 col-md-4 col-xs-7 col-sm-12 paddingLeftz noLRPad">
@@ -40,7 +35,5 @@ export default class UMaddRoles extends TrackerReact(Component) {
 				</div>
 			</form>
 	    );
-
 	} 
-
 }

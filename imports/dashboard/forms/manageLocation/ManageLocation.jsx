@@ -6,6 +6,7 @@ import {browserHistory} from 'react-router';
 import { Link } from 'react-router';
 import { withTracker } from 'meteor/react-meteor-data';
 import ListOfLocations from './ListOfLocations.jsx';
+import { Session} from 'meteor/session';
 
 class ManageLocation extends TrackerReact(Component) {
   constructor(props) {
@@ -18,7 +19,7 @@ class ManageLocation extends TrackerReact(Component) {
       pinCode  : '',
       button   : '',
       "subscription"  : {
-        "singleLocation" : Meteor.subscribe("singleLocation"),
+        "singleLocation" : Meteor.subscribe("location"),
       }
     }; 
     this.handleChange = this.handleChange.bind(this);
@@ -58,6 +59,7 @@ class ManageLocation extends TrackerReact(Component) {
      adminLte.src = "/js/adminLte.js";  
      $("body").append(adminLte);  
     }
+    // $('.showHideSearchList').addClass('searchDisplayHide').removeClass('searchDisplayShow');
   }
   componentWillMount() {
     // if (!!!$("link[href='/css/dashboard.css']").length > 0) {
@@ -114,8 +116,19 @@ class ManageLocation extends TrackerReact(Component) {
       });
     }
   }
+   buildRegExp(searchText) {
+    // console.log('buildRegExp business');
+    var words = searchText.trim().split(/[ \-\:]+/);
+    var exps = _.map(words, function(word) {
+      return "(?=.*" + word + ")";
+    });
+    var fullExp = exps.join('') + ".+";
+    return new RegExp(fullExp, "i");
+  }
 	render() {
+    
    return (
+
     <div className="content-wrapper">
       <section className="content-header">
         <h1> Master Data </h1>
@@ -139,7 +152,7 @@ class ManageLocation extends TrackerReact(Component) {
                           <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                             <div className="form-group">
                              <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12 label-category">Country</label>
-                               <input type="text" ref="country" id="country" name="country" value={this.state.country} className="templateName country col-lg-12 col-md-12 col-sm-12 col-xs-12 inputValid required" onChange={this.handleChange} />
+                               <input type="text" ref="country" id="country" name="country" value={this.state.country} className="templateName country col-lg-12 col-md-12 col-sm-12 col-xs-12 inputValid required"  />
                             </div>
                            </div>
                            <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">

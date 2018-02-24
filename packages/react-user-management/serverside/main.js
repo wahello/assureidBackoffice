@@ -5,7 +5,6 @@ import { Tracker } from 'meteor/tracker';
 import { check } from 'meteor/check';
 import { Email } from 'meteor/email';
 // import { CheckedField } from '../clientside/api/checklist.js';
-
 if (Meteor.isServer) {
   // Meteor.publish('signUpConfig', function() {
   //     this.unblock();
@@ -51,11 +50,9 @@ if (Meteor.isServer) {
       // this.unblock();
       return Meteor.roles.find({"_id":id});
   });
-
 }
 
 Meteor.methods({
-
   'userSignUp' : function(formValues) {
     newUserId = Accounts.createUser({
                                 username    : formValues.signupEmail,
@@ -73,7 +70,6 @@ Meteor.methods({
 
   checkcurrentPassword: function(digest, urlUID) {
     check(digest, String);
-
     if (urlUID) {
       var user = Meteor.user();
       var password = {digest: digest, algorithm: 'sha-256'};
@@ -106,11 +102,9 @@ Meteor.methods({
               "profile.displayPicture":  doc.displayPicture1,
               "profile.status"       :  'Active',
               "profile.createdOn"    :  new Date(),
-
         } //End of set
       }
       );
-
     Accounts.setPassword(urlUID, passwordVar1);
   },
 
@@ -134,13 +128,11 @@ Meteor.methods({
               "profile.lastName": doc.lastNameVar1,
               "profile.displayPicture":  doc.displayPicture1,
               "profile.signupConfirmPassword":  userFormValues.signupConfirmPasswordVar1,
-                      "profile.status"      :  'Active',
-                      "profile.createdOn" :  new Date(),
-
-        } //End of set
-      }
+              "profile.status"      :  'Active',
+              "profile.createdOn" :  new Date(),
+              } //End of set
+        }
       );
-
     Accounts.setPassword(urlUID, userFormValues.passwordVar1);
   },
 
@@ -151,12 +143,15 @@ Meteor.methods({
                           {
                             $set:{
                                     "name": roleName,
+                                    "insertedFrom":"backOffice",
                           } //End of set
                         });
   },
 
+  
+
   addrole: function (roleName) {
-      Roles.createRole(roleName);
+      return Roles.createRole(roleName);
   },
 
   deleteUser: function(userId){
@@ -345,28 +340,28 @@ Meteor.methods({
   },
 
 
-      'sendMailToStudent': function (body) {
-          var Id = Meteor.userId();
-          var mailReceipant = Meteor.users.findOne({'_id':Id});
-          if(mailReceipant){
+  'sendMailToStudent': function (body) {
+      var Id = Meteor.userId();
+      var mailReceipant = Meteor.users.findOne({'_id':Id});
+      if(mailReceipant){
 
-              var imgUri = "images/banner.jpg";
-              var image  = Meteor.absoluteUrl(imgUri)  //for proper image src URLs
-              var body   = '<div class="container-fluid"><img src='+image+' class="img-responsive col-lg-12 col-md-12 col-sm-12 col-xs-12"><div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">Dear Student,</div><br><div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">Welcome to Musissive!</div><br><div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">Thank you for signing up on Musissive. We appreciate your decision of choosing musissive to learn music online.</div><br><div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">We are an open portal, aiming to provide you quality music learning experience where you can find teachers from all over India and learn music online at your own convenience. </div><br><div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">Start Learning and start Musifying India !</div><br><br><div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">Regards,</div><div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">Team Musissive</div></div>';
-              var to     = mailReceipant.emails[0].address;
-              var welcomePdfPath = 'WelcomePDF/Welcome.pdf';
-              var attachment     = Meteor.absoluteUrl(welcomePdfPath);
+          var imgUri = "images/banner.jpg";
+          var image  = Meteor.absoluteUrl(imgUri)  //for proper image src URLs
+          var body   = '<div class="container-fluid"><img src='+image+' class="img-responsive col-lg-12 col-md-12 col-sm-12 col-xs-12"><div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">Dear Student,</div><br><div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">Welcome to Musissive!</div><br><div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">Thank you for signing up on Musissive. We appreciate your decision of choosing musissive to learn music online.</div><br><div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">We are an open portal, aiming to provide you quality music learning experience where you can find teachers from all over India and learn music online at your own convenience. </div><br><div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">Start Learning and start Musifying India !</div><br><br><div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">Regards,</div><div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">Team Musissive</div></div>';
+          var to     = mailReceipant.emails[0].address;
+          var welcomePdfPath = 'WelcomePDF/Welcome.pdf';
+          var attachment     = Meteor.absoluteUrl(welcomePdfPath);
 
-              Email.send({
-                to      : to,
-                from    : 'musissive@gmail.com',
-                subject : 'Welcome to Musissive!',
-                html    : body,
-                attachments: [{ filename : "Welcome.pdf", path : attachment }],
-              });
-          } // end if mailReceipant
+          Email.send({
+            to      : to,
+            from    : 'musissive@gmail.com',
+            subject : 'Welcome to Musissive!',
+            html    : body,
+            attachments: [{ filename : "Welcome.pdf", path : attachment }],
+          });
+      } // end if mailReceipant
 
-      }, //End of Send Email Function
+  }, //End of Send Email Function
 
 });
 
@@ -407,17 +402,13 @@ Meteor.startup(() => {
   Accounts.urls.verifyEmail = function(token){
       return Meteor.absoluteUrl("verify-email/" + token);
   };
-
   // Welcome and Email Verification
-
   Accounts.emailTemplates.verifyEmail.subject = function(user) {
     return 'Verify Account with RRN';
   };
-
   Accounts.emailTemplates.verifyEmail.html = function(user, url) {
     return 'Hello,<br><br>Thank You for Signing up on Rotary Referal Network. Please verify your email address to continue the app use.<br><br>To verify your account email, simply click the link below:<br>'+'\n' + url + '<br><br>Regards,<br>Team RRN';
   };
-
   // Accounts.emailTemplates.verifyEmail.html = function (user, url) {
   //   // return html string
   //   return Handlebars.templates.verifyEmail_html({
@@ -425,6 +416,5 @@ Meteor.startup(() => {
   //     url: url,
   //   });
   // };
-
 });
 

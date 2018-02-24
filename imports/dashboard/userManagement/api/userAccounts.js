@@ -327,12 +327,26 @@ Meteor.methods({
                           {
                             $set:{
                                     "name": roleName,
+                                    "insertedFrom":"backOffice",
+                          } //End of set
+                        });
+  },
+
+  updaterole_from: function (roleId) {
+    // console.log(roleId);
+    // console.log(roleName);
+      Meteor.roles.update({'_id': roleId },
+                          {
+                            $set:{
+                                    "insertedFrom":"backOffice",
                           } //End of set
                         });
   },
 
   addrole: function (roleName) {
-      Roles.createRole(roleName);
+     var data = Roles.createRole(roleName);
+     Meteor.call('updaterole_from',data);
+     console.log('data ',data);
   },
 
   deleteUser: function(userId){
