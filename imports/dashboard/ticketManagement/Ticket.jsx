@@ -140,7 +140,7 @@ class Ticket extends TrackerReact(Component){
   
                          
                          <VerifiedDocuments ticketId={this.props.params.id}/>
-                         {/* <TicketDocumentDetails ticketId={this.props.params.id}/> */}
+                         <TicketDocumentDetails ticketId={this.props.params.id}/>
                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                 <UserInformation ticketId={this.props.params.id} /> 
