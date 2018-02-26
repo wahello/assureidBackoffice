@@ -140,3 +140,7 @@
 .notDisplay{
   display: none;
 }
+.noLRPad{
+  padding-left: 0%!important;
+  padding-right: 0%!important;
+}

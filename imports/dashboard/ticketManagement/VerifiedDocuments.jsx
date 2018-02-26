@@ -106,23 +106,17 @@ class VerifiedDocuments extends TrackerReact(Component){
   }
 }
 verifiedDocumentsContainer = withTracker(props => {
-  console.log('props: ',this.props);
+  
     var _id = props.ticketId;
-    console.log("_id",_id);
     const postHandle = Meteor.subscribe('singleTicket',_id);
     const getTicket  = TicketMaster.findOne({"_id" : _id}) || {};  
-    console.log("getTicket",getTicket); 
     if (getTicket) {
       var ticketElement = getTicket.ticketElement;
-      console.log("ticketElement",ticketElement);
       if (ticketElement) {
          var firstTicketElen = ticketElement[0];
-        console.log("firstTicketElen",firstTicketElen);
       }
      
     }
-    
-    
     const loading = !postHandle.ready();
 
     // if(_id){

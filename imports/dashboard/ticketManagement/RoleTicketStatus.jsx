@@ -98,6 +98,21 @@ constructor(props){
                             <button type="button" className="btn-danger col-lg-5 teammember" data-status="Rejected" data-addressType = {this.props.getTicket.addressType} data-id={this.props.ticketId} onClick={this.changeTMStatus.bind(this)}>Reject</button>
                         </div>
                     );
+                }else{
+                   return(
+                       <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div className="radio col-lg-3 noLRPad">
+                            <label className="noLRPad"><input type="radio" name="optradio" value="Self" className="optradio"/>Self</label>
+                            </div>
+                            <div className="radio col-lg-6 noLRPad">
+                            <label className="noLRPad"><input type="radio" name="optradio" value="Field Expert" className="optradio"/>Field Expert</label>
+                            </div>
+                            <div className="radio col-lg-3 noLRPad">
+                            <label className="noLRPad"><input type="radio" name="optradio" value="BA" className="optradio"/>BA</label>
+                            </div>
+                        </div>
+                    );
+                    
                 }
                     
 

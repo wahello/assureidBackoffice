@@ -262,7 +262,7 @@ if(Meteor.isServer){
 
 		'updateTMStatus':function(ticketId,addressType,status){
 			console.log(ticketId,addressType,status);
-			if(addressType=="permanentAddress"){
+			if((addressType=="permanentAddress") && (status=="Accepted")){
 				TicketMaster.update(
 					{'_id':ticketId},
 					{   $set:{
@@ -273,18 +273,53 @@ if(Meteor.isServer){
 						}
 					}
 				)
+			}else if((addressType=="currentAddress") && (status=="Accepted")){
+				TicketMaster.update(
+					{'_id':ticketId},
+					{   $set:{
+							
+						'ticketElement.2.currentAddress.status': status,					
+						'ticketElement.2.currentAddress.createdAt': new Date(),
+							// 'ticketElement.2.currentAddress.Remark':""
+						}
+					}
+				)
+			}else if((addressType=="currentAddress") && (status=="Rejected")){
+				TicketMaster.update(
+					{'_id':ticketId},
+					{   $set:{
+							
+						'ticketElement.2.currentAddress.status': status,					
+						'ticketElement.2.currentAddress.createdAt': new Date(),
+						'ticketElement.2.currentAddress.Remark':""
+						}
+					}
+				)
 			}else{
 				TicketMaster.update(
 					{'_id':ticketId},
 					{   $set:{
 							
-							'ticketElement.2.status': status,					
-							'ticketElement.2.createdAt': new Date(),
-							'ticketElement.2.Remark':""
+						'ticketElement.2.permanentAddress.status': status,					
+						'ticketElement.2.permanentAddress.createdAt': new Date(),
+						'ticketElement.2.permanentAddress.Remark':""
 						}
 					}
 				)
 			}
+
+			TicketMaster.update(
+				{'_id':ticketId},
+				{   $set:{
+						
+						'ticketElement.2.role_status': "Accepted",					
+						'ticketElement.2.createdAt': new Date(),
+						
+					}
+				}
+			)
+
+
 			
 		}
 	

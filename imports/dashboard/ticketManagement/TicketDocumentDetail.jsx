@@ -17,7 +17,7 @@ import {CompanySettings} from '/imports/dashboard/companySetting/api/CompanySett
 
 
 
-export default class TicketDocumentDetails extends TrackerReact(Component){
+class TicketDocumentDetails extends TrackerReact(Component){
   constructor(props){
     super(props);
     
@@ -53,61 +53,98 @@ export default class TicketDocumentDetails extends TrackerReact(Component){
   }
 
     componentDidMount(){
-        this.ticketTracket=Tracker.autorun(()=>{
-            if(this.state.subscription.singleTicket.ready()){
-                var ticketId = this.props.ticketId;
+    //     this.ticketTracket=Tracker.autorun(()=>{
+    //         if(this.state.subscription.singleTicket.ready()){
+    //             var ticketId = this.props.ticketId;
                 
                 
-                var ticketObj = TicketMaster.findOne({'_id':ticketId,'ticketElement.0.empid':Meteor.userId()});
-                // console.log(ticketObj);
-                if(ticketObj){
-                    if(ticketObj.addressType == "currentAddress"){
-                        console.log(ticketObj.addressType);
-                        var arrLen = ticketObj.ticketElement[0].currentAddress.length;
-                        var index  = arrLen-1;
-                        console.log(arrLen);
+    //             var ticketObj = TicketMaster.findOne({'_id':ticketId,'ticketElement.0.empid':Meteor.userId()});
+    //             // console.log(ticketObj);
+    //             if(ticketObj){
+    //                 if(ticketObj.addressType == "currentAddress"){
+    //                     console.log(ticketObj.addressType);
+    //                     var arrLen = ticketObj.ticketElement[0].currentAddress.length;
+    //                     var index  = arrLen-1;
+    //                     console.log(arrLen);
                         
-                        this.setState({
-                            'ticketId': ticketId,
-                            'index': index,
-                            'addressType': "Current Address",
-                            'ticketDocDetails':ticketObj.ticketElement[0].currentAddress[arrLen-1],
-                        });
+    //                     this.setState({
+    //                         'ticketId': ticketId,
+    //                         'index': index,
+    //                         'addressType': "Current Address",
+    //                         'ticketDocDetails':ticketObj.ticketElement[0].currentAddress[arrLen-1],
+    //                     });
                         
-                    } else if(ticketObj.addressType == "permanentAddress"){
-                        var currentPos = 0;
-                        var arrLen = ticketObj.ticketElement[0].permanentAddress.length;
-                        var index  = arrLen-1;
-                        this.setState({
-                            'ticketId': ticketId,
-                            'index': index,
-                            'addressType': "Permanent Address",
-                            'ticketDocDetails':ticketObj.ticketElement[0].permanentAddress[arrLen-1],
-                        });
-                        console.log(this.state.ticketDocDetails);
+    //                 } else if(ticketObj.addressType == "permanentAddress"){
+    //                     var currentPos = 0;
+    //                     var arrLen = ticketObj.ticketElement[0].permanentAddress.length;
+    //                     var index  = arrLen-1;
+    //                     this.setState({
+    //                         'ticketId': ticketId,
+    //                         'index': index,
+    //                         'addressType': "Permanent Address",
+    //                         'ticketDocDetails':ticketObj.ticketElement[0].permanentAddress[arrLen-1],
+    //                     });
+    //                     console.log(this.state.ticketDocDetails);
                         
-                    } 
-                }
-            }
-        });
-        
-
+    //                 } 
+    //             }
+    //         }
+    //     });
     }
 
+    componentWillReceiveProps(nextProps){
+
+        if(!nextProps.loading){
+            var ticketId = this.props.ticketId;
+            console.log("inside component will receive props ticketId :"+ticketId);
+            var ticketObj = TicketMaster.findOne({'_id':ticketId,'ticketElement.0.empid':Meteor.userId()});
+            // console.log(ticketObj);
+            if(ticketObj){
+                console.log(ticketObj);
+                if(ticketObj.addressType == "currentAddress"){
+                    // console.log(ticketObj.addressType);
+                    var arrLen = ticketObj.ticketElement[0].currentAddress.length;
+                    var index  = arrLen-1;
+                    // console.log(arrLen);
+                    
+                    this.setState({
+                        'ticketId': ticketId,
+                        'index': index,
+                        'addressType': "Current Address",
+                        'ticketDocDetails':ticketObj.ticketElement[0].currentAddress[arrLen-1],
+                    });
+                    
+                } else if(ticketObj.addressType == "permanentAddress"){
+                    var currentPos = 0;
+                    var arrLen = ticketObj.ticketElement[0].permanentAddress.length;
+                    var index  = arrLen-1;
+                    this.setState({
+                        'ticketId': ticketId,
+                        'index': index,
+                        'addressType': "Permanent Address",
+                        'ticketDocDetails':ticketObj.ticketElement[0].permanentAddress[arrLen-1],
+                    });
+                    // console.log(this.state.ticketDocDetails);
+                    
+                } 
+            }
+        }
+           
+    }
     updateTicketStatus(event){
 
         event.preventDefault();
-        console.log("inside onclick");
+        // console.log("inside onclick");
         var ticketId = $(event.currentTarget).attr('data-id');  
-        console.log("ticketId :"+ticketId);
+        // console.log("ticketId :"+ticketId);
         var ticketObj = TicketMaster.findOne({'_id':ticketId,'ticketElement.empid':Meteor.userId()});                         
         if(ticketObj){
-            console.log(ticketObj);
+            // console.log(ticketObj);
             if(ticketObj.serviceName == 'Address Verification'){
                 var permanentLen = ticketObj.ticketElement[0].permanentAddress.length;
                 var currentLen = ticketObj.ticketElement[0].currentAddress.length;
-                console.log("permanentLen :"+permanentLen);
-                console.log("currentLen :"+currentLen);
+                // console.log("permanentLen :"+permanentLen);
+                // console.log("currentLen :"+currentLen);
                 // if((ticketObj.ticketElement[0].permanentAddress.length> 0) || (ticketObj.ticketElement[0].currentAddress.length>0)){
                 //     if((ticketObj.ticketElement[0].permanentAddress[permanentLen-1].status == "Approved") || (ticketObj.ticketElement[0].currentAddress[currentLen-1].status== "Approved")){
                 //         var finalStatus = "Approved";           
@@ -332,3 +369,29 @@ export default class TicketDocumentDetails extends TrackerReact(Component){
     );
    }
 }
+ticketDocDetailContainer = withTracker(props => {
+    //   console.log('props: ',this.props);
+        var _id = props.ticketId;
+        // console.log("_id",_id);
+        const postHandle = Meteor.subscribe('singleTicket',_id);
+        const userfunction = Meteor.subscribe('userfunction');
+        const singleTicket = Meteor.subscribe("allTickets"); 
+        const ticketBucket = Meteor.subscribe("allTicketBucket");
+        const userProfilSubscribe = Meteor.subscribe("userProfileData");   
+        const companyData   = Meteor.subscribe("companyData");      
+        
+        const getTicket  = TicketMaster.findOne({"_id" : _id}) || {};  
+        // console.log("getTicket",getTicket); 
+       
+        const loading = !postHandle.ready() && !userfunction.ready() && !singleTicket.ready() && !ticketBucket.ready() && !userProfilSubscribe.ready() && !companyData.ready();
+    
+        // if(_id){
+          return {
+              loading  : loading,
+              getTicket : getTicket,
+              ticketId  : _id
+          };
+        // }
+    })(TicketDocumentDetails);
+    export default ticketDocDetailContainer;
+    
