@@ -268,12 +268,6 @@ class TicketDocumentDetails extends TrackerReact(Component){
     // console.log("id = ",this.props.params.id);
     return(            
       <div className ="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-    {/* //     <div className="content-wrapper">
-    //       <section className="content">
-    //         <div className="row">
-    //           <div className="col-md-12">
-    //             <div className="box"> */}
-
                   <div className="box-header with-border">
                    <h2 className="box-title">Address Documents</h2> 
                   </div>

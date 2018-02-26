@@ -6271,3 +6271,7 @@ td input:focus {
   height: 120px;
   width: 120px;
 }
+.noLRPad{
+  padding-left: 0%!important;
+  padding-right: 0%!important;
+}

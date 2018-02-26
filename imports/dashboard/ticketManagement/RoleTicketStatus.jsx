@@ -21,7 +21,8 @@ constructor(props){
       "subscription" : {
         "allTickets" : Meteor.subscribe("allTickets"), 
         "userfunction" : Meteor.subscribe('userfunction'),
-      } 
+      },
+      'radioState':'Self', 
     }
   }
   allocateToTeamMember(event){
@@ -49,6 +50,30 @@ constructor(props){
       Meteor.call('updateTMStatus',ticketId,addressType,status);
   }
 
+  /*Get radio value and display dropdown and textbox*/
+  getRadioValue(event){
+    event.preventDefault();
+    var radioValue = $(event.currentTarget).val();
+    this.setState({
+        'radioState':radioValue,
+    });
+  }
+
+  /*Add BA Details  */
+  addBADetails(event){
+    event.preventDefault();
+    var baName = this.refs.BAName.value;
+    Meteor.call("addBADetails",baName,(error,result)=>{
+        if(result){
+            swal({
+                title: "BA name added!",
+                text: "BA name added successfully",
+                icon: "success",
+              });
+
+        }
+    })
+  }
 
   roleSwitch(roleStatus,role,empid){
     if (!this.props.loading) {
@@ -100,15 +125,45 @@ constructor(props){
                     );
                 }else{
                    return(
-                       <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div className="radio col-lg-3 noLRPad">
-                            <label className="noLRPad"><input type="radio" name="optradio" value="Self" className="optradio"/>Self</label>
+                       <div>
+                        <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div className="radio col-lg-3 noLRPad">
+                                <label className="noLRPad"><input type="radio" name="optradio" value="Self" className="optradio" checked={this.state.radioState ==="Self"} onChange={this.getRadioValue.bind(this)}/>Self</label>
+                                </div>
+                                <div className="radio col-lg-6 noLRPad">
+                                <label className="noLRPad"><input type="radio" name="optradio" value="Field Expert" className="optradio" checked={this.state.radioState ==="Field Expert"} onChange={this.getRadioValue.bind(this)}/>Field Expert</label>
+                                </div>
+                                <div className="radio col-lg-3 noLRPad">
+                                <label className="noLRPad"><input type="radio" name="optradio" value="BA" className="optradio" checked={this.state.radioState ==="BA"} onChange={this.getRadioValue.bind(this)}/>BA</label>
+                                </div>
                             </div>
-                            <div className="radio col-lg-6 noLRPad">
-                            <label className="noLRPad"><input type="radio" name="optradio" value="Field Expert" className="optradio"/>Field Expert</label>
-                            </div>
-                            <div className="radio col-lg-3 noLRPad">
-                            <label className="noLRPad"><input type="radio" name="optradio" value="BA" className="optradio"/>BA</label>
+                        <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12">                            
+                                {
+                                    this.state.radioState == 'Field Expert'?
+
+                                    <select>
+                                        <option>Field Expert 1</option>
+                                        <option>Field Expert 2</option>
+                                        <option>Field Expert 3</option>
+                                        <option>Field Expert 4</option>
+                                        <option>Field Expert 5</option>
+                                    </select>
+                                    : 
+                                    this.state.radioState == 'BA'?
+                                    <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    
+                                        <div className="col-lg-6">
+                                         <input type="text" name="baName" className="banametext" ref="BAName"/>
+                                        </div>
+                                    
+                                        <div className="col-lg-6 noLRPad">                                        
+                                         <button type="submit" value="Submit" className="col-lg-6 noLRPad" onClick={this.addBADetails.bind(this)}>Submit</button>
+                                         </div>
+                                    </div>
+                                    :
+
+                                    ""
+                                }
                             </div>
                         </div>
                     );

@@ -3,6 +3,7 @@ import {Meteor} from 'meteor/meteor';
 
 export const TicketMaster = new Mongo.Collection("ticketMaster");
 export const TicketBucket = new Mongo.Collection("ticketbucket");
+export const BADetails = new Mongo.Collection("badetails");
 
 if(Meteor.isServer){
 	Meteor.publish('allTickets',()=>{
@@ -249,8 +250,8 @@ if(Meteor.isServer){
 			TicketMaster.update(
 				{'_id':ticketId},
 				{   $set:{
-						'ticketElement.2.permanentAddress.status':"New",
-						'ticketElement.2.permanentAddress.statusDate': new Date(),
+						// 'ticketElement.2.permanentAddress.status':"New",
+						// 'ticketElement.2.permanentAddress.statusDate': new Date(),
 						'ticketElement.1.role_status': "Allocated",					
 						'ticketElement.1.createdAt': new Date(),
 						'ticketElement.1.allocatedTo': firstName+" "+lastName,	
@@ -318,9 +319,15 @@ if(Meteor.isServer){
 					}
 				}
 			)
+		},
 
+		'addBADetails':function(BAName){
 
-			
+			var badetails = BADetails.insert({
+				'BAName':BAName,
+			});
+			return badetails;
+
 		}
 	
 	  });
