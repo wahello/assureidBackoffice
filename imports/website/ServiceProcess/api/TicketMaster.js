@@ -327,8 +327,9 @@ if(Meteor.isServer){
 				'BAName':BAName,
 			});
 			return badetails;
+		},
 
-		}
+		
 	
 	  });
 

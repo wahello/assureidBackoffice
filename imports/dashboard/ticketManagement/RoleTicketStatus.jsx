@@ -157,7 +157,7 @@ constructor(props){
                                         </div>
                                     
                                         <div className="col-lg-6 noLRPad">                                        
-                                         <button type="submit" value="Submit" className="col-lg-6 noLRPad" onClick={this.addBADetails.bind(this)}>Submit</button>
+                                         <button type="submit" value="Submit" className="col-lg-6 noLRPad" onClick={this.addBADetails.bind(this)} data-addressType = {this.props.getTicket.addressType} data-id={this.props.ticketId} data-role={this.state.radioState}>Submit</button>
                                          </div>
                                     </div>
                                     :
