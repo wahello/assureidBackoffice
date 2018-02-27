@@ -6191,8 +6191,8 @@ td input:focus {
 .ticketServiceWrapper{
  padding: 2%;
   height: 200px;
- border-bottom: 1px solid rgba(74,74,74,0.3);
- border-top: 1px solid rgba(74,74,74,0.3);
+ /*border-bottom: 1px solid rgba(74,74,74,0.3);
+ border-top: 1px solid rgba(74,74,74,0.3);*/
 }
 .outerTickeBlock{
   padding-top: 7%;
@@ -6274,4 +6274,95 @@ td input:focus {
 .noLRPad{
   padding-left: 0%!important;
   padding-right: 0%!important;
+}
+.addressImageModal{
+  height: 400px;
+}
+.selectimg{
+margin-bottom: 20px!important;   
+}
+
+.imgbox{
+height: 350px;
+border: 1px solid #aaa;
+/*background: #202020;*/
+margin-top:  20px;
+}
+.img1{
+padding-left: 5px;
+width: 199px;
+margin: 10px;
+margin-left: 0px;
+}
+.selectvideo{
+height: 350px;
+border: 1px solid #aaa;
+}
+.choosefilebox{
+margin-bottom: 20px!important;
+
+}
+.imgbr{
+border: 1px solid #ddd;
+    display: flex;
+    max-height: 150px;
+    min-height: 150px;
+}
+.imgbrvid{
+border: 1px solid #ddd;
+margin: 5px;
+    width: 305px!important;
+  
+}
+.wholeborder{
+border: 1px solid #aaa;
+height: 450px;
+}
+
+/*circle*/
+
+.circle1{
+border-radius: 100%;
+border:1px solid #aaa;
+width: 20px;
+height: 20px;
+margin-left: 10px;
+
+}
+.comptitle{
+margin-bottom: 20px;
+}
+.afterdash{
+margin-bottom: 50px;
+}
+.dash1{
+border:1px solid #aaa;
+width: 111px;
+margin-top: -10px;
+margin-left: 29px;
+}
+.circlebox{
+    height: 40px;
+}
+.imgbrPre{
+margin-top: 10px;
+margin-bottom: 10px;
+}
+
+.sidecls{
+width: 130px!important;
+}
+.sidecls1{
+width: 130px!important;
+margin-top: 20px;
+}
+.outerDocumentStatus{
+ border-bottom: 1px solid rgba(74,74,74,0.3);
+  padding-left: 0;
+  padding-right: 0;
+  padding-top: 2%;
+  padding-bottom: 2%;
+}
+.statusComplete{
+  background: #00b8ff;
 }

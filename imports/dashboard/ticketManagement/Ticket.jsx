@@ -16,9 +16,8 @@ import VerifiedDocuments from './VerifiedDocuments.jsx';
 import ScreeningCommittee from '/imports/dashboard/ticketManagement/ScreeningCommittee.jsx';
 import TicketDocumentDetails from '/imports/dashboard/ticketManagement/TicketDocumentDetail.jsx';
 import RoleTicketStatus from './RoleTicketStatus.jsx';
-
-
-
+import DocumentStatus from './DocumentStatus.jsx';
+import AddImagesVideo from './AddImagesVideo.jsx';
 
 class Ticket extends TrackerReact(Component){
   constructor(props){
@@ -84,6 +83,9 @@ class Ticket extends TrackerReact(Component){
                               <i className="fa fa-file-pdf-o ticketIcons"  title="pdf"></i>  
                            </div>
                           </div> 
+                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outerDocumentStatus">
+                            <DocumentStatus ticket={this.props.getTicket}/>
+                          </div>
                           <div className="ticketPills col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                               <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
@@ -149,6 +151,7 @@ class Ticket extends TrackerReact(Component){
                                 <RoleTicketStatus ticketId={this.props.params.id}/>
                              </div>
                          </div>
+                         {/*<AddImagesVideo />*/}
                        </div> 
                     </div>
                   </div>

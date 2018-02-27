@@ -22,6 +22,13 @@ class VerifiedDocuments extends TrackerReact(Component){
       } 
     }
   }
+  showDocuments(event){
+    event.preventDefault();
+    var idVal= $(event.currentTarget).attr('data-target');
+     // console.log("idVal",idVal);
+    $('#'+idVal).modal('show');
+    // Session.set('editExp','editexperienceinfo');
+  }
   render(){
     if (!this.props.loading) {
      return(            
@@ -35,22 +42,59 @@ class VerifiedDocuments extends TrackerReact(Component){
                    {this.props.firstTicketElen.permanentAddress ?
                       this.props.firstTicketElen.permanentAddress.map((permanentAddrProof, index)=>{
                         return (
-                           <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3" key={index}>
-                             <img src={permanentAddrProof.proofOfPermanentAddr} className="img-responsive addressImage"/>
-                           </div>
+                          <div key={index}>
+                             <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3" >
+                               {/*<i className="fa fa-times-circle timeCircle"></i>**/}
+                               <div data-toggle="modal" data-target={"showDocumnetsModal-"+index} onClick={this.showDocuments.bind(this)}>
+                                 <img src={permanentAddrProof.proofOfPermanentAddr} className="img-responsive addressImage"/>
+                              </div>
+                             </div>
+                             <div className="modal fade" id={"showDocumnetsModal-"+index} role="dialog">
+                              <div className="modal-dialog">
+                                <div className="modal-content">
+                                  <div className="modal-body">
+                                    <button type="button" className="close" data-dismiss="modal">&times;</button>
+                                    <div className="row">
+                                      <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <img src={permanentAddrProof.proofOfPermanentAddr}  className="img-responsive addressImageModal col-lg-12 col-md-12 col-sm-12 col-xs-12"/>
+                                      </div>
+                                    </div> 
+                                  </div>
+                                </div> 
+                              </div>
+                            </div> 
+                          </div>
                           ); 
-                      })
-                      :
+                      }) 
+                      : 
                       ""
                    }
                  
                    {this.props.firstTicketElen.currentAddress ?
                       this.props.firstTicketElen.currentAddress.map((currentAddrProof, index)=>{
                         return (
-                           <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3" key={index}>
-                            <img src={currentAddrProof.proofOfCurrentAddr} className="img-responsive addressImage"/>
+                          <div key={index}>
+                           <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3" >
+                             <div data-toggle="modal" data-target={"showcurrentDocumnetsModal-"+index} onClick={this.showDocuments.bind(this)}>
+                               <img src={currentAddrProof.proofOfCurrentAddr} className="img-responsive addressImage"/>
+                             </div>
                            </div>
-                          );
+                            <div className="modal fade" id={"showcurrentDocumnetsModal-"+index} role="dialog">
+                              <div className="modal-dialog">
+                                <div className="modal-content">
+                                  <div className="modal-body">
+                                    <button type="button" className="close" data-dismiss="modal">&times;</button>
+                                    <div className="row">
+                                      <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <img src={currentAddrProof.proofOfCurrentAddr}  className="img-responsive addressImageModal col-lg-12 col-md-12 col-sm-12 col-xs-12"/>
+                                      </div>
+                                    </div> 
+                                  </div>
+                                </div> 
+                              </div>
+                            </div> 
+                          </div>
+                        );
                       })
                       :
                       ""
@@ -64,8 +108,26 @@ class VerifiedDocuments extends TrackerReact(Component){
                    {this.props.firstTicketElen.permanentAddress ?
                       this.props.firstTicketElen.permanentAddress.map((permanentAddrProof, index)=>{
                         return (
-                           <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3" key={index}>
-                            <img src={permanentAddrProof.proofOfPermanentAddr} className="img-responsive addressImage"/>
+                           <div key={index}>
+                             <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3" >
+                               <div data-toggle="modal" data-target={"showPermanentDocumnetsModal-"+index} onClick={this.showDocuments.bind(this)}>
+                                <img src={permanentAddrProof.proofOfPermanentAddr} className="img-responsive addressImage"/>
+                                </div>
+                             </div>
+                              <div className="modal fade" id={"showPermanentDocumnetsModal-"+index} role="dialog">
+                                <div className="modal-dialog">
+                                  <div className="modal-content">
+                                    <div className="modal-body">
+                                      <button type="button" className="close" data-dismiss="modal">&times;</button>
+                                      <div className="row">
+                                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                          <img src={permanentAddrProof.proofOfPermanentAddr}  className="img-responsive addressImageModal col-lg-12 col-md-12 col-sm-12 col-xs-12"/>
+                                        </div>
+                                      </div> 
+                                    </div>
+                                  </div> 
+                                </div>
+                              </div> 
                            </div>
                           );
                       })
@@ -81,9 +143,27 @@ class VerifiedDocuments extends TrackerReact(Component){
                    {this.props.firstTicketElen.currentAddress ?
                       this.props.firstTicketElen.currentAddress.map((currentAddrProof, index)=>{
                         return (
-                           <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3" key={index}>
-                            <img src={currentAddrProof.proofOfCurrentAddr} className="img-responsive addressImage"/>
+                          <div key={index}>
+                           <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3" >
+                            <div data-toggle="modal" data-target={"CurrentAddrDocumnetsModal-"+index} onClick={this.showDocuments.bind(this)}>
+                              <img src={currentAddrProof.proofOfCurrentAddr} className="img-responsive addressImage"/>
+                            </div>
                            </div>
+                           <div className="modal fade" id={"CurrentAddrDocumnetsModal-"+index} role="dialog">
+                              <div className="modal-dialog">
+                                <div className="modal-content">
+                                  <div className="modal-body">
+                                    <button type="button" className="close" data-dismiss="modal">&times;</button>
+                                    <div className="row">
+                                      <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <img src={currentAddrProof.proofOfCurrentAddr}  className="img-responsive addressImageModal col-lg-12 col-md-12 col-sm-12 col-xs-12"/>
+                                      </div>
+                                    </div> 
+                                  </div>
+                                </div> 
+                              </div>
+                            </div> 
+                          </div>
                           );
                       })
                       :
@@ -105,8 +185,7 @@ class VerifiedDocuments extends TrackerReact(Component){
    
   }
 }
-verifiedDocumentsContainer = withTracker(props => {
-  
+verifiedDocumentsContainer = withTracker(props => {  
     var _id = props.ticketId;
     const postHandle = Meteor.subscribe('singleTicket',_id);
     const getTicket  = TicketMaster.findOne({"_id" : _id}) || {};  
