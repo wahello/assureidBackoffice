@@ -152,8 +152,8 @@ class Ticket extends TrackerReact(Component){
                                 <RoleTicketStatus ticketId={this.props.params.id}/>
                              </div>
                          </div>
-                         {/*<AddImagesVideo />*/}
                        </div>
+                         <AddImagesVideo />
                        </div> 
                     </div>
                   </div>

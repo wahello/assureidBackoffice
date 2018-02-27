@@ -6289,10 +6289,9 @@ margin-bottom: 20px!important;
 }
 
 .imgbox{
-height: 350px;
+height: auto;
 border: 1px solid #aaa;
-/*background: #202020;*/
-margin-top:  20px;
+padding: 2%;
 }
 .img1{
 padding-left: 5px;
@@ -6317,12 +6316,13 @@ border: 1px solid #ddd;
 .imgbrvid{
 border: 1px solid #ddd;
 margin: 5px;
-    width: 305px!important;
+    /*width: 305px!important;*/
   
 }
 .wholeborder{
-border: 1px solid #aaa;
-height: 450px;
+    border: 1px solid #aaa;
+    height: auto;
+    padding: 2%;
 }
 
 /*circle*/
@@ -6369,7 +6369,7 @@ margin-top: 20px;
   padding-top: 2%;
   padding-bottom: 2%;
 }
-.statusComplete{
+.statusComplete{ 
   background: #00b8ff;
 }
 
@@ -6392,4 +6392,7 @@ margin-top: 20px;
 }
 .radiobtn{
   margin-top:0%!important;
+} 
+.imgtitile{
+ margin-bottom: 2%;
 }
