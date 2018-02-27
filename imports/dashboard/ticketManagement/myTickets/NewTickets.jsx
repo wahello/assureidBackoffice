@@ -37,7 +37,7 @@ export default class NewTickets extends TrackerReact(Component){
                     var allTickets = TicketMaster.find({"ticketStatus.status":"New"}).fetch();
                     for(var i=0;i<allTickets.length;i++){
                         var allOrders = Order.findOne({"_id":allTickets[i].orderId});
-                        
+                        console.log('allTickets ',allTickets);
                         for(var j=0;j<allTickets[i].ticketStatus.length;j++){
                             var dateValue = allTickets[i].ticketStatus[0].createdAt;
                             var startdate = moment(dateValue).format('L');
@@ -46,6 +46,7 @@ export default class NewTickets extends TrackerReact(Component){
                             var month     = new_date.format('MM');
                             var year      = new_date.format('YYYY');
                             var tatDate   = month  + '/' + day + '/' + year;
+                            // var orderId   = allTickets[i].orderId;
                             
                         }
                         
@@ -117,7 +118,7 @@ export default class NewTickets extends TrackerReact(Component){
                                 return(
                                     <tr key={index}>
                                         <td><Link to={"/admin/ticket/"+data._id}>{data.ticketNumber}</Link></td>
-                                        <td>{this.state.orderId}</td>
+                                        <td>{data.orderNo}</td>
                                         <td>{data.serviceName}</td>
                                         <td>{moment(data.ticketStatus[0].createdAt).format('L')}</td>
                                         <td> {this.state.tatDate}</td>

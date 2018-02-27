@@ -122,10 +122,10 @@ export default class ApprovedTickets extends TrackerReact(Component){
                                 return(
                                     <tr key={index}>
                                         <td><Link to={"/admin/ticket/"+data._id}>{data.ticketNumber}</Link></td>
-                                        <td>{this.state.orderId}</td>
+                                        <td>{data.state.orderId}</td>
                                         <td>{data.serviceName}</td>
                                         <td>{moment(data.ticketStatus[0].createdAt).format('L')}</td>
-                                        <td> {this.state.tatDate}</td>
+                                        <td> {data.state.tatDate}</td>
                                         <td><button type="button" data-id={data._id} onClick={this.changeStatus.bind(this)} className=" newOrderbtn btn btn-primary">New</button></td>                                    
                                     </tr>
                                 );

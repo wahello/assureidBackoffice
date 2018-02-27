@@ -81,7 +81,7 @@ export default class MyTickets extends TrackerReact(Component){
                                     </div>
                                   </div>
                                 </div>
-                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tllistwrap" >
+                                {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tllistwrap" >
                                   <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                               
                                       <select className="tlselect">
@@ -91,7 +91,7 @@ export default class MyTickets extends TrackerReact(Component){
                                           <option value="Pooja Patil">Pooja Patil</option>
                                       </select>
                                   </div>
-                                </div>
+                                </div> */}
 
                                 <div className="col-lg-12">
                                   <table className="table table-bordered table-striped table-hover myTable dataTable no-footer">
