@@ -6191,14 +6191,11 @@ td input:focus {
 .ticketServiceWrapper{
  padding: 2%;
   height: 200px;
-<<<<<<< Updated upstream
  /*border-bottom: 1px solid rgba(74,74,74,0.3);
  border-top: 1px solid rgba(74,74,74,0.3);*/
-=======
  /* border-bottom: 1px solid rgba(74,74,74,0.3);
  border-top: 1px solid rgba(74,74,74,0.3); */
  border:1px solid rgba(74,74,74,0.3);
->>>>>>> Stashed changes
 }
 .outerTickeBlock{
   padding-top: 7%;
