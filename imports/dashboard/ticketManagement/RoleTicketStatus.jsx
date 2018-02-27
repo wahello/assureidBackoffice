@@ -62,17 +62,32 @@ constructor(props){
   /*Add BA Details  */
   addBADetails(event){
     event.preventDefault();
-    var baName = this.refs.BAName.value;
-    Meteor.call("addBADetails",baName,(error,result)=>{
+    var addressType = $(event.currentTarget).attr( "data-addressType"); 
+    var role        = $(event.currentTarget).attr('data-role');
+    var ticketId    = $(event.currentTarget).attr('data-id');
+    console.log(addressType,role,ticketId);
+    // var baName = this.refs.BAName.value;
+    // Meteor.call("addBADetails",baName,(error,result)=>{
+    //     if(result){
+    //         swal({
+    //             title: "BA name added!",
+    //             text: "BA name added successfully",
+    //             icon: "success",
+    //           });
+
+    //     }
+    // })
+
+    Meteor.call('genericTicketUpdate',addressType,role,ticketId,(error,result)=>{
         if(result){
             swal({
-                title: "BA name added!",
-                text: "BA name added successfully",
-                icon: "success",
-              });
+                            title: "Assing Ticket!",
+                            text: "Successfully Assign",
+                            icon: "success",
+            });
 
         }
-    })
+    });
   }
 
   roleSwitch(roleStatus,role,empid){
@@ -127,13 +142,13 @@ constructor(props){
                    return(
                        <div>
                         <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                <div className="radio col-lg-3 noLRPad">
+                                <div className="radio radiobtn col-lg-3 noLRPad">
                                 <label className="noLRPad"><input type="radio" name="optradio" value="Self" className="optradio" checked={this.state.radioState ==="Self"} onChange={this.getRadioValue.bind(this)}/>Self</label>
                                 </div>
-                                <div className="radio col-lg-6 noLRPad">
+                                <div className="radio col-lg-6 radiobtn noLRPad">
                                 <label className="noLRPad"><input type="radio" name="optradio" value="Field Expert" className="optradio" checked={this.state.radioState ==="Field Expert"} onChange={this.getRadioValue.bind(this)}/>Field Expert</label>
                                 </div>
-                                <div className="radio col-lg-3 noLRPad">
+                                <div className="radio radiobtn col-lg-3 noLRPad">
                                 <label className="noLRPad"><input type="radio" name="optradio" value="BA" className="optradio" checked={this.state.radioState ==="BA"} onChange={this.getRadioValue.bind(this)}/>BA</label>
                                 </div>
                             </div>
@@ -186,9 +201,9 @@ constructor(props){
 
         var roleDetails = Meteor.users.findOne({"_id":getTicket.ticketElement[i].empid});
           newCommeeteeArr.push(
-            <div key = {i} className="col-lg-12">
+            <div key = {i} className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
                 <div className="ticketServiceWrapper col-lg-12 col-md-6 col-sm-6 col-xs-6">              
-                        <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 outerTickeBlock noPadLeftRight">
+                        <div className="col-lg-8 col-lg-offset-3 col-md-8 col-sm-8 col-xs-8 outerTickeBlock noPadLeftRight">
                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
                                 <div className="col-lg-5 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
                             State<span className="pull-right">:</span>
@@ -222,7 +237,7 @@ constructor(props){
  
 	render(){
     return(
-      <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
          {/* <div className="userInformationWrapper col-lg-6 col-md-6 col-sm-6 col-xs-6"> */}
             {this.userData()}
           {/* </div>     */}

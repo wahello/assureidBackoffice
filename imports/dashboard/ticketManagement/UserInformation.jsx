@@ -32,9 +32,9 @@ export default class UserInformation extends TrackerReact(Component){
 
         var roleDetails = Meteor.users.findOne({"_id":getTicket.ticketElement[i].empid});
           newCommeeteeArr.push(
-            <div key = {i} className="col-lg-12">
+            <div key = {i} className="col-lg-12 col-md-12 col-sm-12 col-xs-12 borderBottomBlock noLRPad">
 
-              <h5 className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <h5 className="col-lg-9 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 noLRPad roleName">
                 {getTicket.ticketElement[i].role}
               </h5>
               <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
@@ -80,9 +80,9 @@ export default class UserInformation extends TrackerReact(Component){
                   </div> 
                 </div>
               </div>
-              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right viewProfileLink noPadLeftRight">
+              {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right viewProfileLink noPadLeftRight">
                 <Link>View profile</Link>
-              </div>
+              </div> */}
             </div>
           );
       }
@@ -93,7 +93,7 @@ export default class UserInformation extends TrackerReact(Component){
  
 	render(){
     return(
-      <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad committeeOuterWrap">
          {/* <div className="userInformationWrapper col-lg-6 col-md-6 col-sm-6 col-xs-6"> */}
             {this.userData()}
           {/* </div>     */}

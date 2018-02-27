@@ -329,7 +329,14 @@ if(Meteor.isServer){
 			return badetails;
 		},
 
-		
+		'genericTicketUpdate':function(addressType,role,ticketId){
+			var TickteDetails = TicketMaster.findOne({'_id':ticketId});
+			var ticketElementLength = TickteDetails.ticketElement.length;
+			console.log("ticketElementLength :"+ticketElementLength);
+			var insertData = TickteDetails[ticketElementLength-1];
+			console.log("insertData :"+insertData);
+
+		}
 	
 	  });
 
