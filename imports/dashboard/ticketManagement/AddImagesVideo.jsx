@@ -15,7 +15,9 @@ class AddImagesVideo extends TrackerReact(Component){
 	 constructor(props){
     super(props);
     this.state = { 
+      "remark" : '',
     }
+    this.handleChange = this.handleChange.bind(this);
   }
   handleUpload(event){
     event.preventDefault();
@@ -43,6 +45,14 @@ class AddImagesVideo extends TrackerReact(Component){
       }
     }
   }
+  handleChange(event){
+   event.preventDefault();
+   const target = event.target;
+   const name   = target.name;
+   this.setState({
+    [name]: event.target.value,
+   });
+  }
   handleVideoUpload(event){
     event.preventDefault();
     let self = this;
@@ -69,8 +79,54 @@ class AddImagesVideo extends TrackerReact(Component){
       }
     }
   }
-
+  submitImageVideo(event){
+    event.preventDefault();
+    var userId = this.props.ticket.userId;
+    var documents ={
+       images : this.props.ticketImages,
+       videos : this.props.ticketVideo,
+       remark : this.refs.remark.value,
+    }
+    console.log("documents",documents);
+    var ticketElementObj = {};
+   if (this.props.ticket) {
+      if (this.props.ticket.ticketElement) {
+        if (this.props.ticket.ticketElement.length > 0) {
+            ticketElementObj  = this.props.ticket.ticketElement[this.props.ticket.ticketElement.length-1];
+            console.log("ticketElementObj = ",ticketElementObj);      
+        }
+      }
+      if (this.props.ticket.addressType == "permanentAddress") {   
+         var permanentAddressId = ticketElementObj.permanentAddress.permanentAddressId;
+         console.log("permanentAddressId",permanentAddressId);
+         Meteor.call('addPermanentDocuments',userId,documents,permanentAddressId,function(error,result) {
+           if (error) {
+            console.log(error.reason);
+           }else{
+             swal("Done","Documents added successfully!","success");   
+             $("#remark").val('');
+             $("#AddImagesVideo").css({"display" : "none"});
+           }
+         });
+        
+     }else if (this.props.ticket.addressType == "currentAddress") {
+         var currentAddressId = ticketElementObj.currentAddress.currentAddressId;
+         console.log("currentAddressId",currentAddressId);
+         Meteor.call('addCurrentDocuments',userId,documents,currentAddressId,function(error,result) {
+           if (error) {
+            console.log(error.reason);
+           }else{
+             swal("Done","Documents added successfully!","success");   
+             $("#remark").val('');
+             $("#AddImagesVideo").css({"display" : "none"});
+           }
+         });
+        
+      }
+    }
+  }
 	render(){
+    // console.log("ticket",this.props.ticket);
      return( 
       <div>
        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 choosefilebox">
@@ -137,11 +193,11 @@ class AddImagesVideo extends TrackerReact(Component){
 	            <div className="col-lg-12 noLRPad Selectimg">Remark:</div> 
             </div>
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12  noLRPad">
-               <textarea class="form-control" className="col-lg-12 col-sm-12 col-md-12 col-xs-12" rows="5" id="remark"></textarea>	          
+               <textarea className="form-control col-lg-12 col-sm-12 col-md-12 col-xs-12" name="remark" ref="remark" id="remark" onChange={this.handleChange} rows="5" id="remark"></textarea>	          
             </div>
 	      </div>
 	      <div className="col-lg-12 wholeborder text-center">
-	         <button type="submit" className="btn btn-primary">Submit</button>
+	         <button type="submit" onClick={this.submitImageVideo.bind(this)} className="btn btn-primary">Submit</button>
 	      </div>
 
        </form>
@@ -161,6 +217,8 @@ AddImagesVideoContainer = withTracker(props => {
     console.log("ticketVideo",ticketVideo);
     const loading     = !postHandle.ready();
     const loading1    = !postHandle1.ready();
+    const ticket      = props.ticket;
+    console.log("ticket",ticket);
 
     // if(_id){
       return {
@@ -168,6 +226,7 @@ AddImagesVideoContainer = withTracker(props => {
           loading1 : loading1,
           ticketImages : ticketImages,
           ticketVideo  : ticketVideo,
+          ticket   : ticket,
       };
 })(AddImagesVideo);
 export default AddImagesVideoContainer;

@@ -237,6 +237,28 @@ if(Meteor.isServer){
               } //End of set
             },(error, result)=>{
           });        
-        }
+        },
+        'addCurrentDocuments':function(userId,documents,currentAddressId) {
+          UserProfile.update({"userId" : userId, "currentAddress.currentAddressId" : parseInt(currentAddressId)},
+              {$set : { 
+                "currentAddress.$.documents":  documents,
+              }
+            }
+          );
+
+        },
+        'addPermanentDocuments':function(userId,documents,permanentAddressId) {
+          console.log("userId",userId);
+          console.log("documents",documents);
+          console.log("permanentAddressId",permanentAddressId);
+
+          UserProfile.update({"userId" : userId, "permanentAddress.permanentAddressId" : parseInt(permanentAddressId)},
+              {$set : { 
+                "permanentAddress.$.documents":  documents,
+              }
+            }
+          );
+
+        },
     });
 }
