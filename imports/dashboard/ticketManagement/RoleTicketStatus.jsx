@@ -73,14 +73,14 @@ constructor(props){
     var role        = $(event.currentTarget).attr('data-role');
     var ticketId    = $(event.currentTarget).attr('data-id');
     console.log(addressType,role,ticketId);
-    var baName = this.refs.BAName.value;
     if(role == "BA"){
+        var baName = this.refs.BAName.value;        
         Meteor.call("addBADetails",baName,(error,result)=>{
             if(result){
                 console.log(result);
                  $('#uploadDocs').css({"display" : "block"});
-                 var BAid = result;
-                Meteor.call('genericTicketUpdate',addressType,role,ticketId,(error,result)=>{
+                 var id = result;
+                Meteor.call('genericTicketUpdate',addressType,role,ticketId,id,(error,result)=>{
                     if(result){
                         swal({
                                         title: "Assing Ticket!",
@@ -93,7 +93,21 @@ constructor(props){
     
             }
         })
+    }else if(role == "Field Expert"){
+        var id = this.refs.allocateToFEName.value;  
+        console.log("feName :"+id);
+        Meteor.call('genericTicketUpdate',addressType,role,ticketId,id,(error,result)=>{
+            if(result){
+                swal({
+                                title: "Assing Ticket!",
+                                text: "Successfully Assign",
+                                icon: "success",
+                });
+    
+            }
+        });
     }
+
     
   }
 
@@ -109,6 +123,7 @@ constructor(props){
                 var newStr = teammemberDetails[k].profile.firstname+" "+teammemberDetails[k].profile.lastname;
                 reportUserArr.push(newStr);
             }
+
         }
         switch(role){
             case 'team leader':
@@ -116,7 +131,7 @@ constructor(props){
                         return(
                             <div>
                                 <div className="col-lg-8">
-                                <lable>Allocate To Field Expert</lable>
+                                <lable>Allocate To Team Member</lable>
                                 <select className="form-control allProductSubCategories" aria-describedby="basic-addon1" ref="allocateToName">
                                     { 
                                         reportUserArr.map( (data, index)=>{
@@ -162,14 +177,30 @@ constructor(props){
                         <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12">                            
                                 {
                                     this.state.radioState == 'Field Expert'?
-
-                                    <select>
-                                        <option>Field Expert 1</option>
-                                        <option>Field Expert 2</option>
-                                        <option>Field Expert 3</option>
-                                        <option>Field Expert 4</option>
-                                        <option>Field Expert 5</option>
-                                    </select>
+                                    // if((roleStatus == "Accepted") || (roleStatus == "Reassign")){
+                                        // return(
+                                            <div>
+                                                <div className="col-lg-8">
+                                                <lable>Allocate To Field Expert</lable>
+                                                <select className="form-control allProductSubCategories" aria-describedby="basic-addon1" ref="allocateToFEName">
+                                                    { 
+                                                        reportUserArr.map( (data, index)=>{
+                                                            return (
+                                                                <option key={index}>
+                                                                    
+                                                                {data}
+                                                                </option>
+                                                            );
+                                                        })
+                                                    } 
+                                                </select>
+                                                </div>
+                                                <div className="col-lg-4 noLRPad">
+                                                     <button type="submit" value="Submit" className="col-lg-11 noLRPad" onClick={this.addBADetails.bind(this)} data-addressType = {this.props.getTicket.addressType} data-id={this.props.ticketId} data-role={this.state.radioState}>Submit</button>                                       
+                                                </div>
+                                            </div>
+                                        // );
+                                    // }
                                     : 
                                     this.state.radioState == 'BA'?
                                     <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
@@ -187,7 +218,14 @@ constructor(props){
 
                                     </div>
                                     :
+                                    this.state.radioState == 'Self'?
+                                    <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
+                                          <div className="col-lg-4 uploadDocs noLRPad" id="uploadDocs">                                        
+                                            <button type="submit" value="Submit"  className="col-lg-12 noLRPad" onClick={this.uploadDocsDiv.bind(this)}>Upload Docs</button>
+                                         </div>
 
+                                    </div>
+                                    :
                                     ""
                                 }
                             </div>

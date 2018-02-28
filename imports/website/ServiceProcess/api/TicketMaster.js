@@ -329,15 +329,68 @@ if(Meteor.isServer){
 			return badetails;
 		},
 
-		'genericTicketUpdate':function(addressType,role,ticketId){
+		'genericTicketUpdate':function(addressType,role,ticketId,id){
 			var TickteDetails = TicketMaster.findOne({'_id':ticketId});
 			var ticketElementLength = TickteDetails.ticketElement.length;
-			console.log("ticketElementLength :"+ticketElementLength);
 			var insertData = TickteDetails.ticketElement[ticketElementLength-1];
-			console.log(insertData);
+			if(role == "BA"){
+				var baDetails = BADetails.findOne({'_id':id});
+				var baName    = baDetails.name;
+				console.log("baName :"+baName); 
+			}else if(role == "Field Expert"){
+				var feFullName = id;
+				var splilFEName = feFullName.split(" ");
+				var baName      = splilFEName[0]+" "+splilFEName[1];
+				console.log("fname :"+splilFEName[0]+"lname :"+splilFEName[1]);
+				var userDetails = Meteor.users.findOne({'profile.firstname':splilFEName[0],'profile.lastname':splilFEName[1]});
+				var id        = userDetails._id;
+				console.log("Inside FE id :"+id)
+			}
 			insertData.role = role;
-			insertData.empid = role;
+			insertData.role_name = baName;
+			insertData.empid = id;
+
+			if(addressType == "currentAddress"){
+				insertData.currentAddress[0].status = "New";
+				insertData.currentAddress[0].statusDate = new Date();
+				
+			}else{
+				insertData.permanentAddress[0].status = "New";
+				insertData.permanentAddress[0].statusDate = new Date();
+			}
 			console.log(insertData);
+			TicketMaster.update(
+				{'_id':ticketId},
+				{$push:{
+					'ticketElement':insertData,
+					}
+				},
+				(error,result)=>{
+					if(error){
+						console.log(error);
+						
+					}else{
+						console.log("result: ",result);
+
+						var TickteDetails = TicketMaster.findOne({'_id':ticketId});
+						var ticketElementLength = TickteDetails.ticketElement.length;
+						var index = ticketElementLength-2;						
+						/*Update status of team member */
+						TicketMaster.update(
+							{'_id':ticketId},
+							{$set:{
+									['ticketElement.'+index+'.role_status']         :"Allocated",
+									['ticketElement.'+index+'.allocatedToRole']     :role,
+									['ticketElement.'+index+'.allocatedToId']       :id,
+								}
+							}
+						);
+
+					}
+				}
+			);
+
+			
 
 		}
 	
