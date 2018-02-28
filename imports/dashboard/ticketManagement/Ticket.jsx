@@ -19,6 +19,7 @@ import RoleTicketStatus from './RoleTicketStatus.jsx';
 import DocumentStatus from './DocumentStatus.jsx';
 import AddImagesVideo from './AddImagesVideo.jsx';
 
+
 class Ticket extends TrackerReact(Component){
   constructor(props){
     super(props);
@@ -151,9 +152,11 @@ class Ticket extends TrackerReact(Component){
                              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 noLRPad">
                                 <RoleTicketStatus ticketId={this.props.params.id}/>
                              </div>
+                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad" id="AddImagesVideo" style={{"display" : "none"}}>
+                               <AddImagesVideo />
+                            </div>
                          </div>
                        </div>
-                         <AddImagesVideo />
                        </div> 
                     </div>
                   </div>

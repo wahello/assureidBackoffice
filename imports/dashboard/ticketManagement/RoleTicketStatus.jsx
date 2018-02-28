@@ -10,6 +10,8 @@ import {Tracker} from 'meteor/tracker';
 import { browserHistory } from 'react-router'; 
 import { Link } from 'react-router';
 import { TicketMaster } from '../../website/ServiceProcess/api/TicketMaster.js'; 
+import AddImagesVideo from './AddImagesVideo.jsx';
+
 // import { Services } from '../reactCMS/api/Services.js';
 
 class RoleTicketStatus extends TrackerReact(Component){   
@@ -59,6 +61,11 @@ constructor(props){
     });
   }
 
+  uploadDocsDiv(event){
+    event.preventDefault();
+    $('#AddImagesVideo').css({"display" : "block"});
+  }
+
   /*Add BA Details  */
   addBADetails(event){
     event.preventDefault();
@@ -71,7 +78,7 @@ constructor(props){
         Meteor.call("addBADetails",baName,(error,result)=>{
             if(result){
                 console.log(result);
-
+                 $('#uploadDocs').css({"display" : "block"});
                 // Meteor.call('genericTicketUpdate',addressType,role,ticketId,(error,result)=>{
                 //     if(result){
                 //         swal({
@@ -173,8 +180,8 @@ constructor(props){
                                         <div className="col-lg-3 noLRPad">                                        
                                          <button type="submit" value="Submit" className="col-lg-11 noLRPad" onClick={this.addBADetails.bind(this)} data-addressType = {this.props.getTicket.addressType} data-id={this.props.ticketId} data-role={this.state.radioState}>Submit</button>
                                          </div>
-                                          <div className="col-lg-4 noLRPad" style={{"display" : "none"}}>                                        
-                                            <button type="submit" value="Submit" id="uploadDocs" className="col-lg-12 noLRPad">Upload Docs</button>
+                                          <div className="col-lg-4 noLRPad" id="uploadDocs" style={{"display" : "none"}}>                                        
+                                            <button type="submit" value="Submit"  className="col-lg-12 noLRPad" onClick={this.uploadDocsDiv.bind(this)}>Upload Docs</button>
                                          </div>
 
                                     </div>
@@ -240,11 +247,17 @@ constructor(props){
  
 	render(){
     return(
-      <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
-         {/* <div className="userInformationWrapper col-lg-6 col-md-6 col-sm-6 col-xs-6"> */}
-            {this.userData()}
-          {/* </div>     */}
-      </div>    
+      <div>
+        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
+           {/* <div className="userInformationWrapper col-lg-6 col-md-6 col-sm-6 col-xs-6"> */}
+
+              {this.userData()}
+              
+            {/* </div>     */}
+        </div> 
+      
+      </div>
+   
     );
    }
 }

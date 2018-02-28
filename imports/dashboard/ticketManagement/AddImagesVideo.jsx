@@ -73,15 +73,13 @@ class AddImagesVideo extends TrackerReact(Component){
 	render(){
      return( 
       <div>
-       <div className="col-lg-10 col-md-10 col-lg-offset-1 col-md-offset-1 choosefilebox">
+       <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 choosefilebox">
+        <form>
 	        <div className="col-lg-12 wholeborder ">
-	            <form action="/action_page.php">
-		            <div className="imgtitile col-lg-12">
-			          <div className="col-lg-12 Selectimg"> Select images:</div> 
-				          <input type="file" ref="ticketImageFile" id="s3file" name="ticketImageFile"  onChange={this.handleUpload.bind(this)} className="col-lg-7" name="img" multiple />
-			          </div>
-	           </form>
- 
+		          <div className="imgtitile col-lg-12 noLRPad">
+			          <div className="col-lg-12  noLRPad Selectimg"> Select images:</div> 
+				          <input type="file" ref="ticketImageFile" id="s3file" name="ticketImageFile"  onChange={this.handleUpload.bind(this)} className="col-lg-7 noLRPad" name="img" multiple />
+			        </div> 
             {!this.props.loading ?
             	<div className="col-lg-12 imgbox">
                {this.props.ticketImages ?
@@ -105,17 +103,12 @@ class AddImagesVideo extends TrackerReact(Component){
             }
 	          
 	       </div>
-      </div>
-
-    <div className="col-lg-10 col-md-10 col-lg-offset-1 col-md-offset-1 choosefilebox">
-       <div className="col-lg-12 wholeborder ">
-	        <form action="/action_page.php">
-	        <div className="imgtitile col-lg-12">
-	          <div className="col-lg-12 Selectimg"> Select Video:</div> 
-				      <input type="file" ref="ticketVideoFile" id="s3file" name="ticketVideoFile"  onChange={this.handleVideoUpload.bind(this)} className="col-lg-7" name="img" multiple />
+	      <div className="col-lg-12 wholeborder">
+	        <div className="imgtitile col-lg-12  noLRPad">
+	          <div className="col-lg-12 noLRPad Selectimg"> Select Video:</div> 
+				      <input type="file" ref="ticketVideoFile" id="s3file" name="ticketVideoFile"  onChange={this.handleVideoUpload.bind(this)} className="col-lg-7 noLRPad" name="img" multiple />
 	          {/*<input type="submit" className="col-lg-1 btn btn-primary" />*/}
 	          </div>
-	        </form>
 
 	         {!this.props.loading1 ?
             	<div className="col-lg-12 imgbox">
@@ -139,9 +132,22 @@ class AddImagesVideo extends TrackerReact(Component){
             }
 
 	      </div>
+	      <div className="col-lg-12 wholeborder">
+	          <div className="imgtitile col-lg-12  noLRPad">
+	            <div className="col-lg-12 noLRPad Selectimg">Remark:</div> 
+            </div>
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12  noLRPad">
+               <textarea class="form-control" className="col-lg-12 col-sm-12 col-md-12 col-xs-12" rows="5" id="remark"></textarea>	          
+            </div>
+	      </div>
+	      <div className="col-lg-12 wholeborder text-center">
+	         <button type="submit" className="btn btn-primary">Submit</button>
+	      </div>
+
+       </form>
       </div>
 
-        </div>
+     </div>
      ); 
    }        
 }

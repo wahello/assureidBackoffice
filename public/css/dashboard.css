@@ -6305,7 +6305,9 @@ border: 1px solid #aaa;
 }
 .choosefilebox{
 margin-bottom: 20px!important;
-
+padding-left: 0;
+padding-right: 0;
+border: 1px solid #aaa;
 }
 .imgbr{
 border: 1px solid #ddd;
@@ -6320,8 +6322,8 @@ margin: 5px;
   
 }
 .wholeborder{
-    border: 1px solid #aaa;
-    height: auto;
+/*    border: 1px solid #aaa;
+*/    height: auto;
     padding: 2%;
 }
 
