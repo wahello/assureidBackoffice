@@ -181,19 +181,10 @@ constructor(props){
                                         <div className="col-lg-3 noLRPad">                                        
                                          <button type="submit" value="Submit" className="col-lg-11 noLRPad" onClick={this.addBADetails.bind(this)} data-addressType = {this.props.getTicket.addressType} data-id={this.props.ticketId} data-role={this.state.radioState}>Submit</button>
                                          </div>
-<<<<<<< Updated upstream
                                           <div className="col-lg-4 noLRPad" id="uploadDocs" style={{"display" : "none"}}>                                        
                                             <button type="submit" value="Submit"  className="col-lg-12 noLRPad" onClick={this.uploadDocsDiv.bind(this)}>Upload Docs</button>
                                          </div>
 
-=======
-
-                                         <div className="col-lg-6 noLRPad">                                        
-                                         <button type="submit" className="col-lg-6 noLRPad Docbtn addBADoc">Add BA Document</button>
-                                         </div>
-
-                                         
->>>>>>> Stashed changes
                                     </div>
                                     :
 
