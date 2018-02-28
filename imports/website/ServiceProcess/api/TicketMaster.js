@@ -333,8 +333,11 @@ if(Meteor.isServer){
 			var TickteDetails = TicketMaster.findOne({'_id':ticketId});
 			var ticketElementLength = TickteDetails.ticketElement.length;
 			console.log("ticketElementLength :"+ticketElementLength);
-			var insertData = TickteDetails[ticketElementLength-1];
-			console.log("insertData :"+insertData);
+			var insertData = TickteDetails.ticketElement[ticketElementLength-1];
+			console.log(insertData);
+			insertData.role = role;
+			insertData.empid = role;
+			console.log(insertData);
 
 		}
 	

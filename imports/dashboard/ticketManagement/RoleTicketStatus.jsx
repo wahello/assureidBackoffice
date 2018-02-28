@@ -66,28 +66,27 @@ constructor(props){
     var role        = $(event.currentTarget).attr('data-role');
     var ticketId    = $(event.currentTarget).attr('data-id');
     console.log(addressType,role,ticketId);
-    // var baName = this.refs.BAName.value;
-    // Meteor.call("addBADetails",baName,(error,result)=>{
-    //     if(result){
-    //         swal({
-    //             title: "BA name added!",
-    //             text: "BA name added successfully",
-    //             icon: "success",
-    //           });
+    var baName = this.refs.BAName.value;
+    if(role == "BA"){
+        Meteor.call("addBADetails",baName,(error,result)=>{
+            if(result){
+                console.log(result);
 
-    //     }
-    // })
-
-    Meteor.call('genericTicketUpdate',addressType,role,ticketId,(error,result)=>{
-        if(result){
-            swal({
-                            title: "Assing Ticket!",
-                            text: "Successfully Assign",
-                            icon: "success",
-            });
-
-        }
-    });
+                // Meteor.call('genericTicketUpdate',addressType,role,ticketId,(error,result)=>{
+                //     if(result){
+                //         swal({
+                //                         title: "Assing Ticket!",
+                //                         text: "Successfully Assign",
+                //                         icon: "success",
+                //         });
+            
+                //     }
+                // });
+    
+            }
+        })
+    }
+    
   }
 
   roleSwitch(roleStatus,role,empid){
@@ -151,7 +150,7 @@ constructor(props){
                                 <div className="radio radiobtn col-lg-3 noLRPad">
                                 <label className="noLRPad"><input type="radio" name="optradio" value="BA" className="optradio" checked={this.state.radioState ==="BA"} onChange={this.getRadioValue.bind(this)}/>BA</label>
                                 </div>
-                            </div>
+                        </div>
                         <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12">                            
                                 {
                                     this.state.radioState == 'Field Expert'?
@@ -174,6 +173,12 @@ constructor(props){
                                         <div className="col-lg-6 noLRPad">                                        
                                          <button type="submit" value="Submit" className="col-lg-6 noLRPad" onClick={this.addBADetails.bind(this)} data-addressType = {this.props.getTicket.addressType} data-id={this.props.ticketId} data-role={this.state.radioState}>Submit</button>
                                          </div>
+
+                                         <div className="col-lg-6 noLRPad">                                        
+                                         <button type="submit" className="col-lg-6 noLRPad Docbtn addBADoc">Add BA Document</button>
+                                         </div>
+
+                                         
                                     </div>
                                     :
 
