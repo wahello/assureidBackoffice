@@ -151,11 +151,11 @@ class DocumentStatus extends TrackerReact(Component){
 }
 DocumentStatusContainer = withTracker(props => {  
     var ticket = props.ticket;
-    console.log("ticket",ticket);
+    // console.log("ticket",ticket);
     var ticketStatus = ticket.ticketStatus[0]  || {};
-    console.log("ticketStatus",ticketStatus);
+    // console.log("ticketStatus",ticketStatus);
     var ticketElement = ticket.ticketElement || [];
-    console.log("ticketElement",ticketElement);
+    // console.log("ticketElement",ticketElement);
     // if(_id){
       return {
           ticket : ticket,

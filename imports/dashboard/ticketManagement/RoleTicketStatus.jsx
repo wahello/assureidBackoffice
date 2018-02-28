@@ -164,21 +164,19 @@ constructor(props){
                                     </select>
                                     : 
                                     this.state.radioState == 'BA'?
-                                    <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
                                     
-                                        <div className="col-lg-6">
+                                        <div className="col-lg-5 noLRPad">
                                          <input type="text" name="baName" className="banametext" ref="BAName"/>
                                         </div>
                                     
-                                        <div className="col-lg-6 noLRPad">                                        
-                                         <button type="submit" value="Submit" className="col-lg-6 noLRPad" onClick={this.addBADetails.bind(this)} data-addressType = {this.props.getTicket.addressType} data-id={this.props.ticketId} data-role={this.state.radioState}>Submit</button>
+                                        <div className="col-lg-3 noLRPad">                                        
+                                         <button type="submit" value="Submit" className="col-lg-11 noLRPad" onClick={this.addBADetails.bind(this)} data-addressType = {this.props.getTicket.addressType} data-id={this.props.ticketId} data-role={this.state.radioState}>Submit</button>
+                                         </div>
+                                          <div className="col-lg-4 noLRPad" style={{"display" : "none"}}>                                        
+                                            <button type="submit" value="Submit" id="uploadDocs" className="col-lg-12 noLRPad">Upload Docs</button>
                                          </div>
 
-                                         <div className="col-lg-6 noLRPad">                                        
-                                         <button type="submit" className="col-lg-6 noLRPad Docbtn addBADoc">Add BA Document</button>
-                                         </div>
-
-                                         
                                     </div>
                                     :
 
