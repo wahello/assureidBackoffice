@@ -348,7 +348,7 @@ if(Meteor.isServer){
 				console.log("fname :"+splilFEName[0]+"lname :"+splilFEName[1]);
 				var userDetails = Meteor.users.findOne({'profile.firstname':splilFEName[0],'profile.lastname':splilFEName[1]});
 				var id        = userDetails._id;
-				console.log("Inside FE id :"+id)
+				console.log("Inside FE id :"+id);
 			}
 			insertData.role = role;
 			insertData.role_name = baName;
