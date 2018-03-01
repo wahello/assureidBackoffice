@@ -25,6 +25,7 @@ class Ticket extends TrackerReact(Component){
     super(props);
     this.state = {
       'userDetails': {},
+      "userRoleIn": Meteor.userId(),
       // "subscription" : {
       //   "singleTicket" : Meteor.subscribe("singleTicket"),    
       //   "userfunction" : Meteor.subscribe('userfunction'),
@@ -32,7 +33,10 @@ class Ticket extends TrackerReact(Component){
 
       // } 
     }
+
+    
   }
+
 
   // componentDidMount(){
   //   var id = this.props.params.id;
@@ -140,8 +144,6 @@ class Ticket extends TrackerReact(Component){
                          <ServiceInformation ticketId={this.props.params.id}/>
                          </div>
                         </div>
-  
-                         
                          <VerifiedDocuments ticketId={this.props.params.id}/>
                          <TicketDocumentDetails ticketId={this.props.params.id}/>
                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outerShadow">

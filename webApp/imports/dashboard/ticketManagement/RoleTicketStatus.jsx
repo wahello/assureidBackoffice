@@ -12,10 +12,7 @@ import { Link } from 'react-router';
 import { TicketMaster } from '../../website/ServiceProcess/api/TicketMaster.js'; 
 import AddImagesVideo from './AddImagesVideo.jsx';
 
-// import { Services } from '../reactCMS/api/Services.js';
-
 class RoleTicketStatus extends TrackerReact(Component){   
-
 constructor(props){
     super(props);
     this.state = {
@@ -33,11 +30,9 @@ constructor(props){
       var allocateToSplit = allocateTo.split(" ");
       var firstName = allocateToSplit[0];
       var lastName  = allocateToSplit[1];
-
       var ticketDetails = this.props.getTicket;
       var ticketId = ticketDetails._id;
       var allocateToMemberDetails = ticketDetails.ticketElement[1];
-    //   var allocateToMemberDetails.permanentAddress.status = "New";
       console.log(allocateToMemberDetails);
       Meteor.call('allocateToTeamMember',ticketId,firstName,lastName,allocateToMemberDetails,(error,result)=>{
             console.log(result);
@@ -112,8 +107,7 @@ constructor(props){
   }
 
   roleSwitch(roleStatus,role,empid){
-    if (!this.props.loading) {
-
+    if (!this.props.loading && role != "BA") {
         var userDetails = Meteor.users.findOne({"_id":empid});
         var name = userDetails.profile.firstname +" "+userDetails.profile.lastname;
         var teammemberDetails = Meteor.users.find({"profile.reportToName":name}).fetch();
@@ -177,8 +171,6 @@ constructor(props){
                         <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12">                            
                                 {
                                     this.state.radioState == 'Field Expert'?
-                                    // if((roleStatus == "Accepted") || (roleStatus == "Reassign")){
-                                        // return(
                                             <div>
                                                 <div className="col-lg-8">
                                                 <lable>Allocate To Field Expert</lable>
@@ -199,8 +191,6 @@ constructor(props){
                                                      <button type="submit" value="Submit" className="col-lg-11 noLRPad" onClick={this.addBADetails.bind(this)} data-addressType = {this.props.getTicket.addressType} data-id={this.props.ticketId} data-role={this.state.radioState}>Submit</button>                                       
                                                 </div>
                                             </div>
-                                        // );
-                                    // }
                                     : 
                                     this.state.radioState == 'BA'?
                                     <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
@@ -245,9 +235,8 @@ constructor(props){
   	var getTicket = TicketMaster.findOne({"_id" : this.props.ticketId});
     if (getTicket){
       var newCommeeteeArr = [];
-
       for(var i=0;i<getTicket.ticketElement.length;i++){
-
+        if(getTicket.ticketElement[i].role!="BA"){
         var roleDetails = Meteor.users.findOne({"_id":getTicket.ticketElement[i].empid});
           newCommeeteeArr.push(
             <div key = {i} className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
@@ -266,8 +255,7 @@ constructor(props){
                                 Date :<span className="pull-right">:</span>
                                 </div>  
                                 <div className="col-lg-7 col-md-8 col-sm-8 col-xs-8 text-left userValue">
-                                <p>{moment(getTicket.ticketElement[i].createdAt).format("DD/MM/YYYY")}</p> 
-                                {/*  <p> - </p>*/}
+                                    <p>{moment(getTicket.ticketElement[i].createdAt).format("DD/MM/YYYY")}</p> 
                                 </div>  
                             </div>  
                             <div>
@@ -278,6 +266,7 @@ constructor(props){
                 </div>    
             </div>
           );
+        }
       }
       return newCommeeteeArr;
     
@@ -288,11 +277,7 @@ constructor(props){
     return(
       <div>
         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
-           {/* <div className="userInformationWrapper col-lg-6 col-md-6 col-sm-6 col-xs-6"> */}
-
-              {this.userData()}
-              
-            {/* </div>     */}
+            {this.userData()}
         </div> 
       
       </div>
@@ -301,24 +286,17 @@ constructor(props){
    }
 }
 ticketContainer = withTracker(props => {
-//   console.log('props: ',this.props);
+
     var _id = props.ticketId;
-    // console.log("_id",_id);
     const postHandle = Meteor.subscribe('singleTicket',_id);
     const   userfunction = Meteor.subscribe('userfunction');
-    
     const getTicket  = TicketMaster.findOne({"_id" : _id}) || {};  
-    // console.log("getTicket",getTicket); 
-   
     const loading = !postHandle.ready() && !userfunction.ready();
-
-    // if(_id){
       return {
           loading  : loading,
           getTicket : getTicket,
           ticketId  : _id
       };
-    // }
 })(RoleTicketStatus);
 export default ticketContainer;
 

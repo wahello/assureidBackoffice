@@ -1,1 +1,5 @@
-node_modules/
+/webApp/node_modules/
+/nativeApp/android/
+/nativeApp/ios/
+/nativeApp/src/config/settings.js
+/nativeApp/index.js
