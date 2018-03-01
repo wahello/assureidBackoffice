@@ -75,6 +75,9 @@ constructor(props){
                 console.log(result);
                  $('#uploadDocs').css({"display" : "block"});
                  var id = result;
+                 // this.setState({
+                 //  "baid" : id,
+                 // });s
                 Meteor.call('genericTicketUpdate',addressType,role,ticketId,id,(error,result)=>{
                     if(result){
                         swal({
@@ -85,7 +88,7 @@ constructor(props){
             
                     }
                 });
-    
+                $("#uploadDocs").css({"display" : "block"});
             }
         })
     }else if(role == "Field Expert"){
@@ -101,7 +104,6 @@ constructor(props){
     
             }
         });
-        $("#uploadDocs").css({"display" : "block"});
     }
     
   }
@@ -109,16 +111,19 @@ constructor(props){
   roleSwitch(roleStatus,role,empid){
     if (!this.props.loading && role != "BA") {
         var userDetails = Meteor.users.findOne({"_id":empid});
-        var name = userDetails.profile.firstname +" "+userDetails.profile.lastname;
-        var teammemberDetails = Meteor.users.find({"profile.reportToName":name}).fetch();
-        var reportUserArr = [];
-        if(teammemberDetails){
-            for(k=0;k<teammemberDetails.length;k++){
-                var newStr = teammemberDetails[k].profile.firstname+" "+teammemberDetails[k].profile.lastname;
-                reportUserArr.push(newStr);
-            }
+        if (userDetails) {
+          var name = userDetails.profile.firstname +" "+userDetails.profile.lastname;
+          var teammemberDetails = Meteor.users.find({"profile.reportToName":name}).fetch();
+          var reportUserArr = [];
+          if(teammemberDetails){
+              for(k=0;k<teammemberDetails.length;k++){
+                  var newStr = teammemberDetails[k].profile.firstname+" "+teammemberDetails[k].profile.lastname;
+                  reportUserArr.push(newStr);
+              }
 
+          }
         }
+        
         switch(role){
             case 'team leader':
                     if((roleStatus == "Accepted") || (roleStatus == "Reassign")){

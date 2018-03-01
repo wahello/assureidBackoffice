@@ -396,7 +396,19 @@ if(Meteor.isServer){
 
 			
 
-		}
+		},
+		// "updateCurrentTicketElement":function (id,empid,documents,currentAddressId) {
+		// 	 console.log("id",id);
+		// 	 console.log("empid",empid);
+		// 	 console.log("documents",documents);
+		// 	 console.log("currentAddressId",currentAddressId);
+		// 	 TicketMaster.update({"_id" : id, "ticketElement.empid" : empid , "ticketElement.currentAddress.currentAddressId" : parseInt(currentAddressId) },
+		// 	 	{$set : {
+		// 	 		"ticketElement.$.currentAddress.0.documents" : documents,
+		// 	 	}
+
+		// 	 })
+		// },
 	
 	  });
 

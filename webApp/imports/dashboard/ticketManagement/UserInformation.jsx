@@ -31,7 +31,7 @@ export default class UserInformation extends TrackerReact(Component){
       for(var i=0;i<getTicket.ticketElement.length;i++){
         if(getTicket.ticketElement[i].role!="BA"){
         var roleDetails = Meteor.users.findOne({"_id":getTicket.ticketElement[i].empid});
-
+        if (roleDetails) {
           newCommeeteeArr.push(
             <div key = {i} className="col-lg-12 col-md-12 col-sm-12 col-xs-12 borderBottomBlock noLRPad">
               <h5 className="col-lg-9 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 noLRPad roleName">
