@@ -106,8 +106,8 @@ constructor(props){
     
             }
         });
+        $("#uploadDocs").css({"display" : "block"});
     }
-
     
   }
 
