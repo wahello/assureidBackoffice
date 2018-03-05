@@ -29,9 +29,125 @@ export default class UserInformation extends TrackerReact(Component){
       var newCommeeteeArr = [];
 
       for(var i=0;i<getTicket.ticketElement.length;i++){
-
-        var roleDetails = Meteor.users.findOne({"_id":getTicket.ticketElement[i].empid});
-        if (roleDetails) {
+        // console.log("i: ",i);
+        // console.log("getTicket.ticketElement[i].role: ",getTicket.ticketElement[i].role);
+        // console.log("getUserData.roles.indexOf('team leader'): ",getUserData.roles.indexOf('team leader'));
+        // console.log("getUserData.roles.indexOf('team member'): ",getUserData.roles.indexOf('team member'));
+        // console.log("getUserData.roles.indexOf('field expert'): ",getUserData.roles.indexOf('field expert'));
+        // console.log("getUserData.roles.indexOf('screening committee'): ",getUserData.roles.indexOf('screening committee'));
+        if(i<5 && getUserData.roles.indexOf("screening committee")==1 && getTicket.ticketElement[i].role != "BA"){
+          var roleDetails = Meteor.users.findOne({"_id":getTicket.ticketElement[i].empid});
+          newCommeeteeArr.push(
+            <div key = {i} className="col-lg-12 col-md-12 col-sm-12 col-xs-12 borderBottomBlock noLRPad">
+              <h5 className="col-lg-9 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 noLRPad roleName">
+                {getTicket.ticketElement[i].role}
+              </h5>
+              <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                { roleDetails.profile.userProfile ?
+                   <img src={roleDetails.profile.userProfile} className="ticketUserImage" /> :
+                   <img src="/images/assureid/userIcon.png" className="ticketUserImage" /> 
+                }
+                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight assureidValue">
+                    <p>MHP1234567IN</p>
+                </div>
+              </div>
+              <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
+                  <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
+                   Name <span className="pull-right">:</span>
+                  </div>  
+                  <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-left userValue">
+                    <p>{roleDetails.profile.firstname} {roleDetails.profile.lastname}</p>
+                  </div> 
+                </div>
+                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
+                  <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
+                   Email Id <span className="pull-right">:</span>
+                  </div>  
+                  <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-left userValue">
+                    <p>{roleDetails.emails[0].address}</p>
+                  </div> 
+                </div>
+                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
+                  <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
+                   Gender <span className="pull-right">:</span>
+                  </div>  
+                  <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-left userValue">
+                    <p></p>
+                  </div> 
+                </div>
+                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
+                  <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
+                   Age<span className="pull-right">:</span>
+                  </div>  
+                  <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-left userValue">
+                    <p></p>
+                  </div> 
+                </div>
+              </div>
+              {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right viewProfileLink noPadLeftRight">
+                <Link>View profile</Link>
+              </div> */}
+            </div>
+          );
+        }else if(i==1 && getUserData.roles.indexOf("team leader")==1 && getTicket.ticketElement[i].role != "BA"){
+          var roleDetails = Meteor.users.findOne({"_id":getTicket.ticketElement[i].empid});
+          newCommeeteeArr.push(
+            <div key = {i} className="col-lg-12 col-md-12 col-sm-12 col-xs-12 borderBottomBlock noLRPad">
+              <h5 className="col-lg-9 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 noLRPad roleName">
+                {getTicket.ticketElement[i].role}
+              </h5>
+              <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                { roleDetails.profile.userProfile ?
+                   <img src={roleDetails.profile.userProfile} className="ticketUserImage" /> :
+                   <img src="/images/assureid/userIcon.png" className="ticketUserImage" /> 
+                }
+                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight assureidValue">
+                    <p>MHP1234567IN</p>
+                </div>
+              </div>
+              <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
+                  <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
+                   Name <span className="pull-right">:</span>
+                  </div>  
+                  <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-left userValue">
+                    <p>{roleDetails.profile.firstname} {roleDetails.profile.lastname}</p>
+                  </div> 
+                </div>
+                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
+                  <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
+                   Email Id <span className="pull-right">:</span>
+                  </div>  
+                  <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-left userValue">
+                    <p>{roleDetails.emails[0].address}</p>
+                  </div> 
+                </div>
+                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
+                  <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
+                   Gender <span className="pull-right">:</span>
+                  </div>  
+                  <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-left userValue">
+                    <p></p>
+                  </div> 
+                </div>
+                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
+                  <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
+                   Age<span className="pull-right">:</span>
+                  </div>  
+                  <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-left userValue">
+                    <p></p>
+                  </div> 
+                </div>
+              </div>
+              {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right viewProfileLink noPadLeftRight">
+                <Link>View profile</Link>
+              </div> */}
+            </div>
+          );
+          break;
+        } else if(i==2 && getUserData.roles.indexOf("team member")==1 && getTicket.ticketElement[i].role != "BA"){
+          var roleDetails = Meteor.users.findOne({"_id":getTicket.ticketElement[i].empid});
           newCommeeteeArr.push(
             <div key = {i} className="col-lg-12 col-md-12 col-sm-12 col-xs-12 borderBottomBlock noLRPad">
 
@@ -86,8 +202,125 @@ export default class UserInformation extends TrackerReact(Component){
               </div> */}
             </div>
           );
-        }
+          break;
           
+        } else if(i==3 && getUserData.roles.indexOf("field expert")==1 && getTicket.ticketElement[i].role != "BA"){
+          var roleDetails = Meteor.users.findOne({"_id":getTicket.ticketElement[i].empid});
+          newCommeeteeArr.push(
+            <div key = {i} className="col-lg-12 col-md-12 col-sm-12 col-xs-12 borderBottomBlock noLRPad">
+              <h5 className="col-lg-9 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 noLRPad roleName">
+                {getTicket.ticketElement[i].role}
+              </h5>
+              <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                { roleDetails.profile.userProfile ?
+                   <img src={roleDetails.profile.userProfile} className="ticketUserImage" /> :
+                   <img src="/images/assureid/userIcon.png" className="ticketUserImage" /> 
+                }
+                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight assureidValue">
+                    <p>MHP1234567IN</p>
+                </div>
+              </div>
+              <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
+                  <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
+                   Name <span className="pull-right">:</span>
+                  </div>  
+                  <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-left userValue">
+                    <p>{roleDetails.profile.firstname} {roleDetails.profile.lastname}</p>
+                  </div> 
+                </div>
+                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
+                  <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
+                   Email Id <span className="pull-right">:</span>
+                  </div>  
+                  <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-left userValue">
+                    <p>{roleDetails.emails[0].address}</p>
+                  </div> 
+                </div>
+                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
+                  <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
+                   Gender <span className="pull-right">:</span>
+                  </div>  
+                  <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-left userValue">
+                    <p></p>
+                  </div> 
+                </div>
+                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
+                  <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
+                   Age<span className="pull-right">:</span>
+                  </div>  
+                  <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-left userValue">
+                    <p></p>
+                  </div> 
+                </div>
+              </div>
+              {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right viewProfileLink noPadLeftRight">
+                <Link>View profile</Link>
+              </div> */}
+            </div>
+          );
+          break;
+          
+        } else if(i==4 && getTicket.ticketElement[i].role != "BA"){
+          var roleDetails = Meteor.users.findOne({"_id":getTicket.ticketElement[i].empid});
+          newCommeeteeArr.push(
+            <div key = {i} className="col-lg-12 col-md-12 col-sm-12 col-xs-12 borderBottomBlock noLRPad">
+              <h5 className="col-lg-9 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 noLRPad roleName">
+                {getTicket.ticketElement[i].role}
+              </h5>
+              <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                { roleDetails.profile.userProfile ?
+                   <img src={roleDetails.profile.userProfile} className="ticketUserImage" /> :
+                   <img src="/images/assureid/userIcon.png" className="ticketUserImage" /> 
+                }
+                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight assureidValue">
+                    <p>MHP1234567IN</p>
+                </div>
+              </div>
+              <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
+                  <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
+                   Name <span className="pull-right">:</span>
+                  </div>  
+                  <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-left userValue">
+                    <p>{roleDetails.profile.firstname} {roleDetails.profile.lastname}</p>
+                  </div> 
+                </div>
+                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
+                  <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
+                   Email Id <span className="pull-right">:</span>
+                  </div>  
+                  <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-left userValue">
+                    <p>{roleDetails.emails[0].address}</p>
+                  </div> 
+                </div>
+                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
+                  <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
+                   Gender <span className="pull-right">:</span>
+                  </div>  
+                  <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-left userValue">
+                    <p></p>
+                  </div> 
+                </div>
+                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
+                  <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
+                   Age<span className="pull-right">:</span>
+                  </div>  
+                  <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-left userValue">
+                    <p></p>
+                  </div> 
+                </div>
+              </div>
+              {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right viewProfileLink noPadLeftRight">
+                <Link>View profile</Link>
+              </div> */}
+            </div>
+          );
+          break;
+          
+        }
+
+
       }
       return newCommeeteeArr;
     

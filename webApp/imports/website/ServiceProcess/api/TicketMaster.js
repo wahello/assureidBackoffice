@@ -166,11 +166,21 @@ if(Meteor.isServer){
 			
 		},
 		'updateTicketFinalStatus':function(id,status){
+			console.log("id :"+id);
+			console.log("status :"+status);
 			return TicketMaster.update(
 				{'_id':id},
 					{   $set:{
 							'ticketStatus.0.status':status,
 							'ticketStatus.0.createdAt': new Date(),
+					}
+				}
+			),
+			TicketMaster.update(
+				{'_id':id},
+					{   $set:{
+							'ticketElement.0.role_status':status,
+							'ticketElement.0.createdAt': new Date(),
 					}
 				}
 			)
@@ -264,7 +274,7 @@ if(Meteor.isServer){
 
 		},
 
-		'updateTMStatus':function(ticketId,addressType,status){
+		'updateTMStatus':function(ticketId,addressType,status,empid){
 			console.log(ticketId,addressType,status);
 			if((addressType=="permanentAddress") && (status=="Accepted")){
 				TicketMaster.update(
@@ -282,8 +292,8 @@ if(Meteor.isServer){
 					{'_id':ticketId},
 					{   $set:{
 							
-						'ticketElement.2.currentAddress.status': status,					
-						'ticketElement.2.currentAddress.createdAt': new Date(),
+						'ticketElement.2.currentAddress.0.status': status,					
+						'ticketElement.2.currentAddress.0.createdAt': new Date(),
 							// 'ticketElement.2.currentAddress.Remark':""
 						}
 					}
@@ -318,10 +328,21 @@ if(Meteor.isServer){
 						
 						'ticketElement.2.role_status': "Accepted",					
 						'ticketElement.2.createdAt': new Date(),
-						
+						'ticketStatus.0.role':"team member",
+						'ticketStatus.0.createdAt': new Date(),
 					}
 				}
 			)
+			TicketBucket.update(
+				{'ticketid':ticketId},
+				{ $set:{
+							'role':'team member',
+							'empid': empid,
+					   }
+					
+				}
+			)
+			
 		},
 
 		'addBADetails':function(BAName){
@@ -386,6 +407,8 @@ if(Meteor.isServer){
 									['ticketElement.2.role_status']         :"Allocated",
 									['ticketElement.2.allocatedToRole']     :role,
 									['ticketElement.2.allocatedToId']       :id,
+									'ticketStatus.0.role': role,
+									'ticketStatus.0.createdAt': new Date(),
 								}
 							}
 						);
@@ -393,6 +416,17 @@ if(Meteor.isServer){
 					}
 				}
 			);
+
+			TicketBucket.update(
+				{'ticketid':ticketId},
+				{
+					$set:{
+						'empid': id,
+						'role': role
+					}
+
+				}
+			)
 
 			
 

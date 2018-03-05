@@ -47,7 +47,7 @@ export default class LogIn extends TrackerReact(React.Component) {
                   type: "error"
                 });
               } else {
-                if(Roles.userIsInRole(Meteor.userId(), ['admin','superAdmin','screening committee','team leader'])) {
+                if(Roles.userIsInRole(Meteor.userId(), ['admin','superAdmin','screening committee','team leader','team member','field expert'])) {
                   // FlowRouter.go('/adminDashboard');
                   $('#loginModal').modal('hide');
                   $('.modal-backdrop').hide();
