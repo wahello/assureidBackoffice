@@ -28,6 +28,11 @@ export default StyleSheet.create({
     borderWidth: 1,
     backgroundColor: '#B22222'
   },
+  buttonLarge:{
+    width: (window.width - 75),
+    height: 50,
+    backgroundColor: '#54Aff3'
+  },
   card: {
     backgroundColor: '#fff',
     padding: 0,
@@ -62,9 +67,8 @@ export default StyleSheet.create({
     width: (window.width - 85) * 0.5
   },
   button: {
-    width: (window.width - 75) /2,
     height: 50,
-    backgroundColor: '#f7ac57',
+    backgroundColor: '#54Aff3',
   },
   head: {
     backgroundColor: '#6d6e70',
@@ -100,9 +104,11 @@ export default StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    paddingVertical:15
   },
    formInputView:{
     width:(window.width - 75),
-    paddingVertical:15
+    paddingVertical:10,
+    flexDirection:'row'
   },
 });

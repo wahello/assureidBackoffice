@@ -312,156 +312,101 @@ export default class ViewCustomer extends React.Component {
                       activeOpacity={0.7}
                     />
                   </View>
+
                   <View style={styles.formInputView}>
-                    <View>
-                      <Text style={{fontWeight: 'bold',paddingRight:60}}>First Name</Text>
+                    <View style={{flex:.5}}>
+                      <Text style={{fontWeight:'bold',}}>First Name</Text>
                     </View>
-                    <View>
-                      <Text>Garima</Text>
+                    <View style={{flex:.5}}>
+                      <Text >Garima</Text>
                     </View>
                   </View>
                   <View style={styles.formInputView}>
-                    <View>
-                      <Text style={{fontWeight: 'bold',paddingRight:60}}>Last Name</Text>
+                    <View style={{flex:.5}}>
+                      <Text style={{fontWeight: 'bold'}}>Last Name</Text>
                     </View>
-                    <View>
+                    <View style={{flex:.5}}>
                       <Text>Billore</Text>
                     </View>
                   </View>
                   <View style={styles.formInputView}>
-                    <View>
-                      <Text style={{fontWeight: 'bold',paddingRight:77}}>Ticket#</Text>
+                    <View style={{flex:.5}}>
+                      <Text style={{fontWeight: 'bold'}}>Ticket#</Text>
                     </View>
-                    <View>
+                    <View style={{flex:.5}}>
                       <Text>AA000001</Text>
                     </View>
                   </View>
                   <View style={styles.formInputView}>
-                    <View>
-                      <Text style={{fontWeight: 'bold',paddingRight:77}}>Service Name</Text>
+                    <View style={{flex:.5}}>
+                      <Text style={{fontWeight: 'bold'}}>Service Name</Text>
                     </View>
-                    <View>
+                    <View style={{flex:.5}}>
                       <Text>Employment Name</Text>
                     </View>
                   </View>
                   <View style={styles.formInputView}>
-                    <View>
-                      <Text style={{fontWeight: 'bold',paddingRight:20}}>TAT(Date)</Text>
+                    <View style={{flex:.5}}>
+                      <Text style={{fontWeight: 'bold'}}>TAT(Date)</Text>
                     </View>
-                    <View>
+                    <View style={{flex:.5}}>
                       <Text>15/03/2018</Text>
                     </View>
                   </View>
                   <View style={styles.formInputView}>
-                    <View>
-                      <Text style={{fontWeight: 'bold',paddingRight:20}}>Permanent Address</Text>
+                    <View style={{flex:.5}}>
+                      <Text style={{fontWeight: 'bold'}}>Permanent Address</Text>
                     </View>
-                    <View>
-                      <Text>A-103 Adarsh Nagar,Khandwa Road, Khargone</Text>
+                    <View style={{flex:.5}}>
+                      <Text style={{flexWrap:'wrap'}}>A-103 Adarsh Nagar,Khandwa Road, Khargone</Text>
                     </View>
                   </View>
-                </View>
-
-             {/* <View style={{ padding: 10 }}>
-                <View style={{ flexDirection: "row", flex: 1 }}>
-                  <Text
-                    style={{
-                      flex: 1,
-                      paddingHorizontal: 15,
-                      alignItems: "center",
-                      paddingTop: 15
-                    }}
-                  >
-                    {this.state.lineName}
-                  </Text>
-                  <TouchableOpacity onPress={this._editLineModal}>
-                    <View style={{alignSelf:'flex-end',paddingTop:15,marginRight:15}}>
-                      <Icon size={20} name="edit" type="font-awesome" color="#6d6e70" />
+                  <View style={styles.formInputView}>
+                    <View style={{flex:.5}}>
+                      <Text style={{fontWeight: 'bold'}}>Remark</Text>
                     </View>
-                  </TouchableOpacity>      
-                  <Modal isVisible={this.state.isModalVisibleOne} backdropColor={"black"} backdropOpacity={0.9} >
-                   <View style={styles.modalContent}>
-                    <View
-                      style={{ justifyContent: "center", alignItems: "center" }} >
-                      <Text style={{fontSize: 15 }}>
-                        Edit Line
-                      </Text>
-                    </View>
-                    <View style={styles.formContainer}>
-                      <View style={styles.formInputView}>
-                        <TextField
-                          onChangeText={UpdatelineName => this.setState({ lineName:UpdatelineName })}
-                          label="Line Number / Name *"
-                          value={this.state.lineName}
-                          lineWidth={1}
-                          tintColor={this.state.inputFocusColor}
-                          inputContainerPadding={4}
-                          labelHeight={16}
-                          keyboardType="default"
-                        />
-                      </View>
-                    </View>
-                    <View style={{ flexDirection: "row", justifyContent: "space-around",paddingBottom:15 }} >
-                      <Button
-                        onPress={this._editLineModal}
-                        textStyle={{ textAlign: "center" }}
-                        title="CANCEL"
-                        buttonStyle={styles.buttonDelete}
-                      />
-                      <Button
-                        textStyle={{ textAlign: "center" }}
-                        title="SUBMIT"
-                        buttonStyle={styles.buttonClose}
-                        onPress={this.updateLine}
+                    <View style={{flex:.5}}>
+                       <TextField
+                        value                 = {this.state.user}
+                        lineWidth             = {1}
+                        tintColor             = "#00b8FF"
+                        inputContainerPadding = {4}
+                        labelHeight           = {16}
+                        keyboardType          = "default"
                       />
                     </View>
                   </View>
-                </Modal>
-                <Button
-                  onPress={() => navigate("AddCustomer")}
-                  textStyle={{ textAlign: "center" }}
-                  buttonStyle={styles.button}
-                  title="ADD CUSTOMER"
-                />
+                  <View style={styles.formInputView}>
+                    <View style={{flex:.5}}>
+                      <Text style={{fontWeight: 'bold'}}>Photos</Text>
+                    </View>
+                    <View style={{flex:.5}}>
+                      <View style={{borderWidth:1, borderColor:'#aaa',height:150}}></View>
+                    </View>
+                  </View>
+                  <View style={styles.formInputView}>
+                    <View style={{flex:.5}}>
+                      <Text style={{fontWeight: 'bold'}}>Video</Text>
+                    </View>
+                    <View style={{flex:.5}}>
+                     <View style={{borderWidth:1, borderColor:'#aaa',height:150}}></View>
+                    </View>
+                  </View>
                 </View>
-                <View
-                  style={{
-                    flex: 1,
-                    margin: 10,
-                    flexDirection: "row",
-                    borderWidth: 1,
-                    borderColor: "#6d6e70"
-                  }}
-                >
-                  <SearchBar
-                    containerStyle={{
-                      flex: 9,
-                      borderWidth: 0,
-                      borderTopWidth: 0,
-                      borderBottomWidth: 0
-                    }}
-                    inputStyle={{
-                      margin: 0,
-                      backgroundColor: "#fff",
-                      borderRadius: 0
-                    }}
-                    noIcon
-                    lightTheme
-                    placeholder="Type Here..."
-                  />
-                <Icon
-                    containerStyle={{ flex: 1 }}
-                    name="search"
-                    type="font-awesome"
-                    size={16}
-                    color="#6d6e70"
-                  />
-                </View>
-                <View style={{ padding: 10, justifyContent: "center" }}>
-                  <ViewCustomerTable _toggleModal={this._dyToggleModal.bind(this)} lineName={this.state.lineName} navigate={navigate} goBack={goBack} state={state}/>
-                  <ViewCustomerModal isModalVisible={this.state.isModalVisible} _toggleModal={this._toggleModal.bind(this)} handleEdit={this.handleEdit.bind(this)} customerId={this.state.customerIdModal} />
-                </View>
-              </View>*/}
+               <View
+            style={{
+              alignItems: "center",
+              marginTop: 0,
+              paddingVertical:20
+            }}
+          >
+            <Button
+              onPress={this.handleSignIn}
+              buttonStyle={styles.buttonLarge}
+              title="SUBMIT"
+            />
+          </View>
+               
             </ScrollView>
           </View>
         </SideMenu>

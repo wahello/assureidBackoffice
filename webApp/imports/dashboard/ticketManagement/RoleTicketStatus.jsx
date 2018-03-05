@@ -109,8 +109,10 @@ constructor(props){
   }
 
   roleSwitch(roleStatus,role,empid){
+    console.log(roleStatus,role,empid);
     if (!this.props.loading && role != "BA") {
         var userDetails = Meteor.users.findOne({"_id":empid});
+        console.log(userDetails);
         if (userDetails) {
           var name = userDetails.profile.firstname +" "+userDetails.profile.lastname;
           var teammemberDetails = Meteor.users.find({"profile.reportToName":name}).fetch();
@@ -122,6 +124,8 @@ constructor(props){
               }
 
           }
+        console.log(reportUserArr);
+          
         }
         
         switch(role){
