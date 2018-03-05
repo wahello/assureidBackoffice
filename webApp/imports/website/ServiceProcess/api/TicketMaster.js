@@ -396,7 +396,31 @@ if(Meteor.isServer){
 
 			
 
-		}
+		},
+		"updateCurrentTicketElement":function (id,empid,documents,currentAddressId) {
+			 // console.log("id",id);
+			 // console.log("empid",empid);
+			 // console.log("documents",documents);
+			 // console.log("currentAddressId",currentAddressId);
+			 TicketMaster.update({"_id" : id, "ticketElement.allocatedToId" : empid , "ticketElement.currentAddress.currentAddressId" : parseInt(currentAddressId) },
+			 	{$set : {
+			 		"ticketElement.2.currentAddress.0.documents" : documents,
+			 	}
+
+			 });
+		},
+		"updatePermanentTicketElement":function (id,empid,documents,permanentAddressId) {
+			 // console.log("id",id);
+			 // console.log("empid",empid);
+			 // console.log("documents",documents);
+			 // console.log("currentAddressId",currentAddressId);
+			 TicketMaster.update({"_id" : id, "ticketElement.allocatedToId" : empid , "ticketElement.permanentAddress.permanentAddressId" : parseInt(permanentAddressId) },
+			 	{$set : {
+			 		"ticketElement.2.permanentAddress.0.documents" : documents,
+			 	}
+
+			 });
+		},
 	
 	  });
 
