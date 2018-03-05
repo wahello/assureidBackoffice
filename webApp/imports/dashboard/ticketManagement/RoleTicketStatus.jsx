@@ -43,8 +43,10 @@ constructor(props){
       var ticketId = $(event.currentTarget).attr('data-id');
       var addressType = $(event.currentTarget).attr('data-addressType');
       var status      = $(event.currentTarget).attr('data-status');
+      var empid       = $(event.currentTarget).attr('data-empId');
+
       console.log(ticketId,addressType,status);
-      Meteor.call('updateTMStatus',ticketId,addressType,status);
+      Meteor.call('updateTMStatus',ticketId,addressType,status,empid);
   }
 
   /*Get radio value and display dropdown and textbox*/
@@ -93,7 +95,6 @@ constructor(props){
         })
     }else if(role == "Field Expert"){
         var id = this.refs.allocateToFEName.value;  
-        console.log("feName :"+id);
         Meteor.call('genericTicketUpdate',addressType,role,ticketId,id,(error,result)=>{
             if(result){
                 swal({
@@ -104,6 +105,7 @@ constructor(props){
     
             }
         });
+        // $("#uploadDocs").css({"display" : "block"});
     }
     
   }
@@ -159,8 +161,8 @@ constructor(props){
                 if(roleStatus == "New"){
                     return(
                         <div>
-                            <button type="button" className="bg-primary col-lg-5 teammember" data-status="Accepted" data-addressType = {this.props.getTicket.addressType} data-id={this.props.ticketId} onClick={this.changeTMStatus.bind(this)}>Accept</button>
-                            <button type="button" className="btn-danger col-lg-5 teammember" data-status="Rejected" data-addressType = {this.props.getTicket.addressType} data-id={this.props.ticketId} onClick={this.changeTMStatus.bind(this)}>Reject</button>
+                            <button type="button" className="bg-primary col-lg-5 teammember" data-status="Accepted" data-empId = {this.props.getTicket.ticketElement[2].empid} data-addressType = {this.props.getTicket.addressType} data-id={this.props.ticketId} onClick={this.changeTMStatus.bind(this)}>Accept</button>
+                            <button type="button" className="btn-danger col-lg-5 teammember" data-status="Rejected" data-empId = {this.props.getTicket.ticketElement[2].empid} data-addressType = {this.props.getTicket.addressType} data-id={this.props.ticketId} onClick={this.changeTMStatus.bind(this)}>Reject</button>
                         </div>
                     );
                 }else{
@@ -241,46 +243,207 @@ constructor(props){
   }
 
   userData(){
-  	var getTicket = TicketMaster.findOne({"_id" : this.props.ticketId});
+      var getTicket = TicketMaster.findOne({"_id" : this.props.ticketId});
+      var userId = Meteor.userId();
+      var getUserData = Meteor.users.findOne({"_id":userId});
+
     if (getTicket){
       var newCommeeteeArr = [];
       for(var i=0;i<getTicket.ticketElement.length;i++){
-        if(getTicket.ticketElement[i].role!="BA"){
+        // if(getTicket.ticketElement[i].role!="BA"){
         var roleDetails = Meteor.users.findOne({"_id":getTicket.ticketElement[i].empid});
-          newCommeeteeArr.push(
-            <div key = {i} className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
-                <div className="ticketServiceWrapper col-lg-12 col-md-6 col-sm-6 col-xs-6">              
-                        <div className="col-lg-8 col-lg-offset-3 col-md-8 col-sm-8 col-xs-8 outerTickeBlock noPadLeftRight">
-                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
-                                <div className="col-lg-5 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
-                            State<span className="pull-right">:</span>
-                                </div>  
-                                <div className="col-lg-7 col-md-8 col-sm-8 col-xs-8 text-left userValue">
-                                <p>{getTicket.ticketElement[i].role_status}</p>
-                                </div> 
-                            </div> 
-                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
-                                <div className="col-lg-5 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
-                                Date :<span className="pull-right">:</span>
-                                </div>  
-                                <div className="col-lg-7 col-md-8 col-sm-8 col-xs-8 text-left userValue">
-                                    <p>{moment(getTicket.ticketElement[i].createdAt).format("DD/MM/YYYY")}</p> 
-                                </div>  
-                            </div>  
-                            <div>
-                                {this.roleSwitch(getTicket.ticketElement[i].role_status, getTicket.ticketElement[i].role,getTicket.ticketElement[i].empid)}
+        //   newCommeeteeArr.push(
+            if(i<5 && getUserData.roles.indexOf("screening committee")==1 && getTicket.ticketElement[i].role != "BA"){
+                var roleDetails = Meteor.users.findOne({"_id":getTicket.ticketElement[i].empid});
+                newCommeeteeArr.push(
+                  <div key = {i} className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
+                      <div className="ticketServiceWrapper col-lg-12 col-md-6 col-sm-6 col-xs-6">              
+                              <div className="col-lg-8 col-lg-offset-3 col-md-8 col-sm-8 col-xs-8 outerTickeBlock noPadLeftRight">
+                                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
+                                      <div className="col-lg-5 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
+                                  State<span className="pull-right">:</span>
+                                      </div>  
+                                      <div className="col-lg-7 col-md-8 col-sm-8 col-xs-8 text-left userValue">
+                                      <p>{getTicket.ticketElement[i].role_status}</p>
+                                      </div> 
+                                  </div> 
+                                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
+                                      <div className="col-lg-5 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
+                                      Date :<span className="pull-right">:</span>
+                                      </div>  
+                                      <div className="col-lg-7 col-md-8 col-sm-8 col-xs-8 text-left userValue">
+                                          <p>{moment(getTicket.ticketElement[i].createdAt).format("DD/MM/YYYY")}</p> 
+                                      </div>  
+                                  </div>  
+                                  <div>
+                                      {this.roleSwitch(getTicket.ticketElement[i].role_status, getTicket.ticketElement[i].role,getTicket.ticketElement[i].empid)}
+                                      
+                                  </div>
+                              </div>
+                      </div>    
+                  </div>
+                );
+              }else if(i==1 && getUserData.roles.indexOf("team leader")==1 && getTicket.ticketElement[i].role != "BA"){
+                var roleDetails = Meteor.users.findOne({"_id":getTicket.ticketElement[i].empid});
+                newCommeeteeArr.push(
+                  <div key = {i} className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
+                      <div className="ticketServiceWrapper col-lg-12 col-md-6 col-sm-6 col-xs-6">              
+                              <div className="col-lg-8 col-lg-offset-3 col-md-8 col-sm-8 col-xs-8 outerTickeBlock noPadLeftRight">
+                                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
+                                      <div className="col-lg-5 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
+                                  State<span className="pull-right">:</span>
+                                      </div>  
+                                      <div className="col-lg-7 col-md-8 col-sm-8 col-xs-8 text-left userValue">
+                                      <p>{getTicket.ticketElement[i].role_status}</p>
+                                      </div> 
+                                  </div> 
+                                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
+                                      <div className="col-lg-5 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
+                                      Date :<span className="pull-right">:</span>
+                                      </div>  
+                                      <div className="col-lg-7 col-md-8 col-sm-8 col-xs-8 text-left userValue">
+                                          <p>{moment(getTicket.ticketElement[i].createdAt).format("DD/MM/YYYY")}</p> 
+                                      </div>  
+                                  </div>  
+                                  <div>
+                                      {this.roleSwitch(getTicket.ticketElement[i].role_status, getTicket.ticketElement[i].role,getTicket.ticketElement[i].empid)}
+                                      
+                                  </div>
+                              </div>
+                      </div>    
+                  </div>
+                );
+                break;
+              } else if(i==2 && getUserData.roles.indexOf("team member")==1 && getTicket.ticketElement[i].role != "BA"){
+                var roleDetails = Meteor.users.findOne({"_id":getTicket.ticketElement[i].empid});
+                newCommeeteeArr.push(
+                  <div key = {i} className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
+                      <div className="ticketServiceWrapper col-lg-12 col-md-6 col-sm-6 col-xs-6">              
+                              <div className="col-lg-8 col-lg-offset-3 col-md-8 col-sm-8 col-xs-8 outerTickeBlock noPadLeftRight">
+                                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
+                                      <div className="col-lg-5 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
+                                  State<span className="pull-right">:</span>
+                                      </div>  
+                                      <div className="col-lg-7 col-md-8 col-sm-8 col-xs-8 text-left userValue">
+                                      <p>{getTicket.ticketElement[i].role_status}</p>
+                                      </div> 
+                                  </div> 
+                                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
+                                      <div className="col-lg-5 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
+                                      Date :<span className="pull-right">:</span>
+                                      </div>  
+                                      <div className="col-lg-7 col-md-8 col-sm-8 col-xs-8 text-left userValue">
+                                          <p>{moment(getTicket.ticketElement[i].createdAt).format("DD/MM/YYYY")}</p> 
+                                      </div>  
+                                  </div>  
+                                  <div>
+                                      {this.roleSwitch(getTicket.ticketElement[i].role_status, getTicket.ticketElement[i].role,getTicket.ticketElement[i].empid)}
+                                      
+                                  </div>
+                              </div>
+                      </div>    
+                  </div>
+                );
+                break;
+                
+              } else if(i==3 && getUserData.roles.indexOf("field expert")==1 && getTicket.ticketElement[i].role != "BA"){
+                var roleDetails = Meteor.users.findOne({"_id":getTicket.ticketElement[i].empid});
+                newCommeeteeArr.push(
+                  <div key = {i} className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
+                      <div className="ticketServiceWrapper col-lg-12 col-md-6 col-sm-6 col-xs-6">              
+                              <div className="col-lg-8 col-lg-offset-3 col-md-8 col-sm-8 col-xs-8 outerTickeBlock noPadLeftRight">
+                                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
+                                      <div className="col-lg-5 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
+                                  State<span className="pull-right">:</span>
+                                      </div>  
+                                      <div className="col-lg-7 col-md-8 col-sm-8 col-xs-8 text-left userValue">
+                                      <p>{getTicket.ticketElement[i].role_status}</p>
+                                      </div> 
+                                  </div> 
+                                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
+                                      <div className="col-lg-5 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
+                                      Date :<span className="pull-right">:</span>
+                                      </div>  
+                                      <div className="col-lg-7 col-md-8 col-sm-8 col-xs-8 text-left userValue">
+                                          <p>{moment(getTicket.ticketElement[i].createdAt).format("DD/MM/YYYY")}</p> 
+                                      </div>  
+                                  </div>  
+                                  <div>
+                                      {this.roleSwitch(getTicket.ticketElement[i].role_status, getTicket.ticketElement[i].role,getTicket.ticketElement[i].empid)}
+                                      
+                                  </div>
+                              </div>
+                      </div>    
+                  </div>
+                );
+                break;
+                
+              } else if(i==4 && getTicket.ticketElement[i].role != "BA"){
+                var roleDetails = Meteor.users.findOne({"_id":getTicket.ticketElement[i].empid});
+                newCommeeteeArr.push(
+                  <div key = {i} className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
+                      <div className="ticketServiceWrapper col-lg-12 col-md-6 col-sm-6 col-xs-6">              
+                              <div className="col-lg-8 col-lg-offset-3 col-md-8 col-sm-8 col-xs-8 outerTickeBlock noPadLeftRight">
+                                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
+                                      <div className="col-lg-5 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
+                                  State<span className="pull-right">:</span>
+                                      </div>  
+                                      <div className="col-lg-7 col-md-8 col-sm-8 col-xs-8 text-left userValue">
+                                      <p>{getTicket.ticketElement[i].role_status}</p>
+                                      </div> 
+                                  </div> 
+                                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
+                                      <div className="col-lg-5 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
+                                      Date :<span className="pull-right">:</span>
+                                      </div>  
+                                      <div className="col-lg-7 col-md-8 col-sm-8 col-xs-8 text-left userValue">
+                                          <p>{moment(getTicket.ticketElement[i].createdAt).format("DD/MM/YYYY")}</p> 
+                                      </div>  
+                                  </div>  
+                                  <div>
+                                      {this.roleSwitch(getTicket.ticketElement[i].role_status, getTicket.ticketElement[i].role,getTicket.ticketElement[i].empid)}
+                                      
+                                  </div>
+                              </div>
+                      </div>    
+                  </div>
+                );
+                break;
+                
+              }
+            }
+            // <div key = {i} className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
+            //     <div className="ticketServiceWrapper col-lg-12 col-md-6 col-sm-6 col-xs-6">              
+            //             <div className="col-lg-8 col-lg-offset-3 col-md-8 col-sm-8 col-xs-8 outerTickeBlock noPadLeftRight">
+            //                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
+            //                     <div className="col-lg-5 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
+            //                 State<span className="pull-right">:</span>
+            //                     </div>  
+            //                     <div className="col-lg-7 col-md-8 col-sm-8 col-xs-8 text-left userValue">
+            //                     <p>{getTicket.ticketElement[i].role_status}</p>
+            //                     </div> 
+            //                 </div> 
+            //                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
+            //                     <div className="col-lg-5 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
+            //                     Date :<span className="pull-right">:</span>
+            //                     </div>  
+            //                     <div className="col-lg-7 col-md-8 col-sm-8 col-xs-8 text-left userValue">
+            //                         <p>{moment(getTicket.ticketElement[i].createdAt).format("DD/MM/YYYY")}</p> 
+            //                     </div>  
+            //                 </div>  
+            //                 <div>
+            //                     {this.roleSwitch(getTicket.ticketElement[i].role_status, getTicket.ticketElement[i].role,getTicket.ticketElement[i].empid)}
                                 
-                            </div>
-                        </div>
-                </div>    
-            </div>
-          );
-        }
+            //                 </div>
+            //             </div>
+            //     </div>    
+            // </div>
+        //   );
+        // }
       }
       return newCommeeteeArr;
     
     }
-  }
  
 	render(){
     return(

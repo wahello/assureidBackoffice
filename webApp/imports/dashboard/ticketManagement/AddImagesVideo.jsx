@@ -102,8 +102,14 @@ class AddImagesVideo extends TrackerReact(Component){
       if (this.props.ticket.addressType == "permanentAddress") {   
          var permanentAddressId = ticketElementObj.permanentAddress[0].permanentAddressId;
          console.log("permanentAddressId",permanentAddressId);
-         // Meteor.call('updatePermanentTicketElement',id,empid,documents,permanentAddressId,function(argument) {
-         // })
+         Meteor.call('updatePermanentTicketElement',id,empid,documents,permanentAddressId,function(error,result) {
+           if (error) {
+             console.log(error.reason);
+           }else{
+            
+           }
+ 
+         });
          Meteor.call('addPermanentDocuments',userId,documents,permanentAddressId,function(error,result) {
            if (error) {
             console.log(error.reason);
@@ -117,18 +123,18 @@ class AddImagesVideo extends TrackerReact(Component){
      }else if (this.props.ticket.addressType == "currentAddress") {
          var currentAddressId = ticketElementObj.currentAddress[0].currentAddressId;
          console.log("currentAddressId",currentAddressId);
-         // Meteor.call('updateCurrentTicketElement',id,empid,documents,currentAddressId,function(error,result) {
-         //  if (error) {
-         //    if (error) {
-         //    console.log(error.reason);
-         //   }else{
-         //     // swal("Done","Documents added successfully!","success");   
-         //     // $("#remark").val('');
-         //     // $("#AddImagesVideo").css({"display" : "none"});
-         //     console.log("Documents added successfully!");
-         //   }
-         //  }
-         // });
+         Meteor.call('updateCurrentTicketElement',id,empid,documents,currentAddressId,function(error,result) {
+          if (error) {
+            if (error) {
+            console.log(error.reason);
+           }else{
+             // swal("Done","Documents added successfully!","success");   
+             // $("#remark").val('');
+             // $("#AddImagesVideo").css({"display" : "none"});
+             // console.log("Documents added successfully!");
+           }
+          }
+         }); 
          Meteor.call('addCurrentDocuments',userId,documents,currentAddressId,function(error,result) {
            if (error) {
             console.log(error.reason);

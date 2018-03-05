@@ -142,7 +142,8 @@ class TicketDocumentDetails extends TrackerReact(Component){
                                         var permanentAddress = [];
                                     }
                                     if(ticketObj.ticketElement[0].currentAddress.length> 0){
-                                        var currentAddress     = ticketObj.ticketElement[0].currentAddress[currentLen-1];
+                                        // var currentAddress     = ticketObj.ticketElement[0].currentAddress[currentLen-1];
+                                        var currentAddress     = ticketObj.ticketElement[0].currentAddress;
                                     }else{
                                         var currentAddress = [];
                                     }
