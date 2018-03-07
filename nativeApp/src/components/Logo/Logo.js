@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, Image } from "react-native";
+import {StyleSheet, Text, View, Image } from "react-native";
 import styles from "./styles";
 
 export default class Logo extends Component<{}> {
@@ -7,7 +7,7 @@ export default class Logo extends Component<{}> {
     return (
       <View style={styles.container}>
         <Image
-          style={{ maxWidth:200, maxHeight:50,}}
+          style={styles.imgStyle}
           // resizeMode="center"
           source={require("./../../images/IDlogoGrey.png")}
         />

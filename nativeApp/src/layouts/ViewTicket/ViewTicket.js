@@ -46,7 +46,7 @@ import HeaderDy from "../../components/HeaderDy/HeaderDy.js";
 import ViewCustomerTable from "../../components/tableComponent/ViewCustomerTable.js";
 import ViewCustomerModal from "../../components/modalComponent/ViewCustomerModal.js";
 
-export default class ViewCustomer extends React.Component {
+export default class ViewTicket extends React.Component {
   constructor(props) {
     super(props);
     let name = "";
@@ -183,6 +183,7 @@ export default class ViewCustomer extends React.Component {
       <ScrollView
         style={{ backgroundColor: "#fbae16" }}
         createContainerstyle={{ flex: 1, backgroundColor: "#fbae16" }}
+        keyboardShouldPersistTaps="always"
       >
         <View
           style={{ borderBottomWidth: 1, padding: 10, borderColor: "#fff" }}
@@ -362,51 +363,44 @@ export default class ViewCustomer extends React.Component {
                     </View>
                   </View>
                   <View style={styles.formInputView}>
-                    <View style={{flex:.5}}>
-                      <Text style={{fontWeight: 'bold'}}>Remark</Text>
-                    </View>
-                    <View style={{flex:.5}}>
-                       <TextField
-                        value                 = {this.state.user}
-                        lineWidth             = {1}
-                        tintColor             = "#00b8FF"
-                        inputContainerPadding = {4}
-                        labelHeight           = {16}
-                        keyboardType          = "default"
-                      />
+                    <View>
+                      <Text style={{fontWeight: 'bold'}}>Photos</Text>
                     </View>
                   </View>
                   <View style={styles.formInputView}>
-                    <View style={{flex:.5}}>
-                      <Text style={{fontWeight: 'bold'}}>Photos</Text>
-                    </View>
-                    <View style={{flex:.5}}>
+                    <View style={{flex:1}}>
                       <View style={{borderWidth:1, borderColor:'#aaa',height:150}}></View>
                     </View>
                   </View>
                   <View style={styles.formInputView}>
-                    <View style={{flex:.5}}>
+                    <View>
                       <Text style={{fontWeight: 'bold'}}>Video</Text>
                     </View>
-                    <View style={{flex:.5}}>
-                     <View style={{borderWidth:1, borderColor:'#aaa',height:150}}></View>
+                  </View>
+                  <View style={styles.formInputView}>
+                    <View style={{flex:1}}>
+                       <View style={{borderWidth:1, borderColor:'#aaa',height:150}}></View>
                     </View>
                   </View>
+                  <View style={styles.formInputView}>
+                    <View>
+                      <Text style={{fontWeight: 'bold'}}>Remark</Text>
+                    </View>
+                    <View style={{flex:1}}>
+                      <TextInput
+                        editable = {true}
+                        maxLength = {40}
+                      />
+                    </View> 
+                  </View>
                 </View>
-               <View
-            style={{
-              alignItems: "center",
-              marginTop: 0,
-              paddingVertical:20
-            }}
-          >
-            <Button
-              onPress={this.handleSignIn}
-              buttonStyle={styles.buttonLarge}
-              title="SUBMIT"
-            />
-          </View>
-               
+                <View style={{ alignItems: "center", marginTop: 0, paddingVertical:20 }}>
+                  <Button
+                    onPress={this.handleSignIn}
+                    buttonStyle={styles.buttonLarge}
+                    title="SUBMIT"
+                  />
+                </View>
             </ScrollView>
           </View>
         </SideMenu>

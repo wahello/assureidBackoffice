@@ -25,7 +25,7 @@ export default class ChangePassword extends React.Component {
       name                :name,
       isOpen              : false,
       selectedItem        : 'About',
-      inputFocusColor     : '#f7ac57',
+      inputFocusColor     : '#00b8FF',
       currentPassword     : '',
       newPassword         : '',
       reTypeNewPwd        : '',
@@ -182,13 +182,13 @@ export default class ChangePassword extends React.Component {
             <ScrollView createContainerStyle={{marginBottom: 25,borderWidth:0,margin:0}}>
 
               <Header
-                centerComponent={{ text: "Pamtap", style: { color: '#fff' } }}
+                centerComponent={{ text: "AssureID", style: { color: '#fff' } }}
                 leftComponent={
                   <TouchableOpacity  onPress={this.toggle} >
                     <Icon size={25} name='bars' type='font-awesome' color='#fff' />
                   </TouchableOpacity>
                 }
-                outerContainerStyles={{borderBottomWidth:0, backgroundColor: '#f7ac57',height:60,paddingTop:0,margin:0}}
+                outerContainerStyles={{borderBottomWidth:0, backgroundColor: '#367fa9',height:60,paddingTop:0,margin:0}}
                 innerContainerStyles={{marginTop:0,paddingTop:0}}
                 rightComponent={<View style={{flex:1, flexDirection:'row',alignItems:'flex-end', minHeight:20, minWidth:20}}>
                         <TouchableOpacity onPress={this.openDrawer}>
@@ -206,7 +206,7 @@ export default class ChangePassword extends React.Component {
                       <Icon size={25} name='arrow-left' type='feather' color='#fff' />
                     </TouchableOpacity>
                   }
-                  outerContainerStyles={{borderColor:'transparent', backgroundColor: '#f7bc79',height:50,padding:10,margin:0}}
+                  outerContainerStyles={{borderColor:'transparent', backgroundColor: '#3c8dbc',height:50,padding:10,margin:0}}
                   innerContainerStyles={{marginTop:0,paddingTop:0}}
                 />
                 <Text style={{alignSelf:'center',paddingTop:20,fontSize:15}}>Change Password</Text>
@@ -251,7 +251,7 @@ export default class ChangePassword extends React.Component {
                     />
                   </View>
                 </View>
-                <View style={{ flexDirection: "row",marginLeft: -4 }}>
+                <View style={{ flexDirection: "row",marginLeft: 23 }}>
                   <Button
                     textStyle={{ textAlign: "center" }}
                     buttonStyle={styles.button}

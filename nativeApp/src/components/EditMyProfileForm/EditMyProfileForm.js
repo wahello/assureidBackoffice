@@ -26,9 +26,9 @@ export default class EditMyProfileForm extends ValidationComponent {
     this.state={
       isOpen          : false,
       selectedItem    : 'About',
-      inputFocusColor : '#f7ac57',
-      firstName       : Meteor.user().profile.firstName,
-      lastName        : Meteor.user().profile.lastName,
+      inputFocusColor : '#00b8FF',
+      firstname       : Meteor.user().profile.firstname,
+      lastname        : Meteor.user().profile.lastname,
       emailId         : email,
       firstNameError  : "",
       lastNameError   : "",
@@ -61,19 +61,19 @@ export default class EditMyProfileForm extends ValidationComponent {
 
   validInput = () => {
     const {
-      firstName,
-      lastName,
+      firstname,
+      lastname,
       emailId,
     } = this.state;
     let valid = true;
 
       this.validate({
-        firstName: {
+        firstname: {
           minlength: 3,
           maxlength: 12,
           required: true,
         },
-        lastName: {
+        lastname: {
           minlength: 3,
           maxlength: 12,
           required: true,
@@ -82,8 +82,8 @@ export default class EditMyProfileForm extends ValidationComponent {
         emailId: { emailId: true, required: true }, 
       });
 
-    if (this.isFieldInError("firstName")) {
-      let firstNameError = this.getErrorsInField('firstName');
+    if (this.isFieldInError("firstname")) {
+      let firstNameError = this.getErrorsInField('firstname');
       console.log('firstNameError ',firstNameError);
       this.setState({ firstNameError });
       valid = false;
@@ -91,8 +91,8 @@ export default class EditMyProfileForm extends ValidationComponent {
       this.setState({firstNameError:""})
     }
 
-    if (this.isFieldInError("lastName")) {
-      this.setState({ lastNameError: this.getErrorsInField('lastName') });
+    if (this.isFieldInError("lastname")) {
+      this.setState({ lastNameError: this.getErrorsInField('lastname') });
       valid = false;
     }else{
       this.setState({lastNameError:""})
@@ -123,8 +123,8 @@ export default class EditMyProfileForm extends ValidationComponent {
 
     var formValues = {
 
-      'firstName'   : this.state.firstName,
-      'lastName'    : this.state.lastName,
+      'firstname'   : this.state.firstname,
+      'lastname'    : this.state.lastname,
       'email'       : this.state.emailId,
     }
     if(this.validInput()){
@@ -166,15 +166,15 @@ export default class EditMyProfileForm extends ValidationComponent {
             <View style={styles.formInputView}>
               <TextField
                 label                 = 'First Name'
-                value                 = {this.state.firstName}
-                onChangeText          = {(firstName) => this.setState({firstName})}
+                value                 = {this.state.firstname}
+                onChangeText          = {(firstname) => this.setState({firstname})}
                 lineWidth             = {1}
                 tintColor             = {this.state.inputFocusColor}
                 inputContainerPadding = {4}
                 labelHeight           = {16}
                 keyboardType          = 'default'
-                ref={input => (this.firstName = input)}
-                onSubmitEditing={() => this.lastName.focus()}
+                ref={input => (this.firstname = input)}
+                onSubmitEditing={() => this.lastname.focus()}
 
               />
             </View>
@@ -186,14 +186,14 @@ export default class EditMyProfileForm extends ValidationComponent {
             <View style={styles.formInputView}>
               <TextField
                 label                 = 'Last Name'
-                value                 = {this.state.lastName}
-                onChangeText          = {(lastName) => this.setState({lastName})}
+                value                 = {this.state.lastname}
+                onChangeText          = {(lastname) => this.setState({lastname})}
                 lineWidth             = {1}
                 tintColor             = {this.state.inputFocusColor}
                 inputContainerPadding = {4}
                 labelHeight           = {16}
                 keyboardType          = 'default'
-                ref={input => (this.lastName = input)}
+                ref={input => (this.lastname = input)}
                 onSubmitEditing={() => this.email.focus()}
               />
             </View>
@@ -243,7 +243,7 @@ export default class EditMyProfileForm extends ValidationComponent {
                 <Text style={{fontSize:12,color:'#aaa'}}>Mobile Number *</Text>
               </View>
               <View>
-                <Text style={{fontSize:15,color:'#000'}} >{userData.username}</Text>
+                <Text style={{fontSize:15,color:'#000'}} ></Text>
               </View>
             </View>
             <View style={styles.formInputView}>
@@ -251,7 +251,7 @@ export default class EditMyProfileForm extends ValidationComponent {
                 <Text style={{fontSize:12,color:'#aaa'}}>Alternate Mobile Number *</Text>
               </View>
               <View>
-                <Text style={{fontSize:15,color:'#000'}} >{userData.username}</Text>
+                <Text style={{fontSize:15,color:'#000'}} ></Text>
               </View>
             </View>
             <View style={styles.formInputView}>

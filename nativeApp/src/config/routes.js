@@ -12,7 +12,7 @@ import ResetPassword from '../layouts/ResetPassword/ResetPassword.js';
 
 import EditCustomer from '../layouts/EditCustomer/EditCustomer.js';
 import AddCustomer from '../layouts/AddCustomer/AddCustomer.js';
-import ViewCustomer from '../layouts/ViewCustomer/ViewCustomer.js';
+import ViewTicket from '../layouts/ViewTicket/ViewTicket.js';
 
 import ViewBill from '../layouts/ViewBill/ViewBill.js';
 import ViewCustomerBill from '../layouts/ViewBill/ViewCustomerBill';
@@ -27,7 +27,7 @@ import ViewProduct from '../layouts/Products/ViewProduct.js';
 import EditProduct from '../layouts/Products/EditProduct.js';
 
 import EditCustomerMoreDetails from '../layouts/EditCustomer/EditCustomerMoreDetails.js';
-import ViewCustomerDetails from '../layouts/ViewCustomer/ViewCustomerDetails.js';
+import ViewCustomerDetails from '../layouts/ViewTicket/ViewCustomerDetails.js';
 import BillCollection from '../layouts/ViewCollection/BillCollection.js';
 import CustomerHoliday from '../layouts/CustomerHoliday/CustomerHoliday.js';
 
@@ -74,6 +74,12 @@ export const AuthStack = StackNavigator({
   },
     ListOfTickets: {
     screen: ListOfTickets,
+    navigationOptions: {
+      header: null
+    }
+  },
+  ViewTicket: {
+    screen: ViewTicket,
     navigationOptions: {
       header: null
     }
@@ -139,12 +145,7 @@ export const AuthStack = StackNavigator({
       header:null
     }
   },
-   ViewCustomer: {
-    screen: ViewCustomer,
-    navigationOptions: {
-      header: null
-    }
-  },
+
   ViewCollection: {
     screen: ViewCollection,
     navigationOptions: {

@@ -37,21 +37,27 @@ export default StyleSheet.create({
     borderWidth: 1,
     backgroundColor: '#B22222'
   },
-  card: {
-    backgroundColor: '#fff',
-    padding: 0,
-    borderRadius: 5,
-    margin: 20,
-    marginBottom: 20
+  card:{
+    backgroundColor:'#fff',
+    padding:0,
+    width:window.width-30,
+    // borderRadius:5,
+    marginBottom: 10,
+    alignSelf: 'center',
+    // borderColor: '#000',
+    borderTopColor:'#bbb',
+    borderBottomColor:'#bbb',
+    borderRightColor:'#bbb',
+    borderLeftWidth: 3,
+    borderLeftColor:'#f7ac57',
   },
-  cardHeader: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#000',
-    maxHeight: 500,
-    borderTopLeftRadius: 5,
-    borderTopRightRadius: 5
+  cardHeader:{
+    // flex:1,
+    // flexDirection:'row',
+    backgroundColor:'#fff',
+    paddingVertical:5,
+    borderBottomWidth:1,
+    borderBottomColor:'#bbb'
   },
   cardHeaderText: {
     color: '#fbae16',

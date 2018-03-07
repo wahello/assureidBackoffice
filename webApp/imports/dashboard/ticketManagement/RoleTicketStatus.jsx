@@ -116,17 +116,20 @@ constructor(props){
         var userDetails = Meteor.users.findOne({"_id":empid});
         console.log(userDetails);
         if (userDetails) {
+          // var name = userDetails.profile.firstname +" "+userDetails.profile.lastname;
           var name = userDetails.profile.firstname +" "+userDetails.profile.lastname;
+          console.log("name :"+name);
           var teammemberDetails = Meteor.users.find({"profile.reportToName":name}).fetch();
           var reportUserArr = [];
           if(teammemberDetails){
+        console.log(teammemberDetails.length);
+
               for(k=0;k<teammemberDetails.length;k++){
                   var newStr = teammemberDetails[k].profile.firstname+" "+teammemberDetails[k].profile.lastname;
                   reportUserArr.push(newStr);
               }
 
           }
-        console.log(reportUserArr);
           
         }
         

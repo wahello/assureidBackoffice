@@ -21,11 +21,12 @@ export default StyleSheet.create({
     width: 18,
     height: 18,
     textAlign: 'center',
-    color: '#000',
+    color: '#fff',
     fontSize: 12,
     borderStyle: 'solid',
+    borderColor:'#B22222',
     borderWidth: 1,
-    backgroundColor: '#fbae16'
+    backgroundColor: '#B22222'
   },
   card: {
     backgroundColor: '#fff',

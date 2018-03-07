@@ -35,12 +35,12 @@ export default class ListOfTickets extends React.Component {
     this.openDrawer   = this.openDrawer.bind(this);
     this.closeDrawer  = this.closeDrawer.bind(this);
     this.toggle       = this.toggle.bind(this);
-    this.handleView   = this.handleView.bind(this);
+    // this.handleView   = this.handleView.bind(this);
   }
-  handleView (lineName,index) {
-    console.log("lineName : ", lineName);
-    this.props.navigation.navigate("ViewCustomer",{lineName:lineName,index:index});
-  }
+  // handleView () {
+  //   // console.log("lineName : ", lineName);
+  //   this.props.navigation.navigate("ViewTicket");
+  // }
   componentDidMount() {
     BackHandler.addEventListener(
       "hardwareBackPress",
@@ -139,8 +139,8 @@ export default class ListOfTickets extends React.Component {
   //   this.setState({ isModalVisibleTwo: !this.state.isModalVisibleTwo });
 
   render(){
-    var {lineData} = this.props;
-    var {deleteLineData} = this.props;
+    // var {lineData} = this.props;
+    // var {deleteLineData} = this.props;
     // console.log("lineData => ",deleteLineData);
 
     const {navigate,goBack} = this.props.navigation;
@@ -276,56 +276,156 @@ export default class ListOfTickets extends React.Component {
                   </View>
                 }
               />
-            <HeaderDy headerTitle="View Line" goBack={goBack} />
+            <HeaderDy headerTitle="List of Tickets" goBack={goBack} />
               <View style={{ padding: 10 }}>
-                {/*<View style={{ flexDirection: "row",justifyContent:'space-around' }}>
-                  <Button
-                    onPress={this._toggleModal2}
-                    textStyle={{ textAlign: "center" }}
-                    buttonStyle={styles.button}
-                    title="DELETE LINE"
-                  />
-                  <Button
-                    onPress={this._toggleModal1}
-                    textStyle={{ textAlign: "center" }}
-                    buttonStyle={styles.button1}
-                    title="ADD LINE"
-                  />
-                </View>*/}
-                {/* <View
-                  style={{
-                    flex: 1,
-                    margin: 10,
-                    flexDirection: "row",
-                    borderWidth: 1,
-                    borderColor: "#6d6e70"
-                  }}
-                >
-                  <SearchBar
-                    containerStyle={{
-                      flex: 9,
-                      borderWidth: 0,
-                      borderTopWidth: 0,
-                      borderBottomWidth: 0
-                    }}
-                    inputStyle={{
-                      margin: 0,
-                      backgroundColor: "#fff",
-                      borderRadius: 0
-                    }}
-                    noIcon
-                    lightTheme
-                    placeholder="Type Here..."
-                  />
-                  <Icon
-                    containerStyle={{ flex: 1 }}
-                    name="search"
-                    type="font-awesome"
-                    size={16}
-                    color="#6d6e70"
-                  />
-                </View>*/}
-                <View style={{padding: 10,justifyContent:'center'}}>
+                <TouchableOpacity onPress={()=>navigate('ViewTicket')}>
+                  <Card containerStyle={styles.card}>
+                    <View style={styles.cardHeader}>
+                      <View style={{flexDirection:'row',flex:1,paddingHorizontal:10,paddingVertical:5}}>
+                        <View style={{flex:.5}}>
+                          <Text>Tickets#</Text>
+                        </View>
+                        <View style={{flex:.5}}>
+                          <Text>AA000006</Text>
+                        </View>
+                      </View>
+                      <View style={{flexDirection:'row',flex:1,paddingHorizontal:10,paddingVertical:5}}>
+                        <View style={{flex:.5}}>
+                          <Text>Service Name</Text>
+                        </View>
+                        <View style={{ flex:.5}}>
+                          <Text>Address Verification</Text>
+                        </View>
+                      </View>
+                      <View style={{flexDirection:'row',flex:1,paddingHorizontal:10,paddingVertical:5}}>
+                        <View style={{flex:.5}}>
+                          <Text>TAT (Date)</Text>
+                        </View>
+                        <View style={{flex:.5}}>
+                          <Text>15/03/2018</Text>
+                        </View>
+                      </View>
+                    </View>
+                    <View
+                      style={{
+                        flex: 1,
+                        flexDirection: "row",
+                        backgroundColor: "#ddd"
+                      }}
+                    >
+                      <View
+                        style={{
+                          flex: 1,
+                          paddingVertical: 10,
+                          paddingHorizontal: 15
+                        }}
+                      >
+                        <Text style={{ textAlign: "center" }}>
+                          Mr. Darshan Bakshi
+                        </Text>
+                      </View>
+                    </View>
+                  </Card>
+                </TouchableOpacity>
+                <TouchableOpacity>
+                  <Card containerStyle={styles.card}>
+                    <View style={styles.cardHeader}>
+                      <View style={{flexDirection:'row',flex:1,paddingHorizontal:10,paddingVertical:5}}>
+                        <View style={{flex:.5}}>
+                          <Text>Tickets#</Text>
+                        </View>
+                        <View style={{flex:.5}}>
+                          <Text>AA000006</Text>
+                        </View>
+                      </View>
+                      <View style={{flexDirection:'row',flex:1,paddingHorizontal:10,paddingVertical:5}}>
+                        <View style={{flex:.5}}>
+                          <Text>Service Name</Text>
+                        </View>
+                        <View style={{flex:.5}}>
+                          <Text>Service Process Description Attribute</Text>
+                        </View>
+                      </View>
+                      <View style={{flexDirection:'row',flex:1,paddingHorizontal:10,paddingVertical:5}}>
+                        <View style={{flex:.5}}>
+                          <Text>TAT (Date)</Text>
+                        </View>
+                        <View style={{flex:.5}}>
+                          <Text>15/03/2018</Text>
+                        </View>
+                      </View>
+                    </View>
+                    <View
+                      style={{
+                        flex: 1,
+                        flexDirection: "row",
+                        backgroundColor: "#ddd"
+                      }}
+                    >
+                      <View
+                        style={{
+                          flex: 1,
+                          paddingVertical: 10,
+                          paddingHorizontal: 15
+                        }}
+                      >
+                        <Text style={{ textAlign: "center" }}>
+                          Mr. Darshan Bakshi
+                        </Text>
+                      </View>
+                    </View>
+                  </Card>
+                </TouchableOpacity>
+                <TouchableOpacity >
+                  <Card containerStyle={styles.card}>
+                    <View style={styles.cardHeader}>
+                      <View style={{flexDirection:'row',flex:1,paddingHorizontal:10,paddingVertical:5}}>
+                        <View style={{flex:.5}}>
+                          <Text>Tickets#</Text>
+                        </View>
+                        <View style={{flex:.5}}>
+                          <Text>AA000006</Text>
+                        </View>
+                      </View>
+                      <View style={{flexDirection:'row',flex:1,paddingHorizontal:10,paddingVertical:5}}>
+                        <View style={{flex:.5}}>
+                          <Text>Service Name</Text>
+                        </View>
+                        <View style={{ flex:.5}}>
+                          <Text>Address Verification</Text>
+                        </View>
+                      </View>
+                      <View style={{flexDirection:'row',flex:1,paddingHorizontal:10,paddingVertical:5}}>
+                        <View style={{flex:.5}}>
+                          <Text>TAT (Date)</Text>
+                        </View>
+                        <View style={{flex:.5}}>
+                          <Text>15/03/2018</Text>
+                        </View>
+                      </View>
+                    </View>
+                    <View
+                      style={{
+                        flex: 1,
+                        flexDirection: "row",
+                        backgroundColor: "#ddd"
+                      }}
+                    >
+                      <View
+                        style={{
+                          flex: 1,
+                          paddingVertical: 10,
+                          paddingHorizontal: 15
+                        }}
+                      >
+                        <Text style={{ textAlign: "center" }}>
+                          Mr. Darshan Bakshi
+                        </Text>
+                      </View>
+                    </View>
+                  </Card>
+                </TouchableOpacity>
+           {/*     <View style={{padding: 10,justifyContent:'center'}}>
                     <Table>
                       <Row data={tableHead} style={styles.head} textStyle={styles.headText}/>
                         {
@@ -336,86 +436,8 @@ export default class ListOfTickets extends React.Component {
                           ))
                         }
                     </Table>
-                </View>
+                </View>*/}
               </View>
-
-            {/*  <Modal
-                isVisible={this.state.isModalVisibleOne}
-                backdropColor={"black"}
-                backdropOpacity={0.9}
-              >
-                <View style={styles.modalContent}>
-                  <View
-                    style={{ justifyContent: "center", alignItems: "center" }}
-                  >
-                    <Text style={{fontSize: 15 }}>
-                      Add Line
-                    </Text>
-                  </View>
-
-                  <View style={styles.formContainer}>
-                    <View style={styles.formInputView}>
-                      <TextField
-                        label="Line Number / Name *"
-                        onChangeText={lineName => this.setState({ lineName })}
-                        lineWidth={1}
-                        tintColor={this.state.inputFocusColor}
-                        inputContainerPadding={4}
-                        labelHeight={16}
-                        keyboardType="default"
-                      />
-                    </View>
-                  </View>
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      justifyContent: "space-around"
-                    }}
-                  >
-                    <Button
-                      onPress={this._toggleModal1}
-                      textStyle={{ textAlign: "center" }}
-                      title="CANCEL"
-                      buttonStyle={styles.buttonDelete}
-                    />
-                    <Button
-                      onPress={this.InsertLineDataToServer}
-                      textStyle={{ textAlign: "center" }}
-                      title="ADD LINE"
-                      buttonStyle={styles.buttonClose}
-                    />
-                  </View>
-                </View>
-              </Modal>
-
-              <Modal
-                isVisible={this.state.isModalVisibleTwo}
-                backdropColor={"black"}
-                backdropOpacity={0.9}
-              >
-                <View style={styles.modalContent}>
-                  <View
-                    style={{ justifyContent: "center", alignItems: "center" }}
-                  >
-                    <Text style={{ paddingBottom: 20 }}>Delete Line</Text>
-                  </View>
-
-                  <Dropdown baseColor="#aaa"
-                      inputContainerStyle={{ borderBottomWidth: 1,borderBottomColor:'#aaa'}}
-                      label='Delete Line'
-                      labelHeight={20}
-                      rippleInsets={{bottom:-25,top:0}}
-                      labelTextStyle={{textAlign:'center',paddingLeft:15}}
-                      data={deleteLineData}
-                      onChangeText = {(deleteLineName) => this.setState({deleteLineName})}
-                    />
-
-                  <View style={{flexDirection:'row',justifyContent:'space-around'}}>
-                    <Button onPress={this._toggleModal2}  textStyle={{textAlign:'center'}} title="CANCEL" buttonStyle={styles.buttonDelete} />
-                    <Button onPress     = {this.confirmDelete} textStyle={{textAlign:'center'}} title="DELETE LINE" buttonStyle={styles.buttonClose} />
-                  </View>
-                </View>
-              </Modal>*/}
             </ScrollView>
           </View>
         </SideMenu>

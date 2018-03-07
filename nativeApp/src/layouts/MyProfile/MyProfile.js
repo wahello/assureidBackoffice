@@ -166,55 +166,55 @@ class MyProfile extends React.Component {
                     />
                   </View>
                   <View style={styles.formInputView}>
-                    <View>
+                    <View style={{flex:.5}}>
                       <Text style={{fontWeight: 'bold',paddingRight:60}}>First Name</Text>
                     </View>
-                    <View>
-                      <Text>{userData.profile.firstName}</Text>
+                    <View style={{flex:.5}}>
+                      <Text>{userData.profile.firstname}</Text>
                     </View>
                   </View>
                   <View style={styles.formInputView}>
-                    <View>
+                    <View style={{flex:.5}}>
                       <Text style={{fontWeight: 'bold',paddingRight:60}}>Last Name</Text>
                     </View>
-                    <View>
-                      <Text>{userData.profile.lastName}</Text>
+                    <View style={{flex:.5}}>
+                      <Text>{userData.profile.lastname}</Text>
                     </View>
                   </View>
                   <View style={styles.formInputView}>
-                    <View>
+                    <View style={{flex:.5}}>
                       <Text style={{fontWeight: 'bold',paddingRight:77}}>Email Id</Text>
                     </View>
-                    <View>
+                    <View style={{flex:.5}}>
                       <Text>{userData.emails[0].address}</Text>
                     </View>
                   </View>
                   <View style={styles.formInputView}>
-                    <View>
+                    <View style={{flex:.5}}>
                       <Text style={{fontWeight: 'bold',paddingRight:77}}>Alternate Email Id</Text>
                     </View>
-                    <View>
-                      <Text>{userData.emails[0].address}</Text>
+                    <View style={{flex:.5}}>
+                      <Text></Text>
                     </View>
                   </View>
                   <View style={styles.formInputView}>
-                    <View>
+                    <View style={{flex:.5}}>
                       <Text style={{fontWeight: 'bold',paddingRight:20}}>Mobile Number</Text>
                     </View>
-                    <View>
-                      <Text>{userData.username}</Text>
+                    <View style={{flex:.5}}>
+                      <Text>{userData.profile.mobNumber}</Text>
                     </View>
                   </View>
                   <View style={styles.formInputView}>
-                    <View>
+                    <View style={{flex:.5}}>
                       <Text style={{fontWeight: 'bold',paddingRight:20}}>Alternate Mobile Number</Text>
                     </View>
-                    <View>
-                      <Text>{userData.username}</Text>
+                    <View style={{flex:.5}}>
+                      <Text></Text>
                     </View>
                   </View>
                   <View style={styles.formInputView}>
-                    <View>
+                    <View style={{flex:.5}}>
                       <Text style={{fontWeight: 'bold',paddingRight:20}}>Address</Text>
                     </View>
                   </View>

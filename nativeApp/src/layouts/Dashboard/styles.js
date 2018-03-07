@@ -2,7 +2,7 @@ import { StyleSheet,Dimensions } from 'react-native';
 const window = Dimensions.get('window');
 export default StyleSheet.create({
 
-  notificationText: {
+   notificationText: {
     position: 'absolute',
     right: 0,
     top: 3,
@@ -10,11 +10,12 @@ export default StyleSheet.create({
     width: 18,
     height: 18,
     textAlign: 'center',
-    color: '#000',
+    color: '#fff',
     fontSize: 12,
     borderStyle: 'solid',
+    borderColor:'#B22222',
     borderWidth: 1,
-    backgroundColor: '#fbae16'
+    backgroundColor: '#B22222'
   },
   imgWrapper:{
     flex:1,
