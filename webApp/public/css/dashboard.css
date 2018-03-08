@@ -6215,10 +6215,7 @@ td input:focus {
 .ticketServiceWrapper{
  padding: 2%;
   height: 200px;
- /*border-bottom: 1px solid rgba(74,74,74,0.3);
- border-top: 1px solid rgba(74,74,74,0.3);*/
- /* border-bottom: 1px solid rgba(74,74,74,0.3);
- border-top: 1px solid rgba(74,74,74,0.3); */
+
  border:1px solid rgba(74,74,74,0.3);
 }
 .outerTickeBlock{
@@ -6235,16 +6232,17 @@ td input:focus {
   cursor: pointer;
 }
 .verifiedDocumentsWrapper{
- padding: 2%;
+ padding: 2% 0%;
  /* border-bottom: 1px solid rgba(74,74,74,0.3); */
- border: 1px solid rgba(74,74,74,0.3);
+ /* border: 1px solid rgba(74,74,74,0.3); */
+ border-top:2px solid #aaa;
 }
 .verifiedDocumentsHeader h5{
-  font-size: 13px;
+  /* font-size: 13px;
   color: #4a4a4a;
   font-weight: 700;
   line-height: 1.6;
-  letter-spacing: 0.025em; 
+  letter-spacing: 0.025em;  */
 }
 .docimg{
   height:60px!important;
@@ -6300,7 +6298,7 @@ td input:focus {
 }
 .addressImage{
   height: 120px;
-  width: 120px;
+  width: 90px;
 }
 /*Nilam add Ticket Details Css*/
 .noLRPad{
@@ -6403,6 +6401,8 @@ margin-top: 20px;
 
 .borderBottomBlock{
   border-bottom:1px solid rgba(74,74,74,0.3);
+  margin-top:2%;
+  padding-bottom: 2%;
 }
 .committeeOuterWrap{
   border:1px solid rgba(74,74,74,0.3);
@@ -6410,13 +6410,15 @@ margin-top: 20px;
 .roleName{
   font-weight: bold;
   color: #000;
-  /* text-align: center; */
-  margin-bottom: 4%;
-  font-size: 15px;
+  text-transform: capitalize;
+  margin-bottom: 3%;
+  font-size: 21px;
 }
 .outerShadow{
-  box-shadow: 0px 0px 4px #aaa;
-  padding: 2%;
+  /* box-shadow: 0px 0px 4px #aaa;
+  padding: 2%; */
+  border-top: 1px solid #666;
+  margin-top: 2%;
 }
 .radiobtn{
   margin-top:0%!important;
@@ -6435,7 +6437,8 @@ margin-top: 20px;
 .genName{
   text-transform: capitalize;
 }
-.dataDetails{
+.dataDetails,
+.activityDetails h3{
   color: #000;
   font-weight: bold;
   letter-spacing: 1.2px;
@@ -6459,3 +6462,22 @@ margin-top: 20px;
   color:#fff;
   text-transform: uppercase;
 }
+.addressDashedLine{
+  border: 1px dashed #aaa;
+  padding: 4% 0%;
+}
+.activityDetails{
+  margin: 2% 0% 2% 0%;
+}
+.teammemberSubmit{
+  background: #00c0ef;
+  color: #fff;
+  padding: 2%;
+}
+.teammemouter{
+  margin-top:4%;
+}
+.teammemwrap{
+  margin-top:2%;
+}
+ 

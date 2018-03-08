@@ -31,7 +31,7 @@ class VerifyDetailsDocument extends TrackerReact(Component){
                  
         {
             this.props.getTicket.addressType == "currentAddress" ?
-                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
                     <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12 ">
                        <h5 className="dataDetails"> Current Address</h5>
                        

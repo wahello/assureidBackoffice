@@ -32,13 +32,15 @@ class VerifiedDocuments extends TrackerReact(Component){
   render(){
     if (!this.props.loading) {
      return(            
+        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div className="verifiedDocumentsWrapper col-lg-12 col-md-12 col-sm-12 col-xs-12">
           <div className="verifiedDocumentsHeader text-left col-lg-12 col-md-12 col-sm-12 col-xs-12">
-             <h5>Documents Submited:</h5>
+             <h5 className="dataDetails">Document Attachment:</h5>
           </div>
-          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 addressDashedLine">
+          <div className="col-lg-10 col-lg-offset-1">
              {this.props.getTicket.addressType === "both" ?
-                <div>
+                <div className="col-lg-10 col-lg-offset-1">
                    {this.props.firstTicketElen.permanentAddress ?
                       this.props.firstTicketElen.permanentAddress.map((permanentAddrProof, index)=>{
                         return (
@@ -173,7 +175,8 @@ class VerifiedDocuments extends TrackerReact(Component){
                 :
                 ""
              }
-
+          </div>
+          </div>
           </div>
         </div>    
       );  

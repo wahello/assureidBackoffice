@@ -180,18 +180,23 @@ class Ticket extends TrackerReact(Component){
                          <VerifiedDocuments ticketId={this.props.params.id}/>
                          <TicketDocumentDetails ticketId={this.props.params.id}/>
                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outerShadow">
-                         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
-                             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 noLRPad">
-                                <UserInformation ticketId={this.props.params.id} /> 
-                              </div>
-                             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 noLRPad">
-                                <RoleTicketStatus ticketId={this.props.params.id}/>
-                             </div>
-                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad" id="AddImagesVideo" style={{"display" : "none"}}>
-                              <AddImagesVideo ticket={this.props.params.id}/>
+                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 activityDetails">                            
+                                <h3> Activities</h3>
                             </div>
-                         </div>
-                       </div>
+                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
+                                  {/* <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 noLRPad">
+                                      <UserInformation ticketId={this.props.params.id} /> 
+                                    </div> */}
+                                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
+                                      <RoleTicketStatus ticketId={this.props.params.id}/>
+                                  </div>
+                                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad" id="AddImagesVideo" style={{"display" : "none"}}>
+                                    <AddImagesVideo ticket={this.props.params.id}/>
+                                  </div>
+                              </div>
+                            </div>
+                          </div>
                        </div>
                        </div> 
                     </div>
