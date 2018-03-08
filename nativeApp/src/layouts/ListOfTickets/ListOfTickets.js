@@ -29,7 +29,7 @@ export default class ListOfTickets extends React.Component {
       isModalVisibleOne: false,
       isModalVisibleTwo: false,
       inputFocusColor   : '#f7ac57',
-      lineName:'',
+      // lineName:'',
       deleteLineName : '',
     };
     this.openDrawer   = this.openDrawer.bind(this);
@@ -144,16 +144,16 @@ export default class ListOfTickets extends React.Component {
     // console.log("lineData => ",deleteLineData);
 
     const {navigate,goBack} = this.props.navigation;
-    const tableHead = ['Ticket#', 'Service Name', 'TAT(Date)'];
+    // const tableHead = ['Ticket#', 'Service Name', 'TAT(Date)'];
 
-    const tableData = [
-      ["AA000001", "Employment Name", "15/03/2018" ],
-      ["AA000002", "Employment Name", "15/03/2018" ],
-      ["AA000003", "Employment Name", "15/03/2018" ],
-      ["AA000004", "Employment Name", "15/03/2018" ],
-      ["AA000005", "Employment Name", "15/03/2018" ],
-      ["AA000006", "Employment Name", "15/03/2018" ],
-    ];
+    // const tableData = [
+    //   ["AA000001", "Employment Name", "15/03/2018" ],
+    //   ["AA000002", "Employment Name", "15/03/2018" ],
+    //   ["AA000003", "Employment Name", "15/03/2018" ],
+    //   ["AA000004", "Employment Name", "15/03/2018" ],
+    //   ["AA000005", "Employment Name", "15/03/2018" ],
+    //   ["AA000006", "Employment Name", "15/03/2018" ],
+    // ];
 
     const menu = <Menu navigate={navigate} userName={this.props.userName}/>;
     var navigationView = (
@@ -278,8 +278,8 @@ export default class ListOfTickets extends React.Component {
               />
             <HeaderDy headerTitle="List of Tickets" goBack={goBack} />
               <View style={{ padding: 10 }}>
-                <TouchableOpacity onPress={()=>navigate('ViewTicket')}>
-                  <Card containerStyle={styles.card}>
+                <TouchableOpacity onPress={()=>this.props.navigation.navigate('ViewTicket')}>
+                  <Card containerStyle={styles.newCard}>
                     <View style={styles.cardHeader}>
                       <View style={{flexDirection:'row',flex:1,paddingHorizontal:10,paddingVertical:5}}>
                         <View style={{flex:.5}}>
@@ -306,29 +306,27 @@ export default class ListOfTickets extends React.Component {
                         </View>
                       </View>
                     </View>
-                    <View
-                      style={{
-                        flex: 1,
-                        flexDirection: "row",
-                        backgroundColor: "#ddd"
-                      }}
-                    >
-                      <View
-                        style={{
-                          flex: 1,
-                          paddingVertical: 10,
-                          paddingHorizontal: 15
-                        }}
-                      >
+                    <View style={{ flex: 1,flexDirection: "row", backgroundColor: "#ddd"}}>
+                      <View style={{flex:.46,paddingVertical: 10,paddingHorizontal: 15}}>
                         <Text style={{ textAlign: "center" }}>
-                          Mr. Darshan Bakshi
+                          Garima Billore
+                        </Text>
+                      </View>
+                      <View style={{flex:.34,paddingVertical: 10,paddingHorizontal: 15}}>
+                        <Text style={{ textAlign: "center" }}>
+                          15/03/2018
+                        </Text>
+                      </View>
+                      <View style={{flex:.23,paddingVertical: 10,paddingHorizontal: 15}}>
+                        <Text style={{ textAlign: "center" }}>
+                          4:20 AM
                         </Text>
                       </View>
                     </View>
                   </Card>
                 </TouchableOpacity>
                 <TouchableOpacity>
-                  <Card containerStyle={styles.card}>
+                  <Card containerStyle={styles.acceptedCard}>
                     <View style={styles.cardHeader}>
                       <View style={{flexDirection:'row',flex:1,paddingHorizontal:10,paddingVertical:5}}>
                         <View style={{flex:.5}}>
@@ -355,29 +353,27 @@ export default class ListOfTickets extends React.Component {
                         </View>
                       </View>
                     </View>
-                    <View
-                      style={{
-                        flex: 1,
-                        flexDirection: "row",
-                        backgroundColor: "#ddd"
-                      }}
-                    >
-                      <View
-                        style={{
-                          flex: 1,
-                          paddingVertical: 10,
-                          paddingHorizontal: 15
-                        }}
-                      >
+                     <View style={{ flex: 1,flexDirection: "row", backgroundColor: "#ddd"}}>
+                      <View style={{flex:.46,paddingVertical: 10,paddingHorizontal: 15}}>
                         <Text style={{ textAlign: "center" }}>
-                          Mr. Darshan Bakshi
+                          Alisha Bhatt
+                        </Text>
+                      </View>
+                      <View style={{flex:.34,paddingVertical: 10,paddingHorizontal: 15}}>
+                        <Text style={{ textAlign: "center" }}>
+                          15/03/2018
+                        </Text>
+                      </View>
+                      <View style={{flex:.23,paddingVertical: 10,paddingHorizontal: 15}}>
+                        <Text style={{ textAlign: "center" }}>
+                          4:20 AM
                         </Text>
                       </View>
                     </View>
                   </Card>
                 </TouchableOpacity>
                 <TouchableOpacity >
-                  <Card containerStyle={styles.card}>
+                  <Card containerStyle={styles.rejectedCard}>
                     <View style={styles.cardHeader}>
                       <View style={{flexDirection:'row',flex:1,paddingHorizontal:10,paddingVertical:5}}>
                         <View style={{flex:.5}}>
@@ -404,22 +400,20 @@ export default class ListOfTickets extends React.Component {
                         </View>
                       </View>
                     </View>
-                    <View
-                      style={{
-                        flex: 1,
-                        flexDirection: "row",
-                        backgroundColor: "#ddd"
-                      }}
-                    >
-                      <View
-                        style={{
-                          flex: 1,
-                          paddingVertical: 10,
-                          paddingHorizontal: 15
-                        }}
-                      >
+                    <View style={{ flex: 1,flexDirection: "row", backgroundColor: "#ddd"}}>
+                      <View style={{flex:.46,paddingVertical: 10,paddingHorizontal: 15}}>
                         <Text style={{ textAlign: "center" }}>
-                          Mr. Darshan Bakshi
+                          Priyanka Kajulkar
+                        </Text>
+                      </View>
+                      <View style={{flex:.34,paddingVertical: 10,paddingHorizontal: 15}}>
+                        <Text style={{ textAlign: "center" }}>
+                          15/03/2018
+                        </Text>
+                      </View>
+                      <View style={{flex:.23,paddingVertical: 10,paddingHorizontal: 15}}>
+                        <Text style={{ textAlign: "center" }}>
+                          4:20 AM
                         </Text>
                       </View>
                     </View>

@@ -29,7 +29,7 @@ export default StyleSheet.create({
     backgroundColor: '#B22222'
   },
   buttonLarge:{
-    width: (window.width - 75),
+    width: (window.width - 45),
     height: 50,
     backgroundColor: '#54Aff3'
   },
@@ -107,8 +107,21 @@ export default StyleSheet.create({
     paddingVertical:15
   },
    formInputView:{
-    width:(window.width - 75),
+    width:(window.width - 45),
     paddingVertical:10,
     flexDirection:'row'
+  }, 
+  formInputViews:{
+    width:(window.width - 45),
+  
+    flexDirection:'row',
+    // borderWidth:1,
+    // height:55,
+    // paddingTop:10,
   },
+  lineStyle:{
+        borderWidth: .5,
+        borderColor:'#aaa',
+        width:(window.width - 45),
+    }
 });
