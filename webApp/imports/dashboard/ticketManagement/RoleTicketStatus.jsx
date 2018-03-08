@@ -49,7 +49,7 @@ constructor(props){
       Meteor.call('updateTMStatus',ticketId,addressType,status,empid,(error,result)=>{
           if(result){
               console.log("result after updateTMStatus:"+result);
-              $('.hideacceptreject').hide();x   
+              $('.hideacceptreject').hide();
           }
       });
   }
@@ -127,7 +127,6 @@ constructor(props){
                   var newStr = teammemberDetails[k].profile.firstname+" "+teammemberDetails[k].profile.lastname;
                   reportUserArr.push(newStr);
               }
-
           }
         }
         
@@ -162,8 +161,8 @@ constructor(props){
                 if(roleStatus == "New"){
                     return(
                         <div className="hideacceptreject">
-                            <button type="button" className="bg-primary col-lg-5 teammember" data-status="Accepted" data-empId = {empid} data-addressType = {this.props.getTicket.addressType} data-id={this.props.ticketId} onClick={this.changeTMStatus.bind(this)}>Accept</button>
-                            <button type="button" className="btn-danger col-lg-5 teammember" data-status="Rejected" data-empId = {empid} data-addressType = {this.props.getTicket.addressType} data-id={this.props.ticketId} onClick={this.changeTMStatus.bind(this)}>Reject</button>
+                            <button type="button" className="bg-primary col-lg-3 teammember" data-status="Accepted" data-empId = {empid} data-addressType = {this.props.getTicket.addressType} data-id={this.props.ticketId} onClick={this.changeTMStatus.bind(this)}>Accept</button>
+                            <button type="button" className="btn-danger col-lg-3 teammember" data-status="Rejected" data-empId = {empid} data-addressType = {this.props.getTicket.addressType} data-id={this.props.ticketId} onClick={this.changeTMStatus.bind(this)}>Reject</button>
                         </div>
                     );
                 }else{
@@ -208,11 +207,11 @@ constructor(props){
                                     <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
                                     
                                         <div className="col-lg-5 noLRPad">
-                                         <input type="text" name="baName" className="banametext" ref="BAName"/>
+                                         <input type="text" name="baName" className="banametext col-lg-11" ref="BAName"/>
                                         </div>
                                     
                                         <div className="col-lg-3 noLRPad">                                        
-                                         <button type="submit" value="Submit" className="col-lg-11 noLRPad" onClick={this.addBADetails.bind(this)} data-addressType = {this.props.getTicket.addressType} data-id={this.props.ticketId} data-role={this.state.radioState}>Submit</button>
+                                         <button type="submit" value="Submit" className=" uploadDocBtn col-lg-11 noLRPad" onClick={this.addBADetails.bind(this)} data-addressType = {this.props.getTicket.addressType} data-id={this.props.ticketId} data-role={this.state.radioState}>Submit</button>
                                          </div>
                                           <div className="col-lg-4 teammemouter noLRPad" id="uploadDocs" style={{"display" : "none"}}>                                        
                                             <button type="submit" value="Submit"  className="col-lg-12 teammemberSubmit noLRPad" onClick={this.uploadDocsDiv.bind(this)}>Upload Docs</button>
@@ -223,7 +222,7 @@ constructor(props){
                                     this.state.radioState == 'Self'?
                                     <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
                                           <div className="col-lg-4 uploadDocs noLRPad" id="uploadDocs">                                        
-                                            <button type="submit" value="Submit"  className="col-lg-12 noLRPad" onClick={this.uploadDocsDiv.bind(this)}>Upload Docs</button>
+                                            <button type="submit" value="Submit"  className="uploadDocBtn col-lg-12 noLRPad" onClick={this.uploadDocsDiv.bind(this)}>Upload Docs</button>
                                          </div>
 
                                     </div>

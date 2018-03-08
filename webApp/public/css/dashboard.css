@@ -6412,7 +6412,7 @@ margin-top: 20px;
   color: #000;
   text-transform: capitalize;
   margin-bottom: 3%;
-  font-size: 21px;
+  font-size: 19px;
 }
 .outerShadow{
   /* box-shadow: 0px 0px 4px #aaa;
@@ -6470,8 +6470,9 @@ margin-top: 20px;
   margin: 2% 0% 2% 0%;
 }
 .teammemberSubmit{
-  background: #00c0ef;
-  color: #fff;
+  /* background: #00c0ef; */
+  color: #000;
+  font-weight: bold;
   padding: 2%;
 }
 .teammemouter{
@@ -6479,5 +6480,19 @@ margin-top: 20px;
 }
 .teammemwrap{
   margin-top:2%;
+}
+.teammember{
+  margin-right: 5%;
+  padding: 1%;
+  margin-top: 2%;
+}
+.uploadDocBtn{
+  padding: 3%;
+  color: #000;
+  font-weight: bold;
+}
+.banametext{
+  height: 32px;
+  margin-right: 10%;
 }
  

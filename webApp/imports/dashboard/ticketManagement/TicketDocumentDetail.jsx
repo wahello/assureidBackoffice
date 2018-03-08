@@ -113,7 +113,7 @@ class TicketDocumentDetails extends TrackerReact(Component){
                     }    
                 }
             }
-            console.log("Ticket final id , status :"+ticketId,finalStatus);
+            
             Meteor.call('updateTicketFinalStatus',ticketId,finalStatus,function(error,result){
                 if(result){
 					var memberDetails = Meteor.users.find({"roles":"team leader"},{sort:{'count':1}}).fetch();
