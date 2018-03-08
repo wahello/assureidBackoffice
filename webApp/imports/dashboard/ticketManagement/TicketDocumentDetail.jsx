@@ -89,13 +89,14 @@ class TicketDocumentDetails extends TrackerReact(Component){
            
     }
     updateTicketStatus(event){
-
+        console.log("Inside updateTicketStatus");
         event.preventDefault();
         var ticketId = $(event.currentTarget).attr('data-id');  
         var ticketObj = TicketMaster.findOne({'_id':ticketId,'ticketElement.empid':Meteor.userId()});                         
         if(ticketObj){
           
             if(ticketObj.serviceName == 'Address Verification'){
+                console.log("Inside ticketObj");
                 var permanentLen = ticketObj.ticketElement[0].permanentAddress.length;
                 var currentLen = ticketObj.ticketElement[0].currentAddress.length;
                 if(ticketObj.ticketElement[0].permanentAddress.length> 0){
@@ -112,6 +113,7 @@ class TicketDocumentDetails extends TrackerReact(Component){
                     }    
                 }
             }
+            console.log("Ticket final id , status :"+ticketId,finalStatus);
             Meteor.call('updateTicketFinalStatus',ticketId,finalStatus,function(error,result){
                 if(result){
 					var memberDetails = Meteor.users.find({"roles":"team leader"},{sort:{'count':1}}).fetch();

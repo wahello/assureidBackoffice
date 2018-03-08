@@ -10,6 +10,7 @@ import {Tracker} from 'meteor/tracker';
 import { browserHistory } from 'react-router'; 
 import { Link } from 'react-router';
 import { TicketMaster } from '../../website/ServiceProcess/api/TicketMaster.js'; 
+import { Services } from '/imports/dashboard/reactCMS/api/Services.js';
 // import { Services } from '../reactCMS/api/Services.js';
 
 class ServiceInformation extends TrackerReact(Component){   
@@ -70,9 +71,15 @@ class ServiceInformation extends TrackerReact(Component){
           {/* {this.serviceData()} */}
           <div>
             <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-              <img src={this.props.getTicket.serviceImage} className="ticketUserImage" />
+              <img src={this.props.serviceInfo.image} className="ticketUserImage" />
             </div>
              <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 outerTickeBlock noPadLeftRight">
+             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
+                <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-left userName">
+                {/* <h5>{this.state.userDetails.profile.firstname} {this.state.userDetails.profile.lastname}</h5> */}
+                  <h5>Address Verification</h5>
+                </div> 
+              </div>
               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
                 <div className="col-lg-5 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
                  Ticket #<span className="pull-right">:</span>
@@ -86,7 +93,7 @@ class ServiceInformation extends TrackerReact(Component){
                  Service Name<span className="pull-right">:</span>
                 </div>  
                 <div className="col-lg-7 col-md-8 col-sm-8 col-xs-8 text-left userValue">
-                  <p>{this.props.getTicket.serviceName}</p>
+                  <p>{this.props.serviceInfo.serviceName}</p>
                 </div> 
               </div> 
               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
@@ -111,16 +118,17 @@ class ServiceInformation extends TrackerReact(Component){
    }
 }
 serviceContainer = withTracker(props => {
-  
+
     var _id = props.ticketId;
     const postHandle = Meteor.subscribe('singleTicket',_id);
-    const getTicket  = TicketMaster.findOne({"_id" : _id}) || {};     
-    const loading = !postHandle.ready();
-
-    
+    const servicePublish = Meteor.subscribe('services');
+    const getTicket  = TicketMaster.findOne({"_id" : _id}) || {};
+    const serviceInfo = Services.findOne({'_id':getTicket.serviceId});
+    const loading = !postHandle.ready() && !servicePublish.ready();    
       return {
           loading  : loading,
           getTicket : getTicket,
+          serviceInfo : serviceInfo
       };
 })(ServiceInformation);
 export default serviceContainer;

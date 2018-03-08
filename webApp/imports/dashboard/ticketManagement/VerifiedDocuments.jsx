@@ -34,7 +34,7 @@ class VerifiedDocuments extends TrackerReact(Component){
      return(            
         <div className="verifiedDocumentsWrapper col-lg-12 col-md-12 col-sm-12 col-xs-12">
           <div className="verifiedDocumentsHeader text-left col-lg-12 col-md-12 col-sm-12 col-xs-12">
-             <h5>Verify Documents :</h5>
+             <h5>Documents Submited:</h5>
           </div>
           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
              {this.props.getTicket.addressType === "both" ?

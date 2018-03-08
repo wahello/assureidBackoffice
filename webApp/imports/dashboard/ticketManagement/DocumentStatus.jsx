@@ -19,7 +19,7 @@ class DocumentStatus extends TrackerReact(Component){
 
 	render(){
      return( 
-        <div>
+        <div className="col-lg-12 col-md-12"> 
           <div className="col-lg-12 col-md-12 comptitle">
 	          <div className="col-lg-12">
 	            <div className="col-lg-1 sidecls">
