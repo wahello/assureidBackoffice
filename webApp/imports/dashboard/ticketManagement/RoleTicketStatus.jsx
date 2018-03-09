@@ -161,8 +161,8 @@ constructor(props){
                 if(roleStatus == "New"){
                     return(
                         <div className="hideacceptreject">
-                            <button type="button" className="bg-primary col-lg-3 teammember" data-status="Accepted" data-empId = {empid} data-addressType = {this.props.getTicket.addressType} data-id={this.props.ticketId} onClick={this.changeTMStatus.bind(this)}>Accept</button>
-                            <button type="button" className="btn-danger col-lg-3 teammember" data-status="Rejected" data-empId = {empid} data-addressType = {this.props.getTicket.addressType} data-id={this.props.ticketId} onClick={this.changeTMStatus.bind(this)}>Reject</button>
+                            <button type="button" className="bg-primary col-lg-5 teammember" data-status="Accepted" data-empId = {empid} data-addressType = {this.props.getTicket.addressType} data-id={this.props.ticketId} onClick={this.changeTMStatus.bind(this)}>Accept</button>
+                            <button type="button" className="btn-danger col-lg-5 teammember" data-status="Rejected" data-empId = {empid} data-addressType = {this.props.getTicket.addressType} data-id={this.props.ticketId} onClick={this.changeTMStatus.bind(this)}>Reject</button>
                         </div>
                     );
                 }else{
@@ -253,46 +253,32 @@ constructor(props){
             if(getTicket.ticketElement[i].role!="BA"){
             var roleDetails = Meteor.users.findOne({"_id":getTicket.ticketElement[i].empid});
                     newCommeeteeArr.push(
-                        <div key = {i} className="col-lg-12 col-md-12 col-sm-12 col-xs-12 borderBottomBlock noLRPad">
-                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                <h5 className="col-lg-9 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 noLRPad roleName">
-                                {getTicket.ticketElement[i].role}
-                                </h5>
-                                <div className="col-lg-8 col-lg-offset-2 col-md-12 col-sm-12 col-xs-12">
-                                
-                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
-                                    <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
-                                    Name <span className="pull-right">:</span>
-                                    </div>  
-                                    <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-left userValue">
-                                    <p>{roleDetails.profile.firstname} {roleDetails.profile.lastname}</p>
+                        <div key = {i} className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
+                        <div className="ticketServiceWrapper col-lg-12 col-md-6 col-sm-6 col-xs-6">              
+                                <div className="col-lg-8 col-lg-offset-3 col-md-8 col-sm-8 col-xs-8 outerTickeBlock noPadLeftRight">
+                                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
+                                        <div className="col-lg-5 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
+                                    State<span className="pull-right">:</span>
+                                        </div>  
+                                        <div className="col-lg-7 col-md-8 col-sm-8 col-xs-8 text-left userValue">
+                                        <p>{getTicket.ticketElement[i].role_status}</p>
+                                        </div> 
                                     </div> 
+                                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
+                                        <div className="col-lg-5 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
+                                        Date :<span className="pull-right">:</span>
+                                        </div>  
+                                        <div className="col-lg-7 col-md-8 col-sm-8 col-xs-8 text-left userValue">
+                                            <p>{moment(getTicket.ticketElement[i].createdAt).format("DD/MM/YYYY")}</p> 
+                                        </div>  
+                                    </div>  
+                                    <div>
+                                        {/* <h6> {getTicket.ticketElement[i].role_status},{getTicket.ticketElement[i].role},{getTicket.ticketElement[i].empid}</h6> */}
+                                        {this.roleSwitch(getTicket.ticketElement[i].role_status, getTicket.ticketElement[i].role,getTicket.ticketElement[i].empid)}
+                                        
+                                    </div>
                                 </div>
-                            
-                            
-                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
-                                    <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
-                                State<span className="pull-right">:</span>
-                                    </div>  
-                                    <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-left userValue">
-                                    <p>{getTicket.ticketElement[i].role_status}</p>
-                                    </div> 
-                                </div> 
-                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
-                                    <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
-                                    Date <span className="pull-right">:</span>
-                                    </div>  
-                                    <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-left userValue">
-                                        <p>{moment(getTicket.ticketElement[i].createdAt).format("DD/MM/YYYY")}</p> 
-                                    </div>  
-                                </div>  
-                                <div>
-                                    
-                                    {this.roleSwitch(getTicket.ticketElement[i].role_status, getTicket.ticketElement[i].role,getTicket.ticketElement[i].empid)}
-                                    
-                                </div>
-                        </div>
-                      </div>
+                        </div>    
                     </div>
                     );
                     // break;

@@ -30,12 +30,22 @@ export default class UserInformation extends TrackerReact(Component){
     if (getTicket){
       var newCommeeteeArr = [];
       for(var i=0;i<getTicket.ticketElement.length;i++){
+        // if(i<5 && getUserData.roles.indexOf("screening committee")==1 && getTicket.ticketElement[i].role != "BA"){
           var roleDetails = Meteor.users.findOne({"_id":getTicket.ticketElement[i].empid});
           newCommeeteeArr.push(
             <div key = {i} className="col-lg-12 col-md-12 col-sm-12 col-xs-12 borderBottomBlock noLRPad">
             <h5 className="col-lg-9 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 noLRPad roleName">
               {getTicket.ticketElement[i].role}
             </h5>
+            <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+              { roleDetails.profile.userProfile ?
+                 <img src={roleDetails.profile.userProfile} className="ticketUserImage" /> :
+                 <img src="/images/assureid/userIcon.png" className="ticketUserImage" /> 
+              }
+               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight assureidValue">
+                  <p>MHP1234567IN</p>
+              </div>
+            </div>
             <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8">
               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
                 <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
@@ -53,7 +63,26 @@ export default class UserInformation extends TrackerReact(Component){
                   <p>{roleDetails.emails[0].address}</p>
                 </div> 
               </div>
+              {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
+                <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
+                 Gender <span className="pull-right">:</span>
+                </div>  
+                <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-left userValue">
+                  <p></p>
+                </div> 
+              </div>
+              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
+                <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
+                 Age<span className="pull-right">:</span>
+                </div>  
+                <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-left userValue">
+                  <p></p>
+                </div> 
+              </div> */}
             </div>
+            {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right viewProfileLink noPadLeftRight">
+              <Link>View profile</Link>
+            </div> */}
           </div>
           );
           // break;
