@@ -99,7 +99,7 @@ class Ticket extends TrackerReact(Component){
                           </div> */}
                           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
-                            <h3 className="ticketheadStyle col-lg-12">Address Verification/AV1234</h3>
+                            <h3 className="ticketheadStyle col-lg-12">{this.props.getTicket.serviceName}/{this.props.getTicket.orderNo}</h3>
                           </div>
                           <div className="ticketPills col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 noLRPad">
@@ -136,7 +136,7 @@ class Ticket extends TrackerReact(Component){
                                   </div>  
                                   <div className="col-lg-7 col-md-7 col-sm-8 col-xs-8 text-left userValue">
                                   {/* <p>{this.state.userDetails.emails[0].address}</p> */}
-                                    <p>+919878899080</p>
+                                    <p>+91{this.props.userProfile.mobileNo}</p>
                                   </div> 
                                 </div>
 
@@ -229,7 +229,8 @@ export default UserDetailsContainer = withTracker(props => {
   var getTicket = TicketMaster.findOne({"_id":ticketId}) || {};        
   var user = Meteor.users.findOne({"_id": getTicket.userId}) || {};
   var userProfile = UserProfile.findOne({"userId": getTicket.userId}) || {};
-  
+  console.log("userProfile");
+  console.log(userProfile);
   var today = new Date();
     var birthDate = new Date(userProfile.dateOfBirth);
     var age = today.getFullYear() - birthDate.getFullYear();
@@ -239,6 +240,7 @@ export default UserDetailsContainer = withTracker(props => {
         age--;
     }
     userProfile.dateOfBirth=age;
+    
   return {
     loading,
     getTicket,

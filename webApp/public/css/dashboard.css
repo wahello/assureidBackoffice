@@ -6437,12 +6437,8 @@ margin-top: 20px;
 .genName{
   text-transform: capitalize;
 }
-<<<<<<< Updated upstream
 .dataDetails,
 .activityDetails h3{
-=======
-.dataDetails{
->>>>>>> Stashed changes
   color: #000;
   font-weight: bold;
   letter-spacing: 1.2px;
@@ -6499,5 +6495,11 @@ margin-top: 20px;
   height: 32px;
   margin-right: 10%;
 }
- 
+.basubmit{
+  color: #000;
+  font-weight: bold;
+  padding: 2%;
+}
+.statusStyle{
+  text-transform: capitalize;
 }

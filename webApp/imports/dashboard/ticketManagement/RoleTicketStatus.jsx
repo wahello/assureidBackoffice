@@ -127,6 +127,7 @@ constructor(props){
                   var newStr = teammemberDetails[k].profile.firstname+" "+teammemberDetails[k].profile.lastname;
                   reportUserArr.push(newStr);
               }
+
           }
         }
         
@@ -134,8 +135,8 @@ constructor(props){
             case 'team leader':
                     if((roleStatus == "New") || (roleStatus == "Reassign")){
                         return(
-                            <div class="col-lg-12">
-                                <div className="col-lg-8">
+                            <div>
+                                <div className="col-lg-5">
                                 <lable>Allocate To Team Member</lable>
                                 <select className="form-control allProductSubCategories" aria-describedby="basic-addon1" ref="allocateToName">
                                     { 
@@ -167,7 +168,7 @@ constructor(props){
                     );
                 }else{
                    return(
-                       <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12 teammemwrap">
+                       <div>
                         <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <div className="radio radiobtn col-lg-3 noLRPad">
                                 <label className="noLRPad"><input type="radio" name="optradio" value="Self" className="optradio" checked={this.state.radioState ==="Self"} onChange={this.getRadioValue.bind(this)}/>Self</label>
@@ -198,8 +199,8 @@ constructor(props){
                                                     } 
                                                 </select>
                                                 </div>
-                                                <div className="col-lg-4 noLRPad teammemouter">
-                                                     <button type="submit" value="Submit" className="col-lg-11 teammemberSubmit noLRPad" onClick={this.addBADetails.bind(this)} data-addressType = {this.props.getTicket.addressType} data-id={this.props.ticketId} data-role={this.state.radioState}>Submit</button>                                       
+                                                <div className="col-lg-4 noLRPad">
+                                                     <button type="submit" value="Submit" className="col-lg-11 noLRPad" onClick={this.addBADetails.bind(this)} data-addressType = {this.props.getTicket.addressType} data-id={this.props.ticketId} data-role={this.state.radioState}>Submit</button>                                       
                                                 </div>
                                             </div>
                                     : 
@@ -207,14 +208,14 @@ constructor(props){
                                     <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
                                     
                                         <div className="col-lg-5 noLRPad">
-                                         <input type="text" name="baName" className="banametext col-lg-11" ref="BAName"/>
+                                         <input type="text" name="baName" className="banametext" ref="BAName"/>
                                         </div>
                                     
                                         <div className="col-lg-3 noLRPad">                                        
-                                         <button type="submit" value="Submit" className=" uploadDocBtn col-lg-11 noLRPad" onClick={this.addBADetails.bind(this)} data-addressType = {this.props.getTicket.addressType} data-id={this.props.ticketId} data-role={this.state.radioState}>Submit</button>
+                                         <button type="submit" value="Submit" className="col-lg-11 noLRPad" onClick={this.addBADetails.bind(this)} data-addressType = {this.props.getTicket.addressType} data-id={this.props.ticketId} data-role={this.state.radioState}>Submit</button>
                                          </div>
-                                          <div className="col-lg-4 teammemouter noLRPad" id="uploadDocs" style={{"display" : "none"}}>                                        
-                                            <button type="submit" value="Submit"  className="col-lg-12 teammemberSubmit noLRPad" onClick={this.uploadDocsDiv.bind(this)}>Upload Docs</button>
+                                          <div className="col-lg-4 noLRPad" id="uploadDocs" style={{"display" : "none"}}>                                        
+                                            <button type="submit" value="Submit"  className="col-lg-12 noLRPad" onClick={this.uploadDocsDiv.bind(this)}>Upload Docs</button>
                                          </div>
 
                                     </div>
@@ -222,7 +223,7 @@ constructor(props){
                                     this.state.radioState == 'Self'?
                                     <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
                                           <div className="col-lg-4 uploadDocs noLRPad" id="uploadDocs">                                        
-                                            <button type="submit" value="Submit"  className="uploadDocBtn col-lg-12 noLRPad" onClick={this.uploadDocsDiv.bind(this)}>Upload Docs</button>
+                                            <button type="submit" value="Submit"  className="col-lg-12 noLRPad" onClick={this.uploadDocsDiv.bind(this)}>Upload Docs</button>
                                          </div>
 
                                     </div>
@@ -249,43 +250,84 @@ constructor(props){
 
     if (getTicket){
         var newCommeeteeArr = [];
+        var data            = {};
+        var status          = [];
+        var date            = [];
+        var status_temp     = [];
+        var finalarray      = [];
+        var count           = 1;
+        
         for(var i=0;i<getTicket.ticketElement.length;i++){
             if(getTicket.ticketElement[i].role!="BA"){
-            var roleDetails = Meteor.users.findOne({"_id":getTicket.ticketElement[i].empid});
-                    newCommeeteeArr.push(
-                        <div key = {i} className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
-                        <div className="ticketServiceWrapper col-lg-12 col-md-6 col-sm-6 col-xs-6">              
-                                <div className="col-lg-8 col-lg-offset-3 col-md-8 col-sm-8 col-xs-8 outerTickeBlock noPadLeftRight">
-                                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
-                                        <div className="col-lg-5 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
-                                    State<span className="pull-right">:</span>
-                                        </div>  
-                                        <div className="col-lg-7 col-md-8 col-sm-8 col-xs-8 text-left userValue">
-                                        <p>{getTicket.ticketElement[i].role_status}</p>
-                                        </div> 
-                                    </div> 
-                                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
-                                        <div className="col-lg-5 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
-                                        Date :<span className="pull-right">:</span>
-                                        </div>  
-                                        <div className="col-lg-7 col-md-8 col-sm-8 col-xs-8 text-left userValue">
-                                            <p>{moment(getTicket.ticketElement[i].createdAt).format("DD/MM/YYYY")}</p> 
-                                        </div>  
-                                    </div>  
-                                    <div>
-                                        {/* <h6> {getTicket.ticketElement[i].role_status},{getTicket.ticketElement[i].role},{getTicket.ticketElement[i].empid}</h6> */}
-                                        {this.roleSwitch(getTicket.ticketElement[i].role_status, getTicket.ticketElement[i].role,getTicket.ticketElement[i].empid)}
-                                        
-                                    </div>
-                                </div>
-                        </div>    
-                    </div>
-                    );
-                    // break;
+                
+                if((i > 0 ) && ((getTicket.ticketElement[i].role == getTicket.ticketElement[i-1].role) && (getTicket.ticketElement[i].empid == getTicket.ticketElement[i-1].empid))){
+              
+                    newCommeeteeArr[i-count].status.push(getTicket.ticketElement[i].role_status + ','+moment(getTicket.ticketElement[i].createdAt).format("DD/MM/YYYY"));
+                    count++;
+                }else{
+                    
+                    var roleDetails = Meteor.users.findOne({"_id":getTicket.ticketElement[i].empid});
+                    data = {
+                        index  : i,
+                        role   : getTicket.ticketElement[i].role,
+                        name   : roleDetails.profile.firstname + ' ' +roleDetails.profile.lastname,
+                        status : [getTicket.ticketElement[i].role_status + ','+moment(getTicket.ticketElement[i].createdAt).format("DD/MM/YYYY")],
+                       
+                    };
+                    newCommeeteeArr.push(data);
+                }
             }
         }
+        for(var i=0;i<newCommeeteeArr.length;i++){
+            finalarray.push(
+                <div key ={i} className="col-lg-12 col-md-12 col-sm-12 col-xs-12 borderBottomBlock noLRPad">
+                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <h5 className="col-lg-9 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 noLRPad roleName">
+                        {newCommeeteeArr[i].role}
+                        </h5>
+                        <div className="col-lg-8 col-lg-offset-2 col-md-12 col-sm-12 col-xs-12">
+                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
+                                <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
+                                    Name <span className="pull-right">:</span>
+                                </div>  
+                                <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-left userValue">
+                                    <p>{newCommeeteeArr[i].name}</p>
+                                </div> 
+                            </div>
+                            {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12"> */}
+                            <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
+                                            Status/Date <span className="pull-right">:</span>
+                                            </div>  
+                            <div className="col-lg-6 col-md-6 col-sm-4 col-xs-4 text-left noLRPad userLabel">
+                            
+                            {
+                                newCommeeteeArr[i].status.map((data1,index1)=>{
+                                        return(                                          
+                                            <div  key={index1} className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">   
+                                                <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-left userValue">
+                                                    <p className="statusStyle">{data1}</p>
+                                                </div> 
+                                            </div>
+                                        );
+                                    })
+                                        
+                            }                                        
+                            </div>
+                            <div>
+                            {getTicket.ticketElement[i].role_status},{getTicket.ticketElement[i].role},{getTicket.ticketElement[i].empid}
+                                
+                                {this.roleSwitch(getTicket.ticketElement[i].role_status, getTicket.ticketElement[i].role,getTicket.ticketElement[i].empid)}
+                                
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            );
+                    // break;
+            }
+        // }
     }
-      return newCommeeteeArr;
+      return finalarray;
     
     }
  
