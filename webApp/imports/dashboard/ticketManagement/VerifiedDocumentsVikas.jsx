@@ -44,98 +44,18 @@ class VerifiedDocuments extends TrackerReact(Component){
 
   approvedDocument(){
     $('.showHideReasonWrap').removeClass('showReasonSection');
-
-    var curURl = location.pathname;
-    if(curURl){
-      var _id = curURl.split('/').pop();
-    }
-    var rejectReason = '';
-    var status       = 'Aprooved';
-    Meteor.call("addApproovedStatus",rejectReason,status,_id,(error,result)=>{
-      if(error){
-      }else{
-        swal('Aprooved successfully');
-      }
-    });
-  }
-
-
-
-  submitRejectReason(event){
-    var curURl = location.pathname;
-    if(curURl){
-      var _id = curURl.split('/').pop();
-    }
-    var rejectReason =  $('.rejectReason').val();
-    var status       = 'Reject';
-    Meteor.call("addRejectStatus",rejectReason,status,_id,(error,result)=>{
-      if(error){
-
-      }else{
-        swal('Rejected successfully');
-      }
-    });
-  }
-
-  /*
-  hideShowRejectReason function for show reason block click on Reject button
-*/
-
-  hideShowRejectCurReason(){
-    $('.showHideReasonWrap').toggleClass('showReasonSection');
-  }
-
-/*
-    This function execute when document get approved.  
-*/
-
-  approvedCurDocument(){
-    $('.showHideReasonWrap').removeClass('showReasonSection');
-
-    var curURl = location.pathname;
-    if(curURl){
-      var _id = curURl.split('/').pop();
-    }
-    var rejectReason = '';
-    var status       = 'Aprooved';
-    Meteor.call("addApproovedCurStatus",rejectReason,status,_id,(error,result)=>{
-      if(error){
-      }else{
-        swal('Aprooved successfully');
-      }
-    });
-  }
-
-  
-
-  submitRejectCurReason(event){
-    var curURl = location.pathname;
-    if(curURl){
-      var _id = curURl.split('/').pop();
-    }
-    var rejectReason =  $('.rejectReason').val();
-    var status       = 'Reject';
-    Meteor.call("addRejectCurStatus",rejectReason,status,_id,(error,result)=>{
-      if(error){
-
-      }else{
-        swal('Rejected successfully');
-      }
-    });
   }
 
   render(){
     if (!this.props.loading) {
      return(            
-        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div className="verifiedDocumentsWrapper col-lg-12 col-md-12 col-sm-12 col-xs-12">
           <div className="verifiedDocumentsHeader text-left col-lg-12 col-md-12 col-sm-12 col-xs-12">
-             <h5 className="dataDetails">Document Attachment:</h5>
+             <h5>Verify Documents :</h5>
           </div>
-          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 addressDashedLine">
-          <div className="col-lg-10 col-lg-offset-1">
+          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
              {this.props.getTicket.addressType === "both" ?
-                <div className="col-lg-10 col-lg-offset-1">
+                <div>
                    {this.props.firstTicketElen.permanentAddress ?
                       this.props.firstTicketElen.permanentAddress.map((permanentAddrProof, index)=>{
                         return (
@@ -153,6 +73,7 @@ class VerifiedDocuments extends TrackerReact(Component){
                                     <button type="button" className="close" data-dismiss="modal">&times;</button>
                                     <div className="row">
                                       <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
                                       </div>
                                       <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                         <img src={permanentAddrProof.proofOfPermanentAddr}  className="img-responsive addressImageModal col-lg-12 col-md-12 col-sm-12 col-xs-12"/>
@@ -234,18 +155,36 @@ class VerifiedDocuments extends TrackerReact(Component){
                                       <div className="row">
                                         <div className="col-lg-12 col-md-12  col-sm-12 col-sm-12">
                                           <div className="col-lg-12 col-md-12 showAddrWrap">
-                                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12"> 
-                                              {this.props.perAddrArray[0].line1}, 
+                                            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                              <div><label> Address Line1 </label></div>
+                                              {this.props.perAddrArray[0].line1}
+                                            </div>
+                                            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                              <div><label> Address Line2 </label></div>
                                               {this.props.perAddrArray[0].line2}
-                                            </div> 
-                                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                              {this.props.perAddrArray[0].line3}, 
+                                            </div>
+                                            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                              <div><label> Address Line3 </label></div>
+                                              {this.props.perAddrArray[0].line3}
+                                            </div>
+                                            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                              <div><label> Address landmark </label></div>
                                               {this.props.perAddrArray[0].landmark}
                                             </div>
-                                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                              {this.props.perAddrArray[0].city},
-                                              {this.props.perAddrArray[0].state}, 
-                                              {this.props.perAddrArray[0].Country}, 
+                                            <div className="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                              <div><label> City </label></div>
+                                              {this.props.perAddrArray[0].city}
+                                            </div>
+                                            <div className="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                              <div><label> State </label></div>
+                                              {this.props.perAddrArray[0].state}
+                                            </div>
+                                            <div className="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                              <div><label> country </label></div>
+                                              {this.props.perAddrArray[0].Country}
+                                            </div>
+                                            <div className="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                              <div><label> pincode </label></div>
                                               {this.props.perAddrArray[0].pincode}
                                             </div>
                                           </div>
@@ -253,18 +192,20 @@ class VerifiedDocuments extends TrackerReact(Component){
                                         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
                                           <img src={permanentAddrProof.proofOfPermanentAddr}  className="col-lg-12 img-responsive addressImageModal showAddrImgWrap col-lg-12 col-md-12 col-sm-12 col-xs-12"/>
                                         </div>
-                                        <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm">
+                                        <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm  detailsbtn">
                                           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                               <button type="button" className="btn btn-info acceptTicket acceptreject" onClick={this.approvedDocument.bind()}>Approved</button>
                                               <button type="button" className="btn btn-info rejectTicket acceptreject" onClick={this.hideShowRejectReason.bind()}>Reject</button>
                                           </div>
                                         </div>
-                                        <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 showHideReasonWrap">
-                                        <div className="col-lg-10  col-md-10  col-sm-12 col-xs-12 otherInfoForm">
-                                              <textarea className="col-lg-12 col-md-12 col-sm-12 col-xs-12 rejectReason" rows='2' placeholder="Enter Reject reason..."></textarea>
+                                        <div className="showHideReasonWrap">
+                                        <div className="col-lg-10  col-md-10  col-sm-12 col-xs-12 otherInfoForm detailsbtn">
+                                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                              <textarea className="col-lg-12 col-md-12 col-sm-12 col-xs-12" rows='2' placeholder="Enter Reject reason..."></textarea>
+                                          </div>
                                         </div>
-                                        <div className="col-lg-2  col-md-2  col-sm-12 col-xs-12 rejectBtnWrap">
-                                          <button className="col-lg-12 col-md-12 btn btn-primary rejectReasonBtn pull-left" onClick={this.submitRejectReason.bind(this)}>Submit</button>
+                                        <div className="col-lg-2  col-md-2  col-sm-12 col-xs-12 rejectBtnWrap detailsbtn">
+                                          <button className="col-lg-12 col-md-12 btn btn-primary rejectReasonBtn pull-left">Submit</button>
                                         </div>
                                         </div>
                                       </div> 
@@ -299,41 +240,9 @@ class VerifiedDocuments extends TrackerReact(Component){
                                   <div className="modal-body">
                                     <button type="button" className="close" data-dismiss="modal">&times;</button>
                                     <div className="row">
-                                      <div className="col-lg-12 col-md-12  col-sm-12 col-sm-12">
-                                          <div className="col-lg-12 col-md-12 showAddrWrap">
-                                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12"> 
-                                              {this.props.curAddrArray[0].tempLine1}, 
-                                              {this.props.curAddrArray[0].tempLine2}
-                                            </div> 
-                                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                              {this.props.curAddrArray[0].tempLine3}, 
-                                              {this.props.curAddrArray[0].tempLandmark}
-                                            </div>
-                                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                              {this.props.curAddrArray[0].tempCity},
-                                              {this.props.curAddrArray[0].tempState}, 
-                                              {this.props.curAddrArray[0].tempCountry}, 
-                                              {this.props.curAddrArray[0].tempPincode}
-                                            </div>
-                                          </div>
-                                        </div>
-                                      <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 curImgWrap">
+                                      <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                         <img src={currentAddrProof.proofOfCurrentAddr}  className="img-responsive addressImageModal col-lg-12 col-md-12 col-sm-12 col-xs-12"/>
                                       </div>
-                                      <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm">
-                                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                              <button type="button" className="btn btn-info acceptTicket acceptreject" onClick={this.approvedCurDocument.bind()}>Approved</button>
-                                              <button type="button" className="btn btn-info rejectTicket acceptreject" onClick={this.hideShowRejectCurReason.bind()}>Reject</button>
-                                          </div>
-                                        </div>
-                                        <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 showHideReasonWrap">
-                                        <div className="col-lg-10  col-md-10  col-sm-12 col-xs-12 otherInfoForm">
-                                              <textarea className="col-lg-12 col-md-12 col-sm-12 col-xs-12 rejectReason" rows='2' placeholder="Enter Reject reason..."></textarea>
-                                        </div>
-                                        <div className="col-lg-2  col-md-2  col-sm-12 col-xs-12 rejectBtnWrap">
-                                          <button className="col-lg-12 col-md-12 btn btn-primary rejectReasonBtn pull-left" onClick={this.submitRejectCurReason.bind(this)}>Submit</button>
-                                        </div>
-                                        </div>
                                     </div> 
                                   </div>
                                 </div> 
@@ -349,8 +258,7 @@ class VerifiedDocuments extends TrackerReact(Component){
                 :
                 ""
              }
-          </div>
-          </div>
+
           </div>
         </div>    
       );  
@@ -371,20 +279,6 @@ verifiedDocumentsContainer = withTracker(props => {
       if (ticketElement) {
          var firstTicketElen = ticketElement[0];
          var perAddrArray = firstTicketElen.permanentAddress;
-         if(perAddrArray){
-          var perAddrArray = perAddrArray;
-         }else{
-          var perAddrArray = '';
-         }
-         console.log("permanentAddress",perAddrArray);
-         var curAddrArray = firstTicketElen.currentAddress;
-         if(curAddrArray){
-            var curAddrArray = curAddrArray;
-         }else{
-          var curAddrArray = '';
-
-         }
-         console.log("currentaddress",curAddrArray);
       }
      
     }
@@ -395,7 +289,6 @@ verifiedDocumentsContainer = withTracker(props => {
           loading  : loading,
           getTicket : getTicket,
           perAddrArray,
-          curAddrArray,
           firstTicketElen : firstTicketElen,
       };
 })(VerifiedDocuments);

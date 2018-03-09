@@ -199,6 +199,54 @@ if(Meteor.isServer){
 			return ticket.ticketid;
 		},
 
+		/*
+			update status = reject and add rejection reason.
+		*/
+
+		'addRejectStatus':function(rejectReason,status,_id){
+			TicketMaster.update({"_id":_id},
+				{
+					$set:{
+						["ticketElement.0.permanentAddress."+0+".status"]:status,
+						["ticketElement.0.permanentAddress."+0+".rejectRemark"]:rejectReason,
+					}
+				});
+		},
+
+		'addApproovedStatus':function(rejectReason,status,_id){
+			TicketMaster.update({"_id":_id},
+				{
+					$set:{
+						["ticketElement.0.permanentAddress."+0+".status"]:status,
+						["ticketElement.0.permanentAddress."+0+".rejectRemark"]:rejectReason,
+					}
+				});
+		},
+
+
+		/*
+			update status CurrentAddress= reject and add rejection reason.
+		*/
+
+		'addRejectCurStatus':function(rejectReason,status,_id){
+			TicketMaster.update({"_id":_id},
+				{
+					$set:{
+						["ticketElement.0.currentAddress."+0+".status"]:status,
+						["ticketElement.0.currentAddress."+0+".rejectRemark"]:rejectReason,
+					}
+				});
+		},
+
+		'addApproovedCurStatus':function(rejectReason,status,_id){
+			TicketMaster.update({"_id":_id},
+				{
+					$set:{
+						["ticketElement.0.currentAddress."+0+".status"]:status,
+						["ticketElement.0.currentAddress."+0+".rejectRemark"]:rejectReason,
+					}
+				});
+		},
 
 		'updateCommitteeUserCount':function(count,id){
 			Meteor.users.update(
