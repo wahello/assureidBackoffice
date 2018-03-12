@@ -34,10 +34,13 @@ constructor(props){
       var ticketId = ticketDetails._id;
       var allocateToMemberDetails = ticketDetails.ticketElement[1];
       var empid = $(event.currentTarget).attr('data-empid');
-      console.log("empid :"+empid);
+      
     //   console.log(allocateToMemberDetails);
       Meteor.call('allocateToTeamMember',ticketId,firstName,lastName,allocateToMemberDetails,empid,(error,result)=>{
-            console.log(result);
+          if(result){
+            $('.allteamleader').hide();
+          }
+            // console.log(result);
       });
   }
 
@@ -46,12 +49,17 @@ constructor(props){
       var addressType = $(event.currentTarget).attr('data-addressType');
       var status      = $(event.currentTarget).attr('data-status');
       var empid       = $(event.currentTarget).attr('data-empId');
+      var roleStatus = $(event.currentTarget).attr('role-status');
+      console.log("role_status :"+roleStatus);
       Meteor.call('updateTMStatus',ticketId,addressType,status,empid,(error,result)=>{
-          if(result){
-              console.log("result after updateTMStatus:"+result);
-              $('.hideacceptreject').hide();
-          }
+        //   if(result){
+        //       console.log("result after updateTMStatus:"+result);
+        //       $('.hideacceptreject').hide();
+        //   }
       });
+      if( roleStatus!="New"){
+        $('#hideacceptreject').hide();
+      }
   }
 
   /*Get radio value and display dropdown and textbox*/
@@ -116,6 +124,9 @@ constructor(props){
   }
 
   roleSwitch(roleStatus,role,empid){
+      
+    var splitroleStatus = roleStatus.split(',');
+     
     if (!this.props.loading && role != "BA") {
         var userDetails = Meteor.users.findOne({"_id":empid});
         if (userDetails) {
@@ -133,10 +144,10 @@ constructor(props){
         
         switch(role){
             case 'team leader':
-                    if((roleStatus == "New") || (roleStatus == "Reassign")){
+                    if((splitroleStatus[0] == "New") || (splitroleStatus[0] == "Reassign")){
                         return(
                             <div>
-                                <div className="col-lg-5">
+                                <div className="col-lg-8 allteamleader">
                                 <lable>Allocate To Team Member</lable>
                                 <select className="form-control allProductSubCategories" aria-describedby="basic-addon1" ref="allocateToName">
                                     { 
@@ -151,21 +162,22 @@ constructor(props){
                                     } 
                                 </select>
                                 </div>
-                                <div className="col-lg-4 noLRPad">
-                                    <button type="button" className="bg-primary col-lg-12 teammember" data-empid={empid} onClick={this.allocateToTeamMember.bind(this)}>Ok</button>
+                                <div className="col-lg-4 fesubmitouter noLRPad">
+                                    <button type="button" className="fesubmitbtn col-lg-12 teammember" role-status={this.props.role_status} data-empid={empid} onClick={this.allocateToTeamMember.bind(this)}>Ok</button>
                                 </div>
                             </div>
                         );
                     }
                     break;
             case 'team member':
-                if(roleStatus == "New"){
+                if(splitroleStatus[0] == "New"){
                     return(
-                        <div className="hideacceptreject">
-                            <button type="button" className="bg-primary col-lg-5 teammember" data-status="Accepted" data-empId = {empid} data-addressType = {this.props.getTicket.addressType} data-id={this.props.ticketId} onClick={this.changeTMStatus.bind(this)}>Accept</button>
-                            <button type="button" className="btn-danger col-lg-5 teammember" data-status="Rejected" data-empId = {empid} data-addressType = {this.props.getTicket.addressType} data-id={this.props.ticketId} onClick={this.changeTMStatus.bind(this)}>Reject</button>
+                        <div className="hideacceptreject" id="hideacceptreject">
+                            <button type="button" className="bg-primary col-lg-5 teammember" data-status="Accepted" data-empId = {empid} data-addressType = {this.props.getTicket.addressType} data-id={this.props.ticketId} role-status = {this.props.role_status} onClick={this.changeTMStatus.bind(this)}>Accept</button>
+                            <button type="button" className="btn-danger col-lg-5 teammember" data-status="Rejected" data-empId = {empid} data-addressType = {this.props.getTicket.addressType} data-id={this.props.ticketId} role-status = {this.props.role_status} onClick={this.changeTMStatus.bind(this)}>Reject</button>
                         </div>
                     );
+                    
                 }else{
                    return(
                        <div>
@@ -199,22 +211,22 @@ constructor(props){
                                                     } 
                                                 </select>
                                                 </div>
-                                                <div className="col-lg-4 noLRPad">
-                                                     <button type="submit" value="Submit" className="col-lg-11 noLRPad" onClick={this.addBADetails.bind(this)} data-addressType = {this.props.getTicket.addressType} data-id={this.props.ticketId} data-role={this.state.radioState}>Submit</button>                                       
+                                                <div className="col-lg-4 fesubmitouter noLRPad">
+                                                     <button type="submit" value="Submit" className="col-lg-11 fesubmitbtn noLRPad" onClick={this.addBADetails.bind(this)} data-addressType = {this.props.getTicket.addressType} data-id={this.props.ticketId} data-role={this.state.radioState}>Submit</button>                                       
                                                 </div>
                                             </div>
                                     : 
                                     this.state.radioState == 'BA'?
                                     <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
                                     
-                                        <div className="col-lg-5 noLRPad">
-                                         <input type="text" name="baName" className="banametext" ref="BAName"/>
+                                        <div className="col-lg-7 noLRPad">
+                                         <input type="text" name="baName" className="fesubmitbtn banametext" ref="BAName"/>
                                         </div>
                                     
                                         <div className="col-lg-3 noLRPad">                                        
-                                         <button type="submit" value="Submit" className="col-lg-11 noLRPad" onClick={this.addBADetails.bind(this)} data-addressType = {this.props.getTicket.addressType} data-id={this.props.ticketId} data-role={this.state.radioState}>Submit</button>
+                                         <button type="submit" value="Submit" className="col-lg-11 fesubmitbtn noLRPad" onClick={this.addBADetails.bind(this)} data-addressType = {this.props.getTicket.addressType} data-id={this.props.ticketId} data-role={this.state.radioState}>Submit</button>
                                          </div>
-                                          <div className="col-lg-4 noLRPad" id="uploadDocs" style={{"display" : "none"}}>                                        
+                                          <div className="col-lg-4 fesubmitouter noLRPad" id="uploadDocs" style={{"display" : "none"}}>                                        
                                             <button type="submit" value="Submit"  className="col-lg-12 noLRPad" onClick={this.uploadDocsDiv.bind(this)}>Upload Docs</button>
                                          </div>
 
@@ -269,6 +281,7 @@ constructor(props){
                     var roleDetails = Meteor.users.findOne({"_id":getTicket.ticketElement[i].empid});
                     data = {
                         index  : i,
+                        empid  : getTicket.ticketElement[i].empid,
                         role   : getTicket.ticketElement[i].role,
                         name   : roleDetails.profile.firstname + ' ' +roleDetails.profile.lastname,
                         status : [getTicket.ticketElement[i].role_status + ','+moment(getTicket.ticketElement[i].createdAt).format("DD/MM/YYYY")],
@@ -294,7 +307,7 @@ constructor(props){
                                     <p>{newCommeeteeArr[i].name}</p>
                                 </div> 
                             </div>
-                            {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12"> */}
+                            
                             <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
                                             Status/Date <span className="pull-right">:</span>
                                             </div>  
@@ -302,22 +315,23 @@ constructor(props){
                             
                             {
                                 newCommeeteeArr[i].status.map((data1,index1)=>{
-                                        return(                                          
+                                        return(  
+                                            <div>                                        
                                             <div  key={index1} className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">   
                                                 <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-left userValue">
                                                     <p className="statusStyle">{data1}</p>
                                                 </div> 
+                                            </div>      
+                                            <div>
+                                                {this.roleSwitch(data1,newCommeeteeArr[i].role,newCommeeteeArr[i].empid)}
+                                            </div>
                                             </div>
                                         );
+                                        
+
                                     })
                                         
                             }                                        
-                            </div>
-                            <div>
-                            {getTicket.ticketElement[i].role_status},{getTicket.ticketElement[i].role},{getTicket.ticketElement[i].empid}
-                                
-                                {this.roleSwitch(getTicket.ticketElement[i].role_status, getTicket.ticketElement[i].role,getTicket.ticketElement[i].empid)}
-                                
                             </div>
                         </div>
                     </div>

@@ -433,9 +433,9 @@ if(Meteor.isServer){
 				
 			}else if(role == "Field Expert"){
 				var feFullName = id;
-				var splilFEName = feFullName.split(" ");
-				var baName      = splilFEName[0]+" "+splilFEName[1];
-				var userDetails = Meteor.users.findOne({'profile.firstname':splilFEName[0],'profile.lastname':splilFEName[1]});
+				var splitFEName = feFullName.split(" ");
+				var baName      = splitFEName[0]+" "+splitFEName[1];
+				var userDetails = Meteor.users.findOne({'profile.firstname':splitFEName[0],'profile.lastname':splitFEName[1]});
 				var id        = userDetails._id;
 				
 			}
@@ -469,17 +469,17 @@ if(Meteor.isServer){
 						// var ticketElementLength = TickteDetails.ticketElement.length;
 						// var index = ticketElementLength-2;						
 						/*Update status of team member */
-						TicketMaster.update(
-							{'_id':ticketId},
-							{$set:{
-									['ticketElement.2.role_status']         :"Allocated",
-									['ticketElement.2.allocatedToRole']     :role,
-									['ticketElement.2.allocatedToId']       :id,
-									'ticketStatus.0.role': role,
-									'ticketStatus.0.createdAt': new Date(),
-								}
-							}
-						);
+						// TicketMaster.update(
+						// 	{'_id':ticketId},
+						// 	{$set:{
+						// 			['ticketElement.2.role_status']         :"Allocated",
+						// 			['ticketElement.2.allocatedToRole']     :role,
+						// 			['ticketElement.2.allocatedToId']       :id,
+						// 			'ticketStatus.0.role': role,
+						// 			'ticketStatus.0.createdAt': new Date(),
+						// 		}
+						// 	}
+						// );
 
 					}
 				}

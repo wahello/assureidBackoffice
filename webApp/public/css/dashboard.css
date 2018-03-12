@@ -6503,3 +6503,9 @@ margin-top: 20px;
 .statusStyle{
   text-transform: capitalize;
 }
+.fesubmitouter{
+  margin-top:7%;
+}
+.fesubmitbtn{
+  padding: 5%;
+}
