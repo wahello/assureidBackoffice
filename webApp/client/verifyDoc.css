@@ -21,11 +21,16 @@
 .perAdd img{
 	height: 200px;
 }
-.showAddrWrap,.showAddrImgWrap{
+.showAddrWrap,.showAddrImgWrap,.showAddrWrapCarousel{
 	border: 1px solid #eee;
 	box-shadow: 0px 0px 6px;
 	margin-bottom: 15px;
 	padding: 10px 0px 10px 0px;
+}
+.showAddrWrapCarousel{
+	/*padding-left: 15px;*/
+	border: 0px solid #eee;
+	box-shadow: 0px 0px 0px;
 }
 .showAddrImgWrap{
 	padding: 0px;
@@ -34,3 +39,36 @@
 	padding: 0px;
 	margin-bottom: 2%;
 }
+.verifyDocWrap{
+	cursor: pointer;
+}
+.addressImageModal{
+	height: 350px !important;
+}
+.showAddrWrap h5{
+	text-decoration: underline;
+	margin-left: 10px;
+	color: #666;
+	margin-bottom: 2px;
+}
+.curImgWrap img{
+	height: 350px !important;
+}
+.verTit h4{
+	text-align: center;
+}
+.verCarouselWrap{
+	margin-top: 2%;
+}
+.modalCarTitle h4{
+	margin-top: -3%;
+    position: absolute;
+}
+.carouselSec{
+	position: fixed !important;
+}
+.carClose{
+	z-index: 111;
+	position: relative !important;	
+}
+.carousel-control.left, .carousel-control.right{}

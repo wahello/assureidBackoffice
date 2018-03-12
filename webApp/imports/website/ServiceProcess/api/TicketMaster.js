@@ -248,6 +248,16 @@ if(Meteor.isServer){
 				});
 		},
 
+		'PVAddRejectCurStatus':function(docArrayIndex,status,rejectReason,_id){
+			TicketMaster.update({"_id":_id},
+				{
+					$set:{
+						["ticketElement.0.policeVerificationArray.0.documents"+docArrayIndex+".status"]:status,
+						["ticketElement.0.policeVerificationArray.0.documents"+docArrayIndex+".status"]:rejectReason,
+					}
+				});
+		},
+
 		'updateCommitteeUserCount':function(count,id){
 			Meteor.users.update(
 				{'_id':id},

@@ -124,6 +124,85 @@ class VerifiedDocuments extends TrackerReact(Component){
     });
   }
 
+  submitRejectReasonPV(event){
+    var curURl = location.pathname;
+    if(curURl){
+      var _id = curURl.split('/').pop();
+    }
+    var rejectReason =  $('.rejectReason').val();
+    var docArrayIndex =  $(event.target).attr('id');
+    var status       = 'Reject';
+    Meteor.call("PVAddRejectCurStatus",docArrayIndex,status,rejectReason,_id,(error,result)=>{
+      if(error){
+
+      }else{
+        swal('Rejected successfully');
+      }
+    });
+  }
+
+/*
+
+  Show multiple document section in address verification 
+
+*/
+
+  showallSlides(){
+    var curURl = location.pathname;
+    if(curURl){
+      var _id = curURl.split('/').pop();
+    }
+    const postHandle = Meteor.subscribe('singleTicket',_id);
+    const getTicket  = TicketMaster.findOne({"_id" : _id});  
+    if (getTicket) {
+       var ticketElement = getTicket.ticketElement;
+       if (ticketElement) {
+         var firstTicketElen = ticketElement[0];
+       }
+         var policeVerificationArray1 = firstTicketElen.policeVerificationArray;
+         if(policeVerificationArray1){
+            var policeVerificationArray = policeVerificationArray1[0].documents;
+            var policeVerificationArray = policeVerificationArray;
+          }
+        }
+
+      return policeVerificationArray;
+  }
+
+  myCarousel(){
+    var curURl = location.pathname;
+    if(curURl){
+      var _id = curURl.split('/').pop();
+    }
+     var myArray = [];
+    const postHandle = Meteor.subscribe('singleTicket',_id);
+    const getTicket  = TicketMaster.findOne({"_id" : _id});  
+    if (getTicket) {
+       var ticketElement = getTicket.ticketElement;
+       if (ticketElement) {
+         var firstTicketElen = ticketElement[0];
+       }
+         var policeVerificationArray1 = firstTicketElen.policeVerificationArray;
+         var  policeVerificationArray = policeVerificationArray1[0].documents;
+         var len = policeVerificationArray.length;
+         if(policeVerificationArray){
+          for(var i=0; i<policeVerificationArray.length;i++){
+            myArray.push(
+              <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3" key={i}>
+                <div data-target="#lightbox" title="Click to verify police verification" data-toggle="modal" data-slide-to={i}>
+                  <img src={policeVerificationArray[i].proofOfCurrentAddr} className="img-responsive addressImage"/>
+                </div>
+              </div>
+
+              );
+          }
+          return myArray;
+         
+         }
+
+    }
+
+  }
   render(){
     if (!this.props.loading) {
      return(            
@@ -162,9 +241,8 @@ class VerifiedDocuments extends TrackerReact(Component){
                                               <button type="button" className="btn btn-info acceptTicket acceptreject">Approved</button>
                                               <button type="button" className="btn btn-info rejectTicket acceptreject">Reject</button>
                                           </div>
-                                        </div>
+                                      </div>
                                     </div>
-                                    
                                   </div>
                                 </div> 
                               </div>
@@ -218,11 +296,11 @@ class VerifiedDocuments extends TrackerReact(Component){
              {this.props.getTicket.addressType === "permanentAddress" ?
                 <div>
                    {this.props.firstTicketElen.permanentAddress ?
-                      this.props.firstTicketElen.permanentAddress.map((permanentAddrProof, index)=>{
+                      this.props.perAddrArray.map((permanentAddrProof, index)=>{
                         return (
                            <div key={index}>
-                             <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3" >
-                               <div data-toggle="modal" data-target={"showPermanentDocumnetsModal-"+index} onClick={this.showDocuments.bind(this)}>
+                             <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3 verifyDocWrap" >
+                               <div data-toggle="modal" data-target={"showPermanentDocumnetsModal-"+index} onClick={this.showDocuments.bind(this)} title="Click to verify permanent address">
                                 <img src={permanentAddrProof.proofOfPermanentAddr} className="img-responsive addressImage"/>
                                 </div>
                              </div>
@@ -234,19 +312,20 @@ class VerifiedDocuments extends TrackerReact(Component){
                                       <div className="row">
                                         <div className="col-lg-12 col-md-12  col-sm-12 col-sm-12">
                                           <div className="col-lg-12 col-md-12 showAddrWrap">
+                                            <h5>Permanent Address</h5>
                                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12"> 
-                                              {this.props.perAddrArray[0].line1}, 
-                                              {this.props.perAddrArray[0].line2}
+                                              {this.props.perAddrArray[index].line1}, 
+                                              {this.props.perAddrArray[index].line2}
                                             </div> 
                                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                              {this.props.perAddrArray[0].line3}, 
-                                              {this.props.perAddrArray[0].landmark}
+                                              {this.props.perAddrArray[index].line3}, 
+                                              {this.props.perAddrArray[index].landmark}
                                             </div>
                                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                              {this.props.perAddrArray[0].city},
-                                              {this.props.perAddrArray[0].state}, 
-                                              {this.props.perAddrArray[0].Country}, 
-                                              {this.props.perAddrArray[0].pincode}
+                                              {this.props.perAddrArray[index].city},
+                                              {this.props.perAddrArray[index].state}, 
+                                              {this.props.perAddrArray[index].Country}, 
+                                              {this.props.perAddrArray[index].pincode}
                                             </div>
                                           </div>
                                         </div>
@@ -285,13 +364,13 @@ class VerifiedDocuments extends TrackerReact(Component){
              {this.props.getTicket.addressType === "currentAddress" ?
                 <div>
                    {this.props.firstTicketElen.currentAddress ?
-                      this.props.firstTicketElen.currentAddress.map((currentAddrProof, index)=>{
+                      this.props.curAddrArray.map((currentAddrProof, index)=>{
                         return (
                           <div key={index}>
-                           <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3" >
-                            <div data-toggle="modal" data-target={"CurrentAddrDocumnetsModal-"+index} onClick={this.showDocuments.bind(this)}>
+                           <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3 verifyDocWrap" >
+                            <div data-toggle="modal" data-target={"CurrentAddrDocumnetsModal-"+index} onClick={this.showDocuments.bind(this)} title="Click to verify current address" className="">
                               <img src={currentAddrProof.proofOfCurrentAddr} className="img-responsive addressImage"/>
-                            </div>
+                             </div>
                            </div>
                            <div className="modal fade" id={"CurrentAddrDocumnetsModal-"+index} role="dialog">
                               <div className="modal-dialog">
@@ -301,19 +380,20 @@ class VerifiedDocuments extends TrackerReact(Component){
                                     <div className="row">
                                       <div className="col-lg-12 col-md-12  col-sm-12 col-sm-12">
                                           <div className="col-lg-12 col-md-12 showAddrWrap">
+                                            <h5>Current Address</h5>
                                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12"> 
-                                              {this.props.curAddrArray[0].tempLine1}, 
-                                              {this.props.curAddrArray[0].tempLine2}
+                                              {this.props.curAddrArray[index].tempLine1}, 
+                                              {this.props.curAddrArray[index].tempLine2}
                                             </div> 
                                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                              {this.props.curAddrArray[0].tempLine3}, 
-                                              {this.props.curAddrArray[0].tempLandmark}
+                                              {this.props.curAddrArray[index].tempLine3}, 
+                                              {this.props.curAddrArray[index].tempLandmark}
                                             </div>
                                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                              {this.props.curAddrArray[0].tempCity},
-                                              {this.props.curAddrArray[0].tempState}, 
-                                              {this.props.curAddrArray[0].tempCountry}, 
-                                              {this.props.curAddrArray[0].tempPincode}
+                                              {this.props.curAddrArray[index].tempCity},
+                                              {this.props.curAddrArray[index].tempState}, 
+                                              {this.props.curAddrArray[index].tempCountry}, 
+                                              {this.props.curAddrArray[index].tempPincode}
                                             </div>
                                           </div>
                                         </div>
@@ -349,6 +429,84 @@ class VerifiedDocuments extends TrackerReact(Component){
                 :
                 ""
              }
+             {this.props.getTicket.addressType === "PoliceVerification" ?
+               <div> {this.myCarousel()} 
+                <div className="col-lg-12 col-md-12">
+                   <div className="modal fade and carousel slide carouselSec" id="lightbox">
+                    <div className="modal-dialog">
+                      <div className="modal-content">
+                        <div className="modal-body myModalBody">
+                         <button type="button" className="close carClose" data-dismiss="modal">&times;</button>
+                          <div id="lightbox" className="carousel slide ECSlideShow" data-ride="carousel" data-interval="false">
+                            <div className="carousel-inner">
+                            { this.showallSlides().map( (slides,index)=>{
+                              if(index == 0){
+                                var activeStatus = 'active';
+                              }else{
+                                var activeStatus = '';
+                                var hideSlideDetail = "hideSlidDetails";
+                              }
+                                
+                              return (
+                                    <div className={"curImgWrap item "+ activeStatus} key={index}>
+                                      <div className="col-lg-12 col-md-12">
+                                        <div className="col-lg-12 col-md-12 showAddrWrapCarousel">
+                                            {slides.policeStation}
+                                        </div> 
+                                      </div>
+                                      <div className="col-lg-12 col-md-12">
+                                        <img src={slides.proofOfCurrentAddr} className="col-lg-12 col-sm-12 col-md-12 col-xs-12 bannerimg"/>
+                                      </div>
+                                      <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm verCarouselWrap">
+                                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                              <a href="#lightbox" data-slide="next" ><button type="button" className="btn btn-info acceptTicket acceptreject" name={index} onClick={this.approvedDocument.bind()}>Approved</button></a>
+                                              <button type="button" className="btn btn-info rejectTicket acceptreject" onClick={this.hideShowRejectReason.bind()}>Reject</button>
+                                          </div>
+                                        </div>
+                                        <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 showHideReasonWrap">
+                                        <div className="col-lg-10  col-md-10  col-sm-12 col-xs-12 otherInfoForm">
+                                              <textarea className="col-lg-12 col-md-12 col-sm-12 col-xs-12 rejectReason" rows='2' placeholder="Enter Reject reason..."></textarea>
+                                        </div>
+                                        <div className="col-lg-2  col-md-2  col-sm-12 col-xs-12 rejectBtnWrap">
+                                          <a href="#lightbox" data-slide="next" ><button className="col-lg-12 col-md-12 btn btn-primary rejectReasonBtn pull-left" id={index} onClick={this.submitRejectReasonPV.bind(this)}>Submit</button></a>
+                                        </div>
+                                        </div>
+                                    </div>
+                                );
+                              }) 
+                            }
+
+                            </div>
+
+                            <a className="left carousel-control" href="#lightbox" data-slide="prev">
+                              <span className="glyphicon glyphicon-chevron-left"></span>
+                              <span className="sr-only">Previous</span>
+                            </a>
+                            <a className="right carousel-control" href="#lightbox" data-slide="next">
+                              <span className="glyphicon glyphicon-chevron-right"></span>
+                              <span className="sr-only">Next</span>
+                            </a>
+                          </div>
+                          <a className="left carousel-control" href="#lightbox" role="button" data-slide="prev">
+                            <span className="glyphicon glyphicon-chevron-left"></span>
+                          </a>
+                          <a className="right carousel-control" href="#lightbox" role="button" data-slide="next">
+                            <span className="glyphicon glyphicon-chevron-right"></span>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+                </div>     
+     
+    
+
+               </div>
+                :
+                ""
+             }
           </div>
           </div>
           </div>
@@ -376,15 +534,19 @@ verifiedDocumentsContainer = withTracker(props => {
          }else{
           var perAddrArray = '';
          }
-         console.log("permanentAddress",perAddrArray);
          var curAddrArray = firstTicketElen.currentAddress;
          if(curAddrArray){
             var curAddrArray = curAddrArray;
          }else{
           var curAddrArray = '';
-
          }
-         console.log("currentaddress",curAddrArray);
+         var policeVerificationArray = firstTicketElen.policeVerificationArray;
+         if(policeVerificationArray){
+            var policeVerificationArray = policeVerificationArray[0].documents;
+            var policeVerificationArray = policeVerificationArray;
+         }else{
+          var policeVerificationArray = '';
+         }
       }
      
     }
@@ -396,6 +558,7 @@ verifiedDocumentsContainer = withTracker(props => {
           getTicket : getTicket,
           perAddrArray,
           curAddrArray,
+          policeVerificationArray,
           firstTicketElen : firstTicketElen,
       };
 })(VerifiedDocuments);
