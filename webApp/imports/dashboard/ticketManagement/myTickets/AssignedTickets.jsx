@@ -13,7 +13,7 @@ import { Link } from 'react-router';
 
 
 
-class ApprovedTickets extends TrackerReact(Component){
+class AssignedTickets extends TrackerReact(Component){
   constructor(props){
     super(props);
     this.state = {
@@ -30,9 +30,6 @@ class ApprovedTickets extends TrackerReact(Component){
     
   }
    render(){
-    
-    console.log("AssignedTickets");
-    
       return(            
         <div>
           <div className="content-wrapper">
@@ -94,7 +91,7 @@ class ApprovedTickets extends TrackerReact(Component){
       );
     }
 }
-export default ApprovedTicketsContainer = withTracker(props => {
+export default AssignedTicketsContainer = withTracker(props => {
   var handleSinTick = Meteor.subscribe("singleTicket");
   var handleUseFunc = Meteor.subscribe('userfunction');
   var handleAllTick = Meteor.subscribe("allTickets");
@@ -111,4 +108,4 @@ export default ApprovedTicketsContainer = withTracker(props => {
     // getTicket,
     // user
   };
-})(ApprovedTickets);
+})(AssignedTickets);

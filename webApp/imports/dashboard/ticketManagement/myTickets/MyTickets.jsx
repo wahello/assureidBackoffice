@@ -8,11 +8,11 @@ import Validation from 'react-validation';
 import validator from 'validator';
 import {Tracker} from 'meteor/tracker';
 import { browserHistory } from 'react-router';
-import NewTickets from "/imports/dashboard/ticketManagement/myTickets/NewTickets.jsx";
-import AcceptedTickets from "/imports/dashboard/ticketManagement/myTickets/AcceptedTickets.jsx";
-import ApprovedTickets from "/imports/dashboard/ticketManagement/myTickets/ApprovedTickets.jsx";
-import RejectedTickets from "/imports/dashboard/ticketManagement/myTickets/RejectedTickets.jsx";
-import EscalationTickets from "/imports/dashboard/ticketManagement/myTickets/EscalationTickets.jsx";
+// import NewTickets from "/imports/dashboard/ticketManagement/myTickets/NewTickets.jsx";
+// import AcceptedTickets from "/imports/dashboard/ticketManagement/myTickets/AcceptedTickets.jsx";
+// import ApprovedTickets from "/imports/dashboard/ticketManagement/myTickets/ApprovedTickets.jsx";
+// import RejectedTickets from "/imports/dashboard/ticketManagement/myTickets/RejectedTickets.jsx";
+// import EscalationTickets from "/imports/dashboard/ticketManagement/myTickets/EscalationTickets.jsx";
 
 
 // import { UserSubscriptions } from '/imports/website/contactUs/api/SubscriptionMaster.js';
@@ -115,17 +115,17 @@ export default class MyTickets extends TrackerReact(Component){
                                     </tbody>
                                   </table>
                                 </div>
-                              
+{/*                               
                                 {
                                   this.state.currentTabView == "New" ? <NewTickets /> : 
-                                  this.state.currentTabView == "Accepted" ? <AcceptedTickets /> : 
+                                  this.state.currentTabView == "Accepted" ? <AssignedTickets /> : 
                                   this.state.currentTabView == "Approved" ? <ApprovedTickets /> : 
                                   this.state.currentTabView == "Rejected" ? <RejectedTickets /> : 
                                   this.state.currentTabView == "Escalation" ? <EscalationTickets /> : 
                                   ""
                                   // <ReportsCustomisedList />  
                                 } 
-                                
+                                 */}
                               </div>
                             </div>
                           </div>

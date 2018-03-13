@@ -35,7 +35,6 @@ export default class Header extends TrackerReact(Component){
   }
   handleClick(e) {
       e.preventDefault();
-      
       Meteor.logout();
       var path = "/";
       browserHistory.replace(path);
@@ -174,7 +173,7 @@ export default class Header extends TrackerReact(Component){
                   <Link to="javascript:void(0)" className="dropdown-toggle" data-toggle="dropdown">
                     {/* <img src={this.currentUser().userProfile} className="user-image" alt="User Image" />
                     <span className="hidden-xs"> {this.currentUser().userName} </span> */}
-                    <span className="hidden-xs"> Admin </span>
+                    <span className="hidden-xs">  {this.currentUser().userName} </span>
                   </Link>
                   <ul className="dropdown-menu">
                     {/* User image */}

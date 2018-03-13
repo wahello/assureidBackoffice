@@ -12,6 +12,7 @@ import UserDashboard from '../../imports/common/UserDashboard';
 import Header from '../../imports/dashboard/components/Header';
 import Footer from '../../imports/dashboard/components/Footer';
 import Sidebar from '../../imports/dashboard/components/Sidebar';
+import OtherRoleSidebar from '../../imports/dashboard/components/OtherRoleSidebar';
 import Content from '../../imports/dashboard/components/content/Content';
 import CompanySettingTabs from '../../imports/dashboard/companySetting/components/CompanySettingTabs.jsx';
 import CreateBasicPage from '../../imports/dashboard/reactCMS/components/CreateBasicPage.jsx';
@@ -63,6 +64,12 @@ import MyTickets from '/imports/dashboard/ticketManagement/myTickets/MyTickets.j
 import MaxNoOfTicketAllocate from '/imports/dashboard/ticketManagement/MaxNoOfTicketAllocate.jsx';
 import Ticket from '/imports/dashboard/ticketManagement/Ticket.jsx';
 
+import AllTickets from '/imports/dashboard/ticketManagement/myTickets/AllTickets.jsx';
+import AssignedTickets from '/imports/dashboard/ticketManagement/myTickets/AssignedTickets.jsx';
+import OpenTickets from '/imports/dashboard/ticketManagement/myTickets/OpenTickets.jsx';
+import ApprovedTickets from '/imports/dashboard/ticketManagement/myTickets/ApprovedTickets.jsx';
+import EscalatedTickets from '/imports/dashboard/ticketManagement/myTickets/EscalatedTickets.jsx';
+
 
 // import HeaderThrd      from '../../imports/website/header/HeaderThrd';
 // import HeaderSec      from '../../imports/website/header/HeaderSec';
@@ -108,8 +115,24 @@ export const onAuthChange = (isAuthenticated) => {
   }
 };
 
-
 class DashApp extends React.Component {
+  renderSidebar=()=>{
+   
+      if (Roles.userIsInRole(Meteor.userId(), ['superAdmin','admin','Admin'])) { 
+          return(
+            // <div className="col-lg-3">
+              <Sidebar/>
+            // </div>/
+          );
+        }else{  
+          
+          return(
+            // <div className="col-lg-3">
+              <OtherRoleSidebar/>
+            // </div>
+          );
+        }
+  }
   render() {
     return (
       <div className="hold-transition skin-blue sidebar-mini">
@@ -117,7 +140,7 @@ class DashApp extends React.Component {
           <Header/>
           <div className="container-fluid">
             <div className="row">
-              <Sidebar/>
+                {this.renderSidebar()}                
               <div className="container-fluid main-container">
                 <div className="row">
                   {this.props.children}
@@ -166,7 +189,7 @@ export const routes = (
      <Route path="/forgotpassword" component={ResetPwd}/>
      <Route path="/dashboard" component={UserDashboard}/>
 
-     <Route component={DashApp}>
+     <Route component={DashApp} >
        <Route path="/admin/dashboard" component={Content}/>
        <Route path="/admin/managebasicpage" component={CreateBasicPage}/>
        <Route path="/admin/manageaboutuspage" component={AboutUs}/>
@@ -230,6 +253,15 @@ export const routes = (
        <Route path="/admin/mytickets" component={MyTickets}/>
        <Route path="/admin/maxnoofticketallocate" component={MaxNoOfTicketAllocate}/>
        <Route path="/admin/ticket/:id" component={Ticket}/>
+       <Route path="/admin/alltickets" component={AllTickets}/>
+       <Route path="/admin/assignedtickets" component={AssignedTickets}/>
+       <Route path="/admin/opentickets" component={OpenTickets}/>
+       <Route path="/admin/approvedtickets" component={ApprovedTickets}/>
+       <Route path="/admin/escalatedtickets" component={EscalatedTickets}/>
+       
+       
+       
+       
        {/* <Route path="/admin/ticketdocumentdetails" component={TicketDocumentDetail}/> */}
        
     </Route>
