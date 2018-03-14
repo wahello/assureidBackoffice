@@ -68,6 +68,7 @@ import AllTickets from '/imports/dashboard/ticketManagement/myTickets/AllTickets
 import AssignedTickets from '/imports/dashboard/ticketManagement/myTickets/AssignedTickets.jsx';
 import OpenTickets from '/imports/dashboard/ticketManagement/myTickets/OpenTickets.jsx';
 import ApprovedTickets from '/imports/dashboard/ticketManagement/myTickets/ApprovedTickets.jsx';
+import RejectedTickets from '/imports/dashboard/ticketManagement/myTickets/RejectedTickets.jsx';
 import EscalatedTickets from '/imports/dashboard/ticketManagement/myTickets/EscalatedTickets.jsx';
 
 
@@ -257,6 +258,7 @@ export const routes = (
        <Route path="/admin/assignedtickets" component={AssignedTickets}/>
        <Route path="/admin/opentickets" component={OpenTickets}/>
        <Route path="/admin/approvedtickets" component={ApprovedTickets}/>
+       <Route path="/admin/rejectedtickets" component={RejectedTickets}/>
        <Route path="/admin/escalatedtickets" component={EscalatedTickets}/>
        
        

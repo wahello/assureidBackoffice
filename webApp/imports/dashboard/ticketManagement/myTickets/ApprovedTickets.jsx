@@ -9,9 +9,7 @@ import validator from 'validator';
 import {Tracker} from 'meteor/tracker';
 import { browserHistory } from 'react-router';
 import { Link } from 'react-router';
-// import { TicketMaster } from '../../website/ServiceProcess/api/TicketMaster.js';
-
-
+import { TicketBucket } from '/imports/website/ServiceProcess/api/TicketMaster.js';
 
 class ApprovedTickets extends TrackerReact(Component){
   constructor(props){
@@ -19,12 +17,6 @@ class ApprovedTickets extends TrackerReact(Component){
     this.state = {
       'userDetails': {},
       "userRoleIn": Meteor.userId(),
-      // "subscription" : {
-      //   "singleTicket" : Meteor.subscribe("singleTicket"),    
-      //   "userfunction" : Meteor.subscribe('userfunction'),
-      //   "allTickets"   : Meteor.subscribe("allTickets"), 
-
-      // } 
     }
 
     
@@ -41,7 +33,7 @@ class ApprovedTickets extends TrackerReact(Component){
                 <div className="col-md-12">
                   <div className="box">
                     <div className="box-header with-border">
-                      <h2 className="box-title">Assigned Ticket</h2> 
+                      <h2 className="box-title">Approved Ticket</h2> 
                     </div>
                         <div className="box-body">
                             <div className="ticketWrapper col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -61,20 +53,29 @@ class ApprovedTickets extends TrackerReact(Component){
                                     </tr>
                                 </thead>
                                         <tbody>
+                                            {
+                                                !this.props.loading ?
+                                                  this.props.ticketBucketData.map((data, index)=>{
+                                                    return(
+                                                        <tr key={index}>
+                                                            {/* <td></td> */}
+                                                            {/* <td>{data.orderNo}</td>
+                                                            <td>{data.serviceName}</td>
+                                                            <td>{moment(data.delieveryStatus[0].createdAt).format('l')}</td>
+                                                            <td> {this.state.tatDate}</td>
+                                                            <td><button type="button" className=" newOrderbtn btn btn-primary">Rejected</button></td>                                     */}
 
-                                        {/* {  this.state.tableListData.map((data, index)=>{
-                                            return(
-                                                <tr key={index}>
-                                                    <td></td>
-                                                    <td>{data.orderNo}</td>
-                                                    <td>{data.serviceName}</td>
-                                                    <td>{moment(data.delieveryStatus[0].createdAt).format('l')}</td>
-                                                    <td> {this.state.tatDate}</td>
-                                                    <td><button type="button" className=" newOrderbtn btn btn-primary">Rejected</button></td>                                    
-                                                </tr>
-                                            );
-                                        })
-                                        } */}
+                                                            <td>{data.empid}</td>
+                                                            <td>{data.role}</td>
+                                                        </tr>
+                                                    );
+                                                  })
+                                            
+                                                :
+                                                <div>
+                                                    return(<span>loading...</span>);
+                                                </div>
+                                            }
 
                                         </tbody>
                                     </table>
@@ -95,20 +96,13 @@ class ApprovedTickets extends TrackerReact(Component){
     }
 }
 export default ApprovedTicketsContainer = withTracker(props => {
-  var handleSinTick = Meteor.subscribe("singleTicket");
-  var handleUseFunc = Meteor.subscribe('userfunction');
-  var handleAllTick = Meteor.subscribe("allTickets");
-  var handleUserProfile = Meteor.subscribe("userProfileData");
+  var handleAllBucketTick = Meteor.subscribe("allTicketBucket");
   var ticketId = props.params.id;
-  var loading = !handleSinTick.ready() && !handleUseFunc.ready() && !handleAllTick.ready() && !handleUserProfile.ready();
-  // var categoryList = Category.find({}).fetch() || [];
-
-//   var getTicket = TicketMaster.findOne({"_id":ticketId}) || {};        
-//   var user = Meteor.users.findOne({"_id": getTicket.userId}) || {};
-    
+  var loading = !handleAllBucketTick.ready();
+  var ticketBucketData = TicketBucket.find({"empid":Meteor.userId(),'status':"Approved"}).fetch();
+  console.log('ticketBucketData Count ', ticketBucketData.length);    
   return {
     loading,
-    // getTicket,
-    // user
+    ticketBucketData,
   };
 })(ApprovedTickets);

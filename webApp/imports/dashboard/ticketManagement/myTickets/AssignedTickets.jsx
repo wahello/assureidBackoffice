@@ -9,22 +9,14 @@ import validator from 'validator';
 import {Tracker} from 'meteor/tracker';
 import { browserHistory } from 'react-router';
 import { Link } from 'react-router';
-// import { TicketMaster } from '../../website/ServiceProcess/api/TicketMaster.js';
-
-
+import { TicketBucket } from '/imports/website/ServiceProcess/api/TicketMaster.js';
 
 class AssignedTickets extends TrackerReact(Component){
   constructor(props){
     super(props);
     this.state = {
       'userDetails': {},
-      "userRoleIn": Meteor.userId(),
-      // "subscription" : {
-      //   "singleTicket" : Meteor.subscribe("singleTicket"),    
-      //   "userfunction" : Meteor.subscribe('userfunction'),
-      //   "allTickets"   : Meteor.subscribe("allTickets"), 
-
-      // } 
+      "userRoleIn": Meteor.userId(), 
     }
 
     
@@ -59,19 +51,30 @@ class AssignedTickets extends TrackerReact(Component){
                                 </thead>
                                         <tbody>
 
-                                        {/* {  this.state.tableListData.map((data, index)=>{
-                                            return(
-                                                <tr key={index}>
-                                                    <td></td>
-                                                    <td>{data.orderNo}</td>
-                                                    <td>{data.serviceName}</td>
-                                                    <td>{moment(data.delieveryStatus[0].createdAt).format('l')}</td>
-                                                    <td> {this.state.tatDate}</td>
-                                                    <td><button type="button" className=" newOrderbtn btn btn-primary">Rejected</button></td>                                    
-                                                </tr>
-                                            );
-                                        })
-                                        } */}
+                                        {
+                                            !this.props.loading ?
+                                              this.props.ticketBucketData.map((data, index)=>{
+                                                return(
+                                                    <tr key={index}>
+                                                        {/* <td></td> */}
+                                                        {/* <td>{data.orderNo}</td>
+                                                        <td>{data.serviceName}</td>
+                                                        <td>{moment(data.delieveryStatus[0].createdAt).format('l')}</td>
+                                                        <td> {this.state.tatDate}</td>
+                                                        <td><button type="button" className=" newOrderbtn btn btn-primary">Rejected</button></td>                                     */}
+
+                                                        <td>{data.empid}</td>
+                                                        <td>{data.role}</td>
+                                                    </tr>
+                                                );
+                                              })
+                                        
+                                            :
+                                            <div>
+                                                return(<span>loading...</span>);
+                                            </div>
+                                        }
+
 
                                         </tbody>
                                     </table>
@@ -92,20 +95,13 @@ class AssignedTickets extends TrackerReact(Component){
     }
 }
 export default AssignedTicketsContainer = withTracker(props => {
-  var handleSinTick = Meteor.subscribe("singleTicket");
-  var handleUseFunc = Meteor.subscribe('userfunction');
-  var handleAllTick = Meteor.subscribe("allTickets");
-  var handleUserProfile = Meteor.subscribe("userProfileData");
+  var handleAllBucketTick = Meteor.subscribe("allTicketBucket");
   var ticketId = props.params.id;
-  var loading = !handleSinTick.ready() && !handleUseFunc.ready() && !handleAllTick.ready() && !handleUserProfile.ready();
-  // var categoryList = Category.find({}).fetch() || [];
-
-//   var getTicket = TicketMaster.findOne({"_id":ticketId}) || {};        
-//   var user = Meteor.users.findOne({"_id": getTicket.userId}) || {};
-    
+  var loading = !handleAllBucketTick.ready();
+  var ticketBucketData = TicketBucket.find({"empid":Meteor.userId()}).fetch();
+  console.log('ticketBucketData Count ', ticketBucketData.length);    
   return {
     loading,
-    // getTicket,
-    // user
+    ticketBucketData,
   };
 })(AssignedTickets);
