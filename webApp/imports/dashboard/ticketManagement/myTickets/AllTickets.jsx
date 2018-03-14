@@ -25,7 +25,7 @@ class AllTickets extends TrackerReact(Component){
   }
    render(){
     
-    
+      var ticketBucketDataa = [1, 2, 3, 4]
       return(            
         <div>
           <div className="content-wrapper">
@@ -38,21 +38,21 @@ class AllTickets extends TrackerReact(Component){
                     </div>
                         <div className="box-body">
                             <div className="ticketWrapper col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                
+                            {/* {this.props.ticketBucketData[0].orderId} */}
                                 <div>
                                 <div className="reports-table-main">
                                     <table id="subscriber-list-outerTable" className="newOrderwrap subscriber-list-outerTable table table-bordered table-hover table-striped table-striped table-responsive table-condensed table-bordered">
                                     <thead className="table-head umtblhdr">
-                                    <tr className="hrTableHeader info UML-TableTr">
-                                    <th className=""> Ticket No.</th>
-                                    <th className=""> Order ID </th>
-                                    <th className=""> Service Name </th>
-                                    <th className=""> Arrival Date </th>
-                                    <th className=""> TAT(Date) </th>
-                                    <th className=""> Status </th>
-                                    
-                                    </tr>
-                                </thead>
+                                      <tr className="hrTableHeader info UML-TableTr">
+                                        <th className=""> Ticket No.</th>
+                                        <th className=""> Order ID </th>
+                                        <th className=""> Service Name </th>
+                                        <th className=""> Arrival Date </th>
+                                        <th className=""> TAT(Date) </th>
+                                        <th className=""> Status </th>
+                                      
+                                      </tr>
+                                  </thead>
                                      
                                         <tbody>
                                         
@@ -61,15 +61,14 @@ class AllTickets extends TrackerReact(Component){
                                             this.props.ticketBucketData.map((data, index)=>{
                                               return(
                                                   <tr key={index}>
-                                                      {/* <td></td> */}
-                                                      {/* <td>{data.orderNo}</td>
+                                                      
+                                                      <td><Link to={"/admin/ticket/"+data.ticketid}>{data.ticketNumber}</Link></td>
+                                                      <td>{data.orderId}</td>
                                                       <td>{data.serviceName}</td>
-                                                      <td>{moment(data.delieveryStatus[0].createdAt).format('l')}</td>
-                                                      <td> {this.state.tatDate}</td>
-                                                      <td><button type="button" className=" newOrderbtn btn btn-primary">Rejected</button></td>                                     */}
-
-                                                      <td>{data.empid}</td>
-                                                      <td>{data.role}</td>
+                                                      <td>{moment(data.createdAt).format('l')}</td>
+                                                      <td>data.tat</td> 
+                                                      <td>{data.status}</td>
+                                                      
                                                   </tr>
                                               );
                                             })
@@ -103,8 +102,9 @@ export default AllTicketContainer = withTracker(props => {
   var handleAllBucketTick = Meteor.subscribe("allTicketBucket");
   var ticketId = props.params.id;
   var loading = !handleAllBucketTick.ready();
-  var ticketBucketData = _.uniq(TicketBucket.find({}, {sort: {ticketid: 1}, fields: {ticketid: true}}).fetch().map(function(x) { return x.ticketid;}), true);
-  console.log('ticketBucketData Count ', ticketBucketData.length);    
+  var ticketBucketData = _.uniq(TicketBucket.find({}, {sort: {ticketid: 1}}).fetch().map(function(x) { return x;}), true);
+  console.log('ticketBucketData Count ');
+  console.log("ticketBucketData: ",ticketBucketData);    
   return {
     loading,
     ticketBucketData,

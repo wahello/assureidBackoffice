@@ -64,6 +64,7 @@ import MyTickets from '/imports/dashboard/ticketManagement/myTickets/MyTickets.j
 import MaxNoOfTicketAllocate from '/imports/dashboard/ticketManagement/MaxNoOfTicketAllocate.jsx';
 import Ticket from '/imports/dashboard/ticketManagement/Ticket.jsx';
 
+import TicketDocumentDetails from '/imports/dashboard/ticketManagement/TicketDocumentDetail.jsx';
 import AllTickets from '/imports/dashboard/ticketManagement/myTickets/AllTickets.jsx';
 import AssignedTickets from '/imports/dashboard/ticketManagement/myTickets/AssignedTickets.jsx';
 import OpenTickets from '/imports/dashboard/ticketManagement/myTickets/OpenTickets.jsx';
@@ -254,6 +255,8 @@ export const routes = (
        <Route path="/admin/mytickets" component={MyTickets}/>
        <Route path="/admin/maxnoofticketallocate" component={MaxNoOfTicketAllocate}/>
        <Route path="/admin/ticket/:id" component={Ticket}/>
+       {/* <Route path="/admin/ticket/:id" component={TicketDocumentDetails}/> */}
+  
        <Route path="/admin/alltickets" component={AllTickets}/>
        <Route path="/admin/assignedtickets" component={AssignedTickets}/>
        <Route path="/admin/opentickets" component={OpenTickets}/>

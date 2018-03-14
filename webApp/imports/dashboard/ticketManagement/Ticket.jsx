@@ -121,15 +121,15 @@ class Ticket extends TrackerReact(Component){
                                     <h5>{this.state.userDetails.profile.firstname} {this.state.userDetails.profile.lastname}</h5>
                                   </div> 
                                 </div>
-                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
+                                {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
                                   <div className="col-lg-5 col-md-5 col-sm-4 col-xs-4 text-left  userLabel">
                                   Designation <span className="pull-right">:</span>
                                   </div>  
                                   <div className="col-lg-7 col-md-7 col-sm-8 col-xs-8 text-left userValue">
-                                    {/* <p>{this.state.userDetails.emails[0].address}</p> */}
+                                   
                                     <p>Chemical Engineer</p>
                                   </div> 
-                                </div>
+                                </div> */}
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
                                   <div className="col-lg-5 col-md-5 col-sm-4 col-xs-4 text-left userLabel">
                                  Mobile <span className="pull-right">:</span>
