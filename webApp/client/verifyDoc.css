@@ -72,3 +72,6 @@
 	position: relative !important;	
 }
 .carousel-control.left, .carousel-control.right{}
+.carmodalDiv{
+	cursor: pointer;
+}

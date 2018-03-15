@@ -188,7 +188,7 @@ class VerifiedDocuments extends TrackerReact(Component){
          if(policeVerificationArray){
           for(var i=0; i<policeVerificationArray.length;i++){
             myArray.push(
-              <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3" key={i}>
+              <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3 carmodalDiv" key={i}>
                 <div data-target="#lightbox" title="Click to verify police verification" data-toggle="modal" data-slide-to={i}>
                   <img src={policeVerificationArray[i].proofOfCurrentAddr} className="img-responsive addressImage"/>
                 </div>
