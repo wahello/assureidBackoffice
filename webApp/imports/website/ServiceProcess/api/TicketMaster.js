@@ -268,7 +268,7 @@ if(Meteor.isServer){
 			)
 		},
 
-		'updateTicketElement':function(ticketId,empid,role,permanentAddress,currentAddress){
+		'updateTicketElement':function(ticketId,empid,role){
 			
 			// console.log(permanentAddress);
 			// console.log(currentAddress);
@@ -279,9 +279,7 @@ if(Meteor.isServer){
 							'empid': empid,
 							'role' : role,
 							'role_status':'New',
-							'createdAt': new Date(),
-							'permanentAddress' : permanentAddress,
-							'currentAddress'   : currentAddress,
+							'createdAt': new Date()
 						}
 					}
 				}
@@ -528,6 +526,8 @@ if(Meteor.isServer){
 				var insertData = insertDataDetails.ticketElement[0];
 				insertData.role_status = status;
 				insertData.createdAt   = new Date();
+				insertData.verificationData.status = status;
+				insertData.verificationData.statusAt = new Date();
 				TicketMaster.update(
 					{'_id':id},
 						{   $push:{
