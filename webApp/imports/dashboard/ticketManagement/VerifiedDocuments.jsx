@@ -299,148 +299,348 @@ class VerifiedDocuments extends TrackerReact(Component){
           </div>
           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 addressDashedLine">
           <div className="col-lg-10 col-lg-offset-1">
-  
-             {this.props.getTicket.verificationType === "permanentAddress" ?
-                <div>
-                   {this.props.getTicket.verificationData ?
-                      this.props.perAddrArray.map((permanentAddrProof, index)=>{
-                        return (
-                           <div key={index}>
-                             <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3 verifyDocWrap" >
-                               <div data-toggle="modal" data-target={"showPermanentDocumnetsModal-"+index} onClick={this.showDocuments.bind(this)} title="Click to verify permanent address">
-                                <img src={permanentAddrProof.proofOfPermanentAddr} className="img-responsive addressImage"/>
-                                </div>
+           
+              {this.props.getTicket.verificationType === "permanentAddress" ?
+                  <div>
+                     {this.props.getTicket.verificationData ?
+                        this.props.perAddrArray.map((permanentAddrProof, index)=>{
+                          return (
+                             <div key={index}>
+                               <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3 verifyDocWrap" >
+                                 <div data-toggle="modal" data-target={"showPermanentDocumnetsModal-"+index} onClick={this.showDocuments.bind(this)} title="Click to verify permanent address">
+                                  <img src={permanentAddrProof.proofOfPermanentAddr} className="img-responsive addressImage"/>
+                                  </div>
+                               </div>
+                                <div className="modal fade" id={"showPermanentDocumnetsModal-"+index} role="dialog">
+                                  <div className="modal-dialog">
+                                    <div className="modal-content">
+                                      <div className="modal-body">
+                                        <button type="button" className="close" data-dismiss="modal">&times;</button>
+                                        <div className="row">
+                                          <div className="col-lg-12 col-md-12  col-sm-12 col-sm-12">
+                                            <div className="col-lg-12 col-md-12 showAddrWrap">
+                                              <h5>Permanent Address</h5>
+                                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12"> 
+                                                {this.props.perAddrArray[index].line1}, 
+                                                {this.props.perAddrArray[index].line2}
+                                              </div> 
+                                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                {this.props.perAddrArray[index].line3}, 
+                                                {this.props.perAddrArray[index].landmark}
+                                              </div>
+                                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                {this.props.perAddrArray[index].city},
+                                                {this.props.perAddrArray[index].state}, 
+                                                {this.props.perAddrArray[index].Country}, 
+                                                {this.props.perAddrArray[index].pincode},<br />
+                                                Residing From : {this.props.perAddrArray[index].residingFrom} Residing Till : {this.props.perAddrArray[index].residingTo}
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                                            <img src={permanentAddrProof.proofOfPermanentAddr}  className="col-lg-12 img-responsive addressImageModal showAddrImgWrap col-lg-12 col-md-12 col-sm-12 col-xs-12"/>
+                                          </div>
+                                          <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm">
+                                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <button type="button" className="btn btn-info acceptTicket acceptreject" data-id={this.props.getTicket._id} data-status="Approved" onClick={this.approvedDocument.bind()}>Approved</button>
+                                                <button type="button" className="btn btn-info rejectTicket acceptreject" data-id={this.props.getTicket._id} data-status="Rejected" onClick={this.hideShowRejectReason.bind()}>Reject</button>
+                                            </div>
+                                          </div>
+                                          <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 showHideReasonWrap">
+                                          <div className="col-lg-10  col-md-10  col-sm-12 col-xs-12 otherInfoForm">
+                                                <textarea className="col-lg-12 col-md-12 col-sm-12 col-xs-12 rejectReason" rows='2' placeholder="Enter Reject reason..."></textarea>
+                                          </div>
+                                          <div className="col-lg-2  col-md-2  col-sm-12 col-xs-12 rejectBtnWrap">
+                                            <button className="col-lg-12 col-md-12 btn btn-primary rejectReasonBtn pull-left" onClick={this.submitRejectReason.bind(this)}>Submit</button>
+                                          </div>
+                                          </div>
+                                        </div> 
+                                      </div>
+                                    </div> 
+                                  </div>
+                                </div> 
                              </div>
-                              <div className="modal fade" id={"showPermanentDocumnetsModal-"+index} role="dialog">
+                            );
+                        })
+                        :
+                        ""
+                     }     
+                   </div>
+                  :
+                  ""
+              }
+              
+               {this.props.getTicket.verificationType === "currentAddress" ?
+                  <div>
+                     {this.props.getTicket.verificationData ?
+                        this.props.perAddrArray.map((currentAddrProof, index)=>{
+                          return (
+                            <div key={index}>
+                             <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3 verifyDocWrap" >
+                              <div data-toggle="modal" data-target={"CurrentAddrDocumnetsModal-"+index} onClick={this.showDocuments.bind(this)} title="Click to verify current address" className="">
+                                <img src={currentAddrProof.proofOfCurrentAddr} className="img-responsive addressImage"/>
+                               </div>
+                             </div>
+                             <div className="modal fade" id={"CurrentAddrDocumnetsModal-"+index} role="dialog">
                                 <div className="modal-dialog">
                                   <div className="modal-content">
                                     <div className="modal-body">
                                       <button type="button" className="close" data-dismiss="modal">&times;</button>
                                       <div className="row">
                                         <div className="col-lg-12 col-md-12  col-sm-12 col-sm-12">
-                                          <div className="col-lg-12 col-md-12 showAddrWrap">
-                                            <h5>Permanent Address</h5>
-                                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12"> 
-                                              {this.props.perAddrArray[index].line1}, 
-                                              {this.props.perAddrArray[index].line2}
-                                            </div> 
-                                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                              {this.props.perAddrArray[index].line3}, 
-                                              {this.props.perAddrArray[index].landmark}
-                                            </div>
-                                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                              {this.props.perAddrArray[index].city},
-                                              {this.props.perAddrArray[index].state}, 
-                                              {this.props.perAddrArray[index].Country}, 
-                                              {this.props.perAddrArray[index].pincode}
+                                            <div className="col-lg-12 col-md-12 showAddrWrap">
+                                              <h5>Current Address</h5>
+                                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12"> 
+                                                {this.props.perAddrArray[index].tempLine1}, 
+                                                {this.props.perAddrArray[index].tempLine2}
+                                              </div> 
+                                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                {this.props.perAddrArray[index].tempLine3}, 
+                                                {this.props.perAddrArray[index].tempLandmark}
+                                              </div>
+                                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                {this.props.perAddrArray[index].tempCity},
+                                                {this.props.perAddrArray[index].tempState}, 
+                                                {this.props.perAddrArray[index].tempCountry}, 
+                                                {this.props.perAddrArray[index].tempPincode},<br />
+                                                Residing From : {this.props.perAddrArray[index].tempresidingFrom} Residing Till : {this.props.perAddrArray[index].tempresidingTo}
+                                              </div>
                                             </div>
                                           </div>
-                                        </div>
-                                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
-                                          <img src={permanentAddrProof.proofOfPermanentAddr}  className="col-lg-12 img-responsive addressImageModal showAddrImgWrap col-lg-12 col-md-12 col-sm-12 col-xs-12"/>
+                                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 curImgWrap">
+                                          <img src={currentAddrProof.proofOfCurrentAddr}  className="img-responsive addressImageModal col-lg-12 col-md-12 col-sm-12 col-xs-12"/>
                                         </div>
                                         <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm">
-                                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                              <button type="button" className="btn btn-info acceptTicket acceptreject" data-id={this.props.getTicket._id} data-status="Approved" onClick={this.approvedDocument.bind()}>Approved</button>
-                                              <button type="button" className="btn btn-info rejectTicket acceptreject" data-id={this.props.getTicket._id} data-status="Rejected" onClick={this.hideShowRejectReason.bind()}>Reject</button>
+                                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <button type="button" className="btn btn-info acceptTicket acceptreject" onClick={this.approvedCurDocument.bind()}>Approved</button>
+                                                <button type="button" className="btn btn-info rejectTicket acceptreject" onClick={this.hideShowRejectCurReason.bind()}>Reject</button>
+                                            </div>
                                           </div>
-                                        </div>
-                                        <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 showHideReasonWrap">
-                                        <div className="col-lg-10  col-md-10  col-sm-12 col-xs-12 otherInfoForm">
-                                              <textarea className="col-lg-12 col-md-12 col-sm-12 col-xs-12 rejectReason" rows='2' placeholder="Enter Reject reason..."></textarea>
-                                        </div>
-                                        <div className="col-lg-2  col-md-2  col-sm-12 col-xs-12 rejectBtnWrap">
-                                          <button className="col-lg-12 col-md-12 btn btn-primary rejectReasonBtn pull-left" onClick={this.submitRejectReason.bind(this)}>Submit</button>
-                                        </div>
-                                        </div>
+                                          <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 showHideReasonWrap">
+                                          <div className="col-lg-10  col-md-10  col-sm-12 col-xs-12 otherInfoForm">
+                                                <textarea className="col-lg-12 col-md-12 col-sm-12 col-xs-12 rejectReason" rows='2' placeholder="Enter Reject reason..."></textarea>
+                                          </div>
+                                          <div className="col-lg-2  col-md-2  col-sm-12 col-xs-12 rejectBtnWrap">
+                                            <button className="col-lg-12 col-md-12 btn btn-primary rejectReasonBtn pull-left" onClick={this.submitRejectCurReason.bind(this)}>Submit</button>
+                                          </div>
+                                          </div>
                                       </div> 
                                     </div>
                                   </div> 
                                 </div>
                               </div> 
-                           </div>
-                          );
-                      })
-                      :
-                      ""
-                   }     
-                 </div>
-                :
-                ""
-             }
+                            </div>
+                            );
+                        })
+                        :
+                        ""
+                     }
+                   </div>
+                  :
+                  ""
+               }
 
-
-
-            {/* {this.props.getTicket.addressType === "currentAddress" ?
-                <div>
-                   {this.props.firstTicketElen.currentAddress ?
-                      this.props.curAddrArray.map((currentAddrProof, index)=>{
-                        return (
-                          <div key={index}>
-                           <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3 verifyDocWrap" >
-                            <div data-toggle="modal" data-target={"CurrentAddrDocumnetsModal-"+index} onClick={this.showDocuments.bind(this)} title="Click to verify current address" className="">
-                              <img src={currentAddrProof.proofOfCurrentAddr} className="img-responsive addressImage"/>
+               {this.props.getTicket.verificationType === "education" ?
+                  <div>
+                     {this.props.getTicket.verificationData ?
+                        this.props.perAddrArray.map((educationProof, index)=>{
+                          return (
+                            <div key={index}>
+                             <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3 verifyDocWrap" >
+                              <div data-toggle="modal" data-target={"CurrentAddrDocumnetsModal-"+index} onClick={this.showDocuments.bind(this)} title="Click to verify current address" className="">
+                                <img src={educationProof.proofOfCurrentAddr} className="img-responsive addressImage"/>
+                               </div>
                              </div>
-                           </div>
-                           <div className="modal fade" id={"CurrentAddrDocumnetsModal-"+index} role="dialog">
-                              <div className="modal-dialog">
-                                <div className="modal-content">
-                                  <div className="modal-body">
-                                    <button type="button" className="close" data-dismiss="modal">&times;</button>
-                                    <div className="row">
-                                      <div className="col-lg-12 col-md-12  col-sm-12 col-sm-12">
-                                          <div className="col-lg-12 col-md-12 showAddrWrap">
-                                            <h5>Current Address</h5>
-                                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12"> 
-                                              {this.props.curAddrArray[index].tempLine1}, 
-                                              {this.props.curAddrArray[index].tempLine2}
-                                            </div> 
-                                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                              {this.props.curAddrArray[index].tempLine3}, 
-                                              {this.props.curAddrArray[index].tempLandmark}
-                                            </div>
-                                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                              {this.props.curAddrArray[index].tempCity},
-                                              {this.props.curAddrArray[index].tempState}, 
-                                              {this.props.curAddrArray[index].tempCountry}, 
-                                              {this.props.curAddrArray[index].tempPincode}
+                             <div className="modal fade" id={"CurrentAddrDocumnetsModal-"+index} role="dialog">
+                                <div className="modal-dialog">
+                                  <div className="modal-content">
+                                    <div className="modal-body">
+                                      <button type="button" className="close" data-dismiss="modal">&times;</button>
+                                      <div className="row">
+                                        <div className="col-lg-12 col-md-12  col-sm-12 col-sm-12">
+                                            <div className="col-lg-12 col-md-12 showAddrWrap">
+                                              <h5>Education</h5>
+                                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12"> 
+                                                {this.props.perAddrArray[index].nameOfEmployer}, 
+                                                {this.props.perAddrArray[index].employerAddress}
+                                              </div> 
+                                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                {this.props.perAddrArray[index].contactNo}, 
+                                                {this.props.perAddrArray[index].employeeCode}
+                                              </div>
+                                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                {this.props.perAddrArray[index].designation},
+                                                {this.props.perAddrArray[index].department}, 
+                                                {this.props.perAddrArray[index].employmentFrom}, 
+                                                {this.props.perAddrArray[index].employmentTo},<br />
+                                                {this.props.perAddrArray[index].typeOfEmployement}, {this.props.perAddrArray[index].dutiesAndResponsibilites}<br/>
+                                                {this.props.perAddrArray[index].reportingManagerNm}, {this.props.perAddrArray[index].prevDesignation}
+                                              </div>
                                             </div>
                                           </div>
+                                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 curImgWrap">
+                                          <img src={educationProof.proofOfCurrentAddr}  className="img-responsive addressImageModal col-lg-12 col-md-12 col-sm-12 col-xs-12"/>
                                         </div>
-                                      <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 curImgWrap">
-                                        <img src={currentAddrProof.proofOfCurrentAddr}  className="img-responsive addressImageModal col-lg-12 col-md-12 col-sm-12 col-xs-12"/>
-                                      </div>
-                                      <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm">
-                                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                              <button type="button" className="btn btn-info acceptTicket acceptreject" onClick={this.approvedCurDocument.bind()}>Approved</button>
-                                              <button type="button" className="btn btn-info rejectTicket acceptreject" onClick={this.hideShowRejectCurReason.bind()}>Reject</button>
+                                        <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm">
+                                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <button type="button" className="btn btn-info acceptTicket acceptreject" onClick={this.approvedCurDocument.bind()}>Approved</button>
+                                                <button type="button" className="btn btn-info rejectTicket acceptreject" onClick={this.hideShowRejectCurReason.bind()}>Reject</button>
+                                            </div>
                                           </div>
-                                        </div>
-                                        <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 showHideReasonWrap">
-                                        <div className="col-lg-10  col-md-10  col-sm-12 col-xs-12 otherInfoForm">
-                                              <textarea className="col-lg-12 col-md-12 col-sm-12 col-xs-12 rejectReason" rows='2' placeholder="Enter Reject reason..."></textarea>
-                                        </div>
-                                        <div className="col-lg-2  col-md-2  col-sm-12 col-xs-12 rejectBtnWrap">
-                                          <button className="col-lg-12 col-md-12 btn btn-primary rejectReasonBtn pull-left" onClick={this.submitRejectCurReason.bind(this)}>Submit</button>
-                                        </div>
-                                        </div>
-                                    </div> 
-                                  </div>
-                                </div> 
-                              </div>
-                            </div> 
-                          </div>
-                          );
-                      })
-                      :
-                      ""
-                   }
-                 </div>
-                :
-                ""
-             }
+                                          <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 showHideReasonWrap">
+                                          <div className="col-lg-10  col-md-10  col-sm-12 col-xs-12 otherInfoForm">
+                                                <textarea className="col-lg-12 col-md-12 col-sm-12 col-xs-12 rejectReason" rows='2' placeholder="Enter Reject reason..."></textarea>
+                                          </div>
+                                          <div className="col-lg-2  col-md-2  col-sm-12 col-xs-12 rejectBtnWrap">
+                                            <button className="col-lg-12 col-md-12 btn btn-primary rejectReasonBtn pull-left" onClick={this.submitRejectCurReason.bind(this)}>Submit</button>
+                                          </div>
+                                          </div>
+                                      </div> 
+                                    </div>
+                                  </div> 
+                                </div>
+                              </div> 
+                            </div>
+                            );
+                        })
+                        :
+                        ""
+                     }
+                   </div>
+                  :
+                  ""
+               }
 
-             {this.props.getTicket.addressType === "PoliceVerification" ?
+               {this.props.getTicket.verificationType === "certificates" ?
+                  <div>
+                     {this.props.getTicket.verificationData ?
+                        this.props.perAddrArray.map((certificatesProof, index)=>{
+                          return (
+                            <div key={index}>
+                             <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3 verifyDocWrap" >
+                              <div data-toggle="modal" data-target={"CurrentAddrDocumnetsModal-"+index} onClick={this.showDocuments.bind(this)} title="Click to verify current address" className="">
+                                <img src={certificatesProof.proofOfCurrentAddr} className="img-responsive addressImage"/>
+                               </div>
+                             </div>
+                             <div className="modal fade" id={"CurrentAddrDocumnetsModal-"+index} role="dialog">
+                                <div className="modal-dialog">
+                                  <div className="modal-content">
+                                    <div className="modal-body">
+                                      <button type="button" className="close" data-dismiss="modal">&times;</button>
+                                      <div className="row">
+                                        <div className="col-lg-12 col-md-12  col-sm-12 col-sm-12">
+                                            <div className="col-lg-12 col-md-12 showAddrWrap">
+                                              <h5>Certificates</h5>
+                                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12"> 
+                                                {this.props.perAddrArray[index].certificateName}, 
+                                                {this.props.perAddrArray[index].issuedBy}
+                                              </div> 
+                                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                {this.props.perAddrArray[index].certificatedOn}, 
+                                                {this.props.perAddrArray[index].validTill}
+                                              </div>
+                                              
+                                            </div>
+                                          </div>
+                                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 curImgWrap">
+                                          <img src={certificatesProof.proofOfCurrentAddr}  className="img-responsive addressImageModal col-lg-12 col-md-12 col-sm-12 col-xs-12"/>
+                                        </div>
+                                        <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm">
+                                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <button type="button" className="btn btn-info acceptTicket acceptreject" onClick={this.approvedCurDocument.bind()}>Approved</button>
+                                                <button type="button" className="btn btn-info rejectTicket acceptreject" onClick={this.hideShowRejectCurReason.bind()}>Reject</button>
+                                            </div>
+                                          </div>
+                                          <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 showHideReasonWrap">
+                                          <div className="col-lg-10  col-md-10  col-sm-12 col-xs-12 otherInfoForm">
+                                                <textarea className="col-lg-12 col-md-12 col-sm-12 col-xs-12 rejectReason" rows='2' placeholder="Enter Reject reason..."></textarea>
+                                          </div>
+                                          <div className="col-lg-2  col-md-2  col-sm-12 col-xs-12 rejectBtnWrap">
+                                            <button className="col-lg-12 col-md-12 btn btn-primary rejectReasonBtn pull-left" onClick={this.submitRejectCurReason.bind(this)}>Submit</button>
+                                          </div>
+                                          </div>
+                                      </div> 
+                                    </div>
+                                  </div> 
+                                </div>
+                              </div> 
+                            </div>
+                            );
+                        })
+                        :
+                        ""
+                     }
+                   </div>
+                  :
+                  ""
+               }
+
+               {this.props.getTicket.verificationType === "professionalEducation" ?
+                  <div>
+                     {this.props.getTicket.verificationData ?
+                        this.props.perAddrArray.map((professionalEducationProof, index)=>{
+                          return (
+                            <div key={index}>
+                             <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3 verifyDocWrap" >
+                              <div data-toggle="modal" data-target={"CurrentAddrDocumnetsModal-"+index} onClick={this.showDocuments.bind(this)} title="Click to verify current address" className="">
+                                <img src={professionalEducationProof.proofOfCurrentAddr} className="img-responsive addressImage"/>
+                               </div>
+                             </div>
+                             <div className="modal fade" id={"CurrentAddrDocumnetsModal-"+index} role="dialog">
+                                <div className="modal-dialog">
+                                  <div className="modal-content">
+                                    <div className="modal-body">
+                                      <button type="button" className="close" data-dismiss="modal">&times;</button>
+                                      <div className="row">
+                                        <div className="col-lg-12 col-md-12  col-sm-12 col-sm-12">
+                                            <div className="col-lg-12 col-md-12 showAddrWrap">
+                                              <h5>professional Education</h5>
+                                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12"> 
+                                                {this.props.perAddrArray[index].professionalQualification}, 
+                                                {this.props.perAddrArray[index].registrationNo}
+                                              </div> 
+                                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                {this.props.perAddrArray[index].dateOfQualification}, 
+                                                {this.props.perAddrArray[index].professionalRollNo}
+                                                {this.props.perAddrArray[index].qualifyingBodyNm}
+                                              </div>
+                                              
+                                            </div>
+                                          </div>
+                                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 curImgWrap">
+                                          <img src={professionalEducationProof.proofOfCurrentAddr}  className="img-responsive addressImageModal col-lg-12 col-md-12 col-sm-12 col-xs-12"/>
+                                        </div>
+                                        <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm">
+                                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <button type="button" className="btn btn-info acceptTicket acceptreject" onClick={this.approvedCurDocument.bind()}>Approved</button>
+                                                <button type="button" className="btn btn-info rejectTicket acceptreject" onClick={this.hideShowRejectCurReason.bind()}>Reject</button>
+                                            </div>
+                                          </div>
+                                          <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 showHideReasonWrap">
+                                          <div className="col-lg-10  col-md-10  col-sm-12 col-xs-12 otherInfoForm">
+                                                <textarea className="col-lg-12 col-md-12 col-sm-12 col-xs-12 rejectReason" rows='2' placeholder="Enter Reject reason..."></textarea>
+                                          </div>
+                                          <div className="col-lg-2  col-md-2  col-sm-12 col-xs-12 rejectBtnWrap">
+                                            <button className="col-lg-12 col-md-12 btn btn-primary rejectReasonBtn pull-left" onClick={this.submitRejectCurReason.bind(this)}>Submit</button>
+                                          </div>
+                                          </div>
+                                      </div> 
+                                    </div>
+                                  </div> 
+                                </div>
+                              </div> 
+                            </div>
+                            );
+                        })
+                        :
+                        ""
+                     }
+                   </div>
+                  :
+                  ""
+               }
+            
+            {this.props.getTicket.verificationType === "PoliceVerification" ?
                <div> {this.myCarousel()} 
                 <div className="col-lg-12 col-md-12">
                    <div className="modal fade and carousel slide carouselSec" id="lightbox">
@@ -517,7 +717,7 @@ class VerifiedDocuments extends TrackerReact(Component){
                </div>
                 :
                 ""
-             }*/}
+            }
           </div>
           </div>
           </div>
