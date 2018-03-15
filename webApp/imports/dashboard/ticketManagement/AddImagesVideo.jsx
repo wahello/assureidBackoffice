@@ -89,19 +89,19 @@ class AddImagesVideo extends TrackerReact(Component){
        videos : this.props.ticketVideo,
        remark : this.refs.remark.value,
     }
-    console.log("documents",documents);
+    
     var ticketElementObj = {};
    if (this.props.ticket) {
       if (this.props.ticket.ticketElement) {
         if (this.props.ticket.ticketElement.length > 0) {
             ticketElementObj  = this.props.ticket.ticketElement[this.props.ticket.ticketElement.length-1];
-            console.log("ticketElementObj = ",ticketElementObj);      
+                 
         }
       }
       var empid = ticketElementObj.empid;
       if (this.props.ticket.addressType == "permanentAddress") {   
          var permanentAddressId = ticketElementObj.permanentAddress[0].permanentAddressId;
-         console.log("permanentAddressId",permanentAddressId);
+         
          Meteor.call('updatePermanentTicketElement',id,empid,documents,permanentAddressId,function(error,result) {
            if (error) {
              console.log(error.reason);
@@ -122,7 +122,7 @@ class AddImagesVideo extends TrackerReact(Component){
         
      }else if (this.props.ticket.addressType == "currentAddress") {
          var currentAddressId = ticketElementObj.currentAddress[0].currentAddressId;
-         console.log("currentAddressId",currentAddressId);
+         
          Meteor.call('updateCurrentTicketElement',id,empid,documents,currentAddressId,function(error,result) {
           if (error) {
             if (error) {
@@ -234,13 +234,11 @@ AddImagesVideoContainer = withTracker(props => {
     const postHandle   = Meteor.subscribe('allTicketImages');
     const postHandle1  = Meteor.subscribe('allTicketVideo');
     const ticketImages = TempTicketImages.find({}).fetch() || [];  
-    console.log("ticketImages",ticketImages);
     const ticketVideo = TempTicketVideo.find({}).fetch() || [];  
-    console.log("ticketVideo",ticketVideo);
     const loading     = !postHandle.ready();
     const loading1    = !postHandle1.ready();
     const ticket      = props.ticket;
-    console.log("ticket",ticket);
+    
 
     // if(_id){
       return {

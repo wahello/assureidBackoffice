@@ -46,12 +46,12 @@ constructor(props){
 
   changeTMStatus(event){
       var ticketId = $(event.currentTarget).attr('data-id');
-      var addressType = $(event.currentTarget).attr('data-addressType');
+    //   var addressType = $(event.currentTarget).attr('data-addressType');
       var status      = $(event.currentTarget).attr('data-status');
       var empid       = $(event.currentTarget).attr('data-empId');
-      var roleStatus = $(event.currentTarget).attr('role-status');
+    //   var roleStatus = $(event.currentTarget).attr('role-status');
       console.log("role_status :"+roleStatus);
-      Meteor.call('updateTMStatus',ticketId,addressType,status,empid,(error,result)=>{
+      Meteor.call('updateTMStatus',ticketId,status,empid,(error,result)=>{
         //   if(result){
         //       console.log("result after updateTMStatus:"+result);
         //       $('.hideacceptreject').hide();
@@ -79,10 +79,11 @@ constructor(props){
   /*Add BA Details  */
   addBADetails(event){
     event.preventDefault();
-    var addressType = $(event.currentTarget).attr( "data-addressType"); 
+    // var addressType = $(event.currentTarget).attr( "data-addressType"); 
     var role        = $(event.currentTarget).attr('data-role');
     var ticketId    = $(event.currentTarget).attr('data-id');
-    console.log(addressType,role,ticketId);
+    var empid       = $(event.currentTarget).attr('data-empid');
+    console.log(role,ticketId);
     if(role == "BA"){
         var baName = this.refs.BAName.value;        
         Meteor.call("addBADetails",baName,(error,result)=>{
@@ -93,12 +94,12 @@ constructor(props){
                  // this.setState({
                  //  "baid" : id,
                  // });s
-                Meteor.call('genericTicketUpdate',addressType,role,ticketId,id,(error,result)=>{
+                Meteor.call('genericTicketUpdate',empid,role,ticketId,id,(error,result)=>{
                     if(result){
                         swal({
-                                        title: "Assing Ticket!",
-                                        text: "Successfully Assign",
-                                        icon: "success",
+                                title: "Assing Ticket!",
+                                text: "Successfully Assign",
+                                icon: "success",
                         });
             
                     }
@@ -108,7 +109,7 @@ constructor(props){
         })
     }else if(role == "Field Expert"){
         var id = this.refs.allocateToFEName.value;  
-        Meteor.call('genericTicketUpdate',addressType,role,ticketId,id,(error,result)=>{
+        Meteor.call('genericTicketUpdate',empid,role,ticketId,id,(error,result)=>{
             if(result){
                 swal({
                                 title: "Assing Ticket!",
@@ -125,8 +126,7 @@ constructor(props){
 
   roleSwitch(roleStatus,role,empid){
       
-    var splitroleStatus = roleStatus.split(',');
-     
+    var splitroleStatus = roleStatus.split(',');     
     if (!this.props.loading && role != "BA") {
         var userDetails = Meteor.users.findOne({"_id":empid});
         if (userDetails) {
@@ -173,8 +173,8 @@ constructor(props){
                 if(splitroleStatus[0] == "New"){
                     return(
                         <div className="hideacceptreject" id="hideacceptreject">
-                            <button type="button" className="bg-primary col-lg-5 teammember" data-status="Accepted" data-empId = {empid} data-addressType = {this.props.getTicket.addressType} data-id={this.props.ticketId} role-status = {this.props.role_status} onClick={this.changeTMStatus.bind(this)}>Accept</button>
-                            <button type="button" className="btn-danger col-lg-5 teammember" data-status="Rejected" data-empId = {empid} data-addressType = {this.props.getTicket.addressType} data-id={this.props.ticketId} role-status = {this.props.role_status} onClick={this.changeTMStatus.bind(this)}>Reject</button>
+                            <button type="button" className="bg-primary col-lg-5 teammember" data-status="Accepted" data-empId = {empid}  data-id={this.props.ticketId} role-status = {this.props.role_status} onClick={this.changeTMStatus.bind(this)}>Accept</button>
+                            <button type="button" className="btn-danger col-lg-5 teammember" data-status="Rejected" data-empId = {empid}  data-id={this.props.ticketId} role-status = {this.props.role_status} onClick={this.changeTMStatus.bind(this)}>Reject</button>
                         </div>
                     );
                     
@@ -212,7 +212,7 @@ constructor(props){
                                                 </select>
                                                 </div>
                                                 <div className="col-lg-4 fesubmitouter noLRPad">
-                                                     <button type="submit" value="Submit" className="col-lg-11 fesubmitbtn noLRPad" onClick={this.addBADetails.bind(this)} data-addressType = {this.props.getTicket.addressType} data-id={this.props.ticketId} data-role={this.state.radioState}>Submit</button>                                       
+                                                     <button type="submit" value="Submit" className="col-lg-11 fesubmitbtn noLRPad" data-empId = {empid} onClick={this.addBADetails.bind(this)} data-id={this.props.ticketId} data-role={this.state.radioState}>Submit</button>                                       
                                                 </div>
                                             </div>
                                     : 

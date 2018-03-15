@@ -34,7 +34,7 @@ class VerifyDetailsDocument extends TrackerReact(Component){
                                 
                                     <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
                                         <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12 ">
-                                        <h5 className="dataDetails"> Verification Data</h5>
+                                        <h5 className="dataDetails"> {this.props.getTicket.verificationData.verificationType}</h5>
                                         
                                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad addressdetails">
                                             {this.props.getTicket.verificationData.educationLevel}
@@ -43,7 +43,7 @@ class VerifyDetailsDocument extends TrackerReact(Component){
                                             {this.props.getTicket.verificationData.grades}
                                             {this.props.getTicket.verificationData.educationMode},{this.props.getTicket.verificationData.dateAttendedTo},{this.props.getTicket.verificationData.collegeName},
                                             {this.props.getTicket.verificationData.university},{this.props.getTicket.verificationData.collegeAddress} {this.props.getTicket.verificationData.rollNo}
-                                            {this.props.getTicket.verificationData.eduFileName}
+                                            
                                             </div>
                                         </div>                
                                     </div>
@@ -53,36 +53,10 @@ class VerifyDetailsDocument extends TrackerReact(Component){
             break;
 
             case 'permanentAddress':
-                    
                     return(       
-                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 singledocwrp">                                     
-                            {
-                                this.props.getTicket.verificationType == "currentAddress"?
-                                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
-                                        <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12 ">
-                                        <h5 className="dataDetails"> Current Address</h5>
-                                        
-                                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad addressdetails">
-                                            {this.props.getTicket.verificationData.tempLine1}
-                                            {this.props.getTicket.verificationData.tempLine2}
-                                            {this.props.getTicket.verificationData.tempLine3}
-                                            {this.props.getTicket.verificationData.tempLandmark}
-                                            {this.props.getTicket.verificationData.tempCity},{this.props.getTicket.verificationData.tempState},{this.props.getTicket.verificationData.tempPincode},
-                                            Residing From {this.props.getTicket.verificationData.residingFrom} Residing Till {this.props.getTicket.verificationData.residingTo}
-                                            </div>
-                                        </div>                
-                                    </div>
-                                :
-                                ""
-                            }
-                        </div>
-                );
-                break;
-                case 'currentAddress':
-                        return(
-                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">                    
+                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 singledocwrp">                    
                                 { 
-                                    this.props.getTicket.addressType == "permanentAddress" ?
+                                    
                                         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                             <h5 className="dataDetails">Permanent Address</h5>
                                             <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12">
@@ -96,38 +70,117 @@ class VerifyDetailsDocument extends TrackerReact(Component){
                                                 </div>
                                             </div>       
                                         </div>
-                                    :
-
-                                    ""
                                 }
-                        </div>
+                        </div>       
+                );
+                break;
+                case 'currentAddress':
+                        return(
+                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 singledocwrp">                                     
+                                {
+                                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
+                                            <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12 ">
+                                            <h5 className="dataDetails"> Current Address</h5>
+                                            
+                                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad addressdetails">
+                                                {this.props.getTicket.verificationData.tempLine1}
+                                                {this.props.getTicket.verificationData.tempLine2}
+                                                {this.props.getTicket.verificationData.tempLine3}
+                                                {this.props.getTicket.verificationData.tempLandmark}
+                                                {this.props.getTicket.verificationData.tempCity},{this.props.getTicket.verificationData.tempState},{this.props.getTicket.verificationData.tempPincode},
+                                                Residing From {this.props.getTicket.verificationData.residingFrom} Residing Till {this.props.getTicket.verificationData.residingTo}
+                                                </div>
+                                            </div>                
+                                        </div>
+                                }
+                            </div>  
                         );
 
                 break;
 
                 case 'education':
-                      return(
-                        <h6>Inside education</h6>
-                      );
+                        return(
+                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 singledocwrp">                    
+                                { 
+                                    
+                                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <h5 className="dataDetails">{this.props.getTicket.verificationData.verificationType}</h5>
+                                            <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad addressdetails">
+                                                {this.props.getTicket.verificationData.nameOfEmployer}
+                                                {this.props.getTicket.verificationData.employerAddress}
+                                                {this.props.getTicket.verificationData.contactNo}
+                                                {this.props.getTicket.verificationData.employeeCode}
+                                                {this.props.getTicket.verificationData.designation},{this.props.getTicket.verificationData.department},
+                                                {this.props.getTicket.verificationData.employmentFrom}-{this.props.getTicket.verificationData.employmentTo},
+                                                {this.props.getTicket.verificationData.typeOfEmployement} {this.props.getTicket.verificationData.dutiesAndResponsibilites}
+                                                {this.props.getTicket.verificationData.reportingManagerNm} {this.props.getTicket.verificationData.prevDesignation} 
+                                                </div>
+                                            </div>       
+                                        </div>
+                                }
+                            </div>
+                        );
                 break;
 
-                case 'skills':
-                    return(
-                    <h6>Inside skills</h6>
-                    );
-                break;
+                // case 'skills':
+                //     return(
+                //     <h6>Inside skills</h6>
+                //     );
+                // break;
 
                 case 'certificates':
-                    return(
-                    <h6>Inside certificates</h6>
-                    );
+                return(
+                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 singledocwrp">                    
+                        { 
+                            
+                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <h5 className="dataDetails">{this.props.getTicket.verificationData.verificationType}</h5>
+                                    <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad addressdetails">
+                                        {this.props.getTicket.verificationData.certificateName}
+                                        {this.props.getTicket.verificationData.issuedBy}
+                                        {this.props.getTicket.verificationData.certificatedOn}
+                                        {this.props.getTicket.verificationData.validTill}
+                                        
+                                        </div>
+                                    </div>       
+                                </div>
+                        }
+                    </div>
+                );
                 break;
                 
                 case 'professionalEducation':
-                    return(
-                    <h6>Inside professionalEducation</h6>
-                    );
+                        return(
+                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 singledocwrp">                    
+                                { 
+                                    
+                                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <h5 className="dataDetails">{this.props.getTicket.verificationData.verificationType}</h5>
+                                            <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad addressdetails">
+                                                {this.props.getTicket.verificationData.professionalQualification}
+                                                {this.props.getTicket.verificationData.registrationNo}
+                                                {this.props.getTicket.verificationData.dateOfQualification}
+                                                {this.props.getTicket.verificationData.professionalRollNo}
+                                                {this.props.getTicket.verificationData.qualifyingBodyNm}
+                                                </div>
+                                            </div>       
+                                        </div>
+                                }
+                            </div>
+                        );
                 break;
+                
+                default:
+                        
+                return(
+                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 singledocwrp">                    
+                        <h4>Oops Something Went Wrong</h4>
+                    </div>
+                );
+
                 
 
                 

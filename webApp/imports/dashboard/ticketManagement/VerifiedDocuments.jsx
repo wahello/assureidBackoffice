@@ -213,54 +213,13 @@ class VerifiedDocuments extends TrackerReact(Component){
           </div>
           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 addressDashedLine">
           <div className="col-lg-10 col-lg-offset-1">
-             {this.props.getTicket.addressType === "both" ?
-                <div className="col-lg-10 col-lg-offset-1">
-                   {this.props.firstTicketElen.permanentAddress ?
-                      this.props.firstTicketElen.permanentAddress.map((permanentAddrProof, index)=>{
-                        return (
-                          <div key={index}>
-                             <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3" >
-                               {/*<i className="fa fa-times-circle timeCircle"></i>**/}
-                               <div data-toggle="modal" data-target={"showDocumnetsModal-"+index} onClick={this.showDocuments.bind(this)}>
-                                 <img src={permanentAddrProof.proofOfPermanentAddr} className="img-responsive addressImage"/>
-                              </div>
-                             </div>
-                             <div className="modal fade" id={"showDocumnetsModal-"+index} role="dialog">
-                              <div className="modal-dialog">
-                                <div className="modal-content">
-                                  <div className="modal-body">
-                                    <button type="button" className="close" data-dismiss="modal">&times;</button>
-                                    <div className="row">
-                                      <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                      </div>
-                                      <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                        <img src={permanentAddrProof.proofOfPermanentAddr}  className="img-responsive addressImageModal col-lg-12 col-md-12 col-sm-12 col-xs-12"/>
-                                      </div>
-                                      <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm  detailsbtn">
-                                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                              <button type="button" className="btn btn-info acceptTicket acceptreject">Approved</button>
-                                              <button type="button" className="btn btn-info rejectTicket acceptreject">Reject</button>
-                                          </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div> 
-                              </div>
-                            </div> 
-                          </div>
-                          ); 
-                      }) 
-                      : 
-                      ""
-                   }
-                 
-                   {this.props.firstTicketElen.currentAddress ?
-                      this.props.firstTicketElen.currentAddress.map((currentAddrProof, index)=>{
+                 {this.props.getTicket.verificationType == "currentAddress" ?
+                      this.props.getTicket.varificationDocument.map((currentAddrProof, index)=>{
                         return (
                           <div key={index}>
                            <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3" >
                              <div data-toggle="modal" data-target={"showcurrentDocumnetsModal-"+index} onClick={this.showDocuments.bind(this)}>
-                               <img src={currentAddrProof.proofOfCurrentAddr} className="img-responsive addressImage"/>
+                               <img src={currentAddrProof} className="img-responsive addressImage"/>
                              </div>
                            </div>
                             <div className="modal fade" id={"showcurrentDocumnetsModal-"+index} role="dialog">
@@ -288,11 +247,7 @@ class VerifiedDocuments extends TrackerReact(Component){
                       })
                       :
                       ""
-                   }
-                 </div>
-                :
-                ""
-             }
+          }
              {this.props.getTicket.addressType === "permanentAddress" ?
                 <div>
                    {this.props.firstTicketElen.permanentAddress ?
@@ -525,29 +480,30 @@ verifiedDocumentsContainer = withTracker(props => {
     const postHandle = Meteor.subscribe('singleTicket',_id);
     const getTicket  = TicketMaster.findOne({"_id" : _id}) || {};  
     if (getTicket) {
-      var ticketElement = getTicket.ticketElement;
-      if (ticketElement) {
-         var firstTicketElen = ticketElement[0];
-         var perAddrArray = firstTicketElen.permanentAddress;
-         if(perAddrArray){
-          var perAddrArray = perAddrArray;
-         }else{
-          var perAddrArray = '';
-         }
-         var curAddrArray = firstTicketElen.currentAddress;
-         if(curAddrArray){
-            var curAddrArray = curAddrArray;
-         }else{
-          var curAddrArray = '';
-         }
-         var policeVerificationArray = firstTicketElen.policeVerificationArray;
-         if(policeVerificationArray){
-            var policeVerificationArray = policeVerificationArray[0].documents;
-            var policeVerificationArray = policeVerificationArray;
-         }else{
-          var policeVerificationArray = '';
-         }
-      }
+      // var ticketDocument = getTicket.varificationDocument;
+      // var verifiedData   = getTicket.varificationDocument;
+      // if (ticketElement) {
+      //    var firstTicketElen = ticketElement[0];
+      //    var perAddrArray = firstTicketElen.permanentAddress;
+      //    if(perAddrArray){
+      //     var perAddrArray = perAddrArray;
+      //    }else{
+      //     var perAddrArray = '';
+      //    }
+      //    var curAddrArray = firstTicketElen.currentAddress;
+      //    if(curAddrArray){
+      //       var curAddrArray = curAddrArray;
+      //    }else{
+      //     var curAddrArray = '';
+      //    }
+      //    var policeVerificationArray = firstTicketElen.policeVerificationArray;
+      //    if(policeVerificationArray){
+      //       var policeVerificationArray = policeVerificationArray[0].documents;
+      //       var policeVerificationArray = policeVerificationArray;
+      //    }else{
+      //     var policeVerificationArray = '';
+      //    }
+      // }
      
     }
     const loading = !postHandle.ready();
@@ -555,11 +511,12 @@ verifiedDocumentsContainer = withTracker(props => {
     // if(_id){
       return {
           loading  : loading,
+          // ticketDocument :ticketDocument
           getTicket : getTicket,
-          perAddrArray,
-          curAddrArray,
-          policeVerificationArray,
-          firstTicketElen : firstTicketElen,
+          // perAddrArray,
+          // curAddrArray,
+          // policeVerificationArray,
+          // firstTicketElen : firstTicketElen,
       };
 })(VerifiedDocuments);
 export default verifiedDocumentsContainer;

@@ -121,15 +121,15 @@ class Ticket extends TrackerReact(Component){
                                     <h5>{this.state.userDetails.profile.firstname} {this.state.userDetails.profile.lastname}</h5>
                                   </div> 
                                 </div>
-                                {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
+                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
                                   <div className="col-lg-5 col-md-5 col-sm-4 col-xs-4 text-left  userLabel">
-                                  Designation <span className="pull-right">:</span>
+                                  Assure ID <span className="pull-right">:</span>
                                   </div>  
                                   <div className="col-lg-7 col-md-7 col-sm-8 col-xs-8 text-left userValue">
                                    
-                                    <p>Chemical Engineer</p>
+                                    <p>IND-AAA-123456</p>
                                   </div> 
-                                </div> */}
+                                </div>
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
                                   <div className="col-lg-5 col-md-5 col-sm-4 col-xs-4 text-left userLabel">
                                  Mobile <span className="pull-right">:</span>
@@ -178,7 +178,7 @@ class Ticket extends TrackerReact(Component){
                             <VerifyDetailsDocument ticketId={this.props.params.id}/>
                           </div>
                          <VerifiedDocuments ticketId={this.props.params.id}/>
-                         <TicketDocumentDetails ticketId={this.props.params.id}/>
+                         {/* <TicketDocumentDetails ticketId={this.props.params.id}/> */}
                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outerShadow">
                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 activityDetails">                            
@@ -224,13 +224,9 @@ export default UserDetailsContainer = withTracker(props => {
   var handleUserProfile = Meteor.subscribe("userProfileData");
   var ticketId = props.params.id;
   var loading = !handleSinTick.ready() && !handleUseFunc.ready() && !handleAllTick.ready() && !handleUserProfile.ready();
-  // var categoryList = Category.find({}).fetch() || [];
-
   var getTicket = TicketMaster.findOne({"_id":ticketId}) || {};        
   var user = Meteor.users.findOne({"_id": getTicket.userId}) || {};
   var userProfile = UserProfile.findOne({"userId": getTicket.userId}) || {};
-  console.log("userProfile");
-  console.log(userProfile);
   var today = new Date();
     var birthDate = new Date(userProfile.dateOfBirth);
     var age = today.getFullYear() - birthDate.getFullYear();
