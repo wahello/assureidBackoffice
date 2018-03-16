@@ -299,7 +299,76 @@ class VerifiedDocuments extends TrackerReact(Component){
           </div>
           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 addressDashedLine">
           <div className="col-lg-10 col-lg-offset-1">
-           
+              {this.props.getTicket.verificationType === "employement" ?
+                  <div>
+                     {this.props.getTicket.verificationData ?
+                        this.props.perAddrArray.map((employementProof, index)=>{
+                          return (
+                             <div key={index}>
+                               <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3 verifyDocWrap" >
+                                 <div data-toggle="modal" data-target={"showPermanentDocumnetsModal-"+index} onClick={this.showDocuments.bind(this)} title="Click to verify permanent address">
+                                  <img src={employementProof.proofOfPermanentAddr} className="img-responsive addressImage"/>
+                                  </div>
+                               </div>
+                                <div className="modal fade" id={"showPermanentDocumnetsModal-"+index} role="dialog">
+                                  <div className="modal-dialog">
+                                    <div className="modal-content">
+                                      <div className="modal-body">
+                                        <button type="button" className="close" data-dismiss="modal">&times;</button>
+                                        <div className="row">
+                                          <div className="col-lg-12 col-md-12  col-sm-12 col-sm-12">
+                                            <div className="col-lg-12 col-md-12 showAddrWrap">
+                                              <h5>Employement</h5>
+                                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12"> 
+                                                {this.props.perAddrArray[index].educationLevel}, 
+                                                {this.props.perAddrArray[index].educationQualification}
+                                              </div> 
+                                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                {this.props.perAddrArray[index].specialization}, 
+                                                {this.props.perAddrArray[index].grades}
+                                              </div>
+                                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                {this.props.perAddrArray[index].educationMode},
+                                                {this.props.perAddrArray[index].dateAttendedTo}, 
+                                                {this.props.perAddrArray[index].collegeName}, 
+                                                {this.props.perAddrArray[index].university},<br />
+                                                {this.props.perAddrArray[index].collegeAddress} {this.props.perAddrArray[index].rollNo}
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                                            <img src={employementProof.proofOfPermanentAddr}  className="col-lg-12 img-responsive addressImageModal showAddrImgWrap col-lg-12 col-md-12 col-sm-12 col-xs-12"/>
+                                          </div>
+                                          <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm">
+                                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <button type="button" className="btn btn-info acceptTicket acceptreject" data-id={this.props.getTicket._id} data-status="Approved" onClick={this.approvedDocument.bind()}>Approved</button>
+                                                <button type="button" className="btn btn-info rejectTicket acceptreject" data-id={this.props.getTicket._id} data-status="Rejected" onClick={this.hideShowRejectReason.bind()}>Reject</button>
+                                            </div>
+                                          </div>
+                                          <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 showHideReasonWrap">
+                                          <div className="col-lg-10  col-md-10  col-sm-12 col-xs-12 otherInfoForm">
+                                                <textarea className="col-lg-12 col-md-12 col-sm-12 col-xs-12 rejectReason" rows='2' placeholder="Enter Reject reason..."></textarea>
+                                          </div>
+                                          <div className="col-lg-2  col-md-2  col-sm-12 col-xs-12 rejectBtnWrap">
+                                            <button className="col-lg-12 col-md-12 btn btn-primary rejectReasonBtn pull-left" onClick={this.submitRejectReason.bind(this)}>Submit</button>
+                                          </div>
+                                          </div>
+                                        </div> 
+                                      </div>
+                                    </div> 
+                                  </div>
+                                </div> 
+                             </div>
+                            );
+                        })
+                        :
+                        ""
+                     }     
+                   </div>
+                  :
+                  ""
+              }
+
               {this.props.getTicket.verificationType === "permanentAddress" ?
                   <div>
                      {this.props.getTicket.verificationData ?
