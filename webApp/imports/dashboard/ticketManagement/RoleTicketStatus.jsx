@@ -94,7 +94,7 @@ constructor(props){
                  // this.setState({
                  //  "baid" : id,
                  // });s
-                Meteor.call('genericTicketUpdate',empid,role,ticketId,id,(error,result)=>{
+                Meteor.call('genericTicketUpdate',empid,role,ticketId,id,FEid,(error,result)=>{
                     if(result){
                         swal({
                                 title: "Assing Ticket!",
@@ -109,7 +109,8 @@ constructor(props){
         })
     }else if(role == "Field Expert"){
         var id = this.refs.allocateToFEName.value;  
-        Meteor.call('genericTicketUpdate',empid,role,ticketId,id,(error,result)=>{
+        var FEid = $(event.currentTarget).attr('data-teamMemid');
+        Meteor.call('genericTicketUpdate',empid,role,ticketId,id,FEid,(error,result)=>{
             if(result){
                 swal({
                                 title: "Assing Ticket!",
@@ -124,7 +125,8 @@ constructor(props){
     
   }
 /*======================================= Hide Team List ================================================== */
-  hideList(status,teammemberDetails,empid){
+  hideList(status,teammemberDetails,empid,length,index1){
+      
     var reportUserArr = [];
     if(teammemberDetails){
         for(k=0;k<teammemberDetails.length;k++){
@@ -133,11 +135,10 @@ constructor(props){
         }
 
     }
-    if((status=="New") || (status== "Reassign ")){
-        console.log("Inside team leader");
-        console.log(status);
+    // || (status== "Reassign")
+    if((status=="New" && ( length == 1) )){
         return(
-            <div>
+            <div id="hidelist">
                 <div className="col-lg-8 allteamleader">
                 <lable>Allocate To Team Member</lable>
                 <select className="form-control allProductSubCategories" aria-describedby="basic-addon1" ref="allocateToName">
@@ -145,8 +146,7 @@ constructor(props){
                         reportUserArr.map( (data, index)=>{
                             return (
                                 <option key={index}>
-                                    
-                                {data}
+                                    {data}
                                 </option>
                             );
                         })
@@ -158,87 +158,104 @@ constructor(props){
                 </div>
             </div>
         );
+    }else if(status == "Allocated"){
+        return(<div></div>);
     }
   }
 
-    // }else if(status == "Accepted"){
-    //     console.log("Inside else");
-    //     console.log(status);
-    //    return(
+   /*======================================== Hide Team Member Button ==================================================*/
+   hideTeamMemButton(status,teammemberDetails,empid,ticketId,length,index1){
+    var reportUserArr = [];
+    if(teammemberDetails){
+        for(k=0;k<teammemberDetails.length;k++){
+            var newStr = teammemberDetails[k].profile.firstname+" "+teammemberDetails[k].profile.lastname;
+            var teamMemid  = teammemberDetails[k]._id;
+            reportUserArr.push(newStr);
+        }
+
+    }
+    if((status == "New") && ( length == 1)){
+        return(
+               <div className="hideacceptreject" id="hideacceptreject">
+                   <button type="button" className="bg-primary col-lg-5 teammember" data-status="Accepted" data-empId = {empid}  data-id={this.props.ticketId}  onClick={this.changeTMStatus.bind(this)}>Accept</button>
+                   <button type="button" className="btn-danger col-lg-5 teammember" data-status="Rejected" data-empId = {empid}  data-id={this.props.ticketId}  onClick={this.changeTMStatus.bind(this)}>Reject</button>
+               </div>
+       );
+    }else if(status == "Accepted"){
+        return(
+            <div className="col-lg-12">
+                <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div className="radio radiobtn col-lg-3 noLRPad">
+                        <label className="noLRPad"><input type="radio" name="optradio" value="Self" className="optradio" checked={this.state.radioState ==="Self"} onChange={this.getRadioValue.bind(this)}/>Self</label>
+                        </div>
+                        <div className="radio col-lg-6 radiobtn noLRPad">
+                        <label className="noLRPad"><input type="radio" name="optradio" value="Field Expert" className="optradio" checked={this.state.radioState ==="Field Expert"} onChange={this.getRadioValue.bind(this)}/>Field Expert</label>
+                        </div>
+                        <div className="radio radiobtn col-lg-3 noLRPad">
+                        <label className="noLRPad"><input type="radio" name="optradio" value="BA" className="optradio" checked={this.state.radioState ==="BA"} onChange={this.getRadioValue.bind(this)}/>BA</label>
+                        </div>
+                </div>
+                <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12">                            
+                        {
+                            this.state.radioState == 'Field Expert'?
+                                    <div>
+                                        <div className="col-lg-8">
+                                        <lable>Allocate To Field Expert</lable>
+                                        <select className="form-control allProductSubCategories" aria-describedby="basic-addon1" ref="allocateToFEName">
+                                            { 
+                                                reportUserArr.map( (data, index)=>{
+                                                    return (
+                                                        <option key={index}>
+                                                           
+                                                        {data}
+                                                        </option>
+                                                    );
+                                                })
+                                            } 
+                                        </select>
+                                        </div>
+                                        <div className="col-lg-4 fesubmitouter noLRPad">
+                                             <button type="submit" value="Submit" className="col-lg-11 fesubmitbtn noLRPad" data-teamMemid= {teamMemid} data-empId = {empid} onClick={this.addBADetails.bind(this)} data-id={this.props.ticketId} data-role={this.state.radioState}>Submit</button>                                       
+                                        </div>
+                                    </div>
+                            : 
+                            this.state.radioState == 'BA'?
+                            <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
+                           
+                                <div className="col-lg-7 noLRPad">
+                                 <input type="text" name="baName" className="fesubmitbtn banametext" ref="BAName"/>
+                                </div>
+                           
+                                <div className="col-lg-3 noLRPad">                                        
+                                 <button type="submit" value="Submit" className="col-lg-11 fesubmitbtn noLRPad" onClick={this.addBADetails.bind(this)} data-addressType = {this.props.getTicket.addressType} data-id={this.props.ticketId} data-role={this.state.radioState}>Submit</button>
+                                 </div>
+                                  <div className="col-lg-4 fesubmitouter noLRPad" id="uploadDocs" style={{"display" : "none"}}>                                        
+                                    <button type="submit" value="Submit"  className="col-lg-12 noLRPad" onClick={this.uploadDocsDiv.bind(this)}>Upload Docs</button>
+                                 </div>
+   
+                            </div>
+                            :
+                            this.state.radioState == 'Self'?
+                            <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
+                                  <div className="col-lg-4 uploadDocs noLRPad" id="uploadDocs">                                        
+                                    <button type="submit" value="Submit"  className="col-lg-12 noLRPad" onClick={this.uploadDocsDiv.bind(this)}>Upload Docs</button>
+                                 </div>
+   
+                            </div>
+                            :
+                            ""
+                        }
+                    </div>
+             </div>
+        );
            
-    //        <div className="col-lg-12">
-    //            <h1>hiiii</h1>
-    //         {/* <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12">
-    //                 <div className="radio radiobtn col-lg-3 noLRPad">
-    //                 <label className="noLRPad"><input type="radio" name="optradio" value="Self" className="optradio" checked={this.state.radioState ==="Self"} onChange={this.getRadioValue.bind(this)}/>Self</label>
-    //                 </div>
-    //                 <div className="radio col-lg-6 radiobtn noLRPad">
-    //                 <label className="noLRPad"><input type="radio" name="optradio" value="Field Expert" className="optradio" checked={this.state.radioState ==="Field Expert"} onChange={this.getRadioValue.bind(this)}/>Field Expert</label>
-    //                 </div>
-    //                 <div className="radio radiobtn col-lg-3 noLRPad">
-    //                 <label className="noLRPad"><input type="radio" name="optradio" value="BA" className="optradio" checked={this.state.radioState ==="BA"} onChange={this.getRadioValue.bind(this)}/>BA</label>
-    //                 </div>
-    //         </div>
-    //         <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12">                            
-    //                 {
-    //                     this.state.radioState == 'Field Expert'?
-    //                             <div>
-    //                                 <div className="col-lg-8">
-    //                                 <lable>Allocate To Field Expert</lable>
-    //                                 <select className="form-control allProductSubCategories" aria-describedby="basic-addon1" ref="allocateToFEName">
-    //                                     { 
-    //                                         reportUserArr.map( (data, index)=>{
-    //                                             return (
-    //                                                 <option key={index}>
-                                                        
-    //                                                 {data}
-    //                                                 </option>
-    //                                             );
-    //                                         })
-    //                                     } 
-    //                                 </select>
-    //                                 </div>
-    //                                 <div className="col-lg-4 fesubmitouter noLRPad">
-    //                                      <button type="submit" value="Submit" className="col-lg-11 fesubmitbtn noLRPad" data-empId = {empid} onClick={this.addBADetails.bind(this)} data-id={this.props.ticketId} data-role={this.state.radioState}>Submit</button>                                       
-    //                                 </div>
-    //                             </div>
-    //                     : 
-    //                     this.state.radioState == 'BA'?
-    //                     <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
-                        
-    //                         <div className="col-lg-7 noLRPad">
-    //                          <input type="text" name="baName" className="fesubmitbtn banametext" ref="BAName"/>
-    //                         </div>
-                        
-    //                         <div className="col-lg-3 noLRPad">                                        
-    //                          <button type="submit" value="Submit" className="col-lg-11 fesubmitbtn noLRPad" onClick={this.addBADetails.bind(this)} data-addressType = {this.props.getTicket.addressType} data-id={this.props.ticketId} data-role={this.state.radioState}>Submit</button>
-    //                          </div>
-    //                           <div className="col-lg-4 fesubmitouter noLRPad" id="uploadDocs" style={{"display" : "none"}}>                                        
-    //                             <button type="submit" value="Submit"  className="col-lg-12 noLRPad" onClick={this.uploadDocsDiv.bind(this)}>Upload Docs</button>
-    //                          </div>
+        }else{
+            return "";
+        }
+}
 
-    //                     </div>
-    //                     :
-    //                     this.state.radioState == 'Self'?
-    //                     <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
-    //                           <div className="col-lg-4 uploadDocs noLRPad" id="uploadDocs">                                        
-    //                             <button type="submit" value="Submit"  className="col-lg-12 noLRPad" onClick={this.uploadDocsDiv.bind(this)}>Upload Docs</button>
-    //                          </div>
-
-    //                     </div>
-    //                     :
-    //                     ""
-    //                 }
-    //             </div> */}
-    //         </div>
-    //     );
-        
-    // }else{
-    //     return "";
-    // }
- 
-
-  roleSwitch(roleStatus,role,empid){
+   
+roleSwitch(roleStatus,role,empid,length,index1 ){
     
     var splitroleStatus = roleStatus.split('-');    
     var status = splitroleStatus[0].trim();
@@ -248,27 +265,17 @@ constructor(props){
           var name = userDetails.profile.firstname +" "+userDetails.profile.lastname;
           var teammemberDetails = Meteor.users.find({"profile.reportToName":name}).fetch();
           var reportUserArr = [];
-        //   if(teammemberDetails){
-        //       for(k=0;k<teammemberDetails.length;k++){
-        //           var newStr = teammemberDetails[k].profile.firstname+" "+teammemberDetails[k].profile.lastname;
-        //           reportUserArr.push(newStr);
-        //       }
-
-        //   }
         }
         
         switch(role){
             case 'team leader':            
             
-                    {this.hideList(status,teammemberDetails,empid)}
+                    return this.hideList(status,teammemberDetails,empid,length,index1);
                     break;
             case 'team member':
-      console.log("inside switch team member:",role+'|'+status + '|' + empid + '|' + this.props.ticketId);
-                
-                  return this.hideTeamMemButton(status,empid,this.props.ticketId);
-                  console.log(this.hideTeamMemButton(status,empid,this.props.ticketId));
-
-                  break;
+                     
+                    return this.hideTeamMemButton(status,teammemberDetails,empid,this.props.ticketId,length,index1);
+                    break;
                     
 
             }
@@ -277,29 +284,8 @@ constructor(props){
 
   }
 
-    /*======================================== Hide Team Member Button ==================================================*/
-    hideTeamMemButton(status,empid,ticketId){
-        console.log("inside hideTeamMem:"+ '|' + status + '|' + empid + '|' + ticketId);
-      // if(this.props.getTicket.ticketElement[ticketElement.length-1].role_status == "Accepted"){
-          if(status == "Accepted"){
-          console.log("status",status);
-        //   return(
-        //       <div className="hideacceptreject" id="hideacceptreject">gfbfggfgf
-        //           <button type="button" className="bg-primary col-lg-5 teammember" data-status="Accepted" data-empId = {empid}  data-id={this.props.ticketId}  onClick={this.changeTMStatus.bind(this)}>Accept</button>
-        //           <button type="button" className="btn-danger col-lg-5 teammember" data-status="Rejected" data-empId = {empid}  data-id={this.props.ticketId}  onClick={this.changeTMStatus.bind(this)}>Reject</button>
-        //       </div>
-        //   );
-        //    }else{
-        //        return(<div>'hello'</div>);
-        //    }
-           console.log('-----------------&&&&&&&&&&&&&&--------------------------------'); 
 
-           return(<span>dhffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-               dfndjfffffffffffffffffffffffffff
-               dfnnnnnnnnnnnnnnnnnnn
-           </span>);
-      }
-    }
+    
 
   userData(){
       var getTicket = TicketMaster.findOne({"_id" : this.props.ticketId});
@@ -361,6 +347,7 @@ constructor(props){
                             
                             {
                                 newCommeeteeArr[i].status.map((data1,index1)=>{
+                                        var length = newCommeeteeArr[i].status.length;
                                         return(  
                                             <div key={index1}>                                        
                                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">   
@@ -369,7 +356,7 @@ constructor(props){
                                                 </div> 
                                             </div>      
                                             <div>
-                                                {this.roleSwitch(data1,newCommeeteeArr[i].role,newCommeeteeArr[i].empid)}
+                                                {this.roleSwitch(data1,newCommeeteeArr[i].role,newCommeeteeArr[i].empid,length,index1 )}
                                             </div>
                                             </div>
                                         );

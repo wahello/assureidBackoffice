@@ -304,7 +304,7 @@ if(Meteor.isServer){
 					var insertData = ticketDetails.ticketElement[i];
 				}
 			}
-			insertData.role_status = "allocated";
+			insertData.role_status = "Allocated";
 			insertData.createdAt   = new Date();
 			TicketMaster.update(
 				{'_id':ticketId},
@@ -418,63 +418,80 @@ if(Meteor.isServer){
 			return badetails;
 		},
 
-		'genericTicketUpdate':function(empid,role,ticketId,id){
-			// // var TickteDetails = TicketMaster.findOne({'_id':ticketId});
-			// // var ticketElementLength = TickteDetails.ticketElement.length;
-			// // var insertData = TickteDetails.ticketElement[ticketElementLength-1];
-			// var insertData = TicketMaster.findOne({'_id':ticketId,'ticketElement.empid': empid},{ 'ticketElement.$': 1 });
-			// console.log("insertData");
-			// console.log(insertData);
-			// console.log("insertData.ticketElement.length");
-			// console.log(insertData.ticketElement.length);
-			// for(var i=0;i<insertData.ticketElement.length;i++){
-			// 	if(insertData.ticketElement[i].empid == empid){
-			// 		var insertData = insertData.ticketElement[i];
-			// 	}
-			// }
-			// insertData.role_status = "Assigned";
-			// insertData.createdAt   = new Date();
-			// if(role == "BA"){
-			// 	var baDetails = BADetails.findOne({'_id':id});
-			// 	var baName    = baDetails.BAName;
+		'genericTicketUpdate':function(empid,role,ticketId,id,FEid){
+			// var TickteDetails = TicketMaster.findOne({'_id':ticketId});
+			// var ticketElementLength = TickteDetails.ticketElement.length;
+			// var insertData = TickteDetails.ticketElement[ticketElementLength-1];
+			var insertData = TicketMaster.findOne({'_id':ticketId,'ticketElement.empid': empid},{ 'ticketElement.$': 1 });
+			console.log("insertData");
+			console.log(insertData);
+			console.log("insertData.ticketElement.length");
+			console.log(insertData.ticketElement.length);
+			console.log("empid :"+empid);
+			var ticketElemLength = insertData.ticketElement.length;
+			if(ticketElemLength > 0){
+				for(var i=0;i<ticketElemLength;i++){
+					console.log("insertData.ticketElement[i].empid :"+insertData.ticketElement[i].empid)
+					if(insertData.ticketElement[i].empid == empid){
+						var insertData1 = insertData.ticketElement[i];
+					}
+				}
+			}
+
+			console.log("insertData1 :");
+			console.log(insertData1);
+			
+			insertData1.role_status = "Allocated";
+			insertData1.createdAt   = new Date();
+			if(role == "BA"){
+				var baDetails = BADetails.findOne({'_id':id});
+				var baName    = baDetails.BAName;
+				var FEid      = ''; 
 				
-			// }else if(role == "Field Expert"){
-			// 	var feFullName  = id;
-			// 	var splitFEName = feFullName.split(" ");
-			// 	var baName      = splitFEName[0]+" "+splitFEName[1];
-			// 	var userDetails = Meteor.users.findOne({'profile.firstname':splitFEName[0],'profile.lastname':splitFEName[1]});
-			// 	var id          = userDetails._id;
+			}else if(role == "Field Expert"){
+				var feFullName  = id;
+				var splitFEName = feFullName.split(" ");
+				var baName      = splitFEName[0]+" "+splitFEName[1];
+				var userDetails = Meteor.users.findOne({'profile.firstname':splitFEName[0],'profile.lastname':splitFEName[1]});
+				var id          = userDetails._id;
+				var FEid        = FEid;
 				
-			// }
-			// insertData.role = role;
-			// insertData.role_name = baName;
+			}
+
+			console.log("BA Name: "+baName);
+			insertData1.allocatedTo = baName;
+			console.log("insertData1 after ba :");
+			console.log(insertData1);
 			// TicketMaster.update(
 			// 	{'_id':ticketId},
 			// 	{   $push:{
-			// 			'ticketElement':insertData,
+			// 			'ticketElement':insertData1,
 			// 		}
 			// 	}
 			// )
-			// insertData.empid = id;
-			// insertData.role_status="New";
+			insertData1.empid = FEid;
+			insertData1.role = role;
+			insertData1.role_status="New";
+			console.log("after FE :");
+			console.log(insertData1);
 			
-			// TicketMaster.update(
-			// 	{'_id':ticketId},
-			// 	{$push:{
-			// 		'ticketElement':insertData,
-			// 		}
-			// 	},
-			// 	(error,result)=>{
-			// 		if(error){
-			// 			console.log(error);
+			TicketMaster.update(
+				{'_id':ticketId},
+				{$push:{
+					'ticketElement':insertData1,
+					}
+				},
+				(error,result)=>{
+					if(error){
+						console.log(error);
 						
-			// 		}else{
-			// 			console.log("result: ",result);
+					}else{
+						console.log("result: ",result);
 
 
-			// 		}
-			// 	}
-			// );
+					}
+				}
+			);
 
 			// TicketBucket.update(
 			// 	{'ticketid':ticketId},
@@ -520,7 +537,7 @@ if(Meteor.isServer){
 
 		'updateTicketFinalStatus':function(id,status){
 			
-			console.log("Inside updateTicketFinalStatus id, status :"+id,status);
+			var ticketBucket = TicketBucket.findOne({'ticketid':id});
 			if(status == "Approved"){
 				var insertDataDetails = TicketMaster.findOne({'_id':id});
 				var insertData = insertDataDetails.ticketElement[0];
@@ -539,6 +556,15 @@ if(Meteor.isServer){
 				console.log("Write code for reject status");
 			}
 
+			TicketBucket.update(
+				{'ticketid':id},
+				{$set:{'status':status}}
+			)
+
+			TicketBucket.insert(
+				{'ticketid':id},
+				{$set:{'status':status}}
+			)
 
 			return TicketMaster.update(
 				{'_id':id},
