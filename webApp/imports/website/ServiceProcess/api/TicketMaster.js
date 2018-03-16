@@ -280,9 +280,7 @@ if(Meteor.isServer){
 							'empid': empid,
 							'role' : role,
 							'role_status':'New',
-							'createdAt': new Date(),
-							'permanentAddress' : permanentAddress,
-							'currentAddress'   : currentAddress,
+							'createdAt': new Date()
 						}
 					}
 				}

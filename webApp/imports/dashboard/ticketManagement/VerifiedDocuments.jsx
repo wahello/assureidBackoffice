@@ -15,7 +15,7 @@ import { TicketBucket } from '../../website/ServiceProcess/api/TicketMaster.js';
 import { UserProfile } from '/imports/website/forms/api/userProfile.js';
 
 class VerifiedDocuments extends TrackerReact(Component){
-	constructor(props){
+  constructor(props){
     super(props);
     this.state = {
 
@@ -175,21 +175,80 @@ class VerifiedDocuments extends TrackerReact(Component){
     This function execute when document get approved.  
 */
 
-  approvedCurDocument(){
-    $('.showHideReasonWrap').removeClass('showReasonSection');
+  approvedCurDocument(event){
+    // $('.showHideReasonWrap').removeClass('showReasonSection');
 
-    var curURl = location.pathname;
-    if(curURl){
-      var _id = curURl.split('/').pop();
-    }
-    var rejectReason = '';
-    var status       = 'Aprooved';
-    Meteor.call("addApproovedCurStatus",rejectReason,status,_id,(error,result)=>{
-      if(error){
-      }else{
-        swal('Aprooved successfully');
-      }
-    });
+    // var curURl = location.pathname;
+    // if(curURl){
+    //   var _id = curURl.split('/').pop();
+    // }
+    // var rejectReason = '';
+    // var status       = 'Aprooved';
+    // Meteor.call("addApproovedCurStatus",rejectReason,status,_id,(error,result)=>{
+    //   if(error){
+    //   }else{
+    //     swal('Aprooved successfully');
+    //   }
+    // });
+
+
+    console.log("Inside updateTicketStatus");
+        event.preventDefault();
+        // var ticketId = $(event.currentTarget).attr('data-id');
+         var curURl = location.pathname;
+        if(curURl){
+          var ticketId = curURl.split('/').pop();
+        } 
+        var status = $(event.currentTarget).attr('data-status');
+        var ticketObj = TicketMaster.findOne({'_id':ticketId});                         
+        if(ticketObj){
+            console.log(ticketObj);
+            Meteor.call('updateTicketFinalStatus',ticketId,status,function(error,result){
+            if(result){
+                  var memberDetails = Meteor.users.find({"roles":"team leader"},{sort:{'count':1}}).fetch();
+                  var companyObj = CompanySettings.findOne({"maxnoOfTicketAllocate.role":"team leader"});
+                  for(var i=0;i<companyObj.maxnoOfTicketAllocate.length;i++){
+                    if(companyObj.maxnoOfTicketAllocate[i].role == "team leader"){
+                      var allocatedtickets = companyObj.maxnoOfTicketAllocate[i].maxTicketAllocate;
+                    }
+                  }
+          for(var k=0;k<memberDetails.length;k++){
+              
+                        var newTicketAllocated = {
+                            'ticketid' : ticketId,
+                            'empID'    : memberDetails[k]._id,
+                            'role'     : 'team leader',
+                        }
+              
+                        Meteor.call('updateTicketBucket',newTicketAllocated,function(error,result){
+                            if(result){
+                                var ticketBucketDetail = TicketBucket.findOne({"ticketid":newTicketAllocated.ticketid});
+                                if(ticketBucketDetail){
+                                    var ticketId = newTicketAllocated.ticketid;
+                                    var empID    = newTicketAllocated.empID;
+                                    var role     = newTicketAllocated.role;
+                                    Meteor.call('updateTicketElement',ticketId,empID,role,function(error,result){
+                                        
+                                    });
+                                } 
+                            }
+            });
+              
+
+              if(memberDetails[k].count){
+                    var newCount = memberDetails[k].count + 1;
+              } else{
+                var newCount = 1;
+              }
+              Meteor.call('updateCommitteeUserCount',newCount,memberDetails[k]._id);
+              break;
+            
+          }
+                }
+            });
+
+        
+        }
   }
 
   
@@ -299,7 +358,7 @@ class VerifiedDocuments extends TrackerReact(Component){
           </div>
           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 addressDashedLine">
           <div className="col-lg-10 col-lg-offset-1">
-              {this.props.getTicket.verificationType === "employement" ?
+              {this.props.getTicket.verificationType === "education" ?
                   <div>
                      {this.props.getTicket.verificationData ?
                         this.props.perAddrArray.map((employementProof, index)=>{
@@ -481,8 +540,8 @@ class VerifiedDocuments extends TrackerReact(Component){
                                         </div>
                                         <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm">
                                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                <button type="button" className="btn btn-info acceptTicket acceptreject" onClick={this.approvedCurDocument.bind()}>Approved</button>
-                                                <button type="button" className="btn btn-info rejectTicket acceptreject" onClick={this.hideShowRejectCurReason.bind()}>Reject</button>
+                                                <button type="button" className="btn btn-info acceptTicket acceptreject" data-status="Approved" onClick={this.approvedCurDocument.bind()}>Approved</button>
+                                                <button type="button" className="btn btn-info rejectTicket acceptreject" data-status="Rejected" onClick={this.hideShowRejectCurReason.bind()}>Reject</button>
                                             </div>
                                           </div>
                                           <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 showHideReasonWrap">
@@ -509,7 +568,7 @@ class VerifiedDocuments extends TrackerReact(Component){
                   ""
                }
 
-               {this.props.getTicket.verificationType === "education" ?
+               {this.props.getTicket.verificationType === "employement" ?
                   <div>
                      {this.props.getTicket.verificationData ?
                         this.props.perAddrArray.map((educationProof, index)=>{
@@ -517,7 +576,7 @@ class VerifiedDocuments extends TrackerReact(Component){
                             <div key={index}>
                              <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3 verifyDocWrap" >
                               <div data-toggle="modal" data-target={"CurrentAddrDocumnetsModal-"+index} onClick={this.showDocuments.bind(this)} title="Click to verify current address" className="">
-                                <img src={educationProof.proofOfCurrentAddr} className="img-responsive addressImage"/>
+                                <img src={educationProof.proofOfEmployement} className="img-responsive addressImage"/>
                                </div>
                              </div>
                              <div className="modal fade" id={"CurrentAddrDocumnetsModal-"+index} role="dialog">
@@ -548,12 +607,12 @@ class VerifiedDocuments extends TrackerReact(Component){
                                             </div>
                                           </div>
                                         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 curImgWrap">
-                                          <img src={educationProof.proofOfCurrentAddr}  className="img-responsive addressImageModal col-lg-12 col-md-12 col-sm-12 col-xs-12"/>
+                                          <img src={educationProof.proofOfEmployement}  className="img-responsive addressImageModal col-lg-12 col-md-12 col-sm-12 col-xs-12"/>
                                         </div>
                                         <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm">
                                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                <button type="button" className="btn btn-info acceptTicket acceptreject" onClick={this.approvedCurDocument.bind()}>Approved</button>
-                                                <button type="button" className="btn btn-info rejectTicket acceptreject" onClick={this.hideShowRejectCurReason.bind()}>Reject</button>
+                                                <button type="button" className="btn btn-info acceptTicket acceptreject" data-status="Approved" onClick={this.approvedCurDocument.bind()}>Approved</button>
+                                                <button type="button" className="btn btn-info rejectTicket acceptreject" data-status="Rejected" onClick={this.hideShowRejectCurReason.bind()}>Reject</button>
                                             </div>
                                           </div>
                                           <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 showHideReasonWrap">
@@ -616,8 +675,8 @@ class VerifiedDocuments extends TrackerReact(Component){
                                         </div>
                                         <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm">
                                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                <button type="button" className="btn btn-info acceptTicket acceptreject" onClick={this.approvedCurDocument.bind()}>Approved</button>
-                                                <button type="button" className="btn btn-info rejectTicket acceptreject" onClick={this.hideShowRejectCurReason.bind()}>Reject</button>
+                                                <button type="button" className="btn btn-info acceptTicket acceptreject" data-status="Approved" onClick={this.approvedCurDocument.bind()}>Approved</button>
+                                                <button type="button" className="btn btn-info rejectTicket acceptreject" data-status="Rejected" onClick={this.hideShowRejectCurReason.bind()}>Reject</button>
                                             </div>
                                           </div>
                                           <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 showHideReasonWrap">
@@ -681,8 +740,8 @@ class VerifiedDocuments extends TrackerReact(Component){
                                         </div>
                                         <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm">
                                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                <button type="button" className="btn btn-info acceptTicket acceptreject" onClick={this.approvedCurDocument.bind()}>Approved</button>
-                                                <button type="button" className="btn btn-info rejectTicket acceptreject" onClick={this.hideShowRejectCurReason.bind()}>Reject</button>
+                                                <button type="button" className="btn btn-info acceptTicket acceptreject" data-status="Approved" onClick={this.approvedCurDocument.bind()}>Approved</button>
+                                                <button type="button" className="btn btn-info rejectTicket acceptreject" data-status="Rejected" onClick={this.hideShowRejectCurReason.bind()}>Reject</button>
                                             </div>
                                           </div>
                                           <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 showHideReasonWrap">
@@ -808,6 +867,7 @@ verifiedDocumentsContainer = withTracker(props => {
     const getTicket  = TicketMaster.findOne({"_id" : _id}) || {};  
     if (getTicket) {
          var perAddrArray = [getTicket.verificationData];
+         console.log(perAddrArray);
          if(!perAddrArray){
           var perAddrArray = '';
          }
