@@ -104,8 +104,8 @@ class Ticket extends TrackerReact(Component){
                           <div className="ticketPills col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 noLRPad">
                               <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                { this.state.userDetails.profile.userProfile ?
-                                  <img src={this.state.userDetails.profile.userProfile} className="ticketUserImage" /> :
+                                { this.props.userProfile.userProfile ?
+                                  <img src={this.props.userProfile.userProfile } className="ticketUserImage" /> :
                                   <img src="/images/assureid/userIcon.png" className="ticketUserImage" /> 
                                 }
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight assureidValue">
@@ -118,7 +118,7 @@ class Ticket extends TrackerReact(Component){
                                   Name <span className="pull-right">:</span>
                                   </div>   */}
                                   <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-left userName">
-                                    <h5>{this.state.userDetails.profile.firstname} {this.state.userDetails.profile.lastname}</h5>
+                                    <h5>{this.props.userProfile.firstname} {this.props.userProfile.lastname}</h5>
                                   </div> 
                                 </div>
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
@@ -145,7 +145,7 @@ class Ticket extends TrackerReact(Component){
                                   Email Id <span className="pull-right">:</span>
                                   </div>  
                                   <div className="col-lg-7 col-md-7 col-sm-8 col-xs-8 text-left userValue">
-                                    <p>{this.state.userDetails.emails[0].address}</p>
+                                    <p>{this.props.userProfile.emailId}</p>
                                   </div> 
                                 </div>
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
@@ -227,6 +227,8 @@ export default UserDetailsContainer = withTracker(props => {
   var getTicket = TicketMaster.findOne({"_id":ticketId}) || {};        
   var user = Meteor.users.findOne({"_id": getTicket.userId}) || {};
   var userProfile = UserProfile.findOne({"userId": getTicket.userId}) || {};
+  console.log("getTicket");
+  console.log(getTicket);
   var today = new Date();
     var birthDate = new Date(userProfile.dateOfBirth);
     var age = today.getFullYear() - birthDate.getFullYear();
