@@ -268,11 +268,8 @@ if(Meteor.isServer){
 			)
 		},
 
-<<<<<<< Updated upstream
 		'updateTicketElement':function(ticketId,empid,role){
-=======
-		'updateTicketElement':function(ticketId,empid,role,permanentAddress,currentAddress){
->>>>>>> Stashed changes
+
 			
 			// console.log(permanentAddress);
 			// console.log(currentAddress);
@@ -283,13 +280,9 @@ if(Meteor.isServer){
 							'empid': empid,
 							'role' : role,
 							'role_status':'New',
-<<<<<<< Updated upstream
-							'createdAt': new Date()
-=======
 							'createdAt': new Date(),
 							'permanentAddress' : permanentAddress,
 							'currentAddress'   : currentAddress,
->>>>>>> Stashed changes
 						}
 					}
 				}
@@ -316,21 +309,6 @@ if(Meteor.isServer){
 			}
 			insertData.role_status = "allocated";
 			insertData.createdAt   = new Date();
-<<<<<<< Updated upstream
-=======
-			 
-			// TicketMaster.update(
-			// 	{'_id':ticketId,"ticketElement.empid":empid},
-			// 	{   $set:{
-			// 			// 'ticketElement.2.permanentAddress.status':"New",
-			// 			// 'ticketElement.2.permanentAddress.statusDate': new Date(),
-			// 			'ticketElement.1.role_status': "Allocated",					
-			// 			'ticketElement.1.createdAt': new Date(),
-			// 			'ticketElement.1.allocatedTo': firstName+" "+lastName,	
-			// 		}
-			// 	}
-			// ),
->>>>>>> Stashed changes
 			TicketMaster.update(
 				{'_id':ticketId},
 				{   $push:{
@@ -442,28 +420,6 @@ if(Meteor.isServer){
 			});
 			return badetails;
 		},
-
-<<<<<<< Updated upstream
-		'genericTicketUpdate':function(empid,role,ticketId,id){
-			// // var TickteDetails = TicketMaster.findOne({'_id':ticketId});
-			// // var ticketElementLength = TickteDetails.ticketElement.length;
-			// // var insertData = TickteDetails.ticketElement[ticketElementLength-1];
-			// var insertData = TicketMaster.findOne({'_id':ticketId,'ticketElement.empid': empid},{ 'ticketElement.$': 1 });
-			// console.log("insertData");
-			// console.log(insertData);
-			// console.log("insertData.ticketElement.length");
-			// console.log(insertData.ticketElement.length);
-			// for(var i=0;i<insertData.ticketElement.length;i++){
-			// 	if(insertData.ticketElement[i].empid == empid){
-			// 		var insertData = insertData.ticketElement[i];
-			// 	}
-			// }
-			// insertData.role_status = "Assigned";
-			// insertData.createdAt   = new Date();
-			// if(role == "BA"){
-			// 	var baDetails = BADetails.findOne({'_id':id});
-			// 	var baName    = baDetails.BAName;
-=======
 		'genericTicketUpdate':function(addressType,role,ticketId,id){
 			var TickteDetails = TicketMaster.findOne({'_id':ticketId});
 			var ticketElementLength = TickteDetails.ticketElement.length;
@@ -487,9 +443,7 @@ if(Meteor.isServer){
 			
 			if(addressType == "currentAddress"){
 				insertData.currentAddress[0].status = "New";
-				insertData.currentAddress[0].statusDate = new Date();
->>>>>>> Stashed changes
-				
+				insertData.currentAddress[0].statusDate = new Date();				
 			// }else if(role == "Field Expert"){
 			// 	var feFullName  = id;
 			// 	var splitFEName = feFullName.split(" ");
@@ -540,7 +494,7 @@ if(Meteor.isServer){
 			// )
 
 			
-
+		}
 		},
 		"updateCurrentTicketElement":function (id,empid,documents,currentAddressId) {
 			 // console.log("id",id);
@@ -578,11 +532,10 @@ if(Meteor.isServer){
 				var insertData = insertDataDetails.ticketElement[0];
 				insertData.role_status = status;
 				insertData.createdAt   = new Date();
-<<<<<<< Updated upstream
+
 				insertData.verificationData.status = status;
 				insertData.verificationData.statusAt = new Date();
-=======
->>>>>>> Stashed changes
+
 				TicketMaster.update(
 					{'_id':id},
 						{   $push:{
