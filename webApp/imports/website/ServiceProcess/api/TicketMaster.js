@@ -269,7 +269,6 @@ if(Meteor.isServer){
 		},
 
 		'updateTicketElement':function(ticketId,empid,role){
-
 			
 			// console.log(permanentAddress);
 			// console.log(currentAddress);
@@ -418,30 +417,27 @@ if(Meteor.isServer){
 			});
 			return badetails;
 		},
-		'genericTicketUpdate':function(addressType,role,ticketId,id){
-			var TickteDetails = TicketMaster.findOne({'_id':ticketId});
-			var ticketElementLength = TickteDetails.ticketElement.length;
-			var insertData = TickteDetails.ticketElement[ticketElementLength-1];
-			if(role == "BA"){
-				var baDetails = BADetails.findOne({'_id':id});
-				var baName    = baDetails.BAName;
+
+		'genericTicketUpdate':function(empid,role,ticketId,id){
+			// // var TickteDetails = TicketMaster.findOne({'_id':ticketId});
+			// // var ticketElementLength = TickteDetails.ticketElement.length;
+			// // var insertData = TickteDetails.ticketElement[ticketElementLength-1];
+			// var insertData = TicketMaster.findOne({'_id':ticketId,'ticketElement.empid': empid},{ 'ticketElement.$': 1 });
+			// console.log("insertData");
+			// console.log(insertData);
+			// console.log("insertData.ticketElement.length");
+			// console.log(insertData.ticketElement.length);
+			// for(var i=0;i<insertData.ticketElement.length;i++){
+			// 	if(insertData.ticketElement[i].empid == empid){
+			// 		var insertData = insertData.ticketElement[i];
+			// 	}
+			// }
+			// insertData.role_status = "Assigned";
+			// insertData.createdAt   = new Date();
+			// if(role == "BA"){
+			// 	var baDetails = BADetails.findOne({'_id':id});
+			// 	var baName    = baDetails.BAName;
 				
-			}else if(role == "Field Expert"){
-				var feFullName = id;
-				var splilFEName = feFullName.split(" ");
-				var baName      = splilFEName[0]+" "+splilFEName[1];
-				var userDetails = Meteor.users.findOne({'profile.firstname':splilFEName[0],'profile.lastname':splilFEName[1]});
-				var id        = userDetails._id;
-				
-			}
-			insertData.role = role;
-			insertData.role_name = baName;
-			insertData.empid = id;
-			insertData.role_status="New"
-			
-			if(addressType == "currentAddress"){
-				insertData.currentAddress[0].status = "New";
-				insertData.currentAddress[0].statusDate = new Date();				
 			// }else if(role == "Field Expert"){
 			// 	var feFullName  = id;
 			// 	var splitFEName = feFullName.split(" ");
@@ -492,7 +488,7 @@ if(Meteor.isServer){
 			// )
 
 			
-		}
+		
 		},
 		"updateCurrentTicketElement":function (id,empid,documents,currentAddressId) {
 			 // console.log("id",id);
@@ -530,10 +526,8 @@ if(Meteor.isServer){
 				var insertData = insertDataDetails.ticketElement[0];
 				insertData.role_status = status;
 				insertData.createdAt   = new Date();
-
 				insertData.verificationData.status = status;
 				insertData.verificationData.statusAt = new Date();
-
 				TicketMaster.update(
 					{'_id':id},
 						{   $push:{
