@@ -77,7 +77,11 @@ class ServiceInformation extends TrackerReact(Component){
              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
                 <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-left userName">
                 {/* <h5>{this.state.userDetails.profile.firstname} {this.state.userDetails.profile.lastname}</h5> */}
+<<<<<<< Updated upstream
                   <h5>{this.props.serviceInfo.serviceName}</h5>
+=======
+                  <h5>Address Verification</h5>
+>>>>>>> Stashed changes
                 </div> 
               </div>
               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
