@@ -57,9 +57,6 @@ constructor(props){
         //       $('.hideacceptreject').hide();
         //   }
       });
-      if( roleStatus!="New"){
-        $('#hideacceptreject').hide();
-      }
   }
 
   /*Get radio value and display dropdown and textbox*/

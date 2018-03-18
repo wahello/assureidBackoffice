@@ -184,20 +184,8 @@ if(Meteor.isServer){
 		// 		}
 		// 	)
 		// },
-		'updateTicketBucket':function(ticket){
-			
-			 TicketBucket.update(
-				{'ticketid':ticket.ticketid},
-					{   $set:{
-						"empid"    : ticket.empID,
-						"role"     : ticket.role,
-						"createdAt" : new Date(),
-					}
-				}
-			)
-			// console.log(ticket.ticketid)
-			return ticket.ticketid;
-		},
+
+		
 
 		/*
 			update status = reject and add rejection reason.
@@ -269,9 +257,6 @@ if(Meteor.isServer){
 		},
 
 		'updateTicketElement':function(ticketId,empid,role){
-			
-			// console.log(permanentAddress);
-			// console.log(currentAddress);
 			TicketMaster.update(
 				{'_id':ticketId},
 				{   $push:{
@@ -312,7 +297,8 @@ if(Meteor.isServer){
 						'ticketElement':insertData,
 					}
 				}
-			),
+			)
+
 			TicketMaster.update(
 				{'_id':ticketId},
 				{   $push:{
@@ -325,61 +311,33 @@ if(Meteor.isServer){
 						}
 					}
 				}
-			)
+			)		
 
+			/*=====================Update status in ticket Bucket For Role team leader */
+			
+				var status = "Allocated";
+				var role   = "team leader";
+				Meteor.call('genericUpdateTicketBucket',ticketId,status,role,(error,result)=>{
+					console.log("result :"+result);
+					if(result == 1){
+						console.log("Inside if result :"+result);
+
+						/*==================Insert New document  for team member in ticket bucket============= */
+						var ticket ={
+							'ticketid':ticketId,
+							'empID'  : teamMemberDetails._id,
+							'role'   : "team member",
+							'status' : "New"
+						}
+						
+					   Meteor.call('insertTicketBucket',ticket);
+					}
+				});
 			
 
 		},
 
 		'updateTMStatus':function(ticketId,status,empid){
-			console.log(ticketId,status);
-			// if((addressType=="permanentAddress") && (status=="Accepted")){
-			// 	TicketMaster.update(
-			// 		{'_id':ticketId},
-			// 		{   $set:{
-							
-			// 				'ticketElement.2.permanentAddress.status': status,					
-			// 				'ticketElement.2.permanentAddress.createdAt': new Date(),
-							
-			// 			}
-			// 		}
-			// 	)
-			// }else if((addressType=="currentAddress") && (status=="Accepted")){
-			// 	TicketMaster.update(
-			// 		{'_id':ticketId},
-			// 		{   $set:{
-							
-			// 			'ticketElement.2.currentAddress.0.status': status,					
-			// 			'ticketElement.2.currentAddress.0.createdAt': new Date(),
-			// 				// 'ticketElement.2.currentAddress.Remark':""
-			// 			}
-			// 		}
-			// 	)
-			// }else if((addressType=="currentAddress") && (status=="Rejected")){
-			// 	TicketMaster.update(
-			// 		{'_id':ticketId},
-			// 		{   $set:{
-							
-			// 			'ticketElement.2.currentAddress.status': status,					
-			// 			'ticketElement.2.currentAddress.createdAt': new Date(),
-			// 			'ticketElement.2.currentAddress.Remark':""
-			// 			}
-			// 		}
-			// 	)
-			// }else{
-			// 	TicketMaster.update(
-			// 		{'_id':ticketId},
-			// 		{   $set:{
-							
-			// 			'ticketElement.2.permanentAddress.status': status,					
-			// 			'ticketElement.2.permanentAddress.createdAt': new Date(),
-			// 			'ticketElement.2.permanentAddress.Remark':""
-			// 			}
-			// 		}
-			// 	)
-			// }
-
-
 			var ticketDetails = TicketMaster.findOne({'_id':ticketId,'ticketElement.empid': empid},{ 'ticketElement.$': 1 });
 			for(var i=0;i<ticketDetails.ticketElement.length;i++){
 				if(ticketDetails.ticketElement[i].empid == empid){
@@ -396,15 +354,13 @@ if(Meteor.isServer){
 					}
 				}
 			)
-			TicketBucket.update(
-				{'ticketid':ticketId},
-				{ $set:{
-							'role':'team member',
-							'empid': empid,
-					   }
-					
-				}
-			)
+			
+
+			/*================ Update Status In Ticket Bucket =============*/
+			var id = ticketId;
+			var status = status;
+			var role = "team member";
+			Meteor.call('genericUpdateTicketBucket',id,status,role)
 
 			return addTM;
 			
@@ -423,24 +379,15 @@ if(Meteor.isServer){
 			// var ticketElementLength = TickteDetails.ticketElement.length;
 			// var insertData = TickteDetails.ticketElement[ticketElementLength-1];
 			var insertData = TicketMaster.findOne({'_id':ticketId,'ticketElement.empid': empid},{ 'ticketElement.$': 1 });
-			console.log("insertData");
-			console.log(insertData);
-			console.log("insertData.ticketElement.length");
-			console.log(insertData.ticketElement.length);
-			console.log("empid :"+empid);
 			var ticketElemLength = insertData.ticketElement.length;
 			if(ticketElemLength > 0){
 				for(var i=0;i<ticketElemLength;i++){
-					console.log("insertData.ticketElement[i].empid :"+insertData.ticketElement[i].empid)
+					
 					if(insertData.ticketElement[i].empid == empid){
 						var insertData1 = insertData.ticketElement[i];
 					}
 				}
-			}
-
-			console.log("insertData1 :");
-			console.log(insertData1);
-			
+			}			
 			insertData1.role_status = "Allocated";
 			insertData1.createdAt   = new Date();
 			if(role == "BA"){
@@ -457,23 +404,11 @@ if(Meteor.isServer){
 				var FEid        = FEid;
 				
 			}
-
-			console.log("BA Name: "+baName);
 			insertData1.allocatedTo = baName;
-			console.log("insertData1 after ba :");
-			console.log(insertData1);
-			// TicketMaster.update(
-			// 	{'_id':ticketId},
-			// 	{   $push:{
-			// 			'ticketElement':insertData1,
-			// 		}
-			// 	}
-			// )
 			insertData1.empid = FEid;
 			insertData1.role = role;
 			insertData1.role_status="New";
-			console.log("after FE :");
-			console.log(insertData1);
+
 			
 			TicketMaster.update(
 				{'_id':ticketId},
@@ -493,25 +428,20 @@ if(Meteor.isServer){
 				}
 			);
 
-			// TicketBucket.update(
-			// 	{'ticketid':ticketId},
-			// 	{
-			// 		$set:{
-			// 			'empid': id,
-			// 			'role': role
-			// 		}
-
-			// 	}
-			// )
+			/*=========Add New document in ticket bucket for field expert======== */
+			var ticket = {
+				'ticketid': ticketId,
+				'empID'   : FEid,
+				'role'    : 'Field Expert',
+				'status'  : 'New',
+			}
+			Meteor.call('insertTicketBucket',ticket);
 
 			
 		
 		},
 		"updateCurrentTicketElement":function (id,empid,documents,currentAddressId) {
-			 // console.log("id",id);
-			 // console.log("empid",empid);
-			 // console.log("documents",documents);
-			 // console.log("currentAddressId",currentAddressId);
+
 			 TicketMaster.update({"_id" : id, "ticketElement.allocatedToId" : empid , "ticketElement.currentAddress.currentAddressId" : parseInt(currentAddressId) },
 			 	{$set : {
 			 		"ticketElement.2.currentAddress.0.documents" : documents,
@@ -520,10 +450,6 @@ if(Meteor.isServer){
 			 });
 		},
 		"updatePermanentTicketElement":function (id,empid,documents,permanentAddressId) {
-			 // console.log("id",id);
-			 // console.log("empid",empid);
-			 // console.log("documents",documents);
-			 // console.log("currentAddressId",currentAddressId);
 			 TicketMaster.update({"_id" : id, "ticketElement.allocatedToId" : empid , "ticketElement.permanentAddress.permanentAddressId" : parseInt(permanentAddressId) },
 			 	{$set : {
 			 		"ticketElement.2.permanentAddress.0.documents" : documents,
@@ -534,7 +460,7 @@ if(Meteor.isServer){
 
 
 		/*======================= API Function According To New Flow And Design =========================*/
-
+		/*======================= Add New Object with status Approved / Rejected in Ticket Master ========*/
 		'updateTicketFinalStatus':function(id,status){
 			
 			var ticketBucket = TicketBucket.findOne({'ticketid':id});
@@ -556,15 +482,17 @@ if(Meteor.isServer){
 				console.log("Write code for reject status");
 			}
 
-			TicketBucket.update(
-				{'ticketid':id},
-				{$set:{'status':status}}
-			)
+			Meteor.call('genericUpdateTicketBucket',id,status,'screening committee');
+			/*================= Update Ticket Bucket Status ================================*/
+			// TicketBucket.update(
+			// 	{'ticketid':id},
+			// 	{$set:{'status':status}}
+			// )
 
-			TicketBucket.insert(
-				{'ticketid':id},
-				{$set:{'status':status}}
-			)
+			// TicketBucket.insert(
+			// 	{'ticketid':id},
+			// 	{$set:{'status':status}}
+			// )
 
 			return TicketMaster.update(
 				{'_id':id},
@@ -575,7 +503,55 @@ if(Meteor.isServer){
 				}
 			)
 			
-		}
+		},
+
+		/*=================== Update Status In Ticket Bucket ====================*/
+
+		'genericUpdateTicketBucket': function(id,status,role){
+	
+			var ticketBucketDetails = TicketBucket.find({'ticketid':id}).fetch();
+			var ticketBucketLength = ticketBucketDetails.length;
+			if(ticketBucketLength > 0){
+				var prevTicketBucketData = ticketBucketDetails[ticketBucketLength - 1];
+				if(prevTicketBucketData.role == role){					
+					/****** Update Status *******/
+				return	TicketBucket.update(
+						{'ticketid':id,'role':role},
+						{
+							$set:{
+								'status' : status,
+							}
+						}
+					)
+				}
+			}	
+		},
+
+		/*This function overwrite ticket bucket with Role team leader */
+		'insertTicketBucket':function(ticket){
+			var ticketBucketDetails = TicketBucket.find({'ticketid':ticket.ticketid}).fetch();
+			var ticketBucketLength  = ticketBucketDetails.length;
+			if(ticketBucketLength > 0){
+				
+				var prevTicketBucketData = ticketBucketDetails[ticketBucketLength - 1];
+					TicketBucket.insert(
+						{  
+						    'ticketid'    : prevTicketBucketData .ticketid,
+							'ticketNumber': prevTicketBucketData .ticketNumber,
+							'orderId'     : prevTicketBucketData .orderId,
+							'serviceName' : prevTicketBucketData .serviceName,
+ 							'empid'       : ticket.empID,
+							'role'        : ticket.role,
+							'status'      : ticket.status,
+							'tatDate'     : prevTicketBucketData .tatDate,
+							'createdAt'   : new Date(),
+						}
+				)
+			}
+		   
+		   return ticket.ticketid;
+	   	},
+
 	
 	  });
 

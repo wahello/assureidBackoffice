@@ -190,9 +190,6 @@ class VerifiedDocuments extends TrackerReact(Component){
     //     swal('Aprooved successfully');
     //   }
     // });
-
-
-    console.log("Inside updateTicketStatus");
         event.preventDefault();
         // var ticketId = $(event.currentTarget).attr('data-id');
          var curURl = location.pathname;
@@ -202,7 +199,7 @@ class VerifiedDocuments extends TrackerReact(Component){
         var status = $(event.currentTarget).attr('data-status');
         var ticketObj = TicketMaster.findOne({'_id':ticketId});                         
         if(ticketObj){
-            console.log(ticketObj);
+            
             Meteor.call('updateTicketFinalStatus',ticketId,status,function(error,result){
             if(result){
                   var memberDetails = Meteor.users.find({"roles":"team leader"},{sort:{'count':1}}).fetch();
@@ -218,9 +215,10 @@ class VerifiedDocuments extends TrackerReact(Component){
                             'ticketid' : ticketId,
                             'empID'    : memberDetails[k]._id,
                             'role'     : 'team leader',
+                            'status'   : 'New'
                         }
               
-                        Meteor.call('updateTicketBucket',newTicketAllocated,function(error,result){
+                        Meteor.call('insertTicketBucket',newTicketAllocated,function(error,result){
                             if(result){
                                 var ticketBucketDetail = TicketBucket.findOne({"ticketid":newTicketAllocated.ticketid});
                                 if(ticketBucketDetail){
@@ -867,7 +865,6 @@ verifiedDocumentsContainer = withTracker(props => {
     const getTicket  = TicketMaster.findOne({"_id" : _id}) || {};  
     if (getTicket) {
          var perAddrArray = [getTicket.verificationData];
-         console.log(perAddrArray);
          if(!perAddrArray){
           var perAddrArray = '';
          }
