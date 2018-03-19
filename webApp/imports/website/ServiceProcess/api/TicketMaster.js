@@ -410,7 +410,7 @@ if(Meteor.isServer){
 			insertData1.role_status="New";
 
 			
-			TicketMaster.update(
+			return TicketMaster.update(
 				{'_id':ticketId},
 				{$push:{
 					'ticketElement':insertData1,

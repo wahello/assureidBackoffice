@@ -7,9 +7,9 @@ import { withTracker } from 'meteor/react-meteor-data';
 import Validation from 'react-validation';
 import validator from 'validator';
 import {Tracker} from 'meteor/tracker';
-import { browserHistory } from 'react-router'; 
+import { browserHistory } from 'react-router';
 import { Link } from 'react-router';
-import { TicketMaster } from '../../website/ServiceProcess/api/TicketMaster.js'; 
+import { TicketMaster } from '../../website/ServiceProcess/api/TicketMaster.js';
 import {CompanySettings} from '/imports/dashboard/companySetting/api/CompanySettingMaster.js';
 import { TicketBucket } from '../../website/ServiceProcess/api/TicketMaster.js';
 import { UserProfile } from '/imports/website/forms/api/userProfile.js';
@@ -20,9 +20,9 @@ class VerifiedDocuments extends TrackerReact(Component){
     this.state = {
 
       "subscription" : {
-        "allTickets" : Meteor.subscribe("allTickets"), 
+        "allTickets" : Meteor.subscribe("allTickets"),
         "userfunction" : Meteor.subscribe('userfunction'),
-      } 
+      }
     }
   }
   showDocuments(event){
@@ -42,7 +42,7 @@ class VerifiedDocuments extends TrackerReact(Component){
   }
 
 /*
-    This function execute when document get approved.  
+    This function execute when document get approved. 
 */
 
 
@@ -71,7 +71,7 @@ class VerifiedDocuments extends TrackerReact(Component){
   }
 
 /*
-    This function execute when document get approved.  
+    This function execute when document get approved. 
 */
 
   approvedCurDocument(event){
@@ -80,7 +80,7 @@ class VerifiedDocuments extends TrackerReact(Component){
      var curURl = location.pathname;
     if(curURl){
       var ticketId = curURl.split('/').pop();
-    } 
+    }
     var status = $(event.currentTarget).attr('data-status');
     console.log("my status is",status);
     var remark = $('.rejectReason-0').val();
@@ -103,14 +103,14 @@ class VerifiedDocuments extends TrackerReact(Component){
                 }
               }
               for(var k=0;k<memberDetails.length;k++){
-                  
+                 
                             var newTicketAllocated = {
                                 'ticketid' : ticketId,
                                 'empID'    : memberDetails[k]._id,
                                 'role'     : 'team leader',
                             }
-                  
-                            Meteor.call('updateTicketBucket',newTicketAllocated,function(error,result){
+                 
+                            Meteor.call('insertTicketBucket',newTicketAllocated,function(error,result){
                                 if(result){
                                     var ticketBucketDetail = TicketBucket.findOne({"ticketid":newTicketAllocated.ticketid});
                                     if(ticketBucketDetail){
@@ -118,12 +118,12 @@ class VerifiedDocuments extends TrackerReact(Component){
                                         var empID    = newTicketAllocated.empID;
                                         var role     = newTicketAllocated.role;
                                         Meteor.call('updateTicketElement',ticketId,empID,role,function(error,result){
-                                            
+                                           
                                         });
-                                    } 
+                                    }
                                 }
                 });
-                  
+                 
 
                   if(memberDetails[k].count){
                         var newCount = memberDetails[k].count + 1;
@@ -132,7 +132,7 @@ class VerifiedDocuments extends TrackerReact(Component){
                   }
                   Meteor.call('updateCommitteeUserCount',newCount,memberDetails[k]._id);
                   break;
-                
+               
               }
 
           if(status=="Approved"){
@@ -151,13 +151,13 @@ class VerifiedDocuments extends TrackerReact(Component){
           }
         });
 
-    
+   
     }
   }
 
 /*
 
-  Show multiple document section in address verification 
+  Show multiple document section in address verification
 
 */
 
@@ -167,7 +167,7 @@ class VerifiedDocuments extends TrackerReact(Component){
       var _id = curURl.split('/').pop();
     }
     const postHandle = Meteor.subscribe('singleTicket',_id);
-    const getTicket  = TicketMaster.findOne({"_id" : _id});  
+    const getTicket  = TicketMaster.findOne({"_id" : _id}); 
     if (getTicket) {
        var ticketElement = getTicket.ticketElement;
        if (ticketElement) {
@@ -190,7 +190,7 @@ class VerifiedDocuments extends TrackerReact(Component){
     }
      var myArray = [];
     const postHandle = Meteor.subscribe('singleTicket',_id);
-    const getTicket  = TicketMaster.findOne({"_id" : _id});  
+    const getTicket  = TicketMaster.findOne({"_id" : _id}); 
     if (getTicket) {
        var ticketElement = getTicket.ticketElement;
        if (ticketElement) {
@@ -211,7 +211,7 @@ class VerifiedDocuments extends TrackerReact(Component){
               );
           }
           return myArray;
-         
+        
          }
 
     }
@@ -219,7 +219,7 @@ class VerifiedDocuments extends TrackerReact(Component){
   }
   render(){
     if (!this.props.loading) {
-     return(            
+     return(           
         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div className="verifiedDocumentsWrapper col-lg-12 col-md-12 col-sm-12 col-xs-12">
           <div className="verifiedDocumentsHeader text-left col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -247,18 +247,18 @@ class VerifiedDocuments extends TrackerReact(Component){
                                           <div className="col-lg-12 col-md-12  col-sm-12 col-sm-12">
                                             <div className="col-lg-12 col-md-12 showAddrWrap">
                                               <h5>Employement</h5>
-                                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12"> 
-                                                {this.props.perAddrArray[index].educationLevel}, 
-                                                {this.props.perAddrArray[index].educationQualification}
-                                              </div> 
                                               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                {this.props.perAddrArray[index].specialization}, 
+                                                {this.props.perAddrArray[index].educationLevel},
+                                                {this.props.perAddrArray[index].educationQualification}
+                                              </div>
+                                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                {this.props.perAddrArray[index].specialization},
                                                 {this.props.perAddrArray[index].grades}
                                               </div>
                                               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                 {this.props.perAddrArray[index].educationMode},
-                                                {this.props.perAddrArray[index].dateAttendedTo}, 
-                                                {this.props.perAddrArray[index].collegeName}, 
+                                                {this.props.perAddrArray[index].dateAttendedTo},
+                                                {this.props.perAddrArray[index].collegeName},
                                                 {this.props.perAddrArray[index].university},<br />
                                                 {this.props.perAddrArray[index].collegeAddress} {this.props.perAddrArray[index].rollNo}
                                               </div>
@@ -281,17 +281,17 @@ class VerifiedDocuments extends TrackerReact(Component){
                                             <button className="col-lg-12 col-md-12 btn btn-primary rejectReasonBtn pull-left" data-status="Rejected" onClick={this.approvedCurDocument.bind(this)}>Submit</button>
                                           </div>
                                           </div>
-                                        </div> 
+                                        </div>
                                       </div>
-                                    </div> 
+                                    </div>
                                   </div>
-                                </div> 
+                                </div>
                              </div>
                             );
                         })
                         :
                         ""
-                     }     
+                     }    
                    </div>
                   :
                   ""
@@ -317,18 +317,18 @@ class VerifiedDocuments extends TrackerReact(Component){
                                           <div className="col-lg-12 col-md-12  col-sm-12 col-sm-12">
                                             <div className="col-lg-12 col-md-12 showAddrWrap">
                                               <h5>Permanent Address</h5>
-                                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12"> 
-                                                {this.props.perAddrArray[index].line1}, 
-                                                {this.props.perAddrArray[index].line2}
-                                              </div> 
                                               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                {this.props.perAddrArray[index].line3}, 
+                                                {this.props.perAddrArray[index].line1},
+                                                {this.props.perAddrArray[index].line2}
+                                              </div>
+                                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                {this.props.perAddrArray[index].line3},
                                                 {this.props.perAddrArray[index].landmark}
                                               </div>
                                               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                 {this.props.perAddrArray[index].city},
-                                                {this.props.perAddrArray[index].state}, 
-                                                {this.props.perAddrArray[index].Country}, 
+                                                {this.props.perAddrArray[index].state},
+                                                {this.props.perAddrArray[index].Country},
                                                 {this.props.perAddrArray[index].pincode},<br />
                                                 Residing From : {this.props.perAddrArray[index].residingFrom} Residing Till : {this.props.perAddrArray[index].residingTo}
                                               </div>
@@ -351,22 +351,22 @@ class VerifiedDocuments extends TrackerReact(Component){
                                             <button className="col-lg-12 col-md-12 btn btn-primary rejectReasonBtn pull-left" data-status="Rejected" onClick={this.approvedCurDocument.bind(this)}>Submit</button>
                                           </div>
                                           </div>
-                                        </div> 
+                                        </div>
                                       </div>
-                                    </div> 
+                                    </div>
                                   </div>
-                                </div> 
+                                </div>
                              </div>
                             );
                         })
                         :
                         ""
-                     }     
+                     }    
                    </div>
                   :
                   ""
               }
-              
+             
                {this.props.getTicket.verificationType === "currentAddress" ?
                   <div>
                      {this.props.getTicket.verificationData ?
@@ -387,18 +387,18 @@ class VerifiedDocuments extends TrackerReact(Component){
                                         <div className="col-lg-12 col-md-12  col-sm-12 col-sm-12">
                                             <div className="col-lg-12 col-md-12 showAddrWrap">
                                               <h5>Current Address</h5>
-                                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12"> 
-                                                {this.props.perAddrArray[index].tempLine1}, 
-                                                {this.props.perAddrArray[index].tempLine2}
-                                              </div> 
                                               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                {this.props.perAddrArray[index].tempLine3}, 
+                                                {this.props.perAddrArray[index].tempLine1},
+                                                {this.props.perAddrArray[index].tempLine2}
+                                              </div>
+                                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                {this.props.perAddrArray[index].tempLine3},
                                                 {this.props.perAddrArray[index].tempLandmark}
                                               </div>
                                               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                 {this.props.perAddrArray[index].tempCity},
-                                                {this.props.perAddrArray[index].tempState}, 
-                                                {this.props.perAddrArray[index].tempCountry}, 
+                                                {this.props.perAddrArray[index].tempState},
+                                                {this.props.perAddrArray[index].tempCountry},
                                                 {this.props.perAddrArray[index].tempPincode},<br />
                                                 Residing From : {this.props.perAddrArray[index].tempresidingFrom} Residing Till : {this.props.perAddrArray[index].tempresidingTo}
                                               </div>
@@ -421,11 +421,11 @@ class VerifiedDocuments extends TrackerReact(Component){
                                             <button className="col-lg-12 col-md-12 btn btn-primary rejectReasonBtn pull-left"data-status="Rejected"  onClick={this.approvedCurDocument.bind(this)}>Submit</button>
                                           </div>
                                           </div>
-                                      </div> 
+                                      </div>
                                     </div>
-                                  </div> 
+                                  </div>
                                 </div>
-                              </div> 
+                              </div>
                             </div>
                             );
                         })
@@ -457,18 +457,18 @@ class VerifiedDocuments extends TrackerReact(Component){
                                         <div className="col-lg-12 col-md-12  col-sm-12 col-sm-12">
                                             <div className="col-lg-12 col-md-12 showAddrWrap">
                                               <h5>Education</h5>
-                                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12"> 
-                                                {this.props.perAddrArray[index].nameOfEmployer}, 
-                                                {this.props.perAddrArray[index].employerAddress}
-                                              </div> 
                                               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                {this.props.perAddrArray[index].contactNo}, 
+                                                {this.props.perAddrArray[index].nameOfEmployer},
+                                                {this.props.perAddrArray[index].employerAddress}
+                                              </div>
+                                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                {this.props.perAddrArray[index].contactNo},
                                                 {this.props.perAddrArray[index].employeeCode}
                                               </div>
                                               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                 {this.props.perAddrArray[index].designation},
-                                                {this.props.perAddrArray[index].department}, 
-                                                {this.props.perAddrArray[index].employmentFrom}, 
+                                                {this.props.perAddrArray[index].department},
+                                                {this.props.perAddrArray[index].employmentFrom},
                                                 {this.props.perAddrArray[index].employmentTo},<br />
                                                 {this.props.perAddrArray[index].typeOfEmployement}, {this.props.perAddrArray[index].dutiesAndResponsibilites}<br/>
                                                 {this.props.perAddrArray[index].reportingManagerNm}, {this.props.perAddrArray[index].prevDesignation}
@@ -492,11 +492,11 @@ class VerifiedDocuments extends TrackerReact(Component){
                                             <button className="col-lg-12 col-md-12 btn btn-primary rejectReasonBtn pull-left" data-status="Rejected" onClick={this.approvedCurDocument.bind(this)}>Submit</button>
                                           </div>
                                           </div>
-                                      </div> 
+                                      </div>
                                     </div>
-                                  </div> 
+                                  </div>
                                 </div>
-                              </div> 
+                              </div>
                             </div>
                             );
                         })
@@ -528,15 +528,15 @@ class VerifiedDocuments extends TrackerReact(Component){
                                         <div className="col-lg-12 col-md-12  col-sm-12 col-sm-12">
                                             <div className="col-lg-12 col-md-12 showAddrWrap">
                                               <h5>Certificates</h5>
-                                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12"> 
-                                                {this.props.perAddrArray[index].certificateName}, 
-                                                {this.props.perAddrArray[index].issuedBy}
-                                              </div> 
                                               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                {this.props.perAddrArray[index].certificatedOn}, 
+                                                {this.props.perAddrArray[index].certificateName},
+                                                {this.props.perAddrArray[index].issuedBy}
+                                              </div>
+                                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                {this.props.perAddrArray[index].certificatedOn},
                                                 {this.props.perAddrArray[index].validTill}
                                               </div>
-                                              
+                                             
                                             </div>
                                           </div>
                                         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 curImgWrap">
@@ -556,11 +556,11 @@ class VerifiedDocuments extends TrackerReact(Component){
                                             <button className="col-lg-12 col-md-12 btn btn-primary rejectReasonBtn pull-left" data-status="Rejected"  onClick={this.approvedCurDocument.bind(this)}>Submit</button>
                                           </div>
                                           </div>
-                                      </div> 
+                                      </div>
                                     </div>
-                                  </div> 
+                                  </div>
                                 </div>
-                              </div> 
+                              </div>
                             </div>
                             );
                         })
@@ -592,16 +592,16 @@ class VerifiedDocuments extends TrackerReact(Component){
                                         <div className="col-lg-12 col-md-12  col-sm-12 col-sm-12">
                                             <div className="col-lg-12 col-md-12 showAddrWrap">
                                               <h5>professional Education</h5>
-                                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12"> 
-                                                {this.props.perAddrArray[index].professionalQualification}, 
-                                                {this.props.perAddrArray[index].registrationNo}
-                                              </div> 
                                               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                {this.props.perAddrArray[index].dateOfQualification}, 
+                                                {this.props.perAddrArray[index].professionalQualification},
+                                                {this.props.perAddrArray[index].registrationNo}
+                                              </div>
+                                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                {this.props.perAddrArray[index].dateOfQualification},
                                                 {this.props.perAddrArray[index].professionalRollNo}
                                                 {this.props.perAddrArray[index].qualifyingBodyNm}
                                               </div>
-                                              
+                                             
                                             </div>
                                           </div>
                                         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 curImgWrap">
@@ -621,11 +621,11 @@ class VerifiedDocuments extends TrackerReact(Component){
                                             <button className="col-lg-12 col-md-12 btn btn-primary rejectReasonBtn pull-left" data-status="Rejected" onClick={this.approvedCurDocument.bind(this)}>Submit</button>
                                           </div>
                                           </div>
-                                      </div> 
+                                      </div>
                                     </div>
-                                  </div> 
+                                  </div>
                                 </div>
-                              </div> 
+                              </div>
                             </div>
                             );
                         })
@@ -636,9 +636,9 @@ class VerifiedDocuments extends TrackerReact(Component){
                   :
                   ""
                }
-            
+           
             {this.props.getTicket.verificationType === "PoliceVerification" ?
-               <div> {this.myCarousel()} 
+               <div> {this.myCarousel()}
                 <div className="col-lg-12 col-md-12">
                    <div className="modal fade and carousel slide carouselSec" id="lightbox">
                     <div className="modal-dialog">
@@ -654,13 +654,13 @@ class VerifiedDocuments extends TrackerReact(Component){
                                 var activeStatus = '';
                                 var hideSlideDetail = "hideSlidDetails";
                               }
-                                
+                               
                               return (
                                     <div className={"curImgWrap item "+ activeStatus} key={index}>
                                       <div className="col-lg-12 col-md-12">
                                         <div className="col-lg-12 col-md-12 showAddrWrapCarousel">
                                             {slides.policeStation}
-                                        </div> 
+                                        </div>
                                       </div>
                                       <div className="col-lg-12 col-md-12">
                                         <img src={slides.proofOfCurrentAddr} className="col-lg-12 col-sm-12 col-md-12 col-xs-12 bannerimg"/>
@@ -681,7 +681,7 @@ class VerifiedDocuments extends TrackerReact(Component){
                                         </div>
                                     </div>
                                 );
-                              }) 
+                              })
                             }
 
                             </div>
@@ -707,9 +707,9 @@ class VerifiedDocuments extends TrackerReact(Component){
                   </div>
 
 
-                </div>     
-     
+                </div>    
     
+   
 
                </div>
                 :
@@ -718,22 +718,22 @@ class VerifiedDocuments extends TrackerReact(Component){
           </div>
           </div>
           </div>
-        </div>    
-      );  
+        </div>   
+      ); 
    }else{
     return(
        <span>Loading</span>
       );
    }
-   
+  
   }
 }
-verifiedDocumentsContainer = withTracker(props => {  
+verifiedDocumentsContainer = withTracker(props => { 
     var _id = props.ticketId;
     const postHandle = Meteor.subscribe('singleTicket',_id);
     const companyHandle = Meteor.subscribe('companyData');
     const ticketBucket = Meteor.subscribe("allTicketBucket");
-    const getTicket  = TicketMaster.findOne({"_id" : _id}) || {};  
+    const getTicket  = TicketMaster.findOne({"_id" : _id}) || {}; 
     if (getTicket) {
          var perAddrArray = [getTicket.verificationData];
          console.log(perAddrArray);
@@ -754,7 +754,7 @@ verifiedDocumentsContainer = withTracker(props => {
          //  var policeVerificationArray = '';
          // }
       }
-     
+    
     const loading = !postHandle.ready() &&  !companyHandle.ready() && !ticketBucket.ready();
 
     // if(_id){

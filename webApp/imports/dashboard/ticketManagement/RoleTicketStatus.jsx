@@ -108,7 +108,7 @@ constructor(props){
         var id = this.refs.allocateToFEName.value;  
         var FEid = $(event.currentTarget).attr('data-teamMemid');
         Meteor.call('genericTicketUpdate',empid,role,ticketId,id,FEid,(error,result)=>{
-            if(result){
+            if(result == 1){
                 swal({
                                 title: "Assing Ticket!",
                                 text: "Successfully Assign",

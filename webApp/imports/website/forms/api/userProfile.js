@@ -279,7 +279,7 @@ if(Meteor.isServer){
                   }
                 });
             }
-            if(verificationType=='education'){
+            else if(verificationType=='education'){
               UserProfile.update({'userId':userId,"education.educationId":1},
                 {
                   $set:
@@ -290,7 +290,8 @@ if(Meteor.isServer){
                   }
                 });
             }
-            if(verificationType=='permanentAddress'){
+           else if(verificationType=='permanentAddress'){
+              Console.log("Hiiiiiiiiiiiiiiiiiiiiiiii");
               UserProfile.update({'userId':userId,"permanentAddress.permanentAddressId":1},
                 {
                   $set:
@@ -301,7 +302,7 @@ if(Meteor.isServer){
                   }
                 });
             }
-            if(verificationType=='currentAddress'){
+            else if(verificationType=='currentAddress'){
               UserProfile.update({'userId':userId,"currentAddress.currentAddressId":1},
                 {
                   $set:
@@ -312,7 +313,7 @@ if(Meteor.isServer){
                   }
                 });
             }
-            if(verificationType=='certificates'){
+            else if(verificationType=='certificates'){
               UserProfile.update({'userId':userId,"certificates.certificatesId":1},
                 {
                   $set:
@@ -323,7 +324,7 @@ if(Meteor.isServer){
                 }
                 });
             }
-            if(verificationType=='professionalEducation'){
+            else if(verificationType=='professionalEducation'){
               UserProfile.update({'userId':userId,"professionalEducation.professionalEducationId":1},
                 {
                   $set:
