@@ -235,7 +235,6 @@ class VerifiedDocuments extends TrackerReact(Component){
             }else{
 
               swal("Rejected successfully");
-              swal("Rejected successfully");
               // Notification to user- Need to implement
               //Data Missing, Need to upload correct Data
               Meteor.call('changeStatusMethod',ticketObj.userId,remark,ticketObj.verificationType,ticketObj.verificationId); // Userprofile collection
