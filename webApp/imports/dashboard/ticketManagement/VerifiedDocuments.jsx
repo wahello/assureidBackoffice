@@ -45,105 +45,105 @@ class VerifiedDocuments extends TrackerReact(Component){
     This function execute when document get approved.  
 */
 
-  approvedDocument(event){
+  // approvedDocument(event){
 
-    //================Vikas code====================================
-    // $('.showHideReasonWrap').removeClass('showReasonSection');
+  //   //================Vikas code====================================
+  //   // $('.showHideReasonWrap').removeClass('showReasonSection');
 
-    // var curURl = location.pathname;
-    // if(curURl){
-    //   var _id = curURl.split('/').pop();
-    // }
-    // var rejectReason = '';
-    // var status       = 'Aprooved';
-    // Meteor.call("addApproovedStatus",rejectReason,status,_id,(error,result)=>{
-    //   if(error){
-    //   }else{
-    //     swal('Aprooved successfully');
-    //   }
-    // });
-    //===============================================================
-      var status = $(event.currentTarget).attr('data-status');
-        console.log("Approved status :"+status);
+  //   // var curURl = location.pathname;
+  //   // if(curURl){
+  //   //   var _id = curURl.split('/').pop();
+  //   // }
+  //   // var rejectReason = '';
+  //   // var status       = 'Aprooved';
+  //   // Meteor.call("addApproovedStatus",rejectReason,status,_id,(error,result)=>{
+  //   //   if(error){
+  //   //   }else{
+  //   //     swal('Aprooved successfully');
+  //   //   }
+  //   // });
+  //   //===============================================================
+  //     var status = $(event.currentTarget).attr('data-status');
+  //       console.log("Approved status :"+status);
 
-        console.log("Inside updateTicketStatus");
-        event.preventDefault();
-         var curURl = location.pathname;
-         if(curURl){
-          var ticketId = curURl.split('/').pop();
-        }
+  //       console.log("Inside updateTicketStatus");
+  //       event.preventDefault();
+  //        var curURl = location.pathname;
+  //        if(curURl){
+  //         var ticketId = curURl.split('/').pop();
+  //       }
         
 
-        //  var ticketId = $(event.currentTarget).attr('data-id'); 
-        // console.log();
+  //       //  var ticketId = $(event.currentTarget).attr('data-id'); 
+  //       // console.log();
 
-        var ticketObj = TicketMaster.findOne({'_id':ticketId});                         
-        if(ticketObj){
-            console.log(ticketObj);
-            Meteor.call('updateTicketFinalStatus',ticketId,status,function(error,result){
-            if(result){
-                  var memberDetails = Meteor.users.find({"roles":"team leader"},{sort:{'count':1}}).fetch();
-                  var companyObj = CompanySettings.findOne({"maxnoOfTicketAllocate.role":"team leader"});
-                  console.log("companyObj");
-                  console.log(companyObj);
-                  console.log("companyObj.maxnoOfTicketAllocate.length");
-                  console.log(companyObj.maxnoOfTicketAllocate.length);
-                  for(var i=0;i<companyObj.maxnoOfTicketAllocate.length;i++){
-                    if(companyObj.maxnoOfTicketAllocate[i].role == "team leader"){
-                      var allocatedtickets = companyObj.maxnoOfTicketAllocate[i].maxTicketAllocate;
-                    }
-                  }
-          for(var k=0;k<memberDetails.length;k++){
+  //       var ticketObj = TicketMaster.findOne({'_id':ticketId});                         
+  //       if(ticketObj){
+  //           console.log(ticketObj);
+  //           Meteor.call('updateTicketFinalStatus',ticketId,status,function(error,result){
+  //           if(result){
+  //                 var memberDetails = Meteor.users.find({"roles":"team leader"},{sort:{'count':1}}).fetch();
+  //                 var companyObj = CompanySettings.findOne({"maxnoOfTicketAllocate.role":"team leader"});
+  //                 console.log("companyObj");
+  //                 console.log(companyObj);
+  //                 console.log("companyObj.maxnoOfTicketAllocate.length");
+  //                 console.log(companyObj.maxnoOfTicketAllocate.length);
+  //                 for(var i=0;i<companyObj.maxnoOfTicketAllocate.length;i++){
+  //                   if(companyObj.maxnoOfTicketAllocate[i].role == "team leader"){
+  //                     var allocatedtickets = companyObj.maxnoOfTicketAllocate[i].maxTicketAllocate;
+  //                   }
+  //                 }
+  //         for(var k=0;k<memberDetails.length;k++){
               
-                        var newTicketAllocated = {
-                            'ticketid' : ticketId,
-                            'empID'    : memberDetails[k]._id,
-                            'role'     : 'team leader',
-                        }
+  //                       var newTicketAllocated = {
+  //                           'ticketid' : ticketId,
+  //                           'empID'    : memberDetails[k]._id,
+  //                           'role'     : 'team leader',
+  //                       }
               
-                        Meteor.call('updateTicketBucket',newTicketAllocated,function(error,result){
-                            if(result){
-                                var ticketBucketDetail = TicketBucket.findOne({"ticketid":newTicketAllocated.ticketid});
-                                if(ticketBucketDetail){
-                                    var ticketId = newTicketAllocated.ticketid;
-                                    var empID    = newTicketAllocated.empID;
-                                    var role     = newTicketAllocated.role;
-                                    // if(ticketObj.ticketElement[0].permanentAddress.length> 0){
-                                    //     var permanentAddress   = ticketObj.ticketElement[0].permanentAddress[permanentLen-1];
-                                    // }else{
-                                    //     var permanentAddress = [];
-                                    // }
-                                    // if(ticketObj.ticketElement[0].currentAddress.length> 0){
-                                    //     // var currentAddress     = ticketObj.ticketElement[0].currentAddress[currentLen-1];
-                                    //     var currentAddress     = ticketObj.ticketElement[0].currentAddress;
-                                    // }else{
-                                    //     var currentAddress = [];
-                                    // }
-                                    Meteor.call('updateTicketElement',ticketId,empID,role,function(error,result){
+  //                       Meteor.call('updateTicketBucket',newTicketAllocated,function(error,result){
+  //                           if(result){
+  //                               var ticketBucketDetail = TicketBucket.findOne({"ticketid":newTicketAllocated.ticketid});
+  //                               if(ticketBucketDetail){
+  //                                   var ticketId = newTicketAllocated.ticketid;
+  //                                   var empID    = newTicketAllocated.empID;
+  //                                   var role     = newTicketAllocated.role;
+  //                                   // if(ticketObj.ticketElement[0].permanentAddress.length> 0){
+  //                                   //     var permanentAddress   = ticketObj.ticketElement[0].permanentAddress[permanentLen-1];
+  //                                   // }else{
+  //                                   //     var permanentAddress = [];
+  //                                   // }
+  //                                   // if(ticketObj.ticketElement[0].currentAddress.length> 0){
+  //                                   //     // var currentAddress     = ticketObj.ticketElement[0].currentAddress[currentLen-1];
+  //                                   //     var currentAddress     = ticketObj.ticketElement[0].currentAddress;
+  //                                   // }else{
+  //                                   //     var currentAddress = [];
+  //                                   // }
+  //                                   Meteor.call('updateTicketElement',ticketId,empID,role,function(error,result){
                                         
-                                    });
-                                } 
-                            }
-            });
+  //                                   });
+  //                               } 
+  //                           }
+  //           });
               
 
-              if(memberDetails[k].count){
-                    var newCount = memberDetails[k].count + 1;
-              } else{
-                var newCount = 1;
-              }
-              Meteor.call('updateCommitteeUserCount',newCount,memberDetails[k]._id);
-              break;
+  //             if(memberDetails[k].count){
+  //                   var newCount = memberDetails[k].count + 1;
+  //             } else{
+  //               var newCount = 1;
+  //             }
+  //             Meteor.call('updateCommitteeUserCount',newCount,memberDetails[k]._id);
+  //             break;
             
-          }
-                }
-            });
+  //         }
+  //               }
+  //           });
 
         
-        }
+  //       }
 
 
-  }
+  // }
 
 
 
@@ -234,7 +234,6 @@ class VerifiedDocuments extends TrackerReact(Component){
               }
             }else{
 
-              swal("Rejected successfully");
               swal("Rejected successfully");
               // Notification to user- Need to implement
               //Data Missing, Need to upload correct Data
@@ -398,7 +397,7 @@ class VerifiedDocuments extends TrackerReact(Component){
                                           </div>
                                           <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm">
                                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                <button type="button" className="btn btn-info acceptTicket acceptreject" data-id={this.props.getTicket._id} data-status="Approved" onClick={this.approvedDocument.bind()}>Approved</button>
+                                                <button type="button" className="btn btn-info acceptTicket acceptreject" data-id={this.props.getTicket._id} data-status="Approved" onClick={this.approvedCurDocument.bind()}>Approved</button>
                                                 <button type="button" className="btn btn-info rejectTicket acceptreject" data-id={this.props.getTicket._id} data-status="Rejected" onClick={this.hideShowRejectReason.bind()}>Reject</button>
                                             </div>
                                           </div>
@@ -407,7 +406,7 @@ class VerifiedDocuments extends TrackerReact(Component){
                                                 <textarea className="col-lg-12 col-md-12 col-sm-12 col-xs-12 rejectReason" rows='2' placeholder="Enter Reject reason..."></textarea>
                                           </div>
                                           <div className="col-lg-2  col-md-2  col-sm-12 col-xs-12 rejectBtnWrap">
-                                            <button className="col-lg-12 col-md-12 btn btn-primary rejectReasonBtn pull-left" onClick={this.submitRejectReason.bind(this)}>Submit</button>
+                                            <button className="col-lg-12 col-md-12 btn btn-primary rejectReasonBtn pull-left" onClick={this.approvedCurDocument.bind(this)}>Submit</button>
                                           </div>
                                           </div>
                                         </div> 
@@ -468,7 +467,7 @@ class VerifiedDocuments extends TrackerReact(Component){
                                           </div>
                                           <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm">
                                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                <button type="button" className="btn btn-info acceptTicket acceptreject" data-id={this.props.getTicket._id} data-status="Approved" onClick={this.approvedDocument.bind()}>Approved</button>
+                                                <button type="button" className="btn btn-info acceptTicket acceptreject" data-id={this.props.getTicket._id} data-status="Approved" onClick={this.approvedCurDocument.bind()}>Approved</button>
                                                 <button type="button" className="btn btn-info rejectTicket acceptreject" data-id={this.props.getTicket._id} data-status="Rejected" onClick={this.hideShowRejectReason.bind()}>Reject</button>
                                             </div>
                                           </div>
@@ -477,7 +476,7 @@ class VerifiedDocuments extends TrackerReact(Component){
                                                 <textarea className="col-lg-12 col-md-12 col-sm-12 col-xs-12 rejectReason" rows='2' placeholder="Enter Reject reason..."></textarea>
                                           </div>
                                           <div className="col-lg-2  col-md-2  col-sm-12 col-xs-12 rejectBtnWrap">
-                                            <button className="col-lg-12 col-md-12 btn btn-primary rejectReasonBtn pull-left" onClick={this.submitRejectReason.bind(this)}>Submit</button>
+                                            <button className="col-lg-12 col-md-12 btn btn-primary rejectReasonBtn pull-left" onClick={this.approvedCurDocument.bind(this)}>Submit</button>
                                           </div>
                                           </div>
                                         </div> 
@@ -547,7 +546,7 @@ class VerifiedDocuments extends TrackerReact(Component){
                                                 <textarea className="col-lg-12 col-md-12 col-sm-12 col-xs-12 rejectReason" rows='2' placeholder="Enter Reject reason..."></textarea>
                                           </div>
                                           <div className="col-lg-2  col-md-2  col-sm-12 col-xs-12 rejectBtnWrap">
-                                            <button className="col-lg-12 col-md-12 btn btn-primary rejectReasonBtn pull-left" onClick={this.submitRejectCurReason.bind(this)}>Submit</button>
+                                            <button className="col-lg-12 col-md-12 btn btn-primary rejectReasonBtn pull-left" onClick={this.approvedCurDocument.bind(this)}>Submit</button>
                                           </div>
                                           </div>
                                       </div> 
@@ -682,7 +681,7 @@ class VerifiedDocuments extends TrackerReact(Component){
                                                 <textarea className="col-lg-12 col-md-12 col-sm-12 col-xs-12 rejectReason" rows='2' placeholder="Enter Reject reason..."></textarea>
                                           </div>
                                           <div className="col-lg-2  col-md-2  col-sm-12 col-xs-12 rejectBtnWrap">
-                                            <button className="col-lg-12 col-md-12 btn btn-primary rejectReasonBtn pull-left" onClick={this.submitRejectCurReason.bind(this)}>Submit</button>
+                                            <button className="col-lg-12 col-md-12 btn btn-primary rejectReasonBtn pull-left" onClick={this.approvedCurDocument.bind(this)}>Submit</button>
                                           </div>
                                           </div>
                                       </div> 
@@ -747,7 +746,7 @@ class VerifiedDocuments extends TrackerReact(Component){
                                                 <textarea className="col-lg-12 col-md-12 col-sm-12 col-xs-12 rejectReason" rows='2' placeholder="Enter Reject reason..."></textarea>
                                           </div>
                                           <div className="col-lg-2  col-md-2  col-sm-12 col-xs-12 rejectBtnWrap">
-                                            <button className="col-lg-12 col-md-12 btn btn-primary rejectReasonBtn pull-left" onClick={this.submitRejectCurReason.bind(this)}>Submit</button>
+                                            <button className="col-lg-12 col-md-12 btn btn-primary rejectReasonBtn pull-left" onClick={this.approvedCurDocument.bind(this)}>Submit</button>
                                           </div>
                                           </div>
                                       </div> 
@@ -796,7 +795,7 @@ class VerifiedDocuments extends TrackerReact(Component){
                                       </div>
                                       <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm verCarouselWrap">
                                           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                              <a href="#lightbox" data-slide="next" ><button type="button" className="btn btn-info acceptTicket acceptreject" name={index} onClick={this.approvedDocument.bind()}>Approved</button></a>
+                                              <a href="#lightbox" data-slide="next" ><button type="button" className="btn btn-info acceptTicket acceptreject" name={index} onClick={this.approvedCurDocument.bind()}>Approved</button></a>
                                               <button type="button" className="btn btn-info rejectTicket acceptreject" onClick={this.hideShowRejectReason.bind()}>Reject</button>
                                           </div>
                                         </div>
