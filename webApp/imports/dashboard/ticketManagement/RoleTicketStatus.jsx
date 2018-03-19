@@ -80,12 +80,12 @@ constructor(props){
     var role        = $(event.currentTarget).attr('data-role');
     var ticketId    = $(event.currentTarget).attr('data-id');
     var empid       = $(event.currentTarget).attr('data-empid');
-    console.log(role,ticketId);
+    
     if(role == "BA"){
         var baName = this.refs.BAName.value;        
         Meteor.call("addBADetails",baName,(error,result)=>{
             if(result){
-                console.log(result);
+                
                  $('#uploadDocs').css({"display" : "block"});
                  var id = result;
                  // this.setState({
@@ -109,6 +109,7 @@ constructor(props){
         var FEid = $(event.currentTarget).attr('data-teamMemid');
         Meteor.call('genericTicketUpdate',empid,role,ticketId,id,FEid,(error,result)=>{
             if(result == 1){
+                $('.hideFieldexpert').hide();
                 swal({
                                 title: "Assing Ticket!",
                                 text: "Successfully Assign",
@@ -192,7 +193,7 @@ constructor(props){
                         <label className="noLRPad"><input type="radio" name="optradio" value="BA" className="optradio" checked={this.state.radioState ==="BA"} onChange={this.getRadioValue.bind(this)}/>BA</label>
                         </div>
                 </div>
-                <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12">                            
+                <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12 hideFieldexpert">                            
                         {
                             this.state.radioState == 'Field Expert'?
                                     <div>

@@ -6437,12 +6437,8 @@ margin-top: 20px;
 .genName{
   text-transform: capitalize;
 }
-<<<<<<< Updated upstream
 .dataDetails,
 .activityDetails h3{
-=======
-.dataDetails{
->>>>>>> Stashed changes
   color: #000;
   font-weight: bold;
   letter-spacing: 1.2px;
@@ -6508,7 +6504,7 @@ margin-top: 20px;
   text-transform: capitalize;
 }
 .fesubmitouter{
-  margin-top:7%;
+  margin-top:17%;
 }
 .fesubmitbtn{
   padding: 5%;

@@ -736,7 +736,7 @@ verifiedDocumentsContainer = withTracker(props => {
     const getTicket  = TicketMaster.findOne({"_id" : _id}) || {}; 
     if (getTicket) {
          var perAddrArray = [getTicket.verificationData];
-         console.log(perAddrArray);
+         
          if(!perAddrArray){
           var perAddrArray = '';
          }
