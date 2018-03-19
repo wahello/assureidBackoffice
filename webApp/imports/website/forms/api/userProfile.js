@@ -262,7 +262,7 @@ if(Meteor.isServer){
 
         },
 
-        'changeStatusMethod':function(userId,remark,verificationType,verificationId){
+        'changeStatusMethod':function(ticketId,userId,remark,verificationType,verificationId){
           var status = "Reopen";
           // var _id = UserProfile.findOne({"userId":userId});
 
@@ -272,6 +272,7 @@ if(Meteor.isServer){
                 {
                   $set:
                   {
+                    'employement.$.ticketId':ticketId,
                     'employement.$.editStatus':status,
                     'employement.$.remark':remark,
 
@@ -283,6 +284,7 @@ if(Meteor.isServer){
                 {
                   $set:
                   {
+                    'education.$.ticketId':ticketId,
                     'education.$.editStatus':status,
                     'education.$.remark':remark
                   }
@@ -293,6 +295,7 @@ if(Meteor.isServer){
                 {
                   $set:
                   {
+                    'permanentAddress.$.ticketId':ticketId,
                     'permanentAddress.$.editStatus':status,
                     'permanentAddress.$.remark':remark
                   }
@@ -303,6 +306,7 @@ if(Meteor.isServer){
                 {
                   $set:
                   {
+                    'currentAddress.$.ticketId':ticketId,
                     'currentAddress.$.editStatus':status,
                     'currentAddress.$.remark':remark,
                   }
@@ -313,6 +317,7 @@ if(Meteor.isServer){
                 {
                   $set:
                   {
+                    'certificates.$.ticketId':ticketId,
                     'certificates.$.editStatus':status,
                     'certificates.$.remark':remark,
                 }
@@ -323,6 +328,7 @@ if(Meteor.isServer){
                 {
                   $set:
                   {
+                    'professionalEducation.$.ticketId':ticketId,
                     'professionalEducation.$.editStatus':status,
                     'professionalEducation.$.remark':remark
                   }
