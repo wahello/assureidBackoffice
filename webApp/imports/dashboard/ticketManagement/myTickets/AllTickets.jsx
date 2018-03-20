@@ -58,7 +58,7 @@ class AllTickets extends TrackerReact(Component){
                                         
                                         {
                                           !this.props.loading ?
-                                            this.props.ticketBucketData.map((data, index)=>{
+                                            this.props.dataDetails.map((data, index)=>{
                                               return(
                                                   <tr key={index}>
                                                       
@@ -66,7 +66,7 @@ class AllTickets extends TrackerReact(Component){
                                                       <td>{data.orderId}</td>
                                                       <td>{data.serviceName}</td>
                                                       <td>{moment(data.createdAt).format('l')}</td>
-                                                      <td>data.tat</td> 
+                                                      <td>{data.tatDate}</td> 
                                                       <td>{data.status}</td>
                                                       
                                                   </tr>
@@ -100,13 +100,43 @@ class AllTickets extends TrackerReact(Component){
 export default AllTicketContainer = withTracker(props => {
   
   var handleAllBucketTick = Meteor.subscribe("allTicketBucket");
+  var ticketArr = [];
+  var dataDetails = [];
   var ticketId = props.params.id;
+  
   var loading = !handleAllBucketTick.ready();
-  var ticketBucketData = _.uniq(TicketBucket.find({}, {sort: {ticketid: 1}}).fetch().map(function(x) { return x;}), true);
-  console.log('ticketBucketData Count ');
-  console.log("ticketBucketData: ",ticketBucketData);    
+  // var ticketBucketData = _.uniq(TicketBucket.find({}, {sort: {ticketNumber: 1}}).fetch().map(function(x) { return x;}), true);
+  var ticketBucketData = TicketBucket.find({}).fetch();
+  if(ticketBucketData){
+    for(var i=0;i<ticketBucketData.length;i++){
+      
+        ticketArr.push({ 'ticketId' : ticketBucketData[i].ticketid});
+    }
+    var pluckId = _.pluck(ticketArr,"ticketId");
+    var uniqueId = _.uniq(pluckId);
+    if(uniqueId.length >0){
+
+      for(var j=0;j<uniqueId.length;j++){
+        var singleDetails = TicketBucket.findOne({'ticketid':uniqueId[j]});
+             dataDetails.push(
+              {
+                  'ticketid'    : singleDetails.ticketid,
+                  'ticketNumber': singleDetails.ticketNumber,
+                  'orderId'     : singleDetails.orderId,
+                  'serviceName' : singleDetails.serviceName,
+                  'createdAt'   :  singleDetails.createdAt,
+                  'tatDate'     :  singleDetails.tatDate,
+                  'status'      : singleDetails.status,
+              }) 
+          
+      }
+    }
+  }
+
+
   return {
     loading,
     ticketBucketData,
+    dataDetails
   };
 })(AllTickets);

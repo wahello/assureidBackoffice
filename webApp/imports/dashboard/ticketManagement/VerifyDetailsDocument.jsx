@@ -37,12 +37,12 @@ class VerifyDetailsDocument extends TrackerReact(Component){
                                         <h5 className="dataDetails"> {this.props.getTicket.verificationData.verificationType}</h5>
                                         
                                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad addressdetails">
-                                            {this.props.getTicket.verificationData.educationLevel}
-                                            {this.props.getTicket.verificationData.educationQualification}
-                                            {this.props.getTicket.verificationData.specialization}
-                                            {this.props.getTicket.verificationData.grades}
-                                            {this.props.getTicket.verificationData.educationMode},{this.props.getTicket.verificationData.dateAttendedTo},{this.props.getTicket.verificationData.collegeName},
-                                            {this.props.getTicket.verificationData.university},{this.props.getTicket.verificationData.collegeAddress} {this.props.getTicket.verificationData.rollNo}
+                                            {this.props.getTicket.verificationData.nameOfEmployer}
+                                            {this.props.getTicket.verificationData.employerAddress}
+                                            {this.props.getTicket.verificationData.contactNo}
+                                            {this.props.getTicket.verificationData.employeeCode}
+                                            {this.props.getTicket.verificationData.designation},{this.props.getTicket.verificationData.department},{this.props.getTicket.verificationData.employmentFrom},
+                                            {this.props.getTicket.verificationData.employmentTo},{this.props.getTicket.verificationData.typeOfEmployement} {this.props.getTicket.verificationData.dutiesAndResponsibilites}
                                             
                                             </div>
                                         </div>                
@@ -107,14 +107,14 @@ class VerifyDetailsDocument extends TrackerReact(Component){
                                             <h5 className="dataDetails">{this.props.getTicket.verificationData.verificationType}</h5>
                                             <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12">
                                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad addressdetails">
-                                                {this.props.getTicket.verificationData.nameOfEmployer}
-                                                {this.props.getTicket.verificationData.employerAddress}
-                                                {this.props.getTicket.verificationData.contactNo}
-                                                {this.props.getTicket.verificationData.employeeCode}
-                                                {this.props.getTicket.verificationData.designation},{this.props.getTicket.verificationData.department},
-                                                {this.props.getTicket.verificationData.employmentFrom}-{this.props.getTicket.verificationData.employmentTo},
-                                                {this.props.getTicket.verificationData.typeOfEmployement} {this.props.getTicket.verificationData.dutiesAndResponsibilites}
-                                                {this.props.getTicket.verificationData.reportingManagerNm} {this.props.getTicket.verificationData.prevDesignation} 
+                                                {this.props.getTicket.verificationData.educationLevel}
+                                                {this.props.getTicket.verificationData.educationQualification}
+                                                {this.props.getTicket.verificationData.specialization}
+                                                {this.props.getTicket.verificationData.grades}
+                                                {this.props.getTicket.verificationData.educationMode},
+                                                {this.props.getTicket.verificationData.dateAttendedFrom}-{this.props.getTicket.verificationData.dateAttendedTo},
+                                                {this.props.getTicket.verificationData.collegeName} {this.props.getTicket.verificationData.university}
+                                                {this.props.getTicket.verificationData.collegeAddress} 
                                                 </div>
                                             </div>       
                                         </div>

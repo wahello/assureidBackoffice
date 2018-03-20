@@ -6483,7 +6483,7 @@ margin-top: 20px;
 }
 .teammember{
   margin-right: 5%;
-  padding: 1%;
+  padding: 3%;
   margin-top: 2%;
 }
 .uploadDocBtn{
@@ -6504,8 +6504,16 @@ margin-top: 20px;
   text-transform: capitalize;
 }
 .fesubmitouter{
-  margin-top:17%;
+  margin-top:6%;
 }
 .fesubmitbtn{
-  padding: 5%;
+  padding: 4%;
+}
+.displayTeamList{
+  padding: 0;
+  margin-top: 2%;
+}
+.teamMemOuter{
+  padding: 0;
+  margin-right: 4%;
 }

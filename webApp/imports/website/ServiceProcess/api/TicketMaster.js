@@ -405,7 +405,8 @@ if(Meteor.isServer){
 			insertData1.allocatedTo = baName;
 			insertData1.allocatedToRole = role;
 			insertData1.createdAt   = new Date();
-
+			console.log("insertData1");
+			console.log(insertData1);
 			TicketMaster.update(
 				{'_id':ticketId},
 				{$push:{
@@ -417,6 +418,15 @@ if(Meteor.isServer){
 			insertData1.empid = FEid;
 			insertData1.role = role;
 			insertData1.role_status="New";
+
+			/*=========Add New document in ticket bucket for field expert======== */
+			var ticket = {
+				'ticketid': ticketId,
+				'empID'   : FEid,
+				'role'    : role,
+				'status'  : 'New',
+			}
+			Meteor.call('insertTicketBucket',ticket);
 
 			
 			return TicketMaster.update(
@@ -436,17 +446,6 @@ if(Meteor.isServer){
 					}
 				}
 			);
-
-			/*=========Add New document in ticket bucket for field expert======== */
-			var ticket = {
-				'ticketid': ticketId,
-				'empID'   : FEid,
-				'role'    : 'Field Expert',
-				'status'  : 'New',
-			}
-			Meteor.call('insertTicketBucket',ticket);
-
-			
 		
 		},
 		"updateCurrentTicketElement":function (id,empid,documents,currentAddressId) {

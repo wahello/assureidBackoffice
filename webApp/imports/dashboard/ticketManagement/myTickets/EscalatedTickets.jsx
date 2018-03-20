@@ -19,20 +19,9 @@ class EscalatedTickets extends TrackerReact(Component){
     this.state = {
       'userDetails': {},
       "userRoleIn": Meteor.userId(),
-      // "subscription" : {
-      //   "singleTicket" : Meteor.subscribe("singleTicket"),    
-      //   "userfunction" : Meteor.subscribe('userfunction'),
-      //   "allTickets"   : Meteor.subscribe("allTickets"), 
-
-      // } 
     }
-
-    
   }
    render(){
-    
-    console.log("AssignedTickets");
-    
       return(            
         <div>
           <div className="content-wrapper">
@@ -67,15 +56,12 @@ class EscalatedTickets extends TrackerReact(Component){
                                                   this.props.ticketBucketData.map((data, index)=>{
                                                     return(
                                                         <tr key={index}>
-                                                            {/* <td></td> */}
-                                                            {/* <td>{data.orderNo}</td>
-                                                            <td>{data.serviceName}</td>
-                                                            <td>{moment(data.delieveryStatus[0].createdAt).format('l')}</td>
-                                                            <td> {this.state.tatDate}</td>
-                                                            <td><button type="button" className=" newOrderbtn btn btn-primary">Rejected</button></td>                                     */}
-
-                                                            <td>{data.empid}</td>
-                                                            <td>{data.role}</td>
+                                                           {/* <td><Link to={"/admin/ticket/"+data.ticketid}>{data.ticketNumber}</Link></td>
+                                                           <td>{data.orderId}</td>
+                                                           <td>{data.serviceName}</td>
+                                                           <td>{moment(data.createdAt).format('l')}</td>
+                                                           <td>{data.tatDate}</td> 
+                                                           <td>{data.status}</td> */}
                                                         </tr>
                                                     );
                                                   })
