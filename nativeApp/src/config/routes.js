@@ -12,13 +12,13 @@ import ResetPassword from '../layouts/ResetPassword/ResetPassword.js';
 
 import EditCustomer from '../layouts/EditCustomer/EditCustomer.js';
 import AddCustomer from '../layouts/AddCustomer/AddCustomer.js';
-import ViewTicket from '../layouts/ViewTicket/ViewTicket.js';
+
 
 import ViewBill from '../layouts/ViewBill/ViewBill.js';
 import ViewCustomerBill from '../layouts/ViewBill/ViewCustomerBill';
 import ViewBillLine from '../layouts/ViewBillLine/ViewBillLine.js';
 import ViewCollectionLine from '../layouts/ViewCollectionLine/ViewCollectionLine.js';
-import ServiceList from '../layouts/Services/ServiceList.js';
+// import ServiceList from '../layouts/Services/ServiceList.js';
 import AdditionalSetting from '../layouts/BusinessSetting/AdditionalSetting.js';
 import BusinessDetails from '../layouts/BusinessSetting/BusinessDetails.js';
 import ProductList from '../layouts/Products/ProductList.js';
@@ -27,20 +27,20 @@ import ViewProduct from '../layouts/Products/ViewProduct.js';
 import EditProduct from '../layouts/Products/EditProduct.js';
 
 import EditCustomerMoreDetails from '../layouts/EditCustomer/EditCustomerMoreDetails.js';
-import ViewCustomerDetails from '../layouts/ViewTicket/ViewCustomerDetails.js';
+
 import BillCollection from '../layouts/ViewCollection/BillCollection.js';
 import CustomerHoliday from '../layouts/CustomerHoliday/CustomerHoliday.js';
 
-import Deliveries from '../layouts/Deliveries/Deliveries.js';
-import Deliveries2 from '../layouts/Deliveries2/Deliveries2.js';
-import Deliveries3 from '../layouts/Deliveries3/Deliveries3.js';
+// import Deliveries from '../layouts/Deliveries/Deliveries.js';
+// import Deliveries2 from '../layouts/Deliveries2/Deliveries2.js';
+// import Deliveries3 from '../layouts/Deliveries3/Deliveries3.js';
 
 import DeliveriesQuantity from '../layouts/DeliveriesQuantity/DeliveriesQuantity.js';
 import DeliveriesQuantity2 from '../layouts/DeliveriesQuantity2/DeliveriesQuantity2.js';
 import CustomerHolidayList from '../layouts/CustomerHolidayList/CustomerHolidayList.js';
 import ExtraReducedSelect from '../layouts/ExtraReducedSelect/ExtraReducedSelect.js';
-import DeliveriesDate from '../layouts/DeliveriesDate/DeliveriesDate.js';
-import DeliveriesDate2 from '../layouts/DeliveriesDate2/DeliveriesDate2.js';
+// import DeliveriesDate from '../layouts/DeliveriesDate/DeliveriesDate.js';
+// import DeliveriesDate2 from '../layouts/DeliveriesDate2/DeliveriesDate2.js';
 
 import DeliveriesLine from '../layouts/DeliveriesLine/DeliveriesLine.js';
 import DeliveriesProduct from '../layouts/DeliveriesProduct/DeliveriesProduct.js';
@@ -56,6 +56,12 @@ import ViewCustomerBillDetails from '../layouts/ViewCustomerBillDetails/ViewCust
 
 
 import ListOfTickets from '../layouts/ListOfTickets/ListOfTickets.js';
+import ViewTicket from '../layouts/ViewTicket/ViewTicket.js';
+import ViewTicketForm from '../layouts/ViewTicket/ViewTicketForm.js';
+import Camera from '../layouts/Camera/Camera.js';
+import CameraView from '../layouts/CameraView/CameraView.js';
+import CameraGallery from '../layouts/CameraGallery/CameraGallery.js';
+
 import Dashboard from '../layouts/Dashboard/Dashboard.js';
 import MyProfile from '../layouts/MyProfile/MyProfile.js';
 import EditMyProfile from '../layouts/EditMyProfile/EditMyProfile.js';
@@ -84,24 +90,44 @@ export const AuthStack = StackNavigator({
       header: null
     }
   },
+  ViewTicketForm:{
+    screen:ViewTicketForm,
+    navigationOptions:{
+      header:null
+    }
+  },
+  Camera:{
+    screen:Camera,
+    navigationOptions:{
+      header:null
+    }
+  },
+   CameraView:{
+    screen:CameraView,
+    navigationOptions:{
+      header:null
+    }
+  },
+     CameraGallery:{
+    screen:CameraGallery,
+    navigationOptions:{
+      header:null
+    }
+  },
+
    NotificationLayout:{
      screen: NotificationLayout,
     navigationOptions: {
       header: null
     }
   },
-   ServiceList: {
-    screen: ServiceList,
-    navigationOptions: {
-      header: null
-    }
-  },
-  ViewCustomerDetails:{
-    screen:ViewCustomerDetails,
-    navigationOptions:{
-      header:null
-    }
-  },
+  //  ServiceList: {
+  //   screen: ServiceList,
+  //   navigationOptions: {
+  //     header: null
+  //   }
+  // },
+
   EditMyProfile:{
     screen:EditMyProfile,
     navigationOptions:{
@@ -176,30 +202,30 @@ export const AuthStack = StackNavigator({
       header: null
     }
   },
-  DeliveriesDate: {
-    screen: DeliveriesDate,
-    navigationOptions: {
-      header: null
-    }
-  },
-   Deliveries2: {
-    screen: Deliveries2,
-    navigationOptions: {
-      header: null
-    }
-  },
-   Deliveries3: {
-    screen: Deliveries3,
-    navigationOptions: {
-      header: null
-    }
-  },
-  DeliveriesDate2: {
-    screen: DeliveriesDate2,
-    navigationOptions: {
-      header: null
-    }
-  },
+  // DeliveriesDate: {
+  //   screen: DeliveriesDate,
+  //   navigationOptions: {
+  //     header: null
+  //   }
+  // },
+  //  Deliveries2: {
+  //   screen: Deliveries2,
+  //   navigationOptions: {
+  //     header: null
+  //   }
+  // },
+  //  Deliveries3: {
+  //   screen: Deliveries3,
+  //   navigationOptions: {
+  //     header: null
+  //   }
+  // },
+  // DeliveriesDate2: {
+  //   screen: DeliveriesDate2,
+  //   navigationOptions: {
+  //     header: null
+  //   }
+  // },
   ViewCustomerBillHistory: {
     screen: ViewCustomerBillHistory,
     navigationOptions: {
@@ -297,12 +323,12 @@ export const AuthStack = StackNavigator({
     }
   },
 
-  Deliveries: {
-    screen: Deliveries,
-    navigationOptions: {
-      header: null
-    }
-  },
+  // Deliveries: {
+  //   screen: Deliveries,
+  //   navigationOptions: {
+  //     header: null
+  //   }
+  // },
 
   ExtraReduced: {
     screen: ExtraReduced,

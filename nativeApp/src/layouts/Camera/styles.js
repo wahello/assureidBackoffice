@@ -4,11 +4,9 @@ const window = Dimensions.get('window');
 export default StyleSheet.create({
   container: {
     backgroundColor: '#fff',
-    // flex: 1,
-    // alignItems: 'center',
-    // justifyContent: 'center',
-    alignSelf:"flex-start"
-
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   bellIcon: {
     right: 0,
@@ -23,17 +21,11 @@ export default StyleSheet.create({
     width: 18,
     height: 18,
     textAlign: 'center',
-    color: '#fff',
+    color: '#000',
     fontSize: 12,
-     borderStyle: 'solid',
-    borderColor:'#B22222',
+    borderStyle: 'solid',
     borderWidth: 1,
-    backgroundColor: '#B22222'
-  },
-  buttonLarge:{
-    width: 100,
-    height: 45,
-    backgroundColor: '#54Aff3',
+    backgroundColor: '#fbae16'
   },
   card: {
     backgroundColor: '#fff',
@@ -69,8 +61,9 @@ export default StyleSheet.create({
     width: (window.width - 85) * 0.5
   },
   button: {
+    width: (window.width - 90) / 3,
     height: 50,
-    backgroundColor: '#54Aff3',
+    backgroundColor: '#f7ac57'
   },
   head: {
     backgroundColor: '#6d6e70',
@@ -89,57 +82,16 @@ export default StyleSheet.create({
     width:window.width - 40,
     padding:10,
     borderColor: 'rgba(0, 0, 0, 0.1)',
-  },
-  buttonClose:{
-    width: (window.width - 80) / 2,
-    height: 50,
-    backgroundColor: '#f7ac57'
+},
+buttonClose:{
+  width: (window.width - 80) / 2,
+  height: 50,
+  backgroundColor: '#f7ac57'
 
-  },
-  buttonDelete:{
-    width: (window.width - 80) / 2,
-    height: 50,
-    backgroundColor: '#0000ff'
-  },
-
-  formContainer: {
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical:15
-  },
-   formInputView:{
-    width:(window.width - 45),
-    paddingVertical:10,
-    flexDirection:'row'
-  }, 
-  formInputViews:{
-    width:'87%',
-  
-    // flexDirection:'row',
-    // borderWidth:1,
-    // height:
-    // paddingTop:10,
-  },
-  lineStyle:{
-    borderWidth: .5,
-    borderColor:'#aaa',
-    width:(window.width - 45),
-  },
-  inputText:{
-    borderWidth:1,
-    borderColor:'#aaa',
-    height: 150,
-    paddingLeft:10,
-  },
-  labelText:{
-    paddingLeft:5,
-  },
-  closeBtn:{
-    marginLeft:33,
-    position:'absolute',
-    top:2,
-    left:15,
-    zIndex:100
-  },
+},
+buttonDelete:{
+  width: (window.width - 80) / 2,
+  height: 50,
+  backgroundColor: '#0000ff'
+}
 });

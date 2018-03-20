@@ -1,43 +1,20 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
-import {
-  Platform,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  TextInput,
-  View,
-  BackHandler,
-  Image,
-  Alert,
-  BackAndroid,
-  findNodeHandle,
-  DrawerLayoutAndroid
-} from "react-native";
+import Meteor,{ createContainer } from "react-native-meteor";
+
+import { Platform, ScrollView, StyleSheet, Text, TouchableOpacity, TextInput, View, BackHandler, Image, Alert, BackAndroid, findNodeHandle, DrawerLayoutAndroid } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import {
-  Header,
-  Card,
-  Button,
-  Avatar,
-  Icon,
-  SearchBar
-} from "react-native-elements";
-import Meteor, { createContainer } from "react-native-meteor";
+import { Header, Card, Button, Avatar, Icon, SearchBar, CheckBox } from "react-native-elements";
+import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from "react-native-table-component";
+import { TextField } from 'react-native-material-textfield';
+import { CameraKitCameraScreen, CameraKitCamera } from 'react-native-camera-kit';
+
+
+import PropTypes from "prop-types";
+import RadioButton from "radio-button-react-native";
+import ToggleSwitch from 'toggle-switch-react-native';
+import Modal from "react-native-modal";
 import SideMenu from "react-native-side-menu";
 import RNExitApp from "react-native-exit-app";
-import {
-  Table,
-  TableWrapper,
-  Row,
-  Rows,
-  Col,
-  Cols,
-  Cell
-} from "react-native-table-component";
-import Modal from "react-native-modal";
-import { TextField } from 'react-native-material-textfield';
 
 
 import styles from "./styles.js";
@@ -46,7 +23,7 @@ import HeaderDy from "../../components/HeaderDy/HeaderDy.js";
 import ViewCustomerTable from "../../components/tableComponent/ViewCustomerTable.js";
 import ViewCustomerModal from "../../components/modalComponent/ViewCustomerModal.js";
 
-export default class ViewTicket extends React.Component {
+export default class ViewTicketForm extends React.Component {
   constructor(props) {
     super(props);
     let name = "";
@@ -59,12 +36,13 @@ export default class ViewTicket extends React.Component {
       name              : name,
       isOpen            : false,
       selectedItem      : "About",
-      // lineName          : lineName,
       customerIdModal   : '',
       isModalVisible    : false,
       isModalVisibleOne : false,
-      inputFocusColor   : '#f7ac57',
+      inputFocusColor   : '#54Aff3',
       Remark            : '',
+      value             : 0,
+      fontSize          : 14,
       
     };
     this.openDrawer = this.openDrawer.bind(this);
@@ -122,6 +100,10 @@ export default class ViewTicket extends React.Component {
     console.log("opening drawer!");
     this.drawer.closeDrawer();
   }
+
+  handleOnPress(value) {
+    this.setState({ value });
+  }
   // handleEdit() {
   //   this._toggleModal();
   //   this.props.navigation.navigate("EditCustomer",{'customerId':this.state.customerIdModal});
@@ -158,6 +140,7 @@ export default class ViewTicket extends React.Component {
   // }
 
   render() {
+    
     const { navigate, goBack, state } = this.props.navigation;
     // const tableHead = [
     //   "Customer Name",
@@ -302,67 +285,129 @@ export default class ViewTicket extends React.Component {
               />
               <HeaderDy headerTitle="Ticket Tool" goBack={goBack} />
                 <View style={styles.formContainer}>
-                  <View style = {styles.formInputView}>
-                    <View style= {{flex:1,flexDirection:'row',}}>
-                      <View  style= {{flex:.5}}>
-                        <Text style={{fontWeight: 'bold'}}>Assigned By</Text>
-                      </View>
-                      <View  style= {{flex:.5}}>
-                        <Text style={{flexWrap:'wrap'}} >Samruddhi Madhamshettiwar</Text>
-                      </View>
-                    </View> 
+                  <View style={styles.formInputView}>
+                    <View>
+                      <Text style={{fontWeight: 'bold'}}>Checklist</Text>
+                    </View>
                   </View>
+                  <View style={styles.container}>
+                    <CheckBox
+                      center
+                      containerStyle={{ backgroundColor: "transparent", borderWidth: 0 }}
+                      checkedColor="green"
+                      checked={this.state.isChecked}
+                      onPress={this.handleOnChange}
+                      textStyle={{ color: "#aaa" }}
+                      title="No one available"
+                    />
+                  </View>
+                  {this.state.isCheckedError ? (
+                    <View style={styles.error}>
+                      <Text style={styles.errorText}>{this.state.isCheckedError}</Text>
+                    </View>
+                  ) : null}
+
+                  <View style={styles.container}>
+                    <CheckBox
+                      center
+                      containerStyle={{ backgroundColor: "transparent", borderWidth: 0 }}
+                      checkedColor="green"
+                      checked={this.state.isChecked}
+                      onPress={this.handleOnChange}
+                      textStyle={{ color: "#aaa" }}
+                      title="Rejected to give information"
+                    />
+                  </View> 
+                  {this.state.isCheckedError ? (
+                    <View style={styles.error}>
+                      <Text style={styles.errorText}>{this.state.isCheckedError}</Text>
+                    </View>
+                  ) : null}
+
+                   <View style={styles.container}>
+                    <CheckBox
+                      center
+                      containerStyle={{ backgroundColor: "transparent", borderWidth: 0 }}
+                      checkedColor="green"
+                      checked={this.state.isChecked}
+                      onPress={this.handleOnChange}
+                      textStyle={{ color: "#aaa" }}
+                      title="Address Verified"
+                    />
+                  </View>
+                  {this.state.isCheckedError ? (
+                    <View style={styles.error}>
+                      <Text style={styles.errorText}>{this.state.isCheckedError}</Text>
+                    </View>
+                  ) : null}
+
+                   <View style={styles.container}>
+                    <CheckBox
+                      center
+                      containerStyle={{ backgroundColor: "transparent", borderWidth: 0 }}
+                      checkedColor="green"
+                      checked={this.state.isChecked}
+                      onPress={this.handleOnChange}
+                      textStyle={{ color: "#aaa" }}
+                      title="Duration Verified"
+                    />
+                  </View>
+                  {this.state.isCheckedError ? (
+                    <View style={styles.error}>
+                      <Text style={styles.errorText}>{this.state.isCheckedError}</Text>
+                    </View>
+                  ) : null}
+
+                   <View style={styles.container}>
+                    <CheckBox
+                      center
+                      containerStyle={{ backgroundColor: "transparent", borderWidth: 0 }}
+                      checkedColor="green"
+                      checked={this.state.isChecked}
+                      onPress={this.handleOnChange}
+                      textStyle={{ color: "#aaa" }}
+                      title="Rent"
+                    />
+                  </View>
+                  {this.state.isCheckedError ? (
+                    <View style={styles.error}>
+                      <Text style={styles.errorText}>{this.state.isCheckedError}</Text>
+                    </View>
+                  ) : null}
+
+                   <View style={styles.container}>
+                    <CheckBox
+                      center
+                      containerStyle={{ backgroundColor: "transparent", borderWidth: 0 }}
+                      checkedColor="green"
+                      checked={this.state.isChecked}
+                      onPress={this.handleOnChange}
+                      textStyle={{ color: "#aaa" }}
+                      title="Owner"
+                    />
+                  </View>
+                  {this.state.isCheckedError ? (
+                    <View style={styles.error}>
+                      <Text style={styles.errorText}>{this.state.isCheckedError}</Text>
+                    </View>
+                  ) : null}
+
                   <View style = {styles.lineStyle} />
                   <View style={styles.formInputView}>
                     <View>
-                      <Text style={{fontWeight: 'bold'}}>Profile</Text>
+                      <Text style={{fontWeight: 'bold'}}>Upload Photos</Text>
                     </View>
                   </View>
-                  <View style={{flex:1,flexDirection:'row',paddingVertical:10}}>
-                    <View style={{ flex:.5,marginLeft:15}}>
-                      <Avatar
-                        width={90}
-                        height={90}
-                        rounded
-                        source={{
-                          uri:
-                            "https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg"
-                        }}
-                      />
-                    </View>
-                    <View style= {{flex:.5,marginRight:15}}>
-                      <View style= {{flex:1,flexDirection:'row'}}>
-                        <Text style= {{}}>Garima kumari </Text>
-                        <Text>Billore</Text>
-                      </View>
-                      <View style= {{flex:1,flexDirection:'row'}}>
-                        <Text style= {{}}>F </Text>
-                        <Text>21Years</Text>
-                      </View>
-                      <View style= {{flex:1,flexDirection:'row'}}>
-                        <Text>Address Verification</Text>
-                      </View>
-                    </View>
-                  </View>
-                  <View style = {styles.lineStyle} />
-                  <View style = {styles.formInputView}>
-                    <View style={{flex:.5,paddingVertical:15}}>
-                      <Text style={{fontWeight: 'bold'}}>Permanent Address</Text>
-                    </View>
-                    <View style={{flex:.5,paddingVertical:15}}>
-                      <Text style={{flexWrap:'wrap'}}>A-103 Adarsh Nagar,Khandwa Road, Khargone</Text>
-                    </View>
-                  </View>
-                  <View style = {styles.lineStyle} />
-                  <View style={styles.formInputView}>
-                    <View>
-                      <Text style={{fontWeight: 'bold'}}>Attachments</Text>
-                    </View>
-                  </View>
-                  <View style = {styles.formInputView}>
+                  <View style = {styles.formInputView}> 
                     <View style={{flex:1}}>
                       <View style={{flexDirection:'row'}}>
+                        <TouchableOpacity  onPress={()=>navigate('Camera')} >
+                          <Icon name="camera-enhance" type="MaterialIcons" size={50} color="#aaa"   />
+                        </TouchableOpacity>
                         <View style={{paddingHorizontal:10,paddingVertical:10}}>
+                          <View style={styles.closeBtn}>
+                            <Icon name="close" type="MaterialIcons" size={20} color="#aaa"  />
+                          </View>
                           <Image
                             style={{ width: 50, height: 50, borderRadius: 15,}}
                             resizeMode="stretch"
@@ -370,6 +415,9 @@ export default class ViewTicket extends React.Component {
                           />
                         </View>
                         <View style={{paddingHorizontal:10,paddingVertical:10}}>
+                          <View style={styles.closeBtn}>
+                            <Icon name="close" type="MaterialIcons" size={20} color="#aaa"  />
+                          </View>
                           <Image
                             style={{ width: 50, height: 50, borderRadius: 15,}}
                             resizeMode="stretch"
@@ -377,6 +425,9 @@ export default class ViewTicket extends React.Component {
                           />
                         </View>
                         <View style={{paddingHorizontal:10,paddingVertical:10}}>
+                          <View style={styles.closeBtn}>
+                            <Icon name="close" type="MaterialIcons" size={20} color="#aaa"  />
+                          </View>
                           <Image
                             style={{ width: 50, height: 50, borderRadius: 15, }}
                             resizeMode="stretch"
@@ -386,32 +437,78 @@ export default class ViewTicket extends React.Component {
                       </View>
                     </View>
                   </View>
-                <View style = {styles.lineStyle} />
-
-               {/* <View style={{ flex: 1,flexDirection: "row"}}>
-                    <View style={{flex:.46,paddingVertical:5,paddingHorizontal: 15}}>
-                      <Text style={{ textAlign: "center" }}>
-                        Priyanka Kajulkar
-                      </Text>
+                  <View style = {styles.lineStyle} />
+                  <View style={styles.formInputView}>
+                    <View>
+                      <Text style={{fontWeight: 'bold'}}>Upload Videos</Text>
                     </View>
-                    <View style={{flex:.34,paddingVertical:5,paddingHorizontal: 15}}>
-                      <Text style={{ textAlign: "center" }}>
-                        15/03/2018
-                      </Text>
+                  </View>
+                  <View style = {styles.formInputView}> 
+                    <View style={{flex:1}}>
+                      <View style={{flexDirection:'row'}}>
+                        <Icon name="videocam" type="MaterialIcons" size={50} color="#aaa"  />
+                        <View style={{paddingHorizontal:10,paddingVertical:10}}>
+                          <View style={styles.closeBtn}>
+                            <Icon name="close" type="MaterialIcons" size={20} color="#aaa"  />
+                          </View>
+                          <Image
+                            style={{ width: 50, height: 50, borderRadius: 15,}}
+                            resizeMode="stretch"
+                            source={require("../../images/pdf-icon.png")}
+                          />
+                        </View>
+                        <View style={{paddingHorizontal:10,paddingVertical:10}}>
+                          <View style={styles.closeBtn}>
+                            <Icon name="close" type="MaterialIcons" size={20} color="#aaa"  />
+                          </View>
+                          <Image
+                            style={{ width: 50, height: 50, borderRadius: 15,}}
+                            resizeMode="stretch"
+                            source={require("../../images/pdf-icon.png")}
+                          />
+                        </View>
+                        <View style={{paddingHorizontal:10,paddingVertical:10}}>
+                          <View style={styles.closeBtn}>
+                            <Icon name="close" type="MaterialIcons" size={20} color="#aaa"  />
+                          </View>
+                          <Image
+                            style={{ width: 50, height: 50, borderRadius: 15, }}
+                            resizeMode="stretch"
+                            source={require("../../images/pdf-icon.png")}
+                          />
+                        </View>
+                      </View>
                     </View>
-                    <View style={{flex:.23,paddingVertical:5,paddingHorizontal: 15}}>
-                      <Text style={{ textAlign: "center" }}>
-                        4:20 AM
-                      </Text>
+                  </View>
+                  <View style = {styles.lineStyle} />
+                  <View style={styles.formInputView}>
+                    <View>
+                      <Text style={{fontWeight: 'bold'}}>Remark</Text>
                     </View>
-                  </View>*/}
-                 
+                  </View>
+                  <View style={styles.formInputViews}>
+                    <TextField
+                      label                 = ''
+                      lineWidth             = {0}
+                      tintColor             = {this.state.inputFocusColor}
+                      inputContainerPadding = {4}
+                      labelHeight           = {16}
+                      keyboardType          = 'default'
+                      inputContainerStyle   = {{height:200}}
+                      style                 = {styles.inputText}
+                      labelTextStyle        = {styles.labelText}
+                      activeLineWidth       = {0}
+                      fontSize              = {this.state.fontSize}
+                      labelFontSize         = {this.state.fontSize}
+                      multiline             = {true}
+                      numberOfLines         = {4}
+                    />
+                  </View>
                 </View>
-              <View style={{ alignItems: "center",paddingVertical:15}}>
+              <View style={{ alignItems: "center"}}>
                 <Button
-                  onPress={()=> this.props.navigation.navigate('ViewTicketForm')}
                   buttonStyle={styles.buttonLarge}
-                  title="START"
+                  title="SAVE"
                 />
               </View>
             </ScrollView>
