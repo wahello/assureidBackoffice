@@ -318,10 +318,8 @@ if(Meteor.isServer){
 				var status = "Allocated";
 				var role   = "team leader";
 				Meteor.call('genericUpdateTicketBucket',ticketId,status,role,(error,result)=>{
-					console.log("result :"+result);
+					
 					if(result == 1){
-						console.log("Inside if result :"+result);
-
 						/*==================Insert New document  for team member in ticket bucket============= */
 						var ticket ={
 							'ticketid':ticketId,
@@ -375,21 +373,16 @@ if(Meteor.isServer){
 		},
 
 		'genericTicketUpdate':function(empid,role,ticketId,id,FEid){
-			// var TickteDetails = TicketMaster.findOne({'_id':ticketId});
-			// var ticketElementLength = TickteDetails.ticketElement.length;
-			// var insertData = TickteDetails.ticketElement[ticketElementLength-1];
+			
 			var insertData = TicketMaster.findOne({'_id':ticketId,'ticketElement.empid': empid},{ 'ticketElement.$': 1 });
 			var ticketElemLength = insertData.ticketElement.length;
 			if(ticketElemLength > 0){
 				for(var i=0;i<ticketElemLength;i++){
-					
 					if(insertData.ticketElement[i].empid == empid){
 						var insertData1 = insertData.ticketElement[i];
 					}
 				}
 			}			
-			insertData1.role_status = "Allocated";
-			insertData1.createdAt   = new Date();
 			if(role == "BA"){
 				var baDetails = BADetails.findOne({'_id':id});
 				var baName    = baDetails.BAName;
@@ -403,8 +396,24 @@ if(Meteor.isServer){
 				var id          = userDetails._id;
 				var FEid        = FEid;
 				
+			}else{
+				var baName = "Self";
+				insertData1.empid = empid;
+
 			}
+			insertData1.role_status = "Allocated";
 			insertData1.allocatedTo = baName;
+			insertData1.allocatedToRole = role;
+			insertData1.createdAt   = new Date();
+
+			TicketMaster.update(
+				{'_id':ticketId},
+				{$push:{
+					'ticketElement':insertData1,
+					}
+				}
+			)
+
 			insertData1.empid = FEid;
 			insertData1.role = role;
 			insertData1.role_status="New";

@@ -21,7 +21,7 @@ constructor(props){
         "allTickets" : Meteor.subscribe("allTickets"), 
         "userfunction" : Meteor.subscribe('userfunction'),
       },
-      'radioState':'Self', 
+      'radioState':'Field Expert', 
     }
   }
   allocateToTeamMember(event){
@@ -80,9 +80,12 @@ constructor(props){
     var role        = $(event.currentTarget).attr('data-role');
     var ticketId    = $(event.currentTarget).attr('data-id');
     var empid       = $(event.currentTarget).attr('data-empid');
+        
     
     if(role == "BA"){
-        var baName = this.refs.BAName.value;        
+
+        var baName = this.refs.BAName.value;
+        $('.hideteamMemOptio').hide();
         Meteor.call("addBADetails",baName,(error,result)=>{
             if(result){
                 
@@ -90,7 +93,8 @@ constructor(props){
                  var id = result;
                  // this.setState({
                  //  "baid" : id,
-                 // });s
+                 // });
+                 var FEid = '';
                 Meteor.call('genericTicketUpdate',empid,role,ticketId,id,FEid,(error,result)=>{
                     if(result){
                         swal({
@@ -106,10 +110,10 @@ constructor(props){
         })
     }else if(role == "Field Expert"){
         var id = this.refs.allocateToFEName.value;  
+        $('.hideteamMemOptio').hide();        
         var FEid = $(event.currentTarget).attr('data-teamMemid');
         Meteor.call('genericTicketUpdate',empid,role,ticketId,id,FEid,(error,result)=>{
             if(result == 1){
-                $('.hideFieldexpert').hide();
                 swal({
                                 title: "Assing Ticket!",
                                 text: "Successfully Assign",
@@ -119,6 +123,21 @@ constructor(props){
             }
         });
         // $("#uploadDocs").css({"display" : "block"});
+    }else{
+        $('.hideteamMemOptio').hide();        
+        $("#uploadDocs").css({"display" : "block"});
+        var FEid = $(event.currentTarget).attr('data-teamMemid');
+        Meteor.call('genericTicketUpdate',empid,role,ticketId,id,FEid,(error,result)=>{
+            if(result == 1){
+                swal({
+                                title: "Assing Ticket!",
+                                text: "Successfully Assign",
+                                icon: "success",
+                });
+    
+            }
+        });
+
     }
     
   }
@@ -181,8 +200,9 @@ constructor(props){
        );
     }else if(status == "Accepted"){
         return(
-            <div className="col-lg-12">
-                <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div className="col-lg-12 ">
+            <div className="hideteamMemOptio">
+                <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
                         <div className="radio radiobtn col-lg-3 noLRPad">
                         <label className="noLRPad"><input type="radio" name="optradio" value="Self" className="optradio" checked={this.state.radioState ==="Self"} onChange={this.getRadioValue.bind(this)}/>Self</label>
                         </div>
@@ -220,30 +240,41 @@ constructor(props){
                             this.state.radioState == 'BA'?
                             <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
                            
-                                <div className="col-lg-7 noLRPad">
+                                <div className="col-lg-8 noLRPad">
                                  <input type="text" name="baName" className="fesubmitbtn banametext" ref="BAName"/>
                                 </div>
                            
                                 <div className="col-lg-3 noLRPad">                                        
-                                 <button type="submit" value="Submit" className="col-lg-11 fesubmitbtn noLRPad" onClick={this.addBADetails.bind(this)} data-addressType = {this.props.getTicket.addressType} data-id={this.props.ticketId} data-role={this.state.radioState}>Submit</button>
+                                 <button type="submit" value="Submit" className="col-lg-11 fesubmitbtn noLRPad" data-empId = {empid} onClick={this.addBADetails.bind(this)} data-addressType = {this.props.getTicket.addressType} data-id={this.props.ticketId} data-role={this.state.radioState}>Submit</button>
                                  </div>
-                                  <div className="col-lg-4 fesubmitouter noLRPad" id="uploadDocs" style={{"display" : "none"}}>                                        
+                                  {/* <div className="col-lg-4 fesubmitouter noLRPad" id="uploadDocs" style={{"display" : "none"}}>                                        
                                     <button type="submit" value="Submit"  className="col-lg-12 noLRPad" onClick={this.uploadDocsDiv.bind(this)}>Upload Docs</button>
-                                 </div>
+                                 </div> */}
    
                             </div>
                             :
                             this.state.radioState == 'Self'?
                             <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
-                                  <div className="col-lg-4 uploadDocs noLRPad" id="uploadDocs">                                        
+                                
+
+                                <h5><strong>You are going to handle this ticket</strong></h5>
+                                {/* <button type="submit" value="Submit"  className="col-lg-12 noLRPad" onClick={this.addBADetails.bind(this)}>OK</button> */}
+                                <button type="submit" value="Submit" className="col-lg-11 fesubmitbtn noLRPad" data-teamMemid= {teamMemid} data-empId = {empid} onClick={this.addBADetails.bind(this)} data-id={this.props.ticketId} data-role={this.state.radioState}>Ok</button>                                       
+                                {/* <div className="col-lg-4 uploadDocs noLRPad" id="uploadDocs" style={{"display" : "none"}}>                                        
                                     <button type="submit" value="Submit"  className="col-lg-12 noLRPad" onClick={this.uploadDocsDiv.bind(this)}>Upload Docs</button>
-                                 </div>
+                                </div> */}
+                                
    
                             </div>
                             :
                             ""
                         }
                     </div>
+                    
+                </div>
+                <div className="col-lg-4 fesubmitouter noLRPad" id="uploadDocs" style={{"display" : "none"}}>                                        
+                    <button type="submit" value="Submit"  className="col-lg-12 noLRPad" onClick={this.uploadDocsDiv.bind(this)}>Upload Docs</button>
+                </div>
              </div>
         );
            
