@@ -267,12 +267,20 @@ class VerifiedDocuments extends TrackerReact(Component){
                                           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
                                             <img src={employementProof.proofOfPermanentAddr}  className="col-lg-12 img-responsive addressImageModal showAddrImgWrap col-lg-12 col-md-12 col-sm-12 col-xs-12"/>
                                           </div>
-                                          <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm">
-                                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                <button type="button" className="btn btn-info acceptTicket acceptreject" data-id={this.props.getTicket._id} data-status="Approved" onClick={this.approvedCurDocument.bind()}>Approved</button>
-                                                <button type="button" className="btn btn-info rejectTicket acceptreject" data-id={this.props.getTicket._id} onClick={this.hideShowRejectReason.bind()}>Reject</button>
-                                            </div>
-                                          </div>
+                                         {this.props.isRoleUser == true ?
+                                            <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm">
+                                             {this.props.ticketStatus.Status == "New" || this.props.ticketStatus.Status == "Reassign" && this.props.ticketStatus.role == "screening committee" ?
+                                               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                  <button type="button" className="btn btn-info acceptTicket acceptreject" data-id={this.props.getTicket._id} data-status="Approved" onClick={this.approvedCurDocument.bind()}>Approved</button>
+                                                  <button type="button" className="btn btn-info rejectTicket acceptreject" data-id={this.props.getTicket._id} onClick={this.hideShowRejectReason.bind()}>Reject</button>
+                                                </div>                                          
+                                                :
+                                                ""
+                                               }
+                                              </div>
+                                            :
+                                            ""
+                                          }
                                           <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 showHideReasonWrap">
                                           <div className="col-lg-10  col-md-10  col-sm-12 col-xs-12 otherInfoForm">
                                                 <textarea className={"col-lg-12 col-md-12 col-sm-12 col-xs-12 rejectReason rejectReason-"+index} rows='2' placeholder="Enter Reject reason..."></textarea>
@@ -337,12 +345,20 @@ class VerifiedDocuments extends TrackerReact(Component){
                                           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
                                             <img src={permanentAddrProof.proofOfPermanentAddr}  className="col-lg-12 img-responsive addressImageModal showAddrImgWrap col-lg-12 col-md-12 col-sm-12 col-xs-12"/>
                                           </div>
-                                          <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm">
-                                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                <button type="button" className="btn btn-info acceptTicket acceptreject" data-id={this.props.getTicket._id} data-status="Approved" onClick={this.approvedCurDocument.bind()}>Approved</button>
-                                                <button type="button" className="btn btn-info rejectTicket acceptreject" data-id={this.props.getTicket._id} onClick={this.hideShowRejectReason.bind()}>Reject</button>
+                                          {this.props.isRoleUser == true ?
+                                            <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm">
+                                             {this.props.ticketStatus.Status == "New" || this.props.ticketStatus.Status == "Reassign" && this.props.ticketStatus.role == "screening committee" ?
+                                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                    <button type="button" className="btn btn-info acceptTicket acceptreject" data-id={this.props.getTicket._id} data-status="Approved" onClick={this.approvedCurDocument.bind()}>Approved</button>
+                                                    <button type="button" className="btn btn-info rejectTicket acceptreject" data-id={this.props.getTicket._id} onClick={this.hideShowRejectReason.bind()}>Reject</button>
+                                                </div>    
+                                                :
+                                                ""
+                                              }
                                             </div>
-                                          </div>
+                                           :
+                                            ""
+                                           }
                                           <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 showHideReasonWrap">
                                           <div className="col-lg-10  col-md-10  col-sm-12 col-xs-12 otherInfoForm">
                                                 <textarea className={"col-lg-12 col-md-12 col-sm-12 col-xs-12 rejectReason rejectReason-"+index} rows='2' placeholder="Enter Reject reason..."></textarea>
@@ -407,12 +423,20 @@ class VerifiedDocuments extends TrackerReact(Component){
                                         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 curImgWrap">
                                           <img src={currentAddrProof.proofOfCurrentAddr}  className="img-responsive addressImageModal col-lg-12 col-md-12 col-sm-12 col-xs-12"/>
                                         </div>
-                                        <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm">
-                                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                <button type="button" className="btn btn-info acceptTicket acceptreject" data-status="Approved" onClick={this.approvedCurDocument.bind()}>Approved</button>
-                                                <button type="button" className="btn btn-info rejectTicket acceptreject" onClick={this.hideShowRejectCurReason.bind()}>Reject</button>
-                                            </div>
+                                       {this.props.isRoleUser == true ?
+                                          <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm">
+                                           {this.props.ticketStatus.Status == "New" || this.props.ticketStatus.Status == "Reassign" && this.props.ticketStatus.role == "screening committee" ?
+                                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                  <button type="button" className="btn btn-info acceptTicket acceptreject" data-status="Approved" onClick={this.approvedCurDocument.bind()}>Approved</button>
+                                                  <button type="button" className="btn btn-info rejectTicket acceptreject" onClick={this.hideShowRejectCurReason.bind()}>Reject</button>
+                                              </div>
+                                              :
+                                              ""
+                                            } 
                                           </div>
+                                          :
+                                           ""
+                                         }
                                           <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 showHideReasonWrap">
                                           <div className="col-lg-10  col-md-10  col-sm-12 col-xs-12 otherInfoForm">
                                                 <textarea className={"col-lg-12 col-md-12 col-sm-12 col-xs-12 rejectReason rejectReason-"+index} rows='2' placeholder="Enter Reject reason..."></textarea>
@@ -478,12 +502,20 @@ class VerifiedDocuments extends TrackerReact(Component){
                                         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 curImgWrap">
                                           <img src={educationProof.proofOfEmployement}  className="img-responsive addressImageModal col-lg-12 col-md-12 col-sm-12 col-xs-12"/>
                                         </div>
-                                        <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm">
-                                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                <button type="button" className="btn btn-info acceptTicket acceptreject" data-status="Approved" onClick={this.approvedCurDocument.bind()}>Approved</button>
-                                                <button type="button" className="btn btn-info rejectTicket acceptreject"  onClick={this.hideShowRejectCurReason.bind()}>Reject</button>
-                                            </div>
+                                        {this.props.isRoleUser == true ?
+                                          <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm">
+                                            {this.props.ticketStatus.Status == "New" || this.props.ticketStatus.Status == "Reassign" && this.props.ticketStatus.role == "screening committee" ?
+                                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                  <button type="button" className="btn btn-info acceptTicket acceptreject" data-status="Approved" onClick={this.approvedCurDocument.bind()}>Approved</button>
+                                                  <button type="button" className="btn btn-info rejectTicket acceptreject"  onClick={this.hideShowRejectCurReason.bind()}>Reject</button>
+                                              </div>
+                                              :
+                                              ""
+                                            }   
                                           </div>
+                                          :
+                                            ""
+                                          }
                                           <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 showHideReasonWrap">
                                           <div className="col-lg-10  col-md-10  col-sm-12 col-xs-12 otherInfoForm">
                                                 <textarea className={"col-lg-12 col-md-12 col-sm-12 col-xs-12 rejectReason rejectReason-"+index} rows='2' placeholder="Enter Reject reason..."></textarea>
@@ -542,12 +574,20 @@ class VerifiedDocuments extends TrackerReact(Component){
                                         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 curImgWrap">
                                           <img src={certificatesProof.proofOfCurrentAddr}  className="img-responsive addressImageModal col-lg-12 col-md-12 col-sm-12 col-xs-12"/>
                                         </div>
-                                        <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm">
-                                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                <button type="button" className="btn btn-info acceptTicket acceptreject" data-status="Approved" onClick={this.approvedCurDocument.bind()}>Approved</button>
-                                                <button type="button" className="btn btn-info rejectTicket acceptreject"  onClick={this.hideShowRejectCurReason.bind()}>Reject</button>
-                                            </div>
+                                        {this.props.isRoleUser == true ?
+                                          <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm">
+                                           {this.props.ticketStatus.Status == "New" || this.props.ticketStatus.Status == "Reassign" && this.props.ticketStatus.role == "screening committee" ?
+                                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                  <button type="button" className="btn btn-info acceptTicket acceptreject" data-status="Approved" onClick={this.approvedCurDocument.bind()}>Approved</button>
+                                                  <button type="button" className="btn btn-info rejectTicket acceptreject"  onClick={this.hideShowRejectCurReason.bind()}>Reject</button>
+                                              </div>
+                                            :
+                                            ""
+                                            }
                                           </div>
+                                           :
+                                            ""
+                                          }
                                           <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 showHideReasonWrap">
                                           <div className="col-lg-10  col-md-10  col-sm-12 col-xs-12 otherInfoForm">
                                                 <textarea className={"col-lg-12 col-md-12 col-sm-12 col-xs-12 rejectReason rejectReason-"+index} rows='2' placeholder="Enter Reject reason..."></textarea>
@@ -607,12 +647,20 @@ class VerifiedDocuments extends TrackerReact(Component){
                                         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 curImgWrap">
                                           <img src={professionalEducationProof.proofOfCurrentAddr}  className="img-responsive addressImageModal col-lg-12 col-md-12 col-sm-12 col-xs-12"/>
                                         </div>
-                                        <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm">
-                                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                <button type="button" className="btn btn-info acceptTicket acceptreject" data-status="Approved" onClick={this.approvedCurDocument.bind()}>Approved</button>
-                                                <button type="button" className="btn btn-info rejectTicket acceptreject"  onClick={this.hideShowRejectCurReason.bind()}>Reject</button>
+                                        {this.props.isRoleUser == true ?
+                                          <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm">
+                                              {this.props.ticketStatus.Status == "New" || this.props.ticketStatus.Status == "Reassign" && this.props.ticketStatus.role == "screening committee" ?
+                                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                    <button type="button" className="btn btn-info acceptTicket acceptreject" data-status="Approved" onClick={this.approvedCurDocument.bind()}>Approved</button>
+                                                    <button type="button" className="btn btn-info rejectTicket acceptreject"  onClick={this.hideShowRejectCurReason.bind()}>Reject</button>
+                                                </div>
+                                                :
+                                                ""
+                                              }    
                                             </div>
-                                          </div>
+                                            :
+                                            ""
+                                          }
                                           <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 showHideReasonWrap">
                                           <div className="col-lg-10  col-md-10  col-sm-12 col-xs-12 otherInfoForm">
                                                 <textarea className={"col-lg-12 col-md-12 col-sm-12 col-xs-12 rejectReason rejectReason-"+index} rows='2' placeholder="Enter Reject reason..."></textarea>
@@ -665,12 +713,20 @@ class VerifiedDocuments extends TrackerReact(Component){
                                       <div className="col-lg-12 col-md-12">
                                         <img src={slides.proofOfCurrentAddr} className="col-lg-12 col-sm-12 col-md-12 col-xs-12 bannerimg"/>
                                       </div>
-                                      <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm verCarouselWrap">
+                                     {this.props.isRoleUser == true ?
+                                       <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm verCarouselWrap">
+                                          {this.props.ticketStatus.Status == "New" || this.props.ticketStatus.Status == "Reassign" && this.props.ticketStatus.role == "screening committee" ?
                                           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                               <a href="#lightbox" data-slide="next" ><button type="button" className="btn btn-info acceptTicket acceptreject" name={index} onClick={this.approvedCurDocument.bind()}>Approved</button></a>
                                               <button type="button" className="btn btn-info rejectTicket acceptreject" onClick={this.hideShowRejectReason.bind()}>Reject</button>
                                           </div>
+                                          :
+                                          ""
+                                        }  
                                         </div>
+                                        :
+                                        ""
+                                      }
                                         <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 showHideReasonWrap">
                                         <div className="col-lg-10  col-md-10  col-sm-12 col-xs-12 otherInfoForm">
                                               <textarea className={"col-lg-12 col-md-12 col-sm-12 col-xs-12 rejectReason rejectReason-"+index} rows='2' placeholder="Enter Reject reason..."></textarea>
@@ -705,12 +761,7 @@ class VerifiedDocuments extends TrackerReact(Component){
                       </div>
                     </div>
                   </div>
-
-
                 </div>    
-    
-   
-
                </div>
                 :
                 ""
@@ -740,6 +791,8 @@ verifiedDocumentsContainer = withTracker(props => {
          if(!perAddrArray){
           var perAddrArray = '';
          }
+         var ticketStatus = getTicket.ticketStatus[0];
+         console.log("ticketStatus",ticketStatus);
          // var curAddrArray = firstTicketElen.currentAddress;
          // if(curAddrArray){
          //    var curAddrArray = curAddrArray;
@@ -756,12 +809,19 @@ verifiedDocumentsContainer = withTracker(props => {
       }
     
     const loading = !postHandle.ready() &&  !companyHandle.ready() && !ticketBucket.ready();
-
+    if (Roles.userIsInRole(Meteor.userId(), ['screening committee'],)) {
+       var isRoleUser = true;
+     }else{
+       var isRoleUser = false;
+     }
+     console.log("getTicket",getTicket);
     // if(_id){
       return {
           loading  : loading,
           getTicket : getTicket,
           perAddrArray,
+          isRoleUser  : isRoleUser,
+          ticketStatus : ticketStatus,
           // curAddrArray,
           // policeVerificationArray,
           // firstTicketElen : firstTicketElen,

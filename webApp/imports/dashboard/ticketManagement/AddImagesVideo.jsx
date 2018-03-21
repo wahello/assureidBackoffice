@@ -178,6 +178,7 @@ class AddImagesVideo extends TrackerReact(Component){
           console.log(error.reason);
         }else{
           console.log("Inserted Successfully!");
+          $("#uploadDocs").css({"display" : "none"});
         }
       });
     }
