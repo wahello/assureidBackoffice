@@ -576,6 +576,15 @@ if(Meteor.isServer){
 		   return ticket.ticketid;
 	   	},
 
+	   	// Function for add ticketBAElement submitted status
+	   	'addticketBAElement' : function (id,userId,ticketBAElement) {
+           TicketMaster.update({"_id": id},{
+           	$push: {
+           		'ticketElement' : ticketBAElement,
+           	}
+           });
+	   	},
+
 	
 	  });
 

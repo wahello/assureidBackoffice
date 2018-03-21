@@ -11,8 +11,12 @@ import { browserHistory } from 'react-router';
 import { Link } from 'react-router';
 import { TempTicketImages } from './api/TempUpload.js';
 import { TempTicketVideo } from './api/TempUpload.js';
+import { TicketMaster } from '../../website/ServiceProcess/api/TicketMaster.js';
+import { Services } from '../reactCMS/api/Services.js';
+
+// const getDuration = require('get-video-duration');
 class AddImagesVideo extends TrackerReact(Component){
-	 constructor(props){
+	 constructor(props){ 
     super(props);
     this.state = { 
       "remark" : '',
@@ -23,27 +27,52 @@ class AddImagesVideo extends TrackerReact(Component){
     event.preventDefault();
     let self = this;
      // this.setState({isUploading: true});
-    if (event.currentTarget.files && event.currentTarget.files[0]) { 
-      var dataImg =event.currentTarget.files[0];  
-       if(dataImg.type == "image/jpeg" || dataImg.type == "image/png"){      
-         var reader = new FileReader();        reader.onload = function (e) {          
-           // $('.uploadedImageFromLocl').attr('src', e.target.result);      
-         };       
-         reader.readAsDataURL(event.currentTarget.files[0]);      
-         var file = event.currentTarget.files[0];      
-          if (file) {         
-            addImgsToS3Function(file,self);       
-          }   
-       } else { 
-        swal({    
-           position: 'top-right',     
-           type: 'error',    
-           title: 'Please select image',       
-           showConfirmButton: false,      
-           timer: 1500      
-         });   
-      }
-    }
+     // console.log(event.currentTarget.files.length);
+    if (this.props.ticketImages.length >= 0 && this.props.ticketImages.length < 5 ) {
+      if (event.currentTarget.files.length < 5) {
+        for (var i = 0; i < event.currentTarget.files.length; i++) {
+          if (event.currentTarget.files[i]) { 
+            var dataImg = event.currentTarget.files[i];  
+            console.log("dataImg",dataImg);
+             if(dataImg.type == "image/jpeg" || dataImg.type == "image/png"){      
+               var reader = new FileReader();        
+               reader.onload = function (e) {          
+                 // $('.uploadedImageFromLocl').attr('src', e.target.result);      
+               };       
+               reader.readAsDataURL(event.currentTarget.files[i]);      
+               var file = event.currentTarget.files[i];      
+                if (file) {         
+                  addImgsToS3Function(file,self);       
+                }   
+             } else { 
+              swal({    
+                 position: 'top-right',     
+                 type: 'error',    
+                 title: 'Please select image',       
+                 showConfirmButton: false,      
+                 timer: 1500      
+               });   
+            }
+          }
+        }
+       }else if (event.currentTarget.files.length >= 5 ) {
+          swal({    
+             position: 'top-right',     
+             type: 'error',    
+             title: 'You can not add more than 5 images',       
+             showConfirmButton: false,      
+             timer: 3000      
+           });  
+        }
+    }else if (this.props.ticketImages.length >= 5 ){
+       swal({    
+         position: 'top-right',     
+         type: 'error',    
+         title: 'You can not add more than 5 images',       
+         showConfirmButton: false,      
+         timer: 3000      
+       });  
+    } 
   }
   handleChange(event){
    event.preventDefault();
@@ -56,104 +85,122 @@ class AddImagesVideo extends TrackerReact(Component){
   handleVideoUpload(event){
     event.preventDefault();
     let self = this;
-    if (event.currentTarget.files && event.currentTarget.files[0]) {  
-      var dataImg =event.currentTarget.files[0];   
-       if(dataImg.type == "video/mp4"){       
-         var reader = new FileReader();        
-          reader.onload = function (e) {           
-           // $('.uploadedImageFromLocl').attr('src', e.target.result);       
-         };        
-         reader.readAsDataURL(event.currentTarget.files[0]);       
-         var file = event.currentTarget.files[0];       
-          if (file) {          
-            addTicketVideoS3Function(file,self);        
-          }    
-       } else {  
-        swal({     
-           position: 'top-right',      
-           type: 'error',     
-           title: 'Please select Video',        
-           showConfirmButton: false,       
-           timer: 1500       
-         });    
+    if (this.props.ticketVideo.length >= 0 && this.props.ticketVideo.length < 1) {
+      if (event.currentTarget.files.length > 1) {
+        swal({    
+         position: 'top-right',     
+         type: 'error',    
+         title: 'You can not add more than one video',       
+         showConfirmButton: false,      
+         timer: 3000      
+       });  
+      }else{
+       if (event.currentTarget.files && event.currentTarget.files[0]) {  
+        var dataImg =event.currentTarget.files[0]; 
+         if(dataImg.type == "video/mp4"){       
+           var reader = new FileReader();        
+            reader.onload = function (e) {           
+             // $('.uploadedImageFromLocl').attr('src', e.target.result);       
+           };        
+           reader.readAsDataURL(event.currentTarget.files[0]);       
+           var file = event.currentTarget.files[0];  
+           // var fileURL = URL.createObjectURL(event.currentTarget.files[0]);
+           // vid.src = fileURL;
+           // console.log(vid.duration);
+           // getDuration(event.currentTarget.files[0]).then((duration) => {
+           //    console.log(duration);
+           // });
+
+            if (file) {          
+              addTicketVideoS3Function(file,self);        
+            }    
+         } else {  
+          swal({     
+             position: 'top-right',      
+             type: 'error',     
+             title: 'Please select Video',        
+             showConfirmButton: false,       
+             timer: 1500       
+           });    
+        }
+      } 
+
       }
-    }
+    
+    }else if (this.props.ticketVideo.length >= 1 ){
+       swal({    
+         position: 'top-right',     
+         type: 'error',    
+         title: 'You can not add more than one video',       
+         showConfirmButton: false,      
+         timer: 3000      
+       });  
+    } 
+
   }
   submitImageVideo(event){
     event.preventDefault();
-    var id     = this.props.ticket._id;
-    var userId = this.props.ticket.userId;
+    var id     = this.props.tickets._id;
+    var userId = this.props.tickets.userId;
     // var baId   = this.state.baid;
+    var checkLists = [];
+    $(':checkbox:checked').each(function(i){
+          checkLists[i] = $(this).val();
+    });
+    console.log("checkLists",checkLists);
     var documents ={
+       checkLists : checkLists,
        images : this.props.ticketImages,
        videos : this.props.ticketVideo,
-       remark : this.refs.remark.value,
+       remark : this.refs.remark.value, 
     }
     
     var ticketElementObj = {};
-   if (this.props.ticket) {
-      if (this.props.ticket.ticketElement) {
-        if (this.props.ticket.ticketElement.length > 0) {
-            ticketElementObj  = this.props.ticket.ticketElement[this.props.ticket.ticketElement.length-1];
+    if (this.props.tickets) {
+      if (this.props.tickets.ticketElement) {
+        if (this.props.tickets.ticketElement.length > 0) {
+            ticketElementObj  = this.props.tickets.ticketElement[this.props.tickets.ticketElement.length-1];
                  
         }
       }
-      var empid = ticketElementObj.empid;
-      if (this.props.ticket.addressType == "permanentAddress") {   
-         var permanentAddressId = ticketElementObj.permanentAddress[0].permanentAddressId;
-         
-         Meteor.call('updatePermanentTicketElement',id,empid,documents,permanentAddressId,function(error,result) {
-           if (error) {
-             console.log(error.reason);
-           }else{
-            
-           }
- 
-         });
-         Meteor.call('addPermanentDocuments',userId,documents,permanentAddressId,function(error,result) {
-           if (error) {
-            console.log(error.reason);
-           }else{
-             swal("Done","Documents added successfully!","success");   
-             $("#remark").val('');
-             $("#AddImagesVideo").css({"display" : "none"});
-           }
-         });
-        
-     }else if (this.props.ticket.addressType == "currentAddress") {
-         var currentAddressId = ticketElementObj.currentAddress[0].currentAddressId;
-         
-         Meteor.call('updateCurrentTicketElement',id,empid,documents,currentAddressId,function(error,result) {
-          if (error) {
-            if (error) {
-            console.log(error.reason);
-           }else{
-             // swal("Done","Documents added successfully!","success");   
-             // $("#remark").val('');
-             // $("#AddImagesVideo").css({"display" : "none"});
-             // console.log("Documents added successfully!");
-           }
-          }
-         }); 
-         Meteor.call('addCurrentDocuments',userId,documents,currentAddressId,function(error,result) {
-           if (error) {
-            console.log(error.reason);
-           }else{
-             swal("Done","Documents added successfully!","success");   
-             $("#remark").val('');
-             $("#AddImagesVideo").css({"display" : "none"});
-           }
-         });
-        
+      // console.log("ticketElementObj",ticketElementObj);
+      var ticketBAElement ={
+          empid             : ticketElementObj.empid,
+          role              : ticketElementObj.role,
+          role_status       : "Submited",
+          createdAt         : new Date(),
+          submitedDoc       : documents,
+          submitedRemark    : "Approved",
       }
+      // console.log("ticketBAElement",ticketBAElement);
+      Meteor.call('addticketBAElement',id,userId,ticketBAElement,function (error,result) {
+        if (error) {
+          console.log(error.reason);
+        }else{
+          console.log("Inserted Successfully!");
+        }
+      });
     }
   }
 	render(){
-    // console.log("ticket",this.props.ticket);
+    // console.log("ticket");
      return( 
       <div>
        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 choosefilebox">
         <form>
+          <div className="col-lg-12 wholeborder ">
+             {this.props.checkList ?
+                this.props.checkList.map((checkListDefault,index)=>{
+                  return(
+                    <div className="col-lg-6 noLRPad" key={index}>  
+                       <input type="checkbox" ref="Checklist" name="Checklist" className={"checkList-"+index} value={checkListDefault.task} />&nbsp;{checkListDefault.task}
+                    </div>
+                  );
+                })
+                :
+               ""
+             }
+          </div>
 	        <div className="col-lg-12 wholeborder ">
 		          <div className="imgtitile col-lg-12 noLRPad">
 			          <div className="col-lg-12  noLRPad Selectimg"> Select images:</div> 
@@ -230,16 +277,32 @@ class AddImagesVideo extends TrackerReact(Component){
    }        
 }
 AddImagesVideoContainer = withTracker(props => {  
-
     const postHandle   = Meteor.subscribe('allTicketImages');
     const postHandle1  = Meteor.subscribe('allTicketVideo');
     const ticketImages = TempTicketImages.find({}).fetch() || [];  
-    const ticketVideo = TempTicketVideo.find({}).fetch() || [];  
+    const ticketVideo  = TempTicketVideo.find({}).fetch() || [];  
+    console.log("ticketVideo",ticketVideo);
     const loading     = !postHandle.ready();
     const loading1    = !postHandle1.ready();
     const ticket      = props.ticket;
-    
-
+    console.log("ticket",ticket);
+    var checkList = [];
+    if (ticket) {
+       var tickets =  TicketMaster.findOne({"_id" : ticket});
+       // console.log("tickets",tickets);
+       if (tickets) {
+        var service = Services.findOne({"_id" : tickets.serviceId});
+        // console.log("service",service);
+          if(service){
+            var fieldChecklistArr = service.fieldChecklist;
+            for (var i = 0; i < fieldChecklistArr.length; i++) {
+              // var fieldChecklist  = fieldChecklistArr[i].split(': ');
+              checkList.push({"task" : fieldChecklistArr[i]});
+            }
+          }
+          // console.log("checkList",checkList);
+       }
+    }
     // if(_id){
       return {
           loading : loading,
@@ -247,6 +310,8 @@ AddImagesVideoContainer = withTracker(props => {
           ticketImages : ticketImages,
           ticketVideo  : ticketVideo,
           ticket   : ticket,
+          tickets  : tickets,
+          checkList  : checkList,
       };
 })(AddImagesVideo);
 export default AddImagesVideoContainer;

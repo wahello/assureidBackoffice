@@ -90,7 +90,6 @@ constructor(props){
             
                     }
                 });
-                
             }
         })
     }else if(role == "Field Expert"){              
@@ -122,7 +121,6 @@ constructor(props){
     
             }
         });
-
     }
     
   }
@@ -266,7 +264,6 @@ constructor(props){
             <button type="submit" value="Submit"  className="col-lg-12 noLRPad" onClick={this.uploadDocsDiv.bind(this)}>Upload Docs</button>
         </div>
     );
-        
 }
 
    
