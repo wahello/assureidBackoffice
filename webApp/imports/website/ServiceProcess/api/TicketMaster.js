@@ -398,6 +398,7 @@ if(Meteor.isServer){
 				
 			}else{
 				var baName = "Self";
+				insertData1.role = role;
 				insertData1.empid = empid;
 
 			}

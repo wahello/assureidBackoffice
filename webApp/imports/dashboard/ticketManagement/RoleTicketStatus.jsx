@@ -108,9 +108,11 @@ constructor(props){
         });
         
     }else{
-        // $('.hideteamMemOptio').hide();        
+        // $('.hideteamMemOptio').hide();     
         $("#uploadDocs").css({"display" : "block"});
         var FEid = $(event.currentTarget).attr('data-teamMemid');
+        console.log("empid,role,ticketId,id,FEid :"+empid,role,ticketId,id,FEid);   
+        
         Meteor.call('genericTicketUpdate',empid,role,ticketId,id,FEid,(error,result)=>{
             if(result == 1){
                 swal({
@@ -161,9 +163,9 @@ constructor(props){
     }else if(status == "Allocated"){
         return(<div></div>);
     }
-  }
+}
 
-   /*======================================== Hide Team Member Button ==================================================*/
+/*======================================== Hide Team Member Button ==================================================*/
    hideTeamMemButton(status,teammemberDetails,empid,ticketId,length,index1){
     var reportUserArr = [];
     $('#uploadDocs').css({"display" : "block"});       
@@ -258,12 +260,14 @@ constructor(props){
                 </div>
             </div>
         );
+    }else if((status =="Allocated")&&(this.state.radioState!="Field Expert")){
+        return(
+            <div className="col-lg-12 fesubmitouter showup noLRPad" id="uploadDocs" style={{"display":"block"}}>                                        
+                <button type="submit" value="Submit"  className="col-lg-12 noLRPad" onClick={this.uploadDocsDiv.bind(this)}>Upload Docs</button>
+            </div>
+        );
     }
-    return(
-        <div className="col-lg-12 fesubmitouter showup noLRPad" id="uploadDocs" style={{"display":"none"}}>                                        
-            <button type="submit" value="Submit"  className="col-lg-12 noLRPad" onClick={this.uploadDocsDiv.bind(this)}>Upload Docs</button>
-        </div>
-    );
+        
 }
 
    
