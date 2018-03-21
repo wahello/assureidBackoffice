@@ -68,36 +68,32 @@ constructor(props){
 
   /*Add BA Details  */
   addBADetails(event){
-    console.log("Inside addBADetails");
+    
     event.preventDefault();
     var role        = $(event.currentTarget).attr('data-role');
     var ticketId    = $(event.currentTarget).attr('data-id');
     var empid       = $(event.currentTarget).attr('data-empid');
     if(role == "BA"){
-    console.log("Inside BA");       
-        var baName = this.refs.BAName.value;
-        $('.hideteamMemOptio').hide();
+        var baName = this.refs.BAName.value;  
+        $('#uploadDocs').css({"display" : "block"});   
         Meteor.call("addBADetails",baName,(error,result)=>{
             if(result){
-                
-                 $('#uploadDocs').css({"display" : "block"});
                  var id = result;
                  var FEid = '';
                 Meteor.call('genericTicketUpdate',empid,role,ticketId,id,FEid,(error,result)=>{
                     if(result){
                         swal({
-                                title: "Assing Ticket!",
+                                title: "Assigning Ticket!",
                                 text: "Successfully Assign",
                                 icon: "success",
                         });
             
                     }
                 });
-                $("#uploadDocs").css({"display" : "block"});
+                
             }
         })
-    }else if(role == "Field Expert"){
-    console.log("Inside Field Expert");               
+    }else if(role == "Field Expert"){              
         var id = this.refs.allocateToFEName.value;  
         $('.hideteamMemOptio').hide();        
         var FEid = $(event.currentTarget).attr('data-teamMemid');
@@ -113,7 +109,7 @@ constructor(props){
         });
         
     }else{
-        $('.hideteamMemOptio').hide();        
+        // $('.hideteamMemOptio').hide();        
         $("#uploadDocs").css({"display" : "block"});
         var FEid = $(event.currentTarget).attr('data-teamMemid');
         Meteor.call('genericTicketUpdate',empid,role,ticketId,id,FEid,(error,result)=>{
@@ -172,6 +168,7 @@ constructor(props){
    /*======================================== Hide Team Member Button ==================================================*/
    hideTeamMemButton(status,teammemberDetails,empid,ticketId,length,index1){
     var reportUserArr = [];
+    $('#uploadDocs').css({"display" : "block"});       
     if(teammemberDetails){
         for(k=0;k<teammemberDetails.length;k++){
             var newStr = teammemberDetails[k].profile.firstname+" "+teammemberDetails[k].profile.lastname;
@@ -202,75 +199,74 @@ constructor(props){
                             <label className="noLRPad"><input type="radio" name="optradio" value="BA" className="optradio" checked={this.state.radioState ==="BA"} onChange={this.getRadioValue.bind(this)}/>BA</label>
                             </div>
                     </div>
-                <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad hideFieldexpert">                            
-                    {
-                        this.state.radioState == 'Field Expert'?
+                    <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad hideFieldexpert">                            
+                        {
+                            this.state.radioState == 'Field Expert'?
+                                
+                                    <div>
+                                        <div className="col-lg-7 teamMemOuter">
+                                        <lable>Allocate To Field Expert</lable>
+                                        <select className="form-control allProductSubCategories" aria-describedby="basic-addon1" ref="allocateToFEName">
+                                            { 
+                                                reportUserArr.map( (data, index)=>{
+                                                    return (
+                                                        <option key={index}>
+                                                            
+                                                        {data}
+                                                        </option>
+                                                    );
+                                                })
+                                            } 
+                                        </select>
+                                        </div>
+                                        <div className="col-lg-4 fesubmitouter noLRPad">
+                                                <button type="submit" value="Submit" className="col-lg-11 fesubmitbtn noLRPad" data-teamMemid= {teamMemid} data-empId = {empid} onClick={this.addBADetails.bind(this)} data-id={this.props.ticketId} data-role={this.state.radioState}>Submit</button>                                       
+                                        </div>
+                                    </div>
+                            : 
+                            this.state.radioState == 'BA'?
+                            <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
                             
-                                <div>
-                                    <div className="col-lg-7 teamMemOuter">
-                                    <lable>Allocate To Field Expert</lable>
-                                    <select className="form-control allProductSubCategories" aria-describedby="basic-addon1" ref="allocateToFEName">
-                                        { 
-                                            reportUserArr.map( (data, index)=>{
-                                                return (
-                                                    <option key={index}>
-                                                        
-                                                    {data}
-                                                    </option>
-                                                );
-                                            })
-                                        } 
-                                    </select>
-                                    </div>
-                                    <div className="col-lg-4 fesubmitouter noLRPad">
-                                            <button type="submit" value="Submit" className="col-lg-11 fesubmitbtn noLRPad" data-teamMemid= {teamMemid} data-empId = {empid} onClick={this.addBADetails.bind(this)} data-id={this.props.ticketId} data-role={this.state.radioState}>Submit</button>                                       
-                                    </div>
+                                <div className="col-lg-8 noLRPad">
+                                    <input type="text" name="baName" className="fesubmitbtn banametext" ref="BAName"/>
                                 </div>
-                        : 
-                        this.state.radioState == 'BA'?
-                        <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
-                        
-                            <div className="col-lg-8 noLRPad">
-                                <input type="text" name="baName" className="fesubmitbtn banametext" ref="BAName"/>
+                            
+                                <div className="col-lg-3 noLRPad">                                        
+                                    <button type="submit" value="Submit" className="col-lg-11 fesubmitbtn noLRPad" data-empId = {empid} onClick={this.addBADetails.bind(this)} data-addressType = {this.props.getTicket.addressType} data-id={this.props.ticketId} data-role={this.state.radioState}>Submit</button>
+                                    </div>
+                                    {/* <div className="col-lg-4 fesubmitouter noLRPad" id="uploadDocs" style={{"display" : "none"}}>                                        
+                                    <button type="submit" value="Submit"  className="col-lg-12 noLRPad" onClick={this.uploadDocsDiv.bind(this)}>Upload Docs</button>
+                                    </div> */}
+
                             </div>
-                        
-                            <div className="col-lg-3 noLRPad">                                        
-                                <button type="submit" value="Submit" className="col-lg-11 fesubmitbtn noLRPad" data-empId = {empid} onClick={this.addBADetails.bind(this)} data-addressType = {this.props.getTicket.addressType} data-id={this.props.ticketId} data-role={this.state.radioState}>Submit</button>
-                                </div>
-                                {/* <div className="col-lg-4 fesubmitouter noLRPad" id="uploadDocs" style={{"display" : "none"}}>                                        
-                                <button type="submit" value="Submit"  className="col-lg-12 noLRPad" onClick={this.uploadDocsDiv.bind(this)}>Upload Docs</button>
+                            :
+                            this.state.radioState == 'Self'?
+                            <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
+                                
+
+                                <h5><strong>You are going to handle this ticket</strong></h5>
+                                {/* <button type="submit" value="Submit"  className="col-lg-12 noLRPad" onClick={this.addBADetails.bind(this)}>OK</button> */}
+                                <button type="submit" value="Submit" className="col-lg-11 fesubmitbtn noLRPad" data-teamMemid= {teamMemid} data-empId = {empid} onClick={this.addBADetails.bind(this)} data-id={this.props.ticketId} data-role={this.state.radioState}>Ok</button>                                       
+                                {/* <div className="col-lg-4 uploadDocs noLRPad" id="uploadDocs" style={{"display" : "none"}}>                                        
+                                    <button type="submit" value="Submit"  className="col-lg-12 noLRPad" onClick={this.uploadDocsDiv.bind(this)}>Upload Docs</button>
                                 </div> */}
+                                
 
-                        </div>
-                        :
-                        this.state.radioState == 'Self'?
-                        <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
-                            
-
-                            <h5><strong>You are going to handle this ticket</strong></h5>
-                            {/* <button type="submit" value="Submit"  className="col-lg-12 noLRPad" onClick={this.addBADetails.bind(this)}>OK</button> */}
-                            <button type="submit" value="Submit" className="col-lg-11 fesubmitbtn noLRPad" data-teamMemid= {teamMemid} data-empId = {empid} onClick={this.addBADetails.bind(this)} data-id={this.props.ticketId} data-role={this.state.radioState}>Ok</button>                                       
-                            {/* <div className="col-lg-4 uploadDocs noLRPad" id="uploadDocs" style={{"display" : "none"}}>                                        
-                                <button type="submit" value="Submit"  className="col-lg-12 noLRPad" onClick={this.uploadDocsDiv.bind(this)}>Upload Docs</button>
-                            </div> */}
-                            
-
-                        </div>
-                        :
-                        ""
-                    }
+                            </div>
+                            :
+                            ""
+                        }
+                    </div>   
                 </div>
-                    
             </div>
-            <div className="col-lg-4 fesubmitouter noLRPad" id="uploadDocs" style={{"display" : "none"}}>                                        
-                <button type="submit" value="Submit"  className="col-lg-12 noLRPad" onClick={this.uploadDocsDiv.bind(this)}>Upload Docs</button>
-            </div>
-        </div>
         );
-           
-        }else if((status == "Allocated")&& ( length == 1)){
-            {$('.hideteamMemOptio').hide()}
-        }
+    }
+    return(
+        <div className="col-lg-12 fesubmitouter showup noLRPad" id="uploadDocs" style={{"display":"none"}}>                                        
+            <button type="submit" value="Submit"  className="col-lg-12 noLRPad" onClick={this.uploadDocsDiv.bind(this)}>Upload Docs</button>
+        </div>
+    );
+        
 }
 
    
