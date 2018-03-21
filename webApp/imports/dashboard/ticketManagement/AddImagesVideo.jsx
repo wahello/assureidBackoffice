@@ -16,7 +16,7 @@ import { Services } from '../reactCMS/api/Services.js';
 
 // const getDuration = require('get-video-duration');
 class AddImagesVideo extends TrackerReact(Component){
-	 constructor(props){ 
+	constructor(props){ 
     super(props);
     this.state = { 
       "remark" : '',
@@ -102,6 +102,7 @@ class AddImagesVideo extends TrackerReact(Component){
             reader.onload = function (e) {           
              // $('.uploadedImageFromLocl').attr('src', e.target.result);       
            };        
+           var vid = document.createElement('video');
            reader.readAsDataURL(event.currentTarget.files[0]);       
            var file = event.currentTarget.files[0];  
            // var fileURL = URL.createObjectURL(event.currentTarget.files[0]);
@@ -110,10 +111,26 @@ class AddImagesVideo extends TrackerReact(Component){
            // getDuration(event.currentTarget.files[0]).then((duration) => {
            //    console.log(duration);
            // });
-
-            if (file) {          
-              addTicketVideoS3Function(file,self);        
-            }    
+           if (file) {          
+             var fileURL = URL.createObjectURL(event.currentTarget.files[0]);
+              vid.src = fileURL;
+              // wait for duration to change from NaN to the actual duration
+              vid.ondurationchange = function() {
+                 var duration = this.duration;
+                 console.log("duration",duration);
+              if (duration <= 10) {
+                 addTicketVideoS3Function(file,self);        
+              }else{
+                  swal({     
+                   position: 'top-right',      
+                   type: 'error',     
+                   title: 'You are not allowed to add video Beyond 10Sec!',        
+                   showConfirmButton: false,       
+                   timer: 1500       
+                 });   
+               }    
+              }
+            };
          } else {  
           swal({     
              position: 'top-right',      

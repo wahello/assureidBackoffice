@@ -191,7 +191,7 @@ class Ticket extends TrackerReact(Component){
                                   <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
                                       <RoleTicketStatus ticketId={this.props.params.id}/>
                                   </div>
-                                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad" id="AddImagesVideo" style={{"display" : "none"}}>
+                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad" id="AddImagesVideo" style={{"display" : "none"}}>
                                     <AddImagesVideo ticket={this.props.params.id}/>
                                   </div>
                                </div>
