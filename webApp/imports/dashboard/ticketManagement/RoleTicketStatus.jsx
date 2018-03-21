@@ -166,7 +166,7 @@ constructor(props){
 }
 
 /*======================================== Hide Team Member Button ==================================================*/
-   hideTeamMemButton(status,teammemberDetails,empid,ticketId,length,index1){
+ hideTeamMemButton(status,teammemberDetails,empid,ticketId,length,index1){
     var reportUserArr = [];
     $('#uploadDocs').css({"display" : "block"});       
     if(teammemberDetails){
@@ -268,7 +268,7 @@ constructor(props){
         );
     }
         
-}
+} 
 
    
 roleSwitch(roleStatus,role,empid,length,index1 ){
@@ -319,16 +319,21 @@ roleSwitch(roleStatus,role,empid,length,index1 ){
             if(getTicket.ticketElement[i].role!="BA"){
                 
                 if((i > 0 ) && ((getTicket.ticketElement[i].role == getTicket.ticketElement[i-1].role) && (getTicket.ticketElement[i].empid == getTicket.ticketElement[i-1].empid))){
-              
-                    newCommeeteeArr[i-count].status.push(getTicket.ticketElement[i].role_status + ' - '+moment(getTicket.ticketElement[i].createdAt).format("DD/MM/YYYY"));
-                    count++;
-                }else{
                     
-                    var roleDetails = Meteor.users.findOne({"_id":getTicket.ticketElement[i].empid});
                     if(getTicket.ticketElement[i].allocatedTo!=""){
                         data.allocatedToName = getTicket.ticketElement[i].allocatedTo;
                         data.allocatedToRole = getTicket.ticketElement[i].allocatedToRole;
                     }
+                    newCommeeteeArr[i-count].status.push(getTicket.ticketElement[i].role_status + ' - '+moment(getTicket.ticketElement[i].createdAt).format("DD/MM/YYYY"));
+                    count++;
+                }else{
+                   
+                    if(getTicket.ticketElement[i].allocatedTo!=""){
+                        data.allocatedToName = getTicket.ticketElement[i].allocatedTo;
+                        data.allocatedToRole = getTicket.ticketElement[i].allocatedToRole;
+                    }
+                    var roleDetails = Meteor.users.findOne({"_id":getTicket.ticketElement[i].empid});
+                    
                     data = {
                         index  : i,
                         empid  : getTicket.ticketElement[i].empid,
@@ -337,7 +342,6 @@ roleSwitch(roleStatus,role,empid,length,index1 ){
                         status : [getTicket.ticketElement[i].role_status + ' - '+moment(getTicket.ticketElement[i].createdAt).format("DD/MM/YYYY")],
                        
                     };
-                   
                     newCommeeteeArr.push(data);
                 }
             }
@@ -395,15 +399,7 @@ roleSwitch(roleStatus,role,empid,length,index1 ){
                                             Allocated To <span className="pull-right">:</span>
                                         </div>  
                                         <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-left userValue">
-                                            <p>{newCommeeteeArr[i].allocatedToName}</p>
-                                        </div> 
-                                    </div>
-                                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
-                                        <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
-                                            Allocated Role <span className="pull-right">:</span>
-                                        </div>  
-                                        <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-left userValue">
-                                            <p>{newCommeeteeArr[i].allocatedToRole}</p>
+                                            <p>{newCommeeteeArr[i].allocatedToName} &nbsp;{newCommeeteeArr[i].allocatedToRole}</p>
                                         </div> 
                                     </div>
                                 </div>

@@ -376,6 +376,7 @@ if(Meteor.isServer){
 
 		'genericTicketUpdate':function(empid,role,ticketId,id,FEid){
 			
+			console.log("Inside genericUpdate empid,role,ticketId,id,FEid:"+empid,role,ticketId,id,FEid);
 			var insertData = TicketMaster.findOne({'_id':ticketId,'ticketElement.empid': empid},{ 'ticketElement.$': 1 });
 			var ticketElemLength = insertData.ticketElement.length;
 			if(ticketElemLength > 0){
@@ -384,11 +385,15 @@ if(Meteor.isServer){
 						var insertData1 = insertData.ticketElement[i];
 					}
 				}
-			}			
+			}	
+			
+			console.log("insertData1");
+			console.log(insertData1);
 			if(role == "BA"){
 				var baDetails = BADetails.findOne({'_id':id});
 				var baName    = baDetails.BAName;
 				var FEid      = ''; 
+				insertData1.allocatedToRole = role;
 				
 			}else if(role == "Field Expert"){
 				var feFullName  = id;
@@ -398,18 +403,21 @@ if(Meteor.isServer){
 				var id          = userDetails._id;
 				var FEid        = FEid;
 				
+
+				insertData1.empid = id;
+				insertData1.allocatedToRole =role;
+				insertData1.allocatedTo = baName;	
+				
 			}else{
-				var baName = "Self";
-				insertData1.role = role;
+				// var baName = "Self";
+				// insertData1.role = role;
 				insertData1.empid = empid;
+				insertData1.allocatedToRole ="";
+				insertData1.allocatedTo = "Self";			
 
 			}
 			insertData1.role_status = "Allocated";
-			insertData1.allocatedTo = baName;
-			insertData1.allocatedToRole = role;
 			insertData1.createdAt   = new Date();
-			console.log("insertData1");
-			console.log(insertData1);
 			TicketMaster.update(
 				{'_id':ticketId},
 				{$push:{
@@ -417,10 +425,6 @@ if(Meteor.isServer){
 					}
 				}
 			)
-
-			insertData1.empid = FEid;
-			insertData1.role = role;
-			insertData1.role_status="New";
 
 			/*=========Add New document in ticket bucket for field expert======== */
 			var ticket = {
@@ -431,7 +435,12 @@ if(Meteor.isServer){
 			}
 			Meteor.call('insertTicketBucket',ticket);
 
-			
+			insertData1.empid = empid;
+			insertData1.role = role;
+			insertData1.role_status="New";
+			insertData1.allocatedTo="";
+			insertData1.allocatedToRole="";
+
 			return TicketMaster.update(
 				{'_id':ticketId},
 				{$push:{
