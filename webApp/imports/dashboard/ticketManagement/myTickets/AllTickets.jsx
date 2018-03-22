@@ -63,7 +63,7 @@ class AllTickets extends TrackerReact(Component){
                                                   <tr key={index}>
                                                       
                                                       <td><Link to={"/admin/ticket/"+data.ticketid}>{data.ticketNumber}</Link></td>
-                                                      <td>{data.orderId}</td>
+                                                      <td>{data.orderNo}</td>
                                                       <td>{data.serviceName}</td>
                                                       <td>{moment(data.createdAt).format('l')}</td>
                                                       <td>{data.tatDate}</td> 
@@ -123,6 +123,7 @@ export default AllTicketContainer = withTracker(props => {
                   'ticketid'    : singleDetails.ticketid,
                   'ticketNumber': singleDetails.ticketNumber,
                   'orderId'     : singleDetails.orderId,
+                  'orderNo'     : singleDetails.orderNo,
                   'serviceName' : singleDetails.serviceName,
                   'createdAt'   :  singleDetails.createdAt,
                   'tatDate'     :  singleDetails.tatDate,

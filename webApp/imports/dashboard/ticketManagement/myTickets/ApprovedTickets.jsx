@@ -56,7 +56,7 @@ class ApprovedTickets extends TrackerReact(Component){
                                                     return(
                                                         <tr key={index}>
                                                             <td><Link to={"/admin/ticket/"+data.ticketid}>{data.ticketNumber}</Link></td>
-                                                            <td>{data.orderId}</td>
+                                                            <td>{data.orderNo}</td>
                                                             <td>{data.serviceName}</td>
                                                             <td>{moment(data.createdAt).format('l')}</td>
                                                             <td>{data.tatDate}</td> 

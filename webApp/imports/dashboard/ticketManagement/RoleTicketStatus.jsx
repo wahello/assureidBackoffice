@@ -197,6 +197,19 @@ constructor(props){
             }
         }
     }
+    var ticketElement = this.props.getTicket.ticketElement;
+    if(ticketElement.length>0){
+        var allocatedTo = "";
+        
+        for(var i=0;i<ticketElement.length;i++){
+            if(ticketElement[i].allocatedTo =="Self"){
+                allocatedTo = "Self";
+                break;
+            }
+        }
+    }
+
+    
 
     if((status == "New") && ( length == 1)){
         return(
@@ -300,12 +313,12 @@ constructor(props){
                 </div>
             </div>
         );
-    }else if((status =="Allocated")){
-        return(
-            <div className="col-lg-12 fesubmitouter showup noLRPad" id="uploadDocs" style={{"display":"block"}}>                                        
-                <button type="submit" value="Submit"  className="col-lg-12 noLRPad" onClick={this.uploadDocsDiv.bind(this)}>Upload Docs</button>
-            </div>
-        );
+    }else if((status =="Allocated" && allocatedTo == "Self")){
+        // return(
+        //     <div className="col-lg-12 fesubmitouter showup noLRPad" id="uploadDocs" style={{"display":"block"}}>                                        
+        //         <button type="submit" value="Submit"  className="col-lg-12 noLRPad" onClick={this.uploadDocsDiv.bind(this)}>Upload Docs</button>
+        //     </div>
+        // );
     }
         
 } 
@@ -339,6 +352,9 @@ userData(){
                   if(getTicket.ticketElement[i].allocatedTo!=""){
                       data.allocatedToName = getTicket.ticketElement[i].allocatedTo;
                       data.allocatedToRole = getTicket.ticketElement[i].allocatedToRole;
+                  }else{
+                    data.allocatedToName = getTicket.ticketElement[i].allocatedTo;
+                    data.allocatedToRole = false;
                   }
                   var roleDetails = Meteor.users.findOne({"_id":getTicket.ticketElement[i].empid});
                   
@@ -379,7 +395,7 @@ userData(){
                           <div className="col-lg-6 col-md-6 col-sm-4 col-xs-4 text-left noLRPad userLabel">
                           
                           {
-                              newCommeeteeArr[i].status.map((data1,index1)=>{
+                                newCommeeteeArr[i].status.map((data1,index1)=>{
                                       var length = newCommeeteeArr[i].status.length;
                                       return(  
                                           <div key={index1}>                                        
@@ -393,8 +409,6 @@ userData(){
                                           </div>
                                           </div>
                                       );
-                                      
-
                                   })
                                       
                           }                                        
@@ -408,9 +422,24 @@ userData(){
                                           Allocated To <span className="pull-right">:</span>
                                       </div>  
                                       <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-left userValue">
-                                          <p>{newCommeeteeArr[i].allocatedToName} &nbsp;({newCommeeteeArr[i].allocatedToRole})</p>
+                                          <p>{newCommeeteeArr[i].allocatedToName} &nbsp;
+                                          { 
+                                              newCommeeteeArr[i].allocatedToRole!=""? 
+                                              (newCommeeteeArr[i].allocatedToRole)
+                                                :
+                                                ""
+                                            }</p>
                                       </div> 
                                   </div>
+                                    {newCommeeteeArr[i].allocatedToName == "Self" ?
+
+                                    <div className="col-lg-3 col-lg-offset-4 showup noLRPad" id="uploadDocs" style={{"display":"block"}}>                                        
+                                        <button type="submit" value="Submit"  className="col-lg-12 noLRPad fesubmitbtn" onClick={this.uploadDocsDiv.bind(this)}>Upload Docs</button>
+                                    </div>
+                                    : 
+                                    ""
+                                    }
+                                    
                               </div>
                               :
                               ""
@@ -448,6 +477,10 @@ roleSwitch(roleStatus,role,empid,length,index1 ){
                      
                     return this.hideTeamMemButton(status,teammemberDetails,empid,this.props.ticketId,length,index1);
                     break;
+            
+            case 'field expert':
+                    //Show upload document button for ba abd field expert pass role
+                  break;
                     
 
             }
