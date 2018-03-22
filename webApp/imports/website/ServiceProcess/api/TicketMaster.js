@@ -365,18 +365,18 @@ if(Meteor.isServer){
 			return addTM;
 			
 		},
+		/**==================== We show Dropdown insted of submit box================== */
+		// 'addBADetails':function(BAName){
 
-		'addBADetails':function(BAName){
-
-			var badetails = BADetails.insert({
-				'BAName':BAName,
-			});
-			return badetails;
-		},
+		// 	var badetails = BADetails.insert({
+		// 		'BAName':BAName,
+		// 	});
+		// 	return badetails;
+		// },
 
 		'genericTicketUpdate':function(empid,role,ticketId,id,FEid){
 			
-			console.log("Inside genericUpdate empid,role,ticketId,id,FEid:"+empid,role,ticketId,id,FEid);
+			
 			var insertData = TicketMaster.findOne({'_id':ticketId,'ticketElement.empid': empid},{ 'ticketElement.$': 1 });
 			var ticketElemLength = insertData.ticketElement.length;
 			if(ticketElemLength > 0){
@@ -386,14 +386,22 @@ if(Meteor.isServer){
 					}
 				}
 			}	
-			
-			console.log("insertData1");
-			console.log(insertData1);
 			if(role == "BA"){
-				var baDetails = BADetails.findOne({'_id':id});
-				var baName    = baDetails.BAName;
-				var FEid      = ''; 
-				insertData1.allocatedToRole = role;
+				// var baDetails = BADetails.findOne({'_id':id});
+				// var baName    = baDetails.BAName;
+				// var FEid      = ''; 
+				// insertData1.allocatedToRole = role;
+
+				var feFullName  = id;
+				var splitFEName = feFullName.split(" ");
+				var baName      = splitFEName[0]+" "+splitFEName[1];
+				var userDetails = Meteor.users.findOne({'profile.firstname':splitFEName[0],'profile.lastname':splitFEName[1]});
+				var id          = userDetails._id;
+				var FEid        = FEid;
+				// insertData1.empid = id;
+				insertData1.allocatedToRole =role;
+				insertData1.allocatedTo = baName;	
+			
 				
 			}else if(role == "Field Expert"){
 				var feFullName  = id;
@@ -404,14 +412,16 @@ if(Meteor.isServer){
 				var FEid        = FEid;
 				
 
-				insertData1.empid = id;
+				// insertData1.empid = id;
 				insertData1.allocatedToRole =role;
 				insertData1.allocatedTo = baName;	
 				
 			}else{
 				// var baName = "Self";
 				// insertData1.role = role;
-				insertData1.empid = empid;
+				// insertData1.empid = empid;
+				id = empid; 
+				role = "team member";
 				insertData1.allocatedToRole ="";
 				insertData1.allocatedTo = "Self";			
 
@@ -435,12 +445,12 @@ if(Meteor.isServer){
 			}
 			Meteor.call('insertTicketBucket',ticket);
 
-			insertData1.empid = empid;
+			insertData1.empid = id;
 			insertData1.role = role;
 			insertData1.role_status="New";
 			insertData1.allocatedTo="";
 			insertData1.allocatedToRole="";
-
+		
 			return TicketMaster.update(
 				{'_id':ticketId},
 				{$push:{

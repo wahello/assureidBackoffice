@@ -792,7 +792,7 @@ verifiedDocumentsContainer = withTracker(props => {
           var perAddrArray = '';
          }
          var ticketStatus = getTicket.ticketStatus[0];
-         console.log("ticketStatus",ticketStatus);
+        
          // var curAddrArray = firstTicketElen.currentAddress;
          // if(curAddrArray){
          //    var curAddrArray = curAddrArray;
@@ -814,7 +814,6 @@ verifiedDocumentsContainer = withTracker(props => {
      }else{
        var isRoleUser = false;
      }
-     console.log("getTicket",getTicket);
     // if(_id){
       return {
           loading  : loading,

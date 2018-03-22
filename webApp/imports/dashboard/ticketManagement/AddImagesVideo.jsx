@@ -160,11 +160,19 @@ class AddImagesVideo extends TrackerReact(Component){
     var id     = this.props.tickets._id;
     var userId = this.props.tickets.userId;
     // var baId   = this.state.baid;
+<<<<<<< Updated upstream
     // var checkLists = [];
     // $(':checkbox:checked').each(function(i){
     //       checkLists[i] = $(this).val();
     // });
     // console.log("checkLists",checkLists);
+=======
+    var checkLists = [];
+    $(':checkbox:checked').each(function(i){
+          checkLists[i] = $(this).val();
+    });
+    
+>>>>>>> Stashed changes
     var documents ={
        checkLists : checkLists,
        images : this.props.ticketImages,
@@ -194,7 +202,7 @@ class AddImagesVideo extends TrackerReact(Component){
         if (error) {
           console.log(error.reason);
         }else{
-          console.log("Inserted Successfully!");
+          // console.log("Inserted Successfully!");
           $("#uploadDocs").css({"display" : "none"});
         }
       });
@@ -299,21 +307,38 @@ AddImagesVideoContainer = withTracker(props => {
     const postHandle1  = Meteor.subscribe('allTicketVideo');
     const ticketImages = TempTicketImages.find({}).fetch() || [];  
     const ticketVideo  = TempTicketVideo.find({}).fetch() || [];  
-    console.log("ticketVideo",ticketVideo);
+    
     const loading     = !postHandle.ready();
     const loading1    = !postHandle1.ready();
     const ticket      = props.ticket;
-    console.log("ticket",ticket);
+    
     var checkList = [];
     if (ticket) {
        var tickets =  TicketMaster.findOne({"_id" : ticket});
        // console.log("tickets",tickets);
+<<<<<<< Updated upstream
        // var verificationType = tickets.verificationType;
        // console.log("verificationType",verificationType);
        // if (verificationType == "professionalEducation") {
        //  var 
        // }
      
+=======
+       if (tickets) {
+        var service = Services.findOne({"_id" : tickets.serviceId});
+        // console.log("service",service);
+          if(service){
+            var fieldChecklistArr = service.fieldChecklist;
+              if(fieldChecklistArr.length>0){
+                for (var i = 0; i < fieldChecklistArr.length; i++) {
+                  // var fieldChecklist  = fieldChecklistArr[i].split(': ');
+                  checkList.push({"task" : fieldChecklistArr[i]});
+                }
+            }
+          }
+          // console.log("checkList",checkList);
+       }
+>>>>>>> Stashed changes
     }
     // if(_id){
       return {

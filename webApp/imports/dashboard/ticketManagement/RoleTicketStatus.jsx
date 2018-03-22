@@ -74,24 +74,27 @@ constructor(props){
     var ticketId    = $(event.currentTarget).attr('data-id');
     var empid       = $(event.currentTarget).attr('data-empid');
     if(role == "BA"){
-        var baName = this.refs.BAName.value;  
+        // var baName = this.refs.BAName.value; 
+        var id = this.refs.allocateToFEName.value;           
         $('#uploadDocs').css({"display" : "block"});   
-        Meteor.call("addBADetails",baName,(error,result)=>{
-            if(result){
-                 var id = result;
-                 var FEid = '';
-                Meteor.call('genericTicketUpdate',empid,role,ticketId,id,FEid,(error,result)=>{
-                    if(result){
-                        swal({
-                                title: "Assigning Ticket!",
-                                text: "Successfully Assign",
-                                icon: "success",
-                        });
-            
-                    }
-                });
-            }
-        })
+        // Meteor.call("addBADetails",baName,(error,result)=>{
+        //     if(result){
+            var id = this.refs.allocateToFEName.value;  
+            // console.log("id :"+id);
+            $('.hideteamMemOptio').hide();        
+            var FEid = $(event.currentTarget).attr('data-teamMemid');
+            Meteor.call('genericTicketUpdate',empid,role,ticketId,id,FEid,(error,result)=>{
+                if(result == 1){
+                    swal({
+                                    title: "Assing Ticket!",
+                                    text: "Successfully Assign",
+                                    icon: "success",
+                    });
+        
+                }
+            });
+        //     }
+        // })
     }else if(role == "Field Expert"){              
         var id = this.refs.allocateToFEName.value;  
         $('.hideteamMemOptio').hide();        
@@ -111,7 +114,7 @@ constructor(props){
         // $('.hideteamMemOptio').hide();     
         $("#uploadDocs").css({"display" : "block"});
         var FEid = $(event.currentTarget).attr('data-teamMemid');
-        console.log("empid,role,ticketId,id,FEid :"+empid,role,ticketId,id,FEid);   
+        // console.log("empid,role,ticketId,id,FEid :"+empid,role,ticketId,id,FEid);   
         
         Meteor.call('genericTicketUpdate',empid,role,ticketId,id,FEid,(error,result)=>{
             if(result == 1){
@@ -168,15 +171,33 @@ constructor(props){
 /*======================================== Hide Team Member Button ==================================================*/
  hideTeamMemButton(status,teammemberDetails,empid,ticketId,length,index1){
     var reportUserArr = [];
-    $('#uploadDocs').css({"display" : "block"});       
+    var reportBAArr   = [];
+    $('#uploadDocs').css({"display" : "block"});     
     if(teammemberDetails){
         for(k=0;k<teammemberDetails.length;k++){
-            var newStr = teammemberDetails[k].profile.firstname+" "+teammemberDetails[k].profile.lastname;
-            var teamMemid  = teammemberDetails[k]._id;
-            reportUserArr.push(newStr);
+            for(var j=0;j<teammemberDetails[k].roles.length;j++){
+                if(teammemberDetails[k].roles.length>0){
+                    if(teammemberDetails[k].roles[j]=="field expert"){
+                        var newStr = teammemberDetails[k].profile.firstname+" "+teammemberDetails[k].profile.lastname;
+                        var teamMemid  = teammemberDetails[k]._id;
+                        reportUserArr.push(newStr);
+                    }    
+                }  
+            }
         }
-
+        for(k=0;k<teammemberDetails.length;k++){
+            for(var j=0;j<teammemberDetails[k].roles.length;j++){
+                if(teammemberDetails[k].roles.length>0){                
+                    if(teammemberDetails[k].roles[j]=="BA"){
+                        var newStr = teammemberDetails[k].profile.firstname+" "+teammemberDetails[k].profile.lastname;
+                        var teamMemid  = teammemberDetails[k]._id;
+                        reportBAArr.push(newStr);
+                    }   
+                }   
+            }
+        }
     }
+
     if((status == "New") && ( length == 1)){
         return(
                <div className="hideacceptreject" id="hideacceptreject">
@@ -227,16 +248,35 @@ constructor(props){
                             this.state.radioState == 'BA'?
                             <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
                             
-                                <div className="col-lg-8 noLRPad">
+                                {/* <div className="col-lg-8 noLRPad">
                                     <input type="text" name="baName" className="fesubmitbtn banametext" ref="BAName"/>
                                 </div>
                             
                                 <div className="col-lg-3 noLRPad">                                        
                                     <button type="submit" value="Submit" className="col-lg-11 fesubmitbtn noLRPad" data-empId = {empid} onClick={this.addBADetails.bind(this)} data-addressType = {this.props.getTicket.addressType} data-id={this.props.ticketId} data-role={this.state.radioState}>Submit</button>
+                                </div> */}
+
+                                <div>
+                                    <div className="col-lg-7 teamMemOuter">
+                                    <lable>Allocate To BA</lable>
+                                    <select className="form-control allProductSubCategories" aria-describedby="basic-addon1" ref="allocateToFEName">
+                                        { 
+                                            reportBAArr.map( (data, index)=>{
+                                                return (
+                                                    <option key={index}>
+                                                        
+                                                    {data}
+                                                    </option>
+                                                );
+                                            })
+                                        } 
+                                    </select>
                                     </div>
-                                    {/* <div className="col-lg-4 fesubmitouter noLRPad" id="uploadDocs" style={{"display" : "none"}}>                                        
-                                    <button type="submit" value="Submit"  className="col-lg-12 noLRPad" onClick={this.uploadDocsDiv.bind(this)}>Upload Docs</button>
-                                    </div> */}
+                                    <div className="col-lg-4 fesubmitouter noLRPad">
+                                            <button type="submit" value="Submit" className="col-lg-11 fesubmitbtn noLRPad" data-teamMemid= {teamMemid} data-empId = {empid} onClick={this.addBADetails.bind(this)} data-id={this.props.ticketId} data-role={this.state.radioState}>Submit</button>                                       
+                                    </div>
+                                </div>
+                                    
 
                             </div>
                             :
@@ -260,7 +300,7 @@ constructor(props){
                 </div>
             </div>
         );
-    }else if((status =="Allocated")&&(this.state.radioState!="Field Expert")){
+    }else if((status =="Allocated")){
         return(
             <div className="col-lg-12 fesubmitouter showup noLRPad" id="uploadDocs" style={{"display":"block"}}>                                        
                 <button type="submit" value="Submit"  className="col-lg-12 noLRPad" onClick={this.uploadDocsDiv.bind(this)}>Upload Docs</button>
@@ -271,6 +311,122 @@ constructor(props){
 } 
 
    
+userData(){
+    var getTicket = TicketMaster.findOne({"_id" : this.props.ticketId});
+    var userId = Meteor.userId();
+    var getUserData = Meteor.users.findOne({"_id":userId});
+    var finalarray      = [];
+
+  if (getTicket){
+      var newCommeeteeArr = [];
+      var data            = {};
+      var status          = [];
+      var date            = [];
+      var status_temp     = [];
+      var count           = 1;
+      for(var i=0;i<getTicket.ticketElement.length;i++){
+          
+              if((i > 0 ) && ((getTicket.ticketElement[i].role == getTicket.ticketElement[i-1].role) && (getTicket.ticketElement[i].empid == getTicket.ticketElement[i-1].empid))){
+                  if(getTicket.ticketElement[i].allocatedTo!=""){
+                      data.allocatedToName = getTicket.ticketElement[i].allocatedTo;
+                      data.allocatedToRole = getTicket.ticketElement[i].allocatedToRole;
+                  }
+                  
+                  newCommeeteeArr[i-count].status.push(getTicket.ticketElement[i].role_status + ' - '+moment(getTicket.ticketElement[i].createdAt).format("DD/MM/YYYY"));
+                  count++;
+              }else{
+                  
+                  if(getTicket.ticketElement[i].allocatedTo!=""){
+                      data.allocatedToName = getTicket.ticketElement[i].allocatedTo;
+                      data.allocatedToRole = getTicket.ticketElement[i].allocatedToRole;
+                  }
+                  var roleDetails = Meteor.users.findOne({"_id":getTicket.ticketElement[i].empid});
+                  
+                  data = {
+                      index  : i,
+                      empid  : getTicket.ticketElement[i].empid,
+                      role   : getTicket.ticketElement[i].role,
+                      name   : roleDetails.profile.firstname + ' ' +roleDetails.profile.lastname,
+                      status : [getTicket.ticketElement[i].role_status + ' - '+moment(getTicket.ticketElement[i].createdAt).format("DD/MM/YYYY")],
+                     
+                  };
+
+                  newCommeeteeArr.push(data);
+      
+              }
+      }
+      for(var i=0;i<newCommeeteeArr.length;i++){
+          finalarray.push(
+              <div key ={i} className="col-lg-12 col-md-12 col-sm-12 col-xs-12 borderBottomBlock noLRPad">
+                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                      <h5 className="col-lg-9 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 noLRPad roleName">
+                      {newCommeeteeArr[i].role}
+                      </h5>
+                      <div className="col-lg-8 col-lg-offset-2 col-md-12 col-sm-12 col-xs-12">
+                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
+                              <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
+                                  Name <span className="pull-right">:</span>
+                              </div>  
+                              <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-left userValue">
+                                  <p>{newCommeeteeArr[i].name}</p>
+                              </div> 
+                          </div>
+                          
+                          <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
+                                          Status/Date <span className="pull-right">:</span>
+                          </div>  
+                          
+                          <div className="col-lg-6 col-md-6 col-sm-4 col-xs-4 text-left noLRPad userLabel">
+                          
+                          {
+                              newCommeeteeArr[i].status.map((data1,index1)=>{
+                                      var length = newCommeeteeArr[i].status.length;
+                                      return(  
+                                          <div key={index1}>                                        
+                                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">   
+                                              <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-left userValue">
+                                                  <p className="statusStyle">{data1}</p>
+                                              </div> 
+                                          </div>      
+                                          <div>
+                                              {this.roleSwitch(data1,newCommeeteeArr[i].role,newCommeeteeArr[i].empid,length,index1 )}
+                                          </div>
+                                          </div>
+                                      );
+                                      
+
+                                  })
+                                      
+                          }                                        
+                          </div>
+                          {
+                              newCommeeteeArr[i].allocatedToName!="" && newCommeeteeArr[i].allocatedToName!=undefined ?
+                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
+                              
+                                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
+                                      <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
+                                          Allocated To <span className="pull-right">:</span>
+                                      </div>  
+                                      <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-left userValue">
+                                          <p>{newCommeeteeArr[i].allocatedToName} &nbsp;({newCommeeteeArr[i].allocatedToRole})</p>
+                                      </div> 
+                                  </div>
+                              </div>
+                              :
+                              ""
+                          }
+                      </div>
+                  </div>
+          </div>
+          );
+                  // break;
+          }
+      // }
+  }
+    return finalarray;
+  
+  }
+
 roleSwitch(roleStatus,role,empid,length,index1 ){
     
     var splitroleStatus = roleStatus.split('-');    
@@ -298,125 +454,6 @@ roleSwitch(roleStatus,role,empid,length,index1 ){
         }
 }
 
-
-    
-
-  userData(){
-      var getTicket = TicketMaster.findOne({"_id" : this.props.ticketId});
-      var userId = Meteor.userId();
-      var getUserData = Meteor.users.findOne({"_id":userId});
-
-    if (getTicket){
-        var newCommeeteeArr = [];
-        var data            = {};
-        var status          = [];
-        var date            = [];
-        var status_temp     = [];
-        var finalarray      = [];
-        var count           = 1;
-        
-        for(var i=0;i<getTicket.ticketElement.length;i++){
-            if(getTicket.ticketElement[i].role!="BA"){
-                
-                if((i > 0 ) && ((getTicket.ticketElement[i].role == getTicket.ticketElement[i-1].role) && (getTicket.ticketElement[i].empid == getTicket.ticketElement[i-1].empid))){
-                    
-                    if(getTicket.ticketElement[i].allocatedTo!=""){
-                        data.allocatedToName = getTicket.ticketElement[i].allocatedTo;
-                        data.allocatedToRole = getTicket.ticketElement[i].allocatedToRole;
-                    }
-                    newCommeeteeArr[i-count].status.push(getTicket.ticketElement[i].role_status + ' - '+moment(getTicket.ticketElement[i].createdAt).format("DD/MM/YYYY"));
-                    count++;
-                }else{
-                   
-                    if(getTicket.ticketElement[i].allocatedTo!=""){
-                        data.allocatedToName = getTicket.ticketElement[i].allocatedTo;
-                        data.allocatedToRole = getTicket.ticketElement[i].allocatedToRole;
-                    }
-                    var roleDetails = Meteor.users.findOne({"_id":getTicket.ticketElement[i].empid});
-                    
-                    data = {
-                        index  : i,
-                        empid  : getTicket.ticketElement[i].empid,
-                        role   : getTicket.ticketElement[i].role,
-                        name   : roleDetails.profile.firstname + ' ' +roleDetails.profile.lastname,
-                        status : [getTicket.ticketElement[i].role_status + ' - '+moment(getTicket.ticketElement[i].createdAt).format("DD/MM/YYYY")],
-                       
-                    };
-                    newCommeeteeArr.push(data);
-                }
-            }
-        }
-        for(var i=0;i<newCommeeteeArr.length;i++){
-            finalarray.push(
-                <div key ={i} className="col-lg-12 col-md-12 col-sm-12 col-xs-12 borderBottomBlock noLRPad">
-                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <h5 className="col-lg-9 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 noLRPad roleName">
-                        {newCommeeteeArr[i].role}
-                        </h5>
-                        <div className="col-lg-8 col-lg-offset-2 col-md-12 col-sm-12 col-xs-12">
-                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
-                                <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
-                                    Name <span className="pull-right">:</span>
-                                </div>  
-                                <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-left userValue">
-                                    <p>{newCommeeteeArr[i].name}</p>
-                                </div> 
-                            </div>
-                            
-                            <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
-                                            Status/Date <span className="pull-right">:</span>
-                            </div>  
-                            
-                            <div className="col-lg-6 col-md-6 col-sm-4 col-xs-4 text-left noLRPad userLabel">
-                            
-                            {
-                                newCommeeteeArr[i].status.map((data1,index1)=>{
-                                        var length = newCommeeteeArr[i].status.length;
-                                        return(  
-                                            <div key={index1}>                                        
-                                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">   
-                                                <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-left userValue">
-                                                    <p className="statusStyle">{data1}</p>
-                                                </div> 
-                                            </div>      
-                                            <div>
-                                                {this.roleSwitch(data1,newCommeeteeArr[i].role,newCommeeteeArr[i].empid,length,index1 )}
-                                            </div>
-                                            </div>
-                                        );
-                                        
-
-                                    })
-                                        
-                            }                                        
-                            </div>
-                            {
-                                newCommeeteeArr[i].allocatedToName!="" && newCommeeteeArr[i].allocatedToName!=undefined ?
-                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
-                                
-                                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
-                                        <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
-                                            Allocated To <span className="pull-right">:</span>
-                                        </div>  
-                                        <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-left userValue">
-                                            <p>{newCommeeteeArr[i].allocatedToName} &nbsp;{newCommeeteeArr[i].allocatedToRole}</p>
-                                        </div> 
-                                    </div>
-                                </div>
-                                :
-                                ""
-                            }
-                        </div>
-                    </div>
-            </div>
-            );
-                    // break;
-            }
-        // }
-    }
-      return finalarray;
-    
-    }
  
 	render(){
     return(
