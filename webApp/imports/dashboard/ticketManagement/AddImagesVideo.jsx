@@ -160,11 +160,11 @@ class AddImagesVideo extends TrackerReact(Component){
     var id     = this.props.tickets._id;
     var userId = this.props.tickets.userId;
     // var baId   = this.state.baid;
-    var checkLists = [];
-    $(':checkbox:checked').each(function(i){
-          checkLists[i] = $(this).val();
-    });
-    console.log("checkLists",checkLists);
+    // var checkLists = [];
+    // $(':checkbox:checked').each(function(i){
+    //       checkLists[i] = $(this).val();
+    // });
+    // console.log("checkLists",checkLists);
     var documents ={
        checkLists : checkLists,
        images : this.props.ticketImages,
@@ -206,7 +206,7 @@ class AddImagesVideo extends TrackerReact(Component){
       <div>
        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 choosefilebox">
         <form>
-          <div className="col-lg-12 wholeborder ">
+        {/*  <div className="col-lg-12 wholeborder ">
              {this.props.checkList ?
                 this.props.checkList.map((checkListDefault,index)=>{
                   return(
@@ -218,7 +218,7 @@ class AddImagesVideo extends TrackerReact(Component){
                 :
                ""
              }
-          </div>
+          </div>*/}
 	        <div className="col-lg-12 wholeborder ">
 		          <div className="imgtitile col-lg-12 noLRPad">
 			          <div className="col-lg-12  noLRPad Selectimg"> Select images:</div> 
@@ -308,18 +308,12 @@ AddImagesVideoContainer = withTracker(props => {
     if (ticket) {
        var tickets =  TicketMaster.findOne({"_id" : ticket});
        // console.log("tickets",tickets);
-       if (tickets) {
-        var service = Services.findOne({"_id" : tickets.serviceId});
-        // console.log("service",service);
-          if(service){
-            var fieldChecklistArr = service.fieldChecklist;
-            for (var i = 0; i < fieldChecklistArr.length; i++) {
-              // var fieldChecklist  = fieldChecklistArr[i].split(': ');
-              checkList.push({"task" : fieldChecklistArr[i]});
-            }
-          }
-          // console.log("checkList",checkList);
-       }
+       // var verificationType = tickets.verificationType;
+       // console.log("verificationType",verificationType);
+       // if (verificationType == "professionalEducation") {
+       //  var 
+       // }
+     
     }
     // if(_id){
       return {
@@ -329,7 +323,7 @@ AddImagesVideoContainer = withTracker(props => {
           ticketVideo  : ticketVideo,
           ticket   : ticket,
           tickets  : tickets,
-          checkList  : checkList,
+          // checkList  : checkList,
       };
 })(AddImagesVideo);
 export default AddImagesVideoContainer;
