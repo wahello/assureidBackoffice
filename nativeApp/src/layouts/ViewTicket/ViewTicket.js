@@ -46,7 +46,9 @@ import HeaderDy from "../../components/HeaderDy/HeaderDy.js";
 import ViewCustomerTable from "../../components/tableComponent/ViewCustomerTable.js";
 import ViewCustomerModal from "../../components/modalComponent/ViewCustomerModal.js";
 
-export default class ViewTicket extends React.Component {
+import Loading from '../../components/Loading/Loading.js';
+
+class ViewTicket extends React.Component {
   constructor(props) {
     super(props);
     let name = "";
@@ -159,26 +161,13 @@ export default class ViewTicket extends React.Component {
 
   render() {
     const { navigate, goBack, state } = this.props.navigation;
-    // const tableHead = [
-    //   "Customer Name",
-    //   "Subscription",
-    //   "Building/House",
-    //   "Notes"
-    // ];
-    // const modalTableHead = ["Type", "Language", "Name", "Quantity"];
-    // const modalTableData = [
-    //   ["Daily", "Marathi", "Sakal", "2"],
-    //   ["Daily", "Marathi", "Sakal", "2"]
-    // ];
-    // const tableData = [
-    //   ["Darshan Bakshi", "2", "John Deer", "some note"],
-    //   ["Darshan Bakshi", "2", "John Deer", "some note"],
-    //   ["Darshan Bakshi", "2", "John Deer", "some note"],
-    //   ["Darshan Bakshi", "2", "John Deer", "some note"],
-    //   ["Darshan Bakshi", "2", "John Deer", "some note"],
-    //   ["Darshan Bakshi", "2", "John Deer", "some note"],
-    //   ["Darshan Bakshi", "2", "John Deer", "some note"]
-    // ];
+    if(this.props.viewTicketUserData){
+      var userViewTicketData = this.props.viewTicketUserData;
+      console.log(this.props.viewTicketUserData,'this.props.viewTicketUserData');
+    }
+
+    var viewTicketData =this.props.viewTicketData;
+
     const menu = <Menu navigate={navigate} userName={this.props.userName} />;
     var navigationView = (
       <ScrollView
@@ -330,29 +319,41 @@ export default class ViewTicket extends React.Component {
                         }}
                       />
                     </View>
-                    <View style= {{flex:.5,marginRight:15}}>
-                      <View style= {{flex:1,flexDirection:'row'}}>
-                        <Text style= {{}}>Garima kumari </Text>
-                        <Text>Billore</Text>
+                    {this.props.viewTicketUserData?
+                      <View style= {{flex:.5,marginRight:15}}>
+                        <View style= {{flex:1,flexDirection:'row'}}>
+                          <Text style= {{}}>{userViewTicketData.firstName} </Text>
+                          <Text>{userViewTicketData.lastName}</Text>
+                        </View>
+                        <View style= {{flex:1,flexDirection:'row'}}>
+                          <Text style= {{flex:.5,flexDirection:'row'}}>{userViewTicketData.gender}</Text>
+                          <Text style= {{flex:.5,flexDirection:'row'}}>21Years</Text>
+                        </View>
+                        <View style= {{flex:1,flexDirection:'row'}}>
+                          <Text>{viewTicketData.verificationData.serviceName}</Text>
+                        </View>
                       </View>
-                      <View style= {{flex:1,flexDirection:'row'}}>
-                        <Text style= {{}}>F </Text>
-                        <Text>21Years</Text>
-                      </View>
-                      <View style= {{flex:1,flexDirection:'row'}}>
-                        <Text>Address Verification</Text>
-                      </View>
-                    </View>
+                    :<Loading />}
                   </View>
                   <View style = {styles.lineStyle} />
-                  <View style = {styles.formInputView}>
-                    <View style={{flex:.5,paddingVertical:15}}>
-                      <Text style={{fontWeight: 'bold'}}>Permanent Address</Text>
+                  {this.props.viewTicketData?
+                    <View style = {styles.formInputView}>
+                      <View style={{flex:.5,paddingVertical:15}}>
+                        <Text style={{fontWeight: 'bold'}}>Permanent Address</Text>
+                      </View>
+                      <View style={{flex:.5,paddingVertical:15}}>
+                        <Text style={{flexWrap:'wrap'}}>{viewTicketData.verificationData.line1}{viewTicketData.verificationData.line2},
+                                                        {viewTicketData.verificationData.line3},
+                                                        {viewTicketData.verificationData.landmark},
+                                                        {viewTicketData.verificationData.city},
+                                                        {viewTicketData.verificationData.state},
+                                                        {viewTicketData.verificationData.country},
+                                                        {viewTicketData.verificationData.pincode}
+
+                        </Text>
+                      </View>
                     </View>
-                    <View style={{flex:.5,paddingVertical:15}}>
-                      <Text style={{flexWrap:'wrap'}}>A-103 Adarsh Nagar,Khandwa Road, Khargone</Text>
-                    </View>
-                  </View>
+                  :<Loading />}
                   <View style = {styles.lineStyle} />
                   <View style={styles.formInputView}>
                     <View>
@@ -387,26 +388,7 @@ export default class ViewTicket extends React.Component {
                     </View>
                   </View>
                 <View style = {styles.lineStyle} />
-
-               {/* <View style={{ flex: 1,flexDirection: "row"}}>
-                    <View style={{flex:.46,paddingVertical:5,paddingHorizontal: 15}}>
-                      <Text style={{ textAlign: "center" }}>
-                        Priyanka Kajulkar
-                      </Text>
-                    </View>
-                    <View style={{flex:.34,paddingVertical:5,paddingHorizontal: 15}}>
-                      <Text style={{ textAlign: "center" }}>
-                        15/03/2018
-                      </Text>
-                    </View>
-                    <View style={{flex:.23,paddingVertical:5,paddingHorizontal: 15}}>
-                      <Text style={{ textAlign: "center" }}>
-                        4:20 AM
-                      </Text>
-                    </View>
-                  </View>*/}
-                 
-                </View>
+              </View>
               <View style={{ alignItems: "center",paddingVertical:15}}>
                 <Button
                   onPress={()=> this.props.navigation.navigate('ViewTicketForm')}
@@ -421,3 +403,52 @@ export default class ViewTicket extends React.Component {
     );
   }
 }
+
+export default createContainer((props) => {
+
+  var ticketId  = '';
+  var viewTicketUserData, handle1, loadingUser = '';
+
+  const { state } = props.navigation;
+  console.log("state = ",state);
+
+  if(state.params.ticketid){
+    ticketId = state.params.ticketid;
+  }
+
+  const handle             = Meteor.subscribe('singleTicket',ticketId);
+  const viewTicketData     = Meteor.collection('ticketMaster').findOne({'_id':ticketId});
+  console.log(viewTicketData,'ViewTicketData');
+
+  if(viewTicketData){
+    handle1            = Meteor.subscribe('userprofile',viewTicketData.userId);
+    viewTicketUserData = Meteor.collection('userProfile').findOne({'userId': viewTicketData.userId});
+
+    loadingUser        = handle1.ready() ;  
+  
+    console.log(viewTicketUserData,'viewTicketUserData,');
+    console.log(handle1,'handle1');
+  }
+  
+  const loading            = handle.ready() ;
+
+  // console.log(loading,'loading');
+  // console.log(handle,'handle');
+
+  var mergedData= {viewTicketUserData,viewTicketData};
+
+  console.log(mergedData,'mergedData');
+
+  var result = {
+    viewTicketData    :viewTicketData ,
+    viewTicketUserData:viewTicketUserData ,
+    handle            :handle,
+    handle1           :handle1,
+    loading           :loading,
+    loadingUser       :loadingUser,
+  };
+
+  // console.log(JSON.stringify(result,null,4));
+  return result;
+
+}, ViewTicket);
