@@ -20,7 +20,7 @@ import DocumentStatus from './DocumentStatus.jsx';
 import AddImagesVideo from './AddImagesVideo.jsx';
 import VerifyDetailsDocument from './VerifyDetailsDocument.jsx';
 import { UserProfile } from '../../website/forms/api/userProfile.js';
-
+import SubmittedDocuments from './SubmittedDocuments.jsx';
 
 class Ticket extends TrackerReact(Component){
   constructor(props){
@@ -193,6 +193,13 @@ class Ticket extends TrackerReact(Component){
                                   </div>
                                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad" id="AddImagesVideo" style={{"display" : "none"}}>
                                    <AddImagesVideo ticket={this.props.params.id}/>
+                                  </div>
+                                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
+                                    {this.props.getTicket.submittedDocuments ?
+                                        <SubmittedDocuments submittedDocuments={this.props.getTicket.submittedDocuments} />
+                                      :
+                                      ""
+                                    } 
                                   </div>
                                </div>
                             </div>

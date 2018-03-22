@@ -605,6 +605,14 @@ if(Meteor.isServer){
            		'ticketElement' : ticketBAElement,
            	}
            });
+           TicketMaster.update({"_id": id},{
+           	$set: {
+           		'submittedDocuments.createdAt' : ticketBAElement.createdAt,
+           		'submittedDocuments.documents' : ticketBAElement.submitedDoc,
+           		'submittedDocuments.submitedRemark' : ticketBAElement.submitedRemark,
+           	}
+           });
+
           TempTicketImages.remove({});
           TempTicketVideo.remove({});
 	   	},

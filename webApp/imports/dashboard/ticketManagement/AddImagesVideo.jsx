@@ -161,8 +161,16 @@ class AddImagesVideo extends TrackerReact(Component){
     var userId = this.props.tickets.userId;
     // var baId   = this.state.baid;
     var checkLists = [];
-    $(':checkbox:checked').each(function(i){
-          checkLists[i] = $(this).val();
+    $(':checkbox').each(function(i){
+      var dataChk ={};
+      if($(':checkbox:checked')){
+          dataChk.statement = $(this).val();
+          dataChk.status = true;
+      }else{
+        dataChk.statement = $(this).val();
+          dataChk.status = false;
+      }
+      checkLists.push(dataChk);
     });
     // console.log("checkLists",checkLists);
     var documents ={
@@ -196,6 +204,7 @@ class AddImagesVideo extends TrackerReact(Component){
         }else{
           console.log("Inserted Successfully!");
           $("#AddImagesVideo").css({"display" : "none"});
+          $("#uploadDocs").css({"display" : "none"});
         }
       });
     }
@@ -203,7 +212,7 @@ class AddImagesVideo extends TrackerReact(Component){
 	render(){
     // console.log("ticket");
      return( 
-      <div>
+      <div>.
        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 choosefilebox">
         <form>
         <div className="col-lg-12 wholeborder ">
