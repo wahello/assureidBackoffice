@@ -143,7 +143,7 @@ export default class Menu extends React.Component {
               <Avatar
                 overlayContainerStyle={{flex:1}}
                 width={50}
-                height={50}
+                height={40}
                 rounded
                 source={{uri:"https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg"}}
                 onPress={() => console.log("Works!")}

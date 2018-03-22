@@ -9,10 +9,13 @@
   "dependencies": {
     "cache": "^1.1.2",
     "clean": "^4.0.2",
+    "moment": "^2.21.0",
+    "moment-timezone": "^0.5.14",
     "native-base": "^2.3.3",
     "prop-types": "^15.6.0",
     "radio-button-react-native": "^1.1.6",
     "react": "16.0.0",
+    "react-moment": "^0.7.0",
     "react-native": "0.50.4",
     "react-native-camera-kit": "^5.3.26",
     "react-native-check-box": "^2.0.2",

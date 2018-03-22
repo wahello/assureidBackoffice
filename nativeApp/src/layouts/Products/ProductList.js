@@ -392,7 +392,7 @@ class ProductList extends React.Component {
   }
 }
 
-export default createContainer(props => {
+export default createContainer((props) => {
   const handle         = Meteor.subscribe('adminProductDetails');
   const vendorProducts = Meteor.subscribe('vendorProductDetails');
   var businessId       = Meteor.user().profile.activeServiceId;

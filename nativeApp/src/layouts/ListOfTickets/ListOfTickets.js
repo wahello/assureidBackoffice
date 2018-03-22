@@ -5,6 +5,7 @@ import PropTypes      from 'prop-types';
 import SideMenu       from 'react-native-side-menu';
 import RNExitApp      from 'react-native-exit-app';
 import Modal          from "react-native-modal";
+import Moment         from 'react-moment';
 
 import { Platform, ScrollView, StyleSheet, Text, TouchableOpacity, TextInput, View,  BackHandler, Image, BackAndroid, findNodeHandle, DrawerLayoutAndroid,Alert } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -13,11 +14,12 @@ import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-ta
 import { Dropdown } from 'react-native-material-dropdown';
 import { TextField } from 'react-native-material-textfield';
 
+
 import HeaderDy from '../../components/HeaderDy/HeaderDy.js';
 import styles from './styles.js';
 import Menu   from '../../components/Menu/Menu.js';
 
-export default class ListOfTickets extends React.Component {
+class ListOfTickets extends React.Component {
   constructor(props){
     super(props);
     let name = "";
@@ -26,21 +28,13 @@ export default class ListOfTickets extends React.Component {
       name              : name,
       isOpen: false,
       selectedItem: "About",
-      isModalVisibleOne: false,
-      isModalVisibleTwo: false,
       inputFocusColor   : '#f7ac57',
-      // lineName:'',
-      deleteLineName : '',
     };
     this.openDrawer   = this.openDrawer.bind(this);
     this.closeDrawer  = this.closeDrawer.bind(this);
     this.toggle       = this.toggle.bind(this);
-    // this.handleView   = this.handleView.bind(this);
   }
-  // handleView () {
-  //   // console.log("lineName : ", lineName);
-  //   this.props.navigation.navigate("ViewTicket");
-  // }
+
   componentDidMount() {
     BackHandler.addEventListener(
       "hardwareBackPress",
@@ -67,51 +61,6 @@ export default class ListOfTickets extends React.Component {
     });
   }
 
-  // InsertLineDataToServer = () => {
-  //   // const { lineName }  = this.state ;
-
-  //   var lineName = this.state.lineName;
-  //   Meteor.call("insertLines", lineName, (error, result) => {
-  //     if (error) {
-  //       Alert.alert("Some error occurred during Add Line!");
-  //       console.log(error.reason);
-  //     } else {
-  //       Alert.alert(
-  //         "Success!",
-  //         "Line added Successfully",
-  //         [{ text: "OK", onPress: this._toggleModal1 }],
-  //         { cancelable: false }
-  //       );
-  //       console.log("Line Added Successfully!");
-  //     }
-  //   });
-  // }
-
-  // confirmDelete = () => {
-  //   Alert.alert(
-  //     '','Are you sure you want to delete this Line ?',
-  //     [
-  //       {text: 'Delete',onPress: () => {this.deleteLine()}},
-  //       {text: 'Cencel'}
-  //     ]
-  //   );
-  // }
-
-  // deleteLine = () => {
-  //   console.log("deleteLineName = ",this.state.deleteLineName);
-  //   Meteor.call('deleteLine',this.state.deleteLineName,(error,result) =>{
-  //     if(error){
-  //       Alert.alert(
-  //         'Error',
-  //       )
-  //     }else{
-  //       Alert.alert(
-  //         '','Line has been Deleted Successfully!',
-  //       );
-  //     }
-  //   });
-  //   this._toggleModal2();
-  // }
   updateMenuState(isOpen) {
     this.setState({ isOpen });
   }
@@ -132,28 +81,65 @@ export default class ListOfTickets extends React.Component {
     this.drawer.closeDrawer();
   }
 
-  // _toggleModal1 = () =>
-  //   this.setState({ isModalVisibleOne: !this.state.isModalVisibleOne });
-
-  // _toggleModal2 = () =>
-  //   this.setState({ isModalVisibleTwo: !this.state.isModalVisibleTwo });
+  displayTicket =()=>{
+  var { ticketData } = this.props;
+    // console.log('ticketData',ticketData);
+    return(
+      ticketData.map((item,i)=>
+        <TouchableOpacity key={i} onPress={()=>this.props.navigation.navigate('ViewTicket')}>
+          <Card containerStyle={styles.newCard}>
+            <View style={styles.cardHeader}>
+              <View style={{flexDirection:'row',flex:1,paddingHorizontal:10,paddingVertical:5}}>
+                <View style={{flex:.5}}>
+                  <Text>Tickets#</Text>
+                </View>
+                <View style={{flex:.5}}>
+                  <Text>{item.ticketNumber}</Text>
+                </View>
+              </View>
+              <View style={{flexDirection:'row',flex:1,paddingHorizontal:10,paddingVertical:5}}>
+                <View style={{flex:.5}}>
+                  <Text>Service Name</Text>
+                </View>
+                <View style={{ flex:.5}}>
+                  <Text>{item.serviceName}</Text>
+                </View>
+              </View>
+              <View style={{flexDirection:'row',flex:1,paddingHorizontal:10,paddingVertical:5}}>
+                <View style={{flex:.5}}>
+                  <Text>TAT (Date)</Text>
+                </View>
+                <View style={{flex:.5}}>
+                  <Text>{item.tatDate}</Text>
+                </View>
+              </View>
+            </View>
+            <View style={{ flex: 1,flexDirection: "row", backgroundColor: "#ddd"}}>
+              <View style={{flex:.5,paddingVertical: 10,}}>
+                <Text style={{ paddingHorizontal:10 }}>
+                  {item.username}
+                </Text>
+              </View>
+              <View style={{flex:.34,paddingVertical: 10,paddingHorizontal: 15}}>
+                {/*<Moment parse="YYYY-MM-DD HH:mm">
+                  1976-04-19 12:59
+                </Moment>*/}
+              </View>
+             {/* <View style={{flex:.23,paddingVertical: 10,paddingHorizontal: 15}}>
+                <Text style={{ textAlign: "center" }}>
+                  4:20 AM
+                </Text>
+              </View>*/}
+            </View>
+          </Card>
+        </TouchableOpacity>       
+      )
+    );
+  }
 
   render(){
-    // var {lineData} = this.props;
-    // var {deleteLineData} = this.props;
-    // console.log("lineData => ",deleteLineData);
 
-    const {navigate,goBack} = this.props.navigation;
-    // const tableHead = ['Ticket#', 'Service Name', 'TAT(Date)'];
-
-    // const tableData = [
-    //   ["AA000001", "Employment Name", "15/03/2018" ],
-    //   ["AA000002", "Employment Name", "15/03/2018" ],
-    //   ["AA000003", "Employment Name", "15/03/2018" ],
-    //   ["AA000004", "Employment Name", "15/03/2018" ],
-    //   ["AA000005", "Employment Name", "15/03/2018" ],
-    //   ["AA000006", "Employment Name", "15/03/2018" ],
-    // ];
+    const { navigate,goBack } = this.props.navigation;
 
     const menu = <Menu navigate={navigate} userName={this.props.userName}/>;
     var navigationView = (
@@ -278,159 +264,7 @@ export default class ListOfTickets extends React.Component {
               />
             <HeaderDy headerTitle="List of Tickets" goBack={goBack} />
               <View style={{ padding: 10 }}>
-                <TouchableOpacity onPress={()=>this.props.navigation.navigate('ViewTicket')}>
-                  <Card containerStyle={styles.newCard}>
-                    <View style={styles.cardHeader}>
-                      <View style={{flexDirection:'row',flex:1,paddingHorizontal:10,paddingVertical:5}}>
-                        <View style={{flex:.5}}>
-                          <Text>Tickets#</Text>
-                        </View>
-                        <View style={{flex:.5}}>
-                          <Text>AA000006</Text>
-                        </View>
-                      </View>
-                      <View style={{flexDirection:'row',flex:1,paddingHorizontal:10,paddingVertical:5}}>
-                        <View style={{flex:.5}}>
-                          <Text>Service Name</Text>
-                        </View>
-                        <View style={{ flex:.5}}>
-                          <Text>Address Verification</Text>
-                        </View>
-                      </View>
-                      <View style={{flexDirection:'row',flex:1,paddingHorizontal:10,paddingVertical:5}}>
-                        <View style={{flex:.5}}>
-                          <Text>TAT (Date)</Text>
-                        </View>
-                        <View style={{flex:.5}}>
-                          <Text>15/03/2018</Text>
-                        </View>
-                      </View>
-                    </View>
-                    <View style={{ flex: 1,flexDirection: "row", backgroundColor: "#ddd"}}>
-                      <View style={{flex:.46,paddingVertical: 10,paddingHorizontal: 15}}>
-                        <Text style={{ textAlign: "center" }}>
-                          Garima Billore
-                        </Text>
-                      </View>
-                      <View style={{flex:.34,paddingVertical: 10,paddingHorizontal: 15}}>
-                        <Text style={{ textAlign: "center" }}>
-                          15/03/2018
-                        </Text>
-                      </View>
-                      <View style={{flex:.23,paddingVertical: 10,paddingHorizontal: 15}}>
-                        <Text style={{ textAlign: "center" }}>
-                          4:20 AM
-                        </Text>
-                      </View>
-                    </View>
-                  </Card>
-                </TouchableOpacity>
-                <TouchableOpacity>
-                  <Card containerStyle={styles.acceptedCard}>
-                    <View style={styles.cardHeader}>
-                      <View style={{flexDirection:'row',flex:1,paddingHorizontal:10,paddingVertical:5}}>
-                        <View style={{flex:.5}}>
-                          <Text>Tickets#</Text>
-                        </View>
-                        <View style={{flex:.5}}>
-                          <Text>AA000006</Text>
-                        </View>
-                      </View>
-                      <View style={{flexDirection:'row',flex:1,paddingHorizontal:10,paddingVertical:5}}>
-                        <View style={{flex:.5}}>
-                          <Text>Service Name</Text>
-                        </View>
-                        <View style={{flex:.5}}>
-                          <Text>Service Process Description Attribute</Text>
-                        </View>
-                      </View>
-                      <View style={{flexDirection:'row',flex:1,paddingHorizontal:10,paddingVertical:5}}>
-                        <View style={{flex:.5}}>
-                          <Text>TAT (Date)</Text>
-                        </View>
-                        <View style={{flex:.5}}>
-                          <Text>15/03/2018</Text>
-                        </View>
-                      </View>
-                    </View>
-                     <View style={{ flex: 1,flexDirection: "row", backgroundColor: "#ddd"}}>
-                      <View style={{flex:.46,paddingVertical: 10,paddingHorizontal: 15}}>
-                        <Text style={{ textAlign: "center" }}>
-                          Alisha Bhatt
-                        </Text>
-                      </View>
-                      <View style={{flex:.34,paddingVertical: 10,paddingHorizontal: 15}}>
-                        <Text style={{ textAlign: "center" }}>
-                          15/03/2018
-                        </Text>
-                      </View>
-                      <View style={{flex:.23,paddingVertical: 10,paddingHorizontal: 15}}>
-                        <Text style={{ textAlign: "center" }}>
-                          4:20 AM
-                        </Text>
-                      </View>
-                    </View>
-                  </Card>
-                </TouchableOpacity>
-                <TouchableOpacity >
-                  <Card containerStyle={styles.rejectedCard}>
-                    <View style={styles.cardHeader}>
-                      <View style={{flexDirection:'row',flex:1,paddingHorizontal:10,paddingVertical:5}}>
-                        <View style={{flex:.5}}>
-                          <Text>Tickets#</Text>
-                        </View>
-                        <View style={{flex:.5}}>
-                          <Text>AA000006</Text>
-                        </View>
-                      </View>
-                      <View style={{flexDirection:'row',flex:1,paddingHorizontal:10,paddingVertical:5}}>
-                        <View style={{flex:.5}}>
-                          <Text>Service Name</Text>
-                        </View>
-                        <View style={{ flex:.5}}>
-                          <Text>Address Verification</Text>
-                        </View>
-                      </View>
-                      <View style={{flexDirection:'row',flex:1,paddingHorizontal:10,paddingVertical:5}}>
-                        <View style={{flex:.5}}>
-                          <Text>TAT (Date)</Text>
-                        </View>
-                        <View style={{flex:.5}}>
-                          <Text>15/03/2018</Text>
-                        </View>
-                      </View>
-                    </View>
-                    <View style={{ flex: 1,flexDirection: "row", backgroundColor: "#ddd"}}>
-                      <View style={{flex:.46,paddingVertical: 10,paddingHorizontal: 15}}>
-                        <Text style={{ textAlign: "center" }}>
-                          Priyanka Kajulkar
-                        </Text>
-                      </View>
-                      <View style={{flex:.34,paddingVertical: 10,paddingHorizontal: 15}}>
-                        <Text style={{ textAlign: "center" }}>
-                          15/03/2018
-                        </Text>
-                      </View>
-                      <View style={{flex:.23,paddingVertical: 10,paddingHorizontal: 15}}>
-                        <Text style={{ textAlign: "center" }}>
-                          4:20 AM
-                        </Text>
-                      </View>
-                    </View>
-                  </Card>
-                </TouchableOpacity>
-           {/*     <View style={{padding: 10,justifyContent:'center'}}>
-                    <Table>
-                      <Row data={tableHead} style={styles.head} textStyle={styles.headText}/>
-                        {
-                          tableData.map((data, i) => (
-                            <TouchableOpacity key={i} onPress={()=>this.handleView(data[0], i)}>
-                                  <Row data={data} style={[styles.row, i%2 && {backgroundColor: '#dbdbdb'}]}  textStyle={styles.text}/>
-                            </TouchableOpacity>
-                          ))
-                        }
-                    </Table>
-                </View>*/}
+                { this.displayTicket()}
               </View>
             </ScrollView>
           </View>
@@ -440,41 +274,24 @@ export default class ListOfTickets extends React.Component {
   }
 }
 
-// export default createContainer((props) => {
+export default createContainer((props) => {
 
-//     var businessId     = Meteor.user().profile.activeServiceId;
-//     const handle       = Meteor.subscribe('activeBusinessDetails', businessId);
-//     const businessData = Meteor.collection('BusinessMaster').findOne({'_id':businessId}) || [];
-//     const customerHandle = Meteor.subscribe('customer');
-//     const loading      = !handle.ready();
+  const handle     = Meteor.subscribe('allTicketBucket');
+  const ticketData = Meteor.collection('ticketbucket').find({});
+  const loading    = handle.ready() ;
 
-//     var lineData = [];
-//     let deleteLineData = [];
+  console.log(loading,'loading');
+  console.log(handle,'handle');
+  console.log(ticketData,'ticketData');
 
-//     if(businessData.myLines){
-//       console.log("businessData = ",businessData);
-//       var lines = businessData.myLines;
-//       let count = 0;
-//       for(var i=0;i<lines.length;i++){
-//         count = Meteor.collection('customer').find({'lineName':lines[i].lineName,'vendorId':Meteor.userId()},{fields:{'_id':1}}).length;
-//         lineData.push([lines[i].lineName,count]);
-//       }
-//       for(i=0;i<businessData.myLines.length;i++){
-//         deleteLineData.push(
-//         {'value': businessData.myLines[i].lineName}
-//         );
-//       }
-//       console.log('deleteLineData = ', deleteLineData);
-//       deleteLineData = deleteLineData.filter((obj,index,array)=>{
-//         return index === array.findIndex((t)=>(
-//             t.value === obj.value
-//           ));
-//       });
-//     }
-//     return {
-//       loading,
-//       lineData,
-//       deleteLineData,
-//     }
+  var result = {
+    ticketData:ticketData ,
+    handle:handle,
+    loading:loading,
+  };
 
-// }, ListOfTickets);
+
+  // console.log(JSON.stringify(result,null,4));
+  return result;
+
+}, ListOfTickets);
