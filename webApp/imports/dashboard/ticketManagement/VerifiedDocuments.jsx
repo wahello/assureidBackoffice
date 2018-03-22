@@ -269,7 +269,7 @@ class VerifiedDocuments extends TrackerReact(Component){
                                           </div>
                                          {this.props.isRoleUser == true ?
                                             <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm">
-                                             {this.props.ticketStatus.Status == "New" || this.props.ticketStatus.Status == "Reassign" && this.props.ticketStatus.role == "screening committee" ?
+                                             {this.props.ticketStatus.status == "New" || this.props.ticketStatus.status == "Reassign" && this.props.ticketStatus.role == "screening committee" ?
                                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                   <button type="button" className="btn btn-info acceptTicket acceptreject" data-id={this.props.getTicket._id} data-status="Approved" onClick={this.approvedCurDocument.bind()}>Approved</button>
                                                   <button type="button" className="btn btn-info rejectTicket acceptreject" data-id={this.props.getTicket._id} onClick={this.hideShowRejectReason.bind()}>Reject</button>
@@ -347,7 +347,7 @@ class VerifiedDocuments extends TrackerReact(Component){
                                           </div>
                                           {this.props.isRoleUser == true ?
                                             <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm">
-                                             {this.props.ticketStatus.Status == "New" || this.props.ticketStatus.Status == "Reassign" && this.props.ticketStatus.role == "screening committee" ?
+                                             {this.props.ticketStatus.status == "New" || this.props.ticketStatus.status == "Reassign" && this.props.ticketStatus.role == "screening committee" ?
                                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                     <button type="button" className="btn btn-info acceptTicket acceptreject" data-id={this.props.getTicket._id} data-status="Approved" onClick={this.approvedCurDocument.bind()}>Approved</button>
                                                     <button type="button" className="btn btn-info rejectTicket acceptreject" data-id={this.props.getTicket._id} onClick={this.hideShowRejectReason.bind()}>Reject</button>
@@ -425,7 +425,7 @@ class VerifiedDocuments extends TrackerReact(Component){
                                         </div>
                                        {this.props.isRoleUser == true ?
                                           <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm">
-                                           {this.props.ticketStatus.Status == "New" || this.props.ticketStatus.Status == "Reassign" && this.props.ticketStatus.role == "screening committee" ?
+                                           {this.props.ticketStatus.status == "New" || this.props.ticketStatus.status == "Reassign" && this.props.ticketStatus.role == "screening committee" ?
                                               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                   <button type="button" className="btn btn-info acceptTicket acceptreject" data-status="Approved" onClick={this.approvedCurDocument.bind()}>Approved</button>
                                                   <button type="button" className="btn btn-info rejectTicket acceptreject" onClick={this.hideShowRejectCurReason.bind()}>Reject</button>
@@ -504,7 +504,7 @@ class VerifiedDocuments extends TrackerReact(Component){
                                         </div>
                                         {this.props.isRoleUser == true ?
                                           <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm">
-                                            {this.props.ticketStatus.Status == "New" || this.props.ticketStatus.Status == "Reassign" && this.props.ticketStatus.role == "screening committee" ?
+                                            {this.props.ticketStatus.status == "New" || this.props.ticketStatus.status == "Reassign" && this.props.ticketStatus.role == "screening committee" ?
                                               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                   <button type="button" className="btn btn-info acceptTicket acceptreject" data-status="Approved" onClick={this.approvedCurDocument.bind()}>Approved</button>
                                                   <button type="button" className="btn btn-info rejectTicket acceptreject"  onClick={this.hideShowRejectCurReason.bind()}>Reject</button>
@@ -576,7 +576,7 @@ class VerifiedDocuments extends TrackerReact(Component){
                                         </div>
                                         {this.props.isRoleUser == true ?
                                           <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm">
-                                           {this.props.ticketStatus.Status == "New" || this.props.ticketStatus.Status == "Reassign" && this.props.ticketStatus.role == "screening committee" ?
+                                           {this.props.ticketStatus.status == "New" || this.props.ticketStatus.status == "Reassign" && this.props.ticketStatus.role == "screening committee" ?
                                               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                   <button type="button" className="btn btn-info acceptTicket acceptreject" data-status="Approved" onClick={this.approvedCurDocument.bind()}>Approved</button>
                                                   <button type="button" className="btn btn-info rejectTicket acceptreject"  onClick={this.hideShowRejectCurReason.bind()}>Reject</button>
@@ -649,13 +649,16 @@ class VerifiedDocuments extends TrackerReact(Component){
                                         </div>
                                         {this.props.isRoleUser == true ?
                                           <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm">
-                                              {this.props.ticketStatus.Status == "New" || this.props.ticketStatus.Status == "Reassign" && this.props.ticketStatus.role == "screening committee" ?
+                                              { this.props.ticketStatus ?
+                                                this.props.ticketStatus.status == "New" || this.props.ticketStatus.status == "Reassign" && this.props.ticketStatus.role == "screening committee" ?
                                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                     <button type="button" className="btn btn-info acceptTicket acceptreject" data-status="Approved" onClick={this.approvedCurDocument.bind()}>Approved</button>
                                                     <button type="button" className="btn btn-info rejectTicket acceptreject"  onClick={this.hideShowRejectCurReason.bind()}>Reject</button>
                                                 </div>
                                                 :
                                                 ""
+                                               :
+                                               ""
                                               }    
                                             </div>
                                             :
@@ -715,7 +718,7 @@ class VerifiedDocuments extends TrackerReact(Component){
                                       </div>
                                      {this.props.isRoleUser == true ?
                                        <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm verCarouselWrap">
-                                          {this.props.ticketStatus.Status == "New" || this.props.ticketStatus.Status == "Reassign" && this.props.ticketStatus.role == "screening committee" ?
+                                          {this.props.ticketStatus.status == "New" || this.props.ticketStatus.status == "Reassign" && this.props.ticketStatus.role == "screening committee" ?
                                           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                               <a href="#lightbox" data-slide="next" ><button type="button" className="btn btn-info acceptTicket acceptreject" name={index} onClick={this.approvedCurDocument.bind()}>Approved</button></a>
                                               <button type="button" className="btn btn-info rejectTicket acceptreject" onClick={this.hideShowRejectReason.bind()}>Reject</button>
@@ -781,18 +784,22 @@ class VerifiedDocuments extends TrackerReact(Component){
 }
 verifiedDocumentsContainer = withTracker(props => { 
     var _id = props.ticketId;
+    // console.log("_id",_id);
     const postHandle = Meteor.subscribe('singleTicket',_id);
     const companyHandle = Meteor.subscribe('companyData');
     const ticketBucket = Meteor.subscribe("allTicketBucket");
-    const getTicket  = TicketMaster.findOne({"_id" : _id}) || {}; 
+    const getTicket   = TicketMaster.findOne({"_id" : _id}) || {};
+     // console.log("getTicket",getTicket);
     if (getTicket) {
          var perAddrArray = [getTicket.verificationData];
          
          if(!perAddrArray){
           var perAddrArray = '';
          }
-         var ticketStatus = getTicket.ticketStatus[0];
-        
+         if (getTicket.ticketStatus) {
+          var ticketStatus = getTicket.ticketStatus[0];
+           // console.log("ticketStatus",ticketStatus);
+         }
          // var curAddrArray = firstTicketElen.currentAddress;
          // if(curAddrArray){
          //    var curAddrArray = curAddrArray;

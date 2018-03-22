@@ -12,7 +12,7 @@ import { Link } from 'react-router';
 import { TempTicketImages } from './api/TempUpload.js';
 import { TempTicketVideo } from './api/TempUpload.js';
 import { TicketMaster } from '../../website/ServiceProcess/api/TicketMaster.js';
-import { Services } from '../reactCMS/api/Services.js';
+import { ChecklistFieldExpert } from '../reactCMS/api/Services.js';
 
 // const getDuration = require('get-video-duration');
 class AddImagesVideo extends TrackerReact(Component){
@@ -160,19 +160,11 @@ class AddImagesVideo extends TrackerReact(Component){
     var id     = this.props.tickets._id;
     var userId = this.props.tickets.userId;
     // var baId   = this.state.baid;
-<<<<<<< Updated upstream
-    // var checkLists = [];
-    // $(':checkbox:checked').each(function(i){
-    //       checkLists[i] = $(this).val();
-    // });
-    // console.log("checkLists",checkLists);
-=======
     var checkLists = [];
     $(':checkbox:checked').each(function(i){
           checkLists[i] = $(this).val();
     });
-    
->>>>>>> Stashed changes
+    // console.log("checkLists",checkLists);
     var documents ={
        checkLists : checkLists,
        images : this.props.ticketImages,
@@ -202,8 +194,8 @@ class AddImagesVideo extends TrackerReact(Component){
         if (error) {
           console.log(error.reason);
         }else{
-          // console.log("Inserted Successfully!");
-          $("#uploadDocs").css({"display" : "none"});
+          console.log("Inserted Successfully!");
+          $("#AddImagesVideo").css({"display" : "none"});
         }
       });
     }
@@ -214,19 +206,19 @@ class AddImagesVideo extends TrackerReact(Component){
       <div>
        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 choosefilebox">
         <form>
-        {/*  <div className="col-lg-12 wholeborder ">
+        <div className="col-lg-12 wholeborder ">
              {this.props.checkList ?
                 this.props.checkList.map((checkListDefault,index)=>{
                   return(
                     <div className="col-lg-6 noLRPad" key={index}>  
-                       <input type="checkbox" ref="Checklist" name="Checklist" className={"checkList-"+index} value={checkListDefault.task} />&nbsp;{checkListDefault.task}
+                       <input type="checkbox" ref="Checklist" name="Checklist" className={"checkList-"+index} value={checkListDefault} />&nbsp;{checkListDefault}
                     </div>
                   );
                 })
                 :
                ""
              }
-          </div>*/}
+          </div>
 	        <div className="col-lg-12 wholeborder ">
 		          <div className="imgtitile col-lg-12 noLRPad">
 			          <div className="col-lg-12  noLRPad Selectimg"> Select images:</div> 
@@ -305,42 +297,46 @@ class AddImagesVideo extends TrackerReact(Component){
 AddImagesVideoContainer = withTracker(props => {  
     const postHandle   = Meteor.subscribe('allTicketImages');
     const postHandle1  = Meteor.subscribe('allTicketVideo');
+    const postHandle2  = Meteor.subscribe('checklistFieldExpert');
     const ticketImages = TempTicketImages.find({}).fetch() || [];  
     const ticketVideo  = TempTicketVideo.find({}).fetch() || [];  
-    
+    // console.log("ticketVideo",ticketVideo);
     const loading     = !postHandle.ready();
     const loading1    = !postHandle1.ready();
     const ticket      = props.ticket;
-    
     var checkList = [];
     if (ticket) {
        var tickets =  TicketMaster.findOne({"_id" : ticket});
-       // console.log("tickets",tickets);
-<<<<<<< Updated upstream
-       // var verificationType = tickets.verificationType;
-       // console.log("verificationType",verificationType);
-       // if (verificationType == "professionalEducation") {
-       //  var 
-       // }
-     
-=======
+       // console.log("tickets",tickets)
        if (tickets) {
-        var service = Services.findOne({"_id" : tickets.serviceId});
-        // console.log("service",service);
-          if(service){
-            var fieldChecklistArr = service.fieldChecklist;
-              if(fieldChecklistArr.length>0){
-                for (var i = 0; i < fieldChecklistArr.length; i++) {
-                  // var fieldChecklist  = fieldChecklistArr[i].split(': ');
-                  checkList.push({"task" : fieldChecklistArr[i]});
-                }
-            }
-          }
-          // console.log("checkList",checkList);
+          var verificationType = tickets.verificationType;
+       // console.log("verificationType",verificationType);
+         if (verificationType == "professionalEducation") {
+          var checkListFrom = "Academic Information";
+         }else if (verificationType == "professionalEducation") {
+          var checkListFrom = "Academic Information";
+         }else if (verificationType == "permanentAddress") {
+          var checkListFrom = "Address Information";
+         }else if (verificationType == "currentAddress") {
+          var checkListFrom = "Address Information";
+         }else if (verificationType == "employement") {
+          var checkListFrom = "Employment Information";
+         }else if (verificationType == "education") {
+          var checkListFrom = "Academic Information";
+         }else  if (verificationType == "certificates") {
+          var checkListFrom = "Skills And CertificationInformation";
+         } 
        }
->>>>>>> Stashed changes
+
+       var checkListObj = ChecklistFieldExpert.find({"checkListFor" : checkListFrom , "checkListFrom" : "Database"}).fetch();
+        if (checkListObj) {
+           for (var i = 0; i < checkListObj.length; i++) {
+            checkList.push(checkListObj[i].task);
+           }
+        }
+        // console.log("checkList",checkList);
     }
-    // if(_id){
+    
       return {
           loading : loading,
           loading1 : loading1,
@@ -348,7 +344,7 @@ AddImagesVideoContainer = withTracker(props => {
           ticketVideo  : ticketVideo,
           ticket   : ticket,
           tickets  : tickets,
-          // checkList  : checkList,
+          checkList  : checkList,
       };
 })(AddImagesVideo);
 export default AddImagesVideoContainer;

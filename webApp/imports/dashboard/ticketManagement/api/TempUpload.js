@@ -5,7 +5,7 @@ export const TempTicketImages = new Mongo.Collection("tempTicketImages");
 export const TempTicketVideo = new Mongo.Collection("tempTicketVideo");
 import { TicketImages } from "../uploadToServer/uploadImagesToServer.js";
 import { TicketVideo } from "../uploadToServer/uploadVideoToServer.js";
-
+ 
 if(Meteor.isServer){
  Meteor.publish('allTicketImages',()=>{
      return TempTicketImages.find({});

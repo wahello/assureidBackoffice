@@ -1,7 +1,7 @@
 import {Mongo} from 'meteor/mongo';
 import {Meteor} from 'meteor/meteor';
-import { TicketImages } from "../../../dashboard/ticketManagement/uploadToServer/uploadImagesToServer.js";
-import { TicketVideo } from "../../../dashboard/ticketManagement/uploadToServer/uploadVideoToServer.js";
+import { TempTicketImages } from "../../../dashboard/ticketManagement/api/TempUpload.js";
+import { TempTicketVideo } from "../../../dashboard/ticketManagement/api/TempUpload.js";
 
 export const TicketMaster = new Mongo.Collection("ticketMaster");
 export const TicketBucket = new Mongo.Collection("ticketbucket");
@@ -605,8 +605,8 @@ if(Meteor.isServer){
            		'ticketElement' : ticketBAElement,
            	}
            });
-          TicketImages.remove({});
-          TicketVideo.remove({});
+          TempTicketImages.remove({});
+          TempTicketVideo.remove({});
 	   	},
 
 	
