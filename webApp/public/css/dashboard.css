@@ -6323,6 +6323,10 @@ width: 199px;
 margin: 10px;
 margin-left: 0px;
 }
+.modalImage{
+  height: 400px;
+  width: 100%;
+}
 .selectvideo{
 height: 350px;
 border: 1px solid #aaa;
@@ -6334,10 +6338,22 @@ padding-right: 0;
 border: 1px solid #aaa;
 }
 .imgbr{
-border: 1px solid #ddd;
+   border: 1px solid #ddd;
     display: flex;
     max-height: 150px;
     min-height: 150px;
+}
+.imgageDiv{
+   border: 1px solid #ddd;
+    display: flex;
+    height: 100px;
+    width: 100%;
+}
+.imgageDiv img{
+  cursor: pointer;
+}
+.VideoDiv{
+
 }
 .imgbrvid{
 border: 1px solid #ddd;
@@ -6466,7 +6482,10 @@ margin-top: 20px;
   border: 1px dashed #aaa;
   padding: 4% 0%;
 }
-/*.addressDashedLine*/
+.submittedDashedLine{
+  border: 1px dashed #aaa;
+  padding: 4%;
+}
 .activityDetails{
   margin: 2% 0% 2% 0%;
 }

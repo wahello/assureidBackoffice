@@ -161,17 +161,29 @@ constructor(props){
     var userId = this.props.tickets.userId;
     // var baId   = this.state.baid;
     var checkLists = [];
-    $(':checkbox').each(function(i){
+
+    // if ($('input:checkbox[id="Checklist"]:checked')) {
+    //   var n = $('input:checkbox[id="Checklist"]:checked').length;
+    //   console.log(n);
+    //   for (var i = 0; i < $('input:checkbox[id="Checklist"]:checked').length; i++) {
+    //       checkLists.push({"statement" : $(this).val(), ""})
+    //   }
+    // }
+
+    $('input[name="Checklist"]').each(function(i){
       var dataChk ={};
-      if($(':checkbox:checked')){
+      if($(this).is(":checked")){
           dataChk.statement = $(this).val();
           dataChk.status = true;
+          console.log("In if");
       }else{
         dataChk.statement = $(this).val();
-          dataChk.status = false;
+        dataChk.status = false;
+          console.log("In else");
       }
       checkLists.push(dataChk);
     });
+    
     // console.log("checkLists",checkLists);
     var documents ={
        checkLists : checkLists,
@@ -197,7 +209,7 @@ constructor(props){
           submitedDoc       : documents,
           submitedRemark    : "Approved",
       }
-      // console.log("ticketBAElement",ticketBAElement);
+      console.log("ticketBAElement",ticketBAElement);
       Meteor.call('addticketBAElement',id,userId,ticketBAElement,function (error,result) {
         if (error) {
           console.log(error.reason);
@@ -219,8 +231,8 @@ render(){
              {this.props.checkList ?
                 this.props.checkList.map((checkListDefault,index)=>{
                   return(
-                    <div className="col-lg-6 noLRPad" key={index}> 
-                       <input type="checkbox" ref="Checklist" name="Checklist" className={"checkList-"+index} value={checkListDefault} />&nbsp;{checkListDefault}
+                    <div className="col-lg-6 noLRPad" key={index}>  
+                       <input type="checkbox" ref="Checklist" id="Checklist" name="Checklist" className={"checkList-"+index} value={checkListDefault} />&nbsp;{checkListDefault}
                     </div>
                   );
                 })

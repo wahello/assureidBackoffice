@@ -22,6 +22,12 @@ export default class SubmittedDocuments extends TrackerReact(Component){
       } 
     } 
   } 
+  showSubmitted(event){
+  	event.preventDefault();
+    var idVal= $(event.target).attr('data-target');
+    console.log("idVal",idVal);
+    $('#'+idVal).modal('show');
+  }
    render(){
    	console.log("submittedDocuments",this.props.submittedDocuments);
    	return(
@@ -38,22 +44,40 @@ export default class SubmittedDocuments extends TrackerReact(Component){
                   );
                 })
                 :
-               ""
+               "" 
              }
           </div>
 	        <div className="col-lg-12 wholeborder ">
 		          <div className="imgtitile col-lg-12 noLRPad">
 			          <div className="col-lg-12  noLRPad Selectimg"> Submitted Images:</div> 
 			        </div> 
-            	<div className="col-lg-12 addressDashedLine">
+            	<div className="col-lg-12 submittedDashedLine">
                {this.props.submittedDocuments.documents ?
                	 this.props.submittedDocuments.documents.images.map((submittedImages,index) =>{
                	 	 return(
-               	 	 	  <div className="col-lg-2 imgbrPre" key={index}>
-								        <div className="imgbr">
-								          <img src={submittedImages.imageLink} className="img1 img-responsive" />
-				    			      </div>
-							        </div>
+               	 	 	  <div key={index}>
+	               	 	 	  <div className="col-lg-2 imgbrPre">
+									        <div className="imgageDiv">
+									          <img src={submittedImages.imageLink} className="img1 img-responsive" data-toggle="modal" data-target={"submiitedImagesModal-"+index} onClick={this.showSubmitted.bind(this)} />
+					    			      </div>
+								        </div>
+								         <div className="modal fade" id={"submiitedImagesModal-"+index} role="dialog">
+	                          <div className="modal-dialog">
+	                            <div className="modal-content">
+	                              <div className="modal-header">
+	                                <button type="button" className="close" data-dismiss="modal">&times;</button>
+	                              </div>
+	                              <div className="modal-body col-lg-12 col-md-12 col-sm-12 col-xs-12">
+	                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+									                   <img src={submittedImages.imageLink} className="img img-responsive modalImage" />
+	                                </div>
+	                              </div> 
+	                              <div className="modal-footer">
+	                              </div>
+	                            </div> 
+	                          </div>
+	                      </div>
+                      </div> 
                	 	 	);
                	 })
                	 :
@@ -65,12 +89,12 @@ export default class SubmittedDocuments extends TrackerReact(Component){
 	        <div className="imgtitile col-lg-12  noLRPad">
 	          <div className="col-lg-12 noLRPad Selectimg"> Submitted Videos:</div> 
 	        </div>
-        	<div className="col-lg-12 addressDashedLine">
+        	<div className="col-lg-12 submittedDashedLine">
            {this.props.submittedDocuments.documents ?
            	 this.props.submittedDocuments.documents.videos.map((submittedVideo,index) =>{
            	 	 return(
-           	 	 	  <div className="col-lg-4 imgbrvid" key={index}>
-						          <video width="200" height="200"  controls>
+           	 	 	  <div className="col-lg-4 VideoDiv" key={index}>
+						          <video width="150" height="150"  controls>
 							          <source src={submittedVideo.videoLink} type="video/mp4" />
 							        </video>
 					        </div>
