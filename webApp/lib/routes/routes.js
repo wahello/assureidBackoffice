@@ -256,8 +256,7 @@ export const routes = (
        <Route path="/admin/mytickets" component={MyTickets}/>
        <Route path="/admin/maxnoofticketallocate" component={MaxNoOfTicketAllocate}/>
        <Route path="/admin/ticket/:id" component={Ticket}/>
-       {/* <Route path="/admin/ticket/:id" component={TicketDocumentDetails}/> */}
-  
+       {/* <Route path="/admin/ticket/:id" component={TicketDocumentDetails}/> */} 
        <Route path="/admin/alltickets" component={AllTickets}/>
        <Route path="/admin/assignedtickets" component={AssignedTickets}/>
        <Route path="/admin/opentickets" component={OpenTickets}/>
