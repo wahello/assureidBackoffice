@@ -610,7 +610,7 @@ class VerifiedDocuments extends TrackerReact(Component){
                                <div>
                                  <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3 verifyDocWrap" >
                                   <div data-toggle="modal" data-target={"CurrentAddrDocumnetsModal-"+index} onClick={this.showDocuments.bind(this)} title="Click to verify Document" className="">
-                                    <img src={certificatesProof.proofOfDocumentproofOfDocument} className="img-responsive addressImage"/>
+                                    <img src={certificatesProof.proofOfDocument} className="img-responsive addressImage"/>
                                    </div>
                                    <div className="text-center">
                                     <p>{certificatesProof.proofType}</p>
