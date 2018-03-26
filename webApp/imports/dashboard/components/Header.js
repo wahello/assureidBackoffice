@@ -3,8 +3,10 @@ import {Link} from 'react-router';
 import {browserHistory} from 'react-router';
 import TrackerReact from 'meteor/ultimatejs:tracker-react';
 import { render } from 'react-dom';
-export default class Header extends TrackerReact(Component){
-  constructor() {
+import { withTracker } from 'meteor/react-meteor-data';
+
+class Header extends TrackerReact(Component){
+  constructor() { 
    super();
     this.state = {
       subscription :{
@@ -39,60 +41,60 @@ export default class Header extends TrackerReact(Component){
       var path = "/";
       browserHistory.replace(path);
   } 
- currentUser(){
-    // Meteor.subscribe('userData',Meteor.userId());
-    var userData = {"userName" : '', "userProfile" : ''};
-    // var userData = '';
-    var id = Meteor.userId();
-    var getUser = Meteor.users.findOne({"_id" : id});
+ // currentUser(){
+ //    // Meteor.subscribe('userData',Meteor.userId());
+ //    var userData = {"userName" : '', "userProfile" : ''};
+ //    // var userData = '';
+ //    var id = Meteor.userId();
+ //    var getUser = Meteor.users.findOne({"_id" : id});
 
-    if (getUser) {
+ //    if (getUser) {
 
-      if (getUser.roles[0] == "admin") {
-        // var userName    = getUser.username;
-        if (getUser.profile.firstname == '' && getUser.profile.lastname == '') {
-          var userName = "Admin";
-        }else if (getUser.profile.firstname != '' && getUser.profile.lastname == '') {
-          var userName = getUser.profile.firstname;
-        }else if (getUser.profile.firstname == '' && getUser.profile.lastname != '') {
-          var userName = getUser.profile.lastname;
-        }else{
-           var userName = getUser.profile.firstname+' '+getUser.profile.lastname;
-        }
+ //      if (getUser.roles[0] == "admin") {
+ //        // var userName    = getUser.username;
+ //        if (getUser.profile.firstname == '' && getUser.profile.lastname == '') {
+ //          var userName = "Admin";
+ //        }else if (getUser.profile.firstname != '' && getUser.profile.lastname == '') {
+ //          var userName = getUser.profile.firstname;
+ //        }else if (getUser.profile.firstname == '' && getUser.profile.lastname != '') {
+ //          var userName = getUser.profile.lastname;
+ //        }else{
+ //           var userName = getUser.profile.firstname+' '+getUser.profile.lastname;
+ //        }
 
-        if (getUser.profile.userProfile == '') {
-           var userProfile  = "../images/userIcon.png";
-        }else{
-          var userProfile  = getUser.profile.userProfile;
-        }
-        // userData = {"userName" : userName, "userProfile" : userProfile};
-      }
+ //        if (getUser.profile.userProfile == '') {
+ //           var userProfile  = "../images/userIcon.png";
+ //        }else{
+ //          var userProfile  = getUser.profile.userProfile;
+ //        }
+ //        // userData = {"userName" : userName, "userProfile" : userProfile};
+ //      }
 
-      else{
-        if (getUser.profile.firstname == '' && getUser.profile.lastname == '') {
-          var userName = "User";
-        }else if (getUser.profile.firstname != '' && getUser.profile.lastname == '') {
-          var userName = getUser.profile.firstname;
-        }else if (getUser.profile.firstname == '' && getUser.profile.lastname != '') {
-          var userName = getUser.profile.lastname;
-        }else{
-           var userName = getUser.profile.firstname+' '+getUser.profile.lastname;
-        }
-        if (getUser.profile.userProfile == '') {
-           var userProfile  = "../images/userIcon.png";
-        }else{
-          var userProfile  = getUser.profile.userProfile;
-        }
-        // userData = {"userName" : userName, "userProfile" : userProfile};
-      }
-      // console.log("userData",userData);
-      userData = {"userName" : userName, "userProfile" : userProfile};
+ //      else{
+ //        if (getUser.profile.firstname == '' && getUser.profile.lastname == '') {
+ //          var userName = "User";
+ //        }else if (getUser.profile.firstname != '' && getUser.profile.lastname == '') {
+ //          var userName = getUser.profile.firstname;
+ //        }else if (getUser.profile.firstname == '' && getUser.profile.lastname != '') {
+ //          var userName = getUser.profile.lastname;
+ //        }else{
+ //           var userName = getUser.profile.firstname+' '+getUser.profile.lastname;
+ //        }
+ //        if (getUser.profile.userProfile == '') {
+ //           var userProfile  = "../images/userIcon.png";
+ //        }else{
+ //          var userProfile  = getUser.profile.userProfile;
+ //        }
+ //        // userData = {"userName" : userName, "userProfile" : userProfile};
+ //      }
+ //      // console.log("userData",userData);
+ //      userData = {"userName" : userName, "userProfile" : userProfile};
      
-      }
+ //      }
 
-       return userData;
+ //       return userData;
 
-    }
+ //    }
 
   render(){
     return(
@@ -173,8 +175,12 @@ export default class Header extends TrackerReact(Component){
                   <Link to="javascript:void(0)" className="dropdown-toggle" data-toggle="dropdown">
                     {/* <img src={this.currentUser().userProfile} className="user-image" alt="User Image" />
                     <span className="hidden-xs"> {this.currentUser().userName} </span> */}
-                    <span className="hidden-xs">  {this.currentUser().userName} </span>
-                  </Link>
+                   {!this.props.loading ? 
+                    <span className="hidden-xs">  {this.props.user.profile.firstname} {this.props.user.profile.lastname} </span>
+                   :
+                   ""
+                  } 
+                 </Link>
                   <ul className="dropdown-menu">
                     {/* User image */}
                     {/* <li className="user-header">
@@ -212,3 +218,16 @@ export default class Header extends TrackerReact(Component){
     );
   }
 }
+headerContainer = withTracker(props => { 
+    var _id  = Meteor.userId();
+
+    const userHandle  = Meteor.subscribe('userData',_id);
+
+    const user        = Meteor.users.findOne({"_id" : _id}) || {};
+    const loading     = !userHandle.ready();
+      return {
+          loading  : loading,
+          user     : user,
+      };
+})(Header);
+export default headerContainer;

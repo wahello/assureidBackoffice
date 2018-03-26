@@ -133,7 +133,7 @@ export default AllTicketContainer = withTracker(props => {
       }
     }
   }
-
+  // console.log("dataDetails",dataDetails);
 
   return {
     loading,

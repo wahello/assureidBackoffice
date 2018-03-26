@@ -804,9 +804,7 @@ class VerifiedDocuments extends TrackerReact(Component){
                                   );
                                 })
                               }
-
                               </div>
-
                               <a className="left carousel-control" href="#lightbox" data-slide="prev">
                                 <span className="glyphicon glyphicon-chevron-left"></span>
                                 <span className="sr-only">Previous</span>
@@ -876,7 +874,7 @@ verifiedDocumentsContainer = withTracker(props => {
          //  var policeVerificationArray = '';
          // }
       }
-      console.log("verificationData",verificationData);
+      // console.log("verificationData",verificationData);
     
     const loading = !postHandle.ready() &&  !companyHandle.ready() && !ticketBucket.ready();
     if (Roles.userIsInRole(Meteor.userId(), ['screening committee'],)) {

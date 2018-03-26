@@ -3,8 +3,9 @@ import {Link} from 'react-router';
 import {browserHistory} from 'react-router';
 import TrackerReact from 'meteor/ultimatejs:tracker-react';
 import { render } from 'react-dom';
+import { withTracker } from 'meteor/react-meteor-data';
 
-export default class Sidebar extends TrackerReact(Component){
+class Sidebar extends TrackerReact(Component){
   constructor() {
    super();
     this.state = {
@@ -19,50 +20,50 @@ export default class Sidebar extends TrackerReact(Component){
       UserSession.delete("allProgressbarSession", Meteor.userId());
   }
 
-  currentUser(){
-    // Meteor.subscribe('userData',Meteor.userId());
-    var userData = {"userName" : '', "userProfile" : ''};
-    var id = Meteor.userId();
-    var getUser = Meteor.users.findOne({"_id" : id});
-    if (getUser) {
-      if (getUser.roles[0] == "admin") {
-        // var userName    = getUser.username;
-        if (getUser.profile.firstname == '' && getUser.profile.lastname == '') {
-          var userName = "Admin";
-        }else if (getUser.profile.firstname != '' && getUser.profile.lastname == '') {
-          var userName = getUser.profile.firstname;
-        }else if (getUser.profile.firstname == '' && getUser.profile.lastname != '') {
-          var userName = getUser.profile.lastname;
-        }else{
-           var userName = getUser.profile.firstname+' '+getUser.profile.lastname;
-        }
-        if (getUser.profile.userProfile == '') {
-           var userProfile  = "/images/userIcon.png";
-        }else{
-          var userProfile  = getUser.profile.userProfile;
-        }
-        userData = {"userName" : userName, "userProfile" : userProfile};
-      }else{
-        if (getUser.profile.firstname == '' && getUser.profile.lastname == '') {
-          var userName = "User";
-        }else if (getUser.profile.firstname != '' && getUser.profile.lastname == '') {
-          var userName = getUser.profile.firstname;
-        }else if (getUser.profile.firstname == '' && getUser.profile.lastname != '') {
-          var userName = getUser.profile.lastname;
-        }else{
-           var userName = getUser.profile.firstname+' '+getUser.profile.lastname;
-        }
-        if (getUser.profile.userProfile == '') {
-           var userProfile  = "/images/userIcon.png";
-        }else{
-          var userProfile  = getUser.profile.userProfile;
-        }
-        userData = {"userName" : userName, "userProfile" : userProfile};
-      }
-    }
-    return userData;
+  // currentUser(){
+  //   // Meteor.subscribe('userData',Meteor.userId());
+  //   var userData = {"userName" : '', "userProfile" : ''};
+  //   var id = Meteor.userId();
+  //   var getUser = Meteor.users.findOne({"_id" : id});
+  //   if (getUser) {
+  //     if (getUser.roles[0] == "admin") {
+  //       // var userName    = getUser.username;
+  //       if (getUser.profile.firstname == '' && getUser.profile.lastname == '') {
+  //         var userName = "Admin";
+  //       }else if (getUser.profile.firstname != '' && getUser.profile.lastname == '') {
+  //         var userName = getUser.profile.firstname;
+  //       }else if (getUser.profile.firstname == '' && getUser.profile.lastname != '') {
+  //         var userName = getUser.profile.lastname;
+  //       }else{
+  //          var userName = getUser.profile.firstname+' '+getUser.profile.lastname;
+  //       }
+  //       if (getUser.profile.userProfile == '') {
+  //          var userProfile  = "/images/userIcon.png";
+  //       }else{
+  //         var userProfile  = getUser.profile.userProfile;
+  //       }
+  //       userData = {"userName" : userName, "userProfile" : userProfile};
+  //     }else{
+  //       if (getUser.profile.firstname == '' && getUser.profile.lastname == '') {
+  //         var userName = "User";
+  //       }else if (getUser.profile.firstname != '' && getUser.profile.lastname == '') {
+  //         var userName = getUser.profile.firstname;
+  //       }else if (getUser.profile.firstname == '' && getUser.profile.lastname != '') {
+  //         var userName = getUser.profile.lastname;
+  //       }else{
+  //          var userName = getUser.profile.firstname+' '+getUser.profile.lastname;
+  //       }
+  //       if (getUser.profile.userProfile == '') {
+  //          var userProfile  = "/images/userIcon.png";
+  //       }else{
+  //         var userProfile  = getUser.profile.userProfile;
+  //       }
+  //       userData = {"userName" : userName, "userProfile" : userProfile};
+  //     }
+  //   }
+  //   return userData;
 
-  }
+  // }
   // componentDidMount(){
   //    if (!$("#adminLte").length>0 && !$('body').hasClass('adminLte')) {
   //    var adminLte = document.createElement("script");  
@@ -85,12 +86,20 @@ export default class Sidebar extends TrackerReact(Component){
             {/* Sidebar user panel */}
             <div className="user-panel">
               <div className="pull-left image">
-                <img src={this.currentUser().userProfile} className="img-circle" alt="User Image" />
+               { this.props.user.profile.userProfile ?
+                   <img src={this.props.user.profile.userProfile} className="img-circle" alt="User Image" />
+                  :
+                  <img src="/images/userIcon.png" className="img-circle" alt="User Image" />
+               }
               </div>
-              <div className="pull-left info">
-                {/* <p> {this.currentUser().userName}</p> */}
-                <Link to="javascript:void(0)"><i className="fa fa-circle text-success" /> Online</Link>
-              </div>
+              {this.props.user.profile ? 
+                <div className="pull-left info">
+                  <p> {this.props.user.profile.firstname} {this.props.user.profile.lastname}</p>
+                  <Link to="javascript:void(0)"><i className="fa fa-circle text-success" /> Online</Link>
+                </div>
+                :
+                ""
+              }
             </div>
             {/* search form
             <form action="javascript:void(0)" method="get" className="sidebar-form">
@@ -330,3 +339,16 @@ export default class Sidebar extends TrackerReact(Component){
     );
   }
 }
+sidebarContainer = withTracker(props => { 
+    var _id  = Meteor.userId();
+
+    const userHandle  = Meteor.subscribe('userData',_id);
+
+    const user        = Meteor.users.findOne({"_id" : _id}) || {};
+    const loading     = !userHandle.ready();
+      return {
+          loading  : loading,
+          user     : user,
+      };
+})(Sidebar);
+export default sidebarContainer;

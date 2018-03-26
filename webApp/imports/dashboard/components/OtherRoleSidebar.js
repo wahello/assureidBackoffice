@@ -82,12 +82,20 @@ class OtherRoleSidebar extends TrackerReact(Component){
             {/* Sidebar user panel */}
             <div className="user-panel">
               <div className="pull-left image">
-                <img src={this.currentUser().userProfile} className="img-circle" alt="User Image" />
+               { this.props.user.profile.userProfile ?
+                   <img src={this.props.user.profile.userProfile} className="img-circle" alt="User Image" />
+                  :
+                  <img src="/images/userIcon.png" className="img-circle" alt="User Image" />
+               }              
               </div>
-              <div className="pull-left info">
-                {/* <p> {this.currentUser().userName}</p> */}
-                <Link to="javascript:void(0)"><i className="fa fa-circle text-success" /> {this.currentUser().role}</Link>
-              </div>
+               {this.props.user.profile ? 
+                <div className="pull-left info">
+                  <p> {this.props.user.profile.firstname} {this.props.user.profile.lastname}</p>
+                  <Link to="javascript:void(0)"><i className="fa fa-circle text-success" />{this.props.role}</Link>
+                </div>
+                :
+                ""
+              }
             </div>
             <ul className="sidebar-menu" data-widget="tree">
               <li className="header">MAIN NAVIGATION</li>
@@ -134,12 +142,25 @@ class OtherRoleSidebar extends TrackerReact(Component){
         </aside>
     );
   }
-}export default allOtherRoleSidebarContainer = withTracker(props => {
+}
+export default allOtherRoleSidebarContainer = withTracker(props => {
   
   var handleAllBucketTick = Meteor.subscribe("allTicketBucket");
   var ticketArr = [];
   var dataDetails = [];
   var loading = !handleAllBucketTick.ready();
+  var _id  = Meteor.userId();
+  const userHandle  = Meteor.subscribe('userData',_id);
+  const user        = Meteor.users.findOne({"_id" : _id}) || {};
+  const loading1    = !userHandle.ready();
+  // console.log("user",user);
+  if (user) {
+    if (user.roles) {
+      var role = user.roles[1];
+    }else{
+      var role = "";
+    }
+  }
   // var ticketBucketData = _.uniq(TicketBucket.find({}, {sort: {ticketNumber: 1}}).fetch().map(function(x) { return x;}), true);
   var ticketBucketData = TicketBucket.find({}).fetch();
   if(ticketBucketData){
@@ -159,13 +180,15 @@ class OtherRoleSidebar extends TrackerReact(Component){
 
   return {
     loading,
+    loading1,
     ticketBucketData,
     alltickets,
     assignedTicketCount,
     openTicketCount,
     approvedTicketCount,
     rejectTicketCount,
-    esclationTicketCount
-    
+    esclationTicketCount,
+    user,
+    role,
   };
 })(OtherRoleSidebar);
