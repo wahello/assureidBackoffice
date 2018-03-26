@@ -43,8 +43,6 @@ import { TextField } from 'react-native-material-textfield';
 import styles from "./styles.js";
 import Menu from "../../components/Menu/Menu.js";
 import HeaderDy from "../../components/HeaderDy/HeaderDy.js";
-import ViewCustomerTable from "../../components/tableComponent/ViewCustomerTable.js";
-import ViewCustomerModal from "../../components/modalComponent/ViewCustomerModal.js";
 
 import Loading from '../../components/Loading/Loading.js';
 
@@ -53,18 +51,11 @@ class ViewTicket extends React.Component {
     super(props);
     let name = "";
     if (this.props.userName) name = "Welcome " + this.props.userName;
-    // let lineName ="";
-    // if(this.props.navigation.state.params.lineName)
-    //   lineName = this.props.navigation.state.params.lineName;
-    // console.log("line constructor ", lineName);
+
     this.state = {
       name              : name,
       isOpen            : false,
       selectedItem      : "About",
-      // lineName          : lineName,
-      customerIdModal   : '',
-      isModalVisible    : false,
-      isModalVisibleOne : false,
       inputFocusColor   : '#f7ac57',
       Remark            : '',
       
@@ -72,7 +63,6 @@ class ViewTicket extends React.Component {
     this.openDrawer = this.openDrawer.bind(this);
     this.closeDrawer = this.closeDrawer.bind(this);
     this.toggle = this.toggle.bind(this);
-    // this.handleEdit = this.handleEdit.bind(this);
   }
   componentDidMount() {
     BackHandler.addEventListener(
@@ -124,46 +114,32 @@ class ViewTicket extends React.Component {
     console.log("opening drawer!");
     this.drawer.closeDrawer();
   }
-  // handleEdit() {
-  //   this._toggleModal();
-  //   this.props.navigation.navigate("EditCustomer",{'customerId':this.state.customerIdModal});
-  // }
 
-  // _dyToggleModal = (_id) =>{
-  //   console.log("id : ",_id);
-  //   this.setState({ isModalVisible: !this.state.isModalVisible });
-  //   this.setState({ customerIdModal: _id });
-  // }
-  // _toggleModal = () =>
-  //   this.setState({ isModalVisible: !this.state.isModalVisible });
+  displayAttachments =()=>{
+   
+    var verificationDocuments = this.props.verificationDocument;
+     console.log('verificationDocuments ',verificationDocuments);
+      if(verificationDocuments){
+        return(
+          verificationDocuments.map((item,i)=>
+            <View key={i} style={{paddingHorizontal:10,paddingVertical:10}}>
+             <Image
+                style={{ width: 50, height: 50, borderRadius: 15,}}
+                resizeMode="stretch"
+                source={{uri:item}}
+              />
+            </View>
+        )
+      );
+    }    
+  }
 
-  // _editLineModal = () =>
-  //   this.setState({ isModalVisibleOne: !this.state.isModalVisibleOne});
-
-  // updateLine = () => {
-  //   let index = this.props.navigation.state.params.index;
-  //   // console.log("index : ", index);
-  //   // let lineName = this.state.lineName;
-  //   // console.log('lineName : ', lineName);
-  //   Meteor.call('updateLine',index,lineName,(error,result) =>{
-  //     if(error){
-  //       Alert.alert(
-  //         'Error',
-  //       )
-  //     }else{
-  //       Alert.alert(
-  //         '','Line has been edited Successfully!',
-  //       );
-  //     }
-  //   });
-  //   this._editLineModal();
-  // }
 
   render() {
     const { navigate, goBack, state } = this.props.navigation;
     if(this.props.viewTicketUserData){
       var userViewTicketData = this.props.viewTicketUserData;
-      console.log(this.props.viewTicketUserData,'this.props.viewTicketUserData');
+      // console.log(this.props.viewTicketUserData,'this.props.viewTicketUserData');
     }
 
     var viewTicketData =this.props.viewTicketData;
@@ -319,18 +295,18 @@ class ViewTicket extends React.Component {
                         }}
                       />
                     </View>
-                    {this.props.viewTicketUserData?
+                    {this.props.viewTicketData?
                       <View style= {{flex:.5,marginRight:15}}>
                         <View style= {{flex:1,flexDirection:'row'}}>
-                          <Text style= {{}}>{userViewTicketData.firstName} </Text>
-                          <Text>{userViewTicketData.lastName}</Text>
+                          <Text style= {{}}>{viewTicketData.firstName} </Text>
+                          <Text>{viewTicketData.lastName}</Text>
                         </View>
                         <View style= {{flex:1,flexDirection:'row'}}>
-                          <Text style= {{flex:.5,flexDirection:'row'}}>{userViewTicketData.gender}</Text>
-                          <Text style= {{flex:.5,flexDirection:'row'}}>21Years</Text>
+                          <Text style= {{flex:.5,flexDirection:'row'}}>{viewTicketData.gender}</Text>
+                          <Text style= {{flex:.5,flexDirection:'row'}}>{viewTicketData.age} Years</Text>
                         </View>
                         <View style= {{flex:1,flexDirection:'row'}}>
-                          <Text>{viewTicketData.verificationData.serviceName}</Text>
+                          <Text>{viewTicketData.serviceName}</Text>
                         </View>
                       </View>
                     :<Loading />}
@@ -342,15 +318,7 @@ class ViewTicket extends React.Component {
                         <Text style={{fontWeight: 'bold'}}>Permanent Address</Text>
                       </View>
                       <View style={{flex:.5,paddingVertical:15}}>
-                        <Text style={{flexWrap:'wrap'}}>{viewTicketData.verificationData.line1}{viewTicketData.verificationData.line2},
-                                                        {viewTicketData.verificationData.line3},
-                                                        {viewTicketData.verificationData.landmark},
-                                                        {viewTicketData.verificationData.city},
-                                                        {viewTicketData.verificationData.state},
-                                                        {viewTicketData.verificationData.country},
-                                                        {viewTicketData.verificationData.pincode}
-
-                        </Text>
+                        <Text style={{flexWrap:'wrap'}}>{viewTicketData.verificationData.line1}{viewTicketData.verificationData.line2}, {viewTicketData.verificationData.line3}, {viewTicketData.verificationData.landmark}, {viewTicketData.verificationData.city}, {viewTicketData.verificationData.state}, {viewTicketData.verificationData.country}, {viewTicketData.verificationData.pincode} </Text>
                       </View>
                     </View>
                   :<Loading />}
@@ -363,27 +331,7 @@ class ViewTicket extends React.Component {
                   <View style = {styles.formInputView}>
                     <View style={{flex:1}}>
                       <View style={{flexDirection:'row'}}>
-                        <View style={{paddingHorizontal:10,paddingVertical:10}}>
-                          <Image
-                            style={{ width: 50, height: 50, borderRadius: 15,}}
-                            resizeMode="stretch"
-                            source={require("../../images/pdf-icon.png")}
-                          />
-                        </View>
-                        <View style={{paddingHorizontal:10,paddingVertical:10}}>
-                          <Image
-                            style={{ width: 50, height: 50, borderRadius: 15,}}
-                            resizeMode="stretch"
-                            source={require("../../images/pdf-icon.png")}
-                          />
-                        </View>
-                        <View style={{paddingHorizontal:10,paddingVertical:10}}>
-                          <Image
-                            style={{ width: 50, height: 50, borderRadius: 15, }}
-                            resizeMode="stretch"
-                            source={require("../../images/pdf-icon.png")}
-                          />
-                        </View>
+                        { this.displayAttachments()}
                       </View>
                     </View>
                   </View>
@@ -407,10 +355,10 @@ class ViewTicket extends React.Component {
 export default createContainer((props) => {
 
   var ticketId  = '';
-  var viewTicketUserData, handle1, loadingUser = '';
+  var viewTicketUserData, handle1, loadingUser,verificationDocument = '';
 
   const { state } = props.navigation;
-  console.log("state = ",state);
+  // console.log("state = ",state);
 
   if(state.params.ticketid){
     ticketId = state.params.ticketid;
@@ -418,34 +366,42 @@ export default createContainer((props) => {
 
   const handle             = Meteor.subscribe('singleTicket',ticketId);
   const viewTicketData     = Meteor.collection('ticketMaster').findOne({'_id':ticketId});
-  console.log(viewTicketData,'ViewTicketData');
+  // console.log('viewTicketData', viewTicketData);
 
   if(viewTicketData){
-    handle1            = Meteor.subscribe('userprofile',viewTicketData.userId);
-    viewTicketUserData = Meteor.collection('userProfile').findOne({'userId': viewTicketData.userId});
-
-    loadingUser        = handle1.ready() ;  
-  
-    console.log(viewTicketUserData,'viewTicketUserData,');
-    console.log(handle1,'handle1');
+    handle1              = Meteor.subscribe('userprofile',viewTicketData.userId);
+    viewTicketUserData   = Meteor.collection('userProfile').findOne({'userId': viewTicketData.userId});
+    loadingUser          = handle1.ready() ; 
+    verificationDocument = viewTicketData.varificationDocument;
+    console.log('verificationDocument ',verificationDocument);
+    // console.log('viewTicketUserData',viewTicketUserData);
   }
-  
-  const loading            = handle.ready() ;
 
-  // console.log(loading,'loading');
-  // console.log(handle,'handle');
+  if(viewTicketData && viewTicketUserData){
+    viewTicketData.firstName = viewTicketUserData.firstName;
+    viewTicketData.lastName  = viewTicketUserData.lastName;
+    viewTicketData.gender    = viewTicketUserData.gender;
+    viewTicketData.dateOfBirth = viewTicketUserData.dateOfBirth;
 
-  var mergedData= {viewTicketUserData,viewTicketData};
+    var today = new Date();    
+    var birthDate = new Date(viewTicketUserData.dateOfBirth);    
+    var age = today.getFullYear() - birthDate.getFullYear();    
+    var m = today.getMonth() - birthDate.getMonth();    
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())){age--;}    
+    viewTicketData.age=age;
+  } 
+  // console.log('viewTicketData', viewTicketData);
 
-  console.log(mergedData,'mergedData');
+  const loading = handle.ready() ;
 
   var result = {
-    viewTicketData    :viewTicketData ,
-    viewTicketUserData:viewTicketUserData ,
-    handle            :handle,
-    handle1           :handle1,
-    loading           :loading,
-    loadingUser       :loadingUser,
+    viewTicketData       :viewTicketData ,
+    verificationDocument : verificationDocument,
+    // viewTicketUserData:viewTicketUserData ,
+    handle               :handle,
+    handle1              :handle1,
+    loading              :loading,
+    loadingUser          :loadingUser,
   };
 
   // console.log(JSON.stringify(result,null,4));

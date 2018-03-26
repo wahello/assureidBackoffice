@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
   },
   linearGradient:{
     padding:20,
-    paddingTop:50,
+    paddingTop:39,
   }
 });
 

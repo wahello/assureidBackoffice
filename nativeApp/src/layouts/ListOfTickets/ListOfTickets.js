@@ -280,9 +280,9 @@ export default createContainer((props) => {
   const ticketData = Meteor.collection('ticketbucket').find({'empid':Meteor.userId()});
   const loading    = handle.ready() ;
 
-  console.log(loading,'loading');
-  console.log(handle,'handle');
-  console.log(ticketData,'ticketData');
+  // console.log(loading,'loading');
+  // console.log(handle,'handle');
+  // console.log(ticketData,'ticketData');
 
   var result = {
     ticketData:ticketData ,
