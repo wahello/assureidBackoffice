@@ -71,6 +71,7 @@ import OpenTickets from '/imports/dashboard/ticketManagement/myTickets/OpenTicke
 import ApprovedTickets from '/imports/dashboard/ticketManagement/myTickets/ApprovedTickets.jsx';
 import RejectedTickets from '/imports/dashboard/ticketManagement/myTickets/RejectedTickets.jsx';
 import EscalatedTickets from '/imports/dashboard/ticketManagement/myTickets/EscalatedTickets.jsx';
+import ProfileView from '/imports/website/views/ProfileView.jsx';
 
 
 // import HeaderThrd      from '../../imports/website/header/HeaderThrd';
@@ -263,6 +264,8 @@ export const routes = (
        <Route path="/admin/approvedtickets" component={ApprovedTickets}/>
        <Route path="/admin/rejectedtickets" component={RejectedTickets}/>
        <Route path="/admin/escalatedtickets" component={EscalatedTickets}/>
+       <Route path="/admin/viewProfile/:id" component={ProfileView}/>
+
        
        
        

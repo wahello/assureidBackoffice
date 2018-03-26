@@ -112,6 +112,11 @@ export default class SubmittedDocuments extends TrackerReact(Component){
               <span>{this.props.submittedDocuments.documents.remark}</span>
             </div>
 	      </div>
+
+				<div className="docbtnwrap col-lg-6 col-lg-offset-4">
+						<button type="button" className="bg-primary col-lg-4 ApprovRejDoc" data-status="Accepted">Approve</button>
+						<button type="button" className="btn-danger col-lg-4 ApprovRejDoc" data-status="Rejected">Reject</button>
+        </div>
       </div>
 
      </div>

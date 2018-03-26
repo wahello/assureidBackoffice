@@ -100,7 +100,6 @@ if(Meteor.isServer){
               "emailId"         : formValues.emailId,
               "altEmailId"      : formValues.altEmailId,
               "proofOfDOB"      : image,
-              "remark"          : '',
               "createdAt"       : new Date(),
             },(error, result)=>{
             
@@ -238,107 +237,6 @@ if(Meteor.isServer){
               } //End of set
             },(error, result)=>{
           });        
-        },
-        'addCurrentDocuments':function(userId,documents,currentAddressId) {
-          UserProfile.update({"userId" : userId, "currentAddress.currentAddressId" : parseInt(currentAddressId)},
-              {$set : { 
-                "currentAddress.$.documents":  documents,
-              }
-            }
-          );
-
-        },
-        'addPermanentDocuments':function(userId,documents,permanentAddressId) {
-          console.log("userId",userId);
-          console.log("documents",documents);
-          console.log("permanentAddressId",permanentAddressId);
-
-          UserProfile.update({"userId" : userId, "permanentAddress.permanentAddressId" : parseInt(permanentAddressId)},
-              {$set : { 
-                "permanentAddress.$.documents":  documents,
-              }
-            }
-          );
-
-        },
-
-        'changeStatusMethod':function(ticketId,userId,remark,verificationType,verificationId){
-          var status = "Reopen";
-          // var _id = UserProfile.findOne({"userId":userId});
-
-          // if(_id){
-            if(verificationType=='employement'){
-              UserProfile.update({'userId':userId,"employement.employementId":1},
-                {
-                  $set:
-                  {
-                    'employement.$.ticketId':ticketId,
-                    'employement.$.editStatus':status,
-                    'employement.$.remark':remark,
-
-                  }
-                });
-            }
-            else if(verificationType=='education'){
-              UserProfile.update({'userId':userId,"education.educationId":1},
-                {
-                  $set:
-                  {
-                    'education.$.ticketId':ticketId,
-                    'education.$.editStatus':status,
-                    'education.$.remark':remark
-                  }
-                });
-            }
-           else if(verificationType=='permanentAddress'){
-              Console.log("Hiiiiiiiiiiiiiiiiiiiiiiii");
-              UserProfile.update({'userId':userId,"permanentAddress.permanentAddressId":1},
-                {
-                  $set:
-                  {
-                    'permanentAddress.$.ticketId':ticketId,
-                    'permanentAddress.$.editStatus':status,
-                    'permanentAddress.$.remark':remark
-                  }
-                });
-            }
-            else if(verificationType=='currentAddress'){
-              UserProfile.update({'userId':userId,"currentAddress.currentAddressId":1},
-                {
-                  $set:
-                  {
-                    'currentAddress.$.ticketId':ticketId,
-                    'currentAddress.$.editStatus':status,
-                    'currentAddress.$.remark':remark,
-                  }
-                });
-            }
-            else if(verificationType=='certificates'){
-              UserProfile.update({'userId':userId,"certificates.certificatesId":1},
-                {
-                  $set:
-                  {
-                    'certificates.$.ticketId':ticketId,
-                    'certificates.$.editStatus':status,
-                    'certificates.$.remark':remark,
-                }
-                });
-            }
-            else if(verificationType=='professionalEducation'){
-              UserProfile.update({'userId':userId,"professionalEducation.professionalEducationId":1},
-                {
-                  $set:
-                  {
-                    'professionalEducation.$.ticketId':ticketId,
-                    'professionalEducation.$.editStatus':status,
-                    'professionalEducation.$.remark':remark
-                  }
-                });
-            }
-
-
-          // }
-
         }
     });
 }

@@ -35,6 +35,7 @@
   color: #b9bed2;
   border-color: #b9bed2;
   background-color: #f6f6f7;
+  border: 1px solid;
 }
 .keepmeloginOuter{
 	line-height: 1.6;
@@ -102,7 +103,9 @@
   line-height: 1.6;
   letter-spacing: 0.025em;
 }
-#OtpBlock, #ResetBlock, #assureIDModal, #DoHaveProfile, #ForgotBlock{
+.bottomLinks:hover{color: #0a8fc4;}
+#OtpBlock, #ResetBlock, #assureIDModal, #DoHaveProfile, #ForgotBlock, 
+#residingToDate, #tempResidingToDate, #employToDate, #profEduCollapse{
 	display: none;
 }
 .basicForm > button, .addressForm > button, .educationForm > button{
@@ -127,7 +130,7 @@
     color: #4c4c4c;
 }
 .addModalHeight{
-  height: 610px;
+  height: 620px;
 }
 .icon.error{
   border-color: #31a3ff!important;
@@ -185,8 +188,8 @@
 }
 .proheadNav > .progress{
   border-radius: 50px;
-  background-color: transparent;
-  /*background-color: #414260;*/
+  /*background-color: transparent;*/
+  background-color: #414260;
   height: 15px;
   position: relative;
   top: 22px;
@@ -344,13 +347,16 @@
 .input-effect{
   position: relative; /* necessary to give position: relative to parent. */
 }
-.input-effect input[type="text"]{
+.input-effect input[type="text"],input[type="tel"]{
   font: 15px/24px "Lato", Arial, sans-serif;
   color: #4a4a4a;
   width: 100%;
   box-sizing: border-box;
   letter-spacing: 1px;
   border-radius: 0px;
+}
+input[type="tel"]{
+  border-left: 1px solid #b9bed2;
 }
 .effect-21.form-control[disabled]{
   background-color: #f6f6f7;
@@ -373,7 +379,7 @@
 .effect-21:focus{box-shadow: none;}
 .loginInputs{}
 .effect-21.error{color: #e40b0b;}
-.effect-21.error ~ .focus-border:before,
+.effect-21.error ~ .focus-border:before, 
 .effect-21.error ~ .focus-border:after{ background-color: #e40b0b!important; }
 .effect-21 ~ .focus-border:before,
 .effect-21 ~ .focus-border:after{
@@ -436,11 +442,11 @@
   transition: 0.2s;
 }
 .effect-21:focus ~ .focus-border i:after,
-.has-conten.effect-21 ~ .focus-border i:after{
+.has-content.effect-21 ~ .focus-border i:after{
   transition-delay: 0.4s;
 }
 .effect-21:focus ~ .addons,
-.has-conten.effect-21 ~ .addons{
+.has-content.effect-21 ~ .addons{
   color : #00b8FF;
 }
 .effect-21 ~ label{
@@ -449,6 +455,20 @@
   padding-left: 45px;
   width: 100%;
   top: 10px;
+  font-size: 13px;
+  color: #4a4a4a;
+  transition: 0.3s;
+  z-index: 4;
+  letter-spacing: 0.5px;
+  font-weight: 100;
+  pointer-events: none;
+}
+.intl-tel-input ~ label{
+  position: absolute;
+  left: 0px;
+  padding-left: 15px;
+  width: 100%;
+  top: -20px;
   font-size: 13px;
   color: #4a4a4a;
   transition: 0.3s;
@@ -488,10 +508,20 @@ input[type="date"].effect-21 ~ label, select.effect-21 ~ label{
   color: #fff;
   margin-bottom: 20px;
   cursor: pointer;
-}
-.addUserImage > span > i{
   padding-top: 42px;
-  margin-bottom: 8px;
+}
+.addUserImageAtService{
+    height: 180px;
+    width: 180px;
+    background-color: #414260;
+    margin: auto;
+    /* border-radius: 100px; */
+    color: #fff;
+    margin-bottom: 20px;
+    cursor: pointer;
+    text-align: center;
+    padding-top: 70px;
+    vertical-align: middle;
 }
 .incompleteDetails{
   background-color: #d3d3d3!important;
@@ -550,6 +580,7 @@ input[type="date"].effect-21 ~ label, select.effect-21 ~ label{
 .proheadNavTitle > ul > li > a > h5{
   /*margin: 0px;*/
   font-size: 12px;
+  font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 .proheadNavTitle > ul > li > a > h5 > span {
   position: absolute;
@@ -688,7 +719,8 @@ input[type="date"].effect-21 ~ label, select.effect-21 ~ label{
 #OTPMobMail > .form-group, #resetPassword > .form-group{margin-top: 12px;}
 .signTerms, .signTerms:hover{color: #0a8fc4;text-decoration: underline;}
 .otherInfoForm button[type="button"]{width: 42%;height:35px;transition: 0.3s ease 0s;transform : translateX(26px);}
-.otherInfoForm button[type="button"]:first-child{background-color: #fff;color: #00b8ff;}
+.otherInfoForm .noDataButton, .otherInfoForm .noDataButton:hover, 
+.otherInfoForm .noDataButton:focus, .otherInfoForm .noDataButton:active{background-color: #fff;color: #00b8ff;}
 .otherInfoForm .yesReason{margin-top: 20px;}
 .otherInfoForm .effect-21:focus ~ label,.otherInfoForm .has-content.effect-21 ~ label{top:-36px;}
 .effect-21:focus ~ label.error, .effect-21 ~ label.error{color: #e40b0b;}
@@ -700,10 +732,10 @@ input[type="date"].effect-21 ~ label, select.effect-21 ~ label{
   color: #b9bed2;
   border-color: #b9bed2;
   background-color: #f6f6f7;
+  border: 1px solid;
 }
 .effect-21:focus ~ .addonsRight, .effect-21.has-content ~ .addonsRight{color: #4a4a4a;}
 .effect-21.error ~ .addonsRight{color: #e40b0b;}
-.selectWidth label{ margin-top: 15px; }
 .inputFiles{
   height: 0px;
   width: 0px;
@@ -711,8 +743,16 @@ input[type="date"].effect-21 ~ label, select.effect-21 ~ label{
   margin: 0px;
   padding: 0px;
 }
-/*.inputFileButton{position: relative;top:0px;}*/
-.otherInfoFormGroup{display: none;}
+.inputFileUser{
+  height: 0px;
+  width: 0px;
+  opacity: 0;
+  margin: 0px;
+  padding: 0px;
+}
+.userImageOnServiceOuter{
+  cursor: pointer;
+}
 .userPrfileImg{
   height: 125px;
   width: 125px;
@@ -723,10 +763,7 @@ input[type="date"].effect-21 ~ label, select.effect-21 ~ label{
 }
 .addUserImage1{
   background: transparent !important;
-}
-#loginModal{
-  display: block!important;
-  overflow: scroll!important;
+  padding-top: 0px;
 }
 /*.inputFileButton{position: relative;top:0px;}*/ 
 .otherInfoFormGroup{display: none;}
@@ -734,13 +771,91 @@ input[type="date"].effect-21 ~ label, select.effect-21 ~ label{
 .smallFaPills{padding: 12px 18px!important;}
 .mediumFaPills{padding: 12px 16px!important;}
 .basicForm button.close{background-color: transparent;}
-.proofInfoModals > .modal-dialog{width: 32%;}
+/*.proofInfoModals > .modal-dialog{width: 32%;}*/
 .proofInfoModals .modal-content{border-radius: 0px;}
 .proofInfoModals ul > li > i{color: #41ac48;}
 .proofInfoModals ul > li > span{font-size: 13px;}
 .timeCircle{position: absolute;right: 0px;cursor: pointer;}
 .proofDocsProgress > .progress{background-color: #4888a1;}
-.FileDiv label, .fileNameDiv label{word-break: break-all;}
+.FileDiv label, .fileNameDiv label,.perAddrfileName label{word-break: break-all;}
 .userAddress p{font-weight: 700;}
 .userAddress p > span{font-weight: 100;font-size: 14px;margin-left: 30px;}
-.user-footer{ text-align: center;}
+/*.addUserImage1 > div{background-color: rgba(0,0,0,0.6);position: absolute;height: 10px;width: 10px;}*/
+.has-content.error ~ label{top:-20px!important;padding-left: 0px!important;}
+.has-content.error ~ label.error{top:42px!important;padding-left: 0px!important;}
+p.resendOTP{
+  margin-top: 15px;
+  font-size: 12px;
+  color: #0a8fc4;
+  text-decoration: underline;
+  cursor: pointer;
+  letter-spacing: 1px;
+}
+.residingDateSelect{
+  font-size: 13px;
+  font-weight: 100;
+  top: -3px;
+  position: relative;
+  color: #4a4a4a;
+  letter-spacing: 0.5px;
+}
+.residingToRadio{
+  position: relative;
+  top: -12px;
+  font-size: 13px;
+  padding-left: 20px;
+}
+.residingToRadio > label:last-child{margin-bottom: 0px;}
+.residingToChangeLabel,.residingToLabel, .tempResidingToChangeLabel,.currentResidingToChangeLabel{cursor: pointer;position: relative;top: -60px;}
+.empLabelMarTop{margin-top: 10px;font-size: 14px;font-weight: 700;}
+.outerSkills{
+  padding: 3%;
+  border: 1px solid #00b8ff;
+  border-radius: 50px;
+ margin-bottom: 6%;
+}
+.skillName{
+  color: #4a4a4a;
+  font-size: 13px;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  padding-right: 0px;
+}
+.skillDelete{
+color: #4a4a4a;
+font-size: 13px;
+font-weight: 700;
+cursor: pointer;
+}
+.skillDelete:hover{
+color: #00b8ff;
+}
+.deleteModal > p{font-weight: 700;font-size: 16px;margin-top: 60px;margin-bottom: 40px;padding-left: 40px;}
+.deleteModal .yesDelete, .deleteModal .yesDelete:hover, .deleteModal .yesDelete:active,
+.deleteModal .yesDelete:focus{
+  border-radius: 0px;
+  height: 40px;
+  background-color: #00b8ff;
+  border-color: #00b8ff;
+  outline: none;
+  color: #fff; 
+}
+.deleteModal .noDelete, .deleteModal .noDelete:hover, .deleteModal .noDelete:active,
+.deleteModal .noDelete:focus{
+  border-radius: 0px;
+  height: 40px;
+  outline: none; 
+  margin-right: 15px;
+  border-color: #e4e7ec;
+  background-color: #e4e7ec;
+  color: #000; 
+}
+.iti-flag {background-image: url("../images/assureid/flags.png");}
+@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
+  .iti-flag {background-image: url("../images/assureid/flags@2x.png");}
+}
+.intl-tel-input {width: 100%;}
+.selected-flag:focus,.flag-container:focus{outline: none;}
+.documentSelect{margin-top:-20px!important;font-size:13px;margin-bottom:0px;}
+.zeroMarginTop{margin-top: 0px;}

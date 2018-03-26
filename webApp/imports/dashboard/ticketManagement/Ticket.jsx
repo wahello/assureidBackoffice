@@ -65,6 +65,11 @@ class Ticket extends TrackerReact(Component){
     }
        
   }
+  viewprofile(event){
+    event.preventDefault();
+    var path = $(event.target).attr('data-userid');
+    browserHistory.replace('/admin/viewProfile/'+path);
+  }
 
 	 render(){
     
@@ -99,7 +104,7 @@ class Ticket extends TrackerReact(Component){
                           </div> */}
                           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
-                            <h3 className="ticketheadStyle col-lg-12">{this.props.getTicket.serviceName}/{this.props.getTicket.orderNo}</h3>
+                            <h3 className="ticketheadStyle col-lg-12">{this.props.getTicket.serviceName}/{this.props.getTicket.ticketNumber}</h3>
                           </div>
                           <div className="ticketPills col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 noLRPad">
@@ -109,7 +114,7 @@ class Ticket extends TrackerReact(Component){
                                   <img src="/images/assureid/userIcon.png" className="ticketUserImage" /> 
                                 }
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight assureidValue">
-                                    <button type="button" className="btn viewbtn">View</button>
+                                    <button type="button" className="btn viewbtn" data-userid={this.props.user._id} onClick= {this.viewprofile.bind(this)}>View</button>
                                 </div>
                               </div>
                               <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8">
@@ -153,7 +158,7 @@ class Ticket extends TrackerReact(Component){
                                   Age<span className="pull-right">:</span>
                                   </div>  
                                    <div className="col-lg-7 col-md-7 col-sm-8 col-xs-8 text-left userValue">
-                                    <p>{this.props.userProfile.dateOfBirth}</p>
+                                    <p>{this.props.userProfile.dateOfBirth}&nbsp;Year</p>
                                   </div> 
                                 </div>
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">

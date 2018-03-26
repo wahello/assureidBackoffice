@@ -6172,6 +6172,15 @@ td input:focus {
   border: 1px solid #000;
   border-radius: 6px;
 }
+.serviceImgicon{
+  height: 52px;
+  width: 47%;
+  border: 1px solid #000;
+  border-radius: 6px;
+}
+.ticketServiceWrap{
+  text-align: right;
+}
 .noPadLeftRight{
   padding-left: 0;
   padding-right: 0;
@@ -6473,10 +6482,10 @@ margin-top: 20px;
 
 .viewbtn{
   margin-top:13%;
-  padding:6px 25px!important;
+  padding:2px 25px!important;
   background: #00acff!important;
   color:#fff;
-  text-transform: uppercase;
+  text-transform: capitalize;
 }
 .addressDashedLine{
   border: 1px dashed #aaa;
@@ -6536,4 +6545,15 @@ margin-top: 20px;
 .teamMemOuter{
   padding: 0;
   margin-right: 4%;
+}
+.ApprovRejDoc{
+  margin-right: 5%;
+  padding: 2%;
+  margin-top: 2%;
+}
+.docbtnwrap{
+  margin-bottom: 2%;
+}
+#loginModal{
+  display: block!important;
 }
