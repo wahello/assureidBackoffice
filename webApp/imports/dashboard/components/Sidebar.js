@@ -86,7 +86,7 @@ class Sidebar extends TrackerReact(Component){
             {/* Sidebar user panel */}
             <div className="user-panel">
               <div className="pull-left image">
-               { this.props.user.profile.userProfile ?
+               { this.props.user.profile.userProfile != '' ?
                    <img src={this.props.user.profile.userProfile} className="img-circle" alt="User Image" />
                   :
                   <img src="/images/userIcon.png" className="img-circle" alt="User Image" />

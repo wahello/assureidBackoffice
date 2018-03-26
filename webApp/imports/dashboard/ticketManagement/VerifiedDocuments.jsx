@@ -232,7 +232,7 @@ class VerifiedDocuments extends TrackerReact(Component){
                         this.props.verificationData.map((educationProof, index)=>{
                           return (
                              <div key={index}> 
-                              {educationProof.proofOfEducation == '' ?
+                              {educationProof.proofOfDocument == '' ?
                                 <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3 verifyDocWrap" >
                                   <div  title="No Documents Attached!">
                                    <img src="/images/assureid/noDocument.png" className="img-responsive addressImage"/>
@@ -241,9 +241,12 @@ class VerifiedDocuments extends TrackerReact(Component){
                                 :
                                 <div>
                                   <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3 verifyDocWrap" >
-                                   <div data-toggle="modal" data-target={"showPermanentDocumnetsModal-"+index} onClick={this.showDocuments.bind(this)} title="Click to verify Document">
-                                    <img src={educationProof.proofOfEducation} className="img-responsive addressImage"/>
+                                    <div data-toggle="modal" data-target={"showPermanentDocumnetsModal-"+index} onClick={this.showDocuments.bind(this)} title="Click to verify Document">
+                                     <img src={educationProof.proofOfDocument} className="img-responsive addressImage"/>
                                     </div>
+                                    <div className="text-center">
+                                     <p>{educationProof.proofType}</p>
+                                   </div>
                                   </div>
                                   <div className="modal fade" id={"showPermanentDocumnetsModal-"+index} role="dialog">
                                     <div className="modal-dialog">
@@ -272,7 +275,7 @@ class VerifiedDocuments extends TrackerReact(Component){
                                               </div>
                                             </div>
                                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
-                                              <img src={educationProof.proofOfEducation}  className="col-lg-12 img-responsive addressImageModal showAddrImgWrap col-lg-12 col-md-12 col-sm-12 col-xs-12"/>
+                                              <img src={educationProof.proofOfDocument}  className="col-lg-12 img-responsive addressImageModal showAddrImgWrap col-lg-12 col-md-12 col-sm-12 col-xs-12"/>
                                             </div>
                                            {this.props.isRoleUser == true ?
                                               <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm">
@@ -321,7 +324,7 @@ class VerifiedDocuments extends TrackerReact(Component){
                         this.props.verificationData.map((permanentAddrProof, index)=>{
                           return (
                              <div key={index}>
-                              {permanentAddrProof.proofOfPermanentAddr == '' ?
+                              {permanentAddrProof.proofOfDocument == '' ?
                                <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3 verifyDocWrap" >
                                   <div  title="No Documents Attached!">
                                    <img src="/images/assureid/noDocument.png" className="img-responsive addressImage"/>
@@ -331,8 +334,11 @@ class VerifiedDocuments extends TrackerReact(Component){
                                 <div>
                                  <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3 verifyDocWrap" >
                                    <div data-toggle="modal" data-target={"showPermanentDocumnetsModal-"+index} onClick={this.showDocuments.bind(this)} title="Click to verify permanent address">
-                                    <img src={permanentAddrProof.proofOfPermanentAddr} className="img-responsive addressImage"/>
+                                    <img src={permanentAddrProof.proofOfDocument} className="img-responsive addressImage"/>
                                     </div>
+                                    <div className="text-center">
+                                     <p>{permanentAddrProof.proofType}</p>
+                                   </div>
                                  </div>
                                   <div className="modal fade" id={"showPermanentDocumnetsModal-"+index} role="dialog">
                                     <div className="modal-dialog">
@@ -361,7 +367,7 @@ class VerifiedDocuments extends TrackerReact(Component){
                                               </div>
                                             </div>
                                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
-                                              <img src={permanentAddrProof.proofOfPermanentAddr}  className="col-lg-12 img-responsive addressImageModal showAddrImgWrap col-lg-12 col-md-12 col-sm-12 col-xs-12"/>
+                                              <img src={permanentAddrProof.proofOfDocument}  className="col-lg-12 img-responsive addressImageModal showAddrImgWrap col-lg-12 col-md-12 col-sm-12 col-xs-12"/>
                                             </div>
                                             {this.props.isRoleUser == true ?
                                               <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm">
@@ -409,7 +415,7 @@ class VerifiedDocuments extends TrackerReact(Component){
                         this.props.verificationData.map((currentAddrProof, index)=>{
                           return (
                             <div key={index}>
-                            {currentAddrProof.proofOfCurrentAddr == '' ?
+                            {currentAddrProof.proofOfDocument == '' ?
                              <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3 verifyDocWrap" >
                                 <div  title="No Documents Attached!">
                                  <img src="/images/assureid/noDocument.png" className="img-responsive addressImage"/>
@@ -419,8 +425,11 @@ class VerifiedDocuments extends TrackerReact(Component){
                               <div>
                                <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3 verifyDocWrap" >
                                 <div data-toggle="modal" data-target={"CurrentAddrDocumnetsModal-"+index} onClick={this.showDocuments.bind(this)} title="Click to verify current address" className="">
-                                  <img src={currentAddrProof.proofOfCurrentAddr} className="img-responsive addressImage"/>
+                                  <img src={currentAddrProof.proofOfDocument} className="img-responsive addressImage"/>
                                  </div>
+                                  <div className="text-center">
+                                     <p>{currentAddrProof.proofType}</p>
+                                   </div>
                                </div>
                                <div className="modal fade" id={"CurrentAddrDocumnetsModal-"+index} role="dialog">
                                   <div className="modal-dialog">
@@ -449,7 +458,7 @@ class VerifiedDocuments extends TrackerReact(Component){
                                               </div>
                                             </div>
                                           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 curImgWrap">
-                                            <img src={currentAddrProof.proofOfCurrentAddr}  className="img-responsive addressImageModal col-lg-12 col-md-12 col-sm-12 col-xs-12"/>
+                                            <img src={currentAddrProof.proofOfDocument}  className="img-responsive addressImageModal col-lg-12 col-md-12 col-sm-12 col-xs-12"/>
                                           </div>
                                          {this.props.isRoleUser == true ?
                                             <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm">
@@ -499,7 +508,7 @@ class VerifiedDocuments extends TrackerReact(Component){
                         this.props.verificationData.map((employementProof, index)=>{
                           return (
                             <div key={index}>
-                            {employementProof.proofOfEmployement == '' ?
+                            {employementProof.proofOfDocument == '' ?
                               <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3 verifyDocWrap">
                                 <div  title="No Documents Attached!">
                                  <img src="/images/assureid/noDocument.png" className="img-responsive addressImage"/>
@@ -509,7 +518,10 @@ class VerifiedDocuments extends TrackerReact(Component){
                               <div>
                                <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3 verifyDocWrap" >
                                 <div data-toggle="modal" data-target={"CurrentAddrDocumnetsModal-"+index} onClick={this.showDocuments.bind(this)} title="Click to verify current address" className="">
-                                  <img src={employementProof.proofOfEmployement} className="img-responsive addressImage"/>
+                                  <img src={employementProof.proofOfDocument} className="img-responsive addressImage"/>
+                                 </div>
+                                 <div className="text-center">
+                                   <p>{employementProof.proofType}</p>
                                  </div>
                                </div>
                                <div className="modal fade" id={"CurrentAddrDocumnetsModal-"+index} role="dialog">
@@ -540,7 +552,7 @@ class VerifiedDocuments extends TrackerReact(Component){
                                               </div>
                                             </div>
                                           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 curImgWrap">
-                                            <img src={employementProof.proofOfEmployement}  className="img-responsive addressImageModal col-lg-12 col-md-12 col-sm-12 col-xs-12"/>
+                                            <img src={employementProof.proofOfDocument}  className="img-responsive addressImageModal col-lg-12 col-md-12 col-sm-12 col-xs-12"/>
                                           </div>
                                           {this.props.isRoleUser == true ?
                                             <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm">
@@ -588,7 +600,7 @@ class VerifiedDocuments extends TrackerReact(Component){
                         this.props.verificationData.map((certificatesProof, index)=>{
                           return (
                             <div key={index}>
-                              {certificatesProof.proofOfCertificate == '' ?
+                              {certificatesProof.proofOfDocument == '' ?
                                <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3 verifyDocWrap" >
                                   <div  title="No Documents Attached!">
                                    <img src="/images/assureid/noDocument.png" className="img-responsive addressImage"/>
@@ -598,7 +610,10 @@ class VerifiedDocuments extends TrackerReact(Component){
                                <div>
                                  <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3 verifyDocWrap" >
                                   <div data-toggle="modal" data-target={"CurrentAddrDocumnetsModal-"+index} onClick={this.showDocuments.bind(this)} title="Click to verify Document" className="">
-                                    <img src={certificatesProof.proofOfCertificate} className="img-responsive addressImage"/>
+                                    <img src={certificatesProof.proofOfDocumentproofOfDocument} className="img-responsive addressImage"/>
+                                   </div>
+                                   <div className="text-center">
+                                    <p>{certificatesProof.proofType}</p>
                                    </div>
                                  </div>
                                 <div className="modal fade" id={"CurrentAddrDocumnetsModal-"+index} role="dialog">
@@ -622,7 +637,7 @@ class VerifiedDocuments extends TrackerReact(Component){
                                               </div>
                                             </div>
                                           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 curImgWrap">
-                                            <img src={certificatesProof.proofOfCertificate}  className="img-responsive addressImageModal col-lg-12 col-md-12 col-sm-12 col-xs-12"/>
+                                            <img src={certificatesProof.proofOfDocument}  className="img-responsive addressImageModal col-lg-12 col-md-12 col-sm-12 col-xs-12"/>
                                           </div>
                                           {this.props.isRoleUser == true ?
                                             <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm">
@@ -670,7 +685,7 @@ class VerifiedDocuments extends TrackerReact(Component){
                         this.props.verificationData.map((professionalEducationProof, index)=>{
                           return (
                             <div key={index}>
-                             {professionalEducationProof.proofOfEducation == '' ?
+                             {professionalEducationProof.proofOfDocument == '' ?
                                <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3 verifyDocWrap" >
                                   <div  title="No Documents Attached!">
                                    <img src="/images/assureid/noDocument.png" className="img-responsive addressImage"/>
@@ -680,7 +695,10 @@ class VerifiedDocuments extends TrackerReact(Component){
                              <div>
                                <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3 verifyDocWrap" >
                                 <div data-toggle="modal" data-target={"CurrentAddrDocumnetsModal-"+index} onClick={this.showDocuments.bind(this)} title="Click to verify current address" className="">
-                                  <img src={professionalEducationProof.proofOfEducation} className="img-responsive addressImage"/>
+                                  <img src={professionalEducationProof.proofOfDocument} className="img-responsive addressImage"/>
+                                 </div>
+                                 <div className="text-center">
+                                  <p>{professionalEducationProof.proofType}</p>
                                  </div>
                                </div>
                                <div className="modal fade" id={"CurrentAddrDocumnetsModal-"+index} role="dialog">
@@ -705,7 +723,7 @@ class VerifiedDocuments extends TrackerReact(Component){
                                               </div>
                                             </div>
                                           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 curImgWrap">
-                                            <img src={professionalEducationProof.proofOfEducation}  className="img-responsive addressImageModal col-lg-12 col-md-12 col-sm-12 col-xs-12"/>
+                                            <img src={professionalEducationProof.proofOfDocument}  className="img-responsive addressImageModal col-lg-12 col-md-12 col-sm-12 col-xs-12"/>
                                           </div>
                                           {this.props.isRoleUser == true ?
                                             <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm">
