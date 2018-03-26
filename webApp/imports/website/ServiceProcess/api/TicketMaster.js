@@ -615,10 +615,32 @@ if(Meteor.isServer){
 
           TempTicketImages.remove({});
           TempTicketVideo.remove({});
-	   	},
+		},
+
+		 /*=============== Team Member Approve/Reject Depend On Submited Document ===============*/
+		addTMDocStatus(tickteId,status){
+		
+			var ticketDetails = TicketMaster.findOne({'_id':tickteId});
+			var ticketElemLength = ticketDetails.ticketElement.length;		
+			if((ticketDetails) && (ticketElemLength>0)){
+				var insertData = ticketDetails.ticketElement[ticketElemLength-2];
+				insertData.role_status = status;
+				TicketMaster.update(
+					{'_id':tickteId},
+					{$push:{
+							'ticketElement':insertData,
+						}
+					}
+				)
+			}
+		}
+		   
+
 
 	
 	  });
+
+	 
 
 
 }
