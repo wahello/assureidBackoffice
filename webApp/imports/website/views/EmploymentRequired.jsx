@@ -58,14 +58,6 @@ export default class EmploymentRequired extends TrackerReact(Component) {
             this.props.employeeData.map((employmentDetails, index)=>{
               return (
                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding" key={index + '-' + 'employment'}> 
-                  { browserHistory.getCurrentLocation().pathname == "/viewProfile/"+this.props.currentUrl || browserHistory.getCurrentLocation().pathname == '/profileForms' 
-                    ?
-                     ""
-                    : 
-                    <div className="col-lg-1 col-md-1 col-sm-1 col-xs-1">
-                      <input type="checkbox" className="reqInfocheck" name="employementCheck" id={employmentDetails.chkid} value={"Employment : "+employmentDetails.employementId}/>
-                    </div> 
-                   }
                   <div className="col-lg-2 col-md-2 col-sm-2 col-xs-2 noProfilePadding">
                     <div className={employmentDetails.editStatus == "Reopen" ? "reOpenedu-box" : "edu-box"}>
                     <img src="/images/assureid/company.png" className="college-img"/>

@@ -122,15 +122,6 @@ class AddressRequired extends TrackerReact(Component){
                   return(
                     <div key={index}> 
                       <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noProfilePadding outerPermanentAddress">
-                        { browserHistory.getCurrentLocation().pathname == "/viewProfile/"+this.props.currentUrl || browserHistory.getCurrentLocation().pathname == '/profileForms'
-                          ?
-                           ""
-                          : 
-                          <div className="col-lg-1 col-md-1 col-sm-1 col-xs-1 noProfilePadding">
-                            <input type="checkbox" className="reqInfocheck" name="permanentAddressCheck" id ={permAddress.chkid} value={"Permanent Address : "+permAddress.permanentAddressId}/>
-                          </div>
-
-                        }
                         <div className="col-lg-2 col-md-2 col-sm-2 col-xs-2 noProfilePadding">
                           <div className={permAddress.editStatus == "Reopen" ? "reOpenedu-box" : "edu-box"}>
                             <img src="/images/assureid/pinImage2.png" className="college-img"/>
@@ -240,13 +231,6 @@ class AddressRequired extends TrackerReact(Component){
                   return(
                     <div key={index}> 
                       <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noProfilePadding outerPermanentAddress">
-                        { browserHistory.getCurrentLocation().pathname == "/viewProfile/"+this.props.currentUrl || browserHistory.getCurrentLocation().pathname == '/profileForms' ?
-                           ""
-                          :   
-                          <div className="col-lg-1 col-md-1 col-sm-1 col-xs-1 noProfilePadding">
-                            <input type="checkbox" className="reqInfocheck" name="permanentAddressCheck" id ={currentAddress.chkid} value={"Current Address : "+currentAddress.currentAddressId}/>
-                          </div>
-                        }
                         <div className="col-lg-2 col-md-2 col-sm-2 col-xs-2 noProfilePadding">
                           <div className={currentAddress.editStatus == "Reopen" ? "reOpenedu-box" : "edu-box"}>
                             <img src="/images/assureid/pinImage2.png" className="college-img"/>

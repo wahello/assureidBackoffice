@@ -60,14 +60,14 @@ export default class CertificateRequired extends TrackerReact(Component){
             this.props.certificateData.map((certificateDetails, index)=>{
               return (   
 		           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding"  key={index}>             
-			           { browserHistory.getCurrentLocation().pathname == "/viewProfile/"+this.props.currentUrl || browserHistory.getCurrentLocation().pathname == '/profileForms' 
+			           {/* { browserHistory.getCurrentLocation().pathname == "/viewProfile/"+this.props.currentUrl || browserHistory.getCurrentLocation().pathname == '/profileForms' 
                     ?
                      ""
                     : 
                     <div className="col-lg-1 col-md-1 col-sm-1 col-xs-1">
                       <input type="checkbox" className="reqInfocheck" name="certificateCheck" id={certificateDetails.chkid} value={"Certificate Details : "+certificateDetails.certificateId}/>
                     </div> 
-                 }
+                 } */}
                   <div className="col-lg-2 col-md-2 col-sm-2 col-xs-2 noProfilePadding">
 			              <div className={certificateDetails.editStatus == "Reopen" ? "reOpenedu-box" : "edu-box"}>
 			              <img src="/images/assureid/certificate.png" className="college-img"/>

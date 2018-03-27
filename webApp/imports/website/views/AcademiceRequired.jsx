@@ -75,13 +75,7 @@ deleteProfessionalAcadamic(event){
             this.props.academicsData.map((academicsDetails, index)=>{
             return(
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12" key={index}>
-              { browserHistory.getCurrentLocation().pathname == "/viewProfile/"+this.props.currentUrl || browserHistory.getCurrentLocation().pathname == '/profileForms' ?
-                         ""
-                        :
-        <div className="col-lg-1 col-md-1 col-sm-1 col-xs-1">
-                      <input type="checkbox" className="reqInfocheck" name="academicsCheck" id={academicsDetails.chkid} value={"Academics : "+academicsDetails.educationId}/>
-                    </div>
-                  }  
+              
               <div className="col-lg-2 col-md-2 col-sm-2 col-xs-2 noProfilePadding">
                  <div className={academicsDetails.editStatus == "Reopen" ? "reOpenedu-box" : "edu-box"}>
                   <img src="/images/assureid/college.png" className="college-img"/>
@@ -164,14 +158,6 @@ deleteProfessionalAcadamic(event){
             this.props.professionalData.map((professionalsDetails, index)=>{
             return(
            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12" key={index}>
-                { browserHistory.getCurrentLocation().pathname == "/viewProfile/"+this.props.currentUrl || browserHistory.getCurrentLocation().pathname == '/profileForms'
-                      ?
-                       ""
-                      :
-<div className="col-lg-1 col-md-1 col-sm-1 col-xs-1">
-                      <input type="checkbox" className="reqInfocheck" name="professionalsCheck" id={professionalsDetails.chkid} value={"Professionals Academics : "+professionalsDetails.professionalEducationId}/>
-                    </div>
-                }
               <div className="col-lg-2 col-md-2 col-sm-2 col-xs-2 noProfilePadding">
                <div className={professionalsDetails.editStatus == "Reopen" ? "reOpenedu-box" : "edu-box"}>
                   <img src="/images/assureid/college.png" className="college-img"/>

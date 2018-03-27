@@ -37,7 +37,7 @@ export default class SubmittedDocuments extends TrackerReact(Component){
 		Meteor.call('addTMDocStatus',ticketid,status);
 	}
    render(){
-   	console.log("submittedDocuments",this.props.submittedDocuments);
+   	
    	return(
    		<div>
        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">

@@ -21,57 +21,57 @@ class OtherRoleSidebar extends TrackerReact(Component){
       UserSession.delete("allProgressbarSession", Meteor.userId());
   }
 
-  // currentUser(){
-  //   // Meteor.subscribe('userData',Meteor.userId());
-  //   var userData = {"userName" : '', "userProfile" : ''};
-  //   var id = Meteor.userId();
-  //   var getUser = Meteor.users.findOne({"_id" : id});
-  //   if (getUser) {
-  //     if (getUser.roles[0] == "admin") {
-  //       // var userName    = getUser.username;
-  //       if (getUser.profile.firstname == '' && getUser.profile.lastname == '') {
-  //         var userName = "Admin";
-  //       }else if (getUser.profile.firstname != '' && getUser.profile.lastname == '') {
-  //         var userName = getUser.profile.firstname;
-  //       }else if (getUser.profile.firstname == '' && getUser.profile.lastname != '') {
-  //         var userName = getUser.profile.lastname;
-  //       }else{
-  //          var userName = getUser.profile.firstname+' '+getUser.profile.lastname;
-  //       }
-  //       if (getUser.profile.userProfile == '') {
-  //          var userProfile  = "/images/userIcon.png";
-  //       }else{
-  //         var userProfile  = getUser.profile.userProfile;
-  //       }
-  //       userData = {"userName" : userName, "userProfile" : userProfile};
-  //     }else if((getUser.roles[0] != "admin") && (getUser.roles[0] != "user") ){
-  //       if (getUser.profile.firstname == '' && getUser.profile.lastname == '') {
-  //         var userName = "User";
-  //       }else if (getUser.profile.firstname != '' && getUser.profile.lastname == '') {
-  //         var userName = getUser.profile.firstname;
-  //         var role = getUser.roles[1];
+  currentUser(){
+    // Meteor.subscribe('userData',Meteor.userId());
+    var userData = {"userName" : '', "userProfile" : ''};
+    var id = Meteor.userId();
+    var getUser = Meteor.users.findOne({"_id" : id});
+    if (getUser) {
+      if (getUser.roles[0] == "admin") {
+        // var userName    = getUser.username;
+        if (getUser.profile.firstname == '' && getUser.profile.lastname == '') {
+          var userName = "Admin";
+        }else if (getUser.profile.firstname != '' && getUser.profile.lastname == '') {
+          var userName = getUser.profile.firstname;
+        }else if (getUser.profile.firstname == '' && getUser.profile.lastname != '') {
+          var userName = getUser.profile.lastname;
+        }else{
+           var userName = getUser.profile.firstname+' '+getUser.profile.lastname;
+        }
+        if (getUser.profile.userProfile == '') {
+           var userProfile  = "/images/userIcon.png";
+        }else{
+          var userProfile  = getUser.profile.userProfile;
+        }
+        userData = {"userName" : userName, "userProfile" : userProfile};
+      }else if((getUser.roles[0] != "admin") && (getUser.roles[0] != "user") ){
+        if (getUser.profile.firstname == '' && getUser.profile.lastname == '') {
+          var userName = "User";
+        }else if (getUser.profile.firstname != '' && getUser.profile.lastname == '') {
+          var userName = getUser.profile.firstname;
+          var role = getUser.roles[1];
           
-  //       }else if (getUser.profile.firstname == '' && getUser.profile.lastname != '') {
-  //         var userName = getUser.profile.lastname;
-  //         var role = getUser.roles[1];
+        }else if (getUser.profile.firstname == '' && getUser.profile.lastname != '') {
+          var userName = getUser.profile.lastname;
+          var role = getUser.roles[1];
           
-  //       }else{
-  //          var userName = getUser.profile.firstname+' '+getUser.profile.lastname;
-  //          var role = getUser.roles[1];
-  //       }
-  //       if (getUser.profile.userProfile == '') {
-  //          var userProfile  = "/images/userIcon.png";
-  //       }else{
-  //         var userProfile  = getUser.profile.userProfile;
-  //         var role = getUser.roles[1];
+        }else{
+           var userName = getUser.profile.firstname+' '+getUser.profile.lastname;
+           var role = getUser.roles[1];
+        }
+        if (getUser.profile.userProfile == '') {
+           var userProfile  = "/images/userIcon.png";
+        }else{
+          var userProfile  = getUser.profile.userProfile;
+          var role = getUser.roles[1];
           
-  //       }
-  //       userData = {"userName" : userName, "userProfile" : userProfile,"role":role};
-  //     }
-  //   }
-  //   return userData;
+        }
+        userData = {"userName" : userName, "userProfile" : userProfile,"role":role};
+      }
+    }
+    return userData;
 
-  // }
+  }
  
   render(){
     return(

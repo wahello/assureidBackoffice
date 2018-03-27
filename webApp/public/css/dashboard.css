@@ -97,7 +97,7 @@ body {
 }
 .content-wrapper {
   min-height: 100%;
-  background-color: #ecf0f5;
+  background-color: #fff;
   z-index: 800;
 }
 .main-footer {
@@ -6246,13 +6246,6 @@ td input:focus {
  /* border: 1px solid rgba(74,74,74,0.3); */
  border-top:2px solid #aaa;
 }
-.verifiedDocumentsHeader h5{
-  /* font-size: 13px;
-  color: #4a4a4a;
-  font-weight: 700;
-  line-height: 1.6;
-  letter-spacing: 0.025em;  */
-}
 .docimg{
   height:60px!important;
 }
@@ -6571,4 +6564,21 @@ margin-top: 20px;
 .videoStyle{
   height: 130px;
   width: 137px;
+}
+.uploadReportwrap{
+  text-align: center;
+}
+.reporttitle{
+  margin-top:1%;
+  margin-bottom: 1%;
+  text-align: center;
+}
+.docdownload{
+    font-size: 96px;
+    padding: 0px 10px;
+    text-align: center;
+    color: #ccc;
+    border: 1px solid #aaa;
+    margin-bottom: 2%;
+    cursor: pointer;
 }

@@ -21,7 +21,7 @@ import AddImagesVideo from './AddImagesVideo.jsx';
 import VerifyDetailsDocument from './VerifyDetailsDocument.jsx';
 import { UserProfile } from '../../website/forms/api/userProfile.js';
 import SubmittedDocuments from './SubmittedDocuments.jsx';
-import UploadReport from '/imports/dashboard/ticketManagement/UploadReport.jsx';
+import UploadReport from './UploadReport.jsx';
 
 class Ticket extends TrackerReact(Component){
   constructor(props){
@@ -206,6 +206,9 @@ class Ticket extends TrackerReact(Component){
                                       :
                                       ""
                                     } 
+                                  </div>
+                                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
+                                   <UploadReport ticket={this.props.params.id}/>
                                   </div>
                                  {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">                                  
                                     <UploadReport/>

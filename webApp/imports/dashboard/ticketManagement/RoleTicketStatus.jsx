@@ -11,6 +11,7 @@ import { browserHistory } from 'react-router';
 import { Link } from 'react-router';
 import { TicketMaster } from '../../website/ServiceProcess/api/TicketMaster.js'; 
 import AddImagesVideo from './AddImagesVideo.jsx';
+import UploadReport from '/imports/dashboard/ticketManagement/UploadReport.jsx';
 
 class RoleTicketStatus extends TrackerReact(Component){   
 constructor(props){
