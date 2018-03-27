@@ -85,20 +85,27 @@ class Sidebar extends TrackerReact(Component){
           <section className="sidebar">
             {/* Sidebar user panel */}
             <div className="user-panel">
+              {!this.props.loading1 ?
               <div className="pull-left image">
-               { this.props.user.profile.userProfile != '' ?
+               { this.props.user.profile.userProfile ?
                    <img src={this.props.user.profile.userProfile} className="img-circle" alt="User Image" />
                   :
                   <img src="/images/userIcon.png" className="img-circle" alt="User Image" />
-               }
+               }              
               </div>
-              {this.props.user.profile ? 
+              :
+              ""
+            }
+            {!this.props.loading1 ?
+                this.props.user.profile ? 
                 <div className="pull-left info">
                   <p> {this.props.user.profile.firstname} {this.props.user.profile.lastname}</p>
-                  <Link to="javascript:void(0)"><i className="fa fa-circle text-success" /> Online</Link>
+                  <Link to="javascript:void(0)"><i className="fa fa-circle text-success" />Online</Link>
                 </div>
                 :
                 ""
+              :
+              ""
               }
             </div>
             {/* search form

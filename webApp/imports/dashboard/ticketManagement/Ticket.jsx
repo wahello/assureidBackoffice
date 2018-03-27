@@ -124,7 +124,7 @@ class Ticket extends TrackerReact(Component){
                                   Name <span className="pull-right">:</span>
                                   </div>   */}
                                   <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-left userName">
-                                    <h5>{this.props.userProfile.firstname} {this.props.userProfile.lastname}</h5>
+                                    <h5>{this.props.userProfile.firstName} {this.props.userProfile.lastName}</h5>
                                   </div> 
                                 </div>
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
@@ -133,7 +133,7 @@ class Ticket extends TrackerReact(Component){
                                   </div>  
                                   <div className="col-lg-7 col-md-7 col-sm-8 col-xs-8 text-left userValue">
                                    
-                                    <p>IND-AAA-123456</p>
+                                    <p>{this.props.userProfile.assureId}</p>
                                   </div> 
                                 </div>
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
@@ -243,6 +243,7 @@ export default UserDetailsContainer = withTracker(props => {
   var getTicket = TicketMaster.findOne({"_id":ticketId}) || {};        
   var user = Meteor.users.findOne({"_id": getTicket.userId}) || {};
   var userProfile = UserProfile.findOne({"userId": getTicket.userId}) || {};
+
   var today = new Date();
     var birthDate = new Date(userProfile.dateOfBirth);
     var age = today.getFullYear() - birthDate.getFullYear();

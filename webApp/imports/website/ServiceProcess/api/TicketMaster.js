@@ -493,61 +493,51 @@ if(Meteor.isServer){
 		/*======================= Add New Object with status Approved / Rejected in Ticket Master ========*/
 
 		'updateTicketFinalStatus':function(id,status,remark){
-			
+			console.log('status ',status);
 			var ticketBucket = TicketBucket.findOne({'ticketid':id});
-			if(status == "Approved"){
-				var insertDataDetails = TicketMaster.findOne({'_id':id});
-				var insertData = insertDataDetails.ticketElement[0];
-				insertData.role_status = status;
-				insertData.createdAt   = new Date();
-				insertData.verificationData.status = status;
-				insertData.verificationData.remark = remark;
-				insertData.verificationData.statusAt = new Date();
-				TicketMaster.update(
-					{'_id':id},
-						{   $push:{
-								'ticketElement':insertData,
-						}
-					}
-				)
-			}else{
-				// console.log("Write code for reject status");
-				var insertDataDetails = TicketMaster.findOne({'_id':id});
-				var insertData = insertDataDetails.ticketElement[0];
-				insertData.role_status = status;
-				insertData.createdAt   = new Date();
-				insertData.verificationData.status = status;
-				insertData.verificationData.remark = remark;
-				insertData.verificationData.statusAt = new Date();
-				TicketMaster.update(
-					{'_id':id},
-						{   $push:{
-								'ticketElement':insertData,
-						}
-					}
-				)
-			}
+			var insertDataDetails = TicketMaster.findOne({'_id':id});
 
-			Meteor.call('genericUpdateTicketBucket',id,status,'screening committee');
+			if(insertDataDetails){
+				// var insertData = insertDataDetails.ticketElement[0];
+				var insertData = {};
+				insertData.role_status = status;
+				insertData.createdAt   = new Date();
+				insertData.remark      = remark;
+				insertData.statusAt    = new Date();
+				if(status == 'Screen Rejected'){
+					console.log('status ',status);
+					insertData.rejectedData     = insertDataDetails.verificationData;
+					insertData.rejectedDocument = insertDataDetails.verificationDocument;
+				}
+				TicketMaster.update(
+					{'_id':id},
+							{   $push:{
+									'ticketElement':insertData,
+							}
+						}
+				);
+			}
+				
+			// Meteor.call('genericUpdateTicketBucket',id,status,'screening committee');
 			/*================= Update Ticket Bucket Status ================================*/
 			// TicketBucket.update(
 			// 	{'ticketid':id},
 			// 	{$set:{'status':status}}
-			// )
+			// );
 
 			// TicketBucket.insert(
 			// 	{'ticketid':id},
 			// 	{$set:{'status':status}}
-			// )
+			// );
 
-			return TicketMaster.update(
-				{'_id':id},
-					{   $set:{
-							'ticketStatus.0.status':status,
-							'ticketStatus.0.createdAt': new Date(),
-					}
-				}
-			)
+			// return TicketMaster.update(
+			// 	{'_id':id},
+			// 		{   $set:{
+			// 				'ticketStatus.0.status':status,
+			// 				'ticketStatus.0.createdAt': new Date(),
+			// 		}
+			// 	}
+			// );
 			
 		},
 
@@ -578,11 +568,10 @@ if(Meteor.isServer){
 			var ticketBucketDetails = TicketBucket.find({'ticketid':ticket.ticketid}).fetch();
 			var ticketBucketLength  = ticketBucketDetails.length;
 			if(ticketBucketLength > 0){
-				
 				var prevTicketBucketData = ticketBucketDetails[ticketBucketLength - 1];
 					TicketBucket.insert(
 						{  
-						    'ticketid'    : prevTicketBucketData .ticketid,
+						  'ticketid'    : prevTicketBucketData .ticketid,
 							'ticketNumber': prevTicketBucketData .ticketNumber,
 							'orderId'     : prevTicketBucketData .orderId,
 							'serviceName' : prevTicketBucketData .serviceName,
@@ -633,14 +622,6 @@ if(Meteor.isServer){
 					}
 				)
 			}
-		}
-		   
-
-
-	
+		},  
 	  });
-
-	 
-
-
 }

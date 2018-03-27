@@ -81,20 +81,27 @@ class OtherRoleSidebar extends TrackerReact(Component){
           <section className="sidebar">
             {/* Sidebar user panel */}
             <div className="user-panel">
+             {!this.props.loading1 ?
               <div className="pull-left image">
-               { this.props.user.profile.userProfile != '' ?
+               { this.props.user.profile.userProfile ?
                    <img src={this.props.user.profile.userProfile} className="img-circle" alt="User Image" />
                   :
                   <img src="/images/userIcon.png" className="img-circle" alt="User Image" />
                }              
               </div>
-               {this.props.user.profile ? 
+              :
+              ""
+            }
+            {!this.props.loading1 ?
+                this.props.user.profile ? 
                 <div className="pull-left info">
                   <p> {this.props.user.profile.firstname} {this.props.user.profile.lastname}</p>
                   <Link to="javascript:void(0)"><i className="fa fa-circle text-success" />{this.props.role}</Link>
                 </div>
                 :
                 ""
+              :
+              ""
               }
             </div>
             <ul className="sidebar-menu" data-widget="tree">
@@ -151,9 +158,10 @@ export default allOtherRoleSidebarContainer = withTracker(props => {
   var loading = !handleAllBucketTick.ready();
   var _id  = Meteor.userId();
   const userHandle  = Meteor.subscribe('userData',_id);
-  const user        = Meteor.users.findOne({"_id" : _id}) || {};
+  const user        = Meteor.users.findOne({"_id" : _id});
   const loading1    = !userHandle.ready();
   // console.log("user",user);
+  // console.log("userProfile",user.profile.userProfile);
   if (user) {
     if (user.roles) {
       var role = user.roles[1];
