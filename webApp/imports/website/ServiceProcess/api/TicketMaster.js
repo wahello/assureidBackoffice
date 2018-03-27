@@ -265,7 +265,7 @@ if(Meteor.isServer){
 						'ticketElement':{
 							'empid': empid,
 							'role' : role,
-							'role_status':'New',
+							'role_status':'ScreenApprove',
 							'createdAt': new Date()
 						}
 					}
@@ -291,7 +291,7 @@ if(Meteor.isServer){
 					var insertData = ticketDetails.ticketElement[i];
 				}
 			}
-			insertData.role_status = "Allocated";
+			insertData.role_status = "Assign";
 			insertData.createdAt   = new Date();
 			TicketMaster.update(
 				{'_id':ticketId},
@@ -307,7 +307,7 @@ if(Meteor.isServer){
 						'ticketElement':{
 							'empid': teamMemberDetails._id,
 							'role' : "team member",
-							'role_status':'New',
+							'role_status':'Assign',
 							'createdAt': new Date(),
 							'verificationData':insertData.verificationData
 						}
@@ -344,7 +344,7 @@ if(Meteor.isServer){
 					var insertData = ticketDetails.ticketElement[i];
 				}
 			}
-			insertData.role_status = "Accepted";
+			insertData.role_status = "AssignAccept";
 			insertData.createdAt   = new Date();
 
 			 var addTM = TicketMaster.update(
@@ -426,7 +426,7 @@ if(Meteor.isServer){
 				insertData1.allocatedTo = "Self";			
 
 			}
-			insertData1.role_status = "Allocated";
+			insertData1.role_status = "Allocate";
 			insertData1.createdAt   = new Date();
 			TicketMaster.update(
 				{'_id':ticketId},
@@ -501,6 +501,7 @@ if(Meteor.isServer){
 				// var insertData = insertDataDetails.ticketElement[0];
 				var insertData = {};
 				insertData.role_status = status;
+				insertData.role = 'screening committee';
 				var length = insertDataDetails.ticketElement.length;
 				if(length>0){
 					insertData.empid       = insertDataDetails.ticketElement[length-1].empid;
@@ -508,7 +509,7 @@ if(Meteor.isServer){
 				insertData.createdAt   = new Date();
 				insertData.remark      = remark;
 				insertData.statusAt    = new Date();
-				if(status == 'Screen Rejected'){
+				if(status == 'ScreenRejected'){
 					console.log('status ',status);
 					insertData.rejectedData     = insertDataDetails.verificationData;
 					insertData.rejectedDocument = insertDataDetails.verificationDocument;

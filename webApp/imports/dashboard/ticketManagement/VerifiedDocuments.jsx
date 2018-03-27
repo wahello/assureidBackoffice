@@ -95,7 +95,7 @@ class VerifiedDocuments extends TrackerReact(Component){
       Meteor.call('updateTicketFinalStatus',ticketId,status,remark,function(error,result){
         if(result){
           console.log('ticketId ',ticketId);
-          if(status == 'Screen Approved'){
+          if(status == 'ScreenApprove'){
             //Get max allocate number for team leader
             var memberDetails = Meteor.users.find({"roles":"team leader"},{sort:{'count':1}}).fetch();
             var companyObj = CompanySettings.findOne({"maxnoOfTicketAllocate.role":"team leader"});
@@ -109,6 +109,7 @@ class VerifiedDocuments extends TrackerReact(Component){
                   'ticketid' : ticketId,
                   'empID'    : memberDetails[k]._id,
                   'role'     : 'team leader',
+                  'status'   : status,
               }
               Meteor.call('insertTicketBucket',newTicketAllocated,function(error,result){
                   if(result){
@@ -458,7 +459,7 @@ class VerifiedDocuments extends TrackerReact(Component){
                                             <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm">
                                              {this.props.ticketStatus.status == "New" || this.props.ticketStatus.status == "Reassign" && this.props.ticketStatus.role == "screening committee" ?
                                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                    <button type="button" className="btn btn-info acceptTicket acceptreject" data-status="Screen Approved" onClick={this.approvedCurDocument.bind()}>Approved</button>
+                                                    <button type="button" className="btn btn-info acceptTicket acceptreject" data-status="ScreenApprove" onClick={this.approvedCurDocument.bind()}>Approved</button>
                                                     <button type="button" className="btn btn-info rejectTicket acceptreject" onClick={this.hideShowRejectCurReason.bind()}>Reject</button>
                                                 </div>
                                                 :
@@ -473,7 +474,7 @@ class VerifiedDocuments extends TrackerReact(Component){
                                                   <textarea className={"col-lg-12 col-md-12 col-sm-12 col-xs-12 rejectReason rejectReason-"+index} rows='2' placeholder="Enter Reject reason..."></textarea>
                                             </div>
                                             <div className="col-lg-2  col-md-2  col-sm-12 col-xs-12 rejectBtnWrap">
-                                              <button className="col-lg-12 col-md-12 btn btn-primary rejectReasonBtn pull-left"data-status="Screen Rejected"  onClick={this.approvedCurDocument.bind(this)}>Submit</button>
+                                              <button className="col-lg-12 col-md-12 btn btn-primary rejectReasonBtn pull-left"data-status="ScreenRejected"  onClick={this.approvedCurDocument.bind(this)}>Submit</button>
                                             </div>
                                             </div>
                                         </div>

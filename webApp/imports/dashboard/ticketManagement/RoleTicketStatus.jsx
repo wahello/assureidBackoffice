@@ -142,7 +142,7 @@ constructor(props){
 
     }
 
-    if((status=="New" && ( length == 1) )){
+    if((status=="ScreenApprove" && ( length == 1) )){
         return(
             <div id="hidelist" className="col-lg-12 displayTeamList">
                 <div className="col-lg-8 allteamleader">
@@ -160,7 +160,7 @@ constructor(props){
                 </select>
                 </div>
                 <div className="col-lg-4 fesubmitouter noLRPad">
-                    <button type="button" className="fesubmitbtn col-lg-12 teammember" role-status={this.props.role_status} data-empid={empid} onClick={this.allocateToTeamMember.bind(this)}>Ok</button>
+                    <button type="button" className="fesubmitbtn col-lg-12 teammember" role-status={this.props.role_status} data-empid={empid} onClick={this.allocateToTeamMember.bind(this)}>Assign To</button>
                 </div>
             </div>
         );
@@ -212,14 +212,14 @@ constructor(props){
 
     
 
-    if((status == "New") && ( length == 1)){
+    if((status == "Assign") && ( length == 1)){
         return(
                <div className="hideacceptreject" id="hideacceptreject">
-                   <button type="button" className="bg-primary col-lg-5 teammember" data-status="Accepted" data-empId = {empid}  data-id={this.props.ticketId}  onClick={this.changeTMStatus.bind(this)}>Accept</button>
-                   <button type="button" className="btn-danger col-lg-5 teammember" data-status="Rejected" data-empId = {empid}  data-id={this.props.ticketId}  onClick={this.changeTMStatus.bind(this)}>Reject</button>
+                   <button type="button" className="bg-primary col-lg-5 teammember" data-status="AssignAccept" data-empId = {empid}  data-id={this.props.ticketId}  onClick={this.changeTMStatus.bind(this)}>Accept</button>
+                   <button type="button" className="btn-danger col-lg-5 teammember" data-status="AssignReject" data-empId = {empid}  data-id={this.props.ticketId}  onClick={this.changeTMStatus.bind(this)}>Reject</button>
                </div>
        );
-    }else if((status == "Accepted") && (length ==2)){
+    }else if((status == "AssignAccept") && (length ==2)){
         return(
             <div className="col-lg-12 fesubmitouter">
                 <div className="hideteamMemOptio">

@@ -204,7 +204,7 @@ constructor(props){
       var ticketBAElement ={
           empid             : ticketElementObj.empid,
           role              : ticketElementObj.role,
-          role_status       : "Submited",
+          role_status       : "SelfSubmit",
           createdAt         : new Date(),
           submitedDoc       : documents,
           submitedRemark    : "Approved",
