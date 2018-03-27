@@ -501,6 +501,10 @@ if(Meteor.isServer){
 				// var insertData = insertDataDetails.ticketElement[0];
 				var insertData = {};
 				insertData.role_status = status;
+				var length = insertDataDetails.ticketElement.length;
+				if(length>0){
+					insertData.empid       = insertDataDetails.ticketElement[length-1].empid;
+				}
 				insertData.createdAt   = new Date();
 				insertData.remark      = remark;
 				insertData.statusAt    = new Date();
@@ -518,26 +522,17 @@ if(Meteor.isServer){
 				);
 			}
 				
-			// Meteor.call('genericUpdateTicketBucket',id,status,'screening committee');
-			/*================= Update Ticket Bucket Status ================================*/
-			// TicketBucket.update(
-			// 	{'ticketid':id},
-			// 	{$set:{'status':status}}
-			// );
-
-			// TicketBucket.insert(
-			// 	{'ticketid':id},
-			// 	{$set:{'status':status}}
-			// );
-
-			// return TicketMaster.update(
-			// 	{'_id':id},
-			// 		{   $set:{
-			// 				'ticketStatus.0.status':status,
-			// 				'ticketStatus.0.createdAt': new Date(),
-			// 		}
-			// 	}
-			// );
+			Meteor.call('genericUpdateTicketBucket',id,status,'screening committee');
+			// /*================= Update Ticket Bucket Status ================================*/
+			
+			return TicketMaster.update(
+				{'_id':id},
+					{   $set:{
+							'ticketStatus.0.status':status,
+							'ticketStatus.0.createdAt': new Date(),
+					}
+				}
+			);
 			
 		},
 

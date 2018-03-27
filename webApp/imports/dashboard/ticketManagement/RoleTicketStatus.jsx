@@ -357,8 +357,7 @@ userData(){
                     data.allocatedToName = getTicket.ticketElement[i].allocatedTo;
                     data.allocatedToRole = false;
                   }
-                  var roleDetails = Meteor.users.findOne({"_id":getTicket.ticketElement[i].empid});
-                  
+                  var roleDetails = Meteor.users.findOne({"_id":getTicket.ticketElement[i].empid});                  
                   data = {
                       index  : i,
                       empid  : getTicket.ticketElement[i].empid,

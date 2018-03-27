@@ -33,7 +33,7 @@ class UploadReport extends TrackerReact(Component){
                             </div>
                         </div>
                     </div>
-                    <div className="col-lg-12 noLRPad borderBottomBlock">
+                    {/* <div className="col-lg-12 noLRPad borderBottomBlock">
                         <h5 className="col-lg-9 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 noLRPad roleName">Quality Team Member</h5>
                         <div className="col-lg-12 noLRPad Selectimg reporttitle dataDetails"> Download Report:</div>                
                         <div className="docdownload col-lg-2 col-lg-offset-5" title="Download Report">
@@ -64,7 +64,7 @@ class UploadReport extends TrackerReact(Component){
                                 <button className="col-lg-12 col-md-12 btn btn-primary rejectReasonBtn pull-left" data-status="Rejected">Submit</button>
                             </div>
                         </div>
-                    </div>                   
+                    </div>                    */}
                 </div>
             );
         }else{

@@ -94,60 +94,55 @@ class VerifiedDocuments extends TrackerReact(Component){
       console.log(ticketObj);
       Meteor.call('updateTicketFinalStatus',ticketId,status,remark,function(error,result){
         if(result){
-
-          var memberDetails = Meteor.users.find({"roles":"team leader"},{sort:{'count':1}}).fetch();
-              var companyObj = CompanySettings.findOne({"maxnoOfTicketAllocate.role":"team leader"});
-              for(var i=0;i<companyObj.maxnoOfTicketAllocate.length;i++){
-                if(companyObj.maxnoOfTicketAllocate[i].role == "team leader"){
-                  var allocatedtickets = companyObj.maxnoOfTicketAllocate[i].maxTicketAllocate;
-                }
+          console.log('ticketId ',ticketId);
+          if(status == 'Screen Approved'){
+            //Get max allocate number for team leader
+            var memberDetails = Meteor.users.find({"roles":"team leader"},{sort:{'count':1}}).fetch();
+            var companyObj = CompanySettings.findOne({"maxnoOfTicketAllocate.role":"team leader"});
+            for(var i=0;i<companyObj.maxnoOfTicketAllocate.length;i++){
+              if(companyObj.maxnoOfTicketAllocate[i].role == "team leader"){
+                var allocatedtickets = companyObj.maxnoOfTicketAllocate[i].maxTicketAllocate;
               }
-              for(var k=0;k<memberDetails.length;k++){
-                 
-                            var newTicketAllocated = {
-                                'ticketid' : ticketId,
-                                'empID'    : memberDetails[k]._id,
-                                'role'     : 'team leader',
-                            }
-                 
-                            Meteor.call('insertTicketBucket',newTicketAllocated,function(error,result){
-                                if(result){
-                                    var ticketBucketDetail = TicketBucket.findOne({"ticketid":newTicketAllocated.ticketid});
-                                    if(ticketBucketDetail){
-                                        var ticketId = newTicketAllocated.ticketid;
-                                        var empID    = newTicketAllocated.empID;
-                                        var role     = newTicketAllocated.role;
-                                        Meteor.call('updateTicketElement',ticketId,empID,role,function(error,result){
-                                           
-                                        });
-                                    }
-                                }
-                });
-                 
-
-                  if(memberDetails[k].count){
-                        var newCount = memberDetails[k].count + 1;
-                  } else{
-                    var newCount = 1;
+            }
+            for(var k=0;k<memberDetails.length;k++){
+              var newTicketAllocated = {
+                  'ticketid' : ticketId,
+                  'empID'    : memberDetails[k]._id,
+                  'role'     : 'team leader',
+              }
+              Meteor.call('insertTicketBucket',newTicketAllocated,function(error,result){
+                  if(result){
+                      var ticketBucketDetail = TicketBucket.findOne({"ticketid":newTicketAllocated.ticketid});
+                      if(ticketBucketDetail){
+                          var ticketId = newTicketAllocated.ticketid;
+                          var empID    = newTicketAllocated.empID;
+                          var role     = newTicketAllocated.role;
+                          Meteor.call('updateTicketElement',ticketId,empID,role,function(error,result){
+                              
+                          });
+                      }
                   }
-                  Meteor.call('updateCommitteeUserCount',newCount,memberDetails[k]._id);
-                  break;
-               
+              });
+
+              if(memberDetails[k].count){
+                var newCount = memberDetails[k].count + 1;
+              } else{
+                var newCount = 1;
               }
-
-          if(status=="Screen Approved"){
-              swal("Aprooved successfully");
-              
-            }else{ 
-
-              swal("Rejected successfully");
-             
+              Meteor.call('updateCommitteeUserCount',newCount,memberDetails[k]._id);
+              break;
+            }
+            swal("Aprooved successfully");
+          }else{
+            swal("Rejected successfully");             
               // Notification to user- Need to implement
               //Data Missing, Need to upload correct Data
               Meteor.call('changeStatusMethod',ticketObj._id,ticketObj.userId,remark,ticketObj.verificationType,ticketObj.verificationId); // Userprofile collection
               Meteor.call('changeStatusofOrder',ticketObj.userId,remark,ticketObj.verificationId,ticketObj.verificationType); // Change the Status in Order collection
 
-            }
+          }
+          
+          
           }
         });
     }
