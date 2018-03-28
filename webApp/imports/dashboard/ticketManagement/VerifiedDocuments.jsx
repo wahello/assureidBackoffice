@@ -118,8 +118,7 @@ class VerifiedDocuments extends TrackerReact(Component){
                           var ticketId = newTicketAllocated.ticketid;
                           var empID    = newTicketAllocated.empID;
                           var role     = newTicketAllocated.role;
-                          Meteor.call('updateTicketElement',ticketId,empID,role,function(error,result){
-                              
+                          Meteor.call('updateTicketElement',ticketId,empID,role,function(error,result){                   
                           });
                       }
                   }
@@ -139,12 +138,9 @@ class VerifiedDocuments extends TrackerReact(Component){
               //Data Missing, Need to upload correct Data
               Meteor.call('changeStatusMethod',ticketObj._id,ticketObj.userId,remark,ticketObj.verificationType,ticketObj.verificationId); // Userprofile collection
               Meteor.call('changeStatusofOrder',ticketObj.userId,remark,ticketObj.verificationId,ticketObj.verificationType); // Change the Status in Order collection
-
-          }
-          
-          
-          }
-        });
+          }        
+        }
+      });
     }
   }
 
@@ -236,7 +232,14 @@ class VerifiedDocuments extends TrackerReact(Component){
                                 <div>
                                   <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3 verifyDocWrap" >
                                     <div data-toggle="modal" data-target={"showPermanentDocumnetsModal-"+index} onClick={this.showDocuments.bind(this)} title="Click to verify Document">
-                                     <img src={this.props.iconused} className="img-responsive addressImage"/>
+                                      { educationProof.fileExt == "png" || educationProof.fileExt == "jpg" || educationProof.fileExt == "jpeg" || educationProof.fileExt == "gif" ?
+                                          <img src="/images/assureid/Photo-icon.png" className="img-responsive addressImage"/>
+                                        :
+                                        educationProof.fileExt == "pdf" ?
+                                          <img src="/images/assureid/pdf.png" className="img-responsive addressImage"/>
+                                        :
+                                        ""
+                                       }
                                     </div>
                                     <div className="text-center">
                                      <p>{educationProof.proofType}</p>
@@ -328,7 +331,14 @@ class VerifiedDocuments extends TrackerReact(Component){
                                 <div>
                                  <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3 verifyDocWrap" >
                                    <div data-toggle="modal" data-target={"showPermanentDocumnetsModal-"+index} onClick={this.showDocuments.bind(this)} title="Click to verify permanent address">
-                                      <img src={this.props.iconused} className="img-responsive addressImage"/>
+                                     { permanentAddrProof.fileExt == "png" || permanentAddrProof.fileExt == "jpg" || permanentAddrProof.fileExt == "jpeg" || permanentAddrProof.fileExt == "gif" ?
+                                          <img src="/images/assureid/Photo-icon.png" className="img-responsive addressImage"/>
+                                        :
+                                        permanentAddrProof.fileExt == "pdf" ?
+                                          <img src="/images/assureid/pdf.png" className="img-responsive addressImage"/>
+                                        :
+                                        ""
+                                     }
                                     </div>
                                     <div className="text-center">
                                      <p>{permanentAddrProof.proofType}</p>
@@ -419,7 +429,14 @@ class VerifiedDocuments extends TrackerReact(Component){
                               <div>
                                <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3 verifyDocWrap" >
                                 <div data-toggle="modal" data-target={"CurrentAddrDocumnetsModal-"+index} onClick={this.showDocuments.bind(this)} title="Click to verify current address" className="">
-                                  <img src={this.props.iconused} className="img-responsive addressImage"/>
+                                  { currentAddrProof.fileExt == "png" || currentAddrProof.fileExt == "jpg" || currentAddrProof.fileExt == "jpeg" || currentAddrProof.fileExt == "gif" ?
+                                        <img src="/images/assureid/Photo-icon.png" className="img-responsive addressImage"/>
+                                      :
+                                      currentAddrProof.fileExt == "pdf" ?
+                                        <img src="/images/assureid/pdf.png" className="img-responsive addressImage"/>
+                                      :
+                                      ""
+                                   }
                                  </div>
                                   <div className="text-center">
                                      <p>{currentAddrProof.proofType}</p>
@@ -512,7 +529,14 @@ class VerifiedDocuments extends TrackerReact(Component){
                               <div>
                                <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3 verifyDocWrap" >
                                 <div data-toggle="modal" data-target={"CurrentAddrDocumnetsModal-"+index} onClick={this.showDocuments.bind(this)} title="Click to verify current address" className="">
-                                  <img src={this.props.iconused} className="img-responsive addressImage"/>
+                                  { employementProof.fileExt == "png" || employementProof.fileExt == "jpg" || employementProof.fileExt == "jpeg" || employementProof.fileExt == "gif" ?
+                                      <img src="/images/assureid/Photo-icon.png" className="img-responsive addressImage"/>
+                                    :
+                                    employementProof.fileExt == "pdf" ?
+                                      <img src="/images/assureid/pdf.png" className="img-responsive addressImage"/>
+                                    :
+                                    ""
+                                   }
                                  </div>
                                  <div className="text-center">
                                    <p>{employementProof.proofType}</p>
@@ -604,7 +628,14 @@ class VerifiedDocuments extends TrackerReact(Component){
                                <div>
                                  <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3 verifyDocWrap" >
                                   <div data-toggle="modal" data-target={"CurrentAddrDocumnetsModal-"+index} onClick={this.showDocuments.bind(this)} title="Click to verify Document" className="">
-                                    <img src={this.props.iconused} className="img-responsive addressImage"/>
+                                    { certificatesProof.fileExt == "png" || certificatesProof.fileExt == "jpg" || certificatesProof.fileExt == "jpeg" || certificatesProof.fileExt == "gif" ?
+                                      <img src="/images/assureid/Photo-icon.png" className="img-responsive addressImage"/>
+                                      :
+                                      certificatesProof.fileExt == "pdf" ?
+                                        <img src="/images/assureid/pdf.png" className="img-responsive addressImage"/>
+                                      :
+                                      ""
+                                   }
                                    </div>
                                    <div className="text-center">
                                     <p>{certificatesProof.proofType}</p>
@@ -689,7 +720,14 @@ class VerifiedDocuments extends TrackerReact(Component){
                              <div>
                                <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3 verifyDocWrap" >
                                 <div data-toggle="modal" data-target={"CurrentAddrDocumnetsModal-"+index} onClick={this.showDocuments.bind(this)} title="Click to verify current address" className="">
-                                    <img src={this.props.iconused} className="img-responsive addressImage"/>
+                                  { professionalEducationProof.fileExt == "png" || professionalEducationProof.fileExt == "jpg" || professionalEducationProof.fileExt == "jpeg" || professionalEducationProof.fileExt == "gif" ?
+                                      <img src="/images/assureid/Photo-icon.png" className="img-responsive addressImage"/>
+                                      :
+                                      professionalEducationProof.fileExt == "pdf" ?
+                                        <img src="/images/assureid/pdf.png" className="img-responsive addressImage"/>
+                                      :
+                                      ""
+                                   }
                                  </div>
                                  <div className="text-center">
                                   <p>{professionalEducationProof.proofType}</p>
@@ -865,16 +903,16 @@ verifiedDocumentsContainer = withTracker(props => {
      var iconused = "";
     if (getTicket) {
          var verificationData = [getTicket.verificationData];
-         if (verificationData) {
-          if(verificationData[0].fileExt == "png" || verificationData[0].fileExt == "jpg" || verificationData[0].fileExt == "jpeg" || verificationData[0].fileExt == "gif"){
-             iconused = "/images/assureid/Photo-icon.png";
-          }else if (verificationData[0].fileExt == "pdf" ) {
-             iconused = "/images/assureid/Photo-icon.png";
-          }else{
-             iconused = "";
-          }
-          // console.log("iconused",iconused);
-        }
+        //  if (verificationData) {
+        //   if(verificationData[0].fileExt == "png" || verificationData[0].fileExt == "jpg" || verificationData[0].fileExt == "jpeg" || verificationData[0].fileExt == "gif"){
+        //      iconused = "/images/assureid/Photo-icon.png";
+        //   }else if (verificationData[0].fileExt == "pdf" ) {
+        //      iconused = "/images/assureid/pdf.png";
+        //   }else{
+        //      iconused = "";
+        //   }
+        //   // console.log("iconused",iconused);
+        // }
           // <img src={permanentAddrProof.proofOfDocument} className="img-responsive addressImage"/>
          if(!verificationData){
           var verificationData = '';
@@ -910,7 +948,6 @@ verifiedDocumentsContainer = withTracker(props => {
           loading  : loading,
           getTicket : getTicket,
           verificationData,
-           iconused,
           isRoleUser  : isRoleUser,
           ticketStatus : ticketStatus,
           // curAddrArray,
