@@ -367,7 +367,11 @@ userData(){
                      
                   };
 
-                  newCommeeteeArr.push(data);
+
+                  //   }
+                   
+                  // }
+                  
       
               }
       }

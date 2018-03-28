@@ -124,7 +124,6 @@ class VerifiedDocuments extends TrackerReact(Component){
                       }
                   }
               });
-
               if(memberDetails[k].count){
                 var newCount = memberDetails[k].count + 1;
               } else{
@@ -237,7 +236,7 @@ class VerifiedDocuments extends TrackerReact(Component){
                                 <div>
                                   <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3 verifyDocWrap" >
                                     <div data-toggle="modal" data-target={"showPermanentDocumnetsModal-"+index} onClick={this.showDocuments.bind(this)} title="Click to verify Document">
-                                     <img src={educationProof.proofOfDocument} className="img-responsive addressImage"/>
+                                     <img src={this.props.iconused} className="img-responsive addressImage"/>
                                     </div>
                                     <div className="text-center">
                                      <p>{educationProof.proofType}</p>
@@ -329,7 +328,7 @@ class VerifiedDocuments extends TrackerReact(Component){
                                 <div>
                                  <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3 verifyDocWrap" >
                                    <div data-toggle="modal" data-target={"showPermanentDocumnetsModal-"+index} onClick={this.showDocuments.bind(this)} title="Click to verify permanent address">
-                                    <img src={permanentAddrProof.proofOfDocument} className="img-responsive addressImage"/>
+                                      <img src={this.props.iconused} className="img-responsive addressImage"/>
                                     </div>
                                     <div className="text-center">
                                      <p>{permanentAddrProof.proofType}</p>
@@ -420,7 +419,7 @@ class VerifiedDocuments extends TrackerReact(Component){
                               <div>
                                <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3 verifyDocWrap" >
                                 <div data-toggle="modal" data-target={"CurrentAddrDocumnetsModal-"+index} onClick={this.showDocuments.bind(this)} title="Click to verify current address" className="">
-                                  <img src={currentAddrProof.proofOfDocument} className="img-responsive addressImage"/>
+                                  <img src={this.props.iconused} className="img-responsive addressImage"/>
                                  </div>
                                   <div className="text-center">
                                      <p>{currentAddrProof.proofType}</p>
@@ -513,7 +512,7 @@ class VerifiedDocuments extends TrackerReact(Component){
                               <div>
                                <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3 verifyDocWrap" >
                                 <div data-toggle="modal" data-target={"CurrentAddrDocumnetsModal-"+index} onClick={this.showDocuments.bind(this)} title="Click to verify current address" className="">
-                                  <img src={employementProof.proofOfDocument} className="img-responsive addressImage"/>
+                                  <img src={this.props.iconused} className="img-responsive addressImage"/>
                                  </div>
                                  <div className="text-center">
                                    <p>{employementProof.proofType}</p>
@@ -605,7 +604,7 @@ class VerifiedDocuments extends TrackerReact(Component){
                                <div>
                                  <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3 verifyDocWrap" >
                                   <div data-toggle="modal" data-target={"CurrentAddrDocumnetsModal-"+index} onClick={this.showDocuments.bind(this)} title="Click to verify Document" className="">
-                                    <img src={certificatesProof.proofOfDocument} className="img-responsive addressImage"/>
+                                    <img src={this.props.iconused} className="img-responsive addressImage"/>
                                    </div>
                                    <div className="text-center">
                                     <p>{certificatesProof.proofType}</p>
@@ -690,7 +689,7 @@ class VerifiedDocuments extends TrackerReact(Component){
                              <div>
                                <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3 verifyDocWrap" >
                                 <div data-toggle="modal" data-target={"CurrentAddrDocumnetsModal-"+index} onClick={this.showDocuments.bind(this)} title="Click to verify current address" className="">
-                                  <img src={professionalEducationProof.proofOfDocument} className="img-responsive addressImage"/>
+                                    <img src={this.props.iconused} className="img-responsive addressImage"/>
                                  </div>
                                  <div className="text-center">
                                   <p>{professionalEducationProof.proofType}</p>
@@ -863,9 +862,20 @@ verifiedDocumentsContainer = withTracker(props => {
     const ticketBucket = Meteor.subscribe("allTicketBucket");
     const getTicket   = TicketMaster.findOne({"_id" : _id}) || {};
      // console.log("getTicket",getTicket);
+     var iconused = "";
     if (getTicket) {
          var verificationData = [getTicket.verificationData];
-         
+         if (verificationData) {
+          if(verificationData[0].fileExt == "png" || verificationData[0].fileExt == "jpg" || verificationData[0].fileExt == "jpeg" || verificationData[0].fileExt == "gif"){
+             iconused = "/images/assureid/Photo-icon.png";
+          }else if (verificationData[0].fileExt == "pdf" ) {
+             iconused = "/images/assureid/Photo-icon.png";
+          }else{
+             iconused = "";
+          }
+          // console.log("iconused",iconused);
+        }
+          // <img src={permanentAddrProof.proofOfDocument} className="img-responsive addressImage"/>
          if(!verificationData){
           var verificationData = '';
          }
@@ -900,6 +910,7 @@ verifiedDocumentsContainer = withTracker(props => {
           loading  : loading,
           getTicket : getTicket,
           verificationData,
+           iconused,
           isRoleUser  : isRoleUser,
           ticketStatus : ticketStatus,
           // curAddrArray,
