@@ -17,6 +17,7 @@ import { ProjectSettings } from '/imports/dashboard/product/addNewProduct/api/pr
 var s3Data = ProjectSettings.findOne({"_id":"1"});
 if(s3Data){
     process.env.S3='{"s3":{"key": "'+ s3Data.key+'", "secret": "'+ s3Data.secret+'", "bucket": "'+ s3Data.bucket +'", "region": "'+s3Data.region+'"}}' ;
+    
 
     if (process.env.S3) {
         Meteor.settings.s3 = JSON.parse(process.env.S3).s3;
@@ -36,10 +37,10 @@ if(s3Data){
                 }
             });
 
-            export const TicketVideo= new FilesCollection({
+            export const TicketReport = new FilesCollection({
                 debug          : false, // Change to `true` for debugging
-                storagePath    : 'TicketVideo',
-                collectionName : 'TicketVideo',
+                storagePath    : 'TicketReport',
+                collectionName : 'TicketReport',
                 allowClientCode: false,
                 chunkSize      : 1024 * 1024,
 
@@ -47,7 +48,7 @@ if(s3Data){
                    
                     _.each(fileRef.versions, (vRef, version) => {
                        
-                        const filePath = 'TicketVideo/' + fileRef._id +'.' + fileRef.extension;
+                        const filePath = 'TicketReport/' + fileRef._id +'.' + fileRef.extension;
                         s3.putObject({
                             StorageClass : 'STANDARD',
                             Bucket       : s3Conf.bucket,         //s3Conf.bucket,
@@ -131,8 +132,8 @@ if(s3Data){
             });
 
             // Intercept FilesCollection's remove method to remove file from AWS:S3
-            const _origRemove = TicketVideo.remove;
-            TicketVideo.remove = function(search) {
+            const _origRemove = TicketReport.remove;
+            TicketReport.remove = function(search) {
                 const cursor = this.collection.find(search);
                 cursor.forEach((fileRef) => {
                     _.each(fileRef.versions, (vRef) => {

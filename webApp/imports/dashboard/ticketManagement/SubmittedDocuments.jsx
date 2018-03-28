@@ -139,8 +139,8 @@ export default class SubmittedDocuments extends TrackerReact(Component){
 	      </div>
 
 				<div className="docbtnwrap col-lg-6 col-lg-offset-4">
-						<button type="button" className="bg-primary col-lg-4 ApprovRejDoc" data-status="Approved" onClick ={this.approveTeamMemDoc.bind(this)}>Approve</button>
-						<button type="button" className="btn-danger col-lg-4 ApprovRejDoc" data-status="Rejected" onClick ={this.approveTeamMemDoc.bind(this)}>Reject</button>
+						<button type="button" className="bg-primary col-lg-4 ApprovRejDoc" data-status="VerificationPass" onClick ={this.approveTeamMemDoc.bind(this)}>Approve</button>
+						<button type="button" className="btn-danger col-lg-4 ApprovRejDoc" data-status="VerificationFail" onClick ={this.approveTeamMemDoc.bind(this)}>Reject</button>
         </div>
 				</div>
       </div>

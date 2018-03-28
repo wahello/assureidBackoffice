@@ -2,6 +2,7 @@ import {Mongo} from 'meteor/mongo';
 import {Meteor} from 'meteor/meteor';
 import { TempTicketImages } from "../../../dashboard/ticketManagement/api/TempUpload.js";
 import { TempTicketVideo } from "../../../dashboard/ticketManagement/api/TempUpload.js";
+import { TempTicketReport } from "../../../dashboard/ticketManagement/api/TempUpload.js";
 
 export const TicketMaster = new Mongo.Collection("ticketMaster");
 export const TicketBucket = new Mongo.Collection("ticketbucket");
@@ -447,7 +448,7 @@ if(Meteor.isServer){
 
 			insertData1.empid = id;
 			insertData1.role = role;
-			insertData1.role_status="New";
+			insertData1.role_status="Allocate";
 			insertData1.allocatedTo="";
 			insertData1.allocatedToRole="";
 		
@@ -618,6 +619,49 @@ if(Meteor.isServer){
 					}
 				)
 			}
-		},  
+		},
+		/*================== Upload Report Team Member=============*/
+		uploadReport(ticketId){
+			var reportLinkDetails = TempTicketReport.findOne({},{sort:{'createdAt':-1}});		
+			var reportLink = reportLinkDetails.ReportLink;
+			var ticketDetails = TicketMaster.findOne({'_id':ticketId});
+			var ticketElemLength = ticketDetails.ticketElement.length; 
+			if((ticketDetails) &&(ticketElemLength>0)){
+				var insertData = ticketDetails.ticketElement[ticketElemLength-1];
+				insertData.role_status = "ReportSubmit";
+				insertData.createdAt = new Date();
+				return TicketMaster.update(
+					{'_id':ticketId},
+					{$push:{
+						'ticketElement':insertData
+						   }
+					}
+				)
+				TempTicketReport.remove();
+			}
+			 
+		},
+
+		addQTM(ticketId,empID,role,status){
+			console.log("ticketId,empID,role :"+ticketId,empID,role,status);
+			TicketMaster.update(
+				{'_id':ticketId},
+				{   $push:{
+						'ticketElement':{
+							'empid': empID,
+							'role' : role,
+							'role_status':status,
+							'createdAt': new Date()
+						}
+					}
+				}
+			)
+		},
+		// updateQAStatus(ticketId){
+		// 	var ticketDetails = TicketMaster.findOne({'_id':ticketId});
+		// 	if((ticketDetails)){
+				
+		// 	}
+		// }  
 	  });
 }

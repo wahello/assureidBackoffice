@@ -208,7 +208,7 @@ class Ticket extends TrackerReact(Component){
                                     } 
                                   </div>
                                   <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
-                                   <UploadReport ticket={this.props.params.id}/>
+                                   <UploadReport ticketId={this.props.params.id}/>
                                   </div>
                                  {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">                                  
                                     <UploadReport/>

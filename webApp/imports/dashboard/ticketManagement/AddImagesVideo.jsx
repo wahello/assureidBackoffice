@@ -201,10 +201,17 @@ constructor(props){
         }
       }
       // console.log("ticketElementObj",ticketElementObj);
+      // if(ticketElementObj.role == "team member"){
+      //   var role_status = "SelfSubmit";
+      // }else if(ticketElementObj.role == "Field Expert"){
+      //   var role_status = "FieldSubmit";
+      // }else{
+      //   var role_status = "BASubmit";
+      // }
       var ticketBAElement ={
           empid             : ticketElementObj.empid,
           role              : ticketElementObj.role,
-          role_status       : "SelfSubmit",
+          role_status       : "ProofSubmit",
           createdAt         : new Date(),
           submitedDoc       : documents,
           submitedRemark    : "Approved",
