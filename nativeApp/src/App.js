@@ -8,7 +8,7 @@ import {HomeStack,AuthStack} from './config/routes.js';
 import Loading from './components/Loading';
 import settings from './config/settings';
 
-Meteor.connect(settings.METEOR_URL2);
+Meteor.connect(settings.METEOR_URL);
 // Meteor.connect(settings.METEOR_URL2);
 
 class App extends Component {
