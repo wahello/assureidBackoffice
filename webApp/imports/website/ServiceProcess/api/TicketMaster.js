@@ -494,7 +494,6 @@ if(Meteor.isServer){
 		/*======================= Add New Object with status Approved / Rejected in Ticket Master ========*/
 
 		'updateTicketFinalStatus':function(id,status,remark){
-			console.log('status ',status);
 			var ticketBucket = TicketBucket.findOne({'ticketid':id});
 			var insertDataDetails = TicketMaster.findOne({'_id':id});
 

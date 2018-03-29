@@ -38,6 +38,7 @@ import '/imports/website/forms/css/forms.css';
 // import '/imports/website/ServiceProcess/css/ServiceProcess.css';
 // import '/imports/website/views/css/views.css';
 import '/public/css/dashboard.css';
+import '/public/css/ticket.css';
 // import './component.css';
 // import './demo.css';
 // import './normalize.css';

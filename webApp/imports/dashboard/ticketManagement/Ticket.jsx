@@ -29,33 +29,10 @@ class Ticket extends TrackerReact(Component){
     this.state = {
       'userDetails': {},
       "userRoleIn": Meteor.userId(),
-      // "subscription" : {
-      //   "singleTicket" : Meteor.subscribe("singleTicket"),    
-      //   "userfunction" : Meteor.subscribe('userfunction'),
-      //   "allTickets"   : Meteor.subscribe("allTickets"), 
-
-      // } 
-    }
-
-    
+      "showRejectBox" : 'N',
+    }    
   }
 
-
-  // componentDidMount(){
-  //   var id = this.props.params.id;
-  //   this.userdata=Tracker.autorun(()=>{
-  //     if((this.state.subscription.allTickets.ready())|| (this.state.subscription.userfunction.ready())){
-  //         var getTicket = TicketMaster.findOne({"_id":id});        
-  //         var user = Meteor.users.findOne({"_id": getTicket.userId});
-  //         this.setState({
-  //             'userDetails':user
-  //         });
-      
-  //     }
-
-  //   });
-  
-  // }
 
   componentWillReceiveProps(nextProps){
 
@@ -72,7 +49,80 @@ class Ticket extends TrackerReact(Component){
     browserHistory.replace('/admin/viewProfile/'+path);
   }
 
-	 render(){
+  getRejectBox(){
+    console.log('showRejectBox: ' + this.state.showRejectBox);
+    return(
+      <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <textarea rows="3" cols="60" className="col-lg-6 col-lg-offset-2" />
+        <button onClick={this.submitReject.bind(this)} className="col-lg-2 col-lg-offset-2"> Submit </button>
+      </div>
+    )
+  }
+
+  submitReject(){
+    console.log('submitReject clicked');
+
+  }
+
+  showRejectBoxState(){
+    this.setState({"showRejectBox" : 'Y'});
+  }
+
+  actionBlock(){
+    var n = this.props.getTicket.ticketElement.length;
+    if(this.props.getTicket.ticketElement[n-1].role_status == 'screenTLAllocated'){
+      var title = "Team Leader";
+      return(
+        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper"> 
+          <h5> {title} </h5>
+          <div className="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-12">
+            <span className="col-lg-3 col-md-3 col-sm-4 col-xs-5"> Assign this ticket to: </span>
+            <select className="col-lg-3 col-md-3 col-sm-4 col-xs-5">  
+              <option> abc </option>
+              <option> def </option>
+              <option> lmn </option>
+              <option> xyz </option>
+            </select>
+          </div>
+        </div>
+      )
+    
+    }else if(this.props.getTicket.ticketElement[n-1].role_status == 'Assign'){
+
+      var title = "Team Member";  
+      return(
+        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper"> 
+          <h5> {title} </h5>
+
+          <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1 col-xs-12">
+            <button className="btn btn-success col-lg-3 col-md-3 col-sm-4 col-xs-5" > 
+                  Approve </button>
+            <button className="btn btn-danger col-lg-3 col-md-3 col-sm-4 col-xs-5"
+                    onClick={this.showRejectBoxState.bind(this)}> 
+              Reject 
+            </button>
+          </div>
+          {this.state.showRejectBox === 'Y' ? this.getRejectBox() : '' }
+        </div>
+      )
+
+    }else if(this.props.getTicket.ticketElement[n-1].role_status == 'AssignAccept'){
+        <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+          <div className="radio radiobtn col-lg-3 noLRPad">
+          <label className="noLRPad"><input type="radio" name="optradio" value="Self" className="optradio" checked={this.state.radioState ==="Self"}/>Self</label>
+          </div>
+          <div className="radio col-lg-6 radiobtn noLRPad">
+          <label className="noLRPad"><input type="radio" name="optradio" value="Field Expert" className="optradio" checked={this.state.radioState ==="Field Expert"}/>Field Expert</label>
+          </div>
+          <div className="radio radiobtn col-lg-3 noLRPad">
+          <label className="noLRPad"><input type="radio" name="optradio" value="BA" className="optradio" checked={this.state.radioState ==="BA"}/>BA</label>
+          </div>
+        </div>
+    }
+
+  }
+
+	render(){
     
     if(!this.props.loading){
       return(            
@@ -100,9 +150,7 @@ class Ticket extends TrackerReact(Component){
                             </div>
                             </div> 
                           </div>
-                          {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outerDocumentStatus">
-                            <DocumentStatus ticket={this.props.getTicket}/>
-                          </div> */}
+
                           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
                             <h3 className="ticketheadStyle col-lg-12">{this.props.getTicket.serviceName}/{this.props.getTicket.ticketNumber}</h3>
@@ -184,36 +232,42 @@ class Ticket extends TrackerReact(Component){
                             <VerifyDetailsDocument ticketId={this.props.params.id}/>
                           </div>
                          <VerifiedDocuments ticketId={this.props.params.id}/>
-                         {/* <TicketDocumentDetails ticketId={this.props.params.id}/> */}
+
+
+
+
                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outerShadow">
                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 activityDetails">                            
-                                <h3> Activities</h3>
-                            </div>
+                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 activityDetails">                            
+                                  <h3> Activities</h3>
+                              </div>
                               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
-                                  {/* <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 noLRPad">
-                                      <UserInformation ticketId={this.props.params.id} /> 
-                                    </div> */}
-                                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
-                                      <RoleTicketStatus ticketId={this.props.params.id}/>
-                                  </div>
-                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad" id="AddImagesVideo" style={{"display" : "none"}}>
-                                   <AddImagesVideo ticket={this.props.params.id}/>
-                                  </div>
-                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
-                                    {this.props.getTicket.submittedDocuments ?
-                                        <SubmittedDocuments ticketId={this.props.params.id} submittedDocuments={this.props.getTicket.submittedDocuments} />
-                                      :
-                                      ""
-                                    } 
-                                  </div>
-                                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
-                                   <UploadReport ticketId={this.props.params.id}/>
-                                  </div>
-                                 {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">                                  
-                                    <UploadReport/>
-                                  </div> */}
-                               </div>
+                                {this.props.getTicket.ticketElement.map((element,i)=>{
+                                   return ( 
+                                    <div key={i} className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper"> 
+                                      <h5> {element.role} </h5>
+                                      <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12"> 
+                                        <b>{element.userName}</b> {element.msg} on {moment(element.createdAt).format("DD/MM/YYYY hh:mm A")}
+                                        <br />
+                                        {
+                                          element.remark ?
+                                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                              <span>Remark &nbsp;:</span><span>{element.remark}</span> 
+                                            </div>
+                                          :
+                                          ""
+                                        }
+                                      </div>  
+                                    </div>
+                                    )
+                                  })
+                                }
+
+                                {this.actionBlock()}
+
+
+
+                              </div>
                             </div>
                           </div>
                        </div>
@@ -237,17 +291,18 @@ class Ticket extends TrackerReact(Component){
 
 
 export default UserDetailsContainer = withTracker(props => {
-  var handleSinTick = Meteor.subscribe("singleTicket");
+  var handleSinTick = Meteor.subscribe("singleTicket",props.params.id);
   var handleUseFunc = Meteor.subscribe('userfunction');
-  var handleAllTick = Meteor.subscribe("allTickets");
   var handleUserProfile = Meteor.subscribe("userProfileData");
+
   var ticketId = props.params.id;
-  var loading = !handleSinTick.ready() && !handleUseFunc.ready() && !handleAllTick.ready() && !handleUserProfile.ready();
+  var loading = !handleSinTick.ready() && !handleUseFunc.ready() && !handleUserProfile.ready();
   var getTicket = TicketMaster.findOne({"_id":ticketId}) || {};        
+  
   var user = Meteor.users.findOne({"_id": getTicket.userId}) || {};
   var userProfile = UserProfile.findOne({"userId": getTicket.userId}) || {};
 
-  var today = new Date();
+    var today = new Date();
     var birthDate = new Date(userProfile.dateOfBirth);
     var age = today.getFullYear() - birthDate.getFullYear();
     var m = today.getMonth() - birthDate.getMonth();

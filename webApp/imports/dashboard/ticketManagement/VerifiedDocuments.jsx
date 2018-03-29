@@ -28,7 +28,6 @@ class VerifiedDocuments extends TrackerReact(Component){
   showDocuments(event){
     event.preventDefault();
     var idVal= $(event.currentTarget).attr('data-target');
-     // console.log("idVal",idVal);
     $('#'+idVal).modal('show');
     // Session.set('editExp','editexperienceinfo');
   }
@@ -87,14 +86,11 @@ class VerifiedDocuments extends TrackerReact(Component){
     if(!remark){
       remark = "Document Screened Approved";
     }
-    console.log("My Remarks",remark);
-    var ticketObj = TicketMaster.findOne({'_id':ticketId});  
-    console.log("ticketObj",ticketObj);                       
+    var ticketObj = TicketMaster.findOne({'_id':ticketId});                       
     if(ticketObj){
-      console.log(ticketObj);
       Meteor.call('updateTicketFinalStatus',ticketId,status,remark,function(error,result){
         if(result){
-          console.log('ticketId ',ticketId);
+          
           if(status == 'ScreenApprove'){
             //Get max allocate number for team leader
             var memberDetails = Meteor.users.find({"roles":"team leader"},{sort:{'count':1}}).fetch();
@@ -123,6 +119,7 @@ class VerifiedDocuments extends TrackerReact(Component){
                       }
                   }
               });
+
               if(memberDetails[k].count){
                 var newCount = memberDetails[k].count + 1;
               } else{
@@ -900,7 +897,6 @@ verifiedDocumentsContainer = withTracker(props => {
     const ticketBucket = Meteor.subscribe("allTicketBucket");
     const getTicket   = TicketMaster.findOne({"_id" : _id}) || {};
      // console.log("getTicket",getTicket);
-     var iconused = "";
     if (getTicket) {
          var verificationData = [getTicket.verificationData];
         //  if (verificationData) {
