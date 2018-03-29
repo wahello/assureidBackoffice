@@ -67,27 +67,61 @@ class Ticket extends TrackerReact(Component){
   showRejectBoxState(){
     this.setState({"showRejectBox" : 'Y'});
   }
+  /**================= Team Leader Allocate To Team Member =================== */
+  allocateToTeamMember(event){
+    event.preventDefault();
+    var userName = this.refs.allocateToName.value;
+    var userId  = $(":selected").attr("id");
+    console.log("userId :"+userId)
+    var ticketId = this.props.ticketId; 
+  
+    Meteor.call('allocateToTeamMember',ticketId,userId,userName,(error,result)=>{
 
+    });
+  }
+
+  changeTMStatus(event){
+    var ticketId = this.props.ticketId;
+    var status      = $(event.currentTarget).attr('data-status');
+    Meteor.call('updateTMStatus',ticketId,status);
+  }
+  
   actionBlock(){
     var n = this.props.getTicket.ticketElement.length;
-    if(this.props.getTicket.ticketElement[n-1].role_status == 'screenTLAllocated'){
+    if(this.props.getTicket.ticketElement[n-1].roleStatus == 'ScreenTLAllocated'){
+      var teamMemberList=[];
       var title = "Team Leader";
+      var allTeamMemberList = Meteor.users.find({'roles':'team member'}).fetch();
+      for(k=0;k<allTeamMemberList.length;k++){
+        var teamMemberName = allTeamMemberList[k].profile.firstname+" "+allTeamMemberList[k].profile.lastname;
+        var teamMemberId   = allTeamMemberList[k]._id;
+        teamMemberList.push({'teamMemberName':teamMemberName,'teamMemberId':teamMemberId});
+      } 
       return(
         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper"> 
           <h5> {title} </h5>
           <div className="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-12">
             <span className="col-lg-3 col-md-3 col-sm-4 col-xs-5"> Assign this ticket to: </span>
-            <select className="col-lg-3 col-md-3 col-sm-4 col-xs-5">  
-              <option> abc </option>
-              <option> def </option>
-              <option> lmn </option>
-              <option> xyz </option>
+            <select className="col-lg-3 col-md-3 col-sm-4 col-xs-5 tmListWrap" aria-describedby="basic-addon1" ref="allocateToName">  
+            { 
+              teamMemberList.map((teamMemberList, index)=>{
+                  return(
+                      <option key={index} id={teamMemberList.teamMemberId}>
+                          {teamMemberList.teamMemberName}
+                      </option>
+                  );
+              })
+            }
             </select>
+            <div className="col-lg-2 fesubmitouter noLRPad">
+                <button type="button" className="fesubmitbtn col-lg-12 teammember" onClick={this.allocateToTeamMember.bind(this)}>Assign To</button>
+            </div>
           </div>
+          
         </div>
       )
     
-    }else if(this.props.getTicket.ticketElement[n-1].role_status == 'Assign'){
+    }else if(this.props.getTicket.ticketElement[n-1].roleStatus == 'Assign'){
 
       var title = "Team Member";  
       return(
@@ -95,9 +129,9 @@ class Ticket extends TrackerReact(Component){
           <h5> {title} </h5>
 
           <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1 col-xs-12">
-            <button className="btn btn-success col-lg-3 col-md-3 col-sm-4 col-xs-5" > 
+            <button className="btn btn-success col-lg-3 col-md-3 col-sm-4 col-xs-5 approvebtn" data-status="AssignAccept" onClick={this.changeTMStatus.bind(this)} > 
                   Approve </button>
-            <button className="btn btn-danger col-lg-3 col-md-3 col-sm-4 col-xs-5"
+            <button className="btn btn-danger col-lg-3 col-md-3 col-sm-4 col-xs-5" data-status="AssignAccept"
                     onClick={this.showRejectBoxState.bind(this)}> 
               Reject 
             </button>
@@ -106,18 +140,30 @@ class Ticket extends TrackerReact(Component){
         </div>
       )
 
-    }else if(this.props.getTicket.ticketElement[n-1].role_status == 'AssignAccept'){
+    }else if(this.props.getTicket.ticketElement[n-1].roleStatus == 'AssignAccept'){
+        // <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+        //   <div className="radio radiobtn col-lg-3 noLRPad">
+        //   <label className="noLRPad"><input type="radio" name="optradio" value="Self" className="optradio" checked={this.state.radioState ==="Self"}/>Self</label>
+        //   </div>
+        //   <div className="radio col-lg-6 radiobtn noLRPad">
+        //   <label className="noLRPad"><input type="radio" name="optradio" value="Field Expert" className="optradio" checked={this.state.radioState ==="Field Expert"}/>Field Expert</label>
+        //   </div>
+        //   <div className="radio radiobtn col-lg-3 noLRPad">
+        //   <label className="noLRPad"><input type="radio" name="optradio" value="BA" className="optradio" checked={this.state.radioState ==="BA"}/>BA</label>
+        //   </div>
+        // </div>
+
         <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
-          <div className="radio radiobtn col-lg-3 noLRPad">
-          <label className="noLRPad"><input type="radio" name="optradio" value="Self" className="optradio" checked={this.state.radioState ==="Self"}/>Self</label>
-          </div>
-          <div className="radio col-lg-6 radiobtn noLRPad">
-          <label className="noLRPad"><input type="radio" name="optradio" value="Field Expert" className="optradio" checked={this.state.radioState ==="Field Expert"}/>Field Expert</label>
-          </div>
-          <div className="radio radiobtn col-lg-3 noLRPad">
-          <label className="noLRPad"><input type="radio" name="optradio" value="BA" className="optradio" checked={this.state.radioState ==="BA"}/>BA</label>
-          </div>
+        <div className="radio radiobtn col-lg-3 noLRPad">
+        <label className="noLRPad"><input type="radio" name="optradio" value="Self" className="optradio"/>Self</label>
         </div>
+        <div className="radio col-lg-6 radiobtn noLRPad">
+        <label className="noLRPad"><input type="radio" name="optradio" value="Field Expert" className="optradio"/>Field Expert</label>
+        </div>
+        <div className="radio radiobtn col-lg-3 noLRPad">
+        <label className="noLRPad"><input type="radio" name="optradio" value="BA" className="optradio"/>BA</label>
+        </div>
+      </div>
     }
 
   }

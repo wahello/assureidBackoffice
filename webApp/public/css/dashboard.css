@@ -6504,11 +6504,7 @@ margin-top: 20px;
 .teammemwrap{
   margin-top:2%;
 }
-.teammember{
-  margin-right: 5%;
-  padding: 3%;
-  margin-top: 2%;
-}
+
 .uploadDocBtn{
   padding: 3%;
   color: #000;
@@ -6526,9 +6522,7 @@ margin-top: 20px;
 .statusStyle{
   text-transform: capitalize;
 }
-.fesubmitouter{
-  margin-top:6%;
-}
+
 .fesubmitbtn{
   padding: 4%;
 }

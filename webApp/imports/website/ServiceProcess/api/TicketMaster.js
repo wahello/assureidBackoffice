@@ -168,26 +168,6 @@ if(Meteor.isServer){
 			}
 			
 		},
-		// 'updateTicketFinalStatus':function(id,status){
-
-		// 	return TicketMaster.update(
-		// 		{'_id':id},
-		// 			{   $set:{
-		// 					'ticketStatus.0.status':status,
-		// 					'ticketStatus.0.createdAt': new Date(),
-		// 			}
-		// 		}
-		// 	),
-		// 	TicketMaster.update(
-		// 		{'_id':id},
-		// 			{   $set:{
-		// 					'ticketElement.0.role_status':status,
-		// 					'ticketElement.0.createdAt': new Date(),
-		// 			}
-		// 		}
-		// 	)
-		// },
-
 		
 
 		/*
@@ -259,62 +239,53 @@ if(Meteor.isServer){
 			)
 		},
 
-		'updateTicketElement':function(ticketId,empid,role){
-			TicketMaster.update(
-				{'_id':ticketId},
-				{   $push:{
-						'ticketElement':{
-							'empid': empid,
-							'role' : role,
-							'role_status':'ScreenApprove',
-							'createdAt': new Date()
+		'updateTicketElement':function(ticketId,empid,role,allocatedToUserName){
+			var insertDataDetails = TicketMaster.findOne({'_id':ticketId});
+			if(insertDataDetails){
+				var insertData = {};
+				var length = insertDataDetails.ticketElement.length;
+				if(length>0){
+					insertData.userId               = "";
+					insertData.userName             = "";
+					insertData.allocatedToUserid    = empid;
+					insertData.allocatedToUserName  = allocatedToUserName;
+					insertData.role                 = "System Action";
+					insertData.roleStatus           = "ScreenTLAllocated";
+					insertData.msg                  = 'System Allocated Ticket To Team Leader';
+					insertData.createdAt            = new Date();
+				}
+				Meteor.call('genericUpdateTicketMasterElement',ticketId,insertData);
+				TicketMaster.update(
+					{'_id':ticketId},
+					{   $set:{
+							'ticketStatus.0.status': "Accepted",					
+							'ticketStatus.0.role': "team leader",
+							'ticketStatus.0.createdAt': new Date()
 						}
 					}
-				}
-			)
-
-			TicketMaster.update(
-				{'_id':ticketId},
-				{   $set:{
-						'ticketStatus.0.status': "Accepted",					
-						'ticketStatus.0.role': "team leader",
-						'ticketStatus.0.createdAt': new Date()
-					}
-				}
-			)
+				)
+			}
 		},
 		/*Insert status with allocated status of team leader  */
-		'allocateToTeamMember':function(ticketId,firstName,lastName,allocateToMemberDetails,empid){
-			var teamMemberDetails = Meteor.users.findOne({'profile.firstname':firstName,'profile.lastname':lastName});
-			var ticketDetails = TicketMaster.findOne({'_id':ticketId,'ticketElement.empid': empid},{ 'ticketElement.$': 1 });
-			for(var i=0;i<ticketDetails.ticketElement.length;i++){
-				if(ticketDetails.ticketElement[i].empid == empid){
-					var insertData = ticketDetails.ticketElement[i];
+		'allocateToTeamMember':function(ticketId,userId,userName){
+			var insertDataDetails = TicketMaster.findOne({'_id':ticketId});
+			if(insertDataDetails){
+				var insertData = {};
+				var length = insertDataDetails.ticketElement.length;
+				if(length>0){
+					insertData.userId               = insertDataDetails.ticketElement[length-1].allocatedToUserid;
+					insertData.userName             = insertDataDetails.ticketElement[length-1].allocatedToUserName;
+					insertData.allocatedToUserid    = userId;
+					insertData.allocatedToUserName  = userName;
+					insertData.role                 = "Team Leader";
+					insertData.roleStatus           = "Assign";
+					insertData.msg                  = 'Assigned The Ticket';
+					insertData.createdAt            = new Date();
 				}
 			}
-			insertData.role_status = "Assign";
-			insertData.createdAt   = new Date();
-			TicketMaster.update(
-				{'_id':ticketId},
-				{   $push:{
-						'ticketElement':insertData,
-					}
-				}
-			)
-
-			TicketMaster.update(
-				{'_id':ticketId},
-				{   $push:{
-						'ticketElement':{
-							'empid': teamMemberDetails._id,
-							'role' : "team member",
-							'role_status':'Assign',
-							'createdAt': new Date(),
-							'verificationData':insertData.verificationData
-						}
-					}
-				}
-			)		
+			
+			Meteor.call('genericUpdateTicketMasterElement',ticketId,insertData);
+				 
 
 			/*=====================Update status in ticket Bucket For Role team leader */
 			
@@ -335,26 +306,29 @@ if(Meteor.isServer){
 					}
 				});
 			
-
+			
 		},
 
-		'updateTMStatus':function(ticketId,status,empid){
-			var ticketDetails = TicketMaster.findOne({'_id':ticketId,'ticketElement.empid': empid},{ 'ticketElement.$': 1 });
-			for(var i=0;i<ticketDetails.ticketElement.length;i++){
-				if(ticketDetails.ticketElement[i].empid == empid){
-					var insertData = ticketDetails.ticketElement[i];
+		'updateTMStatus':function(ticketId,status){
+			
+			var insertDataDetails = TicketMaster.findOne({'_id':ticketId});
+			if(insertDataDetails){
+				var length = insertDataDetails.ticketElement.length;
+				var insertData = insertDataDetails.ticketElement[length-1];
+				if(length>0){
+
+					insertData.userId               = insertDataDetails.ticketElement[length-1].allocatedToUserid;
+					insertData.userName             = insertDataDetails.ticketElement[length-1].allocatedToUserName;
+					insertData.allocatedToUserid    = "";
+					insertData.allocatedToUserName  = "";
+					insertData.role                 = "Team Member";
+					insertData.roleStatus           = status;
+					insertData.msg                  = 'Accepted Ticket';
+					insertData.createdAt            = new Date();
 				}
 			}
-			insertData.role_status = "AssignAccept";
-			insertData.createdAt   = new Date();
-
-			 var addTM = TicketMaster.update(
-				{'_id':ticketId},
-				{   $push:{
-						'ticketElement':insertData,
-					}
-				}
-			)
+			
+			Meteor.call('genericUpdateTicketMasterElement',ticketId,insertData);
 			
 
 			/*================ Update Status In Ticket Bucket =============*/
@@ -363,7 +337,7 @@ if(Meteor.isServer){
 			var role = "team member";
 			Meteor.call('genericUpdateTicketBucket',id,status,role)
 
-			return addTM;
+			// return addTM;
 			
 		},
 		/**==================== We show Dropdown insted of submit box================== */
@@ -493,45 +467,44 @@ if(Meteor.isServer){
 		/*======================= API Function According To New Flow And Design =========================*/
 		/*======================= Add New Object with status Approved / Rejected in Ticket Master ========*/
 
-		'updateTicketFinalStatus':function(id,status,remark){
-			var ticketBucket = TicketBucket.findOne({'ticketid':id});
-			var insertDataDetails = TicketMaster.findOne({'_id':id});
+		'updateTicketFinalStatus':function(ticketId,status,remark){
+			
+			var ticketBucket = TicketBucket.findOne({'ticketid':ticketId});
+			var insertDataDetails = TicketMaster.findOne({'_id':ticketId});
 
 			if(insertDataDetails){
 				// var insertData = insertDataDetails.ticketElement[0];
+				var previousData = [];
 				var insertData = {};
-				insertData.role_status = status;
-				insertData.role = 'screening committee';
 				var length = insertDataDetails.ticketElement.length;
 				if(length>0){
-					insertData.empid       = insertDataDetails.ticketElement[length-1].empid;
+					// var insertData={
+					insertData.userId               = insertDataDetails.ticketElement[length-1].allocatedToUserid;
+					insertData.userName             = insertDataDetails.ticketElement[length-1].allocatedToUserName;
+					insertData.allocatedToUserid    = '';
+					insertData.allocatedToUserName  = '';
+					insertData.role                 = 'Screening Committee';
+					insertData.roleStatus           = status;
+					insertData.msg                  = 'Screened Ticket Documents';
+					insertData.createdAt            = new Date();
+					// }
 				}
-				insertData.createdAt   = new Date();
-				insertData.remark      = remark;
-				insertData.statusAt    = new Date();
 				if(status == 'ScreenRejected'){
-					console.log('status ',status);
+					insertData.remark      = remark;
 					insertData.rejectedData     = insertDataDetails.verificationData;
 					insertData.rejectedDocument = insertDataDetails.verificationDocument;
 				}
-				TicketMaster.update(
-					{'_id':id},
-							{   $push:{
-									'ticketElement':insertData,
-							}
-						}
-				);
 			}
-				
-			Meteor.call('genericUpdateTicketBucket',id,status,'screening committee');
+			Meteor.call('genericUpdateTicketMasterElement',ticketId,insertData);	
+			Meteor.call('genericUpdateTicketBucket',ticketId,status,'Screening Committee');
 			// /*================= Update Ticket Bucket Status ================================*/
 			
 			return TicketMaster.update(
-				{'_id':id},
+				{'_id':ticketId},
 					{   $set:{
 							'ticketStatus.0.status':status,
 							'ticketStatus.0.createdAt': new Date(),
-					}
+						}
 				}
 			);
 			
@@ -540,7 +513,6 @@ if(Meteor.isServer){
 		/*=================== Update Status In Ticket Bucket ====================*/
 
 		'genericUpdateTicketBucket': function(id,status,role){
-	
 			var ticketBucketDetails = TicketBucket.find({'ticketid':id}).fetch();
 			var ticketBucketLength = ticketBucketDetails.length;
 			if(ticketBucketLength > 0){
@@ -557,6 +529,17 @@ if(Meteor.isServer){
 					)
 				}
 			}	
+		},
+
+		'genericUpdateTicketMasterElement': function(ticketid,insertData){
+			return TicketMaster.update(
+				{'_id':ticketid},
+				{
+					$push:{
+						'ticketElement' : insertData,
+					}
+				}
+			);	
 		},
 
 		/*This function overwrite ticket bucket with Role team leader */

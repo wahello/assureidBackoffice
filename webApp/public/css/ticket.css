@@ -9,3 +9,19 @@
 	font-weight: bold;
 	text-transform: capitalize;
 }
+.fesubmitouter{
+	
+	margin-left: 2%;
+}
+.teammember{
+	margin-right: 5%;
+	padding: 3%;
+	/* margin-top: 1%; */
+}
+.tmListWrap{
+	padding: 1%;
+    text-align: center;
+}
+.approvebtn{
+	margin-right: 2%;
+}
