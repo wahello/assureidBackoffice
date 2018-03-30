@@ -6,7 +6,6 @@ import { Email } from 'meteor/email';
 
 import { NotificationTemplate } from '../api/NotificationTemplate.js';
 
-
 sendMailNotification = function(inputObj) {
 	if(inputObj){
 	//============================================================
@@ -14,14 +13,14 @@ sendMailNotification = function(inputObj) {
 	//============================================================
 
 	var fromId 	= getMailId(inputObj.from);
-	var to 		= getMailId(inputObj.to);  
+	var to 		  = getMailId(inputObj.to);  
 	var subject	= getSubject(inputObj.templateName);
-	var body	= getMessageContent(inputObj.templateName,inputObj.variables);
+	var body	  = getMessageContent(inputObj.templateName,inputObj.variables);
 
-	console.log("from: "+fromId);
-	console.log("to: "+to);
-	console.log("subject: "+subject);
-	console.log("body: "+body);
+	// console.log("from: "+fromId);
+	// console.log("to: "+to);
+	// console.log("subject: "+subject);
+	// console.log("body: "+body);
 
 	Meteor.call('sendEmailnNotification',to, fromId, subject, body,function(error,result){
 		if(error){
@@ -78,7 +77,7 @@ sendSMS = function(inputObj) {
 		// console.log("to: "+toUserId);
 		// console.log("toNumber: "+toNumber);
 
-		Meteor.call('sendSMS',toNumber,smsBody,function(error,result){
+		Meteor.call('SEND_SMS',toNumber,smsBody,function(error,result){
 			if(error){
 				console.log(error);
 			}else{

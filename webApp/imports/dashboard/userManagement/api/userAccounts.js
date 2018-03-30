@@ -484,10 +484,10 @@ Meteor.startup(() => {
                     else {
                         console.log ( "Admin email verified by default");
                     }//the _id of new object if successful
-                });
+                });  
     } // Create super admin
     
-  process.env.MAIL_URL = "smtp://rashmimhatre1000:rashmimhatre1000@smtp.googlemail.com:587";
+  process.env.MAIL_URL = "smtp://testassureid:assureid@123@smtp.googlemail.com:587";
 
   Accounts.emailTemplates.siteName = "ASSUREiD";
   Accounts.emailTemplates.from = 'ASSUREiD Admin<karishma.kottarwar@gmail.com>';
