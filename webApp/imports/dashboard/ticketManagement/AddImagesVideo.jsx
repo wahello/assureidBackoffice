@@ -18,8 +18,24 @@ import { ChecklistFieldExpert } from '../reactCMS/api/Services.js';
 class AddImagesVideo extends TrackerReact(Component){
 constructor(props){
     super(props);
-    this.state = {
-      "remark" : '',
+      // "remark" : '',
+    if(this.props.EditValue){
+      this.state ={ 
+       "images"            : this.props.EditValue.images,
+       "videos"           : this.props.EditValue.videos,
+       "remark"          : this.props.EditValue.remark,
+       "subscription" : {
+        }
+      };
+    }else{
+      this.state ={
+       "images"            : [],
+       "videos"           : [],
+       "remark"          : '',
+       "subscription" : {
+          // "userProfileData" : Meteor.subscribe("userProfileData"),
+        }
+      };
     }
     this.handleChange = this.handleChange.bind(this);
   }
@@ -229,6 +245,7 @@ render(){
        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 choosefilebox">
         <form>
         <div className="col-lg-12 wholeborder ">
+          <div className="col-lg-12">
              {this.props.checkList ?
                 this.props.checkList.map((checkListDefault,index)=>{
                   return(
@@ -240,7 +257,8 @@ render(){
                 :
                ""
              }
-          </div>
+             </div>
+        </div>
         <div className="col-lg-12 wholeborder ">
           <div className="imgtitile col-lg-12 noLRPad">
           <div className="col-lg-12  noLRPad Selectimg"> Select images:</div>
@@ -248,15 +266,26 @@ render(){
         </div>
             {!this.props.loading ?
             <div className="col-lg-12 imgbox">
-               {this.props.ticketImages ?
+               {
+                 this.state.images? 
+                   this.state.images.map((ticketImages,index) =>{
+               return(
+                  <div className="col-lg-3 imgbrPre" key={index}>
+                    <div className="imgbr">
+                      <img src={ticketImages.imageLink} className="img1 img-responsive" />
+                    </div>
+                  </div>
+               );
+               })
+                :
+                this.props.ticketImages ?
                this.props.ticketImages.map((ticketImages,index) =>{
                return(
-                 <div className="col-lg-3 imgbrPre" key={index}>
-        <div className="imgbr">
-          <img src={ticketImages.imageLink} className="img1 img-responsive" />
-{/*         <i className="fa fa-times-circle"></i>
-*/}       </div>
-        </div>
+                  <div className="col-lg-3 imgbrPre" key={index}>
+                    <div className="imgbr">
+                      <img src={ticketImages.imageLink} className="img1 img-responsive" />
+                    </div>
+                  </div>
                );
                })
                :
@@ -307,6 +336,7 @@ render(){
       </div>
       <div className="col-lg-12 wholeborder text-center">
          <button type="submit" onClick={this.submitImageVideo.bind(this)} className="btn btn-primary">Submit</button>
+         {/*<button type="submit" onClick={this.props.EditValue ? this.editSubmitImageVideo.bind(this) : this.submitImageVideo.bind(this)} className="btn btn-primary">Submit</button>*/}
       </div>
 
        </form>

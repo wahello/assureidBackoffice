@@ -96,20 +96,27 @@ class VerifiedDocuments extends TrackerReact(Component){
               }
             }
             for(var k=0;k<memberDetails.length;k++){
+              var firstName = memberDetails[k].profile.firstname;
+              var lastName  = memberDetails[k].profile.lastname;
+              var allocatedToUserName = firstName +" "+ lastName; 
+
               var newTicketAllocated = {
                   'ticketid' : ticketId,
-                  'empID'    : memberDetails[k]._id,
+                  'userId'    : memberDetails[k]._id,
                   'role'     : 'team leader',
                   'status'   : status,
               }
+              
               Meteor.call('insertTicketBucket',newTicketAllocated,function(error,result){
                   if(result){
+                     
                       var ticketBucketDetail = TicketBucket.findOne({"ticketid":newTicketAllocated.ticketid});
                       if(ticketBucketDetail){
                           var ticketId = newTicketAllocated.ticketid;
-                          var empID    = newTicketAllocated.empID;
+                          var userId   = newTicketAllocated.userId;
                           var role     = newTicketAllocated.role;
-                          Meteor.call('updateTicketElement',ticketId,empID,role,function(error,result){                   
+                          
+                          Meteor.call('updateTicketElement',ticketId,userId,role,allocatedToUserName,function(error,result){                   
                           });
                       }
                   }

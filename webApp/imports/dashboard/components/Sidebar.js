@@ -334,6 +334,12 @@ class Sidebar extends TrackerReact(Component){
                 </ul>
               </li>
               <li>
+                <Link to="/admin/Checklist">
+                  <i className="fa fa-check-square" />
+                    <span>Check List For Field Expert</span>
+                </Link>
+              </li>
+              <li>
                 <Link to="/ComingSoon">
                   <i className="fa fa-key" />
                     <span>Access Management</span>

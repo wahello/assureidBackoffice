@@ -72,27 +72,7 @@ import ApprovedTickets from '/imports/dashboard/ticketManagement/myTickets/Appro
 import RejectedTickets from '/imports/dashboard/ticketManagement/myTickets/RejectedTickets.jsx';
 import EscalatedTickets from '/imports/dashboard/ticketManagement/myTickets/EscalatedTickets.jsx';
 import ProfileView from '/imports/website/views/ProfileView.jsx';
-
-
-// import HeaderThrd      from '../../imports/website/header/HeaderThrd';
-// import HeaderSec      from '../../imports/website/header/HeaderSec';
-// import FooterSec      from '../../imports/website/footer/FooterSec';
-// import Clients        from '../../imports/website/clients/Clients';
-// import ContactUs      from '/imports/website/contactUs/component/ContactUs.jsx';
-// import AboutUsIntro   from '../../imports/website/aboutUs/AboutUsIntro';
-// import News   from '../../imports/website/news/News';
-// import Terms   from '../../imports/website/termscondition/Terms';
-// import Privacy   from '../../imports/website/privacy/Privacy';
-// import AssureServices   from '../../imports/website/ourServices/assureServices.jsx';
-// import DemoPage from '../../imports/website/permissionModals/DemoPage.jsx';
-// import AllBlogs from '../../imports/website/blog/AllBlogs.jsx';
-// import ProfileForms from '../../imports/website/forms/ProfileForms.jsx';
-// import ProfileView from '../../imports/website/views/ProfileView.jsx';
-
-// import ServiceInfo from '../../imports/website/ServiceProcess/ServiceInfo.jsx';
-// import ServiceRequiredData from '../../imports/website/ServiceProcess/ServiceRequiredData.jsx';
-// import ServiceInvoice from '../../imports/website/ServiceProcess/ServiceInvoice.jsx';
-// import PaymentGateway from '../../imports/website/ServiceProcess/PaymentGateway.jsx';
+import AddEditChecklist from '../../imports/dashboard/forms/CheckList/AddEditChecklist.jsx';
 import AddQualificationLevel from '../../imports/dashboard/forms/Qualification/AddQualificationLevel.jsx';
 import ListOfQualificationLevel from '../../imports/dashboard/forms/Qualification/ListOfQualificationLevel.jsx';
 
@@ -264,13 +244,9 @@ export const routes = (
        <Route path="/admin/rejectedtickets" component={RejectedTickets}/>
        <Route path="/admin/escalatedtickets" component={EscalatedTickets}/>
        <Route path="/admin/viewProfile/:id" component={ProfileView}/>
-
-       
-       
-       
-       
+       <Route path="/admin/Checklist" component={AddEditChecklist} />
+       <Route path="/admin/Checklist/:id" component={AddEditChecklist} />       
        {/* <Route path="/admin/ticketdocumentdetails" component={TicketDocumentDetail}/> */}
-       
     </Route>
 
     {/* <Route path="/" component={CMainLayout} /> */}

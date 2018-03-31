@@ -205,8 +205,11 @@ class Ticket extends TrackerReact(Component){
           <h5> {title} </h5>
 
           <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1 col-xs-12">
-            <button className="btn btn-danger col-lg-3 col-md-3 col-sm-4 col-xs-5" id="TMRejectTicket" data-roleStatus="AssignReject"
-                    onClick={this.showRejectBoxState.bind(this)} data-msg="Rejected Ticket"> 
+
+            <button className="btn btn-success col-lg-3 col-md-3 col-sm-4 col-xs-5 approvebtn" data-status="AssignAccept" onClick={this.changeTMStatus.bind(this)} > 
+                  Accept </button>
+            <button className="btn btn-danger col-lg-3 col-md-3 col-sm-4 col-xs-5" data-status="AssignReject"
+                    onClick={this.showRejectBoxState.bind(this)}> 
               Reject 
             </button>
             <button className="btn btn-success col-lg-3 col-md-3 col-sm-4 col-xs-5 approvebtn" data-status="AssignAccept" onClick={this.changeTMStatus.bind(this)} > 
@@ -323,6 +326,32 @@ class Ticket extends TrackerReact(Component){
         </div>
         
       )
+
+      {this.props.getTicket.ticketElement[n-1].roleStatus}
+        // <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+        //   <div className="radio radiobtn col-lg-3 noLRPad">
+        //   <label className="noLRPad"><input type="radio" name="optradio" value="Self" className="optradio" checked={this.state.radioState ==="Self"}/>Self</label>
+        //   </div>
+        //   <div className="radio col-lg-6 radiobtn noLRPad">
+        //   <label className="noLRPad"><input type="radio" name="optradio" value="Field Expert" className="optradio" checked={this.state.radioState ==="Field Expert"}/>Field Expert</label>
+        //   </div>
+        //   <div className="radio radiobtn col-lg-3 noLRPad">
+        //   <label className="noLRPad"><input type="radio" name="optradio" value="BA" className="optradio" checked={this.state.radioState ==="BA"}/>BA</label>
+        //   </div>
+        // </div>
+        return(
+            <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+              <div className="radio radiobtn col-lg-3 noLRPad">
+              <label className="noLRPad"><input type="radio" name="optradio" value="Self" className="optradio"/>Self</label>
+              </div>
+              <div className="radio col-lg-6 radiobtn noLRPad">
+              <label className="noLRPad"><input type="radio" name="optradio" value="Field Expert" className="optradio"/>Field Expert</label>
+              </div>
+              <div className="radio radiobtn col-lg-3 noLRPad">
+              <label className="noLRPad"><input type="radio" name="optradio" value="BA" className="optradio"/>BA</label>
+              </div>
+            </div>
+        )
     }
 
   }

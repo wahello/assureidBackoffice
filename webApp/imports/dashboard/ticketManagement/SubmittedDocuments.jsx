@@ -9,6 +9,7 @@ import validator from 'validator';
 import {Tracker} from 'meteor/tracker';
 import { browserHistory } from 'react-router'; 
 import { Link } from 'react-router';
+import AddImagesVideo from './AddImagesVideo.jsx';
 // import { TempTicketImages } from './api/TempUpload.js';
 // import { TempTicketVideo } from './api/TempUpload.js';
 // import { TicketMaster } from '../../website/ServiceProcess/api/TicketMaster.js';
@@ -36,6 +37,11 @@ export default class SubmittedDocuments extends TrackerReact(Component){
 		var ticketid = this.props.ticketId;
 		Meteor.call('addTMDocStatus',ticketid,status);
 	}
+	EditDocument(event){
+		event.preventDefault();
+		console.log("Inside editDocument");
+    $('#AddImagesVideo1').css({"display" : "block"});
+	}
    render(){
    	
    	return(
@@ -45,8 +51,18 @@ export default class SubmittedDocuments extends TrackerReact(Component){
 				<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 submitedDocWrap">				      
           <div className="col-lg-12 wholeborder ">
 						<div className="imgtitile col-lg-12 noLRPad">
-			        <div className="col-lg-12  noLRPad Selectimg"><strong><span className="checkBoxtitle">Verified Information:</span></strong></div> 
+			        <div className="col-lg-6  noLRPad Selectimg">
+			        	<strong>
+			        		<span className="checkBoxtitle">Verified Information:</span>
+			        	</strong>
+			        </div>
+			        <div className="col-lg-1 pull-right">
+                  <span><i className="fa fa-pencil editdoc" aria-hidden="true" title="Edit Document" onClick={this.EditDocument.bind(this)}></i></span>
+              </div>
 			      </div>
+			      <div id="AddImagesVideo1" style={{"display":"none"}}>
+        				<AddImagesVideo key='editImageVideo' EditValue={this.props.submittedDocuments.documents}/>
+          	</div>
              {this.props.submittedDocuments.documents ?
                 this.props.submittedDocuments.documents.checkLists.map((submittedChecklist,index)=>{
                   return(
