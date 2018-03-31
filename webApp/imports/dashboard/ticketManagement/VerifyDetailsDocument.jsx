@@ -15,7 +15,6 @@ class VerifyDetailsDocument extends TrackerReact(Component){
 	constructor(props){
     super(props);
     this.state = {
-
       "subscription" : {
         "allTickets" : Meteor.subscribe("allTickets"), 
         "userfunction" : Meteor.subscribe('userfunction'),
@@ -25,54 +24,47 @@ class VerifyDetailsDocument extends TrackerReact(Component){
 
   render(){
     if (!this.props.loading) {
-        this.props.getTicket.verificationData.verificationType
-        switch(this.props.getTicket.verificationData.verificationType){
-
+        this.props.getTicket.verificationType
+        switch(this.props.getTicket.verificationType){
             case 'employement':
             return(
-                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 singledocwrp">     
-                                
-                                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
-                                        <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12 ">
-                                        <h5 className="dataDetails"> {this.props.getTicket.verificationData.verificationType}</h5>
-                                        
-                                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad addressdetails">
-                                            Name - &nbsp;{this.props.getTicket.verificationData.nameOfEmployer}<br/>
-                                            Address - &nbsp;{this.props.getTicket.verificationData.employerAddress}<br/>
-                                            Contact No. - &nbsp;{this.props.getTicket.verificationData.contactNo}<br/>
-                                            Employee Code - &nbsp;{this.props.getTicket.verificationData.employeeCode}<br/>
-                                            Deignation - &nbsp;{this.props.getTicket.verificationData.designation},<br/>
-                                            Department - &nbsp;{this.props.getTicket.verificationData.department}.<br/>
-                                            Employment Duration - &nbsp;{this.props.getTicket.verificationData.employmentFrom} - &nbsp; {this.props.getTicket.verificationData.employmentTo},<br/>
-                                            Employment Type - &nbsp;{this.props.getTicket.verificationData.typeOfEmployement} <br/>
-                                            Responsibilities - &nbsp;{this.props.getTicket.verificationData.dutiesAndResponsibilites}
-                                            
-                                            </div>
-                                        </div>                
-                                    </div>
-                            
+                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 singledocwrp">             
+                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
+                            <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12 ">
+                            <h5 className="dataDetails"> {this.props.getTicket.verificationData.verificationType}</h5>                           
+                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad addressdetails">
+                                Name - &nbsp;{this.props.getTicket.verificationData.nameOfEmployer}<br/>
+                                Address - &nbsp;{this.props.getTicket.verificationData.employerAddress}<br/>
+                                Contact No. - &nbsp;{this.props.getTicket.verificationData.contactNo}<br/>
+                                Employee Code - &nbsp;{this.props.getTicket.verificationData.employeeCode}<br/>
+                                Deignation - &nbsp;{this.props.getTicket.verificationData.designation},<br/>
+                                Department - &nbsp;{this.props.getTicket.verificationData.department}.<br/>
+                                Employment Duration - &nbsp;{this.props.getTicket.verificationData.employmentFrom} - &nbsp; {this.props.getTicket.verificationData.employmentTo},<br/>
+                                Employment Type - &nbsp;{this.props.getTicket.verificationData.typeOfEmployement} <br/>
+                                Responsibilities - &nbsp;{this.props.getTicket.verificationData.dutiesAndResponsibilites}
+                                </div>
+                            </div>                
+                        </div>
                     </div>
                     )
             break;
-
             case 'permanentAddress':
                     return(       
                         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 singledocwrp">                    
-                                { 
-                                    
-                                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                            <h5 className="dataDetails">Permanent Address</h5>
-                                            <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12">
-                                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad addressdetails">
-                                                {this.props.getTicket.verificationData.line1},<br/>
-                                                {this.props.getTicket.verificationData.line2},<br/>
-                                                {this.props.getTicket.verificationData.line3},<br/>
-                                                {this.props.getTicket.verificationData.landmark}.,<br/>
-                                                {this.props.getTicket.verificationData.city} - {this.props.getTicket.verificationData.pincode}, &nbsp;{this.props.getTicket.verificationData.state},&nbsp;{this.props.getTicket.verificationData.country},<br/>
-                                                Residing From -&nbsp;{this.props.getTicket.verificationData.residingFrom}<br/> Residing Till-&nbsp;{this.props.getTicket.verificationData.residingTo}
-                                                </div>
-                                            </div>       
+                                {     
+                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <h5 className="dataDetails">Permanent Address</h5>
+                                    <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad addressdetails">
+                                        {this.props.getTicket.verificationData.line1},<br/>
+                                        {this.props.getTicket.verificationData.line2},<br/>
+                                        {this.props.getTicket.verificationData.line3},<br/>
+                                        {this.props.getTicket.verificationData.landmark}.,<br/>
+                                        {this.props.getTicket.verificationData.city} - {this.props.getTicket.verificationData.pincode}, &nbsp;{this.props.getTicket.verificationData.state},&nbsp;{this.props.getTicket.verificationData.country},<br/>
+                                        Residing From -&nbsp;{this.props.getTicket.verificationData.residingFrom}<br/> Residing Till-&nbsp;{this.props.getTicket.verificationData.residingTo}
                                         </div>
+                                    </div>       
+                                </div>
                                 }
                         </div>       
                 );

@@ -155,20 +155,15 @@ constructor(props){
     }
 
   }
+
+  getRole(role) {
+    return role != "backofficestaff";
+  }
   submitImageVideo(event){
     event.preventDefault();
     var id     = this.props.tickets._id;
     var userId = this.props.tickets.userId;
-    // var baId   = this.state.baid;
     var checkLists = [];
-
-    // if ($('input:checkbox[id="Checklist"]:checked')) {
-    //   var n = $('input:checkbox[id="Checklist"]:checked').length;
-    //   console.log(n);
-    //   for (var i = 0; i < $('input:checkbox[id="Checklist"]:checked').length; i++) {
-    //       checkLists.push({"statement" : $(this).val(), ""})
-    //   }
-    // }
 
     $('input[name="Checklist"]').each(function(i){
       var dataChk ={};
@@ -200,32 +195,31 @@ constructor(props){
                 
         }
       }
-      // console.log("ticketElementObj",ticketElementObj);
-      // if(ticketElementObj.role == "team member"){
-      //   var role_status = "SelfSubmit";
-      // }else if(ticketElementObj.role == "Field Expert"){
-      //   var role_status = "FieldSubmit";
-      // }else{
-      //   var role_status = "BASubmit";
-      // }
-      var ticketBAElement ={
-          empid             : ticketElementObj.empid,
-          role              : ticketElementObj.role,
-          role_status       : "ProofSubmit",
-          createdAt         : new Date(),
-          submitedDoc       : documents,
-          submitedRemark    : "Approved",
+      
+      var insertData ={
+        "userid"              : Meteor.userId(),
+        "userName"            : Meteor.user().profile.firstname + ' ' + Meteor.user().profile.lastname,
+        "allocatedToUserid"   : ticketElementObj.userid,
+        "allocatedToUserName" : ticketElementObj.userName,
+        "role"                : Meteor.user().roles.find(this.getRole),
+        "roleStatus"          : "ProofSubmit",
+        "msg"                 : "Submitted Verification Information",
+        "submitedDoc"         : documents,
+        "createdAt"           : new Date(),
       }
-      console.log("ticketBAElement",ticketBAElement);
-      Meteor.call('addticketBAElement',id,userId,ticketBAElement,function (error,result) {
+      console.log("insertData BA/FE/Self",insertData);
+      Meteor.call('addticketSelfElement',this.props.tickets._id,insertData,function(error,result){
         if (error) {
           console.log(error.reason);
         }else{
           console.log("Inserted Successfully!");
           $("#AddImagesVideo").css({"display" : "none"});
-          $("#uploadDocs").css({"display" : "none"});
+          $("#uploadButtonDiv").css({"display" : "none"});
         }
       });
+      // Meteor.call('addticketBAElement',id,userId,ticketBAElements,function (error,result) {
+      //   
+      // });
     }
   }
 render(){

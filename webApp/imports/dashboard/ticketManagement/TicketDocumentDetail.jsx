@@ -15,8 +15,6 @@ import { TicketBucket } from '../../website/ServiceProcess/api/TicketMaster.js';
 import { UserProfile } from '/imports/website/forms/api/userProfile.js';
 import {CompanySettings} from '/imports/dashboard/companySetting/api/CompanySettingMaster.js';
 
-
-
 class TicketDocumentDetails extends TrackerReact(Component){
   constructor(props){
     super(props);

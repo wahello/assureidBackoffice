@@ -41,14 +41,17 @@ export default class SubmittedDocuments extends TrackerReact(Component){
    	return(
    		<div>
        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
-        <h5 className="dataDetails">Submitted Information:</h5>  
+        <h6>Submitted Information:</h6>  
 				<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 submitedDocWrap">				      
           <div className="col-lg-12 wholeborder ">
+						<div className="imgtitile col-lg-12 noLRPad">
+			        <div className="col-lg-12  noLRPad Selectimg"><strong><span className="checkBoxtitle">Verified Information:</span></strong></div> 
+			      </div>
              {this.props.submittedDocuments.documents ?
                 this.props.submittedDocuments.documents.checkLists.map((submittedChecklist,index)=>{
                   return(
                     <div className="col-lg-6 noLRPad" key={index}>  
-                       &nbsp;<span className="checkBoxtitle">{submittedChecklist.statement}</span><input type="checkbox" className="tickchkbox" ref="submittedChecklist" name="submittedChecklist" value={submittedChecklist.status} checked={submittedChecklist.status} />
+                       <input type="checkbox" className="tickchkbox" ref="submittedChecklist" name="submittedChecklist" value={submittedChecklist.status} checked={submittedChecklist.status} />&nbsp;<span className="checkBoxtitle">{submittedChecklist.statement}</span>
                     </div>
                   );
                 })
@@ -110,27 +113,6 @@ export default class SubmittedDocuments extends TrackerReact(Component){
 	        </div>
 			        </div>
 	       </div>
-	      {/* <div className="col-lg-12 wholeborder">
-	        <div className="imgtitile col-lg-12  noLRPad">
-	          <div className="col-lg-12 noLRPad Selectimg"><span className="checkBoxtitle">Submitted Videos:</span></div> 
-	        </div>
-        	<div className="col-lg-12 submittedDashedLine">
-           {this.props.submittedDocuments.documents ?
-           	 this.props.submittedDocuments.documents.videos.map((submittedVideo,index) =>{
-           	 	 return(
-           	 	 	  <div className="col-lg-4 VideoDiv" key={index}>
-						          <video width="150" height="150"  controls>
-							          <source src={submittedVideo.videoLink} type="video/mp4" />
-							        </video>
-					        </div>
-           	 	 	);
-           	 })
-           	 :
-           	 ""
-           }
-		        
-	        </div>
-	      </div> */}
 	      <div className="col-lg-12 wholeborder">
 	          <div className="imgtitile col-lg-12  noLRPad">
 	            <div className="col-lg-1 noLRPad Selectimg"><span className="checkBoxtitle"><strong>Remark &nbsp;:</strong></span></div> 
@@ -138,10 +120,10 @@ export default class SubmittedDocuments extends TrackerReact(Component){
             </div>
 	      </div>
 
-				<div className="docbtnwrap col-lg-6 col-lg-offset-4">
+				{/* <div className="docbtnwrap col-lg-6 col-lg-offset-4">
 						<button type="button" className="bg-primary col-lg-4 ApprovRejDoc" data-status="VerificationPass" onClick ={this.approveTeamMemDoc.bind(this)}>Approve</button>
 						<button type="button" className="btn-danger col-lg-4 ApprovRejDoc" data-status="VerificationFail" onClick ={this.approveTeamMemDoc.bind(this)}>Reject</button>
-        </div>
+        </div> */}
 				</div>
       </div>
 

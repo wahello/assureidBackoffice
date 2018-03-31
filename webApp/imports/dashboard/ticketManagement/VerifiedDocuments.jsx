@@ -56,22 +56,18 @@ class VerifiedDocuments extends TrackerReact(Component){
       if(error){
 
       }else{
-        swal('Ticket Rejected');
+        // swal('Ticket Rejected');
       }
     });
   }
 
-  /*
-  hideShowRejectReason function for show reason block click on Reject button
-*/
+  /* hideShowRejectReason function for show reason block click on Reject button*/
 
   hideShowRejectCurReason(){
     $('.showHideReasonWrap').toggleClass('showReasonSection');
   }
 
-/*
-    This function execute when document get approved. 
-*/
+/*This function execute when document get approved. */
   approvedCurDocument(event){
     event.preventDefault();
     // var ticketId = $(event.currentTarget).attr('data-id');
@@ -84,23 +80,13 @@ class VerifiedDocuments extends TrackerReact(Component){
     var remark = $('.rejectReason-0').val();
     $('.close').click();
    
-    var insertData = {
-      "userId" : Meteor.userId(),
-    //   "userName" : "",
-    //   "allocatedToUserid" : "brMJH8Db5paSAWRTQ",
-    //   "allocatedToUserName" : "Madhavi Rupesh",
-    //   "role" : "system action",
-    //   "roleStatus" : "NewScrAllocated",
-    //   "msg" : "System Allocated Ticket To Screening Committee",
-    }
-    
     var ticketObj = TicketMaster.findOne({'_id':ticketId});                       
     if(ticketObj){
       var userId  = ticketObj.userId;
       Meteor.call('updateTicketFinalStatus',ticketId,status,remark,function(error,result){
         if(result){
           
-          if(status == 'ScreenApprove'){
+          if(status == 'ScreenApproved'){
             //Get max allocate number for team leader
             var memberDetails = Meteor.users.find({"roles":"team leader"},{sort:{'count':1}}).fetch();
             var companyObj = CompanySettings.findOne({"maxnoOfTicketAllocate.role":"team leader"});
@@ -137,9 +123,9 @@ class VerifiedDocuments extends TrackerReact(Component){
               Meteor.call('updateCommitteeUserCount',newCount,memberDetails[k]._id);
               break;
             }
-            swal("Aprooved successfully");
+            // swal("Approved successfully");
           }else{
-            swal("Ticket Rejected");             
+            // swal("Ticket Approved");             
               // Notification to user- Need to implement
               //Data Missing, Need to upload correct Data
               Meteor.call('changeStatusMethod',ticketObj._id,ticketObj.userId,remark,ticketObj.verificationType,ticketObj.verificationId,function(error,result){
@@ -337,7 +323,7 @@ class VerifiedDocuments extends TrackerReact(Component){
                                             </div>
                                            {this.props.isRoleUser == true ?
                                               <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm">
-                                               {this.props.ticketStatus.status == "New" || this.props.ticketStatus.status == "Reassign" && this.props.ticketStatus.role == "screening committee" ?
+                                               {this.props.ticketStatus.status == "New" || this.props.ticketStatus.status == "ScreenRejected" && this.props.ticketStatus.role == "screening committee" ?
                                                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                     <button type="button" className="btn btn-info acceptTicket acceptreject" data-id={this.props.getTicket._id} data-status="ScreenApproved" onClick={this.approvedCurDocument.bind()}>Approved</button>
                                                     <button type="button" className="btn btn-info rejectTicket acceptreject" data-id={this.props.getTicket._id} onClick={this.hideShowRejectReason.bind()}>Reject</button>
@@ -436,7 +422,7 @@ class VerifiedDocuments extends TrackerReact(Component){
                                             </div>
                                             {this.props.isRoleUser == true ?
                                               <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm">
-                                               {this.props.ticketStatus.status == "New" || this.props.ticketStatus.status == "Reassign" && this.props.ticketStatus.role == "screening committee" ?
+                                               {this.props.ticketStatus.status == "New" || this.props.ticketStatus.status == "ScreenRejected" && this.props.ticketStatus.role == "screening committee" ?
                                                   <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                       <button type="button" className="btn btn-info acceptTicket acceptreject" data-id={this.props.getTicket._id} data-status="ScreenApproved" onClick={this.approvedCurDocument.bind()}>Approved</button>
                                                       <button type="button" className="btn btn-info rejectTicket acceptreject" data-id={this.props.getTicket._id} onClick={this.hideShowRejectReason.bind()}>Reject</button>
@@ -534,7 +520,7 @@ class VerifiedDocuments extends TrackerReact(Component){
                                           </div>
                                          {this.props.isRoleUser == true ?
                                             <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm">
-                                             {this.props.ticketStatus.status == "New" || this.props.ticketStatus.status == "Reassign" && this.props.ticketStatus.role == "screening committee" ?
+                                             {this.props.ticketStatus.status == "New" || this.props.ticketStatus.status == "ScreenRejected" && this.props.ticketStatus.role == "screening committee" ?
                                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                     <button type="button" className="btn btn-info acceptTicket acceptreject" data-status="ScreenApproved" onClick={this.approvedCurDocument.bind()}>Approved</button>
                                                     <button type="button" className="btn btn-info rejectTicket acceptreject" onClick={this.hideShowRejectCurReason.bind()}>Reject</button>
@@ -635,7 +621,7 @@ class VerifiedDocuments extends TrackerReact(Component){
                                           </div>
                                           {this.props.isRoleUser == true ?
                                             <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm">
-                                              {this.props.ticketStatus.status == "New" || this.props.ticketStatus.status == "Reassign" && this.props.ticketStatus.role == "screening committee" ?
+                                              {this.props.ticketStatus.status == "New" || this.props.ticketStatus.status == "ScreenRejected" && this.props.ticketStatus.role == "screening committee" ?
                                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                     <button type="button" className="btn btn-info acceptTicket acceptreject" data-status="Approved" onClick={this.approvedCurDocument.bind()}>Approved</button>
                                                     <button type="button" className="btn btn-info rejectTicket acceptreject"  onClick={this.hideShowRejectCurReason.bind()}>Reject</button>
@@ -727,7 +713,7 @@ class VerifiedDocuments extends TrackerReact(Component){
                                           </div>
                                           {this.props.isRoleUser == true ?
                                             <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm">
-                                             {this.props.ticketStatus.status == "New" || this.props.ticketStatus.status == "Reassign" && this.props.ticketStatus.role == "screening committee" ?
+                                             {this.props.ticketStatus.status == "New" || this.props.ticketStatus.status == "ScreenRejected" && this.props.ticketStatus.role == "screening committee" ?
                                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                     <button type="button" className="btn btn-info acceptTicket acceptreject" data-status="ScreenApproved" onClick={this.approvedCurDocument.bind()}>Approved</button>
                                                     <button type="button" className="btn btn-info rejectTicket acceptreject"  onClick={this.hideShowRejectCurReason.bind()}>Reject</button>
@@ -821,7 +807,7 @@ class VerifiedDocuments extends TrackerReact(Component){
                                           {this.props.isRoleUser == true ?
                                             <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm">
                                                 { this.props.ticketStatus ?
-                                                  this.props.ticketStatus.status == "New" || this.props.ticketStatus.status == "Reassign" && this.props.ticketStatus.role == "screening committee" ?
+                                                  this.props.ticketStatus.status == "New" || this.props.ticketStatus.status == "ScreenRejected" && this.props.ticketStatus.role == "screening committee" ?
                                                   <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                       <button type="button" className="btn btn-info acceptTicket acceptreject" data-status="ScreenApproved" onClick={this.approvedCurDocument.bind()}>Approved</button>
                                                       <button type="button" className="btn btn-info rejectTicket acceptreject"  onClick={this.hideShowRejectCurReason.bind()}>Reject</button>
@@ -891,7 +877,7 @@ class VerifiedDocuments extends TrackerReact(Component){
                                         </div>
                                        {this.props.isRoleUser == true ?
                                          <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm verCarouselWrap">
-                                            {this.props.ticketStatus.status == "New" || this.props.ticketStatus.status == "Reassign" && this.props.ticketStatus.role == "screening committee" ?
+                                            {this.props.ticketStatus.status == "New" || this.props.ticketStatus.status == "ScreenRejected" && this.props.ticketStatus.role == "screening committee" ?
                                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                 <a href="#lightbox" data-slide="next" ><button type="button" className="btn btn-info acceptTicket acceptreject" name={index} onClick={this.approvedCurDocument.bind()}>Approved</button></a>
                                                 <button type="button" className="btn btn-info rejectTicket acceptreject" onClick={this.hideShowRejectReason.bind()}>Reject</button>
