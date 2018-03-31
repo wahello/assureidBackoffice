@@ -89,7 +89,7 @@ export const onAuthChange = (isAuthenticated) => {
   const isUnauthenticatedPage = unauthenticatedPages.includes(pathname);
   const isAuthenticatedPage = authenticatedPages.includes(pathname);
 
-  if (isUnauthenticatedPage && isAuthenticated && (Roles.userIsInRole(Meteor.userId(), 'admin') || Roles.userIsInRole(Meteor.userId(), 'superAdmin'))) {
+  if (isUnauthenticatedPage && isAuthenticated && Roles.userIsInRole(Meteor.userId(), ['admin','superAdmin'])) {
     browserHistory.replace('/admin/dashboard');
   } else if (isUnauthenticatedPage && isAuthenticated && Roles.userIsInRole(Meteor.userId(), 'Recruiter')) {
     browserHistory.replace('/dashboard');

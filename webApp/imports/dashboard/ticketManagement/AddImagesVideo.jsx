@@ -266,37 +266,50 @@ render(){
         </div>
             {!this.props.loading ?
             <div className="col-lg-12 imgbox">
-               {
-                 this.state.images? 
-                   this.state.images.map((ticketImages,index) =>{
-               return(
-                  <div className="col-lg-3 imgbrPre" key={index}>
-                    <div className="imgbr">
-                      <img src={ticketImages.imageLink} className="img1 img-responsive" />
-                    </div>
-                  </div>
-               );
-               })
-                :
+              {
                 this.props.ticketImages ?
-               this.props.ticketImages.map((ticketImages,index) =>{
-               return(
-                  <div className="col-lg-3 imgbrPre" key={index}>
-                    <div className="imgbr">
-                      <img src={ticketImages.imageLink} className="img1 img-responsive" />
+                  this.props.ticketImages.length > 0 ? 
+                    this.props.ticketImages.map((ticketImages,index) =>{
+                    return(
+                      <div className="col-lg-3 imgbrPre" key={index}>
+                        <div className="imgbr">
+                          <img src={ticketImages.imageLink} className="img1 img-responsive" />
+                        </div>
+                      </div>
+                    );
+                  })
+                  :
+                  this.state.images? 
+                    this.state.images.map((ticketImages,index) =>{
+                    return(
+                      <div className="col-lg-3 imgbrPre" key={index}>
+                        <div className="imgbr">
+                          <img src={ticketImages.imageLink} className="img1 img-responsive" />
+                        </div>
+                      </div>
+                    );
+                  })
+                  :
+                  ""
+                :
+                this.state.images? 
+                  this.state.images.map((ticketImages,index) =>{
+                  return(
+                    <div className="col-lg-3 imgbrPre" key={index}>
+                      <div className="imgbr">
+                        <img src={ticketImages.imageLink} className="img1 img-responsive" />
+                      </div>
                     </div>
-                  </div>
-               );
-               })
-               :
-               ""
-               }
+                  );
+                })
+                :
+                ""
+              }
+            </div>
+            :
+            ""
+          } 
         </div>
-        :
-              ""
-            }
-         
-       </div>
       <div className="col-lg-12 wholeborder">
         <div className="imgtitile col-lg-12  noLRPad">
           <div className="col-lg-12 noLRPad Selectimg"> Select Video:</div>
@@ -304,25 +317,50 @@ render(){
           {/*<input type="submit" className="col-lg-1 btn btn-primary" />*/}
           </div>
 
-         {!this.props.loading1 ?
+          {!this.props.loading1 ?
             <div className="col-lg-12 imgbox">
                {this.props.ticketVideo ?
-               this.props.ticketVideo.map((ticketVideo,index) =>{
-               return(
-                 <div className="col-lg-4 imgbrvid" key={index}>
-          <video width="200" height="200"  controls>
-          <source src={ticketVideo.videoLink} type="video/mp4" />
-        </video>
-        </div>
-               );
-               })
-               :
-               ""
-               }
+                  this.props.ticketVideo.length > 0 ?
+                    this.props.ticketVideo.map((ticketVideo,index) =>{
+                    return(
+                      <div className="col-lg-4 imgbrvid" key={index}>
+                        <video width="200" height="200"  controls>
+                          <source src={ticketVideo.videoLink} type="video/mp4" />
+                        </video>
+                      </div>
+                      );
+                    })
+                  :
+                  this.state.videos? 
+                    this.state.videos.map((ticketVideo,index) =>{
+                    return(
+                      <div className="col-lg-4 imgbrvid" key={index}>
+                        <video width="200" height="200"  controls>
+                          <source src={ticketVideo.videoLink} type="video/mp4" />
+                        </video>
+                      </div>
+                    );
+                  })
+                  :
+                  ""
+                :
+                this.state.videos? 
+                  this.state.videos.map((ticketVideo,index) =>{
+                  return(
+                    <div className="col-lg-4 imgbrvid" key={index}>
+                      <video width="200" height="200"  controls>
+                        <source src={ticketVideo.videoLink} type="video/mp4" />
+                      </video>
+                    </div>
+                  );
+                })
+                :
+                ""
+              }
        
         </div>
-        :
-              ""
+            :
+            ""
             }
 
       </div>
