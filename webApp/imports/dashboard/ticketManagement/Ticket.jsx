@@ -221,7 +221,8 @@ class Ticket extends TrackerReact(Component){
   }
   actionBlock(){
     var n = this.props.getTicket.ticketElement.length;
-    if(this.props.getTicket.ticketElement[n-1].roleStatus == 'screenTLAllocated' || this.props.getTicket.ticketElement[n-1].roleStatus == 'AssignReject'){
+    var currentUserRole = Meteor.user().roles.find(this.getRole);
+    if(((this.props.getTicket.ticketElement[n-1].roleStatus == 'screenTLAllocated' || this.props.getTicket.ticketElement[n-1].roleStatus == 'AssignReject'))&&(currentUserRole == "team leader" && this.props.getTicket.ticketElement[n-1].allocatedToUserid == Meteor.userId())){
       var teamMemberList=[];
       var title = "Team Leader";
       return(
@@ -248,7 +249,7 @@ class Ticket extends TrackerReact(Component){
 
       )
     
-    }else if(this.props.getTicket.ticketElement[n-1].roleStatus == 'Assign'){
+    }else if((this.props.getTicket.ticketElement[n-1].roleStatus == 'Assign')&&(currentUserRole == "team member" && this.props.getTicket.ticketElement[n-1].allocatedToUserid == Meteor.userId())){
       var title = "Team Member";  
       return(
         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper"> 
@@ -264,7 +265,7 @@ class Ticket extends TrackerReact(Component){
         </div>
       )
 
-    }else if(this.props.getTicket.ticketElement[n-1].roleStatus == 'AssignAccept'){
+    }else if((this.props.getTicket.ticketElement[n-1].roleStatus == 'AssignAccept')&&(currentUserRole == "team member" && this.props.getTicket.ticketElement[n-1].allocatedToUserid == Meteor.userId())){
       var title = "Team Member"
       var data = [];
       return(
