@@ -98,7 +98,25 @@ export default RejectedTicketsContainer = withTracker(props => {
   var handleAllBucketTick = Meteor.subscribe("allTicketBucket");
   var ticketId = props.params.id;
   var loading = !handleAllBucketTick.ready();
-  var ticketBucketData = TicketBucket.find({"empid":Meteor.userId(),'status':"Reject"}).fetch();   
+  var role = '';
+  for(i=0;i<Meteor.user().roles.length;i++){
+    if(Meteor.user().roles[i] != 'backofficestaff'){
+      var role = Meteor.user().roles[i];
+      break;
+    }
+  }
+  if(role == 'screening committee'){
+    var Status = ['ScreenRejected'];
+  }else if(role == 'team leader'){
+    var  Status = ['AssignReject'];
+  }else if(role == 'team member'){
+    var  Status = ['AssignReject'];
+  }else if(role == 'quality team member'){
+    var  Status = [''];
+  }else if(role == 'quality team leader'){
+    var  Status = [''];
+  }
+  var ticketBucketData = TicketBucket.find({"userId":Meteor.userId(),'status':{$in: Status}}).fetch();   
   return {
     loading,
     ticketBucketData,

@@ -53,7 +53,6 @@ class Ticket extends TrackerReact(Component){
     this.setState({"showRejectBox" : 'Y'});
   }
   getRejectBox(){
-    
     console.log('showRejectBox: ' + this.state.showRejectBox);
     // var roleStatus = $(event.currentTarget).attr('data-roleStatus');
     return(
@@ -76,8 +75,8 @@ class Ticket extends TrackerReact(Component){
     if(this.props.getTicket.ticketElement[elementLength-1].roleStatus == 'Assign'){
       var roleStatus          = $('#TMRejectTicket').attr('data-roleStatus');
       var msg                 = $('#TMRejectTicket').attr('data-msg');
-      var allocatedToUserid   = this.props.getTicket.ticketElement[elementLength-1].allocatedToUserid;
-      var allocatedToUserName = this.props.getTicket.ticketElement[elementLength-1].allocatedToUserName;
+      var allocatedToUserid   = this.props.getTicket.ticketElement[elementLength-1].userid;
+      var allocatedToUserName = this.props.getTicket.ticketElement[elementLength-1].userName;
     }else if(this.props.getTicket.ticketElement[elementLength-1].roleStatus == 'ProofSubmit'){
       var roleStatus          = $('#TMProofReject').attr('data-roleStatus');
       var msg                 = $('#TMProofReject').attr('data-msg');
@@ -155,9 +154,10 @@ class Ticket extends TrackerReact(Component){
     }
     var memberid ='';
     var memberName = '';
-    if(this.props.getTicket.ticketElement[elementLength-1].roleStatus == 'screenTLAllocated'){
-          insertData.allocatedToUserid = $("#selectTMMember option:selected").val();
-          insertData.allocatedToUserName = $("#selectTMMember option:selected").text();
+    if(this.props.getTicket.ticketElement[elementLength-1].roleStatus == 'screenTLAllocated' || 
+       this.props.getTicket.ticketElement[elementLength-1].roleStatus == 'AssignReject'){
+        insertData.allocatedToUserid = $("#selectTMMember option:selected").val();
+        insertData.allocatedToUserName = $("#selectTMMember option:selected").text();
     }else if(this.props.getTicket.ticketElement[elementLength-1].roleStatus == 'Assign' || 
               this.props.getTicket.ticketElement[elementLength-1].roleStatus == 'VerificationPass'){
         insertData.allocatedToUserid = '';
@@ -173,7 +173,7 @@ class Ticket extends TrackerReact(Component){
       }
     }else if(this.props.getTicket.ticketElement[elementLength-1].roleStatus == 'VerificationPassQTLAllocated'){
       insertData.allocatedToUserid = this.props.getTicket.ticketElement[0].userId;
-        insertData.allocatedToUserName = this.props.getTicket.ticketElement[0].userName;
+      insertData.allocatedToUserName = this.props.getTicket.ticketElement[0].userName;
     }
     // console.log('insertData ',insertData);
     Meteor.call('genericUpdateTicketMasterElement',this.props.ticketId,insertData);
@@ -211,13 +211,9 @@ class Ticket extends TrackerReact(Component){
       var title = "Team Member";  
       return(
         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper"> 
-          <h5> {title} </h5>
+          <h5> {title} </h5> 
           <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1 col-xs-12">
-
-            <button className="btn btn-success col-lg-3 col-md-3 col-sm-4 col-xs-5 approvebtn" data-status="AssignAccept" onClick={this.changeTMStatus.bind(this)} > 
-                  Accept </button>
-            <button className="btn btn-danger col-lg-3 col-md-3 col-sm-4 col-xs-5" data-status="AssignReject"
-                    onClick={this.showRejectBoxState.bind(this)}> 
+            <button className="btn btn-danger col-lg-3 col-md-3 col-sm-4 col-xs-5" id="TMRejectTicket" data-roleStatus="AssignReject" data-msg="Rejected Ticket" onClick={this.showRejectBoxState.bind(this)}> 
               Reject 
             </button>
             <button className="btn btn-success col-lg-3 col-md-3 col-sm-4 col-xs-5 approvebtn" data-roleStatus="AssignAccept" data-msg="Accepted Ticket" onClick={this.approveButton.bind(this)} > 
@@ -594,8 +590,6 @@ export default UserDetailsContainer = withTracker(props => {
   }else{
     userProfile.dateOfBirth='-';
   }
-    
-    
   return {
     loading,
     getTicket,

@@ -342,8 +342,8 @@ class VerifiedDocuments extends TrackerReact(Component){
                                               <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm">
                                                {this.props.ticketStatus.status == "New" || this.props.ticketStatus.status == "ScreenRejected" && this.props.ticketStatus.role == "screening committee" ?
                                                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                    <button type="button" className="btn btn-info acceptTicket acceptreject" data-id={this.props.getTicket._id} data-status="ScreenApproved" onClick={this.approvedCurDocument.bind()}>Approved</button>
-                                                    <button type="button" className="btn btn-info rejectTicket acceptreject" data-id={this.props.getTicket._id} onClick={this.hideShowRejectReason.bind()}>Reject</button>
+                                                    <button type="button" className="btn btn-danger col-lg-4 ApprovRejDoc rejectTicket acceptreject" data-id={this.props.getTicket._id} onClick={this.hideShowRejectReason.bind()}>Reject</button>
+                                                    <button type="button" className="btn btn-primary col-lg-4 ApprovRejDoc acceptTicket acceptreject" data-id={this.props.getTicket._id} data-status="ScreenApproved" onClick={this.approvedCurDocument.bind()}>Approved</button>
                                                   </div>                                          
                                                   :
                                                   ""
@@ -441,8 +441,8 @@ class VerifiedDocuments extends TrackerReact(Component){
                                               <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm">
                                                {this.props.ticketStatus.status == "New" || this.props.ticketStatus.status == "ScreenRejected" && this.props.ticketStatus.role == "screening committee" ?
                                                   <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                      <button type="button" className="btn btn-info acceptTicket acceptreject" data-id={this.props.getTicket._id} data-status="ScreenApproved" onClick={this.approvedCurDocument.bind()}>Approved</button>
-                                                      <button type="button" className="btn btn-info rejectTicket acceptreject" data-id={this.props.getTicket._id} onClick={this.hideShowRejectReason.bind()}>Reject</button>
+                                                    <button type="button" className="btn btn-danger rejectTicket acceptreject" data-id={this.props.getTicket._id} onClick={this.hideShowRejectReason.bind()}>Reject</button>
+                                                    <button type="button" className="btn btn-success acceptTicket acceptreject" data-id={this.props.getTicket._id} data-status="ScreenApproved" onClick={this.approvedCurDocument.bind()}>Approved</button>
                                                   </div>    
                                                   :
                                                   ""
@@ -539,8 +539,8 @@ class VerifiedDocuments extends TrackerReact(Component){
                                             <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm">
                                              {this.props.ticketStatus.status == "New" || this.props.ticketStatus.status == "ScreenRejected" && this.props.ticketStatus.role == "screening committee" ?
                                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                    <button type="button" className="btn btn-info acceptTicket acceptreject" data-status="ScreenApproved" onClick={this.approvedCurDocument.bind()}>Approved</button>
-                                                    <button type="button" className="btn btn-info rejectTicket acceptreject" onClick={this.hideShowRejectCurReason.bind()}>Reject</button>
+                                                  <button type="button" className="btn btn-danger rejectTicket acceptreject" onClick={this.hideShowRejectCurReason.bind()}>Reject</button>
+                                                  <button type="button" className="btn btn-primary acceptTicket acceptreject" data-status="ScreenApproved" onClick={this.approvedCurDocument.bind()}>Approved</button>
                                                 </div>
                                                 :
                                                 ""
@@ -640,8 +640,9 @@ class VerifiedDocuments extends TrackerReact(Component){
                                             <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm">
                                               {this.props.ticketStatus.status == "New" || this.props.ticketStatus.status == "ScreenRejected" && this.props.ticketStatus.role == "screening committee" ?
                                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                    <button type="button" className="btn btn-info acceptTicket acceptreject" data-status="Approved" onClick={this.approvedCurDocument.bind()}>Approved</button>
-                                                    <button type="button" className="btn btn-info rejectTicket acceptreject"  onClick={this.hideShowRejectCurReason.bind()}>Reject</button>
+                                                  <button type="button" className="btn btn-danger rejectTicket acceptreject"  onClick={this.hideShowRejectCurReason.bind()}>Reject</button>
+                                                  <button type="button" className="btn btn-primary acceptTicket acceptreject" data-status="Approved" onClick={this.approvedCurDocument.bind()}>Approved</button>
+                                                    
                                                 </div>
                                                 :
                                                 ""

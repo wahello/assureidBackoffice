@@ -151,6 +151,22 @@ if(Meteor.isServer){
 			}
 			
 		}
+		if(insertData.roleStatus == 'Assign' || insertData.roleStatus == 'AssignReject'){
+			if(ticketDetails){
+				console.log('ticketDetails ',ticketDetails);
+				var bucketData = {
+					"ticketid" 				: ticketid,
+					"ticketNumber" 			: ticketDetails.ticketNumber,
+					"orderNo"				: ticketDetails.orderNo,
+					"serviceName" 			: ticketDetails.serviceName,
+					"userId" 				: insertData.allocatedToUserid,
+					"status" 				: insertData.roleStatus,
+					"tatDate" 				: ticketDetails.tatDate,
+					"createdAt" 			: new Date()
+				}
+				Meteor.call('newInsertTicketBucket',bucketData);
+			}	
+		}
 		if(insertData.roleStatus == 'ReportSubmitted' || insertData.roleStatus =='QAPass' || insertData.roleStatus =='ScreenApproved'){
 			if(insertData.roleStatus == 'ReportSubmitted'){
 				var role = "quality team member";

@@ -93,7 +93,7 @@ export default EsclatedTicketsContainer = withTracker(props => {
   var handleAllBucketTick = Meteor.subscribe("allTicketBucket");
   var ticketId = props.params.id;
   var loading = !handleAllBucketTick.ready();
-  var ticketBucketData = TicketBucket.find({"empid":Meteor.userId(),'status':"Esclated"}).fetch();
+  var ticketBucketData = TicketBucket.find({"userId":Meteor.userId(),'status':"Esclated"}).fetch();
   console.log('ticketBucketData Count ', ticketBucketData.length);    
   return {
     loading,

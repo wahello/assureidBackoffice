@@ -179,12 +179,53 @@ export default allOtherRoleSidebarContainer = withTracker(props => {
     var uniqueId = _.uniq(pluckId);
     var alltickets = uniqueId.length;
   }
-  var ticketBucketData     = TicketBucket.find({"empid":Meteor.userId()}).fetch();   
-  var assignedTicketCount  = TicketBucket.find({"empid":Meteor.userId()}).count();   
-  var openTicketCount      = TicketBucket.find({"empid":Meteor.userId(),'status':"Accepted"}).count();
-  var approvedTicketCount  = TicketBucket.find({"empid":Meteor.userId(),'status':"Approved"}).count();
-  var rejectTicketCount    = TicketBucket.find({"empid":Meteor.userId(),'status':"Reject"}).count();
-  var esclationTicketCount = TicketBucket.find({"empid":Meteor.userId(),'status':"Esclation"}).count();
+  
+  var role = '';
+  for(i=0;i<Meteor.user().roles.length;i++){
+    if(Meteor.user().roles[i] != 'backofficestaff'){
+      var role = Meteor.user().roles[i];
+      break;
+    }
+  }
+  if(role == 'screening committee'){
+    var Assigned  = 'New';
+    var Open      = 'New';
+    var Approved  = 'ScreenApproved';
+    var Rejected  = 'ScreenRejected';
+    var Escalated = '';
+  }else if(role == 'team leader'){
+    var Assigned  = 'screenTLAllocated';
+    var Open      = 'screenTLAllocated';
+    var Approved  = 'AssignAccept';
+    var Rejected  = 'AssignReject';
+    var Escalated = '';
+  }else if(role == 'team member'){
+    var Assigned  = 'Assign';
+    var Open      = 'Assign';
+    var Approved  = 'AssignAccept';
+    var Rejected  = 'AssignReject';
+    var Escalated = '';
+  }else if(role == 'quality team member'){
+    var Assigned = '';
+    var Open = '';
+    var Approved = '';
+    var Rejected = '';
+    var Escalated = '';
+  }else if(role == 'quality team leader'){
+    var Assigned = '';
+    var Open = '';
+    var Approved = '';
+    var Rejected = '';
+    var Escalated = '';
+  }
+  
+
+  var ticketBucketData     = TicketBucket.find({"userId":Meteor.userId()}).fetch();   
+  var assignedTicketCount  = TicketBucket.find({"userId":Meteor.userId(),'status': Assigned}).count();   
+  var openTicketCount      = TicketBucket.find({"userId":Meteor.userId(),'status': Open}).count();
+  var approvedTicketCount  = TicketBucket.find({"userId":Meteor.userId(),'status': Approved}).count();
+  var rejectTicketCount    = TicketBucket.find({"userId":Meteor.userId(),'status': Rejected}).count();
+  var esclationTicketCount = TicketBucket.find({"userId":Meteor.userId(),'status': Escalated}).count();
 
   return {
     loading,
