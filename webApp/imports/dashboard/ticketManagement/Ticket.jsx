@@ -25,7 +25,6 @@ import SubmittedDocuments from './SubmittedDocuments.jsx';
 import UploadReport from './UploadReport.jsx';
 
 
-
 class Ticket extends TrackerReact(Component){
   constructor(props){
     super(props);
