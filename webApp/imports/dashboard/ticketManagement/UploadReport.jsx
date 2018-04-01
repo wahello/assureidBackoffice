@@ -112,8 +112,18 @@ class UploadReport extends TrackerReact(Component){
         if (!this.props.loading) {
             return(
                 <div>
-                    <div className="col-lg-12 noLRPad borderBottomBlock">
-                    <h5 className="col-lg-9 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 noLRPad roleName">team member</h5>
+                    <div className="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-xm-12 col-xs-12">
+                        <div className="col-lg-6 col-lg-offset-1">
+                            <input type="file" ref="uploadReportFile" id="uploadReport" name="uploadReport" className="col-lg-7 reporttitle noLRPad" onChange={this.handleReportUpload.bind(this)} multiple />
+                        </div>
+                        <div className="col-lg-4">
+                            <button type="button" className="bg-primary col-lg-4 ApprovRejDoc" onClick={this.submitReport.bind(this)}>Submit</button>
+                        </div>
+                        <div className="docdownload col-lg-2 col-lg-offset-5" title="Download Report">
+                            <i className="fa fa-file-text-o" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    {/* <div className="col-lg-12 noLRPad borderBottomBlock">
                         <div className="col-lg-12 noLRPad Selectimg reporttitle dataDetails"> Upload Report:</div>
                         <div className="col-lg-10 col-lg-offset-2">
                             <div className="col-lg-6 col-lg-offset-1">
@@ -123,8 +133,8 @@ class UploadReport extends TrackerReact(Component){
                             <button type="button" className="bg-primary col-lg-4 ApprovRejDoc" onClick={this.submitReport.bind(this)}>Submit</button>
                             </div>
                         </div>
-                    </div>
-                     <div className="col-lg-12 noLRPad borderBottomBlock">
+                    </div> */}
+                     {/* <div className="col-lg-12 noLRPad borderBottomBlock">
                         <h5 className="col-lg-9 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 noLRPad roleName">Quality Team Member</h5>
                         <div className="col-lg-12 noLRPad Selectimg reporttitle dataDetails"> Download Report:</div>                
                         <div className="docdownload col-lg-2 col-lg-offset-5" title="Download Report">
@@ -135,7 +145,7 @@ class UploadReport extends TrackerReact(Component){
                             <button type="button" className="bg-primary col-lg-4 ApprovRejDoc" data-status="QAPass" onClick={this.addQAStatus.bind(this)}>Approve</button>
                             <button type="button" className="btn-danger col-lg-4 ApprovRejDoc" data-status="QAFail">Reject</button>
                         </div>
-                    </div> 
+                    </div>  */}
                   {/*  <div className="col-lg-12 noLRPad borderBottomBlock">
                         <h5 className="col-lg-9 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 noLRPad roleName">Quality Team Leader</h5>
                         <div className="col-lg-12 noLRPad Selectimg reporttitle dataDetails"> Download Report:</div>                

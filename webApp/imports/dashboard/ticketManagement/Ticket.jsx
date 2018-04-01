@@ -23,6 +23,7 @@ import { UserProfile } from '../../website/forms/api/userProfile.js';
 import SubmittedDocuments from './SubmittedDocuments.jsx';
 import UploadReport from './UploadReport.jsx';
 
+
 class Ticket extends TrackerReact(Component){
   constructor(props){
     super(props);
@@ -58,7 +59,7 @@ class Ticket extends TrackerReact(Component){
     return(
       <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <textarea rows="3" cols="60" className="col-lg-6 col-lg-offset-2" id="rejectReason"/>
-        <button onClick={this.submitReject.bind(this)} 
+        <button onClick={this.rejectButton.bind(this)} 
           id="rejectButton" 
           // data-roleStatus = {roleStatus}
           // data-msg = {$(event.currentTarget).attr('data-msg')}
@@ -67,7 +68,7 @@ class Ticket extends TrackerReact(Component){
       </div>
     )
   }
-  submitReject(event){
+  rejectButton(event){
     console.log('submitReject clicked');
     event.preventDefault();
     var ticketId = this.props.ticketId;
@@ -75,27 +76,39 @@ class Ticket extends TrackerReact(Component){
     if(this.props.getTicket.ticketElement[elementLength-1].roleStatus == 'Assign'){
       var roleStatus          = $('#TMRejectTicket').attr('data-roleStatus');
       var msg                 = $('#TMRejectTicket').attr('data-msg');
+      var allocatedToUserid   = this.props.getTicket.ticketElement[elementLength-1].allocatedToUserid;
+      var allocatedToUserName = this.props.getTicket.ticketElement[elementLength-1].allocatedToUserName;
     }else if(this.props.getTicket.ticketElement[elementLength-1].roleStatus == 'ProofSubmit'){
       var roleStatus          = $('#TMProofReject').attr('data-roleStatus');
       var msg                 = $('#TMProofReject').attr('data-msg');
+      var allocatedToUserid   = this.props.getTicket.ticketElement[elementLength-1].allocatedToUserid;
+      var allocatedToUserName = this.props.getTicket.ticketElement[elementLength-1].allocatedToUserName;
+    }else if(this.props.getTicket.ticketElement[elementLength-1].roleStatus == 'VerificationPassQTMAllocated'){
+      var roleStatus          = $('#QTMRejectTicket').attr('data-roleStatus');
+      var msg                 = $('#QTMRejectTicket').attr('data-msg'); 
+      var allocatedToUserid   = this.props.getTicket.ticketElement[elementLength-2].allocatedToUserid;
+      var allocatedToUserName = this.props.getTicket.ticketElement[elementLength-2].allocatedToUserName;
+    }else if(this.props.getTicket.ticketElement[elementLength-1].roleStatus == 'VerificationPassQTLAllocated'){
+      var roleStatus          = $('#QTLRejectTicket').attr('data-roleStatus');
+      var msg                 = $('#QTLRejectTicket').attr('data-msg'); 
+      var allocatedToUserid   = this.props.getTicket.ticketElement[elementLength-2].allocatedToUserid;
+      var allocatedToUserName = this.props.getTicket.ticketElement[elementLength-2].allocatedToUserName;
     }
     var insertData = {
       "userid"              : Meteor.userId(),
       "userName"            : Meteor.user().profile.firstname + ' ' + Meteor.user().profile.lastname,
-      "allocatedToUserid"   : this.props.getTicket.ticketElement[elementLength-1].allocatedToUserid,
-      "allocatedToUserName" : this.props.getTicket.ticketElement[elementLength-1].allocatedToUserName,
+      "allocatedToUserid"   : allocatedToUserid,
+      "allocatedToUserName" : allocatedToUserName,
       "role"                : Meteor.user().roles.find(this.getRole),
       "roleStatus"          : roleStatus,
       "msg"                 : msg,
       "remark"              : $('#rejectReason').val(),
       "createdAt"           : new Date()
     }
-    console.log('insertData ',insertData);
+    // console.log('insertData ',insertData);
     Meteor.call('genericUpdateTicketMasterElement',this.props.ticketId,insertData);
     this.setState({"showRejectBox" : 'N'});
   }
-
-  
   /**================= Team Leader Allocate To Team Member =================== */
   allocateToTeamMember(event){
     event.preventDefault();
@@ -106,13 +119,11 @@ class Ticket extends TrackerReact(Component){
     Meteor.call('allocateToTeamMember',ticketId,userId,userName,(error,result)=>{
     });
   }
-
   changeTMStatus(event){
     var ticketId = this.props.ticketId;
     var status      = $(event.currentTarget).attr('data-status');
     Meteor.call('updateTMStatus',ticketId,status);
-  }
-  
+  }  
   /*Get radio value and display dropdown and textbox*/
   getRadioValue(event){
     event.preventDefault();
@@ -121,89 +132,86 @@ class Ticket extends TrackerReact(Component){
         'radioState':radioValue,
     });
   }
-
   showBAFEList(role){
     var teammemberDetails = Meteor.users.find({"roles": {$in:[role]}}).fetch();
-      console.log('teammemberDetails',teammemberDetails);
     return teammemberDetails;
   }
-
   uploadDocsDiv(event){
     event.preventDefault();
     $('#AddImagesVideo').css({"display" : "block"});
     $(event.currentTarget).css({"display" : "none"});
-    
   }
-
-
-  addBAFEData(event){
+  approveButton(event){
     event.preventDefault();
-    var memberid = $("#selectMember option:selected").val();
-    var memberName = $("#selectMember option:selected").text();
-    
     var ticketId = this.props.ticketId;
     var elementLength = this.props.getTicket.ticketElement.length;
-    if(!memberid){
-      memberid = this.props.getTicket.ticketElement[elementLength-1].allocatedToUserid;
-      memberName = this.props.getTicket.ticketElement[elementLength-1].allocatedToUserName;
-    }
     var insertData = {
       "userid"              : Meteor.userId(),
       "userName"            : Meteor.user().profile.firstname + ' ' + Meteor.user().profile.lastname,
-      "allocatedToUserid"   : memberid,
-      "allocatedToUserName" : memberName,
-      "role"                : this.props.getTicket.ticketElement[elementLength-1].role,
+      "role"                : Meteor.user().roles.find(this.getRole),
       "roleStatus"          : $(event.currentTarget).attr('data-roleStatus'),
-      "msg"                 : "Allocated Ticket ",
+      "msg"                 : $(event.currentTarget).attr('data-msg'),
       "createdAt"           : new Date()
     }
-    console.log('insertData ',insertData);
+    var memberid ='';
+    var memberName = '';
+    if(this.props.getTicket.ticketElement[elementLength-1].roleStatus == 'screenTLAllocated'){
+          insertData.allocatedToUserid = $("#selectTMMember option:selected").val();
+          insertData.allocatedToUserName = $("#selectTMMember option:selected").text();
+    }else if(this.props.getTicket.ticketElement[elementLength-1].roleStatus == 'Assign' || 
+              this.props.getTicket.ticketElement[elementLength-1].roleStatus == 'VerificationPass'){
+        insertData.allocatedToUserid = '';
+        insertData.allocatedToUserName = '';
+    }else if(this.props.getTicket.ticketElement[elementLength-1].roleStatus == 'AssignAccept' ||
+             this.props.getTicket.ticketElement[elementLength-1].roleStatus == 'ProofSubmit' ){
+      if(($(event.currentTarget).attr('data-roleStatus') == 'FEAllocated') || ($(event.currentTarget).attr('data-roleStatus') == 'BAAllocated')){
+        insertData.allocatedToUserid = $("#selectMember option:selected").val();
+        insertData.allocatedToUserName = $("#selectMember option:selected").text();
+      }else{
+        insertData.allocatedToUserid = this.props.getTicket.ticketElement[elementLength-1].allocatedToUserid;
+        insertData.allocatedToUserName = this.props.getTicket.ticketElement[elementLength-1].allocatedToUserName;
+      }
+    }else if(this.props.getTicket.ticketElement[elementLength-1].roleStatus == 'VerificationPassQTLAllocated'){
+      insertData.allocatedToUserid = this.props.getTicket.ticketElement[0].userId;
+        insertData.allocatedToUserName = this.props.getTicket.ticketElement[0].userName;
+    }
+    // console.log('insertData ',insertData);
     Meteor.call('genericUpdateTicketMasterElement',this.props.ticketId,insertData);
   }
-
   actionBlock(){
     var n = this.props.getTicket.ticketElement.length;
-    if(this.props.getTicket.ticketElement[n-1].roleStatus == 'ScreenTLAllocated' || this.props.getTicket.ticketElement[n-1].roleStatus == 'AssignReject'){
+    if(this.props.getTicket.ticketElement[n-1].roleStatus == 'screenTLAllocated' || this.props.getTicket.ticketElement[n-1].roleStatus == 'AssignReject'){
       var teamMemberList=[];
       var title = "Team Leader";
-      var allTeamMemberList = Meteor.users.find({'roles':'team member'}).fetch();
-      for(k=0;k<allTeamMemberList.length;k++){
-        var teamMemberName = allTeamMemberList[k].profile.firstname+" "+allTeamMemberList[k].profile.lastname;
-        var teamMemberId   = allTeamMemberList[k]._id;
-        teamMemberList.push({'teamMemberName':teamMemberName,'teamMemberId':teamMemberId});
-      } 
       return(
         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper"> 
           <h5> {title} </h5>
           <div className="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-12">
             <span className="col-lg-3 col-md-3 col-sm-4 col-xs-5"> Assign this ticket to: </span>
-            <select className="col-lg-3 col-md-3 col-sm-4 col-xs-5 tmListWrap" aria-describedby="basic-addon1" ref="allocateToName">  
-            { 
-              teamMemberList.map((teamMemberList, index)=>{
+            <select className="col-lg-3 col-md-3 col-sm-4 col-xs-5 tmListWrap" id="selectTMMember" aria-describedby="basic-addon1" ref="allocateToName">  
+              { 
+                this.showBAFEList('team member').map((data,i)=>{
                   return(
-                      <option key={index} id={teamMemberList.teamMemberId}>
-                          {teamMemberList.teamMemberName}
-                      </option>
+                    <option key={i} value={data._id}>
+                      {data.profile.firstname + ' ' + data.profile.lastname}
+                    </option>
                   );
-              })
-            }
+                })
+              } 
             </select>
-            <div className="col-lg-2 fesubmitouter noLRPad">
-                <button type="button" className="fesubmitbtn col-lg-12 teammember" onClick={this.allocateToTeamMember.bind(this)}>Assign To</button>
+            <div className="col-lg-4 fesubmitouter noLRPad">
+              <button type="submit" value="Submit" className="col-lg-11 fesubmitbtn noLRPad" data-role="Team Leader" data-roleStatus="Assign" data-msg="Assigned Ticket To Team Member" onClick={this.approveButton.bind(this)} >Submit</button>                                       
             </div>
           </div>
-          
         </div>
 
       )
     
     }else if(this.props.getTicket.ticketElement[n-1].roleStatus == 'Assign'){
-
       var title = "Team Member";  
       return(
         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper"> 
           <h5> {title} </h5>
-
           <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1 col-xs-12">
 
             <button className="btn btn-success col-lg-3 col-md-3 col-sm-4 col-xs-5 approvebtn" data-status="AssignAccept" onClick={this.changeTMStatus.bind(this)} > 
@@ -212,9 +220,8 @@ class Ticket extends TrackerReact(Component){
                     onClick={this.showRejectBoxState.bind(this)}> 
               Reject 
             </button>
-            <button className="btn btn-success col-lg-3 col-md-3 col-sm-4 col-xs-5 approvebtn" data-status="AssignAccept" onClick={this.changeTMStatus.bind(this)} > 
+            <button className="btn btn-success col-lg-3 col-md-3 col-sm-4 col-xs-5 approvebtn" data-roleStatus="AssignAccept" data-msg="Accepted Ticket" onClick={this.approveButton.bind(this)} > 
                   Approve </button>
-            
           </div>
           {this.state.showRejectBox === 'Y' ? this.getRejectBox() : '' }
         </div>
@@ -236,7 +243,7 @@ class Ticket extends TrackerReact(Component){
                 <label className="noLRPad"><input type="radio" name="radioState" value="field expert" className="optradio" checked={this.state.radioState ==="Field Expert"} onChange={this.getRadioValue.bind(this)}/>Field Expert</label>
               </div>
               <div className="radio radiobtn col-lg-3 noLRPad">
-                <label className="noLRPad"><input type="radio" name="radioState" value="ba" className="optradio" checked={this.state.radioState ==="Business Associate"} onChange={this.getRadioValue.bind(this)}/>BA</label>
+                <label className="noLRPad"><input type="radio" name="radioState" value="ba" className="optradio" checked={this.state.radioState ==="Business Associate"} onChange={this.getRadioValue.bind(this)}/>Business Associate</label>
               </div>
             </div>
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad hideFieldexpert">                            
@@ -257,13 +264,13 @@ class Ticket extends TrackerReact(Component){
                       </select>
                     </div>
                     <div className="col-lg-4 fesubmitouter noLRPad">
-                      <button type="submit" value="Submit" className="col-lg-11 fesubmitbtn noLRPad" data-role="field expert" data-roleStatus="FEAllocated" onClick={this.addBAFEData.bind(this)} >Submit</button>                                       
+                      <button type="submit" value="Submit" className="col-lg-11 fesubmitbtn noLRPad" data-role="field expert" data-roleStatus="FEAllocated" data-msg="Allocated Ticket To Field Expert" onClick={this.approveButton.bind(this)} >Submit</button>                                       
                     </div>
                 </div>
               :this.state.radioState == 'ba'?       
               <div>
                   <div className="col-lg-7 teamMemOuter">
-                    <lable>Allocate To Field Expert</lable>
+                    <lable>Allocate To Business Associate</lable>
                     <select className="form-control" id="selectMember" aria-describedby="basic-addon1" ref="allocateToFEName">
                         { 
                           this.showBAFEList('ba').map((data,i)=>{
@@ -277,13 +284,13 @@ class Ticket extends TrackerReact(Component){
                     </select>
                   </div>
                   <div className="col-lg-4 fesubmitouter noLRPad">
-                    <button type="submit" value="Submit" className="col-lg-11 fesubmitbtn noLRPad" data-role="ba" data-roleStatus="BAAllocated" onClick={this.addBAFEData.bind(this)} >Submit</button>                                       
+                    <button type="submit" value="Submit" className="col-lg-11 fesubmitbtn noLRPad" data-role="Business Associate" data-roleStatus="BAAllocated" data-msg="Allocated Ticket To Business Associate" onClick={this.approveButton.bind(this)} >Submit</button>                                       
                   </div>
               </div>
               : this.state.radioState == 'Self'?
                 <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
                   <h5><strong>You are going to handle this ticket</strong></h5>
-                  <button type="submit" value="Submit" className="col-lg-11 fesubmitbtn noLRPad" data-role="self" data-roleStatus="SelfAllocated" onClick={this.addBAFEData.bind(this)} >Submit</button>                                                                              
+                  <button type="submit" value="Submit" className="col-lg-11 fesubmitbtn noLRPad" data-role="team member" data-roleStatus="SelfAllocated"  data-msg="Allocated Ticket To Self" onClick={this.approveButton.bind(this)} >Submit</button>                                                                              
               </div>
               :    ""
               }
@@ -320,44 +327,89 @@ class Ticket extends TrackerReact(Component){
           </div>
           <div className="docbtnwrap col-lg-6 col-lg-offset-4">
 						<button type="button" className="btn btn-danger col-lg-4 ApprovRejDoc" id="TMProofReject" data-roleStatus="VerificationFail" data-msg="Rejected Verification Information" onClick={this.showRejectBoxState.bind(this)}>Reject</button>
-            <button type="button" className="btn btn-primary col-lg-4 ApprovRejDoc" data-roleStatus="VerificationPass" data-msg="Approved Verification Information" onClick ={this.submitReject.bind(this)}>Approve</button>
+            <button type="button" className="btn btn-primary col-lg-4 ApprovRejDoc" data-roleStatus="VerificationPass" data-msg="Approved Verification Information" onClick ={this.approveButton.bind(this)}>Approve</button>
           </div>
           {this.state.showRejectBox === 'Y' ? this.getRejectBox() : '' }
         </div>
         
       )
-
-      {this.props.getTicket.ticketElement[n-1].roleStatus}
-        // <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
-        //   <div className="radio radiobtn col-lg-3 noLRPad">
-        //   <label className="noLRPad"><input type="radio" name="optradio" value="Self" className="optradio" checked={this.state.radioState ==="Self"}/>Self</label>
-        //   </div>
-        //   <div className="radio col-lg-6 radiobtn noLRPad">
-        //   <label className="noLRPad"><input type="radio" name="optradio" value="Field Expert" className="optradio" checked={this.state.radioState ==="Field Expert"}/>Field Expert</label>
-        //   </div>
-        //   <div className="radio radiobtn col-lg-3 noLRPad">
-        //   <label className="noLRPad"><input type="radio" name="optradio" value="BA" className="optradio" checked={this.state.radioState ==="BA"}/>BA</label>
-        //   </div>
-        // </div>
-        return(
-            <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
-              <div className="radio radiobtn col-lg-3 noLRPad">
-              <label className="noLRPad"><input type="radio" name="optradio" value="Self" className="optradio"/>Self</label>
-              </div>
-              <div className="radio col-lg-6 radiobtn noLRPad">
-              <label className="noLRPad"><input type="radio" name="optradio" value="Field Expert" className="optradio"/>Field Expert</label>
-              </div>
-              <div className="radio radiobtn col-lg-3 noLRPad">
-              <label className="noLRPad"><input type="radio" name="optradio" value="BA" className="optradio"/>BA</label>
-              </div>
+    }else if(this.props.getTicket.ticketElement[n-1].roleStatus == 'VerificationPass'){
+      var title = "Team Member";  
+      return(
+        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper"> 
+          <h5> {title} </h5>
+          <div className="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-xm-12 col-xs-12">
+            <div className="col-lg-6 col-lg-offset-1">
+                <input type="file" ref="uploadReportFile" id="uploadReport" name="uploadReport" className="col-lg-7 reporttitle noLRPad" />
             </div>
-        )
+            <div className="col-lg-4">
+                <button type="button" className="bg-primary col-lg-4" data-roleStatus="ReportSubmitted" data-msg="Submitted Verification Information" onClick={this.approveButton.bind(this)}>Submit</button>
+            </div>
+            <div className="docdownload col-lg-2 col-lg-offset-5" title="Download Report">
+                <i className="fa fa-file-text-o" aria-hidden="true"></i>
+            </div>
+          </div>
+        </div>
+        
+      )
+    }else if(this.props.getTicket.ticketElement[n-1].roleStatus == 'VerificationPassQTMAllocated'){
+      var title = "Qulity Team Member";  
+      return(
+        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper"> 
+          <h5> {title} </h5>
+          <div id="SubmittedDocuments" >
+            {this.props.getTicket.submittedDocuments ?
+              <SubmittedDocuments submittedDocuments={this.props.getTicket.submittedDocuments}/>
+              :
+              ""
+            }
+          </div>
+          <div className="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-xm-12 col-xs-12">
+            <div className="docdownload col-lg-2 col-lg-offset-5" title="Download Report">
+                <i className="fa fa-file-text-o" aria-hidden="true"></i>
+            </div>
+            <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1 col-xs-12">
+            <button className="btn btn-danger col-lg-3 col-md-3 col-sm-4 col-xs-5" id="QTMRejectTicket" data-roleStatus="QAFail" data-msg="Rejected Verification Report For Quality Issue" onClick={this.showRejectBoxState.bind(this)} > 
+              Reject 
+            </button>
+            <button className="btn btn-success col-lg-3 col-md-3 col-sm-4 col-xs-5 approvebtn" data-roleStatus="QAPass" data-msg="Approved Verification Report" onClick={this.approveButton.bind(this)} > 
+                  Approve </button>
+          </div>
+          {this.state.showRejectBox === 'Y' ? this.getRejectBox() : '' }
+          </div>
+        </div>
+      )
+    }else if(this.props.getTicket.ticketElement[n-1].roleStatus == 'VerificationPassQTLAllocated'){
+      var title = "Qulity Team Leader";  
+      return(
+        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper"> 
+          <h5> {title} </h5>
+          <div id="SubmittedDocuments" >
+            {this.props.getTicket.submittedDocuments ?
+              <SubmittedDocuments submittedDocuments={this.props.getTicket.submittedDocuments}/>
+              :
+              ""
+            }
+          </div>
+          <div className="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-xm-12 col-xs-12">
+            <div className="docdownload col-lg-2 col-lg-offset-5" title="Download Report">
+                <i className="fa fa-file-text-o" aria-hidden="true"></i>
+            </div>
+            <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1 col-xs-12">
+            <button className="btn btn-danger col-lg-3 col-md-3 col-sm-4 col-xs-5" id="QTLRejectTicket" data-roleStatus="ReviewFail" data-msg="Rejected Verification Report For Quality Issue" onClick={this.showRejectBoxState.bind(this)} > 
+              Reject 
+            </button>
+            <button className="btn btn-success col-lg-3 col-md-3 col-sm-4 col-xs-5 approvebtn" data-roleStatus="ReviewPass" data-msg="Approved And Delivered Verification Report" onClick={this.approveButton.bind(this)} > 
+                  Approve </button>
+          </div>
+          {this.state.showRejectBox === 'Y' ? this.getRejectBox() : '' }
+          </div>
+        </div>
+      )
     }
-
   }
 
 	render(){
-    
     if(!this.props.loading){
       return(            
         <div>
@@ -516,8 +568,6 @@ class Ticket extends TrackerReact(Component){
 
    }
 }
-
-
 
 export default UserDetailsContainer = withTracker(props => {
   var handleSinTick = Meteor.subscribe("singleTicket",props.params.id);
