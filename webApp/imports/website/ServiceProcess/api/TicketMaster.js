@@ -149,6 +149,7 @@ if(Meteor.isServer){
 					Meteor.call('updateCommitteeUserCount',count-1,Meteor.userId());
 				}
 			}
+			TempTicketReport.remove();
 			
 		}
 		if(insertData.roleStatus == 'Assign' || insertData.roleStatus == 'AssignReject'){

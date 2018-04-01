@@ -184,8 +184,11 @@ class Ticket extends TrackerReact(Component){
     }
   
     // if(!this.props.loading){
-      var reportLinkDetails = TempTicketReport.findOne({},{sort:{'createdAt':-1}});   
-      var reportLink = reportLinkDetails.ReportLink;
+      var reportLinkDetails = TempTicketReport.findOne({},{sort:{'createdAt':-1}});  
+      if(reportLinkDetails){
+        var reportLink = reportLinkDetails.ReportLink;
+
+      } 
 
     // }
 
