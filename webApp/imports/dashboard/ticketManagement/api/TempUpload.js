@@ -17,7 +17,7 @@ if(Meteor.isServer){
      return TempTicketVideo.find({});
   });
   Meteor.publish('allTicketReport',()=>{
-    return TempTicketVideo.find({});
+    return TempTicketReport.find({});
  });
 	 Meteor.methods({
 		 "addNewTemporaryTicketImages": function (id) {

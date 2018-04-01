@@ -61,7 +61,7 @@ export default class SubmittedDocuments extends TrackerReact(Component){
               </div>
 			      </div>
 			      <div id="AddImagesVideo1" style={{"display":"none"}}>
-        				<AddImagesVideo key='editImageVideo' EditValue={this.props.submittedDocuments.documents}/>
+        				<AddImagesVideo key='editImageVideo' EditValue={this.props.submittedDocuments.documents} ticket={this.props.ticketId}/>
           	</div>
              {this.props.submittedDocuments.documents ?
                 this.props.submittedDocuments.documents.checkLists.map((submittedChecklist,index)=>{

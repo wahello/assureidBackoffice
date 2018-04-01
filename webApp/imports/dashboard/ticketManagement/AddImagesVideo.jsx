@@ -177,6 +177,8 @@ constructor(props){
   }
   submitImageVideo(event){
     event.preventDefault();
+
+
     var id     = this.props.tickets._id;
     var userId = this.props.tickets.userId;
     var checkLists = [];
@@ -212,18 +214,36 @@ constructor(props){
         }
       }
       
-      var insertData ={
-        "userid"              : Meteor.userId(),
-        "userName"            : Meteor.user().profile.firstname + ' ' + Meteor.user().profile.lastname,
-        "allocatedToUserid"   : ticketElementObj.userid,
-        "allocatedToUserName" : ticketElementObj.userName,
-        "role"                : Meteor.user().roles.find(this.getRole),
-        "roleStatus"          : "ProofSubmit",
-        "msg"                 : "Submitted Verification Information",
-        "submitedDoc"         : documents,
-        "createdAt"           : new Date(),
+      if(this.props.EditValue){
+
+          var insertData ={
+              "userid"              : Meteor.userId(),
+              "userName"            : Meteor.user().profile.firstname + ' ' + Meteor.user().profile.lastname,
+              "allocatedToUserid"   : ticketElementObj.userid,
+              "allocatedToUserName" : ticketElementObj.userName,
+              "role"                : Meteor.user().roles.find(this.getRole),
+              "roleStatus"          : "ProofReSubmit",
+              "msg"                 : "ReSubmitted Verification Information",
+              "submitedDoc"         : documents,
+              "createdAt"           : new Date(),
+          }
+
+      }else{
+         var insertData ={
+              "userid"              : Meteor.userId(),
+              "userName"            : Meteor.user().profile.firstname + ' ' + Meteor.user().profile.lastname,
+              "allocatedToUserid"   : ticketElementObj.userid,
+              "allocatedToUserName" : ticketElementObj.userName,
+              "role"                : Meteor.user().roles.find(this.getRole),
+              "roleStatus"          : "ProofSubmit",
+              "msg"                 : "Submitted Verification Information",
+              "submitedDoc"         : documents,
+              "createdAt"           : new Date(),
+        }
+
       }
-      console.log("insertData BA/FE/Self",insertData);
+     
+      // console.log("insertData BA/FE/Self",insertData);
       Meteor.call('addticketSelfElement',this.props.tickets._id,insertData,function(error,result){
         if (error) {
           console.log(error.reason);
@@ -385,19 +405,22 @@ render(){
    }       
 }
 AddImagesVideoContainer = withTracker(props => { 
+    const ticket      = props.ticket;
     const postHandle   = Meteor.subscribe('allTicketImages');
     const postHandle1  = Meteor.subscribe('allTicketVideo');
     const postHandle2  = Meteor.subscribe('checklistFieldExpert');
+    const postHandle3  = Meteor.subscribe('singleTicket',ticket);
+
     const ticketImages = TempTicketImages.find({}).fetch() || []; 
     const ticketVideo  = TempTicketVideo.find({}).fetch() || []; 
     // console.log("ticketVideo",ticketVideo);
     const loading     = !postHandle.ready();
     const loading1    = !postHandle1.ready();
-    const ticket      = props.ticket;
+    const loading3    = !postHandle3.ready();
     var checkList = [];
     if (ticket) {
        var tickets =  TicketMaster.findOne({"_id" : ticket});
-       // console.log("tickets",tickets)
+       
        if (tickets) {
           var verificationType = tickets.verificationType;
        // console.log("verificationType",verificationType);

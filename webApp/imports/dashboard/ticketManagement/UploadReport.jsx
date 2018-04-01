@@ -14,8 +14,6 @@ import {CompanySettings} from '/imports/dashboard/companySetting/api/CompanySett
 
 class UploadReport extends TrackerReact(Component){
 	constructor(props){
-    
-        
         super(props); 
     }
     handleChange(event){

@@ -100,22 +100,18 @@ export const onAuthChange = (isAuthenticated) => {
 
 class DashApp extends React.Component {
   renderSidebar=()=>{
-   
+      console.log(Roles.userIsInRole(Meteor.userId(), ['superAdmin','admin','Admin']));
       if (Roles.userIsInRole(Meteor.userId(), ['superAdmin','admin','Admin'])) { 
           return(
-            // <div className="col-lg-3">
               <Sidebar/>
-            // </div>/
           );
         }else{  
-          
           return(
-            // <div className="col-lg-3">
-              <OtherRoleSidebar/>
-            // </div>
+              <OtherRoleSidebar />
           );
         }
   }
+
   render() {
     return (
       <div className="hold-transition skin-blue sidebar-mini">

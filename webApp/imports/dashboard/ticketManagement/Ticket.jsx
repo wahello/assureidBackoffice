@@ -11,6 +11,7 @@ import { browserHistory } from 'react-router';
 import { Link } from 'react-router';
 import UserInformation from './UserInformation.jsx';
 import { TicketMaster } from '../../website/ServiceProcess/api/TicketMaster.js';
+import { TempTicketReport } from "/imports/dashboard/ticketManagement/api/TempUpload.js";
 import  ServiceInformation from './ServiceInformation.jsx';
 import VerifiedDocuments from './VerifiedDocuments.jsx';
 import ScreeningCommittee from '/imports/dashboard/ticketManagement/ScreeningCommittee.jsx';
@@ -22,6 +23,7 @@ import VerifyDetailsDocument from './VerifyDetailsDocument.jsx';
 import { UserProfile } from '../../website/forms/api/userProfile.js';
 import SubmittedDocuments from './SubmittedDocuments.jsx';
 import UploadReport from './UploadReport.jsx';
+
 
 
 class Ticket extends TrackerReact(Component){
@@ -140,8 +142,36 @@ class Ticket extends TrackerReact(Component){
     $('#AddImagesVideo').css({"display" : "block"});
     $(event.currentTarget).css({"display" : "none"});
   }
+
+   handleReportUpload(event){
+        event.preventDefault();
+        let self = this;
+        if (event.currentTarget.files && event.currentTarget.files[0]) { 
+        var dataImg =event.currentTarget.files[0];
+            if(dataImg){      
+            var reader = new FileReader();       
+            reader.onload = function (e) {          
+            };      
+            reader.readAsDataURL(event.currentTarget.files[0]);      
+            var file = event.currentTarget.files[0];
+            if (file) {         
+                    addReportFunction(file,self);       
+                }
+            };
+            } else { 
+            swal({    
+                position: 'top-right',     
+                type: 'error',    
+                title: 'Please select Video',       
+                showConfirmButton: false,      
+                timer: 1500      
+            });   
+        }
+    }
+
   approveButton(event){
     event.preventDefault();
+  
     var ticketId = this.props.ticketId;
     var elementLength = this.props.getTicket.ticketElement.length;
     var insertData = {
@@ -152,6 +182,13 @@ class Ticket extends TrackerReact(Component){
       "msg"                 : $(event.currentTarget).attr('data-msg'),
       "createdAt"           : new Date()
     }
+  
+    // if(!this.props.loading){
+      var reportLinkDetails = TempTicketReport.findOne({},{sort:{'createdAt':-1}});   
+      var reportLink = reportLinkDetails.ReportLink;
+
+    // }
+
     var memberid ='';
     var memberName = '';
     if(this.props.getTicket.ticketElement[elementLength-1].roleStatus == 'screenTLAllocated' || 
@@ -160,7 +197,11 @@ class Ticket extends TrackerReact(Component){
         insertData.allocatedToUserName = $("#selectTMMember option:selected").text();
     }else if(this.props.getTicket.ticketElement[elementLength-1].roleStatus == 'Assign' || 
               this.props.getTicket.ticketElement[elementLength-1].roleStatus == 'VerificationPass'){
-        insertData.allocatedToUserid = '';
+        if(insertData.reportSubmited!=""){
+        insertData.reportSubmited  = reportLink;
+
+        }
+        insertData.allocatedToUserid   = '';
         insertData.allocatedToUserName = '';
     }else if(this.props.getTicket.ticketElement[elementLength-1].roleStatus == 'AssignAccept' ||
              this.props.getTicket.ticketElement[elementLength-1].roleStatus == 'ProofSubmit' ){
@@ -316,7 +357,7 @@ class Ticket extends TrackerReact(Component){
           <h5> {title} </h5>
           <div id="SubmittedDocuments" >
             {this.props.getTicket.submittedDocuments ?
-              <SubmittedDocuments submittedDocuments={this.props.getTicket.submittedDocuments}/>
+              <SubmittedDocuments submittedDocuments={this.props.getTicket.submittedDocuments} ticketId={this.props.ticketId}/>
               :
               ""
             }
@@ -336,7 +377,7 @@ class Ticket extends TrackerReact(Component){
           <h5> {title} </h5>
           <div className="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-xm-12 col-xs-12">
             <div className="col-lg-6 col-lg-offset-1">
-                <input type="file" ref="uploadReportFile" id="uploadReport" name="uploadReport" className="col-lg-7 reporttitle noLRPad" />
+                <input type="file" ref="uploadReportFile" id="uploadReport" name="uploadReport" className="col-lg-7 reporttitle noLRPad" onChange={this.handleReportUpload.bind(this)} multiple/>
             </div>
             <div className="col-lg-4">
                 <button type="button" className="bg-primary col-lg-4" data-roleStatus="ReportSubmitted" data-msg="Submitted Verification Information" onClick={this.approveButton.bind(this)}>Submit</button>
@@ -569,13 +610,19 @@ export default UserDetailsContainer = withTracker(props => {
   var handleSinTick = Meteor.subscribe("singleTicket",props.params.id);
   var handleUseFunc = Meteor.subscribe('userfunction');
   var handleUserProfile = Meteor.subscribe("userProfileData");
+  var handleReport    = Meteor.subscribe("allTicketReport");
 
   var ticketId = props.params.id;
-  var loading = !handleSinTick.ready() && !handleUseFunc.ready() && !handleUserProfile.ready();
+  var loading = !handleSinTick.ready() && !handleUseFunc.ready() && !handleUserProfile.ready() && !handleReport.ready();
   var getTicket = TicketMaster.findOne({"_id":ticketId}) || {};        
   
   var user = Meteor.users.findOne({"_id": getTicket.userId}) || {};
   var userProfile = UserProfile.findOne({"userId": getTicket.userId}) || {};
+    // var reportLinkDetails = TempTicketReport.findOne({},{sort:{'createdAt':-1}}).fetch();   
+    // console.log("reportLinkDetails");
+    // console.log(reportLinkDetails);
+    // console.log(reportLinkDetails[0].ReportLink);
+    // var reportLink        = reportLinkDetails.ReportLink;
 
   if(userProfile.dateOfBirth){
     var today = new Date();
@@ -596,5 +643,6 @@ export default UserDetailsContainer = withTracker(props => {
     user,
     userProfile,
     ticketId,
+    
   };
 })(Ticket);

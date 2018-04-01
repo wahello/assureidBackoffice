@@ -131,7 +131,7 @@ if(Meteor.isServer){
 		//Insert data into Ticket Bucket
 		var ticketDetails = TicketMaster.findOne({"_id":ticketid});
 		if(ticketDetails){
-			console.log('ticketDetails ',ticketDetails);
+			// console.log('ticketDetails ',ticketDetails);
 			var bucketData = {
 				"ticketid" 				: ticketid,
 				"ticketNumber" 			: ticketDetails.ticketNumber,
@@ -691,12 +691,17 @@ if(Meteor.isServer){
 				'ticketElement' : ticketSelfElement,
 			}
 			});
-			TicketMaster.update({"_id": id},{
-			$set: {
-				'submittedDocuments.createdAt' : ticketSelfElement.createdAt,
-				'submittedDocuments.documents' : ticketSelfElement.submitedDoc,
+			
+			if(ticketSelfElement.submitedDoc.images.length>0){
+			
+				TicketMaster.update({"_id": id},{
+					$set: {
+						'submittedDocuments.createdAt' : ticketSelfElement.createdAt,
+						'submittedDocuments.documents' : ticketSelfElement.submitedDoc,
+					}
+				});
 			}
-		});
+			
 
 		TempTicketImages.remove({});
 		TempTicketVideo.remove({});
@@ -752,7 +757,7 @@ if(Meteor.isServer){
 	},
 
 	addQTM(ticketId,empID,role,status){
-		console.log("ticketId,empID,role :"+ticketId,empID,role,status);
+		// console.log("ticketId,empID,role :"+ticketId,empID,role,status);
 		TicketMaster.update(
 			{'_id':ticketId},
 			{   $push:{
