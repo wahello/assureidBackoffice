@@ -58,13 +58,13 @@ class Ticket extends TrackerReact(Component){
     console.log('showRejectBox: ' + this.state.showRejectBox);
     // var roleStatus = $(event.currentTarget).attr('data-roleStatus');
     return(
-      <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 fesubmitouter">
         <textarea rows="3" cols="60" className="col-lg-6 col-lg-offset-2" id="rejectReason"/>
         <button onClick={this.rejectButton.bind(this)} 
           id="rejectButton" 
           // data-roleStatus = {roleStatus}
           // data-msg = {$(event.currentTarget).attr('data-msg')}
-          className="col-lg-2 col-lg-offset-2"> 
+          className="col-lg-2 rejectSubmit"> 
           Submit </button>
       </div>
     )
@@ -224,8 +224,7 @@ class Ticket extends TrackerReact(Component){
   }
   actionBlock(){
     var n = this.props.getTicket.ticketElement.length;
-    var currentUserRole = Meteor.user().roles.find(this.getRole);
-    if(((this.props.getTicket.ticketElement[n-1].roleStatus == 'screenTLAllocated' || this.props.getTicket.ticketElement[n-1].roleStatus == 'AssignReject'))&&(currentUserRole == "team leader" && this.props.getTicket.ticketElement[n-1].allocatedToUserid == Meteor.userId())){
+    if(this.props.getTicket.ticketElement[n-1].roleStatus == 'screenTLAllocated' || this.props.getTicket.ticketElement[n-1].roleStatus == 'AssignReject'){
       var teamMemberList=[];
       var title = "Team Leader";
       return(
@@ -252,13 +251,13 @@ class Ticket extends TrackerReact(Component){
 
       )
     
-    }else if((this.props.getTicket.ticketElement[n-1].roleStatus == 'Assign')&&(currentUserRole == "team member" && this.props.getTicket.ticketElement[n-1].allocatedToUserid == Meteor.userId())){
+    }else if(this.props.getTicket.ticketElement[n-1].roleStatus == 'Assign'){
       var title = "Team Member";  
       return(
         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper"> 
           <h5> {title} </h5> 
           <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1 col-xs-12">
-            <button className="btn btn-danger col-lg-3 col-md-3 col-sm-4 col-xs-5" id="TMRejectTicket" data-roleStatus="AssignReject" data-msg="Rejected Ticket" onClick={this.showRejectBoxState.bind(this)}> 
+            <button className="btn btn-danger approvebtn col-lg-3 col-md-3 col-sm-4 col-xs-5" id="TMRejectTicket" data-roleStatus="AssignReject" data-msg="Rejected Ticket" onClick={this.showRejectBoxState.bind(this)}> 
               Reject 
             </button>
             <button className="btn btn-success col-lg-3 col-md-3 col-sm-4 col-xs-5 approvebtn" data-roleStatus="AssignAccept" data-msg="Accepted Ticket" onClick={this.approveButton.bind(this)} > 
@@ -268,7 +267,7 @@ class Ticket extends TrackerReact(Component){
         </div>
       )
 
-    }else if((this.props.getTicket.ticketElement[n-1].roleStatus == 'AssignAccept')&&(currentUserRole == "team member" && this.props.getTicket.ticketElement[n-1].allocatedToUserid == Meteor.userId())){
+    }else if(this.props.getTicket.ticketElement[n-1].roleStatus == 'AssignAccept'){
       var title = "Team Member"
       var data = [];
       return(
@@ -280,14 +279,14 @@ class Ticket extends TrackerReact(Component){
               <div className="radio radiobtn col-lg-3 noLRPad">
                 <label className="noLRPad"><input type="radio" name="radioState" value="Self" className="optradio" checked={this.state.radioState ==="Self"} onChange={this.getRadioValue.bind(this)}/>Self</label>
               </div>
-              <div className="radio col-lg-6 radiobtn noLRPad">
+              <div className="radio col-lg-5 radiobtn noLRPad">
                 <label className="noLRPad"><input type="radio" name="radioState" value="field expert" className="optradio" checked={this.state.radioState ==="Field Expert"} onChange={this.getRadioValue.bind(this)}/>Field Expert</label>
               </div>
-              <div className="radio radiobtn col-lg-3 noLRPad">
+              <div className="radio radiobtn col-lg-4 noLRPad">
                 <label className="noLRPad"><input type="radio" name="radioState" value="ba" className="optradio" checked={this.state.radioState ==="Business Associate"} onChange={this.getRadioValue.bind(this)}/>Business Associate</label>
               </div>
             </div>
-            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad hideFieldexpert">                            
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad hideFieldexpert selfallocatedwrap">                            
               {this.state.radioState == 'field expert'?       
                 <div>
                     <div className="col-lg-7 teamMemOuter">
@@ -305,6 +304,8 @@ class Ticket extends TrackerReact(Component){
                       </select>
                     </div>
                     <div className="col-lg-4 fesubmitouter noLRPad">
+                      <lable>&nbsp;</lable>
+
                       <button type="submit" value="Submit" className="col-lg-11 fesubmitbtn noLRPad" data-role="field expert" data-roleStatus="FEAllocated" data-msg="Allocated Ticket To Field Expert" onClick={this.approveButton.bind(this)} >Submit</button>                                       
                     </div>
                 </div>
@@ -329,9 +330,9 @@ class Ticket extends TrackerReact(Component){
                   </div>
               </div>
               : this.state.radioState == 'Self'?
-                <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
+                <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12 selfallocatedwrap noLRPad">
                   <h5><strong>You are going to handle this ticket</strong></h5>
-                  <button type="submit" value="Submit" className="col-lg-11 fesubmitbtn noLRPad" data-role="team member" data-roleStatus="SelfAllocated"  data-msg="Allocated Ticket To Self" onClick={this.approveButton.bind(this)} >Submit</button>                                                                              
+                  <button type="submit" value="Submit" className="col-lg-5 col-lg-offset-3 col-md-5 col-md-offset-3 col-lg-12 col-xs-12 fesubmitbtn noLRPad" data-role="team member" data-roleStatus="SelfAllocated"  data-msg="Allocated Ticket To Self" onClick={this.approveButton.bind(this)} >Submit</button>                                                                              
               </div>
               :    ""
               }
@@ -384,14 +385,25 @@ class Ticket extends TrackerReact(Component){
                 <input type="file" ref="uploadReportFile" id="uploadReport" name="uploadReport" className="col-lg-7 reporttitle noLRPad" onChange={this.handleReportUpload.bind(this)} multiple/>
             </div>
             <div className="col-lg-4">
-                <button type="button" className="bg-primary col-lg-4" data-roleStatus="ReportSubmitted" data-msg="Submitted Verification Information" onClick={this.approveButton.bind(this)}>Submit</button>
+                <button type="button" className="fesubmitbtn col-lg-5" data-roleStatus="ReportSubmitted" data-msg="Submitted Verification Information" onClick={this.approveButton.bind(this)}>Submit</button>
             </div>
-            <div className="docdownload col-lg-2 col-lg-offset-5" title="Download Report">
-                <i className="fa fa-file-text-o" aria-hidden="true"></i>
-            </div>
+           { /*<div className="docdownload col-lg-2 col-lg-offset-5" title="Download Report">
+                           <i className="fa fa-file-text-o" aria-hidden="true"></i>
+                       </div>*/}
           </div>
         </div>
         
+      )
+    }else if(this.props.getTicket.ticketElement[n-1].roleStatus == 'ReportSubmitted'){
+      var title = "Qulity Team Member";  
+      return(
+        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper"> 
+          <h5> {title} </h5>
+            <div className="docdownload col-lg-2 col-lg-offset-5" title="Download Report">
+                <i className="fa fa-file-text-o" aria-hidden="true"></i>
+            </div>
+            <lable className=" col-lg-12 col-md-12 col-sm-12 col-xs-12 downloadLable">Download Report</lable>
+          </div>        
       )
     }else if(this.props.getTicket.ticketElement[n-1].roleStatus == 'VerificationPassQTMAllocated'){
       var title = "Qulity Team Member";  
@@ -410,7 +422,7 @@ class Ticket extends TrackerReact(Component){
                 <i className="fa fa-file-text-o" aria-hidden="true"></i>
             </div>
             <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1 col-xs-12">
-            <button className="btn btn-danger col-lg-3 col-md-3 col-sm-4 col-xs-5" id="QTMRejectTicket" data-roleStatus="QAFail" data-msg="Rejected Verification Report For Quality Issue" onClick={this.showRejectBoxState.bind(this)} > 
+            <button className="btn btn-danger col-lg-3 col-md-3 col-sm-4 col-xs-5 approvebtn" id="QTMRejectTicket" data-roleStatus="QAFail" data-msg="Rejected Verification Report For Quality Issue" onClick={this.showRejectBoxState.bind(this)} > 
               Reject 
             </button>
             <button className="btn btn-success col-lg-3 col-md-3 col-sm-4 col-xs-5 approvebtn" data-roleStatus="QAPass" data-msg="Approved Verification Report" onClick={this.approveButton.bind(this)} > 

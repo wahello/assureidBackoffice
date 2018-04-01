@@ -181,12 +181,16 @@ export default allOtherRoleSidebarContainer = withTracker(props => {
   }
   
   var role = '';
-  for(i=0;i<Meteor.user().roles.length;i++){
+  var users = Meteor.users.find({});
+  for(j=0;j<users.length;j++){
+    for(i=0;i<users[j].roles.length;i++){
     if(Meteor.user().roles[i] != 'backofficestaff'){
       var role = Meteor.user().roles[i];
       break;
     }
   }
+  }
+  
   if(role == 'screening committee'){
     var Assigned  = 'New';
     var Open      = 'New';
