@@ -244,7 +244,7 @@ constructor(props){
       }
      
       // console.log("insertData BA/FE/Self",insertData);
-      Meteor.call('addticketSelfElement',this.props.tickets._id,insertData,function(error,result){
+      Meteor.call('genericUpdateTicketMasterElement',this.props.tickets._id,insertData,function(error,result){
         if (error) {
           console.log(error.reason);
         }else{

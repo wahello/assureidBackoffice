@@ -104,13 +104,14 @@ export default OpenTicketsContainer = withTracker(props => {
   }else if(role == 'team leader'){
     var  Status      = ['screenTLAllocated'];
   }else if(role == 'team member'){
-    var  Status      = ['Assign',"SelfAllocated"];
+    var  Status      = ["Assign","ReAssign","AssignAccept","SelfAllocated","ProofSubmit","VerificationPass"];
   }else if(role == 'quality team member'){
-    var  Status      = [''];
+    var  Status      = ['VerificationPassQTMAllocated'];
   }else if(role == 'quality team leader'){
-    var  Status      = [''];
+    var  Status      = ['VerificationPassQTLAllocated'];
   }
   var ticketBucketData = TicketBucket.find({"userId":Meteor.userId(),'status':{$in: Status}}).fetch();
+  //sorting logic
   return {
     loading,
     ticketBucketData,

@@ -14,7 +14,7 @@ if(Meteor.isServer){
         return TicketMaster.find({});
 	});
 	Meteor.publish('singleTicket',(_id)=>{
-        return TicketMaster.find({"_id" : _id});
+        return TicketMaster.find({"_id" : _id}); 
 	});
 
 	Meteor.publish('allTicketBucket',()=>{
@@ -128,6 +128,31 @@ if(Meteor.isServer){
 				}
 			}
 		);	
+		if(insertData.roleStatus == 'ProofSubmit'){
+			if(insertData.submitedDoc.images.length>0){
+				
+				TicketMaster.update({"_id": ticketid},{
+					$set: {
+						'submittedDocuments.createdAt' : insertData.createdAt,
+						'submittedDocuments.documents' : insertData.submitedDoc,
+					}
+				});
+				TempTicketImages.remove({});
+				TempTicketVideo.remove({});
+			}
+		}else if(insertData.roleStatus == 'ReportSubmitted'){
+			if(insertData.reportSubmited.length>0){
+				
+				TicketMaster.update({"_id": ticketid},{
+					$set: {
+						'reportSubmited.createdAt' : insertData.createdAt,
+						'reportSubmited.documents' : insertData.reportSubmited,
+					}
+				});
+				TempTicketReport.remove({});
+			}
+		}
+		
 		//Insert data into Ticket Bucket
 		var ticketDetails = TicketMaster.findOne({"_id":ticketid});
 		if(ticketDetails){
@@ -152,7 +177,25 @@ if(Meteor.isServer){
 			TempTicketReport.remove();
 			
 		}
-		if(insertData.roleStatus == 'Assign' || insertData.roleStatus == 'AssignReject'){
+		if(insertData.roleStatus == 'AssignReject'){
+			var insertData1 = {
+				"userid"              : insertData.allocatedToUserid,
+				"userName"            : insertData.allocatedToUserName,
+				"allocatedToUserid"   : '',
+				"allocatedToUserName" : '',
+				"role"                : 'team leader',
+				"roleStatus"          : 'ReAssign',
+				"msg"                 : 'Need to Reallocate the Ticket',
+				"createdAt"           : new Date()
+			  }
+			var updateStatus = TicketMaster.update(
+				{'_id':ticketid},
+				{
+					$push:{
+						'ticketElement' : insertData1,
+					}
+				}
+			);
 			if(ticketDetails){
 				console.log('ticketDetails ',ticketDetails);
 				var bucketData = {
@@ -161,14 +204,13 @@ if(Meteor.isServer){
 					"orderNo"				: ticketDetails.orderNo,
 					"serviceName" 			: ticketDetails.serviceName,
 					"userId" 				: insertData.allocatedToUserid,
-					"status" 				: insertData.roleStatus,
+					"status" 				: 'ReAssign',
 					"tatDate" 				: ticketDetails.tatDate,
 					"createdAt" 			: new Date()
 				}
 				Meteor.call('newInsertTicketBucket',bucketData);
 			}	
-		}
-		if(insertData.roleStatus == 'ReportSubmitted' || insertData.roleStatus =='QAPass' || insertData.roleStatus =='ScreenApproved'){
+		}else if(insertData.roleStatus == 'ReportSubmitted' || insertData.roleStatus =='QAPass' || insertData.roleStatus =='ScreenApproved'){
 			if(insertData.roleStatus == 'ReportSubmitted'){
 				var role = "quality team member";
 				var roleStatus = "VerificationPassQTMAllocated";
@@ -229,8 +271,7 @@ if(Meteor.isServer){
 				
 			}
 		}
-		
-		
+		return updateStatus;
 	},
 	'updateTicket':function(ticketElem){
 		var updateTicket = TicketMaster.update(

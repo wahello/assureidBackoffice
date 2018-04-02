@@ -16,7 +16,7 @@ import AddImagesVideo from './AddImagesVideo.jsx';
 // import { ChecklistFieldExpert } from '../reactCMS/api/Services.js';
 
 export default class SubmittedDocuments extends TrackerReact(Component){
-	 constructor(props){
+	constructor(props){
     super(props); 
     this.state = {
       "subscription" : {

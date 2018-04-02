@@ -98,18 +98,19 @@ export default AllTicketContainer = withTracker(props => {
     if(uniqueId.length >0){
       for(var j=0;j<uniqueId.length;j++){
         var singleDetails = TicketBucket.findOne({'ticketid':uniqueId[j]},{sort:{'createdAt':-1}});
-             dataDetails.push(
-              {
-                  'ticketid'    : singleDetails.ticketid,
-                  'ticketNumber': singleDetails.ticketNumber,
-                  'orderId'     : singleDetails.orderId,
-                  'orderNo'     : singleDetails.orderNo,
-                  'serviceName' : singleDetails.serviceName,
-                  'createdAt'   :  singleDetails.createdAt,
-                  'tatDate'     :  singleDetails.tatDate,
-                  'status'      : singleDetails.status,
-              })        
+        dataDetails.push(
+        {
+            'ticketid'    : singleDetails.ticketid,
+            'ticketNumber': singleDetails.ticketNumber,
+            'orderId'     : singleDetails.orderId,
+            'orderNo'     : singleDetails.orderNo,
+            'serviceName' : singleDetails.serviceName,
+            'createdAt'   :  singleDetails.createdAt,
+            'tatDate'     :  singleDetails.tatDate,
+            'status'      : singleDetails.status,
+        })        
       }
+      //sorting logic
     }
   }
   return {

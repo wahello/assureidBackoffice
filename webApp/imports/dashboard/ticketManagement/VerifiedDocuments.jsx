@@ -48,6 +48,7 @@ class VerifiedDocuments extends TrackerReact(Component){
     if(curURl){
       var _id = curURl.split('/').pop();
     }
+    console.log('curURL ',_id);
     var rejectReason =  $('.rejectReason').val();
     var status       = 'Reject';
     Meteor.call("addRejectStatus",rejectReason,status,_id,(error,result)=>{
@@ -959,50 +960,23 @@ class VerifiedDocuments extends TrackerReact(Component){
 }
 verifiedDocumentsContainer = withTracker(props => { 
     var _id = props.ticketId;
-    // console.log("_id",_id);
     const postHandle = Meteor.subscribe('singleTicket',_id);
     const companyHandle = Meteor.subscribe('companyData');
     const ticketBucket = Meteor.subscribe("allTicketBucket");
     const getTicket   = TicketMaster.findOne({"_id" : _id}) || {};
-     // console.log("getTicket",getTicket);
     if (getTicket) {
          var verificationData = [getTicket.verificationData];
-        //  if (verificationData) {
-        //   if(verificationData[0].fileExt == "png" || verificationData[0].fileExt == "jpg" || verificationData[0].fileExt == "jpeg" || verificationData[0].fileExt == "gif"){
-        //      iconused = "/images/assureid/Photo-icon.png";
-        //   }else if (verificationData[0].fileExt == "pdf" ) {
-        //      iconused = "/images/assureid/pdf.png";
-        //   }else{
-        //      iconused = "";
-        //   }
-        //   // console.log("iconused",iconused);
-        // }
-          // <img src={permanentAddrProof.proofOfDocument} className="img-responsive addressImage"/>
          if(!verificationData){
           var verificationData = '';
          }
          if (getTicket.ticketStatus) {
           var ticketStatus = getTicket.ticketStatus[0];
-           // console.log("ticketStatus",ticketStatus);
          }
-         // var curAddrArray = firstTicketElen.currentAddress;
-         // if(curAddrArray){
-         //    var curAddrArray = curAddrArray;
-         // }else{
-         //  var curAddrArray = '';
-         // }
-         // var policeVerificationArray = firstTicketElen.policeVerificationArray;
-         // if(policeVerificationArray){
-         //    var policeVerificationArray = policeVerificationArray[0].documents;
-         //    var policeVerificationArray = policeVerificationArray;
-         // }else{
-         //  var policeVerificationArray = '';
-         // }
-      }
-      // console.log("verificationData",verificationData);
-    
+         var length = getTicket.ticketElement.length;
+    }
+     
     const loading = !postHandle.ready() &&  !companyHandle.ready() && !ticketBucket.ready();
-    if (Roles.userIsInRole(Meteor.userId(), ['screening committee'],)) {
+    if ((Roles.userIsInRole(Meteor.userId(), ['screening committee'],))&&(getTicket.ticketElement[length-1].allocatedToUserid == Meteor.userId())) {
        var isRoleUser = true;
      }else{
        var isRoleUser = false;

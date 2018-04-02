@@ -96,11 +96,11 @@ export default ApprovedTicketsContainer = withTracker(props => {
   }else if(role == 'team leader'){
     var Status = ['AssignAccept'];
   }else if(role == 'team member'){
-    var Status = [''];
+    var Status = ['AssignAccept'];
   }else if(role == 'quality team member'){
-    var  Status = [''];
+    var  Status = ['QAPass'];
   }else if(role == 'quality team leader'){
-    var  Status = [''];
+    var  Status = ['ReviewPass'];
   }
   var ticketBucketData = TicketBucket.find({"empid":Meteor.userId(),'status':{$in: Status}},{sort:{ticketNumber:1}}).fetch();
   return {

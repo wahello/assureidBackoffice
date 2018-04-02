@@ -184,7 +184,7 @@ export default allOtherRoleSidebarContainer = withTracker(props => {
   var users = Meteor.users.find({});
   for(j=0;j<users.length;j++){
     for(i=0;i<users[j].roles.length;i++){
-    if(Meteor.user().roles[i] != 'backofficestaff'){
+    if(users.roles[i] != 'backofficestaff'){
       var role = Meteor.user().roles[i];
       break;
     }
@@ -192,8 +192,8 @@ export default allOtherRoleSidebarContainer = withTracker(props => {
   }
   
   if(role == 'screening committee'){
-    var Assigned  = 'New';
-    var Open      = 'New';
+    var Assigned  = 'New'; 
+    var Open      = 'New'; //Need to be changed to "NewScrAllocated"
     var Approved  = 'ScreenApproved';
     var Rejected  = 'ScreenRejected';
     var Escalated = '';
@@ -231,17 +231,20 @@ export default allOtherRoleSidebarContainer = withTracker(props => {
   var rejectTicketCount    = TicketBucket.find({"userId":Meteor.userId(),'status': Rejected}).count();
   var esclationTicketCount = TicketBucket.find({"userId":Meteor.userId(),'status': Escalated}).count();
 
-  return {
-    loading,
-    loading1,
-    ticketBucketData,
-    alltickets,
-    assignedTicketCount,
-    openTicketCount,
-    approvedTicketCount,
-    rejectTicketCount,
-    esclationTicketCount,
-    user,
-    role,
-  };
+  
+    return {
+      loading,
+      loading1,
+      ticketBucketData,
+      alltickets,
+      assignedTicketCount,
+      openTicketCount,
+      approvedTicketCount,
+      rejectTicketCount,
+      esclationTicketCount,
+      user,
+      role,
+    };
+  
+  
 })(OtherRoleSidebar);

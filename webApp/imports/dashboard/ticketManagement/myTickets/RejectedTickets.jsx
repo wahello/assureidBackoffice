@@ -112,9 +112,9 @@ export default RejectedTicketsContainer = withTracker(props => {
   }else if(role == 'team member'){
     var  Status = ['AssignReject'];
   }else if(role == 'quality team member'){
-    var  Status = [''];
+    var  Status = ['QAFail'];
   }else if(role == 'quality team leader'){
-    var  Status = [''];
+    var  Status = ['ReviewFail'];
   }
   var ticketBucketData = TicketBucket.find({"userId":Meteor.userId(),'status':{$in: Status}}).fetch();   
   return {
