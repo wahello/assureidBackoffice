@@ -219,6 +219,11 @@ class Ticket extends TrackerReact(Component){
 
   actionBlock(){
     var n = this.props.getTicket.ticketElement.length;
+      var reportLinkDetails = TempTicketReport.findOne({},{sort:{'createdAt':-1}});  
+      if(reportLinkDetails){
+        var reportLink = reportLinkDetails.ReportLink;
+      } 
+
     if((this.props.getTicket.ticketElement[n-1].roleStatus == 'screenTLAllocated' )
         &&
         (Meteor.user().roles.find(this.getRole) == 'team leader' && this.props.getTicket.ticketElement[n-1].allocatedToUserid == Meteor.userId())){
@@ -332,7 +337,6 @@ class Ticket extends TrackerReact(Component){
                     </div>
                     <div className="col-lg-4 fesubmitouter noLRPad">
                       <lable>&nbsp;</lable>
-
                       <button type="submit" value="Submit" className="col-lg-11 fesubmitbtn noLRPad" data-role="field expert" data-roleStatus="FEAllocated" data-msg="Allocated Ticket To Field Expert" onClick={this.approveButton.bind(this)} >Submit</button>                                       
                     </div>
                 </div>
@@ -436,7 +440,9 @@ class Ticket extends TrackerReact(Component){
         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper"> 
           <h5> {title} </h5>
             <div className="docdownload col-lg-2 col-lg-offset-5" title="Download Report">
-                <i className="fa fa-file-text-o" aria-hidden="true"></i>
+                <a href={reportLink} download>
+                  <i className="fa fa-file-text-o" aria-hidden="true"></i>
+                </a>
             </div>
             <lable className=" col-lg-12 col-md-12 col-sm-12 col-xs-12 downloadLable">Download Report</lable>
           </div>        
