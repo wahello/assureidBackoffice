@@ -265,6 +265,9 @@ render(){
        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 choosefilebox">
         <form>
         <div className="col-lg-12 wholeborder ">
+          <div className="imgtitile col-lg-12 noLRPad">
+          <div className="col-lg-12  noLRPad Selectimg"> Verify Information:</div>
+          </div>
           <div className="col-lg-12">
              {this.props.checkList ?
                 this.props.checkList.map((checkListDefault,index)=>{
@@ -281,7 +284,7 @@ render(){
         </div>
         <div className="col-lg-12 wholeborder ">
           <div className="imgtitile col-lg-12 noLRPad">
-          <div className="col-lg-12  noLRPad Selectimg"> Select images:</div>
+          <div className="col-lg-12  noLRPad Selectimg"> Select images: (minium 3 images and maximum 5)</div>
           <input type="file" ref="ticketImageFile" id="s3file" name="ticketImageFile"  onChange={this.handleUpload.bind(this)} className="col-lg-7 noLRPad" name="img" multiple />
         </div>
             {!this.props.loading ?
@@ -332,7 +335,7 @@ render(){
         </div>
       <div className="col-lg-12 wholeborder">
         <div className="imgtitile col-lg-12  noLRPad">
-          <div className="col-lg-12 noLRPad Selectimg"> Select Video:</div>
+          <div className="col-lg-12 noLRPad Selectimg"> Select Video: (maximum 10 seconds)</div>
       <input type="file" ref="ticketVideoFile" id="s3file" name="ticketVideoFile"  onChange={this.handleVideoUpload.bind(this)} className="col-lg-7 noLRPad" name="img" multiple />
           {/*<input type="submit" className="col-lg-1 btn btn-primary" />*/}
           </div>

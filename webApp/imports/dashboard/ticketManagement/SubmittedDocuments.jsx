@@ -56,13 +56,13 @@ export default class SubmittedDocuments extends TrackerReact(Component){
 			        		<span className="checkBoxtitle">Verified Information:</span>
 			        	</strong>
 			        </div>
-			        <div className="col-lg-1 pull-right">
-                  <span><i className="fa fa-pencil editdoc" aria-hidden="true" title="Edit Document" onClick={this.EditDocument.bind(this)}></i></span>
-              </div>
+			       { /*<div className="col-lg-1 pull-right">
+			                         <span><i className="fa fa-pencil editdoc" aria-hidden="true" title="Edit Document" onClick={this.EditDocument.bind(this)}></i></span>
+			                     </div>*/}
 			      </div>
-			      <div id="AddImagesVideo1" style={{"display":"none"}}>
-        				<AddImagesVideo key='editImageVideo' EditValue={this.props.submittedDocuments.documents} ticket={this.props.ticketId}/>
-          	</div>
+			      {/*<div id="AddImagesVideo1" style={{"display":"none"}}>
+			              				<AddImagesVideo key='editImageVideo' EditValue={this.props.submittedDocuments.documents} ticket={this.props.ticketId}/>
+			                	</div>*/}
              {this.props.submittedDocuments.documents ?
                 this.props.submittedDocuments.documents.checkLists.map((submittedChecklist,index)=>{
                   return(

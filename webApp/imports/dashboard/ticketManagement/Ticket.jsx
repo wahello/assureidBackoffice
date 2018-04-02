@@ -170,7 +170,6 @@ class Ticket extends TrackerReact(Component){
 
   approveButton(event){
     event.preventDefault();
-  
     var ticketId = this.props.ticketId;
     var elementLength = this.props.getTicket.ticketElement.length;
     var insertData = {
@@ -286,12 +285,13 @@ class Ticket extends TrackerReact(Component){
       return(
         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper"> 
           <h5> {title} </h5> 
+          <span>Please accept if your are going to work on this ticket. If rejected please provide appropriate reason.</span>
           <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1 col-xs-12">
-            <button className="btn btn-danger approvebtn col-lg-3 col-md-3 col-sm-4 col-xs-5" id="TMRejectTicket" data-roleStatus="AssignReject" data-msg="Rejected Ticket" onClick={this.showRejectBoxState.bind(this)}> 
+            <button className="btn btn-danger approvebtn col-lg-3 col-md-3 col-sm-4 col-xs-5" id="TMRejectTicket" data-roleStatus="AssignReject" data-msg="Rejected Ticket and returned back to " onClick={this.showRejectBoxState.bind(this)}> 
               Reject 
             </button>
             <button className="btn btn-success col-lg-3 col-md-3 col-sm-4 col-xs-5 approvebtn" data-roleStatus="AssignAccept" data-msg="Accepted Ticket" onClick={this.approveButton.bind(this)} > 
-                  Approve </button>
+                  Accept </button>
           </div>
           {this.state.showRejectBox === 'Y' ? this.getRejectBox() : '' }
         </div>
@@ -380,8 +380,8 @@ class Ticket extends TrackerReact(Component){
           <h5> {title} </h5>
 
           <div id="uploadButtonDiv" className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1 col-xs-12">
-            <button className="btn btn-primary col-lg-5 col-md-5 col-sm-12 col-xs-12"  onClick={this.uploadDocsDiv.bind(this)} > 
-                  Upload Documents </button>  
+            <button className="btn btn-primary col-lg-7 col-md-7 col-sm-12 col-xs-12"  onClick={this.uploadDocsDiv.bind(this)} > 
+                  Upload Documents & Remark</button>  
           </div>
           <div id="AddImagesVideo" style={{"display":"none"}}>
             <AddImagesVideo ticket={this.props.ticketId}/>
@@ -432,21 +432,6 @@ class Ticket extends TrackerReact(Component){
         </div>
         
       )
-    }else if((this.props.getTicket.ticketElement[n-1].roleStatus == 'ReportSubmitted')
-              &&
-              (Meteor.user().roles.find(this.getRole) == 'team member' && this.props.getTicket.ticketElement[n-1].allocatedToUserid == Meteor.userId())){
-      var title = "Qulity Team Member";  
-      return(
-        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper"> 
-          <h5> {title} </h5>
-            <div className="docdownload col-lg-2 col-lg-offset-5" title="Download Report">
-                <a href={reportLink} download>
-                  <i className="fa fa-file-text-o" aria-hidden="true"></i>
-                </a>
-            </div>
-            <lable className=" col-lg-12 col-md-12 col-sm-12 col-xs-12 downloadLable">Download Report</lable>
-          </div>        
-      )
     }else if((this.props.getTicket.ticketElement[n-1].roleStatus == 'VerificationPassQTMAllocated')
               &&
               (Meteor.user().roles.find(this.getRole) == 'quality team member' && this.props.getTicket.ticketElement[n-1].allocatedToUserid == Meteor.userId())){
@@ -454,18 +439,24 @@ class Ticket extends TrackerReact(Component){
       return(
         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper"> 
           <h5> {title} </h5>
-          <div id="SubmittedDocuments" >
-            {this.props.getTicket.submittedDocuments ?
-              <SubmittedDocuments submittedDocuments={this.props.getTicket.submittedDocuments}/>
-              :
-              ""
-            }
-          </div>
-          <h6>Submitted Report</h6>
-          <div className="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-xm-12 col-xs-12">
-            <div className="docdownload col-lg-2 col-md-2 col-sm-12 col-xs-12" title="Download Report">
-                <i className="fa fa-file-text-o" aria-hidden="true"></i>
+            <div id="SubmittedDocuments" >
+              {this.props.getTicket.submittedDocuments ?
+                <SubmittedDocuments submittedDocuments={this.props.getTicket.submittedDocuments}/>
+                :
+                ""
+              }
             </div>
+          <h6>Submitted Report</h6>
+            <div className="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+              <div className="docdownload col-lg-3 col-lg-offset-1" title="Download Report">
+                  <a href={this.props.getTicket.reportSubmited.documents} download>
+                    <i className="fa fa-file-text-o" aria-hidden="true"></i>
+                  </a>
+              </div>
+              <lable className=" col-lg-9 col-md-9 col-sm-12 col-xs-12 downloadLable">Download Report</lable>
+             </div> 
+            <div className="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-xm-12 col-xs-12">
+            
             <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
               <button className="btn btn-danger col-lg-3 col-md-3 col-sm-4 col-xs-5 approvebtn" id="QTMRejectTicket" data-roleStatus="QAFail" data-msg="Rejected Verification Report For Quality Issue" onClick={this.showRejectBoxState.bind(this)} > 
                 Reject 
@@ -475,7 +466,7 @@ class Ticket extends TrackerReact(Component){
             </div>
            {this.state.showRejectBox === 'Y' ? this.getRejectBox() : '' }
           </div>
-        </div>
+          </div>        
       )
     }else if((this.props.getTicket.ticketElement[n-1].roleStatus == 'VerificationPassQTLAllocated')
             &&
@@ -491,12 +482,19 @@ class Ticket extends TrackerReact(Component){
               ""
             }
           </div>
-          <div className="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-xm-12 col-xs-12">
-            <div className="docdownload col-lg-2" title="Download Report">
-                <i className="fa fa-file-text-o" aria-hidden="true"></i>
+          <div className="col-lg-10 col-md-10 col-md-offset-0 col-xm-12 col-xs-12">
+            <h6>Submitted Report</h6>
+            <div className="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+              <div className="docdownload col-lg-3 col-lg-offset-1" title="Download Report">
+                  <a href={this.props.getTicket.reportSubmited.documents} download>
+                    <i className="fa fa-file-text-o" aria-hidden="true"></i>
+                  </a>
+              </div>
+              <lable className=" col-lg-9 col-md-9 col-sm-12 col-xs-12 downloadLable">Download Report</lable>
             </div>
-            <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1 col-xs-12">
-              <button className="btn btn-danger col-lg-3 col-md-3 col-sm-4 col-xs-5" id="QTLRejectTicket" data-roleStatus="ReviewFail" data-msg="Rejected Verification Report For Quality Issue" onClick={this.showRejectBoxState.bind(this)} > 
+
+            <div className="col-lg-6 col-lg-offset-0 col-md-6 col-md-offset-0 col-sm-10 col-sm-offset-1 col-xs-12">
+              <button className="btn btn-danger col-lg-3 col-md-3 col-sm-4 col-xs-5 approvebtn" id="QTLRejectTicket" data-roleStatus="ReviewFail" data-msg="Rejected Verification Report For Quality Issue" onClick={this.showRejectBoxState.bind(this)} > 
                 Reject 
               </button>
               <button className="btn btn-success col-lg-3 col-md-3 col-sm-4 col-xs-5 approvebtn" data-roleStatus="ReviewPass" data-msg="Approved And Delivered Verification Report" onClick={this.approveButton.bind(this)} > 
@@ -624,13 +622,14 @@ class Ticket extends TrackerReact(Component){
                               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 activityDetails">                            
                                   <h3> Activities</h3>
                               </div>
+                              {this.actionBlock()}
                               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
                                 {this.props.getTicket.ticketElement.map((element,i)=>{
                                    return ( 
                                     <div key={i} className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper"> 
                                       <h5> {element.role} </h5>
                                       <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12"> 
-                                        <b>{element.userName}</b> {element.msg} on {moment(element.createdAt).format("DD/MM/YYYY hh:mm A")}
+                                        <b>{element.userName}</b> {element.msg} <b>{element.allocatedToUserName}</b> on {moment(element.createdAt).format("DD/MM/YYYY hh:mm A")}
                                         <br />
                                         {
                                           element.remark ?
@@ -646,7 +645,7 @@ class Ticket extends TrackerReact(Component){
                                   })
                                 }
 
-                                {this.actionBlock()}
+                                
 
                               </div>
                             </div>
