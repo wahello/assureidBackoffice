@@ -82,7 +82,7 @@ import ListOfUniversity from '../../imports/dashboard/forms/University/ListOfUni
 import TicketDocumentDetail from '/imports/dashboard/ticketManagement/TicketDocumentDetail.jsx';
 
 const unauthenticatedPages = ['/', '/signup', '/forgotpassword', '/signup', '/resetpassword/:token','/login'];
-const authenticatedPages = ['/admin/dashboard','/admin/managebasicpage','/admin/manageportfolio','/admin/manageaboutuspage','/admin/manageblockspage','/admin/managecareerpage','/admin/manageeventpage','/admin/managefaq','/admin/managejobpage','/admin/managecontact','/admin/managephotogallery','/admin/managevideolibrary','admin/manageproduct','/admin/manageservice','/admin/manageblogpage', 'admin/company-info', '/dashboard','/admin/UMRolesList','/admin/createUser','/admin/addPackages','/admin/addVerification','/admin/NewsFeed','/admin/UMListOfUsers','/admin/ListOfNewsFeed'];
+const authenticatedPages = ['/admin/dashboard','/admin/managebasicpage','/admin/manageportfolio','/admin/manageaboutuspage','/admin/manageblockspage','/admin/managecareerpage','/admin/manageeventpage','/admin/managefaq','/admin/managejobpage','/admin/managecontact','/admin/managephotogallery','/admin/managevideolibrary','admin/manageproduct','/admin/manageservice','/admin/manageblogpage', 'admin/company-info', '/dashboard','/admin/UMRolesList','/admin/createUser','/admin/addPackages','/admin/addVerification','/admin/NewsFeed','/admin/UMListOfUsers','/admin/ListOfNewsFeed','/backoffice/dashboard'];
 
 export const onAuthChange = (isAuthenticated) => {
   const pathname = browserHistory.getCurrentLocation().pathname;
@@ -91,26 +91,14 @@ export const onAuthChange = (isAuthenticated) => {
 
   if (isUnauthenticatedPage && isAuthenticated && Roles.userIsInRole(Meteor.userId(), ['admin','superAdmin'])) {
     browserHistory.replace('/admin/dashboard');
-  } else if (isUnauthenticatedPage && isAuthenticated && Roles.userIsInRole(Meteor.userId(), 'Recruiter')) {
-    browserHistory.replace('/dashboard');
+  } else if (isUnauthenticatedPage && isAuthenticated && !Roles.userIsInRole(Meteor.userId(),['admin','superAdmin','User'])){
+    browserHistory.replace('/backoffice/dashboard');
   } else if (isAuthenticatedPage && !isAuthenticated) {
     browserHistory.replace('/');
   }
 };
 
 class DashApp extends React.Component {
-  renderSidebar=()=>{
-      console.log(Roles.userIsInRole(Meteor.userId(), ['superAdmin','admin','Admin']));
-      if (Roles.userIsInRole(Meteor.userId(), ['superAdmin','admin','Admin'])) { 
-          return(
-              <Sidebar/>
-          );
-        }else{  
-          return(
-              <OtherRoleSidebar />
-          );
-        }
-  }
 
   render() {
     return (
@@ -119,7 +107,31 @@ class DashApp extends React.Component {
           <Header/>
           <div className="container-fluid">
             <div className="row">
-                {this.renderSidebar()}                
+                <Sidebar />             
+              <div className="container-fluid main-container">
+                <div className="row">
+                  {this.props.children}
+                  <Footer/>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+
+class BackofficeDashApp extends React.Component {
+
+  render() {
+    return (
+      <div className="hold-transition skin-blue sidebar-mini">
+        <div className="wrapper">
+          <Header/>
+          <div className="container-fluid">
+            <div className="row">
+                <OtherRoleSidebar />             
               <div className="container-fluid main-container">
                 <div className="row">
                   {this.props.children}
@@ -231,18 +243,24 @@ export const routes = (
        <Route path="/admin/PoliceStation/:id" component={AddEditPoliceData}/>
        <Route path="/admin/mytickets" component={MyTickets}/>
        <Route path="/admin/maxnoofticketallocate" component={MaxNoOfTicketAllocate}/>
+       {/*<Route path="/admin/ticket/:id" component={Ticket}/>*/}
+       <Route path="/admin/viewProfile/:id" component={ProfileView}/>
+       <Route path="/admin/Checklist" component={AddEditChecklist} />
+       <Route path="/admin/Checklist/:id" component={AddEditChecklist} />       
+       {/* <Route path="/admin/ticketdocumentdetails" component={TicketDocumentDetail}/> */}
+    </Route>
+
+    <Route component={BackofficeDashApp} >
+      <Route path="/backoffice/dashboard" component={Content}/>
+
+       <Route path="/admin/viewProfile/:id" component={ProfileView}/>
        <Route path="/admin/ticket/:id" component={Ticket}/>
-       {/* <Route path="/admin/ticket/:id" component={TicketDocumentDetails}/> */} 
-       <Route path="/admin/alltickets" component={AllTickets}/>
+      <Route path="/admin/alltickets" component={AllTickets}/>
        <Route path="/admin/assignedtickets" component={AssignedTickets}/>
        <Route path="/admin/opentickets" component={OpenTickets}/>
        <Route path="/admin/approvedtickets" component={ApprovedTickets}/>
        <Route path="/admin/rejectedtickets" component={RejectedTickets}/>
        <Route path="/admin/escalatedtickets" component={EscalatedTickets}/>
-       <Route path="/admin/viewProfile/:id" component={ProfileView}/>
-       <Route path="/admin/Checklist" component={AddEditChecklist} />
-       <Route path="/admin/Checklist/:id" component={AddEditChecklist} />       
-       {/* <Route path="/admin/ticketdocumentdetails" component={TicketDocumentDetail}/> */}
     </Route>
 
     {/* <Route path="/" component={CMainLayout} /> */}

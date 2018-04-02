@@ -87,8 +87,8 @@ class Sidebar extends TrackerReact(Component){
             <div className="user-panel">
               {!this.props.loading1 ?
               <div className="pull-left image">
-               { this.props.user.profile.userProfile ?
-                   <img src={this.props.user.profile.userProfile} className="img-circle" alt="User Image" />
+               { Meteor.user() ?
+                   <img src={Meteor.user().profile.userProfile} className="img-circle" alt="User Image" />
                   :
                   <img src="/images/userIcon.png" className="img-circle" alt="User Image" />
                }              
@@ -97,9 +97,9 @@ class Sidebar extends TrackerReact(Component){
               ""
             }
             {!this.props.loading1 ?
-                this.props.user.profile ? 
+                Meteor.user() ? 
                 <div className="pull-left info">
-                  <p> {this.props.user.profile.firstname} {this.props.user.profile.lastname}</p>
+                  <p> {Meteor.user().profile.firstname} {Meteor.user().profile.lastname}</p>
                   <Link to="javascript:void(0)"><i className="fa fa-circle text-success" />Online</Link>
                 </div>
                 :
@@ -357,7 +357,7 @@ sidebarContainer = withTracker(props => {
 
     const userHandle  = Meteor.subscribe('userData',_id);
 
-    const user        = Meteor.users.findOne({"_id" : _id}) || {};
+    const user        = Meteor.users.findOne({"_id" : _id}) ;
     const loading     = !userHandle.ready();
       return {
           loading  : loading,

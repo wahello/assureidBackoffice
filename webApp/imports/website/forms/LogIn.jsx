@@ -9,6 +9,7 @@ import {Router, Route, browserHistory} from 'react-router';
 export default class LogIn extends TrackerReact(React.Component) {
   componentDidMount() {
     $("#login").validate();
+    $("body").removeClass('adminLte');
     
   }
 	showSignUp(event){
@@ -46,27 +47,28 @@ export default class LogIn extends TrackerReact(React.Component) {
                   showConfirmButton: false,
                   type: "error"
                 });
-              } else {
-                if(Roles.userIsInRole(Meteor.userId(), ['admin','superAdmin','screening committee','team leader','team member','field expert','quality team member','quality team leader'])) {
-                  // FlowRouter.go('/adminDashboard');
-                  $('#loginModal').modal('hide');
-                  $('.modal-backdrop').hide();
-                  browserHistory.replace('/admin/dashboard');
-                }else{
-                  $('#loginModal').modal('hide');
-                  $('.modal-backdrop').hide();
-                  browserHistory.replace('/');
-                  // swal({
-                  //   title: 'Welcome to ASSUREiD!!',
-                  //   text: 'Your Parking Assistant.',
-                  //   imageUrl: '/images/spotyl.png',
-                  //   imageWidth: 400,
-                  //   imageHeight: 200,
-                  //   animation: false,
-                  //   customClass: 'animated wobble',
-                  // });
-                }
               }
+              //  else {
+              //   if(Roles.userIsInRole(Meteor.userId(),['admin','superAdmin','screening committee','team leader','team member','field expert','quality team member','quality team leader'])) {
+              //     // FlowRouter.go('/adminDashboard');
+              //     $('#loginModal').modal('hide');
+              //     $('.modal-backdrop').hide();
+              //     browserHistory.replace('/admin/dashboard');
+              //   }else{
+              //     $('#loginModal').modal('hide');
+              //     $('.modal-backdrop').hide();
+              //     browserHistory.replace('/');
+              //     // swal({
+              //     //   title: 'Welcome to ASSUREiD!!',
+              //     //   text: 'Your Parking Assistant.',
+              //     //   imageUrl: '/images/spotyl.png',
+              //     //   imageWidth: 400,
+              //     //   imageHeight: 200,
+              //     //   animation: false,
+              //     //   customClass: 'animated wobble',
+              //     // });
+              //   }
+              // }
             });
           }else if(data == "Blocked"){
             swal({
