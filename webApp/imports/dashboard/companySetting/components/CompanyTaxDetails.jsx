@@ -76,11 +76,9 @@ class CompanyTaxDetails extends TrackerReact(Component){
     var targetedID = Session.get('targetedID');
 
     var taxSettingsFormValue ={
-
     	taxType       : $(".taxType").val(),
       applicableTax : $(".applicableTax").val(),
       effectiveFrom : $(".effectiveFrom").val(),
-
      }//close array
 
      if(sessionVar){

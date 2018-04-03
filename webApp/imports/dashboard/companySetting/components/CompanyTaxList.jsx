@@ -40,7 +40,7 @@ export default class CompanyTaxList extends TrackerReact(Component) {
 						<button onClick={this.editTax.bind(this)} id={this.props.companyTaxDataVales.index} className="editTax fa fa-pencil-square-o"></button>	
 						<button className= "taxDelete fa fa-trash delIcon detailsCenter" data-toggle="modal" data-target={`#del-${this.props.companyTaxDataVales.taxType}`}></button>
 
-						 <div className="modal fade" id={`del-${this.props.companyTaxDataVales.taxType}`} role="dialog">
+						  <div className="modal fade" id={`del-${this.props.companyTaxDataVales.taxType}`} role="dialog">
 						    <div className="modal-dialog modal-sm">
 						      <div className="modal-content">
 						        <div className="modal-header">

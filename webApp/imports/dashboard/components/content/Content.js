@@ -7,6 +7,8 @@ import {Meteor } from 'meteor/meteor';
 import {Tracker} from 'meteor/tracker';
 import { Accounts } from 'meteor/accounts-base';
 import {Mongo} from 'meteor/mongo';
+import HeaderBlock from '/imports/dashboard/otherRoleDashboardComponent/HeaderBlock.jsx';
+import AllTickets from '/imports/dashboard/otherRoleDashboardComponent/AllTickets.jsx'
 
 
 export default class Sidebar extends TrackerReact(Component){
@@ -77,10 +79,11 @@ export default class Sidebar extends TrackerReact(Component){
           <section className="content">
             {/* Info boxes */}
             <div className="row">
-             
+              <HeaderBlock />
             </div>
             {/* /.row */}
             <div className="row">
+              <AllTickets />
            </div>
             {/* /.row */}
           </section>

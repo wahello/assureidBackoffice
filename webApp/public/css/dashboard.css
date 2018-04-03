@@ -6586,3 +6586,6 @@ margin-top: 20px;
   margin-top: 1%;
   
 }
+.tableHeader th{
+  text-align: center;
+}

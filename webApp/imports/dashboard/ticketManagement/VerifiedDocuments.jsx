@@ -155,7 +155,7 @@ class VerifiedDocuments extends TrackerReact(Component){
               //         sendInAppNotification(notifictaionObj);
               //   }
               // }); // Userprofile collection
-    }
+    // }
     //   var userId  = ticketObj.userId;
     //   Meteor.call('updateTicketFinalStatus',ticketId,status,remark,function(error,result){
     //     if(result){
