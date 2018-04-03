@@ -96,7 +96,7 @@ class Ticket extends TrackerReact(Component){
       var allocatedToUserName = this.props.getTicket.ticketElement[elementLength-2].allocatedToUserName;
     }
     var insertData = {
-      "userid"              : Meteor.userId(),
+      "userId"              : Meteor.userId(),
       "userName"            : Meteor.user().profile.firstname + ' ' + Meteor.user().profile.lastname,
       "allocatedToUserid"   : allocatedToUserid,
       "allocatedToUserName" : allocatedToUserName,
@@ -174,7 +174,7 @@ class Ticket extends TrackerReact(Component){
     var ticketId = this.props.ticketId;
     var elementLength = this.props.getTicket.ticketElement.length;
     var insertData = {
-      "userid"              : Meteor.userId(),
+      "userId"              : Meteor.userId(),
       "userName"            : Meteor.user().profile.firstname + ' ' + Meteor.user().profile.lastname,
       "role"                : Meteor.user().roles.find(this.getRole),
       "roleStatus"          : $(event.currentTarget).attr('data-roleStatus'),

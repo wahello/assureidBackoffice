@@ -78,7 +78,7 @@ class MaxNoOfTicketAllocate extends TrackerReact(Component){
         Meteor.call('updateAllocatedTicket',formValues,targetedID,(error, result)=>{
           if(error){
             console.log(error);
-          }else{
+          }else{     
 
             swal('Allocated Ticket Updated!');
             $(".numberallocated").val('');
@@ -219,6 +219,8 @@ class MaxNoOfTicketAllocate extends TrackerReact(Component){
   var companyDetails = CompanySettings.findOne({'companyId':1});
   if(companyDetails){
     var maxAllocatedData = companyDetails.maxnoOfTicketAllocate;
+  }else{
+    var maxAllocatedData = [];
   }
 
   var loading = !companySettingHandle.ready();

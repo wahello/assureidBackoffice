@@ -83,6 +83,7 @@ class AllTickets extends TrackerReact(Component){
     }
 }
 export default AllTicketContainer = withTracker(props => {
+  // var handleAllTickets = Meteor.subscribe("listTikects");
   var handleAllBucketTick = Meteor.subscribe("allTicketBucket");
   var ticketArr = [];
   var dataDetails = [];
