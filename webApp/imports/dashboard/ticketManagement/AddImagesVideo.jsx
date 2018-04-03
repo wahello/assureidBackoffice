@@ -213,9 +213,7 @@ constructor(props){
                 
         }
       }
-      
       if(this.props.EditValue){
-
           var insertData ={
               "userid"              : Meteor.userId(),
               "userName"            : Meteor.user().profile.firstname + ' ' + Meteor.user().profile.lastname,
@@ -227,7 +225,6 @@ constructor(props){
               "submitedDoc"         : documents,
               "createdAt"           : new Date(),
           }
-
       }else{
          var insertData ={
               "userid"              : Meteor.userId(),
@@ -240,7 +237,6 @@ constructor(props){
               "submitedDoc"         : documents,
               "createdAt"           : new Date(),
         }
-
       }
      
       // console.log("insertData BA/FE/Self",insertData);
@@ -260,7 +256,7 @@ constructor(props){
   }
 render(){
     // console.log("ticket");
-     return(
+  return(
       <div>
        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 choosefilebox">
         <form>
@@ -335,8 +331,8 @@ render(){
         </div>
       <div className="col-lg-12 wholeborder">
         <div className="imgtitile col-lg-12  noLRPad">
-          <div className="col-lg-12 noLRPad Selectimg"> Select Video: (maximum 10 seconds)</div>
-      <input type="file" ref="ticketVideoFile" id="s3file" name="ticketVideoFile"  onChange={this.handleVideoUpload.bind(this)} className="col-lg-7 noLRPad" name="img" multiple />
+          <div className="col-lg-12 noLRPad Selectimg"> Select Video:</div>
+            <input type="file" ref="ticketVideoFile" id="s3file" name="ticketVideoFile"  onChange={this.handleVideoUpload.bind(this)} className="col-lg-7 noLRPad" name="img" multiple />
           {/*<input type="submit" className="col-lg-1 btn btn-primary" />*/}
           </div>
 
@@ -382,9 +378,9 @@ render(){
               }
        
         </div>
-            :
-            ""
-            }
+        :
+        ""
+        }
 
       </div>
       <div className="col-lg-12 wholeborder">
@@ -408,15 +404,16 @@ render(){
    }       
 }
 AddImagesVideoContainer = withTracker(props => { 
-    const ticket      = props.ticket;
+    const ticket       = props.ticket;
     const postHandle   = Meteor.subscribe('allTicketImages');
     const postHandle1  = Meteor.subscribe('allTicketVideo');
     const postHandle2  = Meteor.subscribe('checklistFieldExpert');
     const postHandle3  = Meteor.subscribe('singleTicket',ticket);
 
     const ticketImages = TempTicketImages.find({}).fetch() || []; 
-    const ticketVideo  = TempTicketVideo.find({}).fetch() || []; 
-    // console.log("ticketVideo",ticketVideo);
+    const ticketVideo  = TempTicketVideo.find({}).fetch() || [];  
+    console.log("ticketImages",ticketImages);    
+    console.log("ticketVideo",ticketVideo);
     const loading     = !postHandle.ready();
     const loading1    = !postHandle1.ready();
     const loading3    = !postHandle3.ready();
@@ -428,8 +425,6 @@ AddImagesVideoContainer = withTracker(props => {
           var verificationType = tickets.verificationType;
        // console.log("verificationType",verificationType);
          if (verificationType == "professionalEducation") {
-          var checkListFrom = "Academic Information";
-         }else if (verificationType == "professionalEducation") {
           var checkListFrom = "Academic Information";
          }else if (verificationType == "permanentAddress") {
           var checkListFrom = "Address Information";
