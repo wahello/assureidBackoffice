@@ -310,19 +310,19 @@ class VerifiedDocuments extends TrackerReact(Component){
                                               <div className="col-lg-12 col-md-12 showAddrWrap">
                                                 <h5>Permanent Address</h5>
                                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                  {this.props.verificationData[index].line1},
+                                                  {this.props.verificationData[index].line1},&nbsp;
                                                   {this.props.verificationData[index].line2}
                                                 </div>
                                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                  {this.props.verificationData[index].line3},
+                                                  {this.props.verificationData[index].line3},&nbsp;
                                                   {this.props.verificationData[index].landmark}
                                                 </div>
                                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                  {this.props.verificationData[index].city},
-                                                  {this.props.verificationData[index].state},
-                                                  {this.props.verificationData[index].Country},
+                                                  {this.props.verificationData[index].city},&nbsp;
+                                                  {this.props.verificationData[index].state},&nbsp;
+                                                  {this.props.verificationData[index].Country},&nbsp;
                                                   {this.props.verificationData[index].pincode},<br />
-                                                  Residing From : {this.props.verificationData[index].residingFrom} Residing Till : {this.props.verificationData[index].residingTo}
+                                                  <label>Residing From : </label>{this.props.verificationData[index].residingFrom} <label>Residing Till : </label>{this.props.verificationData[index].residingTo}
                                                 </div>
                                               </div>
                                             </div>
@@ -625,8 +625,9 @@ class VerifiedDocuments extends TrackerReact(Component){
                                             <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm">
                                              {this.props.ticketStatus.status == "New" || this.props.ticketStatus.status == "ScreenRejected" && this.props.ticketStatus.role == "screening committee" ?
                                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                    <button type="button" className="btn btn-info rejectTicket acceptreject"  onClick={this.hideShowRejectCurReason.bind()}>Reject</button>                                                
                                                     <button type="button" className="btn btn-info acceptTicket acceptreject" data-status="ScreenApproved" onClick={this.approvedCurDocument.bind()}>Approved</button>
-                                                    <button type="button" className="btn btn-info rejectTicket teammember acceptreject"  onClick={this.hideShowRejectCurReason.bind()}>Reject</button>
+                                                    {/* <button type="button" className="btn btn-info rejectTicket acceptreject"  onClick={this.hideShowRejectCurReason.bind()}>Reject</button> */}
                                                 </div>
                                               :
                                               ""
@@ -719,8 +720,8 @@ class VerifiedDocuments extends TrackerReact(Component){
                                                 { this.props.ticketStatus ?
                                                   this.props.ticketStatus.status == "New" || this.props.ticketStatus.status == "ScreenRejected" && this.props.ticketStatus.role == "screening committee" ?
                                                   <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                      <button type="button" className="btn btn-info rejectTicket acceptreject"  onClick={this.hideShowRejectCurReason.bind()}>Reject</button>                                                    
                                                       <button type="button" className="btn btn-info acceptTicket acceptreject" data-status="ScreenApproved" onClick={this.approvedCurDocument.bind()}>Approved</button>
-                                                      <button type="button" className="btn btn-info rejectTicket teammember acceptreject"  onClick={this.hideShowRejectCurReason.bind()}>Reject</button>
                                                   </div>
                                                   :
                                                   ""
@@ -789,8 +790,8 @@ class VerifiedDocuments extends TrackerReact(Component){
                                          <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm verCarouselWrap">
                                             {this.props.ticketStatus.status == "New" || this.props.ticketStatus.status == "ScreenRejected" && this.props.ticketStatus.role == "screening committee" ?
                                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <button type="button" className="btn btn-info rejectTicket acceptreject" onClick={this.hideShowRejectReason.bind()}>Reject</button>                                              
                                                 <a href="#lightbox" data-slide="next" ><button type="button" className="btn btn-info acceptTicket acceptreject" name={index} onClick={this.approvedCurDocument.bind()}>Approved</button></a>
-                                                <button type="button" className="btn btn-info rejectTicket teammember acceptreject" onClick={this.hideShowRejectReason.bind()}>Reject</button>
                                             </div>
                                             :
                                             ""

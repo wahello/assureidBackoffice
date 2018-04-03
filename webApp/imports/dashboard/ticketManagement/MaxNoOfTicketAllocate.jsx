@@ -7,13 +7,15 @@ import { createContainer } from 'meteor/react-meteor-data';
 import Validation from 'react-validation';
 import validator from 'validator';
 import {Tracker} from 'meteor/tracker';
+import { withTracker } from 'meteor/react-meteor-data';
 import { browserHistory } from 'react-router';
 import { Link } from 'react-router';
 import {TicketMaster} from "/imports/website/ServiceProcess/api/TicketMaster.js";
 import {Order} from "/imports/website/ServiceProcess/api/Order.js";
+import {CompanySettings} from '/imports/dashboard/companySetting/api/CompanySettingMaster.js';
 
 
-export default class MaxNoOfTicketAllocate extends TrackerReact(Component){
+class MaxNoOfTicketAllocate extends TrackerReact(Component){
 	constructor(props){
         super(props);
         this.state = {
@@ -115,10 +117,54 @@ export default class MaxNoOfTicketAllocate extends TrackerReact(Component){
                           {/* <ListOfUniversity /> */}
                         </div>
                      </div>
+                     {
+                       !this.props.loading ?
+                      //  return(
+                        <div className="col-lg-6 col-lg-offset-4 col-md-6 col-md-offset-4 col-sm-12 col-xs-12  ">
+                          <div className="table-responsive">
+                              <table className="table table-bordered table-striped table-hover">
+                                <thead>
+                                  <tr className="tableHeader">
+                                    <th> Maximum No. of Ticket Allocated </th>
+                                    <th> Role </th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  { this.props.maxAllocatedData.map( (allocationNumber,index)=>{
+                                    <tr key={index}>
+                                      <td> {allocationNumber.maxTicketAllocate} </td>			
+                                      <td> {allocationNumber.role} </td>	
+                                    </tr>
+                                    })
+                                  }
+                                </tbody>
+                              </table>
+                          </div>
+                        </div>
+                      //  )
+                       :
+                       ""
+                     }
+                    
+
                     </div>
                  </div>
                </section>
             </div> 
             );
     }
-}
+}export default maxTicketAllocationContainer = withTracker(props => {
+
+  const companySettingHandle = Meteor.subscribe('companyData');
+  var companyDetails = CompanySettings.findOne({'companyId':1});
+  if(companyDetails){
+    var maxAllocatedData = companyDetails.maxnoOfTicketAllocate;
+  }
+  var loading = !companySettingHandle.ready();
+  return{
+    loading,
+    maxAllocatedData,
+
+  };
+
+})(MaxNoOfTicketAllocate)
