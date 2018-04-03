@@ -19,6 +19,7 @@ import TicketDocumentDetails from '/imports/dashboard/ticketManagement/TicketDoc
 import RoleTicketStatus from './RoleTicketStatus.jsx';
 import DocumentStatus from './DocumentStatus.jsx';
 import AddImagesVideo from './AddImagesVideo.jsx';
+import UserUploadTask from './UserUploadTask.jsx';
 import VerifyDetailsDocument from './VerifyDetailsDocument.jsx';
 import { UserProfile } from '../../website/forms/api/userProfile.js';
 import SubmittedDocuments from './SubmittedDocuments.jsx';
@@ -650,6 +651,7 @@ class Ticket extends TrackerReact(Component){
                               </div>
                             </div>
                           </div>
+                          <UserUploadTask ticket={this.props.ticketId}/>
                        </div>
                        </div>
                        </div> 

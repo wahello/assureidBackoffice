@@ -128,6 +128,17 @@ if(Meteor.isServer){
 				}
 			}
 		);	
+		//Insert data for submitAdditionalReportData
+		if(insertData.roleStatus == 'SubmittedAdditionalInformation')
+		TicketMaster.update(
+			{'_id':ticketid},
+			{
+				$set:{
+					'submitAdditionalReportData' : insertData.submitAdditionalReportData,
+				}
+			}
+		);	
+
 		//Insert data into Ticket Bucket
 		var ticketDetails = TicketMaster.findOne({"_id":ticketid});
 		if(insertData.roleStatus == 'ScreenRejected'){

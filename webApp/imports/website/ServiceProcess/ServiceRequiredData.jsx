@@ -60,11 +60,14 @@ export default class ServiceRequiredData extends TrackerReact(Component){
       var companyState        = companyAddressFeild.companyState;
       var newDate             = new Date();
       var currentDate         = moment(newDate).format("YYYY-MM-DD");
-      for (var i = 0; i < companyData.taxSettings.length; i++) {
-        if (currentDate == companyData.taxSettings[i].effectiveFrom) {
-           tax.push( companyData.taxSettings[i]);
+      if (companyData.taxSettings) {
+         for (var i = 0; i < companyData.taxSettings.length; i++) {
+          if (currentDate == companyData.taxSettings[i].effectiveFrom) {
+             tax.push( companyData.taxSettings[i]);
+          }
         }
       }
+  
       Meteor.call("insertInvoice",companyName,serviceId,serviceName,serviceRate,serviceDuration,userId,userName,companyAddress,companyCity,companyState,companyCountry,companyPincode,tax,function(error,result){
        if (error) {
         console.log("error",error.reason);

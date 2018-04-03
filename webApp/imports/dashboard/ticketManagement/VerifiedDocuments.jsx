@@ -981,6 +981,7 @@ verifiedDocumentsContainer = withTracker(props => {
      }else{
        var isRoleUser = false;
      }
+     // console.log("isRoleUser",isRoleUser);
     // if(_id){
       return {
           loading  : loading,
