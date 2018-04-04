@@ -104,8 +104,14 @@ class OtherRoleSidebar extends TrackerReact(Component){
               ""
               }
             </div>
-            <ul className="sidebar-menu" data-widget="tree">
+            <ul className="sidebar-menu otherRoleSidebarMenu" data-widget="tree">
               <li className="header">MAIN NAVIGATION</li>
+              <li className="">
+                <Link to="/admin/dashboard" activeClassName="active">
+                  <i className="fa fa-dashboard" />
+                    <span>Dashboard</span>
+                </Link>
+              </li>
               <li className="">
                 <Link to="/admin/alltickets" activeClassName="active">
                   <i className="fa fa-ticket" />

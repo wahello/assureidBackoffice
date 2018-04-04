@@ -4,12 +4,10 @@ import React, { Component } from 'react';
 import { render } from 'react-dom';
 import TrackerReact from 'meteor/ultimatejs:tracker-react';
 import { withTracker } from 'meteor/react-meteor-data';
-import {Link} from 'react-router';
 
 
 
-
-export default class AllTickets extends TrackerReact(Component){
+export default class AllocatedTickets extends TrackerReact(Component){
 	constructor(props){
         super(props);
         this.state = {
@@ -21,13 +19,7 @@ export default class AllTickets extends TrackerReact(Component){
         return(    
             <div className="col-lg-12 col-md-3 col-sm-3 col-xs-3 noLRPad">
                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 innerblock tableinnetWrap noLRPad">
-                <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12 ticketTableLabel">All Tickets
-                    <span>
-                        <Link to="/admin/alltickets" title="View All">
-                            <i className="fa fa-arrow-right pull-right arrowcolor" aria-hidden="true"></i>
-                        </Link>
-                    </span>
-                </label>                        
+                <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12 ticketTableLabel">Allocated Tickets</label>                        
                     <table className="table">
                         <thead>
                             <tr className="tableHead">
@@ -42,19 +34,19 @@ export default class AllTickets extends TrackerReact(Component){
                                 <td>1</td>
                                 <td>Address Verification</td>
                                 <td>1/2/2018</td>
-                                <td><lable className="bg-blue tdStatus">New</lable></td>
+                                <td><lable className="bg-green tdStatus">Allocated</lable></td>
                             </tr>
                             <tr>
                                 <td>1</td>
                                 <td>Address Verification</td>
                                 <td>1/2/2018</td>
-                                <td><lable className="bg-blue tdStatus">New</lable></td>
+                                <td><lable className="bg-green tdStatus">Allocated</lable></td>
                             </tr>
                             <tr>
                                 <td>1</td>
                                 <td>Address Verification</td>
                                 <td>1/2/2018</td>
-                                <td><lable className="bg-blue tdStatus">New</lable></td>
+                                <td><lable className="bg-green tdStatus">Allocated</lable></td>
                             </tr>
                         </tbody>
                     </table>
@@ -63,7 +55,7 @@ export default class AllTickets extends TrackerReact(Component){
         )
     }
 }
-// AllTicketsContainer = withTracker(props => { 
+// AlllocatedTicketsContainer = withTracker(props => { 
    
-// })(AllTickets);
-// export default AllTicketsContainer;
+// })(AlllocatedTickets);
+// export default AlllocatedTicketsContainer;

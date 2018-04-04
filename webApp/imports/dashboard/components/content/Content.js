@@ -8,7 +8,9 @@ import {Tracker} from 'meteor/tracker';
 import { Accounts } from 'meteor/accounts-base';
 import {Mongo} from 'meteor/mongo';
 import HeaderBlock from '/imports/dashboard/otherRoleDashboardComponent/HeaderBlock.jsx';
-import AllTickets from '/imports/dashboard/otherRoleDashboardComponent/AllTickets.jsx'
+import AllTickets from '/imports/dashboard/otherRoleDashboardComponent/AllTickets.jsx';
+import AllocatedTickets from '/imports/dashboard/otherRoleDashboardComponent/AllocatedTickets.jsx';
+import AssignToMeTickets from '/imports/dashboard/otherRoleDashboardComponent/AssignToMeTickets.jsx';
 
 
 export default class Sidebar extends TrackerReact(Component){
@@ -64,7 +66,7 @@ export default class Sidebar extends TrackerReact(Component){
     return(
       <div>
         {/* Content Wrapper. Contains page content */}
-        <div className="content-wrapper">
+        <div className="content-wrapper dashboardBackground">
           {/* Content Header (Page header) */}
           <section className="content-header">
             <h1>Dashboard
@@ -81,11 +83,20 @@ export default class Sidebar extends TrackerReact(Component){
             <div className="row">
               <HeaderBlock />
             </div>
-            {/* /.row */}
-            <div className="row">
-              <AllTickets />
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tablewrap">
+
+              <div className="col-lg-6">
+                  <AllTickets />          
+              </div>
+              <div className="col-lg-6">
+                  <AllocatedTickets />                        
+              </div>
+              <div className="col-lg-6">
+                <AssignToMeTickets />
+                                    
+              </div>
            </div>
-            {/* /.row */}
+
           </section>
           {/* /.content */}
         </div>

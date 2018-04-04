@@ -93,11 +93,14 @@ if(Meteor.isServer){
 			return ticketId;
 	}, 
 	//Find User with minium tickets for specific role
-	'autoAllocateMember':function(role){
+	'autoAllocateMember':function(role,serviceName){
 		// Fetch the user with minium count of tickets
-		var memberDetails = Meteor.users.find({"roles":role},{sort:{'count':1}}).fetch();
+
+		var memberDetails = Meteor.users.find({"roles":role,"profile.servicesName":serviceName},{sort:{'count':1}}).fetch();
+		console.log("memberDetails");
+		console.log(memberDetails);
 		if(memberDetails[0]){
-			// console.log('memberDetails ',memberDetails[0]);
+
 			// Get Whats the maximum tickets to be allocated
 			var companyObj = CompanySettings.findOne({"maxnoOfTicketAllocate.role":role});
 			for(var i=0;i<companyObj.maxnoOfTicketAllocate.length;i++){
@@ -105,11 +108,9 @@ if(Meteor.isServer){
 					var allocatedtickets = companyObj.maxnoOfTicketAllocate[i].maxTicketAllocate;
 				}
 			}
-			// console.log('allocatedtickets ',allocatedtickets);
-			// if(memberDetails[0].count <= allocatedtickets[0]){
-				// console.log('memberDetails ',memberDetails[0]);
-				return memberDetails[0];
-			// }
+			
+			return memberDetails[0];
+			
 		}	
 	},
 	//Convert String into Sentence Case
@@ -117,9 +118,6 @@ if(Meteor.isServer){
 		return str.replace(/(?:^|\s)\w/g, function(match) {
 			return match.toUpperCase();
 		});
-	},
-	'newInsertTicketBucket':function(ticket){
-		TicketBucket.insert(ticket);
 	},
 	'genericUpdateTicketMasterElement': function(ticketid,insertData){
 		//Update TicketElement 
@@ -189,7 +187,7 @@ if(Meteor.isServer){
 				"tatDate" 				: ticketDetails.tatDate,
 				"createdAt" 			: new Date()
 			}
-			Meteor.call('newInsertTicketBucket',bucketData);
+			// Meteor.call('newInsertTicketBucket',bucketData);
 			if(insertData.role != 'team member' && insertData.role != 'quality team member' && insertData.role != 'quality team leader'){
 				var count = Meteor.user().count;
 				if(count){
@@ -245,7 +243,7 @@ if(Meteor.isServer){
 				var role = "team leader";
 				var roleStatus = "screenTLAllocated";
 			}
-			var newMember = Meteor.call('autoAllocateMember',role);
+			var newMember = Meteor.call('autoAllocateMember',role,ticketDetails.serviceName);
 			if(newMember){
 				roleSentene = Meteor.call('toTitleCase',role);
 				if(roleSentene){
