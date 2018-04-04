@@ -6589,3 +6589,6 @@ margin-top: 20px;
 .tableHeader th{
   text-align: center;
 }
+.tempImageDelete{
+  cursor: pointer;
+}

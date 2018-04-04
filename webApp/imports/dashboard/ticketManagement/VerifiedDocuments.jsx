@@ -18,7 +18,6 @@ class VerifiedDocuments extends TrackerReact(Component){
   constructor(props){
     super(props);
     this.state = {
-
       "subscription" : {
         "allTickets" : Meteor.subscribe("allTickets"),
         "userfunction" : Meteor.subscribe('userfunction'),
@@ -71,7 +70,6 @@ class VerifiedDocuments extends TrackerReact(Component){
 /*This function execute when document get approved. */
   approvedCurDocument(event){
     event.preventDefault();
-    
     var curURl = location.pathname;
     if(curURl){
       var ticketId = curURl.split('/').pop();
@@ -207,7 +205,6 @@ class VerifiedDocuments extends TrackerReact(Component){
     //   });
     // }
   }
-}
 
 /*
 

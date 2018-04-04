@@ -21,9 +21,9 @@ constructor(props){
       // "remark" : '',
     if(this.props.EditValue){
       this.state ={ 
-       "images"            : this.props.EditValue.images,
+       "images"           : this.props.EditValue.images,
        "videos"           : this.props.EditValue.videos,
-       "remark"          : this.props.EditValue.remark,
+       "remark"           : this.props.EditValue.remark,
        "subscription" : {
         }
       };
@@ -198,12 +198,7 @@ constructor(props){
     });
     
     // console.log("checkLists",checkLists);
-    var documents ={
-       checkLists : checkLists,
-       images : this.props.ticketImages,
-       videos : this.props.ticketVideo,
-       remark : this.refs.remark.value,
-    }
+   
    
     var ticketElementObj = {};
     if (this.props.tickets) {
@@ -214,7 +209,13 @@ constructor(props){
         }
       }
       if(this.props.EditValue){
-          var insertData ={
+        var documents ={
+           checkLists : checkLists,
+           images : this.state.images,
+           videos : this.state.videos,
+           remark : this.refs.remark.value,
+        }
+        var insertData ={
               "userid"              : Meteor.userId(),
               "userName"            : Meteor.user().profile.firstname + ' ' + Meteor.user().profile.lastname,
               "allocatedToUserid"   : ticketElementObj.userid,
@@ -226,7 +227,13 @@ constructor(props){
               "createdAt"           : new Date(),
           }
       }else{
-         var insertData ={
+         var documents ={
+           checkLists : checkLists,
+           images : this.props.ticketImages,
+           videos : this.props.ticketVideo,
+           remark : this.refs.remark.value,
+        }
+        var insertData ={
               "userid"              : Meteor.userId(),
               "userName"            : Meteor.user().profile.firstname + ' ' + Meteor.user().profile.lastname,
               "allocatedToUserid"   : ticketElementObj.userid,
@@ -247,11 +254,13 @@ constructor(props){
           console.log("Inserted Successfully!");
           $("#AddImagesVideo").css({"display" : "none"});
           $("#uploadButtonDiv").css({"display" : "none"});
+          // $('#outersubmitedDocWrap').css({"display" : "block"});
+
         }
       });
-      // Meteor.call('addticketBAElement',id,userId,ticketBAElements,function (error,result) {
-      //   
-      // });
+      Meteor.call('addticketBAElement',id,userId,ticketBAElements,function (error,result) {
+        
+      });
     }
   }
 render(){
@@ -291,6 +300,7 @@ render(){
                     this.props.ticketImages.map((ticketImages,index) =>{
                     return(
                       <div className="col-lg-3 imgbrPre" key={index}>
+                        <i className="fa fa-times pull-right tempImageDelete" ></i>
                         <div className="imgbr">
                           <img src={ticketImages.imageLink} className="img1 img-responsive" />
                         </div>
@@ -302,6 +312,7 @@ render(){
                     this.state.images.map((ticketImages,index) =>{
                     return(
                       <div className="col-lg-3 imgbrPre" key={index}>
+                        <i className="fa fa-times pull-right tempImageDelete"></i>
                         <div className="imgbr">
                           <img src={ticketImages.imageLink} className="img1 img-responsive" />
                         </div>
@@ -315,6 +326,7 @@ render(){
                   this.state.images.map((ticketImages,index) =>{
                   return(
                     <div className="col-lg-3 imgbrPre" key={index}>
+                      <i className="fa fa-times pull-right tempImageDelete"></i>
                       <div className="imgbr">
                         <img src={ticketImages.imageLink} className="img1 img-responsive" />
                       </div>
@@ -343,6 +355,7 @@ render(){
                     this.props.ticketVideo.map((ticketVideo,index) =>{
                     return(
                       <div className="col-lg-4 imgbrvid" key={index}>
+                        <i className="fa fa-times pull-right"></i>
                         <video width="200" height="200"  controls>
                           <source src={ticketVideo.videoLink} type="video/mp4" />
                         </video>
@@ -354,6 +367,7 @@ render(){
                     this.state.videos.map((ticketVideo,index) =>{
                     return(
                       <div className="col-lg-4 imgbrvid" key={index}>
+                       <i className="fa fa-times pull-right"></i>
                         <video width="200" height="200"  controls>
                           <source src={ticketVideo.videoLink} type="video/mp4" />
                         </video>
@@ -367,6 +381,7 @@ render(){
                   this.state.videos.map((ticketVideo,index) =>{
                   return(
                     <div className="col-lg-4 imgbrvid" key={index}>
+                      <i className="fa fa-times pull-right"></i>
                       <video width="200" height="200"  controls>
                         <source src={ticketVideo.videoLink} type="video/mp4" />
                       </video>
