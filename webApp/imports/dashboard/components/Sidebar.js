@@ -300,7 +300,7 @@ class Sidebar extends TrackerReact(Component){
                 </ul>
               </li>
               <li>
-                <Link to="/ComingSoon">
+                <Link to="/admin/reports">
                   <i className="fa fa-file-o" />
                     <span>Reporting System</span>
                 </Link>

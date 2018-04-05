@@ -129,7 +129,7 @@ export default class LogIn extends TrackerReact(React.Component) {
           <div className="modal-dialog modal-md">
             <div className="modal-content col-lg-12 col-md-12 col-sm-12 col-xs-12 modalContent"> 
               <div className="modal-body col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <button type="button" className="close" data-dismiss="modal">&times;</button>
+                {/* <button type="button" className="close" data-dismiss="modal">&times;</button> */}
 
                   <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outerLoginWrapper" id="outerLoginWrapper">
                     <div className="logoWrapper col-lg-6 col-lg-offset-3 col-md-12 col-md-offset-4 col-sm-12 col-sm-offset-4 col-xs-4 col-xs-offset-4">

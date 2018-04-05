@@ -62,6 +62,7 @@ export default class Sidebar extends TrackerReact(Component){
   allUserCount(){
     return this.state.allUserData.length;
   }
+  
   render(){
     return(
       <div>
@@ -80,22 +81,28 @@ export default class Sidebar extends TrackerReact(Component){
           {/* Main content */}
           <section className="content">
             {/* Info boxes */}
-            <div className="row">
-              <HeaderBlock />
-            </div>
-            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tablewrap">
-
-              <div className="col-lg-6">
-                  <AllTickets />          
+            {Roles.userIsInRole(Meteor.userId(),['screening committee','team leader','team member','field expert','quality team member','quality team leader'])?
+              <div>
+                <div className="row">
+                  <HeaderBlock />
+                </div>
+                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tablewrap">
+                  <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                      <AllTickets />          
+                  </div>
+                  <div className="col-lg-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                      <AllocatedTickets />                        
+                  </div>
+                  <div className="col-lg-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <AssignToMeTickets />
+                                        
+                  </div>
+                </div>
               </div>
-              <div className="col-lg-6">
-                  <AllocatedTickets />                        
-              </div>
-              <div className="col-lg-6">
-                <AssignToMeTickets />
-                                    
-              </div>
-           </div>
+            :
+             
+            ""
+          }
 
           </section>
           {/* /.content */}

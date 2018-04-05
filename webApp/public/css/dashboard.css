@@ -5291,8 +5291,10 @@ table.text-center th {
 }
 
 .reportTitleName{
-    text-align: center;
-    color: #3c8dbc;
+  text-align: center;
+  color: #3c8dbc;
+  text-transform: uppercase;
+  font-weight: bold;
 }
 
 .TableHeader{
@@ -6109,16 +6111,17 @@ td input:focus {
 }
 .sales-report-common {
   /* background: #00b8ff; */
-  background: #414260;
+  /* background: #414260; */
   display: block;
   padding: 10px 30px;
-  color: #fff;
+  color: #000;
   cursor: pointer;
   min-width: 15%;
   text-align: center;
 }
 .table-bordered {
   border: 1px solid #f4f4f4;
+  text-align: center;
   /* margin-top:3%; */
 }
 .newOrderbtn{

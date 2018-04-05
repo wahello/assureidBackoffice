@@ -21,6 +21,9 @@ class OtherRoleSidebar extends TrackerReact(Component){
       UserSession.delete("allProgressbarSession", Meteor.userId());
   }
 
+  specificRole(){
+    
+  }
   currentUser(){
     // Meteor.subscribe('userData',Meteor.userId());
     var userData = {"userName" : '', "userProfile" : ''};
@@ -107,7 +110,7 @@ class OtherRoleSidebar extends TrackerReact(Component){
             <ul className="sidebar-menu otherRoleSidebarMenu" data-widget="tree">
               <li className="header">MAIN NAVIGATION</li>
               <li className="">
-                <Link to="/admin/dashboard" activeClassName="active">
+                <Link to="/backoffice/dashboard" activeClassName="active">
                   <i className="fa fa-dashboard" />
                     <span>Dashboard</span>
                 </Link>
