@@ -27,90 +27,24 @@ if(Meteor.isServer){
 		return TicketMaster.find({},{fields:{ticketNumber:1,orderNo:1,serviceName:1,createdAt:1,tatDate:1,'ticketElement.userId':1,'ticketElement.role':1,'ticketElement.roleStatus':1,'ticketElement.createdAt':1}});
 	});
 	Meteor.methods({
-   	'createTicket':function(id,userId,serviceId,serviceName,totalAmount,paymentStatus,delieveryStatus) {
-				var ticketObj = TicketMaster.findOne({}, {sort: { createdAt : -1}});
-					if(ticketObj){
-						// var ticketNumber = parseInt(ticketObj.ticketNumber.);
-						//  var last  = parseInt(ticketObj.ticketNumber.substr(ticketObj.ticketNumber.length - 6));
-						//  var first = ticketObj.ticketNumber.substr(0, 1);
-						// var ticket = 'AZ099998';
-						var first = ticketObj.ticketNumber.substr(0, 2);
-						var last  = parseInt(ticketObj.ticketNumber.substr(ticketObj.ticketNumber.length - 6));
-							last = last + 1;
-						var last0 = '0';
-						if(last > 0 && last < 11) 
-						{
-							last0 = '00000' + last;
-							if(last == 10){last0 = '0000' + last;} /*working*/
-						}else if(last > 10 && last < 101){
-							last0 = '0000' + last;
-							if(last == 100){last0 = '000' + last;}/*working*/
-						}else if(last > 100 && last < 1001){
-							last0 = '000' + last;
-							if(last == 1000){last0 = '00' + last;}/*working*/
-						}else if(last > 1000 && last < 10001){
-							last0 = '00' + last;
-							if(last == 10000){last0 = '0' + last;}/*working*/
-						}else if(last > 10000 && last < 100001){
-							last0 = '0' + last;
-							if(last == 100000){last0 = '000000';}
-						}
-						if(last >= 100000){
-							last0 = '000000';
-							var first2Char = first.substr(1,1); /*second digit*/
-							var secondAscii = first2Char.charCodeAt(); /*second ascii*/
-							var firstChar = first.substr(0,1); /*First char*/
-							if(secondAscii == 90){
-								var firstAscii = firstChar.charCodeAt() + 1;
-								first = String.fromCharCode(firstAscii) + 'A';
-							}else {
-								var newsecond = secondAscii + 1;
-								first = firstChar +''+ String.fromCharCode(newsecond);
-							}
-							
-						}
-						var ticketNumber = first+''+last0;			   
-				}else{
-						var ticketNumber = 'AA000000';
-					}
-					var ticketId  = TicketMaster.insert({
-					"orderId"          :   id,
-					"userId"           :   userId,
-					"serviceId"        :   serviceId,
-					"serviceName"      :   serviceName,
-					"payment"          :   totalAmount,
-					"paymentStatus"    :   paymentStatus,
-					"ticketNumber"     :   ticketNumber,
-					"ticketStatus"     :  [delieveryStatus],
-					"createdAt"        :   new Date(),
-				},(error, result)=>{
-					if (error) {
-					return error;
-					}else{
-						return result;
-					}
-				});
-			return ticketId;
-	}, 
-	//Find User with minium tickets for specific role
+   	 
+	//Find User with minium tickets for specific role and serviceName
 	'autoAllocateMember':function(role,serviceName){
-		// Fetch the user with minium count of tickets
-
-		var memberDetails = Meteor.users.find({"roles":role,"profile.servicesName":serviceName},{sort:{'count':1}}).fetch();
-		console.log("memberDetails");
-		console.log(memberDetails);
-		if(memberDetails[0]){
-
-			// Get Whats the maximum tickets to be allocated
+		//Allocating Ticket to Screening Committte
+		var memberDetails = Meteor.users.find({"roles":role,"profile.status":"Active"},{sort:{'count':1}}).fetch();
+		if(memberDetails){
+			//Get maximum number of tickets which can be allocated to screening committee
 			var companyObj = CompanySettings.findOne({"maxnoOfTicketAllocate.role":role});
-			for(var i=0;i<companyObj.maxnoOfTicketAllocate.length;i++){
-				if(companyObj.maxnoOfTicketAllocate[i].role == role){
-					var allocatedtickets = companyObj.maxnoOfTicketAllocate[i].maxTicketAllocate;
+			if(companyObj){
+				var maxTicketAllocateArray = companyObj.maxnoOfTicketAllocate;
+				//Find max number of ticket allocation to "screening committee"
+				var obj1 = maxTicketAllocateArray.find(function (obj) { return obj.role == role });
+				if(obj1){
+					//Find user with minium ticket allocated
+					var userList = memberDetails.reduce(function(prev,curr){ return (prev.count || prev.count < curr.count ) ? prev : curr;});
+					return userList;
 				}
 			}
-			
-			return memberDetails[0];
-			
 		}	
 	},
 	//Convert String into Sentence Case
