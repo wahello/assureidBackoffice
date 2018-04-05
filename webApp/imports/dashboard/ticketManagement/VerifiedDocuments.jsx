@@ -205,6 +205,8 @@ class VerifiedDocuments extends TrackerReact(Component){
     //   });
     // }
   }
+}
+
 
 /*
 

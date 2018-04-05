@@ -130,7 +130,7 @@ if(Meteor.isServer){
 			}
 		);	
 		//Insert data for submitAdditionalReportData
-		if(insertData.roleStatus == 'SubmittedAdditionalInformation')
+		if(insertData.roleStatus == 'SubmittedAdditionalInformation' || insertData.roleStatus == 'ReSubmittedAdditionalInformation')
 		TicketMaster.update(
 			{'_id':ticketid},
 			{
@@ -839,5 +839,14 @@ if(Meteor.isServer){
 			
 	// 	}
 	// }  
+		// deleteImageFromSubmitDocument(id,dataIndex){
+		// 	TicketMaster.update({"_id" : id}, 
+	 //        {$unset : {
+	 //          ['submittedDocuments.images.'+dataIndex] : 1
+	 //        }
+	 //      });
+	 //    TicketMaster.update({"_id": id}, {$pull : {'skills' : null}});  
+
+		// },
 	});
 }

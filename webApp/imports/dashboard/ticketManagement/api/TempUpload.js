@@ -53,6 +53,12 @@ if(Meteor.isServer){
           },(error, result)=>{
 
         });
-      }
+      },
+      'deleteTempImage':function (id) {
+        TempTicketImages.remove({"_id": id});
+      },
+      'deleteTempVideo':function (id) {
+        TempTicketVideo.remove({"_id": id});
+      },
    });
 }

@@ -16,10 +16,11 @@ import { ChecklistFieldExpert } from '../reactCMS/api/Services.js';
 
 // const getDuration = require('get-video-duration');
 class AddImagesVideo extends TrackerReact(Component){
-constructor(props){
+constructor(props){ 
     super(props);
       // "remark" : '',
     if(this.props.EditValue){
+      console.log("edit values:",this.props.EditValue);
       this.state ={ 
        "images"           : this.props.EditValue.images,
        "videos"           : this.props.EditValue.videos,
@@ -45,7 +46,7 @@ constructor(props){
      // this.setState({isUploading: true});
      // console.log(event.currentTarget.files.length);
     if (this.props.ticketImages.length >= 0 && this.props.ticketImages.length < 5 ) {
-      if (event.currentTarget.files.length < 5) {
+      if (event.currentTarget.files.length <= 5) {
         for (var i = 0; i < event.currentTarget.files.length; i++) {
           if (event.currentTarget.files[i]) {
             var dataImg = event.currentTarget.files[i]; 
@@ -71,7 +72,7 @@ constructor(props){
             }
           }
         }
-       }else if (event.currentTarget.files.length >= 5 ) {
+       }else if (event.currentTarget.files.length > 5 ) {
           swal({   
              position: 'top-right',    
              type: 'error',   
@@ -195,7 +196,7 @@ constructor(props){
           console.log("In else");
       }
       checkLists.push(dataChk);
-    });
+    }); 
     
     // console.log("checkLists",checkLists);
    
@@ -208,7 +209,7 @@ constructor(props){
                 
         }
       }
-      if(this.props.EditValue){
+      if(this.props.EditValue){ 
         var documents ={
            checkLists : checkLists,
            images : this.state.images,
@@ -216,9 +217,9 @@ constructor(props){
            remark : this.refs.remark.value,
         }
         var insertData ={
-              "userid"              : Meteor.userId(),
+              "userId"              : Meteor.userId(),
               "userName"            : Meteor.user().profile.firstname + ' ' + Meteor.user().profile.lastname,
-              "allocatedToUserid"   : ticketElementObj.userid,
+              "allocatedToUserid"   : ticketElementObj.userId,
               "allocatedToUserName" : ticketElementObj.userName,
               "role"                : Meteor.user().roles.find(this.getRole),
               "roleStatus"          : "ProofReSubmit",
@@ -234,9 +235,9 @@ constructor(props){
            remark : this.refs.remark.value,
         }
         var insertData ={
-              "userid"              : Meteor.userId(),
+              "userId"              : Meteor.userId(),
               "userName"            : Meteor.user().profile.firstname + ' ' + Meteor.user().profile.lastname,
-              "allocatedToUserid"   : ticketElementObj.userid,
+              "allocatedToUserid"   : ticketElementObj.userId,
               "allocatedToUserName" : ticketElementObj.userName,
               "role"                : Meteor.user().roles.find(this.getRole),
               "roleStatus"          : "ProofSubmit",
@@ -263,6 +264,44 @@ constructor(props){
       });
     }
   }
+  deleteTempImage(event){
+    event.preventDefault();
+    var id = $(event.currentTarget).attr('id');
+    console.log("id",id);
+    Meteor.call('deleteTempImage',id,function (error,result) {
+      if (error) {
+        console.log(error.reason);
+      }else{
+        console.log("Deleted Successfully");
+      }
+    });
+  }
+  deleteTempVideo(event){
+    event.preventDefault();
+    var id = $(event.currentTarget).attr('id');
+    // console.log("id",id);
+    Meteor.call('deleteTempVideo',id,function (error,result) {
+      if (error) {
+        console.log(error.reason);
+      }else{
+        console.log("Deleted Successfully");
+      }
+    });
+  }
+  // deleteImageFromteicket(event){
+  //   event.preventDefault();
+  //   var id = $(event.currentTarget).attr('id');
+  //   console.log("id",id);
+  //   var dataIndex = parseInt($(event.currentTarget).attr('data-index'));
+  //   console.log("dataIndex",dataIndex);
+  //   Meteor.call('deleteImageFromSubmitDocument',id,dataIndex,function(error,result){
+  //     if (error) {
+  //       console.log(error.reason);
+  //     }else{
+  //       console.log("deleted successfully");
+  //     }
+  //   })
+  // }
 render(){
     // console.log("ticket");
   return(
@@ -271,7 +310,7 @@ render(){
         <form>
         <div className="col-lg-12 wholeborder ">
           <div className="imgtitile col-lg-12 noLRPad">
-          <div className="col-lg-12  noLRPad Selectimg"> Verify Information:</div>
+            <div className="col-lg-12  noLRPad Selectimg"> Verify Information:</div>
           </div>
           <div className="col-lg-12">
              {this.props.checkList ?
@@ -285,7 +324,7 @@ render(){
                 :
                ""
              }
-             </div>
+         </div>
         </div>
         <div className="col-lg-12 wholeborder ">
           <div className="imgtitile col-lg-12 noLRPad">
@@ -300,7 +339,7 @@ render(){
                     this.props.ticketImages.map((ticketImages,index) =>{
                     return(
                       <div className="col-lg-3 imgbrPre" key={index}>
-                        <i className="fa fa-times pull-right tempImageDelete" ></i>
+                        <i className="fa fa-times pull-right tempImageDelete" id={ticketImages._id} onClick={this.deleteTempImage.bind(this)}></i>
                         <div className="imgbr">
                           <img src={ticketImages.imageLink} className="img1 img-responsive" />
                         </div>
@@ -312,7 +351,7 @@ render(){
                     this.state.images.map((ticketImages,index) =>{
                     return(
                       <div className="col-lg-3 imgbrPre" key={index}>
-                        <i className="fa fa-times pull-right tempImageDelete"></i>
+                       {/*<i className="fa fa-times pull-right tempImageDelete" id={this.props.ticket} data-index={index} onClick={this.deleteImageFromteicket.bind(this)}></i>*/}
                         <div className="imgbr">
                           <img src={ticketImages.imageLink} className="img1 img-responsive" />
                         </div>
@@ -326,7 +365,7 @@ render(){
                   this.state.images.map((ticketImages,index) =>{
                   return(
                     <div className="col-lg-3 imgbrPre" key={index}>
-                      <i className="fa fa-times pull-right tempImageDelete"></i>
+                     {/* <i className="fa fa-times pull-right tempImageDelete" id={this.props.ticket} data-index={index} onClick={this.deleteImageFromteicket.bind(this)}></i>*/}
                       <div className="imgbr">
                         <img src={ticketImages.imageLink} className="img1 img-responsive" />
                       </div>
@@ -355,7 +394,7 @@ render(){
                     this.props.ticketVideo.map((ticketVideo,index) =>{
                     return(
                       <div className="col-lg-4 imgbrvid" key={index}>
-                        <i className="fa fa-times pull-right"></i>
+                        <i className="fa fa-times pull-right tempImageDelete" id={ticketVideo._id} onClick={this.deleteTempVideo.bind(this)}></i>
                         <video width="200" height="200"  controls>
                           <source src={ticketVideo.videoLink} type="video/mp4" />
                         </video>
@@ -427,8 +466,8 @@ AddImagesVideoContainer = withTracker(props => {
 
     const ticketImages = TempTicketImages.find({}).fetch() || []; 
     const ticketVideo  = TempTicketVideo.find({}).fetch() || [];  
-    console.log("ticketImages",ticketImages);    
-    console.log("ticketVideo",ticketVideo);
+    // console.log("ticketImages",ticketImages);    
+    // console.log("ticketVideo",ticketVideo);
     const loading     = !postHandle.ready();
     const loading1    = !postHandle1.ready();
     const loading3    = !postHandle3.ready();

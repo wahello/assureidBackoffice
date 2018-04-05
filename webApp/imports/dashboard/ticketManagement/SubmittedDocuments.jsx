@@ -16,7 +16,7 @@ import AddImagesVideo from './AddImagesVideo.jsx';
 // import { ChecklistFieldExpert } from '../reactCMS/api/Services.js';
 
 export default class SubmittedDocuments extends TrackerReact(Component){
-	constructor(props){
+	constructor(props){ 
     super(props); 
     this.state = {
       "subscription" : {
@@ -43,8 +43,7 @@ export default class SubmittedDocuments extends TrackerReact(Component){
     $('#AddImagesVideo1').css({"display" : "block"});
     // $('#outersubmitedDocWrap').css({"display" : "none"});
 	}
-   render(){
-   	
+  render(){ 	
    	return(
    		<div>
        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad" id="outersubmitedDocWrap">

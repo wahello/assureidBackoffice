@@ -24,7 +24,7 @@ import VerifyDetailsDocument from './VerifyDetailsDocument.jsx';
 import { UserProfile } from '../../website/forms/api/userProfile.js';
 import SubmittedDocuments from './SubmittedDocuments.jsx';
 import UploadReport from './UploadReport.jsx';
-
+import SubmittedAdditionalReportData from './SubmittedAdditionalReportData.jsx';
 
 class Ticket extends TrackerReact(Component){
   constructor(props){
@@ -115,7 +115,7 @@ class Ticket extends TrackerReact(Component){
     event.preventDefault();
     var userName = this.refs.allocateToName.value;
     var userId  = $(":selected").attr("id");
-    console.log("userId :"+userId)
+    // console.log("userId :"+userId);
     var ticketId = this.props.ticketId; 
     Meteor.call('allocateToTeamMember',ticketId,userId,userName,(error,result)=>{
     });
@@ -298,15 +298,14 @@ class Ticket extends TrackerReact(Component){
         </div>
       )
 
-    }else if((this.props.getTicket.ticketElement[n-1].roleStatus == 'AssignAccept')
-              &&
-              (Meteor.user().roles.find(this.getRole) == 'team member' && this.props.getTicket.ticketElement[n-1].userid == Meteor.userId())){
-      var title = "Team Member"
+    }else if((this.props.getTicket.ticketElement[n-1].roleStatus == 'AssignAccept') &&
+              (Meteor.user().roles.find(this.getRole) == 'team member' && this.props.getTicket.ticketElement[n-1].userId == Meteor.userId())){
+      console.log("in team Member");
+      var title = "Team Member";
       var data = [];
       return(
         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper"> 
           <h5> {title} </h5>
-
           <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1 col-xs-12">
             <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper ">
               <div className="radio radiobtn col-lg-3 noLRPad">
@@ -374,7 +373,7 @@ class Ticket extends TrackerReact(Component){
       )
     }else if((this.props.getTicket.ticketElement[n-1].roleStatus == 'SelfAllocated' || this.props.getTicket.ticketElement[n-1].roleStatus == 'VerificationFail')
               &&
-              (Meteor.user().roles.find(this.getRole) == 'team member' && this.props.getTicket.ticketElement[n-1].userid == Meteor.userId())){
+              (Meteor.user().roles.find(this.getRole) == 'team member' && this.props.getTicket.ticketElement[n-1].userId == Meteor.userId())){
       var title = "Team Member";  
       return(
         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper"> 
@@ -413,7 +412,7 @@ class Ticket extends TrackerReact(Component){
       )
     }else if((this.props.getTicket.ticketElement[n-1].roleStatus == 'VerificationPass')
               &&
-              (Meteor.user().roles.find(this.getRole) == 'team member' && this.props.getTicket.ticketElement[n-1].userid == Meteor.userId())){
+              (Meteor.user().roles.find(this.getRole) == 'team member' && this.props.getTicket.ticketElement[n-1].userId == Meteor.userId())){
       var title = "Team Member";  
       return(
         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper"> 
@@ -651,7 +650,12 @@ class Ticket extends TrackerReact(Component){
                               </div>
                             </div>
                           </div>
-                          <UserUploadTask ticket={this.props.ticketId}/>
+                          <UserUploadTask ticketId={this.props.ticketId}/>
+                          {this.props.getTicket.submitAdditionalReportData ?
+                            <SubmittedAdditionalReportData submittedAdditionalReportData={this.props.getTicket.submitAdditionalReportData} ticketId={this.props.ticketId}/>
+                            :
+                            ""
+                          }
                        </div>
                        </div>
                        </div> 
