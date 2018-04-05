@@ -23,7 +23,7 @@ if(Meteor.isServer){
 	Meteor.publish('allBADEtails',()=>{
         return BADetails.find({});
 	});
-	Meteor.publish('listTikects',()=>{
+	Meteor.publish('listTickets',()=>{
 		return TicketMaster.find({},{fields:{ticketNumber:1,orderNo:1,serviceName:1,createdAt:1,tatDate:1,'ticketElement.userId':1,'ticketElement.role':1,'ticketElement.roleStatus':1,'ticketElement.createdAt':1}});
 	});
 	Meteor.methods({

@@ -4,7 +4,7 @@ import {browserHistory} from 'react-router';
 import TrackerReact from 'meteor/ultimatejs:tracker-react';
 import { render } from 'react-dom';
 import { withTracker } from 'meteor/react-meteor-data';
-import {TicketBucket} from '/imports/website/ServiceProcess/api/TicketMaster.js';
+import {TicketMaster} from '/imports/website/ServiceProcess/api/TicketMaster.js';
 
 class OtherRoleSidebar extends TrackerReact(Component){
   constructor() {
@@ -115,7 +115,7 @@ class OtherRoleSidebar extends TrackerReact(Component){
               <li className="">
                 <Link to="/admin/alltickets" activeClassName="active">
                   <i className="fa fa-ticket" />
-                    <span>All Tickets({this.props.alltickets})</span>
+                    <span>All Tickets({this.props.allticketsCount})</span>
                 </Link>
               </li>
               <li className="">
@@ -157,92 +157,34 @@ class OtherRoleSidebar extends TrackerReact(Component){
   }
 }
 export default allOtherRoleSidebarContainer = withTracker(props => {
-  
-  var handleAllBucketTick = Meteor.subscribe("allTicketBucket");
-  var ticketArr = [];
-  var dataDetails = [];
-  var loading = !handleAllBucketTick.ready();
+  var handleAllTick = Meteor.subscribe("listTickets");
+  var loading = !handleAllTick.ready();
   var _id  = Meteor.userId();
   const userHandle  = Meteor.subscribe('userData',_id);
   const user        = Meteor.users.findOne({"_id" : _id});
   const loading1    = !userHandle.ready();
-  // console.log("user",user);
-  // console.log("userProfile",user.profile.userProfile);
-  if (user) {
-    if (user.roles) {
-      var role = user.roles[1];
-    }else{
-      var role = "";
+  if(user){
+    var roleArr = user.roles;
+    if(roleArr){
+      var role = roleArr.find(function (obj) { return obj != 'backofficestaff' });
     }
-  }
-  // var ticketBucketData = _.uniq(TicketBucket.find({}, {sort: {ticketNumber: 1}}).fetch().map(function(x) { return x;}), true);
-  var ticketBucketData = TicketBucket.find({}).fetch();
-  if(ticketBucketData){
-    for(var i=0;i<ticketBucketData.length;i++){
-        ticketArr.push({ 'ticketId' : ticketBucketData[i].ticketid});
-    }
-    var pluckId = _.pluck(ticketArr,"ticketId");
-    var uniqueId = _.uniq(pluckId);
-    var alltickets = uniqueId.length;
-  }
-  
-  var role = '';
-  var users = Meteor.users.find({});
-  for(j=0;j<users.length;j++){
-    for(i=0;i<users[j].roles.length;i++){
-    if(users.roles[i] != 'backofficestaff'){
-      var role = Meteor.user().roles[i];
-      break;
-    }
-  }
-  }
-  
-  if(role == 'screening committee'){
-    var Assigned  = 'New'; 
-    var Open      = 'New'; //Need to be changed to "NewScrAllocated"
-    var Approved  = 'ScreenApproved';
-    var Rejected  = 'ScreenRejected';
-    var Escalated = '';
-  }else if(role == 'team leader'){
-    var Assigned  = 'screenTLAllocated';
-    var Open      = 'screenTLAllocated';
-    var Approved  = 'AssignAccept';
-    var Rejected  = 'AssignReject';
-    var Escalated = '';
-  }else if(role == 'team member'){
-    var Assigned  = 'Assign';
-    var Open      = 'Assign';
-    var Approved  = 'AssignAccept';
-    var Rejected  = 'AssignReject';
-    var Escalated = '';
-  }else if(role == 'quality team member'){
-    var Assigned = '';
-    var Open = '';
-    var Approved = '';
-    var Rejected = '';
-    var Escalated = '';
-  }else if(role == 'quality team leader'){
-    var Assigned = '';
-    var Open = '';
-    var Approved = '';
-    var Rejected = '';
-    var Escalated = '';
-  }
-  
 
-  var ticketBucketData     = TicketBucket.find({"userId":Meteor.userId()}).fetch();   
-  var assignedTicketCount  = TicketBucket.find({"userId":Meteor.userId(),'status': Assigned}).count();   
-  var openTicketCount      = TicketBucket.find({"userId":Meteor.userId(),'status': Open}).count();
-  var approvedTicketCount  = TicketBucket.find({"userId":Meteor.userId(),'status': Approved}).count();
-  var rejectTicketCount    = TicketBucket.find({"userId":Meteor.userId(),'status': Rejected}).count();
-  var esclationTicketCount = TicketBucket.find({"userId":Meteor.userId(),'status': Escalated}).count();
+    var wheretosearch = 'allocatedToUserid';
+    
+    var allticketsCount      = TicketMaster.find({}).count();
+    // var assignedTicketCount  = TicketMaster.find({ticketElement: { $elemMatch: { [wheretosearch]: _id }}}).count();
+    var assignedTicketCount  = TicketMaster.find({}).count();
+    var openTicketCount      = TicketMaster.find({}).count();
+    var approvedTicketCount  = TicketMaster.find({}).count();
+    var rejectTicketCount    = TicketMaster.find({}).count();
+    var esclationTicketCount = TicketMaster.find({}).count();
 
+  }
   
-    return {
+  return {
       loading,
       loading1,
-      ticketBucketData,
-      alltickets,
+      allticketsCount,
       assignedTicketCount,
       openTicketCount,
       approvedTicketCount,
@@ -251,6 +193,7 @@ export default allOtherRoleSidebarContainer = withTracker(props => {
       user,
       role,
     };
-  
+
+
   
 })(OtherRoleSidebar);

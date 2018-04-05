@@ -166,8 +166,8 @@ class MaxNoOfTicketAllocate extends TrackerReact(Component){
                                     <th> Action </th>
                                   </tr>
                                 </thead>
-                                <tbody>
-                                  { this.props.maxAllocatedData.map((allocationNumber,index)=>{
+                                 <tbody>
+                                 { this.props.maxAllocatedData.map((allocationNumber,index)=>{
                                       return(
                                         <tr key={index}>
                                           <td> {allocationNumber.maxTicketAllocate} </td>			

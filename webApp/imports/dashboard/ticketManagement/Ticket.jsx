@@ -629,7 +629,7 @@ class Ticket extends TrackerReact(Component){
                                     <div key={i} className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper"> 
                                       <h5> {element.role} </h5>
                                       <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12"> 
-                                        <b>{element.userName}</b> {element.msg} <b>{element.allocatedToUserName}</b> on {moment(element.createdAt).format("DD/MM/YYYY hh:mm A")}
+                                      <b>{element.userName}</b> {element.msg} <b>{element.allocatedToUserName}</b> on {moment(element.createdAt).format("DD/MM/YYYY hh:mm A")}
                                         <br />
                                         {
                                           element.remark ?
@@ -644,9 +644,6 @@ class Ticket extends TrackerReact(Component){
                                     )
                                   })
                                 }
-
-                                
-
                               </div>
                             </div>
                           </div>
@@ -682,29 +679,30 @@ export default UserDetailsContainer = withTracker(props => {
 
   var ticketId = props.params.id;
   var loading = !handleSinTick.ready() && !handleUseFunc.ready() && !handleUserProfile.ready() && !handleReport.ready();
-  var getTicket = TicketMaster.findOne({"_id":ticketId}) || {};        
-  
-  var user = Meteor.users.findOne({"_id": getTicket.userId}) || {};
-  var userProfile = UserProfile.findOne({"userId": getTicket.userId}) || {};
-    // var reportLinkDetails = TempTicketReport.findOne({},{sort:{'createdAt':-1}}).fetch();   
-    // console.log("reportLinkDetails");
-    // console.log(reportLinkDetails);
-    // console.log(reportLinkDetails[0].ReportLink);
-    // var reportLink        = reportLinkDetails.ReportLink;
-
-  if(userProfile.dateOfBirth){
-    var today = new Date();
-    var birthDate = new Date(userProfile.dateOfBirth);
-    var age = today.getFullYear() - birthDate.getFullYear();
-    var m = today.getMonth() - birthDate.getMonth();
-    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) 
-    {
-        age--;
+  var getTicket = TicketMaster.findOne({"_id":ticketId}) ;
+  if(getTicket){
+    console.log('element ',getTicket.ticketElement);
+    var user = Meteor.users.findOne({"_id": getTicket.userId}) || {};
+    if(user){
+      var userProfile = UserProfile.findOne({"userId": getTicket.userId}) || {};
+      if(userProfile.dateOfBirth){
+        var today = new Date();
+        var birthDate = new Date(userProfile.dateOfBirth);
+        var age = today.getFullYear() - birthDate.getFullYear();
+        var m = today.getMonth() - birthDate.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) 
+        {
+            age--;
+        }
+        userProfile.dateOfBirth=age;
+      }else{
+        userProfile.dateOfBirth='-';
+      }
     }
-    userProfile.dateOfBirth=age;
-  }else{
-    userProfile.dateOfBirth='-';
-  }
+    
+  }        
+  
+  
   return {
     loading,
     getTicket,

@@ -9,7 +9,7 @@ import validator from 'validator';
 import {Tracker} from 'meteor/tracker';
 import { browserHistory } from 'react-router';
 import { Link } from 'react-router';
-import { TicketBucket } from '/imports/website/ServiceProcess/api/TicketMaster.js';
+import { TicketMaster } from '/imports/website/ServiceProcess/api/TicketMaster.js';
 class AllTickets extends TrackerReact(Component){
   constructor(props){
     super(props);
@@ -19,7 +19,7 @@ class AllTickets extends TrackerReact(Component){
     }
   }
    render(){
-      var ticketBucketDataa = [1, 2, 3, 4]
+      var ticketMasterData = [1, 2, 3, 4]
       return(            
         <div>
           <div className="content-wrapper">
@@ -49,11 +49,11 @@ class AllTickets extends TrackerReact(Component){
                                   <tbody>
                                     {
                                       !this.props.loading ?
-                                        this.props.dataDetails.map((data, index)=>{
+                                        this.props.alltickets.map((data, index)=>{
                                           return(
                                               <tr key={index}>
                                                   
-                                                  <td><Link to={"/admin/ticket/"+data.ticketid}>{data.ticketNumber}</Link></td>
+                                                  <td><Link to={"/admin/ticket/"+data._id}>{data.ticketNumber}</Link></td>
                                                   <td>{data.orderNo}</td>
                                                   <td>{data.serviceName}</td>
                                                   <td>{moment(data.createdAt).format('l')}</td>
@@ -83,40 +83,37 @@ class AllTickets extends TrackerReact(Component){
     }
 }
 export default AllTicketContainer = withTracker(props => {
-  // var handleAllTickets = Meteor.subscribe("listTikects");
-  var handleAllBucketTick = Meteor.subscribe("allTicketBucket");
-  var ticketArr = [];
-  var dataDetails = [];
-  var ticketId = props.params.id;
-  var loading = !handleAllBucketTick.ready();
-  var ticketBucketData = TicketBucket.find({}).fetch();
-  if(ticketBucketData){
-    for(var i=0;i<ticketBucketData.length;i++){
-        ticketArr.push({ 'ticketId' : ticketBucketData[i].ticketid});
+  var handleAllTickets = Meteor.subscribe("listTickets");
+  var _id  = Meteor.userId();
+  const userHandle  = Meteor.subscribe('userData',_id);
+  const user        = Meteor.users.findOne({"_id" : _id});
+  const loading    = !userHandle.ready() && !handleAllTickets.ready();
+
+  if(user){
+    var roleArr = user.roles;
+    if(roleArr){
+      var role = roleArr.find(function (obj) { return obj != 'backofficestaff' });
     }
-    var pluckId = _.pluck(ticketArr,"ticketId");
-    var uniqueId = _.uniq(pluckId);
-    if(uniqueId.length >0){
-      for(var j=0;j<uniqueId.length;j++){
-        var singleDetails = TicketBucket.findOne({'ticketid':uniqueId[j]},{sort:{'createdAt':-1}});
-        dataDetails.push(
-        {
-            'ticketid'    : singleDetails.ticketid,
-            'ticketNumber': singleDetails.ticketNumber,
-            'orderId'     : singleDetails.orderId,
-            'orderNo'     : singleDetails.orderNo,
-            'serviceName' : singleDetails.serviceName,
-            'createdAt'   :  singleDetails.createdAt,
-            'tatDate'     :  singleDetails.tatDate,
-            'status'      : singleDetails.status,
-        })        
+
+    //Get all the Tickets
+    var alltickets = TicketMaster.find({}).fetch();
+    if(alltickets){
+      //find last status of the Tickets
+      
+      for(i=0;i< alltickets.length; i++){
+        var ticketElements = alltickets[i].ticketElement;
+        var userList = ticketElements.reduce(function(prev,curr){ return (prev.createdAt || prev.createdAt < curr.createdAt ) ? prev : curr;});
+        alltickets[i].status = userList.roleStatus 
       }
-      //sorting logic
+      
+      
     }
+
   }
+  
+  
   return {
     loading,
-    ticketBucketData,
-    dataDetails
+    alltickets
   };
 })(AllTickets);

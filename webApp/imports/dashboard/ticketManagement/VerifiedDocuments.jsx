@@ -96,123 +96,12 @@ class VerifiedDocuments extends TrackerReact(Component){
       }
       // console.log('insertData ',insertData ); 
       Meteor.call('genericUpdateTicketMasterElement',ticketId,insertData);
-              // Notification to user- Need to implement
-              //Data Missing, Need to upload correct Data
-              // Meteor.call('changeStatusMethod',ticketObj._id,ticketObj.userId,remark,ticketObj.verificationType,ticketObj.verificationId,function(error,result){
-              //   if (error) {
-              //     console.log(error.reason);
-              //   }else{
-              //       var ticketUserId = userId;
-              //       var adminData   = Meteor.users.findOne({'roles' : "admin"});
-              //       var userData    = Meteor.users.findOne({"_id" : ticketUserId });
-              //         // console.log("ticketUserId",ticketUserId);
-              //         // console.log('userData',userData);
-              //         // console.log('adminData: ',adminData);
-              //         if (adminData) {
-              //           var adminId  = adminData._id;
-              //         }
-              //         // console.log("adminId",adminId);
-              //         if (userData) {
-              //           var newID = userData._id;
-              //           if (userData.profile) {
-              //             var firstLastNm = userData.profile.firstname+' '+userData.profile.lastname;
-              //             var mobNumber   = userData.profile.mobNumber;
-              //           }
-              //         }
-              //         // console.log("mobNumber",mobNumber);
-              //         var newDate     = new Date();
-
-              //         var msgvariable = {                       
-              //                           '[username]' : firstLastNm,
-              //                           '[date]'     : moment(newDate).format("DD/MM/YYYY"),
-              //                          };
-              //         // Format for send Email //
-              //         var inputObj = {
-              //             from         : adminId,
-              //             to           : newID,
-              //             templateName : 'Document Reject by screening committee',
-              //             variables    : msgvariable,
-              //         }
-              //         sendMailNotification(inputObj);
-                      
-              //         // Format for sending SMS //
-              //         var smsObj = {
-              //             to           : newID,
-              //             templateName : 'Document Reject by screening committee',
-              //             number       : mobNumber,
-              //             variables    : msgvariable,
-              //         }
-              //         // console.log("smsObj",smsObj);
-              //         sendSMS(smsObj);
-              //         // Format for sending notification //
-              //         var notifictaionObj = {
-              //           to           : newID,
-              //           templateName : 'Document Reject by screening committee',
-              //           variables    : msgvariable,
-              //         }
-              //         sendInAppNotification(notifictaionObj);
-              //   }
-              // }); // Userprofile collection
-    // }
-    //   var userId  = ticketObj.userId;
-    //   Meteor.call('updateTicketFinalStatus',ticketId,status,remark,function(error,result){
-    //     if(result){
-    //       console.log('hi');
-    //       if(status == 'ScreenApproved'){
-    //         //Get max allocate number for team leader
-    //         var memberDetails = Meteor.users.find({"roles":"team leader"},{sort:{'count':1}}).fetch();
-    //         var companyObj = CompanySettings.findOne({"maxnoOfTicketAllocate.role":"team leader"});
-    //         for(var i=0;i<companyObj.maxnoOfTicketAllocate.length;i++){
-    //           if(companyObj.maxnoOfTicketAllocate[i].role == "team leader"){
-    //             var allocatedtickets = companyObj.maxnoOfTicketAllocate[i].maxTicketAllocate;
-    //           }
-    //         }
-    //         for(var k=0;k<memberDetails.length;k++){
-    //           var newTicketAllocated = {
-    //               'ticketid' : ticketId,
-    //               'empID'    : memberDetails[k]._id,
-    //               'role'     : 'team leader',
-    //               'status'   : status,
-    //           }
-    //           Meteor.call('insertTicketBucket',newTicketAllocated,function(error,result){
-    //               if(result){
-    //                   var ticketBucketDetail = TicketBucket.findOne({"ticketid":newTicketAllocated.ticketid});
-    //                   if(ticketBucketDetail){
-    //                       var ticketId = newTicketAllocated.ticketid;
-    //                       var empID    = newTicketAllocated.empID;
-    //                       var role     = newTicketAllocated.role;
-    //                       Meteor.call('updateTicketElement',ticketId,empID,role,function(error,result){                   
-    //                       });
-    //                   }
-    //               }
-    //           });
-
-    //           if(memberDetails[k].count){
-    //             var newCount = memberDetails[k].count + 1;
-    //           } else{
-    //             var newCount = 1;
-    //           }
-    //           Meteor.call('updateCommitteeUserCount',newCount,memberDetails[k]._id);
-    //           break;
-    //         }
-    //         // swal("Approved successfully");
-    //       }else{
-    //         // swal("Ticket Approved");             
-    //           
-    //           Meteor.call('changeStatusofOrder',ticketObj.userId,remark,ticketObj.verificationId,ticketObj.verificationType); // Change the Status in Order collection
-    //       }        
-    //     }
-    //   });
-    // }
+    }
   }
 }
 
 
-/*
-
-  Show multiple document section in address verification
-
-*/
+/*Show multiple document section in address verification*/
   showallSlides(){
     var curURl = location.pathname;
     if(curURl){
@@ -436,16 +325,13 @@ class VerifiedDocuments extends TrackerReact(Component){
                                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
                                               <img src={permanentAddrProof.proofOfDocument}  className="col-lg-12 img-responsive addressImageModal showAddrImgWrap col-lg-12 col-md-12 col-sm-12 col-xs-12"/>
                                             </div>
-                                            {this.props.isRoleUser == true ?
+                                            {this.props.docApproveRejectDiv == true ?
                                               <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm">
-                                               {this.props.ticketStatus.status == "New" || this.props.ticketStatus.status == "ScreenRejected" && this.props.ticketStatus.role == "screening committee" ?
                                                   <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                     <button type="button" className="btn btn-danger rejectTicket teammember acceptreject" data-id={this.props.getTicket._id} onClick={this.hideShowRejectReason.bind()}>Reject</button>
                                                     <button type="button" className="btn btn-success acceptTicket acceptreject" data-id={this.props.getTicket._id} data-status="ScreenApproved" onClick={this.approvedCurDocument.bind()}>Approved</button>
                                                   </div>    
-                                                  :
-                                                  ""
-                                                }
+                                                  
                                               </div>
                                              :
                                               ""
@@ -975,18 +861,27 @@ verifiedDocumentsContainer = withTracker(props => {
     }
      
     const loading = !postHandle.ready() &&  !companyHandle.ready() && !ticketBucket.ready();
-    if ((Roles.userIsInRole(Meteor.userId(), ['screening committee'],))&&(getTicket.ticketElement[length-1].allocatedToUserid == Meteor.userId())) {
-       var isRoleUser = true;
-     }else{
-       var isRoleUser = false;
-     }
+    
+    if((Roles.userIsInRole(Meteor.userId(), ['screening committee'],))){
+      var docApproveRejectDiv = true;
+    }else{
+      var docApproveRejectDiv = false;
+    }
+    
+
+    // this.props.ticketStatus.status == "New" || this.props.ticketStatus.status == "ScreenRejected" && this.props.ticketStatus.role == "screening committee"
+    // if ((Roles.userIsInRole(Meteor.userId(), ['screening committee'],))&&(getTicket.ticketElement[length-1].allocatedToUserid == Meteor.userId())) {
+    //    var isRoleUser = true;
+    //  }else{
+    //    var isRoleUser = false;
+    //  }
      // console.log("isRoleUser",isRoleUser);
     // if(_id){
       return {
           loading  : loading,
           getTicket : getTicket,
           verificationData,
-          isRoleUser  : isRoleUser,
+          docApproveRejectDiv  : docApproveRejectDiv,
           ticketStatus : ticketStatus,
           // curAddrArray,
           // policeVerificationArray,
