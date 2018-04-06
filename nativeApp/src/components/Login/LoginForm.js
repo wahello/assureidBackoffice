@@ -56,13 +56,13 @@ export default class LoginForm extends ValidationComponent {
   // };
   handleSignIn = () => {
     console.log("logging in");
-    if(this.validate({
-      user:{email:true,required:true},
-      password:{required:true,minlength:6,maxlength:12}
-    }) || this.validate({
-      user:{numbers:true,required:true,minlength:9,maxlength:10},
-      password:{required:true,minlength:6,maxlength:12}
-    }) ){
+    // if(this.validate({
+    //   user:{email:true,required:true},
+    //   password:{required:true,minlength:6,maxlength:12}
+    // }) || this.validate({
+    //   user:{numbers:true,required:true,minlength:9,maxlength:10},
+    //   password:{required:true,minlength:6,maxlength:12}
+    // }) ){
       // if (this.validInput(true)) {
         const { user, password } = this.state;
         Meteor.loginWithPassword(user, password, (err) => {
@@ -80,17 +80,17 @@ export default class LoginForm extends ValidationComponent {
           }
         });
       // }
-    }
-    if(this.isFieldInError('user')){
-      this.setState({userError: "Please enter a valid Email / Mobile number.\nThis Field is mandatory."})
-    }else{
-      this.setState({userError:""});
-    }
-    if(this.isFieldInError('password')){
-      this.setState({passwordError: "Invalid Password.\nThis Field is mandatory."})
-    }else{
-      this.setState({passwordError:""});
-    }
+    // }
+    // if(this.isFieldInError('user')){
+    //   this.setState({userError: "Please enter a valid Email / Mobile number.\nThis Field is mandatory."})
+    // }else{
+    //   this.setState({userError:""});
+    // }
+    // if(this.isFieldInError('password')){
+    //   this.setState({passwordError: "Invalid Password.\nThis Field is mandatory."})
+    // }else{
+    //   this.setState({passwordError:""});
+    // }
     console.log(this.getErrorMessages('\n'));
   };
 

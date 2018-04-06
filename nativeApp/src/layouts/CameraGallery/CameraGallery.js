@@ -59,12 +59,13 @@ export default class CameraGallery extends  React.Component {
   onTapImage(event) {
     const uri = event.nativeEvent.selected;
     console.log('Tapped on an image: ' + uri);
+    this.props.navigation.navigate('Camera');
 
-    if (this.state.images[uri]) {
-      delete this.state.images[uri];
-    } else {
-      this.state.images[uri] = true;
-    }
-    this.setState({images: {...this.state.images}})
+    // if (this.state.images[uri]) {
+    //   delete this.state.images[uri];
+    // } else {
+    //   this.state.images[uri] = true;
+    // }
+    // this.setState({images: {...this.state.images}})
   }
 }

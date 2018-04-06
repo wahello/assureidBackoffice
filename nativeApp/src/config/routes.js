@@ -66,18 +66,36 @@ import Dashboard from '../layouts/Dashboard/Dashboard.js';
 import MyProfile from '../layouts/MyProfile/MyProfile.js';
 import EditMyProfile from '../layouts/EditMyProfile/EditMyProfile.js';
 import ChangePassword from '../layouts/ChangePassword/ChangePassword.js';
+import GeoTagging from '../layouts/GeoTagging/GeoTagging.js';
 
 
 import NotificationLayout from '../layouts/NotificationLayout/NotificationLayout.js';
 
 export const AuthStack = StackNavigator({
 
+  GeoTagging:{
+    screen:GeoTagging,
+    navigationOptions:{
+      header:null
+    }
+  },
+  
+  Camera:{
+    screen:Camera,
+    navigationOptions:{
+      header:null
+    }
+  },
+
+  
    Dashboard:{
      screen: Dashboard,
     navigationOptions: {
       header: null
     }
   },
+
+  
     ListOfTickets: {
     screen: ListOfTickets,
     navigationOptions: {
@@ -96,19 +114,15 @@ export const AuthStack = StackNavigator({
       header:null
     }
   },
-  Camera:{
-    screen:Camera,
-    navigationOptions:{
-      header:null
-    }
-  },
+  
    CameraView:{
     screen:CameraView,
     navigationOptions:{
       header:null
     }
   },
-     CameraGallery:{
+
+  CameraGallery:{
     screen:CameraGallery,
     navigationOptions:{
       header:null

@@ -277,12 +277,13 @@ class ListOfTickets extends React.Component {
 export default createContainer((props) => {
 
   const handle     = Meteor.subscribe('allTicketBucket');
-  const ticketData = Meteor.collection('ticketbucket').find({'empid':Meteor.userId()});
+  const ticketData = Meteor.collection('ticketbucket').find({});
   const loading    = handle.ready() ;
 
   // console.log(loading,'loading');
   // console.log(handle,'handle');
-  // console.log(ticketData,'ticketData');
+  // console.log("ticketData");
+  // console.log(ticketData);
 
   var result = {
     ticketData:ticketData ,

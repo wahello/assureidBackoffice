@@ -17,10 +17,10 @@ class App extends Component {
    }
   render() {
     const { status, user, loggingIn } = this.props;
-    console.log(settings.METEOR_URL);
-    console.log('ddp connection',status.connected);
-    console.log('loggingIn',loggingIn);
-    console.log('user',user);
+    // console.log(settings.METEOR_URL);
+    // console.log('ddp connection',status.connected);
+    // console.log('loggingIn',loggingIn);
+    // console.log('user',user);
     if (status.connected === false || loggingIn) {
       return <Loading />;
     }else if(user !== null){
