@@ -160,7 +160,7 @@ class OtherRoleSidebar extends TrackerReact(Component){
   }
 }
 export default allOtherRoleSidebarContainer = withTracker(props => {
-  var handleAllTick = Meteor.subscribe("listTickets");
+  var handleAllTick = Meteor.subscribe("allTickets");
   var loading = !handleAllTick.ready();
   var _id  = Meteor.userId();
   const userHandle  = Meteor.subscribe('userData',_id);

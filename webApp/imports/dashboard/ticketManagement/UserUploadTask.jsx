@@ -62,44 +62,35 @@ class UserUploadTask extends TrackerReact(Component){
     // console.log("checkLists",checkLists);
     var status     = this.refs.documentStatus.value;
     var subStatus  = this.refs.documentSubStatus.value;
-		var submitAdditionalReportData = {
+		var submitOtherReportData = {
        documents : checkLists,
        status    : status,
        subStatus : subStatus,
 		};
-    // console.log("submitAdditionalReportData",submitAdditionalReportData);
-    // var ticketElementObj = {};
-    // if (this.props.tickets) {
-    //   if (this.props.tickets.ticketElement) {
-    //     if (this.props.tickets.ticketElement.length > 0) {
-    //         ticketElementObj  = this.props.tickets.ticketElement[this.props.tickets.ticketElement.length-1];
-                
-    //     }
-    //   }
-      // console.log("ticketElementObj",ticketElementObj);
+    // console.log("submitOtherReportData",submitOtherReportData);
      if(this.props.EditValue){ 
       console.log("In EditValue");
        var insertData = {
-        "userid"                    : Meteor.userId(),
+        "userId"                    : Meteor.userId(),
         "userName"                  : Meteor.user().profile.firstname + ' ' + Meteor.user().profile.lastname,
         "role"                      : Meteor.user().roles.find(this.getRole),
-        "roleStatus"                : 'ReSubmittedAdditionalInformation',
-        "msg"                       : 'ReSubmitted Additional Information Related to Ticket',
+        "roleStatus"                : 'ReSubmittedOtherReportInfo',
+        "msg"                       : 'ReSubmitted Other Information Related to Ticket',
         "allocatedToUserid"         : '',
         "allocatedToUserName"       : '',
-        "submitAdditionalReportData": submitAdditionalReportData,
+        "submitOtherReportData"     : submitOtherReportData,
         "createdAt"                 : new Date()
       }
      }else{
       var insertData = {
-        "userid"                    : Meteor.userId(),
+        "userId"                    : Meteor.userId(),
         "userName"                  : Meteor.user().profile.firstname + ' ' + Meteor.user().profile.lastname,
         "role"                      : Meteor.user().roles.find(this.getRole),
-        "roleStatus"                : 'SubmittedAdditionalInformation',
-        "msg"                       : 'Submitted Additional Information Related to Ticket',
+        "roleStatus"                : 'OtherReportInfo',
+        "msg"                       : 'Submitted Other Information Related to Ticket',
         "allocatedToUserid"         : '',
         "allocatedToUserName"       : '',
-        "submitAdditionalReportData": submitAdditionalReportData,
+        "submitOtherReportData"     : submitOtherReportData,
         "createdAt"                 : new Date()
       }
      }
@@ -113,11 +104,9 @@ class UserUploadTask extends TrackerReact(Component){
         $('#submitAdditionalReportData').css({"display" : "none"});
     	}
     });
-   // }
-
 	}
-  render(){
-    // console.log("ticket");
+  render(){ 
+    
    return(
       <div>
        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 choosefilebox" id="submitAdditionalReportData">
@@ -166,9 +155,11 @@ class UserUploadTask extends TrackerReact(Component){
 		            <div className="col-lg-9 col-md-9 col-sm-9 col-xs-9">
 			          <select className="form-control inputText documentStatus" ref="documentStatus" id="documentStatus" defaultValue={this.state.status ? this.state.status : '-- Select --'} name="documentStatus" onChange={this.handleChange}>
                   <option disabled="disabled">-- Select --</option>
-                  <option value="Value 1">Value 1</option>
-			            <option value="Value 2">Value 2</option>
-			            <option value="Value 3">Value 3</option> 
+                  <option value="Value 1">Initiated</option>
+			            <option value="Value 2">WIP ( Work in Progress)</option>
+			            <option value="Value 3">Insufficiency</option> 
+                  <option value="Value 4">Insufficiency Cleared</option> 
+                  <option value="Value 5">Completed</option> 
 			          </select>
             </div>
 		        </div> 
@@ -177,9 +168,13 @@ class UserUploadTask extends TrackerReact(Component){
 		            <div className="col-lg-9 col-md-9 col-sm-9 col-xs-9">
 			            <select className="form-control inputText documentSubStatus" ref="documentSubStatus" id="documentSubStatus" defaultValue={this.state.subStatus ? this.state.subStatus : '-- Select --'} name="documentSubStatus" onChange={this.handleChange}>
                     <option disabled="disabled">-- Select --</option>
-                    <option value="Value 1">Value 1</option>
-				            <option value="Value 2">Value 2</option>
-				            <option value="Value 3">Value 3</option>
+                    <option value="Value 1">Clear</option>
+				            <option value="Value 2">Minor Discrepancy</option>
+				            <option value="Value 3">Major Discrepancy</option>
+                    <option value="Value 3">Inaccessible</option>
+                    <option value="Value 3">Unable to Verify</option>
+                    <option value="Value 3">Cancelled</option>
+                    <option value="Value 3">Case Drop</option>
 			          </select>
                 </div>
 		        </div>
@@ -199,7 +194,7 @@ UserUploadContainer = withTracker(props => {
     const postHandle2  = Meteor.subscribe('checklistFieldExpert');
     const postHandle3  = Meteor.subscribe('singleTicket',ticketId);
 
-    const loading    = !postHandle3.ready();
+    const loading    = !postHandle3.ready() && !postHandle2.ready();
     var checkList = [];
     if (ticketId) {
        var tickets =  TicketMaster.findOne({"_id" : ticketId});
@@ -220,21 +215,20 @@ UserUploadContainer = withTracker(props => {
          }else  if (verificationType == "certificates") {
           var checkListFrom = "Skills And CertificationInformation";
          }
-       }
 
-       var checkListObj = ChecklistFieldExpert.find({"checkListFor" : checkListFrom , "checkListFrom" : "User Upload"}).fetch();
+        var checkListObj = ChecklistFieldExpert.find({"checkListFor" : checkListFrom , "checkListFrom" : "User Upload"}).fetch();
         if (checkListObj) {
            for (var i = 0; i < checkListObj.length; i++) {
             checkList.push(checkListObj[i].task);
            }
+          //  console.log("checkList",checkList);
         }
-        // console.log("checkList",checkList);
+       }   
     }
-   
-      return {
-          loading : loading,
-          checkList  : checkList,
-          tickets    : tickets,
-      };
+    return {
+        loading : loading,
+        checkList  : checkList,
+        tickets    : tickets,
+    };
 })(UserUploadTask);
 export default UserUploadContainer;

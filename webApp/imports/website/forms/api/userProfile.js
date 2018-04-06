@@ -239,6 +239,7 @@ if(Meteor.isServer){
           });        
         },
         'changeStatusMethod':function(id,userId,remark,verificationType,verificationId){
+          console.log(id,userId,remark,verificationType,verificationId);
           if (verificationType == "permanentAddress") {
               var verificationUniqueId = "permanentAddressId";
             }else if (verificationType == "currentAddress") {

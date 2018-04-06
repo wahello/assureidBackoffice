@@ -57,7 +57,7 @@ class VerifiedDocuments extends TrackerReact(Component){
     var ticketObj = TicketMaster.findOne({'_id':ticketId});                       
     if(ticketObj){
       var insertData = {
-        "userid"              : Meteor.userId(),
+        "userId"              : Meteor.userId(),
         "userName"            : Meteor.user().profile.firstname + ' ' + Meteor.user().profile.lastname,
         "role"                : 'screening committee',
         "roleStatus"          : status,
@@ -71,6 +71,7 @@ class VerifiedDocuments extends TrackerReact(Component){
       }
       // console.log('insertData ',insertData ); 
       Meteor.call('genericUpdateTicketMasterElement',ticketId,insertData);
+      $('.showHideReasonWrap').toggleClass('showReasonSection');
     }
   }
 
@@ -143,16 +144,14 @@ class VerifiedDocuments extends TrackerReact(Component){
                                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
                                               <img src={educationProof.proofOfDocument}  className="col-lg-12 img-responsive addressImageModal showAddrImgWrap col-lg-12 col-md-12 col-sm-12 col-xs-12"/>
                                             </div>
-                                           {this.props.isRoleUser == true ?
+                                           {this.props.docApproveRejectDiv == true ?
                                               <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm">
-                                               {this.props.ticketStatus.status == "New" || this.props.ticketStatus.status == "ScreenRejected" && this.props.ticketStatus.role == "screening committee" ?
+                                               
                                                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                     <button type="button" className="btn btn-danger col-lg-4 ApprovRejDoc rejectTicket acceptreject teammember" data-id={this.props.getTicket._id} onClick={this.hideShowRejectReason.bind()}>Reject</button>
                                                     <button type="button" className="btn btn-primary col-lg-4 ApprovRejDoc acceptTicket teammember acceptreject " data-id={this.props.getTicket._id} data-status="ScreenApproved" onClick={this.approvedCurDocument.bind()}>Approved</button>
                                                   </div>                                          
-                                                  :
-                                                  ""
-                                                 }
+                                                  
                                                 </div>
                                               :
                                               ""
@@ -337,16 +336,13 @@ class VerifiedDocuments extends TrackerReact(Component){
                                           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 curImgWrap">
                                             <img src={currentAddrProof.proofOfDocument}  className="img-responsive addressImageModal col-lg-12 col-md-12 col-sm-12 col-xs-12"/>
                                           </div>
-                                         {this.props.isRoleUser == true ?
+                                         {this.props.docApproveRejectDiv == true ?
                                             <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm">
-                                             {this.props.ticketStatus.status == "New" || this.props.ticketStatus.status == "ScreenRejected" && this.props.ticketStatus.role == "screening committee" ?
+                                             
                                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                   <button type="button" className="btn btn-danger rejectTicket teammember acceptreject" onClick={this.hideShowRejectCurReason.bind()}>Reject</button>
                                                   <button type="button" className="btn btn-primary acceptTicket acceptreject" data-status="ScreenApproved" onClick={this.approvedCurDocument.bind()}>Approved</button>
                                                 </div>
-                                                :
-                                                ""
-                                              } 
                                             </div>
                                             :
                                              ""
@@ -762,28 +758,44 @@ class VerifiedDocuments extends TrackerReact(Component){
 }
 verifiedDocumentsContainer = withTracker(props => { 
     var _id = props.ticketId;
-    const postHandle = Meteor.subscribe('singleTicket',_id);
-    const companyHandle = Meteor.subscribe('companyData');
-    const ticketBucket = Meteor.subscribe("allTicketBucket");
+    const postHandle = Meteor.subscribe('singleTicket',_id); 
     const getTicket   = TicketMaster.findOne({"_id" : _id}) || {};
     if (getTicket) {
-         var verificationData = [getTicket.verificationData];
-         if(!verificationData){
+      console.log('getTicket ',getTicket);
+        var verificationData = [getTicket.verificationData];
+        if(!verificationData){
           var verificationData = '';
-         }
-         if (getTicket.ticketStatus) {
+        }
+        if (getTicket.ticketStatus) {
           var ticketStatus = getTicket.ticketStatus[0];
-         }
-         var length = getTicket.ticketElement.length;
+        }else{
+          var ticketStatus = 'New';
+        }
+        var length = getTicket.ticketElement.length;
+        console.log('length ',length);
+        if(length){
+          var currentUsrId = Meteor.userId();
+          var userId = getTicket.ticketElement[length-1].allocatedToUserid;
+          var roleStatus = getTicket.ticketElement[length-1].roleStatus;
+          console.log('roleStatus ',roleStatus);
+          var isRoleSC = Roles.userIsInRole(currentUsrId, ['screening committee'],);
+          if(currentUsrId && userId && roleStatus && isRoleSC){
+            console.log(currentUsrId , userId , roleStatus, isRoleSC);
+            console.log('condition ',(isRoleSC)&&(userId == currentUsrId)&&(roleStatus == 'NewScrAllocated'));
+            if((isRoleSC)&&(userId == currentUsrId)){
+              var docApproveRejectDiv = true;
+            }else{
+              var docApproveRejectDiv = false;
+            }
+            console.log('docApproveRejectDiv ',docApproveRejectDiv);
+          }
+        }
+        
     }
      
-    const loading = !postHandle.ready() &&  !companyHandle.ready() && !ticketBucket.ready();
+    const loading = !postHandle.ready() ;
     
-    if((Roles.userIsInRole(Meteor.userId(), ['screening committee'],))){
-      var docApproveRejectDiv = true;
-    }else{
-      var docApproveRejectDiv = false;
-    }
+    
     
 
     // this.props.ticketStatus.status == "New" || this.props.ticketStatus.status == "ScreenRejected" && this.props.ticketStatus.role == "screening committee"
