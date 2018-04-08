@@ -9,6 +9,7 @@ import validator from 'validator';
 import {Tracker} from 'meteor/tracker';
 import { browserHistory } from 'react-router'; 
 import { Link } from 'react-router';
+import { TicketMaster } from '../../website/ServiceProcess/api/TicketMaster.js';
 import VerificationDataSubmit from './VerificationDataSubmit.jsx';
 
 export default class SubmittedDocuments extends TrackerReact(Component){
@@ -39,7 +40,22 @@ export default class SubmittedDocuments extends TrackerReact(Component){
     $('#AddImagesVideo1').css({"display" : "block"});
     // $('#outersubmitedDocWrap').css({"display" : "none"});
 	}
-  render(){ 	
+  render(){ 
+  	var userId = Meteor.userId();
+    if(userId){
+    	var getTicket = TicketMaster.findOne({"_id":this.props.ticketId});
+    	if(getTicket){	
+	      var ticketElement = getTicket.ticketElement;
+	      if(ticketElement){
+	        var docApproveRejectData = ticketElement.find(function(obj){return (obj.role == 'team member' ) ? obj : false});
+	        if(docApproveRejectData){
+	          var showEditButton = true;
+	        }else{
+	          var showEditButton = false;
+	        }
+	      }
+    	}
+    }	
    	return(
    		<div>
        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad" id="outersubmitedDocWrap">
@@ -52,8 +68,11 @@ export default class SubmittedDocuments extends TrackerReact(Component){
 			        		<span className="checkBoxtitle">Verified Information:</span>
 			        	</strong>
 			        </div>
+
 			       <div className="col-lg-1 pull-right">
-	               <span><i className="fa fa-pencil editdoc" aria-hidden="true" title="Edit Document" onClick={this.EditDocument.bind(this)}></i></span>
+			       
+					    <span><i className="fa fa-pencil editdoc" aria-hidden="true" title="Edit Document" onClick={this.EditDocument.bind(this)}></i></span>
+					
 	           </div>
 			      </div>
 			      <div id="AddImagesVideo1" style={{"display":"none"}}>

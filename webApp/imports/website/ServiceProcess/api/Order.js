@@ -1,5 +1,7 @@
 import {Mongo} from 'meteor/mongo';
 import {Meteor} from 'meteor/meteor';
+import { UserProfile } from '/imports/website/forms/api/userProfile.js';
+import { TicketMaster } from '/imports/website/ServiceProcess/api/TicketMaster.js';
 
 export const Order = new Mongo.Collection("order");
 export const TempOrder = new Mongo.Collection("tempOrder");
@@ -74,6 +76,38 @@ if(Meteor.isServer){
        TempOrder.remove({});
       return id;
    	 },
+     'changeTicketStatusInOrder':function(orderId,ticketId,status,reportLink){
+        Order.update(
+            {"_id":orderId,"ticket.ticketId":ticketId},
+            {
+              $set:{
+                  "ticket.$.status" : status,
+                  "ticket.$.report" : reportLink,
+              }
+            }
+        );
+        var orderDetails = Order.findOne({"_id":orderId});
+        if(orderDetails){
+          var ticketDetails = TicketMaster.findOne({"_id":ticketId});
+          if(ticketDetails){
+            Meteor.call('actulStatuofVerificationType',ticketDetails.userId,ticketDetails.verificationType,ticketDetails.verificationId,"Verified");
+          }
+          var ticketList = orderDetails.ticket
+          if(ticketList.length == 1){
+            Order.update(
+              {"_id":orderId},
+              {
+                $set:{
+                    "orderStatus" : status,
+                }
+              }
+            );  
+          }else{
+            var reportLinkStatus = ticketList.find(function(obj){return obj.report ? true : false});
+            console.log('reportLinkStatus ',reportLinkStatus);
+          }
+        }
+     },
      'changeStatusofOrder':function(userId, remark,verificationId,verificationType){
         if(verificationType=='employement'){
           Order.update({"userId":userId,"data.employementId":verificationId},

@@ -4,6 +4,7 @@ import { TempTicketImages } from "../../../dashboard/ticketManagement/api/TempUp
 import { TempTicketVideo } from "../../../dashboard/ticketManagement/api/TempUpload.js";
 import { TempTicketReport } from "../../../dashboard/ticketManagement/api/TempUpload.js";
 import {CompanySettings} from '/imports/dashboard/companySetting/api/CompanySettingMaster.js';
+import {Order} from './Order.js';
 
 export const TicketMaster = new Mongo.Collection("ticketMaster");
 export const TicketBucket = new Mongo.Collection("ticketbucket");
@@ -127,14 +128,15 @@ if(Meteor.isServer){
 				TempTicketVideo.remove({});
 				break;
 			case 'OtherReportInfo' 	:
-					TicketMaster.update({"_id": ticketid},{
-						$set: {
-							'submitOtherReportData.createdAt' : insertData.createdAt,
-							'submitOtherReportData.information' : insertData.submitOtherReportData,
-						}
-					});
+				TicketMaster.update({"_id": ticketid},{
+					$set: {
+						'submitOtherReportData.createdAt' : insertData.createdAt,
+						'submitOtherReportData.information' : insertData.submitOtherReportData,
+					}
+				});
 				break;
 			case 'ReportSubmitted' 	:
+			case 'ReportReSubmitted':
 					TicketMaster.update({"_id": ticketid},{
 						$set: {
 							'reportSubmited.createdAt' : insertData.createdAt,
@@ -183,7 +185,7 @@ if(Meteor.isServer){
 						Meteor.call('updateCommitteeUserCount',newCount-1,insertData.userId);
 					}
 					var role = "quality team leader";
-					var roleStatus = "VerificationPassQTLAllocated";
+					var roleStatus = "QAPassQTLAllocated";
 					var ticketDetails = TicketMaster.findOne({"_id":ticketid});
 					if(ticketDetails){
 						var newMember = Meteor.call('autoAllocateMember',role,ticketDetails.serviceName);
@@ -226,6 +228,12 @@ if(Meteor.isServer){
 					});
 					TempTicketReport.remove({});
 					break;
+			case 'ReviewPass' :
+				var ticketDetails = TicketMaster.findOne({"_id":ticketid});
+				if(ticketDetails){ 
+					Meteor.call('changeTicketStatusInOrder',ticketDetails.orderId,ticketid,'Verification Done',ticketDetails.reportSubmited.documents)
+				}
+				break;
 		}
 		return updateStatus;
 	},

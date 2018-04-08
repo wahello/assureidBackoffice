@@ -264,5 +264,28 @@ if(Meteor.isServer){
             );
             console.log('status ',status);
         },
+        'actulStatuofVerificationType':function(userId,verificationType,verificationId,remark){
+          if (verificationType == "permanentAddress") {
+            var verificationUniqueId = "permanentAddressId";
+          }else if (verificationType == "currentAddress") {
+            var verificationUniqueId = "currentAddressId";
+          }else if (verificationType == "education") {
+            var verificationUniqueId = "educationId";
+          }else if (verificationType == "employement") {
+            var verificationUniqueId = "employementId";
+          }else if (verificationType == "certificates") {
+            var verificationUniqueId = "certificateId";
+          }else if (verificationType == "professionalEducation") {
+            var verificationUniqueId = "professionalEducationId";
+          }
+          var status =  UserProfile.update(
+              {'userId':userId, [verificationType+'.'+verificationUniqueId] : parseInt(verificationId)},
+              { $set:{
+                      [verificationType+'.$'+'.verifiedStatus']           :  remark,
+                } 
+
+              }
+          );
+        }
     });
 }

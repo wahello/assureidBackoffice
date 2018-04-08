@@ -11,7 +11,6 @@ import { browserHistory } from 'react-router';
 import { Link } from 'react-router';
 import { TicketMaster } from '../../website/ServiceProcess/api/TicketMaster.js';
 import {CompanySettings} from '/imports/dashboard/companySetting/api/CompanySettingMaster.js';
-import { TicketBucket } from '../../website/ServiceProcess/api/TicketMaster.js';
 import { UserProfile } from '/imports/website/forms/api/userProfile.js';
 import '../notification/components/SendMailnNotification.jsx';
 class VerifiedDocuments extends TrackerReact(Component){
@@ -100,7 +99,7 @@ class VerifiedDocuments extends TrackerReact(Component){
       case 'employement' :
         return(
           <div className="col-lg-12 col-md-12 showAddrWrap">
-            <h5>Education</h5>
+            <h5>Employment</h5>
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
               <label><b>Employer :</b> </label>{verificationData.nameOfEmployer},<br />
               <label><b>Address :</b> </label>{verificationData.employerAddress}
@@ -151,6 +150,28 @@ class VerifiedDocuments extends TrackerReact(Component){
               {verificationData.qualifyingBodyNm}
             </div>
             
+          </div>
+        );
+        break;
+      case 'education' :
+        return(
+          <div className="col-lg-12 col-md-12 showAddrWrap">
+            <h5>Education</h5>
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              {verificationData.educationLevel},
+              {verificationData.educationQualification}
+            </div>
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              {verificationData.specialization},
+              {verificationData.grades}
+            </div>
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              {verificationData.educationMode},
+              {verificationData.dateAttendedTo},
+              {verificationData.collegeName},
+              {verificationData.university},<br />
+              {verificationData.collegeAddress} {verificationData.rollNo}
+            </div>
           </div>
         );
         break;
@@ -292,8 +313,21 @@ verifiedDocumentsContainer = withTracker(props => {
     var _id = props.ticketId;
     const postHandle = Meteor.subscribe('singleTicket',_id); 
     const getTicket   = TicketMaster.findOne({"_id" : _id}) || {};
-
-    var docApproveRejectDiv = true;
+    var roles = Meteor.user().roles;
+    var reqRole = roles.find(function (obj) { return obj != 'backofficestaff' });
+    // console.log('reqRole ',reqRole);
+    var userId = Meteor.userId();
+    if(userId){
+      var ticketElement = getTicket.ticketElement;
+      if(ticketElement){
+        var docApproveRejectData = ticketElement.find(function(obj){return (obj.allocatedToUserid == userId && obj.roleStatus == 'NewScrAllocated' ) ? obj : false});
+        if(docApproveRejectData){
+          var docApproveRejectDiv = true;
+        }else{
+          var docApproveRejectDiv = false;
+        }
+      }
+    }
     const loading = !postHandle.ready() ;
     return {
         loading,
