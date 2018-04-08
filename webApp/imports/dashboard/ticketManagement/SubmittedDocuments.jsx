@@ -9,11 +9,7 @@ import validator from 'validator';
 import {Tracker} from 'meteor/tracker';
 import { browserHistory } from 'react-router'; 
 import { Link } from 'react-router';
-import AddImagesVideo from './AddImagesVideo.jsx';
-// import { TempTicketImages } from './api/TempUpload.js';
-// import { TempTicketVideo } from './api/TempUpload.js';
-// import { TicketMaster } from '../../website/ServiceProcess/api/TicketMaster.js';
-// import { ChecklistFieldExpert } from '../reactCMS/api/Services.js';
+import VerificationDataSubmit from './VerificationDataSubmit.jsx';
 
 export default class SubmittedDocuments extends TrackerReact(Component){
 	constructor(props){ 
@@ -61,7 +57,7 @@ export default class SubmittedDocuments extends TrackerReact(Component){
 	           </div>
 			      </div>
 			      <div id="AddImagesVideo1" style={{"display":"none"}}>
-        				<AddImagesVideo key='editImageVideo' EditValue={this.props.submittedDocuments.documents} ticket={this.props.ticketId}/>
+        				<VerificationDataSubmit key='editImageVideo' EditValue={this.props.submittedDocuments.documents} ticketId={this.props.ticketId}/>
           	</div>
              {this.props.submittedDocuments.documents ?
                 this.props.submittedDocuments.documents.checkLists.map((submittedChecklist,index)=>{
@@ -74,6 +70,19 @@ export default class SubmittedDocuments extends TrackerReact(Component){
                 :
                "" 
              }
+
+						 {this.props.submittedDocuments.documents ?
+								this.props.submittedDocuments.documents.textLists.map((textListsData,index)=>{
+									return(
+										<div className="imgtitile col-lg-12  noLRPad" key={index}>
+											<div className="col-lg-3 noLRPad Selectimg"><span className="checkBoxtitle"><strong>{textListsData.task} &nbsp;</strong></span><span className="pull-right"><strong>:</strong></span></div> 
+											<div className="col-lg-9">{textListsData.value}</div>
+										</div>
+									);
+								})
+							:
+							""
+							}
           </div>
 	        <div className="col-lg-12 wholeborder ">
 		          <div className="imgtitile col-lg-12 noLRPad">
@@ -129,20 +138,23 @@ export default class SubmittedDocuments extends TrackerReact(Component){
 	        </div>
 			        </div>
 	       </div>
+				 	<div className="imgtitile col-lg-12  noLRPad">
+						<div className="col-lg-3 noLRPad Selectimg"><span className="checkBoxtitle"><strong>Status &nbsp;</strong></span><span className="pull-right"><strong>:</strong></span></div> 
+						<div className="col-lg-9">{this.props.submittedDocuments.documents.status}</div>
+					</div>
+					<div className="imgtitile col-lg-12  noLRPad">
+						<div className="col-lg-3 noLRPad Selectimg"><span className="checkBoxtitle"><strong>Sub-status &nbsp;</strong></span><span className="pull-right"><strong>:</strong></span></div> 
+						<div className="col-lg-9">{this.props.submittedDocuments.documents.subStatus}</div>
+					</div>
+	
 	      <div className="col-lg-12 wholeborder">
 	          <div className="imgtitile col-lg-12  noLRPad">
 	            <div className="col-lg-1 noLRPad Selectimg"><span className="checkBoxtitle"><strong>Remark &nbsp;:</strong></span></div> 
               <div className="col-lg-10">{this.props.submittedDocuments.documents.remark}</div>
             </div>
 	      </div>
-
-				{/* <div className="docbtnwrap col-lg-6 col-lg-offset-4">
-						<button type="button" className="bg-primary col-lg-4 ApprovRejDoc" data-status="VerificationPass" onClick ={this.approveTeamMemDoc.bind(this)}>Approve</button>
-						<button type="button" className="btn-danger col-lg-4 ApprovRejDoc" data-status="VerificationFail" onClick ={this.approveTeamMemDoc.bind(this)}>Reject</button>
-        </div> */}
 				</div>
       </div>
-
     </div>
    	);
    }

@@ -239,7 +239,7 @@ if(Meteor.isServer){
           });        
         },
         'changeStatusMethod':function(id,userId,remark,verificationType,verificationId){
-          console.log(id,userId,remark,verificationType,verificationId);
+          console.log('changeStatus',id,userId,remark,verificationType,verificationId);
           if (verificationType == "permanentAddress") {
               var verificationUniqueId = "permanentAddressId";
             }else if (verificationType == "currentAddress") {
@@ -253,7 +253,7 @@ if(Meteor.isServer){
             }else if (verificationType == "professionalEducation") {
               var verificationUniqueId = "professionalEducationId";
             }
-          UserProfile.update(
+         var status =  UserProfile.update(
               {'userId':userId, [verificationType+'.'+verificationUniqueId] : parseInt(verificationId)},
               { $set:{
                       [verificationType+'.$'+'.editStatus']       : "Reopen" ,
@@ -262,6 +262,7 @@ if(Meteor.isServer){
 
               }
             );
+            console.log('status ',status);
         },
     });
 }

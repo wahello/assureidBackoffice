@@ -42,6 +42,125 @@ class VerifiedDocuments extends TrackerReact(Component){
   getRole(role) {
     return role != "backofficestaff";
   }
+  //show data according to service
+  showData(verificationType,verificationData){
+    switch(verificationType){
+      case 'permanentAddress' :
+        return(
+          <div className="col-lg-12 col-md-12 showAddrWrap">
+            <h5>Permanent Address</h5>
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              {verificationData.line1 ? verificationData.line1 : ''},
+            </div>
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              {verificationData.line2 ? verificationData.line2 : ''},
+            </div>
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              {verificationData.line3 ? verificationData.line3 : ''},
+            </div>
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              {verificationData.landmark ? verificationData.landmark : ''},
+            </div>
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              {verificationData.city ? verificationData.city+',' : ''}&nbsp;
+              {verificationData.state ? verificationData.state+',' : ''}&nbsp;
+              {verificationData.Country ? verificationData.Country+',' : ''}&nbsp;
+              {verificationData.pincode ? verificationData.pincode+',' : ''},<br />
+              <label><b>Residing From :</b> </label>{verificationData.residingFrom} <label><b>Residing Till :</b> </label>{verificationData.residingTo}
+            </div>
+          </div>
+        );
+        break;
+      case 'currentAddress' :
+        return(
+          <div className="col-lg-12 col-md-12 showAddrWrap">
+            <h5>Current Address</h5>
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              {verificationData.tempLine1 ? verificationData.tempLine1 : ''},
+            </div>
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              {verificationData.tempLine2 ? verificationData.tempLine2 : ''},
+            </div>
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              {verificationData.tempLine3 ? verificationData.tempLine3 : ''},
+            </div>
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              {verificationData.tempLandmark ? verificationData.temLandmark : ''},
+            </div>
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              {verificationData.tempCity ? verificationData.tempCity+',' : ''}&nbsp;
+              {verificationData.tempState ? verificationData.tempState+',' : ''}&nbsp;
+              {verificationData.tempCountry ? verificationData.tempCountry+',' : ''}&nbsp;
+              {verificationData.tempPincode ? verificationData.tempPincode+',' : ''},<br />
+              <label><b>Residing From :</b> </label>{verificationData.tempresidingFrom} <label><b>Residing Till :</b> </label>{verificationData.tempresidingTo}
+            </div>
+          </div>
+        );
+        break;
+      case 'employement' :
+        return(
+          <div className="col-lg-12 col-md-12 showAddrWrap">
+            <h5>Education</h5>
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <label><b>Employer :</b> </label>{verificationData.nameOfEmployer},<br />
+              <label><b>Address :</b> </label>{verificationData.employerAddress}
+            </div>
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <label><b>Contact No. :</b> </label>{verificationData.contactNo},
+              <label><b>Employee Id :</b> </label>{verificationData.employeeCode}
+            </div>
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <label><b>Designation :</b> </label>{verificationData.designation},
+              <label><b>Department :</b> </label>{verificationData.department},
+              <label><b>Employment From :</b> </label>{verificationData.employmentFrom},
+              <label><b>Employment To :</b> </label>{verificationData.employmentTo},<br />
+              <label><b>Type Of Employement :</b> </label>{verificationData.typeOfEmployement}, 
+              <label><b>Duties And Responsibilites :</b> </label>{verificationData.dutiesAndResponsibilites}<br/>
+              <label><b>Reporting Manager :</b> </label>{verificationData.reportingManagerNm}, 
+              <label><b>Previous Designation :</b> </label>{verificationData.prevDesignation}
+            </div>
+          </div>
+        );
+        break;
+      case 'certificates' :
+        return(
+          <div className="col-lg-12 col-md-12 showAddrWrap">
+            <h5>Certificates</h5>
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              {this.props.verificationData[index].certificateName},
+              {this.props.verificationData[index].issuedBy}
+            </div>
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              {this.props.verificationData[index].certificatedOn},
+              {this.props.verificationData[index].validTill}
+            </div>
+          </div>
+        );
+        break;
+      case 'professionalEducation' :
+        return(
+          <div className="col-lg-12 col-md-12 showAddrWrap">
+            <h5>professional Education</h5>
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              {verificationData.professionalQualification},
+              {verificationData.registrationNo}
+            </div>
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              {verificationData.dateOfQualification},
+              {verificationData.professionalRollNo}
+              {verificationData.qualifyingBodyNm}
+            </div>
+            
+          </div>
+        );
+        break;
+      case 'PoliceVerification' :
+        return(
+          <div>PoliceVerification</div>
+        );
+        break;
+    }
+  }
 /*This function execute when document get approved as well as rejected. */
   approvedCurDocument(event){
     event.preventDefault();
@@ -85,665 +204,78 @@ class VerifiedDocuments extends TrackerReact(Component){
              <h5 className="dataDetails">Document Attachment:</h5>
           </div>
           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 addressDashedLine">
-          <div className="col-lg-10 col-lg-offset-1">
-              {this.props.getTicket.verificationType === "education" ?
-                  <div>
-                     {this.props.getTicket.verificationData ?
-                        this.props.verificationData.map((educationProof, index)=>{
-                          return (
-                             <div key={index}> 
-                              {educationProof.proofOfDocument == '' ?
-                                <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3 verifyDocWrap" >
-                                  <div  title="No Documents Attached!">
-                                   <img src="/images/assureid/noDocument.png" className="img-responsive addressImage"/>
-                                  </div>
-                                </div>
+            <div className="col-lg-10 col-lg-offset-1">
+              {this.props.getTicket.verificationDocument.length > 0 ?
+                this.props.getTicket.verificationDocument.map((verificationDocument,index)=>{
+                  return(
+                    <div key={index}>
+                      {verificationDocument.proofOfDocument ?
+                        <div>
+                          <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3 verifyDocWrap" >
+                            <div data-toggle="modal" data-target={"showProofOfDocumentModal-"+index} onClick={this.showDocuments.bind(this)} title="Click to verify Document">
+                              { verificationDocument.fileExt == "png" || verificationDocument.fileExt == "jpg" || verificationDocument.fileExt == "jpeg" || verificationDocument.fileExt == "gif" ?
+                                  <img src="/images/assureid/Photo-icon.png" className="img-responsive addressImage"/>
                                 :
-                                <div>
-                                  <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3 verifyDocWrap" >
-                                    <div data-toggle="modal" data-target={"showPermanentDocumnetsModal-"+index} onClick={this.showDocuments.bind(this)} title="Click to verify Document">
-                                      { educationProof.fileExt == "png" || educationProof.fileExt == "jpg" || educationProof.fileExt == "jpeg" || educationProof.fileExt == "gif" ?
-                                          <img src="/images/assureid/Photo-icon.png" className="img-responsive addressImage"/>
-                                        :
-                                        educationProof.fileExt == "pdf" ?
-                                          <img src="/images/assureid/pdf.png" className="img-responsive addressImage"/>
-                                        :
-                                        ""
-                                       }
-                                    </div>
-                                    <div className="text-center">
-                                     <p>{educationProof.proofType}</p>
-                                   </div>
-                                  </div>
-                                  <div className="modal fade" id={"showPermanentDocumnetsModal-"+index} role="dialog">
-                                    <div className="modal-dialog">
-                                      <div className="modal-content">
-                                        <div className="modal-body">
-                                          <button type="button" className="close" data-dismiss="modal">&times;</button>
-                                          <div className="row">
-                                            <div className="col-lg-12 col-md-12  col-sm-12 col-sm-12">
-                                              <div className="col-lg-12 col-md-12 showAddrWrap">
-                                                <h5>Employement</h5>
-                                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                  {this.props.verificationData[index].educationLevel},
-                                                  {this.props.verificationData[index].educationQualification}
-                                                </div>
-                                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                  {this.props.verificationData[index].specialization},
-                                                  {this.props.verificationData[index].grades}
-                                                </div>
-                                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                  {this.props.verificationData[index].educationMode},
-                                                  {this.props.verificationData[index].dateAttendedTo},
-                                                  {this.props.verificationData[index].collegeName},
-                                                  {this.props.verificationData[index].university},<br />
-                                                  {this.props.verificationData[index].collegeAddress} {this.props.verificationData[index].rollNo}
-                                                </div>
-                                              </div>
-                                            </div>
-                                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
-                                              <img src={educationProof.proofOfDocument}  className="col-lg-12 img-responsive addressImageModal showAddrImgWrap col-lg-12 col-md-12 col-sm-12 col-xs-12"/>
-                                            </div>
-                                           {this.props.docApproveRejectDiv == true ?
-                                              <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm">
-                                               
-                                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                    <button type="button" className="btn btn-danger col-lg-4 ApprovRejDoc rejectTicket acceptreject teammember" data-id={this.props.getTicket._id} onClick={this.hideShowRejectReason.bind()}>Reject</button>
-                                                    <button type="button" className="btn btn-primary col-lg-4 ApprovRejDoc acceptTicket teammember acceptreject " data-id={this.props.getTicket._id} data-status="ScreenApproved" onClick={this.approvedCurDocument.bind()}>Approved</button>
-                                                  </div>                                          
-                                                  
-                                                </div>
-                                              :
-                                              ""
-                                            }
-                                            <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 showHideReasonWrap">
-                                            <div className="col-lg-10  col-md-10  col-sm-12 col-xs-12 otherInfoForm">
-                                                  <textarea className={"col-lg-12 col-md-12 col-sm-12 col-xs-12 rejectReason rejectReason-"+index} rows='2' placeholder="Enter Reject reason..."></textarea>
-                                            </div>
-                                            <div className="col-lg-2  col-md-2  col-sm-12 col-xs-12 rejectBtnWrap">
-                                              <button className="col-lg-12 col-md-12 btn btn-primary rejectReasonBtn pull-left" data-status="ScreenedRejected" onClick={this.approvedCurDocument.bind(this)}>Submit</button>
-                                            </div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              }
-                               
-                             </div>
-                            );
-                        })
-                        :
-                        ""
-                     }    
-                   </div>
-                  :
-                  ""
-              }
-
-              {this.props.getTicket.verificationType === "permanentAddress" ?
-                  <div>
-                     {this.props.getTicket.verificationData ?
-                        this.props.verificationData.map((permanentAddrProof, index)=>{
-                          return (
-                             <div key={index}>
-                              {permanentAddrProof.proofOfDocument == '' ?
-                               <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3 verifyDocWrap" >
-                                  <div  title="No Documents Attached!">
-                                   <img src="/images/assureid/noDocument.png" className="img-responsive addressImage"/>
-                                  </div>
-                                </div>
+                                verificationDocument.fileExt == "pdf" ?
+                                  <img src="/images/assureid/pdf.png" className="img-responsive addressImage"/>
                                 :
-                                <div>
-                                 <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3 verifyDocWrap" >
-                                   <div data-toggle="modal" data-target={"showPermanentDocumnetsModal-"+index} onClick={this.showDocuments.bind(this)} title="Click to verify permanent address">
-                                     { permanentAddrProof.fileExt == "png" || permanentAddrProof.fileExt == "jpg" || permanentAddrProof.fileExt == "jpeg" || permanentAddrProof.fileExt == "gif" ?
-                                          <img src="/images/assureid/Photo-icon.png" className="img-responsive addressImage"/>
-                                        :
-                                        permanentAddrProof.fileExt == "pdf" ?
-                                          <img src="/images/assureid/pdf.png" className="img-responsive addressImage"/>
-                                        :
-                                        ""
-                                     }
-                                    </div>
-                                    <div className="text-center">
-                                     <p>{permanentAddrProof.proofType}</p>
-                                   </div>
-                                 </div>
-                                  <div className="modal fade" id={"showPermanentDocumnetsModal-"+index} role="dialog">
-                                    <div className="modal-dialog">
-                                      <div className="modal-content">
-                                        <div className="modal-body">
-                                          <button type="button" className="close" data-dismiss="modal">&times;</button>
-                                          <div className="row">
-                                            <div className="col-lg-12 col-md-12  col-sm-12 col-sm-12">
-                                              <div className="col-lg-12 col-md-12 showAddrWrap">
-                                                <h5>Permanent Address</h5>
-                                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                  {this.props.verificationData[index].line1},&nbsp;
-                                                  {this.props.verificationData[index].line2}
-                                                </div>
-                                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                  {this.props.verificationData[index].line3},&nbsp;
-                                                  {this.props.verificationData[index].landmark}
-                                                </div>
-                                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                  {this.props.verificationData[index].city},&nbsp;
-                                                  {this.props.verificationData[index].state},&nbsp;
-                                                  {this.props.verificationData[index].Country},&nbsp;
-                                                  {this.props.verificationData[index].pincode},<br />
-                                                  <label>Residing From : </label>{this.props.verificationData[index].residingFrom} <label>Residing Till : </label>{this.props.verificationData[index].residingTo}
-                                                </div>
-                                              </div>
-                                            </div>
-                                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
-                                              <img src={permanentAddrProof.proofOfDocument}  className="col-lg-12 img-responsive addressImageModal showAddrImgWrap col-lg-12 col-md-12 col-sm-12 col-xs-12"/>
-                                            </div>
-                                            {this.props.docApproveRejectDiv == true ?
-                                              <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm">
-                                                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                    <button type="button" className="btn btn-danger rejectTicket teammember acceptreject" data-id={this.props.getTicket._id} onClick={this.hideShowRejectReason.bind()}>Reject</button>
-                                                    <button type="button" className="btn btn-success acceptTicket acceptreject" data-id={this.props.getTicket._id} data-status="ScreenApproved" onClick={this.approvedCurDocument.bind()}>Approved</button>
-                                                  </div>    
-                                                  
-                                              </div>
-                                             :
-                                              ""
-                                             }
-                                            <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 showHideReasonWrap">
-                                            <div className="col-lg-10  col-md-10  col-sm-12 col-xs-12 otherInfoForm">
-                                                  <textarea className={"col-lg-12 col-md-12 col-sm-12 col-xs-12 rejectReason rejectReason-"+index} rows='2' placeholder="Enter Reject reason..."></textarea>
-                                            </div>
-                                            <div className="col-lg-2  col-md-2  col-sm-12 col-xs-12 rejectBtnWrap">
-                                              <button className="col-lg-12 col-md-12 btn btn-primary rejectReasonBtn pull-left" data-status="ScreenRejected" onClick={this.approvedCurDocument.bind(this)}>Submit</button>
-                                            </div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
+                                ""
                               }
-                             </div>
-                            );
-                        })
-                        :
-                        ""
-                     }    
-                   </div>
-                  :
-                  ""
-              }
-             
-              {this.props.getTicket.verificationType === "currentAddress" ?
-                  <div>
-                     {this.props.getTicket.verificationData ?
-                        this.props.verificationData.map((currentAddrProof, index)=>{
-                          return (
-                            <div key={index}>
-                            {currentAddrProof.proofOfDocument == '' ?
-                             <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3 verifyDocWrap" >
-                                <div  title="No Documents Attached!">
-                                 <img src="/images/assureid/noDocument.png" className="img-responsive addressImage"/>
-                                </div>
+                              <div className="text-center">
+                                <p>{verificationDocument.fileName}</p>
                               </div>
-                              :
-                              <div>
-                               <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3 verifyDocWrap" >
-                                <div data-toggle="modal" data-target={"CurrentAddrDocumnetsModal-"+index} onClick={this.showDocuments.bind(this)} title="Click to verify current address" className="">
-                                  { currentAddrProof.fileExt == "png" || currentAddrProof.fileExt == "jpg" || currentAddrProof.fileExt == "jpeg" || currentAddrProof.fileExt == "gif" ?
-                                        <img src="/images/assureid/Photo-icon.png" className="img-responsive addressImage"/>
-                                      :
-                                      currentAddrProof.fileExt == "pdf" ?
-                                        <img src="/images/assureid/pdf.png" className="img-responsive addressImage"/>
-                                      :
-                                      ""
-                                   }
-                                 </div>
-                                  <div className="text-center">
-                                     <p>{currentAddrProof.proofType}</p>
-                                   </div>
-                               </div>
-                               <div className="modal fade" id={"CurrentAddrDocumnetsModal-"+index} role="dialog">
-                                  <div className="modal-dialog">
-                                    <div className="modal-content">
-                                      <div className="modal-body">
-                                        <button type="button" className="close" data-dismiss="modal">&times;</button>
-                                        <div className="row">
-                                          <div className="col-lg-12 col-md-12  col-sm-12 col-sm-12">
-                                              <div className="col-lg-12 col-md-12 showAddrWrap">
-                                                <h5>Current Address</h5>
-                                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                  {this.props.verificationData[index].tempLine1},
-                                                  {this.props.verificationData[index].tempLine2}
-                                                </div>
-                                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                  {this.props.verificationData[index].tempLine3},
-                                                  {this.props.verificationData[index].tempLandmark}
-                                                </div>
-                                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                  {this.props.verificationData[index].tempCity},
-                                                  {this.props.verificationData[index].tempState},
-                                                  {this.props.verificationData[index].tempCountry},
-                                                  {this.props.verificationData[index].tempPincode},<br />
-                                                  Residing From : {this.props.verificationData[index].tempresidingFrom} Residing Till : {this.props.verificationData[index].tempresidingTo}
-                                                </div>
-                                              </div>
-                                            </div>
-                                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 curImgWrap">
-                                            <img src={currentAddrProof.proofOfDocument}  className="img-responsive addressImageModal col-lg-12 col-md-12 col-sm-12 col-xs-12"/>
-                                          </div>
-                                         {this.props.docApproveRejectDiv == true ?
-                                            <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm">
-                                             
-                                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                  <button type="button" className="btn btn-danger rejectTicket teammember acceptreject" onClick={this.hideShowRejectCurReason.bind()}>Reject</button>
-                                                  <button type="button" className="btn btn-primary acceptTicket acceptreject" data-status="ScreenApproved" onClick={this.approvedCurDocument.bind()}>Approved</button>
-                                                </div>
-                                            </div>
-                                            :
-                                             ""
-                                           }
-                                            <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 showHideReasonWrap">
-                                            <div className="col-lg-10  col-md-10  col-sm-12 col-xs-12 otherInfoForm">
-                                                  <textarea className={"col-lg-12 col-md-12 col-sm-12 col-xs-12 rejectReason rejectReason-"+index} rows='2' placeholder="Enter Reject reason..."></textarea>
-                                            </div>
-                                            <div className="col-lg-2  col-md-2  col-sm-12 col-xs-12 rejectBtnWrap">
-                                              <button className="col-lg-12 col-md-12 btn btn-primary rejectReasonBtn pull-left"data-status="ScreenRejected"  onClick={this.approvedCurDocument.bind(this)}>Submit</button>
-                                            </div>
-                                            </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            }
-                            
                             </div>
-
-                            );
-                        })
-                        :
-                        ""
-                     }
-                   </div>
-                  :
-                  ""
-              }
-
-               {this.props.getTicket.verificationType === "employement" ?
-                  <div>
-                     {this.props.getTicket.verificationData ?
-                        this.props.verificationData.map((employementProof, index)=>{
-                          return (
-                            <div key={index}>
-                            {employementProof.proofOfDocument == '' ?
-                              <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3 verifyDocWrap">
-                                <div  title="No Documents Attached!">
-                                 <img src="/images/assureid/noDocument.png" className="img-responsive addressImage"/>
-                                </div>
-                              </div>
-                              :
-                              <div>
-                               <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3 verifyDocWrap" >
-                                <div data-toggle="modal" data-target={"CurrentAddrDocumnetsModal-"+index} onClick={this.showDocuments.bind(this)} title="Click to verify current address" className="">
-                                  { employementProof.fileExt == "png" || employementProof.fileExt == "jpg" || employementProof.fileExt == "jpeg" || employementProof.fileExt == "gif" ?
-                                      <img src="/images/assureid/Photo-icon.png" className="img-responsive addressImage"/>
-                                    :
-                                    employementProof.fileExt == "pdf" ?
-                                      <img src="/images/assureid/pdf.png" className="img-responsive addressImage"/>
+                          </div>
+                          <div className="modal fade" id={"showProofOfDocumentModal-"+index} role="dialog">
+                          <div className="modal-dialog">
+                            <div className="modal-content">
+                              <div className="modal-body">
+                                <button type="button" className="close" data-dismiss="modal">&times;</button>
+                                <div className="row">
+                                  <div className="col-lg-12 col-md-12  col-sm-12 col-sm-12">
+                                      {this.showData(this.props.getTicket.verificationType,this.props.getTicket.verificationData)}
+                                  </div>
+                                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                                    <img src={verificationDocument.proofOfDocument}  className="col-lg-12 img-responsive addressImageModal showAddrImgWrap col-lg-12 col-md-12 col-sm-12 col-xs-12"/>
+                                  </div>
+                                  {this.props.docApproveRejectDiv == true ?
+                                    <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm">
+                                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                          <button type="button" className="btn btn-danger rejectTicket teammember acceptreject" data-id={this.props.getTicket._id} onClick={this.hideShowRejectReason.bind()}>Reject</button>
+                                          <button type="button" className="btn btn-success acceptTicket acceptreject" data-id={this.props.getTicket._id} data-status="ScreenApproved" onClick={this.approvedCurDocument.bind()}>Approved</button>
+                                        </div>    
+                                    </div>
                                     :
                                     ""
-                                   }
-                                 </div>
-                                 <div className="text-center">
-                                   <p>{employementProof.proofType}</p>
-                                 </div>
-                               </div>
-                               <div className="modal fade" id={"CurrentAddrDocumnetsModal-"+index} role="dialog">
-                                  <div className="modal-dialog">
-                                    <div className="modal-content">
-                                      <div className="modal-body">
-                                        <button type="button" className="close" data-dismiss="modal">&times;</button>
-                                        <div className="row">
-                                          <div className="col-lg-12 col-md-12  col-sm-12 col-sm-12">
-                                              <div className="col-lg-12 col-md-12 showAddrWrap">
-                                                <h5>Education</h5>
-                                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                  {this.props.verificationData[index].nameOfEmployer},
-                                                  {this.props.verificationData[index].employerAddress}
-                                                </div>
-                                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                  {this.props.verificationData[index].contactNo},
-                                                  {this.props.verificationData[index].employeeCode}
-                                                </div>
-                                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                  {this.props.verificationData[index].designation},
-                                                  {this.props.verificationData[index].department},
-                                                  {this.props.verificationData[index].employmentFrom},
-                                                  {this.props.verificationData[index].employmentTo},<br />
-                                                  {this.props.verificationData[index].typeOfEmployement}, {this.props.verificationData[index].dutiesAndResponsibilites}<br/>
-                                                  {this.props.verificationData[index].reportingManagerNm}, {this.props.verificationData[index].prevDesignation}
-                                                </div>
-                                              </div>
-                                            </div>
-                                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 curImgWrap">
-                                            <img src={employementProof.proofOfDocument}  className="img-responsive addressImageModal col-lg-12 col-md-12 col-sm-12 col-xs-12"/>
-                                          </div>
-                                          {this.props.isRoleUser == true ?
-                                            <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm">
-                                              {this.props.ticketStatus.status == "New" || this.props.ticketStatus.status == "ScreenRejected" && this.props.ticketStatus.role == "screening committee" ?
-                                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                  <button type="button" className="btn btn-danger rejectTicket teammember acceptreject"  onClick={this.hideShowRejectCurReason.bind()}>Reject</button>
-                                                  <button type="button" className="btn btn-primary acceptTicket acceptreject" data-status="Approved" onClick={this.approvedCurDocument.bind()}>Approved</button>
-                                                    
-                                                </div>
-                                                :
-                                                ""
-                                              }   
-                                            </div>
-                                            :
-                                              ""
-                                            }
-                                            <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 showHideReasonWrap">
-                                            <div className="col-lg-10  col-md-10  col-sm-12 col-xs-12 otherInfoForm">
-                                                  <textarea className={"col-lg-12 col-md-12 col-sm-12 col-xs-12 rejectReason rejectReason-"+index} rows='2' placeholder="Enter Reject reason..."></textarea>
-                                            </div>
-                                            <div className="col-lg-2  col-md-2  col-sm-12 col-xs-12 rejectBtnWrap">
-                                              <button className="col-lg-12 col-md-12 btn btn-primary rejectReasonBtn pull-left" data-status="ScreenRejected" onClick={this.approvedCurDocument.bind(this)}>Submit</button>
-                                            </div>
-                                            </div>
-                                        </div>
-                                      </div>
-                                    </div>
+                                    }
+                                  <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 showHideReasonWrap">
+                                  <div className="col-lg-10  col-md-10  col-sm-12 col-xs-12 otherInfoForm">
+                                        <textarea className={"col-lg-12 col-md-12 col-sm-12 col-xs-12 rejectReason rejectReason-"+index} rows='2' placeholder="Enter Reject reason..."></textarea>
+                                  </div>
+                                  <div className="col-lg-2  col-md-2  col-sm-12 col-xs-12 rejectBtnWrap">
+                                    <button className="col-lg-12 col-md-12 btn btn-primary rejectReasonBtn pull-left" data-status="ScreenRejected" onClick={this.approvedCurDocument.bind(this)}>Submit</button>
+                                  </div>
                                   </div>
                                 </div>
                               </div>
-                            }
                             </div>
-                            );
-                        })
-                        :
-                        ""
-                     }
-                   </div>
-                  :
-                  ""
-               }
-
-               {this.props.getTicket.verificationType === "certificates" ?
-                  <div>
-                     {this.props.getTicket.verificationData ?
-                        this.props.verificationData.map((certificatesProof, index)=>{
-                          return (
-                            <div key={index}>
-                              {certificatesProof.proofOfDocument == '' ?
-                               <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3 verifyDocWrap" >
-                                  <div  title="No Documents Attached!">
-                                   <img src="/images/assureid/noDocument.png" className="img-responsive addressImage"/>
-                                  </div>
-                                </div>
-                                :
-                               <div>
-                                 <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3 verifyDocWrap" >
-                                  <div data-toggle="modal" data-target={"CurrentAddrDocumnetsModal-"+index} onClick={this.showDocuments.bind(this)} title="Click to verify Document" className="">
-                                    { certificatesProof.fileExt == "png" || certificatesProof.fileExt == "jpg" || certificatesProof.fileExt == "jpeg" || certificatesProof.fileExt == "gif" ?
-                                      <img src="/images/assureid/Photo-icon.png" className="img-responsive addressImage"/>
-                                      :
-                                      certificatesProof.fileExt == "pdf" ?
-                                        <img src="/images/assureid/pdf.png" className="img-responsive addressImage"/>
-                                      :
-                                      ""
-                                   }
-                                   </div>
-                                   <div className="text-center">
-                                    <p>{certificatesProof.proofType}</p>
-                                   </div>
-                                 </div>
-                                <div className="modal fade" id={"CurrentAddrDocumnetsModal-"+index} role="dialog">
-                                  <div className="modal-dialog">
-                                    <div className="modal-content">
-                                      <div className="modal-body">
-                                        <button type="button" className="close" data-dismiss="modal">&times;</button>
-                                        <div className="row">
-                                          <div className="col-lg-12 col-md-12  col-sm-12 col-sm-12">
-                                              <div className="col-lg-12 col-md-12 showAddrWrap">
-                                                <h5>Certificates</h5>
-                                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                  {this.props.verificationData[index].certificateName},
-                                                  {this.props.verificationData[index].issuedBy}
-                                                </div>
-                                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                  {this.props.verificationData[index].certificatedOn},
-                                                  {this.props.verificationData[index].validTill}
-                                                </div>
-                                               
-                                              </div>
-                                            </div>
-                                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 curImgWrap">
-                                            <img src={certificatesProof.proofOfDocument}  className="img-responsive addressImageModal col-lg-12 col-md-12 col-sm-12 col-xs-12"/>
-                                          </div>
-                                          {this.props.isRoleUser == true ?
-                                            <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm">
-                                             {this.props.ticketStatus.status == "New" || this.props.ticketStatus.status == "ScreenRejected" && this.props.ticketStatus.role == "screening committee" ?
-                                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                    <button type="button" className="btn btn-info rejectTicket acceptreject"  onClick={this.hideShowRejectCurReason.bind()}>Reject</button>                                                
-                                                    <button type="button" className="btn btn-info acceptTicket acceptreject" data-status="ScreenApproved" onClick={this.approvedCurDocument.bind()}>Approved</button>
-                                                    {/* <button type="button" className="btn btn-info rejectTicket acceptreject"  onClick={this.hideShowRejectCurReason.bind()}>Reject</button> */}
-                                                </div>
-                                              :
-                                              ""
-                                              }
-                                            </div>
-                                             :
-                                              ""
-                                            }
-                                            <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 showHideReasonWrap">
-                                            <div className="col-lg-10  col-md-10  col-sm-12 col-xs-12 otherInfoForm">
-                                                  <textarea className={"col-lg-12 col-md-12 col-sm-12 col-xs-12 rejectReason rejectReason-"+index} rows='2' placeholder="Enter Reject reason..."></textarea>
-                                            </div>
-                                            <div className="col-lg-2  col-md-2  col-sm-12 col-xs-12 rejectBtnWrap">
-                                              <button className="col-lg-12 col-md-12 btn btn-primary rejectReasonBtn pull-left" data-status="ScreenRejected"  onClick={this.approvedCurDocument.bind(this)}>Submit</button>
-                                            </div>
-                                            </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              }
-                            </div>
-                            );
-                        })
-                        :
-                        ""
-                     }
-                   </div>
-                  :
-                  ""
-               }
-
-               {this.props.getTicket.verificationType === "professionalEducation" ?
-                  <div>
-                     {this.props.getTicket.verificationData ?
-                        this.props.verificationData.map((professionalEducationProof, index)=>{
-                          return (
-                            <div key={index}>
-                             {professionalEducationProof.proofOfDocument == '' ?
-                               <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3 verifyDocWrap" >
-                                  <div  title="No Documents Attached!">
-                                   <img src="/images/assureid/noDocument.png" className="img-responsive addressImage"/>
-                                  </div>
-                                </div>
-                              :
-                             <div>
-                               <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3 verifyDocWrap" >
-                                <div data-toggle="modal" data-target={"CurrentAddrDocumnetsModal-"+index} onClick={this.showDocuments.bind(this)} title="Click to verify current address" className="">
-                                  { professionalEducationProof.fileExt == "png" || professionalEducationProof.fileExt == "jpg" || professionalEducationProof.fileExt == "jpeg" || professionalEducationProof.fileExt == "gif" ?
-                                      <img src="/images/assureid/Photo-icon.png" className="img-responsive addressImage"/>
-                                      :
-                                      professionalEducationProof.fileExt == "pdf" ?
-                                        <img src="/images/assureid/pdf.png" className="img-responsive addressImage"/>
-                                      :
-                                      ""
-                                   }
-                                 </div>
-                                 <div className="text-center">
-                                  <p>{professionalEducationProof.proofType}</p>
-                                 </div>
-                               </div>
-                               <div className="modal fade" id={"CurrentAddrDocumnetsModal-"+index} role="dialog">
-                                  <div className="modal-dialog">
-                                    <div className="modal-content">
-                                      <div className="modal-body">
-                                        <button type="button" className="close" data-dismiss="modal">&times;</button>
-                                        <div className="row">
-                                          <div className="col-lg-12 col-md-12  col-sm-12 col-sm-12">
-                                              <div className="col-lg-12 col-md-12 showAddrWrap">
-                                                <h5>professional Education</h5>
-                                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                  {this.props.verificationData[index].professionalQualification},
-                                                  {this.props.verificationData[index].registrationNo}
-                                                </div>
-                                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                  {this.props.verificationData[index].dateOfQualification},
-                                                  {this.props.verificationData[index].professionalRollNo}
-                                                  {this.props.verificationData[index].qualifyingBodyNm}
-                                                </div>
-                                               
-                                              </div>
-                                            </div>
-                                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 curImgWrap">
-                                            <img src={professionalEducationProof.proofOfDocument}  className="img-responsive addressImageModal col-lg-12 col-md-12 col-sm-12 col-xs-12"/>
-                                          </div>
-                                          {this.props.isRoleUser == true ?
-                                            <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm">
-                                                { this.props.ticketStatus ?
-                                                  this.props.ticketStatus.status == "New" || this.props.ticketStatus.status == "ScreenRejected" && this.props.ticketStatus.role == "screening committee" ?
-                                                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                      <button type="button" className="btn btn-info rejectTicket acceptreject"  onClick={this.hideShowRejectCurReason.bind()}>Reject</button>                                                    
-                                                      <button type="button" className="btn btn-info acceptTicket acceptreject" data-status="ScreenApproved" onClick={this.approvedCurDocument.bind()}>Approved</button>
-                                                  </div>
-                                                  :
-                                                  ""
-                                                 :
-                                                 ""
-                                                }    
-                                              </div>
-                                              :
-                                              ""
-                                            }
-                                            <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 showHideReasonWrap">
-                                            <div className="col-lg-10  col-md-10  col-sm-12 col-xs-12 otherInfoForm">
-                                                  <textarea className={"col-lg-12 col-md-12 col-sm-12 col-xs-12 rejectReason rejectReason-"+index} rows='2' placeholder="Enter Reject reason..."></textarea>
-                                            </div>
-                                            <div className="col-lg-2  col-md-2  col-sm-12 col-xs-12 rejectBtnWrap">
-                                              <button className="col-lg-12 col-md-12 btn btn-primary rejectReasonBtn pull-left" data-status="ScreenRejected" onClick={this.approvedCurDocument.bind(this)}>Submit</button>
-                                            </div>
-                                            </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              }
-                            </div>
-                            );
-                        })
-                        :
-                        ""
-                     }
-                   </div>
-                  :
-                  ""
-               }
-           
-              {this.props.getTicket.verificationType === "PoliceVerification" ?
-                 <div> {this.myCarousel()}
-                  <div className="col-lg-12 col-md-12">
-                     <div className="modal fade and carousel slide carouselSec" id="lightbox">
-                      <div className="modal-dialog">
-                        <div className="modal-content">
-                          <div className="modal-body myModalBody">
-                           <button type="button" className="close carClose" data-dismiss="modal">&times;</button>
-                            <div id="lightbox" className="carousel slide ECSlideShow" data-ride="carousel" data-interval="false">
-                              <div className="carousel-inner">
-                              { this.showallSlides().map( (slides,index)=>{
-                                if(index == 0){
-                                  var activeStatus = 'active';
-                                }else{
-                                  var activeStatus = '';
-                                  var hideSlideDetail = "hideSlidDetails";
-                                }
-                                 
-                                return (
-                                      <div className={"curImgWrap item "+ activeStatus} key={index}>
-                                        <div className="col-lg-12 col-md-12">
-                                          <div className="col-lg-12 col-md-12 showAddrWrapCarousel">
-                                              {slides.policeStation}
-                                          </div>
-                                        </div>
-                                        <div className="col-lg-12 col-md-12">
-                                          <img src={slides.proofOfCurrentAddr} className="col-lg-12 col-sm-12 col-md-12 col-xs-12 bannerimg"/>
-                                        </div>
-                                       {this.props.isRoleUser == true ?
-                                         <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm verCarouselWrap">
-                                            {this.props.ticketStatus.status == "New" || this.props.ticketStatus.status == "ScreenRejected" && this.props.ticketStatus.role == "screening committee" ?
-                                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                <button type="button" className="btn btn-info rejectTicket acceptreject" onClick={this.hideShowRejectReason.bind()}>Reject</button>                                              
-                                                <a href="#lightbox" data-slide="next" ><button type="button" className="btn btn-info acceptTicket acceptreject" name={index} onClick={this.approvedCurDocument.bind()}>Approved</button></a>
-                                            </div>
-                                            :
-                                            ""
-                                          }  
-                                          </div>
-                                          :
-                                          ""
-                                        }
-                                          <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 showHideReasonWrap">
-                                          <div className="col-lg-10  col-md-10  col-sm-12 col-xs-12 otherInfoForm">
-                                                <textarea className={"col-lg-12 col-md-12 col-sm-12 col-xs-12 rejectReason rejectReason-"+index} rows='2' placeholder="Enter Reject reason..."></textarea>
-                                          </div>
-                                          <div className="col-lg-2  col-md-2  col-sm-12 col-xs-12 rejectBtnWrap">
-                                            <a href="#lightbox" data-slide="next" ><button className="col-lg-12 col-md-12 btn btn-primary rejectReasonBtn pull-left" id={index} onClick={this.submitRejectReasonPV.bind(this)}>Submit</button></a>
-                                          </div>
-                                          </div>
-                                      </div>
-                                  );
-                                })
-                              }
-                              </div>
-                              <a className="left carousel-control" href="#lightbox" data-slide="prev">
-                                <span className="glyphicon glyphicon-chevron-left"></span>
-                                <span className="sr-only">Previous</span>
-                              </a>
-                              <a className="right carousel-control" href="#lightbox" data-slide="next">
-                                <span className="glyphicon glyphicon-chevron-right"></span>
-                                <span className="sr-only">Next</span>
-                              </a>
-                            </div>
-                            <a className="left carousel-control" href="#lightbox" role="button" data-slide="prev">
-                              <span className="glyphicon glyphicon-chevron-left"></span>
-                            </a>
-                            <a className="right carousel-control" href="#lightbox" role="button" data-slide="next">
-                              <span className="glyphicon glyphicon-chevron-right"></span>
-                            </a>
+                          </div>
                           </div>
                         </div>
-                      </div>
+                      :
+                        <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3 verifyDocWrap" >
+                            <div  title="No Documents Attached!">
+                            <img src="/images/assureid/noDocument.png" className="img-responsive addressImage"/>
+                          </div>
+                        </div>
+                      }
                     </div>
-                  </div>    
-                 </div>
-                  :
-                  ""
+                  )
+                })  
+              : 
+              ''
               }
-          </div>
+            </div>
           </div>
           </div>
         </div>   
@@ -760,61 +292,13 @@ verifiedDocumentsContainer = withTracker(props => {
     var _id = props.ticketId;
     const postHandle = Meteor.subscribe('singleTicket',_id); 
     const getTicket   = TicketMaster.findOne({"_id" : _id}) || {};
-    if (getTicket) {
-      console.log('getTicket ',getTicket);
-        var verificationData = [getTicket.verificationData];
-        if(!verificationData){
-          var verificationData = '';
-        }
-        if (getTicket.ticketStatus) {
-          var ticketStatus = getTicket.ticketStatus[0];
-        }else{
-          var ticketStatus = 'New';
-        }
-        var length = getTicket.ticketElement.length;
-        console.log('length ',length);
-        if(length){
-          var currentUsrId = Meteor.userId();
-          var userId = getTicket.ticketElement[length-1].allocatedToUserid;
-          var roleStatus = getTicket.ticketElement[length-1].roleStatus;
-          console.log('roleStatus ',roleStatus);
-          var isRoleSC = Roles.userIsInRole(currentUsrId, ['screening committee'],);
-          if(currentUsrId && userId && roleStatus && isRoleSC){
-            console.log(currentUsrId , userId , roleStatus, isRoleSC);
-            console.log('condition ',(isRoleSC)&&(userId == currentUsrId)&&(roleStatus == 'NewScrAllocated'));
-            if((isRoleSC)&&(userId == currentUsrId)){
-              var docApproveRejectDiv = true;
-            }else{
-              var docApproveRejectDiv = false;
-            }
-            console.log('docApproveRejectDiv ',docApproveRejectDiv);
-          }
-        }
-        
-    }
-     
-    const loading = !postHandle.ready() ;
-    
-    
-    
 
-    // this.props.ticketStatus.status == "New" || this.props.ticketStatus.status == "ScreenRejected" && this.props.ticketStatus.role == "screening committee"
-    // if ((Roles.userIsInRole(Meteor.userId(), ['screening committee'],))&&(getTicket.ticketElement[length-1].allocatedToUserid == Meteor.userId())) {
-    //    var isRoleUser = true;
-    //  }else{
-    //    var isRoleUser = false;
-    //  }
-     // console.log("isRoleUser",isRoleUser);
-    // if(_id){
-      return {
-          loading  : loading,
-          getTicket : getTicket,
-          verificationData,
-          docApproveRejectDiv  : docApproveRejectDiv,
-          ticketStatus : ticketStatus,
-          // curAddrArray,
-          // policeVerificationArray,
-          // firstTicketElen : firstTicketElen,
-      };
+    var docApproveRejectDiv = true;
+    const loading = !postHandle.ready() ;
+    return {
+        loading,
+        getTicket,
+        docApproveRejectDiv,
+    };
 })(VerifiedDocuments);
 export default verifiedDocumentsContainer;

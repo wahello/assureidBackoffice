@@ -171,12 +171,39 @@ export default allOtherRoleSidebarContainer = withTracker(props => {
     if(roleArr){
       var role = roleArr.find(function (obj) { return obj != 'backofficestaff' });
     }
+    var query = '';
+    switch (role) {
+      case 'screening committee':
+        query = 'ticketElement: { $elemMatch: { '+ "allocatedToUserid" + ':"' + _id +'" }}';
+        console.log('query ',query);
+        break;
+      case 'team leader':
+        wheretosearch = 'userId';
+        roleStatus    = '';
+        break;
+      case 'team member':
+        wheretosearch = 'userId';
+        roleStatus    = '';
+        break;
+      case 'quality team leader':
+        wheretosearch = 'userId';
+        roleStatus    = '';
+        break;
+      case 'quality team member':
+        wheretosearch = 'userId';
+        roleStatus    = '';
+        break;
+      default:
+        wheretosearch = 'userId';
+        roleStatus    = '';
+        break;
+    }
 
     var wheretosearch = 'allocatedToUserid';
     
     var allticketsCount      = TicketMaster.find({}).count();
     // var assignedTicketCount  = TicketMaster.find({ticketElement: { $elemMatch: { [wheretosearch]: _id }}}).count();
-    var assignedTicketCount  = TicketMaster.find({}).count();
+    var assignedTicketCount  = TicketMaster.find({query}).count();
     var openTicketCount      = TicketMaster.find({}).count();
     var approvedTicketCount  = TicketMaster.find({}).count();
     var rejectTicketCount    = TicketMaster.find({}).count();

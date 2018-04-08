@@ -6439,7 +6439,7 @@ margin-top: 20px;
 .outerShadow{
   /* box-shadow: 0px 0px 4px #aaa;
   padding: 2%; */
-  border-top: 1px solid #666;
+  border-top: 2px solid #aaa;
   margin-top: 2%;
 }
 .radiobtn{
@@ -6594,4 +6594,8 @@ margin-top: 20px;
 }
 .tempImageDelete{
   cursor: pointer;
+}
+.teamsubmitouter {
+  margin-left: 2%;
+  margin-top: 4%;
 }

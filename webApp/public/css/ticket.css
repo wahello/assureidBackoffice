@@ -13,7 +13,7 @@
 .fesubmitouter{
 	
 	margin-left: 2%;
-	margin-top:5%;
+	margin-top:0%;
 }
 .teammember{
 	margin-right: 5%;
@@ -22,7 +22,7 @@
 }
 .tmListWrap{
 	padding: 1%;
-    text-align: center;
+  text-align: center;
 }
 .approvebtn{
 	margin-right: 2%;
@@ -38,11 +38,13 @@
   margin-bottom: 5%;
 }
 .fesubmitbtn{
-  padding: 1%;
+  padding: 3%;
 }
 .downloadLable{
-	  /*text-align: center;*/
     font-size: 12px;
     padding: 1%;
     margin-left: 4%
+}
+.acceptrejectwrap{
+	margin-top:2%;
 }

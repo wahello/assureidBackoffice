@@ -19,7 +19,7 @@ import TicketDocumentDetails from '/imports/dashboard/ticketManagement/TicketDoc
 // import RoleTicketStatus from './RoleTicketStatus.jsx';
 import DocumentStatus from './DocumentStatus.jsx';
 import AddImagesVideo from './AddImagesVideo.jsx';
-import UserUploadTask from './UserUploadTask.jsx';
+import VerificationDataSubmit from './VerificationDataSubmit.jsx';
 import VerifyDetailsDocument from './VerifyDetailsDocument.jsx';
 import { UserProfile } from '../../website/forms/api/userProfile.js';
 import SubmittedDocuments from './SubmittedDocuments.jsx';
@@ -82,18 +82,22 @@ class Ticket extends TrackerReact(Component){
     }else if(this.props.getTicket.ticketElement[elementLength-1].roleStatus == 'ProofSubmit'){
       var roleStatus          = $('#TMProofReject').attr('data-roleStatus');
       var msg                 = $('#TMProofReject').attr('data-msg');
-      var allocatedToUserid   = this.props.getTicket.ticketElement[elementLength-1].allocatedToUserid;
+      var allocatedToUserid   = this.props.getTicket.ticketElement[elementLength-1].allocatedToUserId;
       var allocatedToUserName = this.props.getTicket.ticketElement[elementLength-1].allocatedToUserName;
     }else if(this.props.getTicket.ticketElement[elementLength-1].roleStatus == 'VerificationPassQTMAllocated'){
       var roleStatus          = $('#QTMRejectTicket').attr('data-roleStatus');
-      var msg                 = $('#QTMRejectTicket').attr('data-msg'); 
-      var allocatedToUserid   = this.props.getTicket.ticketElement[elementLength-2].allocatedToUserid;
-      var allocatedToUserName = this.props.getTicket.ticketElement[elementLength-2].allocatedToUserName;
+      var msg                 = $('#QTMRejectTicket').attr('data-msg');
+      var ticketElements      = this.props.getTicket.ticketElement;  
+      var teamMemberDetails   = ticketElements.find(function (obj) { return obj.roleStatus == 'ReportSubmitted' });
+      var allocatedToUserid   = teamMemberDetails.userId;
+      var allocatedToUserName = teamMemberDetails.userName;
     }else if(this.props.getTicket.ticketElement[elementLength-1].roleStatus == 'VerificationPassQTLAllocated'){
       var roleStatus          = $('#QTLRejectTicket').attr('data-roleStatus');
-      var msg                 = $('#QTLRejectTicket').attr('data-msg'); 
-      var allocatedToUserid   = this.props.getTicket.ticketElement[elementLength-2].allocatedToUserid;
-      var allocatedToUserName = this.props.getTicket.ticketElement[elementLength-2].allocatedToUserName;
+      var msg                 = $('#QTLRejectTicket').attr('data-msg');
+      var ticketElements      = this.props.getTicket.ticketElement;  
+      var teamMemberDetails   = ticketElements.find(function (obj) { return obj.roleStatus == 'VerificationPassQTMAllocated' });
+      var allocatedToUserid   = teamMemberDetails.allocatedToUserid;
+      var allocatedToUserName = teamMemberDetails.allocatedToUserName; 
     }
     var insertData = {
       "userId"              : Meteor.userId(),
@@ -110,21 +114,6 @@ class Ticket extends TrackerReact(Component){
     Meteor.call('genericUpdateTicketMasterElement',this.props.ticketId,insertData);
     this.setState({"showRejectBox" : 'N'});
   }
-  /**================= Team Leader Allocate To Team Member =================== */
-  allocateToTeamMember(event){
-    event.preventDefault();
-    var userName = this.refs.allocateToName.value;
-    var userId  = $(":selected").attr("id");
-    // console.log("userId :"+userId);
-    var ticketId = this.props.ticketId; 
-    Meteor.call('allocateToTeamMember',ticketId,userId,userName,(error,result)=>{
-    });
-  }
-  changeTMStatus(event){
-    var ticketId = this.props.ticketId;
-    var status      = $(event.currentTarget).attr('data-status');
-    Meteor.call('updateTMStatus',ticketId,status);
-  }  
   /*Get radio value and display dropdown and textbox*/
   getRadioValue(event){
     event.preventDefault();
@@ -132,6 +121,7 @@ class Ticket extends TrackerReact(Component){
     this.setState({
         'radioState':radioValue,
     });
+    console.log("radioState :"+this.state.radioState);
   }
   showBAFEList(role){
     var teammemberDetails = Meteor.users.find({"roles": {$in:[role]}}).fetch();
@@ -185,10 +175,11 @@ class Ticket extends TrackerReact(Component){
     var memberid ='';
     var memberName = '';
     if(this.props.getTicket.ticketElement[elementLength-1].roleStatus == 'screenTLAllocated' || 
-       this.props.getTicket.ticketElement[elementLength-1].roleStatus == 'ReAssign'){
+       this.props.getTicket.ticketElement[elementLength-1].roleStatus == 'ReAssign' || 
+       this.props.getTicket.ticketElement[elementLength-1].roleStatus == 'AssignReject'){
         insertData.allocatedToUserid = $("#selectTMMember option:selected").val();
         insertData.allocatedToUserName = $("#selectTMMember option:selected").text();
-    }else if(this.props.getTicket.ticketElement[elementLength-1].roleStatus == 'Assign'){
+    }else if(this.props.getTicket.ticketElement[elementLength-1].roleStatus == 'Assign' || this.props.getTicket.ticketElement[elementLength-1].roleStatus == 'ProofSubmit'){
         insertData.allocatedToUserid   = '';
         insertData.allocatedToUserName = '';
     }else if(this.props.getTicket.ticketElement[elementLength-1].roleStatus == 'AssignAccept' ||
@@ -209,7 +200,18 @@ class Ticket extends TrackerReact(Component){
       }
       insertData.allocatedToUserid   = '';
       insertData.allocatedToUserName = '';
-}else if(this.props.getTicket.ticketElement[elementLength-1].roleStatus == 'VerificationPassQTLAllocated'){
+    }else if(this.props.getTicket.ticketElement[elementLength-1].roleStatus == 'ReportReSubmitted'){
+      if(!this.props.loading){
+        var reportLinkDetails = TempTicketReport.findOne({},{sort:{'createdAt':-1}});  
+        if(reportLinkDetails){
+          insertData.reportSubmited = reportLinkDetails.ReportLink;
+        } 
+      }
+      var ticketElements      = this.props.getTicket.ticketElement;  
+      var teamMemberDetails   = ticketElements.find(function (obj) { return obj.roleStatus == 'QAFail' });
+      var allocatedToUserid   = teamMemberDetails.userid;
+      var allocatedToUserName = teamMemberDetails.userName;
+    }else if(this.props.getTicket.ticketElement[elementLength-1].roleStatus == 'VerificationPassQTLAllocated'){
       insertData.allocatedToUserid = this.props.getTicket.ticketElement[0].userId;
       insertData.allocatedToUserName = this.props.getTicket.ticketElement[0].userName;
     }
@@ -223,7 +225,6 @@ class Ticket extends TrackerReact(Component){
       if(reportLinkDetails){
         var reportLink = reportLinkDetails.ReportLink;
       } 
-
     if((this.props.getTicket.ticketElement[n-1].roleStatus == 'screenTLAllocated' )
         &&
         (Meteor.user().roles.find(this.getRole) == 'team leader' && this.props.getTicket.ticketElement[n-1].allocatedToUserid == Meteor.userId())){
@@ -245,7 +246,7 @@ class Ticket extends TrackerReact(Component){
                 })
               } 
             </select>
-            <div className="col-lg-4 fesubmitouter noLRPad">
+            <div className="col-lg-3 col-md-3 col-sm-6 col-xs-6 fesubmitouter noLRPad">
               <button type="submit" value="Submit" className="col-lg-11 fesubmitbtn noLRPad" data-role="Team Leader" data-roleStatus="Assign" data-msg="Assigned Ticket To Team Member" onClick={this.approveButton.bind(this)} >Submit</button>                                       
             </div>
           </div>
@@ -282,31 +283,31 @@ class Ticket extends TrackerReact(Component){
     }else if((this.props.getTicket.ticketElement[n-1].roleStatus == 'AssignReject')
           &&
           (Meteor.user().roles.find(this.getRole) == 'team leader' && this.props.getTicket.ticketElement[n-1].allocatedToUserid == Meteor.userId())){
-      var teamMemberList=[];
-      var title = "Team Leader";
-      return(
-      <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper"> 
-      <h5> {title} </h5>
-      <div className="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-12">
-        <span className="col-lg-3 col-md-3 col-sm-4 col-xs-5"> Assign this ticket to: </span>
-        <select className="col-lg-3 col-md-3 col-sm-4 col-xs-5 tmListWrap" id="selectTMMember" aria-describedby="basic-addon1" ref="allocateToName">  
-          { 
-            this.showBAFEList('team member').map((data,i)=>{
-              return(
-                <option key={i} value={data._id}>
-                  {data.profile.firstname + ' ' + data.profile.lastname}
-                </option>
-              );
-            })
-          } 
-        </select>
-        <div className="col-lg-4 fesubmitouter noLRPad">
-          <button type="submit" value="Submit" className="col-lg-11 fesubmitbtn noLRPad" data-role="Team Leader" data-roleStatus="Assign" data-msg="Assigned Ticket To Team Member" onClick={this.approveButton.bind(this)} >Submit</button>                                       
-        </div>
-      </div>
-      </div>
-)
-}else if((this.props.getTicket.ticketElement[n-1].roleStatus == 'Assign' )
+          var teamMemberList=[];
+          var title = "Team Leader";
+          return(
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper"> 
+              <h5> {title} </h5>
+              <div className="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-12">
+                <span className="col-lg-3 col-md-3 col-sm-4 col-xs-5"> Assign this ticket to: </span>
+                <select className="col-lg-3 col-md-3 col-sm-4 col-xs-5 tmListWrap" id="selectTMMember" aria-describedby="basic-addon1" ref="allocateToName">  
+                  { 
+                    this.showBAFEList('team member').map((data,i)=>{
+                      return(
+                        <option key={i} value={data._id}>
+                          {data.profile.firstname + ' ' + data.profile.lastname}
+                        </option>
+                      );
+                    })
+                  } 
+                </select>
+                <div className="col-lg-4 fesubmitouter noLRPad">
+                  <button type="submit" value="Submit" className="col-lg-11 fesubmitbtn noLRPad" data-role="Team Leader" data-roleStatus="Assign" data-msg="Assigned Ticket To Team Member" onClick={this.approveButton.bind(this)} >Submit</button>                                       
+                </div>
+              </div>
+            </div>
+          )
+    }else if((this.props.getTicket.ticketElement[n-1].roleStatus == 'Assign' )
               &&
               (Meteor.user().roles.find(this.getRole) == 'team member' && this.props.getTicket.ticketElement[n-1].allocatedToUserid == Meteor.userId())){
       var title = "Team Member";  
@@ -314,7 +315,7 @@ class Ticket extends TrackerReact(Component){
         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper"> 
           <h5> {title} </h5> 
           <span>Please accept if your are going to work on this ticket. If rejected please provide appropriate reason.</span>
-          <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1 col-xs-12">
+          <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1 col-xs-12 acceptrejectwrap">
             <button className="btn btn-danger approvebtn col-lg-3 col-md-3 col-sm-4 col-xs-5" id="TMRejectTicket" data-roleStatus="AssignReject" data-msg="Rejected Ticket and returned back to " onClick={this.showRejectBoxState.bind(this)}> 
               Reject 
             </button>
@@ -324,7 +325,6 @@ class Ticket extends TrackerReact(Component){
           {this.state.showRejectBox === 'Y' ? this.getRejectBox() : '' }
         </div>
       )
-
     }else if((this.props.getTicket.ticketElement[n-1].roleStatus == 'AssignAccept') &&
               (Meteor.user().roles.find(this.getRole) == 'team member' && this.props.getTicket.ticketElement[n-1].userId == Meteor.userId())){
       console.log("in team Member");
@@ -335,15 +335,21 @@ class Ticket extends TrackerReact(Component){
           <h5> {title} </h5>
           <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1 col-xs-12">
             <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper ">
-              <div className="radio radiobtn col-lg-3 noLRPad">
-                <label className="noLRPad"><input type="radio" name="radioState" value="Self" className="optradio" checked={this.state.radioState ==="Self"} onChange={this.getRadioValue.bind(this)}/>Self</label>
-              </div>
-              <div className="radio col-lg-5 radiobtn noLRPad">
-                <label className="noLRPad"><input type="radio" name="radioState" value="field expert" className="optradio" checked={this.state.radioState ==="Field Expert"} onChange={this.getRadioValue.bind(this)}/>Field Expert</label>
-              </div>
-              <div className="radio radiobtn col-lg-4 noLRPad">
-                <label className="noLRPad"><input type="radio" name="radioState" value="ba" className="optradio" checked={this.state.radioState ==="Business Associate"} onChange={this.getRadioValue.bind(this)}/>Business Associate</label>
-              </div>
+                <div className="radio radiobtn col-lg-3 noLRPad">
+                  <label className="noLRPad">
+                    <input type="radio" name="radioState" value="Self" className="optradio" checked={this.state.radioState ==="Self"} onChange={this.getRadioValue.bind(this)}/>Self
+                    Self</label>
+                </div>     
+                <div className="radio col-lg-5 radiobtn noLRPad">
+                  <label className="noLRPad">
+                    <input type="radio" name="radioState" value="field expert" className="optradio" checked={this.state.radioState ==="Field Expert"} onChange={this.getRadioValue.bind(this)}/>Field Expert
+                  </label>
+                </div>
+                <div className="radio radiobtn col-lg-4 noLRPad">
+                  <label className="noLRPad">
+                    <input type="radio" name="radioState" value="ba" className="optradio" checked={this.state.radioState ==="Business Associate"} onChange={this.getRadioValue.bind(this)}/>Business Associate
+                  </label>
+                </div>
             </div>
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad hideFieldexpert selfallocatedwrap">                            
               {this.state.radioState == 'field expert'?       
@@ -398,7 +404,7 @@ class Ticket extends TrackerReact(Component){
           </div>
         </div> 
       )
-    }else if((this.props.getTicket.ticketElement[n-1].roleStatus == 'SelfAllocated' || this.props.getTicket.ticketElement[n-1].roleStatus == 'VerificationFail')
+    }else if((this.props.getTicket.ticketElement[n-1].roleStatus == 'SelfAllocated')
               &&
               (Meteor.user().roles.find(this.getRole) == 'team member' && this.props.getTicket.ticketElement[n-1].userId == Meteor.userId())){
       var title = "Team Member";  
@@ -411,8 +417,18 @@ class Ticket extends TrackerReact(Component){
                   Upload Documents & Remark</button>  
           </div>
           <div id="AddImagesVideo" style={{"display":"none"}}>
-            <AddImagesVideo ticket={this.props.ticketId}/>
+            {<VerificationDataSubmit ticketId={this.props.ticketId}/>}
           </div>
+        </div>
+      )
+    }else if((this.props.getTicket.ticketElement[n-1].roleStatus == 'VerificationFail')
+              &&
+              (Meteor.user().roles.find(this.getRole) == 'team member' && this.props.getTicket.ticketElement[n-1].userId == Meteor.userId())){
+      var title = "Team Member";  
+      return(
+        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper"> 
+          <h5> {title} </h5>
+          <span>Please reSubmit the Documents by Clicking on the Edit Button</span>
         </div>
       )
     }else if((this.props.getTicket.ticketElement[n-1].roleStatus == 'ProofSubmit')
@@ -422,26 +438,15 @@ class Ticket extends TrackerReact(Component){
       return(
         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper"> 
           <h5> {title} </h5>
-          <UserUploadTask ticketId={this.props.ticketId}/>
-        </div>
-        
-      )
-    }else if((this.props.getTicket.ticketElement[n-1].roleStatus == 'OtherReportInfo')
-               &&
-              (Meteor.user().roles.find(this.getRole) == 'team member' && this.props.getTicket.ticketElement[n-1].userId == Meteor.userId())){
-      var title = "Team Member";  
-      return(
-        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper"> 
-        <h5> {title} </h5>
-        <span> Do you accept the Information Regarding the Recject</span>
-        <div className="docbtnwrap col-lg-6 col-lg-offset-4">
-          <button type="button" className="btn btn-danger col-lg-4 ApprovRejDoc" id="TMProofReject" data-roleStatus="VerificationFail" data-msg="Rejected Verification Information" onClick={this.showRejectBoxState.bind(this)}>Reject</button>
-          <button type="button" className="btn btn-primary col-lg-4 ApprovRejDoc" data-roleStatus="VerificationPass" data-msg="Approved Verification Information" onClick ={this.approveButton.bind(this)}>Approve</button>
-        </div>
-        {this.state.showRejectBox === 'Y' ? this.getRejectBox() : '' }
+          <span> Do you accept the Information Regarding the Reject</span>
+          <div className="docbtnwrap col-lg-6 col-lg-offset-4">
+            <button type="button" className="btn btn-danger col-lg-4 ApprovRejDoc" id="TMProofReject" data-roleStatus="VerificationFail" data-msg="Rejected Verification Information" onClick={this.showRejectBoxState.bind(this)}>Reject</button>
+            <button type="button" className="btn btn-primary col-lg-4 ApprovRejDoc" data-roleStatus="VerificationPass" data-msg="Approved Verification Information" onClick ={this.approveButton.bind(this)}>Approve</button>
+          </div>
+          {this.state.showRejectBox === 'Y' ? this.getRejectBox() : '' }
         </div>
       )
-}else if((this.props.getTicket.ticketElement[n-1].roleStatus == 'VerificationPass')
+    }else if((this.props.getTicket.ticketElement[n-1].roleStatus == 'VerificationPass')
               &&
               (Meteor.user().roles.find(this.getRole) == 'team member' && this.props.getTicket.ticketElement[n-1].userId == Meteor.userId())){
       var title = "Team Member";  
@@ -456,12 +461,8 @@ class Ticket extends TrackerReact(Component){
             <div className="col-lg-4">
                 <button type="button" className="fesubmitbtn col-lg-5" data-roleStatus="ReportSubmitted" data-msg="Submitted Verification Information" onClick={this.approveButton.bind(this)}>Submit</button>
             </div>
-           { /*<div className="docdownload col-lg-2 col-lg-offset-5" title="Download Report">
-                           <i className="fa fa-file-text-o" aria-hidden="true"></i>
-                       </div>*/}
           </div>
         </div>
-        
       )
     }else if((this.props.getTicket.ticketElement[n-1].roleStatus == 'VerificationPassQTMAllocated')
               &&
@@ -493,7 +494,38 @@ class Ticket extends TrackerReact(Component){
           </div>
           </div>        
       )
-    }else if((this.props.getTicket.ticketElement[n-1].roleStatus == 'VerificationPassQTLAllocated')
+    }else if((this.props.getTicket.ticketElement[n-1].roleStatus == 'QAFail')
+              &&
+              (Meteor.user().roles.find(this.getRole) == 'team member' && this.props.getTicket.ticketElement[n-1].allocatedToUserid == Meteor.userId())){
+      var title = "Team Member";  
+      return(
+        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper"> 
+          <h5> {title} </h5>
+          
+          <div className="col-lg-10 col-md-10 col-md-offset-0 col-xm-12 col-xs-12">
+            <h6>Submitted Report</h6>
+            <div className="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+              <div className="docdownload col-lg-3 col-lg-offset-1" title="Download Previous Report">
+                  <a href={this.props.getTicket.reportSubmited.documents} download>
+                    <i className="fa fa-file-text-o" aria-hidden="true"></i>
+                  </a>
+              </div>
+              <lable className=" col-lg-9 col-md-9 col-sm-12 col-xs-12 downloadLable">Download Previous Report</lable>
+            </div>
+
+            <div className="col-lg-5 col-lg-offset-0 col-md-6 col-md-offset-0 col-sm-10 col-sm-offset-1 col-xs-12">
+              <div className="col-lg-6">
+                  <input type="file" ref="uploadReportFile" id="uploadReport" name="uploadReport" className="col-lg-7 reporttitle noLRPad" onChange={this.handleReportUpload.bind(this)} multiple/>
+              </div>
+              <div className="col-lg-4">
+                  <button type="button" className="fesubmitbtn col-lg-5" data-roleStatus="ReportReSubmitted" data-msg="Re-Submitted Verification Information" onClick={this.approveButton.bind(this)}>Submit</button>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+      )
+  }else if((this.props.getTicket.ticketElement[n-1].roleStatus == 'VerificationPassQTLAllocated')
             &&
             (Meteor.user().roles.find(this.getRole) == 'quality team leader' && this.props.getTicket.ticketElement[n-1].allocatedToUserid == Meteor.userId())){
       var title = "Qulity Team Leader";  
@@ -636,25 +668,20 @@ class Ticket extends TrackerReact(Component){
                         </div>
                         <VerifiedDocuments ticketId={this.props.params.id}/>
                         <div id="SubmittedDocuments" >
-                          {this.props.getTicket.submittedDocuments ?
-                            <SubmittedDocuments submittedDocuments={this.props.getTicket.submittedDocuments}/>
+                          {this.props.getTicket.submitedDoc ?
+                            <SubmittedDocuments submittedDocuments={this.props.getTicket.submitedDoc}/>
                             :
                             ""
                           }
                         </div>
-                        {this.props.getTicket.submitOtherReportData ?
-                          <SubmittedAdditionalReportData ticketId={this.props.ticketId}/>
-                            :
-                            ""
-                          }
-                         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outerShadow">
-                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outerShadow">
                               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 activityDetails">                            
                                   <h3> Activities</h3>
                               </div>
                               {this.actionBlock()}
                               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
-                                {this.props.getTicket.ticketElement.map((element,i)=>{
+                                {this.props.getTicket.ticketElement.slice(0).reverse().map((element,i)=>{
                                    return ( 
                                     <div key={i} className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper"> 
                                       <h5> {element.role} </h5>

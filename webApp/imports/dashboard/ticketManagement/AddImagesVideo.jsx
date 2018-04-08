@@ -351,7 +351,7 @@ render(){
                     this.state.images.map((ticketImages,index) =>{
                     return(
                       <div className="col-lg-3 imgbrPre" key={index}>
-                       {/*<i className="fa fa-times pull-right tempImageDelete" id={this.props.ticket} data-index={index} onClick={this.deleteImageFromteicket.bind(this)}></i>*/}
+                       <i className="fa fa-times pull-right tempImageDelete" id={this.props.ticket} data-index={index} onClick={this.deleteImageFromteicket.bind(this)}></i>
                         <div className="imgbr">
                           <img src={ticketImages.imageLink} className="img1 img-responsive" />
                         </div>

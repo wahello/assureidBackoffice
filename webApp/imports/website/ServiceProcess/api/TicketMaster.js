@@ -63,7 +63,6 @@ if(Meteor.isServer){
 				}
 			}
 		);	
-		
 		switch(insertData.roleStatus){
 			case 'ScreenApproved' 	:
 				var newCount = Meteor.user().count;
@@ -106,31 +105,28 @@ if(Meteor.isServer){
 				}
 				
 				break;
-			case 'ScreenedRejected' : 
+			case 'ScreenRejected' 	: 
 				var newCount = Meteor.user().count;
 				if(newCount){
 					Meteor.call('updateCommitteeUserCount',newCount-1,insertData.userId);
 				}
 				var ticketDetails = TicketMaster.findOne({"_id":ticketid});
 				if(ticketDetails){
-					console.log(ticketid,ticketDetails.userId,insertData.remark,ticketDetails.verificationType,ticketDetails.verificationId);
+					console.log('ticketmaster ',ticketid,ticketDetails.userId,insertData.remark,ticketDetails.verificationType,ticketDetails.verificationId);
 					Meteor.call('changeStatusMethod',ticketid,ticketDetails.userId,insertData.remark,ticketDetails.verificationType,ticketDetails.verificationId);
 				}
 				break;
 			case 'ProofSubmit'      :
-				if(insertData.submitedDoc.images.length>0){
-					
-					TicketMaster.update({"_id": ticketid},{
-						$set: {
-							'submittedDocuments.createdAt' : insertData.createdAt,
-							'submittedDocuments.documents' : insertData.submitedDoc,
-						}
-					});
-					TempTicketImages.remove({});
-					TempTicketVideo.remove({});
-				}
+				TicketMaster.update({"_id": ticketid},{
+					$set: {
+						'submitedDoc.createdAt' : insertData.createdAt,
+						'submitedDoc.documents' : insertData.submitedDoc,
+					}
+				});
+				TempTicketImages.remove({});
+				TempTicketVideo.remove({});
 				break;
-			case 'OtherReportInfo' :
+			case 'OtherReportInfo' 	:
 					TicketMaster.update({"_id": ticketid},{
 						$set: {
 							'submitOtherReportData.createdAt' : insertData.createdAt,
@@ -138,7 +134,7 @@ if(Meteor.isServer){
 						}
 					});
 				break;
-			case 'ReportSubmitted' :
+			case 'ReportSubmitted' 	:
 					TicketMaster.update({"_id": ticketid},{
 						$set: {
 							'reportSubmited.createdAt' : insertData.createdAt,
@@ -181,7 +177,7 @@ if(Meteor.isServer){
 						}
 					}
 					break;
-			case 'QAPass' :
+			case 'QAPass' 			:
 					var newCount = Meteor.user().count;
 					if(newCount){
 						Meteor.call('updateCommitteeUserCount',newCount-1,insertData.userId);
@@ -220,6 +216,15 @@ if(Meteor.isServer){
 							Meteor.call('updateCommitteeUserCount',newCount,newMember._id);
 						}
 					}
+					break;
+			case 'QAFail' :
+					TicketMaster.update({"_id": ticketid},{
+						$set: {
+							'reportSubmited.createdAt' : insertData.createdAt,
+							'reportSubmited.documents' : insertData.reportSubmited,
+						}
+					});
+					TempTicketReport.remove({});
 					break;
 		}
 		return updateStatus;
@@ -355,7 +360,6 @@ if(Meteor.isServer){
 			{$set:{
 				'count':count
 			}}
-		
 		)
 	},
 
@@ -629,29 +633,6 @@ if(Meteor.isServer){
 		);
 		
 	},
-
-	/*=================== Update Status In Ticket Bucket ====================*/
-
-	'genericUpdateTicketBucket': function(id,status,role){
-		var ticketBucketDetails = TicketBucket.find({'ticketid':id}).fetch();
-		var ticketBucketLength = ticketBucketDetails.length;
-		if(ticketBucketLength > 0){
-			var prevTicketBucketData = ticketBucketDetails[ticketBucketLength - 1];
-			if(prevTicketBucketData.role == role){					
-				/****** Update Status *******/
-			return	TicketBucket.update(
-					{'ticketid':id,'role':role},
-					{
-						$set:{
-							'status' : status,
-						}
-					}
-				)
-			}
-		}	
-	},
-
-	
 
 	/*This function overwrite ticket bucket with Role team leader */
 	'insertTicketBucket':function(ticket){
