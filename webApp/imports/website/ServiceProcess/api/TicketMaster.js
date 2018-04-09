@@ -137,6 +137,48 @@ if(Meteor.isServer){
 				});
 				break;
 			case 'ReportSubmitted' 	:
+					TicketMaster.update({"_id": ticketid},{
+						$set: {
+							'reportSubmited.createdAt' : insertData.createdAt,
+							'reportSubmited.documents' : insertData.reportSubmited,
+						}
+					});
+					TempTicketReport.remove({});
+					var role = "quality team member";
+					var roleStatus = "VerificationPassQTMAllocated";
+					var ticketDetails = TicketMaster.findOne({"_id":ticketid});
+					if(ticketDetails){
+						var newMember = Meteor.call('autoAllocateMember',role,ticketDetails.serviceName);
+						var roleSentence = Meteor.call('toTitleCase',role);
+						if(roleSentence){
+							var insertData = {
+								"userId"              : '',
+								"userName"            : '',
+								"role"                : 'system action',
+								"roleStatus"          : roleStatus,
+								"msg"                 : "System Allocated Ticket To " + roleSentence,
+								"allocatedToUserid"	  : newMember._id,
+								"allocatedToUserName" : newMember.profile.firstname + ' ' + newMember.profile.lastname,
+								"createdAt"           : new Date()
+							}
+							//Update TicketElement - System Action
+							TicketMaster.update(
+								{'_id':ticketid},
+								{
+									$push:{
+										'ticketElement' : insertData,
+									}
+								}
+							);	
+							if(newMember.count){
+								var newCount = newMember.count + 1;
+							} else{
+								var newCount = 1;
+							}
+							Meteor.call('updateCommitteeUserCount',newCount,newMember._id);
+						}
+					}
+					break;
 			case 'ReportReSubmitted':
 					TicketMaster.update({"_id": ticketid},{
 						$set: {
@@ -232,7 +274,7 @@ if(Meteor.isServer){
 			case 'ReviewPass' :
 				var ticketDetails = TicketMaster.findOne({"_id":ticketid});
 				if(ticketDetails){ 
-					Meteor.call('changeTicketStatusInOrder',ticketDetails.orderId,ticketid,'Verification Done',ticketDetails.reportSubmited.documents)
+					Meteor.call('changeTicketStatusInOrder',ticketDetails.orderId,ticketid,'Approved',ticketDetails.reportSubmited.documents)
 				}
 				break;
 		}
