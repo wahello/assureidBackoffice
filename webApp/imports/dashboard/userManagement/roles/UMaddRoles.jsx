@@ -79,7 +79,7 @@ export default class UMaddRoles extends TrackerReact(Component) {
 					<label>Role Name*</label>
 					<input type="text" name="roleName" className="form-control rolesField" required/>
 				</div>
-				<div className="form-group col-lg-4 col-md-4 col-xs-5 col-sm-12 ">
+				<div className="form-group col-lg-4 col-md-4 col-xs-5 col-sm-12 rolebtn">
 					<input type="submit" value="ADD ROLE" className="btn btn-primary submit addrolesBtn"/>
 				</div>
 			</form>   

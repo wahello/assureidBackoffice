@@ -11,7 +11,7 @@ import {Tracker} from 'meteor/tracker';
 import { browserHistory } from 'react-router';
 import { Order } from "/imports/website/ServiceProcess/api/Order.js";
 
-// import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 
 class DailyReports extends TrackerReact(Component){
 	constructor(props){
@@ -160,13 +160,13 @@ class DailyReports extends TrackerReact(Component){
                             {/* <div className="report-list-downloadPrint">
                                 <i className="fa fa-print" aria-hidden="true"></i>Download Report
                             </div> */}
-                            {/* <ReactHTMLTableToExcel
+                            <ReactHTMLTableToExcel
                                 id="test-table-xls-button"
                                 className="download-table-xls-button btn report-list-downloadXLXS"
                                 table="subscriber-list-outerTable"
                                 filename="tablexls"
                                 sheet="tablexls"
-                                buttonText="Download as XLS"/> */}
+                                buttonText="Download as XLS"/>
 
                         </div>
                     </div>

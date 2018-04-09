@@ -6342,6 +6342,7 @@ margin-bottom: 20px!important;
 padding-left: 0;
 padding-right: 0;
 border: 1px solid #aaa;
+background: #fff;
 }
 .imgbr{
    border: 1px solid #ddd;
@@ -6598,4 +6599,7 @@ margin-top: 20px;
 .teamsubmitouter {
   margin-left: 2%;
   margin-top: 4%;
+}
+.rolebtn{
+  margin-top:5%;
 }

@@ -87,3 +87,10 @@
 .arrowcolor{
     color:#00c0ef;
 }
+.report-list-downloadXLXS {
+    padding: 5px 10px;
+    background: #00a65a;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 0 !important;
+}
