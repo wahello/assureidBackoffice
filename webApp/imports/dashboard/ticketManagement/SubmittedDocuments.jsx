@@ -72,6 +72,7 @@ export default class SubmittedDocuments extends TrackerReact(Component){
 					    <span><i className="fa fa-pencil editdoc" aria-hidden="true" title="Edit Document" onClick={this.EditDocument.bind(this)}></i></span>					
 	           </div>
 			      </div>
+			      <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
              {this.props.submittedDocuments.documents ?
                 this.props.submittedDocuments.documents.checkLists.map((submittedChecklist,index)=>{
                   return(
@@ -83,7 +84,8 @@ export default class SubmittedDocuments extends TrackerReact(Component){
                 :
                "" 
              }
-
+            </div>
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 						 {this.props.submittedDocuments.documents ?
 								this.props.submittedDocuments.documents.textLists.map((textListsData,index)=>{
 									return(
@@ -96,6 +98,7 @@ export default class SubmittedDocuments extends TrackerReact(Component){
 							:
 							""
 							}
+						</div>
           </div>
 	        <div className="col-lg-12 wholeborder ">
 		          <div className="imgtitile col-lg-12 noLRPad">
@@ -151,21 +154,18 @@ export default class SubmittedDocuments extends TrackerReact(Component){
 	        </div>
 			        </div>
 	       </div>
-				 	<div className="imgtitile col-lg-12  noLRPad">
+				 	<div className="imgtitile col-lg-12 ">
 						<div className="col-lg-3 noLRPad Selectimg"><span className="checkBoxtitle"><strong>Status &nbsp;</strong></span><span className="pull-right"><strong>:</strong></span></div> 
 						<div className="col-lg-9">{this.props.submittedDocuments.documents.status}</div>
 					</div>
-					<div className="imgtitile col-lg-12  noLRPad">
+					<div className="imgtitile col-lg-12 ">
 						<div className="col-lg-3 noLRPad Selectimg"><span className="checkBoxtitle"><strong>Sub-status &nbsp;</strong></span><span className="pull-right"><strong>:</strong></span></div> 
 						<div className="col-lg-9">{this.props.submittedDocuments.documents.subStatus}</div>
 					</div>
-	
-	      <div className="col-lg-12 wholeborder">
-	          <div className="imgtitile col-lg-12  noLRPad">
-	            <div className="col-lg-1 noLRPad Selectimg"><span className="checkBoxtitle"><strong>Remark &nbsp;:</strong></span></div> 
-              <div className="col-lg-10">{this.props.submittedDocuments.documents.remark}</div>
-            </div>
-	      </div>
+		      <div className="imgtitile col-lg-12">
+	            <div className="col-lg-3 noLRPad Selectimg"><span className="checkBoxtitle"><strong>Remark &nbsp;</strong></span><span className="pull-right"><strong>:</strong></span></div> 
+              <div className="col-lg-9">{this.props.submittedDocuments.documents.remark}</div>
+          </div>
 
 				</div>
 				  <div id="AddImagesVideo1" style={{"display":"none"}}>

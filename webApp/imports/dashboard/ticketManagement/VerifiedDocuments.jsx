@@ -248,39 +248,39 @@ class VerifiedDocuments extends TrackerReact(Component){
                             </div>
                           </div>
                           <div className="modal fade" id={"showProofOfDocumentModal-"+index} role="dialog">
-                          <div className="modal-dialog">
-                            <div className="modal-content">
-                              <div className="modal-body">
-                                <button type="button" className="close" data-dismiss="modal">&times;</button>
-                                <div className="row">
-                                  <div className="col-lg-12 col-md-12  col-sm-12 col-sm-12">
-                                      {this.showData(this.props.getTicket.verificationType,this.props.getTicket.verificationData)}
-                                  </div>
-                                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
-                                    <img src={verificationDocument.proofOfDocument}  className="col-lg-12 img-responsive addressImageModal showAddrImgWrap col-lg-12 col-md-12 col-sm-12 col-xs-12"/>
-                                  </div>
-                                  {this.props.docApproveRejectDiv == true ?
-                                    <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm">
-                                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                          <button type="button" className="btn btn-danger rejectTicket teammember acceptreject" data-id={this.props.getTicket._id} onClick={this.hideShowRejectReason.bind()}>Reject</button>
-                                          <button type="button" className="btn btn-success acceptTicket acceptreject" data-id={this.props.getTicket._id} data-status="ScreenApproved" onClick={this.approvedCurDocument.bind()}>Approve</button>
-                                        </div>    
+                            <div className="modal-dialog">
+                              <div className="modal-content">
+                                <div className="modal-body">
+                                  <button type="button" className="close" data-dismiss="modal">&times;</button>
+                                  <div className="row">
+                                    <div className="col-lg-12 col-md-12  col-sm-12 col-sm-12">
+                                        {this.showData(this.props.getTicket.verificationType,this.props.getTicket.verificationData)}
                                     </div>
-                                    :
-                                    ""
-                                    }
-                                  <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 showHideReasonWrap">
-                                  <div className="col-lg-10  col-md-10  col-sm-12 col-xs-12 otherInfoForm">
-                                        <textarea className={"col-lg-12 col-md-12 col-sm-12 col-xs-12 rejectReason rejectReason-"+index} rows='2' placeholder="Enter Reject reason..."></textarea>
-                                  </div>
-                                  <div className="col-lg-2  col-md-2  col-sm-12 col-xs-12 rejectBtnWrap">
-                                    <button className="col-lg-12 col-md-12 btn btn-primary rejectReasonBtn pull-left" data-status="ScreenRejected" onClick={this.approvedCurDocument.bind(this)}>Submit</button>
-                                  </div>
+                                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                                      <img src={verificationDocument.proofOfDocument}  className="col-lg-12 img-responsive addressImageModal showAddrImgWrap col-lg-12 col-md-12 col-sm-12 col-xs-12"/>
+                                    </div>
+                                    {this.props.docApproveRejectDiv == true ?
+                                      <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm">
+                                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <button type="button" className="btn btn-danger rejectTicket teammember acceptreject" data-id={this.props.getTicket._id} onClick={this.hideShowRejectReason.bind()}>Reject</button>
+                                            <button type="button" className="btn btn-success acceptTicket acceptreject" data-id={this.props.getTicket._id} data-status="ScreenApproved" onClick={this.approvedCurDocument.bind()}>Approve</button>
+                                          </div>    
+                                      </div>
+                                      :
+                                      ""
+                                      }
+                                    <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 showHideReasonWrap">
+                                    <div className="col-lg-10  col-md-10  col-sm-12 col-xs-12 otherInfoForm">
+                                          <textarea className={"col-lg-12 col-md-12 col-sm-12 col-xs-12 rejectReason rejectReason-"+index} rows='2' placeholder="Enter Reject reason..."></textarea>
+                                    </div>
+                                    <div className="col-lg-2  col-md-2  col-sm-12 col-xs-12 rejectBtnWrap">
+                                      <button className="col-lg-12 col-md-12 btn btn-primary rejectReasonBtn pull-left" data-status="ScreenRejected" onClick={this.approvedCurDocument.bind(this)}>Submit</button>
+                                    </div>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
                           </div>
                         </div>
                       :
