@@ -114,7 +114,7 @@ if(Meteor.isServer){
 				}
 				var ticketDetails = TicketMaster.findOne({"_id":ticketid});
 				if(ticketDetails){
-					console.log('ticketmaster ',ticketid,ticketDetails.userId,insertData.remark,ticketDetails.verificationType,ticketDetails.verificationId);
+					// console.log('ticketmaster ',ticketid,ticketDetails.userId,insertData.remark,ticketDetails.verificationType,ticketDetails.verificationId);
 					Meteor.call('changeStatusMethod',ticketid,ticketDetails.userId,insertData.remark,ticketDetails.verificationType,ticketDetails.verificationId);
 				}
 				break;
