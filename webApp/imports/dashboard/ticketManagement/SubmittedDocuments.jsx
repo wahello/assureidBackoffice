@@ -25,7 +25,7 @@ export default class SubmittedDocuments extends TrackerReact(Component){
     var idVal= $(event.target).attr('data-target');
     // console.log("idVal",idVal);
     $('#'+idVal).modal('show');
-	}
+	} 
 	
 	/*==================== Team Member Approve/Reject Document */
 	approveTeamMemDoc(event){
@@ -38,12 +38,12 @@ export default class SubmittedDocuments extends TrackerReact(Component){
 		event.preventDefault();
 		console.log("Inside editDocument");
     $('#AddImagesVideo1').css({"display" : "block"});
-    // $('#outersubmitedDocWrap').css({"display" : "none"});
+    $('#submitedDocWrap').css({"display" : "none"});
 	}
   render(){ 
   	var userId = Meteor.userId();
     if(userId){
-    	var getTicket = TicketMaster.findOne({"_id":this.props.ticketId});
+    	var getTicket = TicketMaster.findOne({"_id" :this.props.ticketId});
     	if(getTicket){	
 	      var ticketElement = getTicket.ticketElement;
 	      if(ticketElement){
@@ -59,8 +59,8 @@ export default class SubmittedDocuments extends TrackerReact(Component){
    	return(
    		<div>
        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad" id="outersubmitedDocWrap">
-        <h6>Submitted Information:</h6>  
-				<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 submitedDocWrap">				      
+				<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 submitedDocWrap" id="submitedDocWrap">			
+				 <h6>Submitted Information:</h6>  
           <div className="col-lg-12 wholeborder ">
 						<div className="imgtitile col-lg-12 noLRPad">
 			        <div className="col-lg-6  noLRPad Selectimg">
@@ -68,16 +68,10 @@ export default class SubmittedDocuments extends TrackerReact(Component){
 			        		<span className="checkBoxtitle">Verified Information:</span>
 			        	</strong>
 			        </div>
-
 			       <div className="col-lg-1 pull-right">
-			       
-					    <span><i className="fa fa-pencil editdoc" aria-hidden="true" title="Edit Document" onClick={this.EditDocument.bind(this)}></i></span>
-					
+					    <span><i className="fa fa-pencil editdoc" aria-hidden="true" title="Edit Document" onClick={this.EditDocument.bind(this)}></i></span>					
 	           </div>
 			      </div>
-			      <div id="AddImagesVideo1" style={{"display":"none"}}>
-        				<VerificationDataSubmit key='editImageVideo' EditValue={this.props.submittedDocuments.documents} ticketId={this.props.ticketId}/>
-          	</div>
              {this.props.submittedDocuments.documents ?
                 this.props.submittedDocuments.documents.checkLists.map((submittedChecklist,index)=>{
                   return(
@@ -172,7 +166,11 @@ export default class SubmittedDocuments extends TrackerReact(Component){
               <div className="col-lg-10">{this.props.submittedDocuments.documents.remark}</div>
             </div>
 	      </div>
+
 				</div>
+				  <div id="AddImagesVideo1" style={{"display":"none"}}>
+      				<VerificationDataSubmit key='editImageVideo' EditValue={this.props.submittedDocuments.documents} ticketId={this.props.ticketId}/>
+        	</div>
       </div>
     </div>
    	);

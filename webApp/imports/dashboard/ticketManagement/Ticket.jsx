@@ -742,7 +742,7 @@ class Ticket extends TrackerReact(Component){
                         <VerifiedDocuments ticketId={this.props.params.id}/>
                         <div id="SubmittedDocuments" >
                           {this.props.getTicket.submitedDoc ?
-                            <SubmittedDocuments submittedDocuments={this.props.getTicket.submitedDoc}/>
+                            <SubmittedDocuments submittedDocuments={this.props.getTicket.submitedDoc} ticketId={this.props.getTicket._id}/>
                             :
                             ""
                           }

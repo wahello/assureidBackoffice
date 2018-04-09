@@ -6603,3 +6603,12 @@ margin-top: 20px;
 .rolebtn{
   margin-top:5%;
 }
+.tempImageDelete{
+  cursor: pointer;
+}
+.outerChecklisttoteamM{
+  padding-bottom: 2%;
+}
+.outerStatusBlock{
+  padding-top: 3%;
+}

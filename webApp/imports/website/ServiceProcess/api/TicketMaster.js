@@ -15,7 +15,7 @@ if(Meteor.isServer){
         return TicketMaster.find({});
 	});
 	Meteor.publish('singleTicket',(_id)=>{
-		console.log('ticket id : ',_id);
+		// console.log('ticket id : ',_id);
         return TicketMaster.find({"_id" : _id}); 
 	});
 
@@ -128,6 +128,16 @@ if(Meteor.isServer){
 				TempTicketImages.remove({});
 				TempTicketVideo.remove({});
 				break;
+			case 'ProofResubmitted' :
+					TicketMaster.update({"_id": ticketid},{
+						$set: {
+							'submitedDoc.createdAt' : insertData.createdAt,
+							'submitedDoc.documents' : insertData.submitedDoc,
+						}
+					});
+					TempTicketImages.remove({});
+					TempTicketVideo.remove({});
+					break;
 			case 'OtherReportInfo' 	:
 				TicketMaster.update({"_id": ticketid},{
 					$set: {
@@ -802,14 +812,20 @@ if(Meteor.isServer){
 			
 	// 	}
 	// }  
-		// deleteImageFromSubmitDocument(id,dataIndex){
-		// 	TicketMaster.update({"_id" : id}, 
-	 //        {$unset : {
-	 //          ['submittedDocuments.images.'+dataIndex] : 1
-	 //        }
-	 //      });
-	 //    TicketMaster.update({"_id": id}, {$pull : {'skills' : null}});  
+		deleteImageFromSubmitDocument(id,dataIndex){
+			var ticketDetails = TicketMaster.findOne({"_id":id});
+			if(ticketDetails){
+				var images = ticketDetails.submitedDoc.documents.images;
+			// console.log('before images list ', images);
+			if (dataIndex > -1) {
+			    images.splice(dataIndex, 1);
+			}
+			// console.log('after images list ', images);
+			TicketMaster.update({"_id":id},
+					{$set:{ 'submitedDoc.documents.images' : images}}
+				);	
+			}
 
-		// },
+		},
 	});
 }
