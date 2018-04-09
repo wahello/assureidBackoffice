@@ -15,6 +15,7 @@ if(Meteor.isServer){
         return TicketMaster.find({});
 	});
 	Meteor.publish('singleTicket',(_id)=>{
+		console.log('ticket id : ',_id);
         return TicketMaster.find({"_id" : _id}); 
 	});
 

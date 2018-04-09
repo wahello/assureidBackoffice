@@ -23,7 +23,7 @@ import HeaderDy from "../../components/HeaderDy/HeaderDy.js";
 import ViewCustomerTable from "../../components/tableComponent/ViewCustomerTable.js";
 import ViewCustomerModal from "../../components/modalComponent/ViewCustomerModal.js";
 
-export default class ViewTicketForm extends React.Component {
+class ViewTicketFormInfo extends React.Component {
   constructor(props) {
     super(props);
     let name = "";
@@ -43,6 +43,7 @@ export default class ViewTicketForm extends React.Component {
       Remark            : '',
       value             : 0,
       fontSize          : 14,
+      userUpload        : {},
       
     };
     this.openDrawer = this.openDrawer.bind(this);
@@ -139,29 +140,28 @@ export default class ViewTicketForm extends React.Component {
   //   this._editLineModal();
   // }
 
+  submit(event) {
+    event.preventDefault();
+    var submitObj = this.state;
+    // console.log('submitObj: ',submitObj);
+    // Or, using array extras
+    var valuesArray = Object.entries(this.state).forEach(([key, value]) => {
+      console.log('key: ',key);
+      console.log('value: ',value);
+      if(key.split('-')[0] == 'text'){
+          console.log('match: ',key);
+          return key;
+      }
+      console.log('-------------------');
+    });
+    console.log('valuesArray: ',valuesArray);
+
+  }
+
   render() {
     
     const { navigate, goBack, state } = this.props.navigation;
-    // const tableHead = [
-    //   "Customer Name",
-    //   "Subscription",
-    //   "Building/House",
-    //   "Notes"
-    // ];
-    // const modalTableHead = ["Type", "Language", "Name", "Quantity"];
-    // const modalTableData = [
-    //   ["Daily", "Marathi", "Sakal", "2"],
-    //   ["Daily", "Marathi", "Sakal", "2"]
-    // ];
-    // const tableData = [
-    //   ["Darshan Bakshi", "2", "John Deer", "some note"],
-    //   ["Darshan Bakshi", "2", "John Deer", "some note"],
-    //   ["Darshan Bakshi", "2", "John Deer", "some note"],
-    //   ["Darshan Bakshi", "2", "John Deer", "some note"],
-    //   ["Darshan Bakshi", "2", "John Deer", "some note"],
-    //   ["Darshan Bakshi", "2", "John Deer", "some note"],
-    //   ["Darshan Bakshi", "2", "John Deer", "some note"]
-    // ];
+
     const menu = <Menu navigate={navigate} userName={this.props.userName} />;
     var navigationView = (
       <ScrollView
@@ -285,112 +285,78 @@ export default class ViewTicketForm extends React.Component {
               />
               <HeaderDy headerTitle="Ticket Tool" goBack={goBack} />
                 <View style={styles.formContainer}>
+
                   <View style={styles.formInputView}>
                     <View>
                       <Text style={{fontWeight: 'bold'}}>Checklist</Text>
                     </View>
                   </View>
-                  <View style={styles.container}>
-                    <CheckBox
-                      center
-                      containerStyle={{ backgroundColor: "transparent", borderWidth: 0 }}
-                      checkedColor="green"
-                      checked={this.state.isChecked}
-                      onPress={this.handleOnChange}
-                      textStyle={{ color: "#aaa" }}
-                      title="No one available"
-                    />
-                  </View>
-                  {this.state.isCheckedError ? (
-                    <View style={styles.error}>
-                      <Text style={styles.errorText}>{this.state.isCheckedError}</Text>
-                    </View>
-                  ) : null}
 
-                  <View style={styles.container}>
-                    <CheckBox
-                      center
-                      containerStyle={{ backgroundColor: "transparent", borderWidth: 0 }}
-                      checkedColor="green"
-                      checked={this.state.isChecked}
-                      onPress={this.handleOnChange}
-                      textStyle={{ color: "#aaa" }}
-                      title="Rejected to give information"
-                    />
-                  </View> 
-                  {this.state.isCheckedError ? (
-                    <View style={styles.error}>
-                      <Text style={styles.errorText}>{this.state.isCheckedError}</Text>
-                    </View>
-                  ) : null}
+                  
+                  {this.props.checkObjs ?
+                    this.props.checkObjs.map((checkListDefault,index)=>{
+                      return(
+                              <View style={styles.container} key={index}>
+                                <CheckBox
+                                  center
+                                  containerStyle={{ backgroundColor: "transparent", borderWidth: 0 }}
+                                  checkedColor="green"
+                                  checked={this.state.isChecked}
+                                  onPress={this.handleOnChange}
+                                  textStyle={{ color: "#aaa" }}
+                                  title={checkListDefault}
+                                />
+                              </View>
+                            );
+                          })
+                          :
+                         ""
+                  }
 
-                   <View style={styles.container}>
-                    <CheckBox
-                      center
-                      containerStyle={{ backgroundColor: "transparent", borderWidth: 0 }}
-                      checkedColor="green"
-                      checked={this.state.isChecked}
-                      onPress={this.handleOnChange}
-                      textStyle={{ color: "#aaa" }}
-                      title="Address Verified"
-                    />
-                  </View>
-                  {this.state.isCheckedError ? (
-                    <View style={styles.error}>
-                      <Text style={styles.errorText}>{this.state.isCheckedError}</Text>
+                  <View style={styles.formInputView}>
+                    <View>
+                      <Text style={{fontWeight: 'bold'}}>User Upload</Text>
                     </View>
-                  ) : null}
+                  </View>
 
-                   <View style={styles.container}>
-                    <CheckBox
-                      center
-                      containerStyle={{ backgroundColor: "transparent", borderWidth: 0 }}
-                      checkedColor="green"
-                      checked={this.state.isChecked}
-                      onPress={this.handleOnChange}
-                      textStyle={{ color: "#aaa" }}
-                      title="Duration Verified"
-                    />
-                  </View>
-                  {this.state.isCheckedError ? (
-                    <View style={styles.error}>
-                      <Text style={styles.errorText}>{this.state.isCheckedError}</Text>
-                    </View>
-                  ) : null}
 
-                   <View style={styles.container}>
-                    <CheckBox
-                      center
-                      containerStyle={{ backgroundColor: "transparent", borderWidth: 0 }}
-                      checkedColor="green"
-                      checked={this.state.isChecked}
-                      onPress={this.handleOnChange}
-                      textStyle={{ color: "#aaa" }}
-                      title="Rent"
-                    />
-                  </View>
-                  {this.state.isCheckedError ? (
-                    <View style={styles.error}>
-                      <Text style={styles.errorText}>{this.state.isCheckedError}</Text>
-                    </View>
-                  ) : null}
-
-                   <View style={styles.container}>
-                    <CheckBox
-                      center
-                      containerStyle={{ backgroundColor: "transparent", borderWidth: 0 }}
-                      checkedColor="green"
-                      checked={this.state.isChecked}
-                      onPress={this.handleOnChange}
-                      textStyle={{ color: "#aaa" }}
-                      title="Owner"
-                    />
-                  </View>
-                  {this.state.isCheckedError ? (
-                    <View style={styles.error}>
-                      <Text style={styles.errorText}>{this.state.isCheckedError}</Text>
-                    </View>
-                  ) : null}
+                <View style={{width:'100%',padding:10}}>
+                {this.props.textObjs ?
+                  this.props.textObjs.map((textListDefault,index)=>{
+                    return(
+                            <View style={styles.inputWrapper} key={index}>
+                              <View style={styles.formInputView1}>
+                                <TextField
+                                  label                 = {textListDefault}
+                                  lineWidth             = {0}
+                                  tintColor             = {this.state.inputFocusColor}
+                                  inputContainerPadding = {4}
+                                  labelHeight           = {16}
+                                  keyboardType          = 'default'
+                                  inputContainerStyle   = {{height:60}}
+                                  style                 = {styles.inputTextNew}
+                                  labelTextStyle        = {styles.labelTextNew}
+                                  activeLineWidth       = {0}
+                                  fontSize              = {this.state.fontSize}
+                                  labelFontSize         = {this.state.fontSize}
+                                  // value                 = {this.state.userUpload}
+                                  value                 = { this.state[index] }
+                                  onChangeText          = {(value) => { 
+                                                                        console.log('event.target.value: ',value);
+                                                                        console.log('[index]: ',[index]);
+                                                                        this.setState({ ['text-'+index] : value });
+                                                                      }
+                                                          }
+                                  // onChangeText          = {this.testfunc.bind(this)}
+                                />
+                              </View>
+                            </View>
+                          );
+                        })
+                        :
+                       ""
+                }
+                </View>
 
                   <View style = {styles.lineStyle} />
                   <View style={styles.formInputView}>
@@ -509,6 +475,7 @@ export default class ViewTicketForm extends React.Component {
                 <Button
                   buttonStyle={styles.buttonLarge}
                   title="SAVE"
+                  onPress={this.submit.bind(this)}
                 />
               </View>
             </ScrollView>
@@ -518,3 +485,80 @@ export default class ViewTicketForm extends React.Component {
     );
   }
 }
+
+
+ViewTicketForm = createContainer( (props) => {
+
+    // console.log('ticket: ',props.navigation.state.params.ticket);
+    const ticket       = props.navigation.state.params.ticket;
+    const postHandle   = Meteor.subscribe('allTicketImages');
+    const postHandle1  = Meteor.subscribe('allTicketVideo');
+    const postHandle2  = Meteor.subscribe('checklistFieldExpert');
+    const postHandle3  = Meteor.subscribe('singleTicket',ticket);
+
+    const ticketImages = Meteor.collection("tempTicketImages").find({}) || []; 
+    const ticketVideo  = Meteor.collection("tempTicketVideo").find({}) || [];  
+    // console.log("ticketImages",ticketImages);    
+    // console.log("ticketVideo",ticketVideo);
+    const loading     = !postHandle.ready();
+    const loading1    = !postHandle1.ready();
+    const loading3    = !postHandle3.ready();
+    var checkObjs     = [];
+    var textObjs      = [];
+    var checkListFrom = '';
+
+    if (ticket) {
+       var tickets =  Meteor.collection('ticketMaster').findOne({"_id" : ticket});
+       
+       if (tickets) {
+          var verificationType = tickets.verificationType;
+       // console.log("verificationType",verificationType);
+         if (verificationType == "professionalEducation") {
+               checkListFrom = "Academic Information";
+         }else if (verificationType == "permanentAddress") {
+               checkListFrom = "Address Information";
+         }else if (verificationType == "currentAddress") {
+               checkListFrom = "Address Information";
+         }else if (verificationType == "employement") {
+                checkListFrom = "Employment Information";
+         }else if (verificationType == "education") {
+                checkListFrom = "Academic Information";
+         }else  if (verificationType == "certificates") {
+                checkListFrom = "Skills And CertificationInformation";
+         }
+       }
+
+       // console.log('checkListFrom: ',checkListFrom);
+       var checkListObjs = Meteor.collection("checklistFieldExpert").find({"checkListFor" : checkListFrom});
+        if (checkListObjs && checkListObjs.length > 0) {
+           console.log('checkListObjs: ',checkListObjs);
+           for (var i = 0; i < checkListObjs.length; i++) {
+              if(checkListObjs[i].checkListFrom == 'Database'){
+                  checkObjs.push(checkListObjs[i].task); 
+              }else{
+                  textObjs.push(checkListObjs[i].task); 
+              }
+           }
+        }
+        
+    }
+   
+      // console.log("checkObjs",checkObjs);
+      // console.log("textObjs",textObjs);
+
+      var result =  {
+          loading      : loading,
+          loading1     : loading1,
+          ticketImages : ticketImages,
+          ticketVideo  : ticketVideo,
+          ticket       : ticket,
+          tickets      : tickets,
+          checkObjs    : checkObjs,
+          textObjs     : textObjs,
+      };
+
+      // console.log("result",result);
+      return result;
+
+}, ViewTicketFormInfo);
+export default ViewTicketForm;

@@ -4,6 +4,8 @@ import React, { Component } from 'react';
 import { render } from 'react-dom';
 import TrackerReact from 'meteor/ultimatejs:tracker-react';
 import { withTracker } from 'meteor/react-meteor-data';
+import {Link} from 'react-router';
+
 
 
 

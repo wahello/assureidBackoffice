@@ -126,7 +126,7 @@ class ViewTicket extends React.Component {
              <Image
                 style={{ width: 50, height: 50, borderRadius: 15,}}
                 resizeMode="stretch"
-                source={{uri:item}}
+                source={{uri:`item`}}
               />
             </View>
         )
@@ -339,7 +339,7 @@ class ViewTicket extends React.Component {
               </View>
               <View style={{ alignItems: "center",paddingVertical:15}}>
                 <Button
-                  onPress={()=> this.props.navigation.navigate('ViewTicketForm')}
+                  onPress={()=> this.props.navigation.navigate('ViewTicketForm',{'ticket': this.props.navigation.state.params.ticketid})}
                   buttonStyle={styles.buttonLarge}
                   title="START"
                 />
@@ -363,6 +363,7 @@ export default createContainer((props) => {
   if(state.params.ticketid){
     ticketId = state.params.ticketid;
   }
+  // console.log('ticketId: ',ticketId);
 
   const handle             = Meteor.subscribe('singleTicket',ticketId);
   const viewTicketData     = Meteor.collection('ticketMaster').findOne({'_id':ticketId});
@@ -372,36 +373,38 @@ export default createContainer((props) => {
     handle1              = Meteor.subscribe('userprofile',viewTicketData.userId);
     viewTicketUserData   = Meteor.collection('userProfile').findOne({'userId': viewTicketData.userId});
     loadingUser          = handle1.ready() ; 
-    verificationDocument = viewTicketData.varificationDocument;
-    console.log('verificationDocument ',verificationDocument);
+    verificationDocument = viewTicketData.verificationDocument;
+    // console.log('-------------------------------');
+    // console.log('verificationDocument ',verificationDocument);
+    // console.log('-------------------------------');
     // console.log('viewTicketUserData',viewTicketUserData);
   }
 
   if(viewTicketData && viewTicketUserData){
-    viewTicketData.firstName = viewTicketUserData.firstName;
-    viewTicketData.lastName  = viewTicketUserData.lastName;
-    viewTicketData.gender    = viewTicketUserData.gender;
+    viewTicketData.firstName   = viewTicketUserData.firstName;
+    viewTicketData.lastName    = viewTicketUserData.lastName;
+    viewTicketData.gender      = viewTicketUserData.gender;
     viewTicketData.dateOfBirth = viewTicketUserData.dateOfBirth;
 
-    var today = new Date();    
+    var today     = new Date();    
     var birthDate = new Date(viewTicketUserData.dateOfBirth);    
-    var age = today.getFullYear() - birthDate.getFullYear();    
-    var m = today.getMonth() - birthDate.getMonth();    
+    var age       = today.getFullYear() - birthDate.getFullYear();    
+    var m         = today.getMonth() - birthDate.getMonth();    
     if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())){age--;}    
-    viewTicketData.age=age;
+    viewTicketData.age = age;
   } 
   // console.log('viewTicketData', viewTicketData);
 
   const loading = handle.ready() ;
 
   var result = {
-    viewTicketData       :viewTicketData ,
+    viewTicketData       : viewTicketData ,
     verificationDocument : verificationDocument,
     // viewTicketUserData:viewTicketUserData ,
-    handle               :handle,
-    handle1              :handle1,
-    loading              :loading,
-    loadingUser          :loadingUser,
+    handle               : handle,
+    handle1              : handle1,
+    loading              : loading,
+    loadingUser          : loadingUser,
   };
 
   // console.log(JSON.stringify(result,null,4));

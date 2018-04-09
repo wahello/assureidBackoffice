@@ -142,4 +142,34 @@ export default StyleSheet.create({
     left:15,
     zIndex:100
   },
+  textInput:{
+    width:'100%',
+    borderWidth:1,
+  },
+  inputWrapper:{
+    flex:1,
+    flexDirection:'row',
+    backgroundColor:'#fff',
+    width:'100%',
+    justifyContent:'space-between',
+    // padding:10,
+  },
+  formInputView1:{
+    // width:'100%',
+    flex:1,
+    backgroundColor: '#fff',
+  },
+  labelTextNew:{
+    paddingLeft:5,
+    marginHorizontal:10
+  },
+  inputTextNew:{
+    borderWidth:1,
+    borderColor:'#aaa',
+    height: 40,
+    paddingLeft:10,
+    textAlignVertical:'center',
+    paddingTop:0,
+    paddingBottom:0,
+  },
 });

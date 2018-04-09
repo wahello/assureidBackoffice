@@ -83,10 +83,10 @@ class ListOfTickets extends React.Component {
 
   displayTicket =()=>{
   var { ticketData } = this.props;
-    // console.log('ticketData',ticketData);
+    // console.log('displayTicket ticketData',ticketData);
     return(
       ticketData.map((item,i)=>
-        <TouchableOpacity key={i} onPress={()=>this.props.navigation.navigate('ViewTicket',{ticketid:item.ticketid})}>
+        <TouchableOpacity key={i} onPress={()=>this.props.navigation.navigate('ViewTicket',{ticketid:item._id})}>
           <Card containerStyle={styles.newCard}>
             <View style={styles.cardHeader}>
               <View style={{flexDirection:'row',flex:1,paddingHorizontal:10,paddingVertical:5}}>
@@ -277,18 +277,18 @@ class ListOfTickets extends React.Component {
 export default createContainer((props) => {
 
   const handle     = Meteor.subscribe('allTicketBucket');
-  const ticketData = Meteor.collection('ticketbucket').find({});
+  const ticketData = Meteor.collection('ticketMaster').find({});
   const loading    = handle.ready() ;
 
   // console.log(loading,'loading');
   // console.log(handle,'handle');
-  // console.log("ticketData");
+  // console.log("----------ticketData----------");
   // console.log(ticketData);
 
   var result = {
-    ticketData:ticketData ,
-    handle:handle,
-    loading:loading,
+    ticketData : ticketData ,
+    handle     : handle,
+    loading    : loading,
   };
 
 

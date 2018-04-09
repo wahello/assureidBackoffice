@@ -73,6 +73,30 @@ import NotificationLayout from '../layouts/NotificationLayout/NotificationLayout
 
 export const AuthStack = StackNavigator({
 
+
+
+  ListOfTickets: {
+  screen: ListOfTickets,
+  navigationOptions: {
+    header: null
+    }
+  },
+
+  
+  ViewTicket: {
+    screen: ViewTicket,
+    navigationOptions: {
+      header: null
+    }
+  },
+
+  ViewTicketForm:{
+    screen:ViewTicketForm,
+    navigationOptions:{
+      header:null
+    }
+  },
+
   GeoTagging:{
     screen:GeoTagging,
     navigationOptions:{
@@ -95,25 +119,6 @@ export const AuthStack = StackNavigator({
     }
   },
 
-  
-    ListOfTickets: {
-    screen: ListOfTickets,
-    navigationOptions: {
-      header: null
-    }
-  },
-  ViewTicket: {
-    screen: ViewTicket,
-    navigationOptions: {
-      header: null
-    }
-  },
-  ViewTicketForm:{
-    screen:ViewTicketForm,
-    navigationOptions:{
-      header:null
-    }
-  },
   
    CameraView:{
     screen:CameraView,

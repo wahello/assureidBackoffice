@@ -4,6 +4,7 @@ import {Meteor} from 'meteor/meteor';
 export const TempTicketImages = new Mongo.Collection("tempTicketImages");
 export const TempTicketVideo = new Mongo.Collection("tempTicketVideo");
 export const TempTicketReport = new Mongo.Collection("tempTicketReport");
+
 import { TicketImages } from "../uploadToServer/uploadImagesToServer.js";
 import { TicketVideo } from "../uploadToServer/uploadVideoToServer.js";
 import { TicketReport } from "../uploadToServer/uploadReportToServer.js";

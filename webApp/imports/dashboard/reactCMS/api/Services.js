@@ -1,8 +1,8 @@
-import {Mongo} from 'meteor/mongo';
-import {Meteor} from 'meteor/meteor';
+import { Mongo } from 'meteor/mongo';
+import { Meteor } from 'meteor/meteor';
 
-export const Services = new Mongo.Collection("services");
-export const TempServiceImages = new Mongo.Collection("tempServiceImages");
+export const Services             = new Mongo.Collection("services");
+export const TempServiceImages    = new Mongo.Collection("tempServiceImages");
 export const ChecklistFieldExpert = new Mongo.Collection("checklistFieldExpert");
 
 if(Meteor.isServer){
