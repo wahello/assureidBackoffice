@@ -10,9 +10,6 @@ import {Tracker} from 'meteor/tracker';
 import { browserHistory } from 'react-router';
 import { Link } from 'react-router';
 import { TicketBucket } from '/imports/website/ServiceProcess/api/TicketMaster.js';
-
-
-
 class RejectedTickets extends TrackerReact(Component){
   constructor(props){
     super(props);
@@ -20,12 +17,8 @@ class RejectedTickets extends TrackerReact(Component){
       'userDetails': {},
       "userRoleIn": Meteor.userId(),
     }
-
-    
   }
    render(){
-    
-    
       return(            
         <div>
           <div className="content-wrapper">
@@ -49,12 +42,10 @@ class RejectedTickets extends TrackerReact(Component){
                                     <th className=""> Service Name </th>
                                     <th className=""> Arrival Date </th>
                                     <th className=""> TAT(Date) </th>
-                                    <th className=""> Status </th>
-                                    
+                                    <th className=""> Status </th>                        
                                     </tr>
                                 </thead>
                                         <tbody>
-
                                         {
                                                 !this.props.loading ?
                                                   this.props.ticketBucketData.map((data, index)=>{
@@ -95,30 +86,54 @@ class RejectedTickets extends TrackerReact(Component){
     }
 }
 export default RejectedTicketsContainer = withTracker(props => {
-  var handleAllBucketTick = Meteor.subscribe("allTicketBucket");
-  var ticketId = props.params.id;
-  var loading = !handleAllBucketTick.ready();
-  var role = '';
-  for(i=0;i<Meteor.user().roles.length;i++){
-    if(Meteor.user().roles[i] != 'backofficestaff'){
-      var role = Meteor.user().roles[i];
-      break;
+  var handleRejectedTicketList = Meteor.subscribe("listTickets");
+  var _id  = Meteor.userId();
+  const userHandle  = Meteor.subscribe('userData',_id);
+  const user        = Meteor.users.findOne({"_id" : _id});
+  const loading    = !userHandle.ready() && !handleRejectedTicketList.ready();
+
+  if(user){
+    var roleArr = user.roles;
+    if(roleArr){
+      var role = roleArr.find(function (obj) { return obj != 'backofficestaff' });
+    }
+    var roleStatus = '';
+    switch (role) {
+      case 'screening committee':
+        roleStatus = 'ScreenRejected';
+        break;
+      case 'team leader':
+        roleStatus = 'AssignReject';
+        break;
+      case 'team member':
+        roleStatus = 'VerificationFail';
+        break;
+      case 'quality team leader':
+        roleStatus = 'ReviewFail';
+        break;
+      case 'quality team member':
+        roleStatus = 'QAFail';
+        break;
+    
+      default:
+        break;
+    }
+    //Get all the Rejected Tickets
+    var rejectedTicketList = [];
+    var rejectedTicketDetails = TicketMaster.find({ticketElement: { $elemMatch: { allocatedToUserid: _id }}}).fetch();
+    if(rejectedTicketDetails){
+      //find last status of the Tickets
+      for(i=0;i< rejectedTicketDetails.length; i++){
+        var ticketElements = rejectedTicketDetails[i].ticketElement;
+        rejectedTicketDetails[i].status = ticketElements[ticketElements.length - 1].roleStatus ;
+        if(ticketElements.find(function (obj) { return obj.roleStatus == roleStatus})){
+          rejectedTicketList.push(rejectedTicketDetails[i]);
+        }
+      } 
     }
   }
-  if(role == 'screening committee'){
-    var Status = ['ScreenRejected'];
-  }else if(role == 'team leader'){
-    var  Status = ['AssignReject'];
-  }else if(role == 'team member'){
-    var  Status = ['AssignReject'];
-  }else if(role == 'quality team member'){
-    var  Status = ['QAFail'];
-  }else if(role == 'quality team leader'){
-    var  Status = ['ReviewFail'];
-  }
-  var ticketBucketData = TicketBucket.find({"userId":Meteor.userId(),'status':{$in: Status}}).fetch();   
   return {
     loading,
-    ticketBucketData,
+    rejectedTicketList
   };
 })(RejectedTickets);

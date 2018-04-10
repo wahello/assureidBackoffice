@@ -33,7 +33,7 @@ if(Meteor.isServer){
 	//Find User with minium tickets for specific role and serviceName
 	'autoAllocateMember':function(role,serviceName){
 		//Allocating Ticket to Screening Committte
-		var memberDetails = Meteor.users.find({"roles":role,"profile.status":"Active"},{sort:{'count':1}}).fetch();
+		var memberDetails = Meteor.users.find({"roles":role,"profile.status":"Active"}).fetch();
 		if(memberDetails){
 			//Get maximum number of tickets which can be allocated to screening committee
 			var companyObj = CompanySettings.findOne({"maxnoOfTicketAllocate.role":role});
@@ -44,7 +44,9 @@ if(Meteor.isServer){
 				if(obj1){
 					//Find user with minium ticket allocated
 					var userList = memberDetails.reduce(function(prev,curr){ return (prev.count || prev.count < curr.count ) ? prev : curr;});
-					return userList;
+					if(userList){
+						return userList;
+					}
 				}
 			}
 		}	

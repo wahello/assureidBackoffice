@@ -9,7 +9,7 @@ import validator from 'validator';
 import {Tracker} from 'meteor/tracker';
 import { browserHistory } from 'react-router';
 import { Link } from 'react-router';
-import { TicketBucket } from '/imports/website/ServiceProcess/api/TicketMaster.js';
+import { TicketMaster } from '/imports/website/ServiceProcess/api/TicketMaster.js';
 class OpenTickets extends TrackerReact(Component){
   constructor(props){
     super(props);
@@ -48,13 +48,12 @@ class OpenTickets extends TrackerReact(Component){
                                     </tr>
                                 </thead>
                                         <tbody>
-
                                         {
                                             !this.props.loading ?
-                                              this.props.dataDetails.map((data, index)=>{
+                                              this.props.openTicketList.map((data, index)=>{
                                                 return(
                                                     <tr key={index}>
-                                                          <td><Link to={"/admin/ticket/"+data.ticketid}>{data.ticketNumber}</Link></td>
+                                                          <td><Link to={"/admin/ticket/"+data._id}>{data.ticketNumber}</Link></td>
                                                           <td>{data.orderNo}</td>
                                                           <td>{data.serviceName}</td>
                                                           <td>{moment(data.createdAt).format('l')}</td>
@@ -89,39 +88,34 @@ class OpenTickets extends TrackerReact(Component){
   }
 }
 export default OpenTicketsContainer = withTracker(props => {
-  var handleAllBucketTick = Meteor.subscribe("allTicketBucket");
-  var ticketArr = [];
-  var dataDetails = [];
-  var ticketId = props.params.id;
-  var loading = !handleAllBucketTick.ready();
-  var ticketBucketData = TicketBucket.find({}).fetch();
-  if(ticketBucketData){
-    for(var i=0;i<ticketBucketData.length;i++){
-        ticketArr.push({ 'ticketId' : ticketBucketData[i].ticketid});
+  
+  var handleOpenTicketList = Meteor.subscribe("listTickets");
+  var _id  = Meteor.userId();
+  const userHandle  = Meteor.subscribe('userData',_id);
+  const user        = Meteor.users.findOne({"_id" : _id});
+  const loading    = !userHandle.ready() && !handleOpenTicketList.ready();
+
+  if(user){
+    var roleArr = user.roles;
+    if(roleArr){
+      var role = roleArr.find(function (obj) { return obj != 'backofficestaff' });
     }
-    var pluckId = _.pluck(ticketArr,"ticketId");
-    var uniqueId = _.uniq(pluckId);
-    if(uniqueId.length >0){
-      for(var j=0;j<uniqueId.length;j++){
-        var singleDetails = TicketBucket.findOne({'ticketid':uniqueId[j]},{sort:{'createdAt':-1}});
-        dataDetails.push(
-        {
-            'ticketid'    : singleDetails.ticketid,
-            'ticketNumber': singleDetails.ticketNumber,
-            'orderId'     : singleDetails.orderId,
-            'orderNo'     : singleDetails.orderNo,
-            'serviceName' : singleDetails.serviceName,
-            'createdAt'   :  singleDetails.createdAt,
-            'tatDate'     :  singleDetails.tatDate,
-            'status'      : singleDetails.status,
-        })        
-      }
-      //sorting logic
+    //Get all the Open Tickets
+    var openTicketList = [];
+    var openTicketDetails = TicketMaster.find({ticketElement: { $elemMatch: { allocatedToUserid: _id }}}).fetch();
+    if(openTicketDetails){
+      //find last status of the Tickets
+      for(i=0;i< openTicketDetails.length; i++){
+        var ticketElements = openTicketDetails[i].ticketElement;
+        openTicketDetails[i].status = ticketElements[ticketElements.length - 1].roleStatus ;
+        if(openTicketDetails[i].status != 'ReviewPass'){
+          openTicketList.push(openTicketDetails[i]);
+        }
+      } 
     }
   }
   return {
     loading,
-    ticketBucketData,
-    dataDetails
+    openTicketList
   };
 })(OpenTickets);

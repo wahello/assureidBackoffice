@@ -102,8 +102,8 @@ export default AllTicketContainer = withTracker(props => {
       
       for(i=0;i< alltickets.length; i++){
         var ticketElements = alltickets[i].ticketElement;
-        var userList = ticketElements.reduce(function(prev,curr){ return (prev.createdAt || prev.createdAt < curr.createdAt ) ? prev : curr;});
-        alltickets[i].status = userList.roleStatus 
+        // var userList = ticketElements[ticketElements.length - 1]
+        alltickets[i].status = ticketElements[ticketElements.length - 1].roleStatus ;
       }
       
       

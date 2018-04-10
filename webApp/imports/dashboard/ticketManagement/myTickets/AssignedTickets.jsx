@@ -9,7 +9,7 @@ import validator from 'validator';
 import {Tracker} from 'meteor/tracker';
 import { browserHistory } from 'react-router';
 import { Link } from 'react-router';
-import { TicketBucket } from '/imports/website/ServiceProcess/api/TicketMaster.js';
+import { TicketMaster } from '/imports/website/ServiceProcess/api/TicketMaster.js';
 class AssignedTickets extends TrackerReact(Component){
   constructor(props){
     super(props);
@@ -19,7 +19,7 @@ class AssignedTickets extends TrackerReact(Component){
     }
   }
    render(){
-      var ticketBucketDataa = [1, 2, 3, 4]
+      
       return(            
         <div>
           <div className="content-wrapper">
@@ -49,11 +49,11 @@ class AssignedTickets extends TrackerReact(Component){
                                   <tbody>
                                     {
                                       !this.props.loading ?
-                                        this.props.dataDetails.map((data, index)=>{
+                                        this.props.assignedTicketList.map((data, index)=>{
                                           return(
                                               <tr key={index}>
                                                   
-                                                  <td><Link to={"/admin/ticket/"+data.ticketid}>{data.ticketNumber}</Link></td>
+                                                  <td><Link to={"/admin/ticket/"+data._id}>{data.ticketNumber}</Link></td>
                                                   <td>{data.orderNo}</td>
                                                   <td>{data.serviceName}</td>
                                                   <td>{moment(data.createdAt).format('l')}</td>
@@ -83,39 +83,29 @@ class AssignedTickets extends TrackerReact(Component){
     }
 }
 export default AllTicketContainer = withTracker(props => {
-  var handleAllBucketTick = Meteor.subscribe("allTicketBucket");
-  var ticketArr = [];
-  var dataDetails = [];
-  var ticketId = props.params.id;
-  var loading = !handleAllBucketTick.ready();
-  var ticketBucketData = TicketBucket.find({}).fetch();
-  if(ticketBucketData){
-    for(var i=0;i<ticketBucketData.length;i++){
-        ticketArr.push({ 'ticketId' : ticketBucketData[i].ticketid});
+  var handleAssignedTicketList = Meteor.subscribe("listTickets");
+  var _id  = Meteor.userId();
+  const userHandle  = Meteor.subscribe('userData',_id);
+  const user        = Meteor.users.findOne({"_id" : _id});
+  const loading    = !userHandle.ready() && !handleAssignedTicketList.ready();
+
+  if(user){
+    var roleArr = user.roles;
+    if(roleArr){
+      var role = roleArr.find(function (obj) { return obj != 'backofficestaff' });
     }
-    var pluckId = _.pluck(ticketArr,"ticketId");
-    var uniqueId = _.uniq(pluckId);
-    if(uniqueId.length >0){
-      for(var j=0;j<uniqueId.length;j++){
-        var singleDetails = TicketBucket.findOne({'ticketid':uniqueId[j]},{sort:{'createdAt':-1}});
-        dataDetails.push(
-        {
-            'ticketid'    : singleDetails.ticketid,
-            'ticketNumber': singleDetails.ticketNumber,
-            'orderId'     : singleDetails.orderId,
-            'orderNo'     : singleDetails.orderNo,
-            'serviceName' : singleDetails.serviceName,
-            'createdAt'   :  singleDetails.createdAt,
-            'tatDate'     :  singleDetails.tatDate,
-            'status'      : singleDetails.status,
-        })        
-      }
-      //sorting logic
+    //Get all the Tickets Assigned to Me
+    var assignedTicketList = TicketMaster.find({ticketElement: { $elemMatch: { allocatedToUserid: _id }}}).fetch();
+    if(assignedTicketList){
+      //find last status of the Tickets
+      for(i=0;i< assignedTicketList.length; i++){
+        var ticketElements = assignedTicketList[i].ticketElement;
+        assignedTicketList[i].status = ticketElements[ticketElements.length - 1].roleStatus ;
+      } 
     }
   }
   return {
     loading,
-    ticketBucketData,
-    dataDetails
+    assignedTicketList
   };
 })(AssignedTickets);

@@ -15,14 +15,9 @@ class OtherRoleSidebar extends TrackerReact(Component){
       }
     }
   }
-
   removePersistantSessions(){
       UserSession.delete("progressbarSession", Meteor.userId());
       UserSession.delete("allProgressbarSession", Meteor.userId());
-  }
-
-  specificRole(){
-    
   }
   currentUser(){
     // Meteor.subscribe('userData',Meteor.userId());
@@ -75,88 +70,86 @@ class OtherRoleSidebar extends TrackerReact(Component){
     return userData;
 
   }
- 
   render(){
-    return(
-
-        <aside className="main-sidebar">
-          {/* sidebar: style can be found in sidebar.less */}
-          <section className="sidebar">
-            {/* Sidebar user panel */}
-            <div className="user-panel">
-             {!this.props.loading1 ?
-              <div className="pull-left image">
-               { this.props.user.profile.userProfile ?
-                   <img src={this.props.user.profile.userProfile} className="img-circle" alt="User Image" />
-                  :
-                  <img src="/images/userIcon.png" className="img-circle" alt="User Image" />
-               }              
-              </div>
-              :
-              ""
-            }
-            {!this.props.loading1 ?
-                this.props.user.profile ? 
-                <div className="pull-left info">
-                  <p> {this.props.user.profile.firstname} {this.props.user.profile.lastname}</p>
-                  <Link to="javascript:void(0)"><i className="fa fa-circle text-success" />{this.props.role}</Link>
+      return(
+          <aside className="main-sidebar">
+            {/* sidebar: style can be found in sidebar.less */}
+            <section className="sidebar">
+              {/* Sidebar user panel */}
+              <div className="user-panel">
+              {!this.props.loading1 ?
+                <div className="pull-left image">
+                { this.props.user.profile.userProfile ?
+                    <img src={this.props.user.profile.userProfile} className="img-circle" alt="User Image" />
+                    :
+                    <img src="/images/userIcon.png" className="img-circle" alt="User Image" />
+                }              
                 </div>
                 :
                 ""
-              :
-              ""
               }
-            </div>
-            <ul className="sidebar-menu otherRoleSidebarMenu" data-widget="tree">
-              <li className="header">MAIN NAVIGATION</li>
-              <li className="">
-                <Link to="/backoffice/dashboard" activeClassName="active">
-                  <i className="fa fa-dashboard" />
-                    <span>Dashboard</span>
-                </Link>
-              </li>
-              <li className="">
-                <Link to="/admin/alltickets" activeClassName="active">
+              {!this.props.loading1 ?
+                  this.props.user.profile ? 
+                  <div className="pull-left info">
+                    <p> {this.props.user.profile.firstname} {this.props.user.profile.lastname}</p>
+                    <Link to="javascript:void(0)"><i className="fa fa-circle text-success" />{this.props.role}</Link>
+                  </div>
+                  :
+                  ""
+                :
+                ""
+                }
+              </div>
+              <ul className="sidebar-menu otherRoleSidebarMenu" data-widget="tree">
+                <li className="header">MAIN NAVIGATION</li>
+                <li className="">
+                  <Link to="/backoffice/dashboard" activeClassName="active">
+                    <i className="fa fa-dashboard" />
+                      <span>Dashboard</span>
+                  </Link>
+                </li>
+                <li className="">
+                  <Link to="/admin/alltickets" activeClassName="active">
+                    <i className="fa fa-ticket" />
+                      <span>All Tickets({this.props.allticketsCount})</span>
+                  </Link>
+                </li>
+                <li className="">
+                  <Link to="/admin/assignedtickets" activeClassName="active">
                   <i className="fa fa-ticket" />
-                    <span>All Tickets({this.props.allticketsCount})</span>
-                </Link>
-              </li>
-              <li className="">
-                <Link to="/admin/assignedtickets" activeClassName="active">
-                <i className="fa fa-ticket" />
-                    <span>Ticket Assigned To Me({this.props.assignedTicketCount})</span>
-                </Link>
-              </li>
-              <li className="">
-                <Link to="/admin/opentickets" activeClassName="active">
-                <i className="fa fa-ticket" />
-                    <span>My Open Tickets({this.props.openTicketCount})</span>
-                </Link>
-              </li>
-            
-              <li className="">
-                <Link to="/admin/approvedtickets" activeClassName="active">
-                <i className="fa fa-ticket" />
-                    <span>My Approved Tickets({this.props.approvedTicketCount})</span>
-                </Link>
-              </li>
-              <li className="">
-                <Link to="/admin/rejectedtickets" activeClassName="active">
-                <i className="fa fa-ticket" />
-                    <span>My Rejected Tickets({this.props.rejectTicketCount})</span>
-                </Link>
-              </li>
-              <li className="">
-                <Link to="/admin/escalatedtickets" activeClassName="active">
-                <i className="fa fa-ticket" />
-                    <span>My Escalated Tickets({this.props.esclationTicketCount})</span>
-                </Link>
-              </li>
-            </ul>
-          </section>
-          {/* /.sidebar */}
-        </aside>
-    );
+                      <span>Ticket Assigned To Me({this.props.assignedTicketCount})</span>
+                  </Link>
+                </li>
+                <li className="">
+                  <Link to="/admin/opentickets" activeClassName="active">
+                  <i className="fa fa-ticket" />
+                      <span>My Open Tickets({this.props.openTicketCount})</span>
+                  </Link>
+                </li>
+              
+                <li className="">
+                  <Link to="/admin/approvedtickets" activeClassName="active">
+                  <i className="fa fa-ticket" />
+                      <span>My Approved Tickets({this.props.approvedTicketCount})</span>
+                  </Link>
+                </li>
+                <li className="">
+                  <Link to="/admin/rejectedtickets" activeClassName="active">
+                  <i className="fa fa-ticket" />
+                      <span>My Rejected Tickets({this.props.rejectTicketCount})</span>
+                  </Link>
+                </li>
+                <li className="">
+                  <Link to="/admin/escalatedtickets" activeClassName="active">
+                  <i className="fa fa-ticket" />
+                      <span>My Escalated Tickets({this.props.esclationTicketCount})</span>
+                  </Link>
+                </li>
+              </ul>
+            </section>
+            {/* /.sidebar */}
+          </aside>
+      ); 
   }
 }
 export default allOtherRoleSidebarContainer = withTracker(props => {
@@ -171,44 +164,124 @@ export default allOtherRoleSidebarContainer = withTracker(props => {
     if(roleArr){
       var role = roleArr.find(function (obj) { return obj != 'backofficestaff' });
     }
-    var query = '';
-    switch (role) {
-      case 'screening committee':
-        query = 'ticketElement: { $elemMatch: { '+ "allocatedToUserid" + ':"' + _id +'" }}';
-        console.log('query ',query);
-        break;
-      case 'team leader':
-        wheretosearch = 'userId';
-        roleStatus    = '';
-        break;
-      case 'team member':
-        wheretosearch = 'userId';
-        roleStatus    = '';
-        break;
-      case 'quality team leader':
-        wheretosearch = 'userId';
-        roleStatus    = '';
-        break;
-      case 'quality team member':
-        wheretosearch = 'userId';
-        roleStatus    = '';
-        break;
-      default:
-        wheretosearch = 'userId';
-        roleStatus    = '';
-        break;
+    var allticketsDetalis      = TicketMaster.find({}).fetch();
+    if(allticketsDetalis){
+      var allticketsCount      = TicketMaster.find({}).count();
+      switch (role) {
+        case 'screening committee':
+          var assignedTicketList = TicketMaster.find({ticketElement: { $elemMatch: { allocatedToUserid: _id }}}).fetch();
+          if(assignedTicketList){
+            var assignedTicketCount = assignedTicketList.length;
+            var approvedTicketCount = 0;
+            var rejectTicketCount = 0 ;
+            var openTicketCount = assignedTicketCount;
+            
+            for(i = 0 ; i < assignedTicketList.length; i++){
+              var ticketElements = assignedTicketList[i].ticketElement;
+              if(ticketElements.find(function (obj) { return obj.roleStatus == 'ScreenApproved'})){
+                approvedTicketCount++;
+              }else if(ticketElements.find(function (obj) { return obj.roleStatus == 'ScreenRejected'})){
+                rejectTicketCount++;
+              }
+              if(ticketElements.find(function (obj) { return obj.roleStatus == 'ReviewPass'})){
+                openTicketCount--;
+              }
+            }
+          }
+          var esclationTicketCount = 0;
+          break;
+        case 'team leader':
+          var assignedTicketList = TicketMaster.find({ticketElement: { $elemMatch: { allocatedToUserid: _id }}}).fetch();
+          if(assignedTicketList){
+            var assignedTicketCount = assignedTicketList.length;
+            var approvedTicketCount = 0;
+            var rejectTicketCount = 0 ;
+            var openTicketCount = assignedTicketCount;
+            
+            for(i = 0 ; i < assignedTicketList.length; i++){
+              var ticketElements = assignedTicketList[i].ticketElement;
+              if(ticketElements.find(function (obj) { return obj.roleStatus == 'AssignAccept'})){
+                approvedTicketCount++;
+              }else if(ticketElements.find(function (obj) { return obj.roleStatus == 'AssignReject'})){
+                rejectTicketCount++;
+              }
+              if(ticketElements.find(function (obj) { return obj.roleStatus == 'ReviewPass'})){
+                openTicketCount--;
+              }
+            }
+          }
+          var esclationTicketCount = 0;
+          break;
+        case 'team member':
+          var assignedTicketList = TicketMaster.find({ticketElement: { $elemMatch: { allocatedToUserid: _id }}}).fetch();
+          if(assignedTicketList){
+            var assignedTicketCount = assignedTicketList.length;
+            var approvedTicketCount = 0;
+            var rejectTicketCount = 0 ;
+            var openTicketCount = assignedTicketCount;
+            
+            for(i = 0 ; i < assignedTicketList.length; i++){
+              var ticketElements = assignedTicketList[i].ticketElement;
+              if(ticketElements.find(function (obj) { return obj.roleStatus == 'AssignAccept'})){
+                approvedTicketCount++;
+              }else if(ticketElements.find(function (obj) { return obj.roleStatus == 'AssignReject'})){
+                rejectTicketCount++;
+              }
+              if(ticketElements.find(function (obj) { return obj.roleStatus == 'ReviewPass'})){
+                openTicketCount--;
+              }
+            }
+          }
+          var esclationTicketCount = 0;
+          break;
+        case 'quality team member':
+          var assignedTicketList = TicketMaster.find({ticketElement: { $elemMatch: { allocatedToUserid: _id }}}).fetch();
+          if(assignedTicketList){
+            var assignedTicketCount = assignedTicketList.length;
+            var approvedTicketCount = 0;
+            var rejectTicketCount = 0 ;
+            var openTicketCount = assignedTicketCount;
+            
+            for(i = 0 ; i < assignedTicketList.length; i++){
+              var ticketElements = assignedTicketList[i].ticketElement;
+              if(ticketElements.find(function (obj) { return obj.roleStatus == 'QAPass'})){
+                approvedTicketCount++;
+              }else if(ticketElements.find(function (obj) { return obj.roleStatus == 'QAFail'})){
+                rejectTicketCount++;
+              }
+              if(ticketElements.find(function (obj) { return obj.roleStatus == 'ReviewPass'})){
+                openTicketCount--;
+              }
+            }
+          }
+          var esclationTicketCount = 0;
+          break;
+        case 'quality team leader':
+          var assignedTicketList = TicketMaster.find({ticketElement: { $elemMatch: { allocatedToUserid: _id }}}).fetch();
+          if(assignedTicketList){
+            var assignedTicketCount = assignedTicketList.length;
+            var approvedTicketCount = 0;
+            var rejectTicketCount = 0 ;
+            var openTicketCount = assignedTicketCount;
+            
+            for(i = 0 ; i < assignedTicketList.length; i++){
+              var ticketElements = assignedTicketList[i].ticketElement;
+              if(ticketElements.find(function (obj) { return obj.roleStatus == 'ReviewPass'})){
+                approvedTicketCount++;
+              }else if(ticketElements.find(function (obj) { return obj.roleStatus == 'ReviewFail'})){
+                rejectTicketCount++;
+              }
+              if(ticketElements.find(function (obj) { return obj.roleStatus == 'ReviewPass'})){
+                openTicketCount--;
+              }
+            }
+          }
+          var esclationTicketCount = 0;
+          break;
+        default:
+          break;
+      }
     }
-
-    var wheretosearch = 'allocatedToUserid';
-    
-    var allticketsCount      = TicketMaster.find({}).count();
-    // var assignedTicketCount  = TicketMaster.find({ticketElement: { $elemMatch: { [wheretosearch]: _id }}}).count();
-    var assignedTicketCount  = TicketMaster.find({query}).count();
-    var openTicketCount      = TicketMaster.find({}).count();
-    var approvedTicketCount  = TicketMaster.find({}).count();
-    var rejectTicketCount    = TicketMaster.find({}).count();
-    var esclationTicketCount = TicketMaster.find({}).count();
-
   }
   
   return {

@@ -9,7 +9,7 @@ import validator from 'validator';
 import {Tracker} from 'meteor/tracker';
 import { browserHistory } from 'react-router';
 import { Link } from 'react-router';
-import { TicketBucket } from '/imports/website/ServiceProcess/api/TicketMaster.js';
+import { TicketMaster } from '/imports/website/ServiceProcess/api/TicketMaster.js';
 
 class ApprovedTickets extends TrackerReact(Component){
   constructor(props){
@@ -48,10 +48,10 @@ class ApprovedTickets extends TrackerReact(Component){
                                 <tbody>
                                   {
                                       !this.props.loading ?
-                                        this.props.ticketBucketData.map((data, index)=>{
+                                        this.props.approvedTicketList.map((data, index)=>{
                                           return(
                                               <tr key={index}>
-                                                  <td><Link to={"/admin/ticket/"+data.ticketid}>{data.ticketNumber}</Link></td>
+                                                  <td><Link to={"/admin/ticket/"+data._id}>{data.ticketNumber}</Link></td>
                                                   <td>{data.orderNo}</td>
                                                   <td>{data.serviceName}</td>
                                                   <td>{moment(data.createdAt).format('l')}</td>
@@ -81,30 +81,54 @@ class ApprovedTickets extends TrackerReact(Component){
     }
 }
 export default ApprovedTicketsContainer = withTracker(props => {
-  var handleAllBucketTick = Meteor.subscribe("allTicketBucket");
-  var ticketId = props.params.id;
-  var loading = !handleAllBucketTick.ready();
-  var role = '';
-  for(i=0;i<Meteor.user().roles.length;i++){
-    if(Meteor.user().roles[i] != 'backofficestaff'){
-      var role = Meteor.user().roles[i];
-      break;
+  var handleApprovedTicketList = Meteor.subscribe("listTickets");
+  var _id  = Meteor.userId();
+  const userHandle  = Meteor.subscribe('userData',_id);
+  const user        = Meteor.users.findOne({"_id" : _id});
+  const loading    = !userHandle.ready() && !handleApprovedTicketList.ready();
+
+  if(user){
+    var roleArr = user.roles;
+    if(roleArr){
+      var role = roleArr.find(function (obj) { return obj != 'backofficestaff' });
+    }
+    var roleStatus = '';
+    switch (role) {
+      case 'screening committee':
+        roleStatus = 'ScreenApproved';
+        break;
+      case 'team leader':
+        roleStatus = 'AssignAccept';
+        break;
+      case 'team member':
+        roleStatus = 'VerificationPass';
+        break;
+      case 'quality team leader':
+        roleStatus = 'ReviewPass';
+        break;
+      case 'quality team member':
+        roleStatus = 'QAPass';
+        break;
+    
+      default:
+        break;
+    }
+    //Get all the Open Tickets
+    var approvedTicketList = [];
+    var approvedTicketDetails = TicketMaster.find({ticketElement: { $elemMatch: { allocatedToUserid: _id }}}).fetch();
+    if(approvedTicketDetails){
+      //find last status of the Tickets
+      for(i=0;i< approvedTicketDetails.length; i++){
+        var ticketElements = approvedTicketDetails[i].ticketElement;
+        approvedTicketDetails[i].status = ticketElements[ticketElements.length - 1].roleStatus ;
+        if(ticketElements.find(function (obj) { return obj.roleStatus == roleStatus})){
+          approvedTicketList.push(approvedTicketDetails[i]);
+        }
+      } 
     }
   }
-  if(role == 'screening committee'){
-    var Status = ['ScreenApproved'];
-  }else if(role == 'team leader'){
-    var Status = ['AssignAccept'];
-  }else if(role == 'team member'){
-    var Status = ['AssignAccept'];
-  }else if(role == 'quality team member'){
-    var  Status = ['QAPass'];
-  }else if(role == 'quality team leader'){
-    var  Status = ['ReviewPass'];
-  }
-  var ticketBucketData = TicketBucket.find({"empid":Meteor.userId(),'status':{$in: Status}},{sort:{ticketNumber:1}}).fetch();
   return {
     loading,
-    ticketBucketData,
+    approvedTicketList
   };
 })(ApprovedTickets);
