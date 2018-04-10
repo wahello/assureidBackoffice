@@ -57,7 +57,7 @@ class Ticket extends TrackerReact(Component){
     console.log('showRejectBox: ' + this.state.showRejectBox);
     // var roleStatus = $(event.currentTarget).attr('data-roleStatus');
     return(
-      <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 acceptrejectwrap">
+      <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <textarea rows="3" cols="60" className="col-lg-6 col-lg-offset-0" id="rejectReason"/>
         <button onClick={this.rejectButton.bind(this)} 
           id="rejectButton" 
@@ -169,31 +169,6 @@ class Ticket extends TrackerReact(Component){
             timer: 1500      
         });   
     }
-  }
-  getTMQTMList(){
-    var member = [];
-    var ticketElements      = this.props.getTicket.ticketElement; 
-    var reverseTicketElements = ticketElements.sort(function(a,b){ return a.createdAt - b.createdAt}); 
-    var qualityTeamMemberDetails   = reverseTicketElements.find(function (obj) { return (obj.roleStatus == 'ReportSubmitted')});
-    console.log("qualityTeamMemberDetails :");
-    console.log(qualityTeamMemberDetails);
-    member.push(qualityTeamMemberDetails.userName)  
-    var teamMemberDetails   = reverseTicketElements.find(function (obj) { return (obj.roleStatus == 'VerificationPassQTMAllocated')});
-    member.push(teamMemberDetails);
-    var finalArr = [];
-    console.log("member");
-    console.log(member);
-    
-    for(i=0;i<member.length;i++){
-      finalArr.push(
-        <option key={i}>
-          {member[i].allocatedToUserName}
-          {member[i].userName}
-        </option>
-      )
-    }
-    
-    return finalArr;
   }
   approveButton(event){
     event.preventDefault();
@@ -615,12 +590,6 @@ class Ticket extends TrackerReact(Component){
                         Approve </button>
                 </div>
                 {this.state.showRejectBox === 'Y' ? this.getRejectBox() : '' }
-                {this.state.showRejectBox === 'Y' ?
-                  <select type="text" className="col-lg-5 col-lg-offset-1">
-                    {this.state.showRejectBox === 'Y' ? this.getTMQTMList() : '' }
-                  </select>
-                  : ''
-                 }
               </div>
             </div>
           )
@@ -652,8 +621,6 @@ class Ticket extends TrackerReact(Component){
                         Approve </button>
                 </div>
                 {this.state.showRejectBox === 'Y' ? this.getRejectBox() : '' }
-             
-                
               </div>
             </div>
           )
@@ -775,7 +742,7 @@ class Ticket extends TrackerReact(Component){
                         <VerifiedDocuments ticketId={this.props.params.id}/>
                         <div id="SubmittedDocuments" >
                           {this.props.getTicket.submitedDoc ?
-                            <SubmittedDocuments submittedDocuments={this.props.getTicket.submitedDoc} ticketId={this.props.getTicket._id}/>
+                            <SubmittedDocuments submittedDocuments={this.props.getTicket.submitedDoc}/>
                             :
                             ""
                           }

@@ -60,4 +60,9 @@
 .feSubmitbtn{
 	margin-top:12%;
 	padding: 3%;
+	padding: 2%;
+}
+#inflowtickets {
+  width: 100%;
+  height: 400px;
 }

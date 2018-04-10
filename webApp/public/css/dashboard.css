@@ -6612,3 +6612,10 @@ margin-top: 20px;
 .outerStatusBlock{
   padding-top: 3%;
 }
+.rolebtn{
+  margin-top:5%;
+}
+/*==================Dashboard CSS*/
+.amcharts-bg{
+  height:347px!important;
+}

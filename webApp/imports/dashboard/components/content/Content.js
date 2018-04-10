@@ -11,6 +11,10 @@ import HeaderBlock from '/imports/dashboard/otherRoleDashboardComponent/HeaderBl
 import AllTickets from '/imports/dashboard/otherRoleDashboardComponent/AllTickets.jsx';
 import AllocatedTickets from '/imports/dashboard/otherRoleDashboardComponent/AllocatedTickets.jsx';
 import AssignToMeTickets from '/imports/dashboard/otherRoleDashboardComponent/AssignToMeTickets.jsx';
+import TotalInFlowTickets from '/imports/dashboard/dashboardContent/TotalInFlowTickets.jsx';
+import TopStates from '/imports/dashboard/dashboardContent/TopStates.jsx';
+import TotalBusiness from '/imports/dashboard/dashboardContent/TotalBusiness.jsx';
+import CustomerComplaints from '/imports/dashboard/dashboardContent/CustomerComplaints.jsx';
 
 
 export default class Sidebar extends TrackerReact(Component){
@@ -101,10 +105,26 @@ export default class Sidebar extends TrackerReact(Component){
               </div>
             :
              
-            ""
+              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tablewrap">
+                <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <TotalInFlowTickets />          
+                </div>
+                <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <TopStates />          
+                </div>
+                <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <TotalBusiness />          
+                </div>
+                <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <CustomerComplaints />          
+                </div>
+              </div>
+            
           }
 
           </section>
+
+
           {/* /.content */}
         </div>
         {/* /.content-wrapper */}

@@ -14,10 +14,6 @@ import MonthlyReports from '/imports/dashboard/reports/MonthlyReports.jsx';
 import YearlyReports from '/imports/dashboard/reports/YearlyReports.jsx';
 import CustomisedReports from '/imports/dashboard/reports/CustomisedReports.jsx';
 
-// import ReportsWeeklyList from '/imports/dashboard/reports/component/WeeklyReports.jsx';
-// import ReportsMonthlyList from '/imports/dashboard/reports/component/MonthlyReports.jsx';
-// import ReportsYearlyList from '/imports/dashboard/reports/component/YearlyReports.jsx';
-// import ReportsCustomisedList from '/imports/dashboard/reports/component/CostomizedReports.jsx';
 
 export default class Reports extends TrackerReact(Component){
 	constructor(props){
