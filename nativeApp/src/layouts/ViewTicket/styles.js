@@ -122,7 +122,7 @@ export default StyleSheet.create({
     // paddingTop:10,
   },
   lineStyle:{
-    borderWidth: .5,
+    // borderWidth: .5,
     borderColor:'#aaa',
     width:(window.width - 45),
   },

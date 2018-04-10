@@ -9,7 +9,7 @@ import Meteor, {createContainer} from 'react-native-meteor';
 import SideMenu from 'react-native-side-menu';
 import RNExitApp from 'react-native-exit-app';
 import Loading from '../../components/Loading/Loading.js';
-import CheckBox from 'react-native-check-box'
+import CheckBox from 'react-native-check-box';
 
 import styles from './styles.js';
 import Menu from '../../components/Menu/Menu.js';

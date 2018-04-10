@@ -366,7 +366,7 @@ class VerificationDataSubmit extends TrackerReact(Component){
                                         <div className="imgtitile col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad" key={index}>
                                             <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3  Selectimg">{textObjsUsrUpload}:</div>
                                             <div className="col-lg-9 col-md-9 col-sm-9 col-xs-7">
-                                                <textarea className="form-control textObjs" id={textObjsUsrUpload} name="textObjs" ref="textObjs" name rows="1" onChange={this.handleChange}>
+                                                <textarea className="form-control textObjs" id={textObjsUsrUpload} name="textObjs" ref="textObjs" rows="1" onChange={this.handleChange}>
                                                 </textarea>
                                             </div>
                                         </div>

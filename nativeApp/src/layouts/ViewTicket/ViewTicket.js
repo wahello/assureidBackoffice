@@ -77,7 +77,7 @@ class ViewTicket extends React.Component {
     );
   }
   androidBackHandler() {
-    console.log(this.props.navigation.state.routeName);
+    // console.log(this.props.navigation.state.routeName);
     if (this.props.navigation.state.routeName != "ServiceList") {
       this.props.navigation.goBack(null);
       return true;
@@ -85,7 +85,7 @@ class ViewTicket extends React.Component {
     return false;
   }
   toggle() {
-    console.log("is open " + this.state.isOpen);
+    // console.log("is open " + this.state.isOpen);
     let isOpen = !this.state.isOpen;
     this.setState({
       isOpen
@@ -103,22 +103,22 @@ class ViewTicket extends React.Component {
     });
 
   handleLogout() {
-    console.log("Logout function!");
+    // console.log("Logout function!");
     Meteor.logout();
   }
   openDrawer() {
-    console.log("opening drawer!");
+    // console.log("opening drawer!");
     this.drawer.openDrawer();
   }
   closeDrawer() {
-    console.log("opening drawer!");
+    // console.log("opening drawer!");
     this.drawer.closeDrawer();
   }
 
   displayAttachments =()=>{
    
     var verificationDocuments = this.props.verificationDocument;
-     console.log('verificationDocuments ',verificationDocuments);
+     // console.log('verificationDocuments ',verificationDocuments);
       if(verificationDocuments){
         return(
           verificationDocuments.map((item,i)=>
@@ -407,7 +407,7 @@ export default createContainer((props) => {
     loadingUser          : loadingUser,
   };
 
-  // console.log(JSON.stringify(result,null,4));
+  console.log(JSON.stringify(result,null,4));
   return result;
 
 }, ViewTicket);

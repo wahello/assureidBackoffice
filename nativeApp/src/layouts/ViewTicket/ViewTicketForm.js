@@ -7,7 +7,7 @@ import { Header, Card, Button, Avatar, Icon, SearchBar, CheckBox } from "react-n
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from "react-native-table-component";
 import { TextField } from 'react-native-material-textfield';
 import { CameraKitCameraScreen, CameraKitCamera } from 'react-native-camera-kit';
-
+// import CheckBox from 'react-native-check-box';
 
 import PropTypes from "prop-types";
 import RadioButton from "radio-button-react-native";
@@ -22,6 +22,7 @@ import Menu from "../../components/Menu/Menu.js";
 import HeaderDy from "../../components/HeaderDy/HeaderDy.js";
 import ViewCustomerTable from "../../components/tableComponent/ViewCustomerTable.js";
 import ViewCustomerModal from "../../components/modalComponent/ViewCustomerModal.js";
+import { Dropdown } from 'react-native-material-dropdown';
 
 class ViewTicketFormInfo extends React.Component {
   constructor(props) {
@@ -42,8 +43,13 @@ class ViewTicketFormInfo extends React.Component {
       inputFocusColor   : '#54Aff3',
       Remark            : '',
       value             : 0,
-      fontSize          : 14,
-      userUpload        : {},
+      "fontSize"        : 14,
+      "userUpload"      : {},
+      "status"          : '',
+      "subStatus"       : '',
+      "remark"          : '',
+      "images"          : [],
+      "videos"          : [],
       
     };
     this.openDrawer = this.openDrawer.bind(this);
@@ -64,7 +70,7 @@ class ViewTicketFormInfo extends React.Component {
     );
   }
   androidBackHandler() {
-    console.log(this.props.navigation.state.routeName);
+    // console.log(this.props.navigation.state.routeName);
     if (this.props.navigation.state.routeName != "ServiceList") {
       this.props.navigation.goBack(null);
       return true;
@@ -72,7 +78,7 @@ class ViewTicketFormInfo extends React.Component {
     return false;
   }
   toggle() {
-    console.log("is open " + this.state.isOpen);
+    // console.log("is open " + this.state.isOpen);
     let isOpen = !this.state.isOpen;
     this.setState({
       isOpen
@@ -90,15 +96,15 @@ class ViewTicketFormInfo extends React.Component {
     });
 
   handleLogout() {
-    console.log("Logout function!");
+    // console.log("Logout function!");
     Meteor.logout();
   }
   openDrawer() {
-    console.log("opening drawer!");
+    // console.log("opening drawer!");
     this.drawer.openDrawer();
   }
   closeDrawer() {
-    console.log("opening drawer!");
+    // console.log("opening drawer!");
     this.drawer.closeDrawer();
   }
 
@@ -140,28 +146,141 @@ class ViewTicketFormInfo extends React.Component {
   //   this._editLineModal();
   // }
 
+  getRole(role) {
+      return role != "backofficestaff";
+  }
+
   submit(event) {
     event.preventDefault();
-    var submitObj = this.state;
-    // console.log('submitObj: ',submitObj);
-    // Or, using array extras
-    var valuesArray = Object.entries(this.state).forEach(([key, value]) => {
-      console.log('key: ',key);
-      console.log('value: ',value);
-      if(key.split('-')[0] == 'text'){
-          console.log('match: ',key);
-          return key;
+
+    var checkLists = [];
+    //Get values for all the check box
+    for(var i=0; i<this.props.checkObjs.length;i++){
+      var dataChk ={};
+
+      if(this.state[this.props.checkObjs[i].id] === true){
+          dataChk.statement = this.props.checkObjs[i].task;
+          dataChk.status = true;
+      }else{
+          dataChk.statement = this.props.checkObjs[i].task;
+          dataChk.status = false;
       }
-      console.log('-------------------');
-    });
-    console.log('valuesArray: ',valuesArray);
+      checkLists.push(dataChk);
+
+    } // EOF i loop
+
+    //Get Values for all the text field
+    var textLists = [];
+    for(var j=0; j<this.props.textObjs.length;j++){
+      var dataChk    = {};
+      dataChk.task   = this.props.textObjs[j].task;
+      if(this.refs[this.props.textObjs[j].id].value()){
+        dataChk.value  = this.refs[this.props.textObjs[j].id].value();
+      }else{
+        dataChk.value  = '';
+      }
+      textLists.push(dataChk);
+    } // EOF j loop 
+
+    var status      = this.state.status;
+    var subStatus   = this.state.subStatus;
+    var images      = [
+                        {  
+                          'userId'    : Meteor.userId(),
+                          'imageLink' : 'https://s3.ap-south-1.amazonaws.com/harmonicgroup/ProductImage/2Wvb8h6dvwMf7nppL.jpeg',
+                          'createdAt' : new Date(),
+                        }
+                      ];
+    var videos      = [
+                        {
+                          'userId'    : Meteor.userId(),
+                          'videoLink' : 'https://s3.ap-south-1.amazonaws.com/harmonicgroup/ProductVideo/2XAwdwWSg2qfpgKFf.mp4',
+                          'createdAt' : new Date(),
+                        }
+                      ];
+    var roleStatus  = "ProofSubmit";
+    var msg         = "Submitted Verification Information";
+    var remark      = this.state.remark;
+
+    var documents = {
+        checkLists : checkLists,
+        textLists  : textLists,
+        status     : status,
+        subStatus  : subStatus,
+        images     : images,
+        videos     : videos,
+        remark     : remark,
+    }
+        
+    console.log('documents: ',documents);
+
+    if (this.props.tickets) {
+        if (this.props.tickets.ticketElement) {
+            if (this.props.tickets.ticketElement.length > 0) {
+                var ticketElements = this.props.tickets.ticketElement;
+                var teamMemberDetails = ticketElements.find(function (obj) { return obj.roleStatus == 'FEAllocated' });
+                // console.log('teamMemberDetails ',teamMemberDetails);
+            }
+        }
+
+        var role = this.props.userData.roles.find(this.getRole);
+        if(role){
+            var insertData = {
+                "userId"              : Meteor.userId(),
+                "userName"            : Meteor.user().profile.firstname + ' ' + Meteor.user().profile.lastname,
+                "allocatedToUserid"   : teamMemberDetails.userId,
+                "allocatedToUserName" : teamMemberDetails.userName,
+                "role"                : role,
+                "roleStatus"          : roleStatus,
+                "msg"                 : msg,
+                "submitedDoc"         : documents,
+                "createdAt"           : new Date(),
+            }
+            // console.log('insertData: ',insertData);    
+        }
+        Meteor.call('genericUpdateTicketMasterElement',this.props.tickets._id,insertData,function(error,result){
+            if (error) {
+              console.log(error.reason);
+            }else{
+              console.log("Inserted Successfully!");
+            }
+        });
+    }
+
 
   }
 
   render() {
     
     const { navigate, goBack, state } = this.props.navigation;
-
+    let status = [{
+      value: '-- Select --',
+    }, {
+      value: 'Initiated',
+    }, {
+      value: 'WIP',
+    }, {
+      value: 'Insufficiency',
+    }, {
+      value: 'Insufficiency Cleared',
+    }, {
+      value: 'Completed',
+    }];
+    let subStatus = [{
+      value: '-- Select --',
+    }, {
+      value: 'Clear',
+    }, {
+      value: 'Minor Discrepancy',
+    }, {
+      value: 'Major Discrepancy',
+    }, {
+      value: 'Unable to Verify',
+    }, {
+      value: 'Cancelled',
+    }, {
+      value: 'Case Drop',
+    }];
     const menu = <Menu navigate={navigate} userName={this.props.userName} />;
     var navigationView = (
       <ScrollView
@@ -200,10 +319,10 @@ class ViewTicketFormInfo extends React.Component {
         <View>
           <Text
             style={{
-              textAlign: "center",
-              fontWeight: "bold",
-              fontSize: 20,
-              paddingTop: 10
+              textAlign  : "center",
+              fontWeight : "bold",
+              fontSize   : 20,
+              paddingTop : 10
             }}
           >
             Newly Added
@@ -283,6 +402,7 @@ class ViewTicketFormInfo extends React.Component {
                   </View>
                 }
               />
+
               <HeaderDy headerTitle="Ticket Tool" goBack={goBack} />
                 <View style={styles.formContainer}>
 
@@ -301,11 +421,22 @@ class ViewTicketFormInfo extends React.Component {
                                   center
                                   containerStyle={{ backgroundColor: "transparent", borderWidth: 0 }}
                                   checkedColor="green"
-                                  checked={this.state.isChecked}
+                                  checked={this.state[checkListDefault.id]}
                                   onPress={this.handleOnChange}
                                   textStyle={{ color: "#aaa" }}
-                                  title={checkListDefault}
-                                />
+                                  title={checkListDefault.task}
+                                  value={checkListDefault.task}
+                                  onPress={(value) => { 
+                                                        if(this.state[checkListDefault.id]){
+                                                          // console.log('data: ',this.state[checkListDefault.id]);
+                                                          this.setState({ [checkListDefault.id] : !this.state[checkListDefault.id] });
+                                                        }else{
+                                                          // console.log('no data:',this.state[checkListDefault.id]);
+                                                          this.setState({ [checkListDefault.id] : true });
+                                                        } 
+                                                      }
+                                                }
+                                />     
                               </View>
                             );
                           })
@@ -327,7 +458,7 @@ class ViewTicketFormInfo extends React.Component {
                             <View style={styles.inputWrapper} key={index}>
                               <View style={styles.formInputView1}>
                                 <TextField
-                                  label                 = {textListDefault}
+                                  label                 = {textListDefault.task}
                                   lineWidth             = {0}
                                   tintColor             = {this.state.inputFocusColor}
                                   inputContainerPadding = {4}
@@ -339,15 +470,11 @@ class ViewTicketFormInfo extends React.Component {
                                   activeLineWidth       = {0}
                                   fontSize              = {this.state.fontSize}
                                   labelFontSize         = {this.state.fontSize}
-                                  // value                 = {this.state.userUpload}
-                                  value                 = { this.state[index] }
+                                  ref                   = {textListDefault.id}
                                   onChangeText          = {(value) => { 
-                                                                        console.log('event.target.value: ',value);
-                                                                        console.log('[index]: ',[index]);
-                                                                        this.setState({ ['text-'+index] : value });
+                                                                        this.setState({ [textListDefault.id] : value });
                                                                       }
                                                           }
-                                  // onChangeText          = {this.testfunc.bind(this)}
                                 />
                               </View>
                             </View>
@@ -358,12 +485,13 @@ class ViewTicketFormInfo extends React.Component {
                 }
                 </View>
 
-                  <View style = {styles.lineStyle} />
+                  <View style = {styles.lineStyle} >
                   <View style={styles.formInputView}>
                     <View>
                       <Text style={{fontWeight: 'bold'}}>Upload Photos</Text>
                     </View>
                   </View>
+
                   <View style = {styles.formInputView}> 
                     <View style={{flex:1}}>
                       <View style={{flexDirection:'row'}}>
@@ -403,12 +531,16 @@ class ViewTicketFormInfo extends React.Component {
                       </View>
                     </View>
                   </View>
-                  <View style = {styles.lineStyle} />
+                  </View>
+
+                  <View style = {styles.lineStyle} >
+
                   <View style={styles.formInputView}>
                     <View>
                       <Text style={{fontWeight: 'bold'}}>Upload Videos</Text>
                     </View>
                   </View>
+
                   <View style = {styles.formInputView}> 
                     <View style={{flex:1}}>
                       <View style={{flexDirection:'row'}}>
@@ -446,31 +578,68 @@ class ViewTicketFormInfo extends React.Component {
                       </View>
                     </View>
                   </View>
-                  <View style = {styles.lineStyle} />
-                  <View style={styles.formInputView}>
-                    <View>
-                      <Text style={{fontWeight: 'bold'}}>Remark</Text>
+                  </View>
+
+                  <View style = {styles.lineStyle} >
+                    <View style={styles.formInputView}>
+                      <View>
+                        <Text style={{fontWeight: 'bold'}}>Remark</Text>
+                      </View>
+                    </View>
+                    <View style={styles.formInputViews}>
+                      <TextField
+                        label                 = ''
+                        lineWidth             = {0}
+                        tintColor             = {this.state.inputFocusColor}
+                        inputContainerPadding = {4}
+                        labelHeight           = {16}
+                        keyboardType          = 'default'
+                        inputContainerStyle   = {{height:200}}
+                        style                 = {styles.inputText}
+                        labelTextStyle        = {styles.labelText}
+                        activeLineWidth       = {0}
+                        fontSize              = {this.state.fontSize}
+                        labelFontSize         = {this.state.fontSize}
+                        multiline             = {true}
+                        numberOfLines         = {4}
+                        ref                   = 'remark'
+                        value                 = {this.state.remark}
+                        onChangeText          = {(value) => { 
+                                                              this.setState({ 'remark' : value });
+                                                            }
+                                                }
+                      />
                     </View>
                   </View>
-                  <View style={styles.formInputViews}>
-                    <TextField
-                      label                 = ''
-                      lineWidth             = {0}
-                      tintColor             = {this.state.inputFocusColor}
-                      inputContainerPadding = {4}
-                      labelHeight           = {16}
-                      keyboardType          = 'default'
-                      inputContainerStyle   = {{height:200}}
-                      style                 = {styles.inputText}
-                      labelTextStyle        = {styles.labelText}
-                      activeLineWidth       = {0}
-                      fontSize              = {this.state.fontSize}
-                      labelFontSize         = {this.state.fontSize}
-                      multiline             = {true}
-                      numberOfLines         = {4}
-                    />
+
+                  <View style = {styles.lineStyle} >
+                    <View style={styles.formInputViews}>
+                      <Dropdown
+                        label                 = 'Status'
+                        data                  = {status}
+                        inputContainerStyle   = {styles.dropdownStyle}
+                        inputContainerPadding = {0}
+                        labelHeight           = {16}
+                        ref                   = 'status'
+                        onChangeText          = {(status) => this.setState({status})}
+                      /> 
+                    </View>
                   </View>
-                </View>
+
+                  <View style = {styles.lineStyle} >
+                    <View style={styles.formInputViews}>
+                      <Dropdown
+                        label                 = 'Sub-status'
+                        data                  = {subStatus}
+                        inputContainerStyle   = {styles.dropdownStyle}
+                        inputContainerPadding = {0}
+                        labelHeight           = {16}
+                        ref                   = 'subStatus'
+                        onChangeText          = {(subStatus) => this.setState({subStatus})}
+                      /> 
+                    </View>
+                  </View>
+
               <View style={{ alignItems: "center"}}>
                 <Button
                   buttonStyle={styles.buttonLarge}
@@ -478,6 +647,8 @@ class ViewTicketFormInfo extends React.Component {
                   onPress={this.submit.bind(this)}
                 />
               </View>
+              </View>
+
             </ScrollView>
           </View>
         </SideMenu>
@@ -508,7 +679,7 @@ ViewTicketForm = createContainer( (props) => {
     var checkListFrom = '';
 
     if (ticket) {
-       var tickets =  Meteor.collection('ticketMaster').findOne({"_id" : ticket});
+       var tickets =  Meteor.collection('ticketMaster').findOne({"_id" : ticket}) || {};
        
        if (tickets) {
           var verificationType = tickets.verificationType;
@@ -529,14 +700,14 @@ ViewTicketForm = createContainer( (props) => {
        }
 
        // console.log('checkListFrom: ',checkListFrom);
-       var checkListObjs = Meteor.collection("checklistFieldExpert").find({"checkListFor" : checkListFrom});
+       var checkListObjs = Meteor.collection("checklistFieldExpert").find({"checkListFor" : checkListFrom}) || [];
         if (checkListObjs && checkListObjs.length > 0) {
-           console.log('checkListObjs: ',checkListObjs);
+           // console.log('checkListObjs: ',checkListObjs);
            for (var i = 0; i < checkListObjs.length; i++) {
               if(checkListObjs[i].checkListFrom == 'Database'){
-                  checkObjs.push(checkListObjs[i].task); 
+                  checkObjs.push({'id':checkListObjs[i]._id,'task':checkListObjs[i].task}); 
               }else{
-                  textObjs.push(checkListObjs[i].task); 
+                  textObjs.push({'id':checkListObjs[i]._id,'task':checkListObjs[i].task}); 
               }
            }
         }
@@ -545,6 +716,12 @@ ViewTicketForm = createContainer( (props) => {
    
       // console.log("checkObjs",checkObjs);
       // console.log("textObjs",textObjs);
+
+      const postHandle4     = Meteor.subscribe('projectSettingsPublish');
+      const s3Data          = Meteor.collection('projectSettings').findOne({"_id":"1"}) || {};
+
+      const postHandle5     = Meteor.subscribe('currentUserfunction');
+      const userData        = Meteor.collection('users').findOne({"_id":Meteor.userId()}) || {};
 
       var result =  {
           loading      : loading,
@@ -555,9 +732,12 @@ ViewTicketForm = createContainer( (props) => {
           tickets      : tickets,
           checkObjs    : checkObjs,
           textObjs     : textObjs,
+          s3Data       : s3Data,
+          userData     : userData,
       };
 
       // console.log("result",result);
+      // console.log("userData",userData);
       return result;
 
 }, ViewTicketFormInfo);
