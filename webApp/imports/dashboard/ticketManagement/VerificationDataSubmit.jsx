@@ -18,7 +18,7 @@ class VerificationDataSubmit extends TrackerReact(Component){
     constructor(props){ 
         super(props); 
         if(this.props.EditValue){
-            // console.log("edit values:",this.props.EditValue);
+            console.log("edit values:",this.props.EditValue);
             this.state ={ 
                 "checkLists"       : this.props.EditValue.checkLists,
                 "textLists"        : this.props.EditValue.textLists,
@@ -51,10 +51,29 @@ class VerificationDataSubmit extends TrackerReact(Component){
     getRole(role) {
         return role != "backofficestaff";
     }
-    handleChange(event){
+    handleChangeForArray(event){
         event.preventDefault();
+
         const target = event.target;
         const name   = target.name;
+        // console.log('name: ',name);
+        // console.log('value: ',event.target.value);
+        var index = $(event.currentTarget).attr('data-index');
+        console.log('index: ',index);
+        console.log('--------Before textLists---------');
+        console.log(this.state.textLists);
+        this.state.textLists[index].value = event.target.value;
+        console.log('--------After textLists---------');
+        console.log(this.state.textLists);
+        this.setState({
+         [name]: event.target.value,
+        });
+    }
+    handleChange(event){
+        event.preventDefault();
+
+        const target = event.target;
+        const name   = target.name; 
         this.setState({
          [name]: event.target.value,
         });
@@ -161,8 +180,7 @@ class VerificationDataSubmit extends TrackerReact(Component){
                     });   
                 }
            }
-        }
-       
+         }    
         }else if (this.props.ticketVideo.length >= 1 ){
            swal({   
              position: 'top-right',    
@@ -238,7 +256,7 @@ class VerificationDataSubmit extends TrackerReact(Component){
         if(this.props.EditValue){
             var status      = this.refs.documentStatus.value;
             var subStatus   = this.refs.documentSubStatus.value;
-            var images      = this.state.images;
+            var images      = this.state.images.concat(this.props.ticketImages);
             var videos      = this.state.videos;
             var roleStatus  = "ProofResubmitted";
             var msg         = "Resubmitted Verification Information";
@@ -319,7 +337,7 @@ class VerificationDataSubmit extends TrackerReact(Component){
                                             </div>
                                           );
                                         })
-                                    :
+                                    : 
                                         ""
                                     }
                                 </div>
@@ -347,8 +365,7 @@ class VerificationDataSubmit extends TrackerReact(Component){
                                         <div className="imgtitile col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad" key={index}>
                                             <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3  Selectimg">{textObjsUsrUpload.task}:</div>
                                             <div className="col-lg-9 col-md-9 col-sm-9 col-xs-7">
-                                                <textarea className="form-control textObjs" id={textObjsUsrUpload.task} name="textObjs" ref="textObjs" name rows="1" onChange={this.handleChange}>
-                                                </textarea>
+                                                <textarea className="form-control textObjs" id={textObjsUsrUpload.task} data-index={index} name="textObjs" value={textObjsUsrUpload.value} ref="textObjs" rows="1" onChange={this.handleChangeForArray} ></textarea>
                                             </div>
                                         </div>
                                         );
@@ -388,9 +405,46 @@ class VerificationDataSubmit extends TrackerReact(Component){
                             </div>
                             {!this.props.loading ?
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 imgbox">
-                                    {
-                                        this.props.ticketImages ? 
-                                            this.props.ticketImages.length > 0 ? 
+                                    {  this.props.EditValue ?
+                                        <div>
+                                          { this.state.images? 
+                                                this.state.images.map((ticketImages,index) =>{
+                                                    return(
+                                                    <div className="col-lg-3 imgbrPre" key={index}>
+                                                    <i className="fa fa-times pull-right tempImageDelete" id={this.props.ticketId} data-index={index} onClick={this.deleteImageFromticket.bind(this)}></i>
+                                                        <div className="imgbr">
+                                                        <img src={ticketImages.imageLink} className="img1 img-responsive" />
+                                                        </div>
+                                                    </div>
+                                                    );
+                                                })
+                                            :
+                                            ""
+                                          }
+                                          {
+                                              this.props.ticketImages ? 
+                                                   this.props.ticketImages.length > 0 ?
+                                                    this.props.ticketImages.map((ticketImages,index) =>{
+                                                        return(
+                                                        <div className="col-lg-3 imgbrPre" key={index}>
+                                                            <i className="fa fa-times pull-right tempImageDelete" id={ticketImages._id} onClick={this.deleteTempImage.bind(this)}></i>
+                                                            <div className="imgbr">
+                                                            <img src={ticketImages.imageLink} className="img1 img-responsive" />
+                                                            </div>
+                                                        </div>
+                                                        );
+                                                    })
+                                                    :
+                                                 ""
+                                                :
+                                                ""
+                                             }
+
+                                          </div>
+
+                                        :
+                                            this.props.ticketImages ? 
+                                               this.props.ticketImages.length > 0 ?
                                                 this.props.ticketImages.map((ticketImages,index) =>{
                                                     return(
                                                     <div className="col-lg-3 imgbrPre" key={index}>
@@ -401,34 +455,10 @@ class VerificationDataSubmit extends TrackerReact(Component){
                                                     </div>
                                                     );
                                                 })
+                                               :
+                                               ""
                                             :
-                                                this.state.images? 
-                                                    this.state.images.map((ticketImages,index) =>{
-                                                        return(
-                                                        <div className="col-lg-3 imgbrPre" key={index}>
-                                                        <i className="fa fa-times pull-right tempImageDelete" id={this.props.ticketId} data-index={index} onClick={this.deleteImageFromticket.bind(this)}></i>
-                                                            <div className="imgbr">
-                                                            <img src={ticketImages.imageLink} className="img1 img-responsive" />
-                                                            </div>
-                                                        </div>
-                                                        );
-                                                    })
-                                            :
-                                                ""
-                                            :
-                                                this.state.images? 
-                                                    this.state.images.map((ticketImages,index) =>{
-                                                        return(
-                                                            <div className="col-lg-3 imgbrPre" key={index}>
-                                                            <i className="fa fa-times pull-right tempImageDelete" id={this.props.ticketId} data-index={index} onClick={this.deleteImageFromticket.bind(this)}></i>
-                                                            <div className="imgbr">
-                                                                <img src={ticketImages.imageLink} className="img1 img-responsive" />
-                                                            </div>
-                                                            </div>
-                                                        );
-                                                    })
-                                            :
-                                                ""
+                                         ""
                                     }
                                 </div>
                             :
@@ -444,46 +474,102 @@ class VerificationDataSubmit extends TrackerReact(Component){
                             </div>
                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 imgbox">
 
-                            {this.props.ticketVideo ?
-                                this.props.ticketVideo.length > 0 ?
-                                    this.props.ticketVideo.map((ticketVideo,index) =>{
-                                        return(
-                                        <div className="col-lg-4 imgbrvid" key={index}>
-                                            <i className="fa fa-times pull-right tempImageDelete" id={ticketVideo._id} onClick={this.deleteTempVideo.bind(this)}></i>
-                                            <video width="200" height="200"  controls>
-                                                <source src={ticketVideo.videoLink} type="video/mp4" />
-                                            </video>
-                                        </div>
-                                        );
-                                    })
-                                :
-                                    this.state.videos? 
-                                        this.state.videos.map((ticketVideo,index) =>{
-                                            return(
-                                            <div className="col-lg-4 imgbrvid" key={index}>
-                                                <i className="fa fa-times pull-right"></i>
-                                                <video width="200" height="200"  controls>
-                                                    <source src={ticketVideo.videoLink} type="video/mp4" />
-                                                </video>
-                                            </div>
-                                            );
-                                    })
-                                :
-                                    ""
-                                :
-                                    this.state.videos? 
-                                        this.state.videos.map((ticketVideo,index) =>{
-                                        return(
-                                            <div className="col-lg-4 imgbrvid" key={index}>
-                                                <i className="fa fa-times pull-right"></i>
-                                                <video width="200" height="200"  controls>
-                                                    <source src={ticketVideo.videoLink} type="video/mp4" />
-                                                </video>
-                                            </div>
-                                        );
+                            {
+                                this.props.EditValue ?
+                                  <div>
+                                    <div>
+                                      {
+                                        this.props.ticketVideo ?
+                                        this.props.ticketVideo.length > 0 ?
+                                            this.props.ticketVideo.map((ticketVideo,index) =>{
+                                                return(
+                                                <div className="col-lg-4 imgbrvid" key={index}>
+                                                    <i className="fa fa-times pull-right tempImageDelete" id={ticketVideo._id} onClick={this.deleteTempVideo.bind(this)}></i>
+                                                    <video width="200" height="200"  controls>
+                                                        <source src={ticketVideo.videoLink} type="video/mp4" />
+                                                    </video>
+                                                </div>
+                                                );
+                                            })
+                                            :
+                                            ""
+                                        :
+                                      ""
+                                      }
+                                    </div>
+                                    <div> 
+                                      {
+                                        this.state.videos? 
+                                            this.state.videos.map((ticketVideo,index) =>{
+                                                return(
+                                                <div className="col-lg-4 imgbrvid" key={index}>
+                                                    <video width="200" height="200"  controls>
+                                                        <source src={ticketVideo.videoLink} type="video/mp4" />
+                                                    </video>
+                                                </div>
+                                                );
                                         })
-                            :
-                                ""
+                                        :
+                                            ""
+                                      }
+
+                                    </div>                           
+                                  </div> 
+                                :
+                                   this.props.ticketVideo ?
+                                        this.props.ticketVideo.length > 0 ?
+                                            this.props.ticketVideo.map((ticketVideo,index) =>{
+                                                return(
+                                                <div className="col-lg-4 imgbrvid" key={index}>
+                                                    <i className="fa fa-times pull-right tempImageDelete" id={ticketVideo._id} onClick={this.deleteTempVideo.bind(this)}></i>
+                                                    <video width="200" height="200"  controls>
+                                                        <source src={ticketVideo.videoLink} type="video/mp4" />
+                                                    </video>
+                                                </div>
+                                                );
+                                            })
+                                        :
+                                        ""
+                                    :
+                                  ""
+                            //     this.props.ticketVideo ?
+                            //     this.props.ticketVideo.length > 0 ?
+                            //         this.props.ticketVideo.map((ticketVideo,index) =>{
+                            //             return(
+                            //             <div className="col-lg-4 imgbrvid" key={index}>
+                            //                 <i className="fa fa-times pull-right tempImageDelete" id={ticketVideo._id} onClick={this.deleteTempVideo.bind(this)}></i>
+                            //                 <video width="200" height="200"  controls>
+                            //                     <source src={ticketVideo.videoLink} type="video/mp4" />
+                            //                 </video>
+                            //             </div>
+                            //             );
+                            //         })
+                            //     :
+                            //         this.state.videos? 
+                            //             this.state.videos.map((ticketVideo,index) =>{
+                            //                 return(
+                            //                 <div className="col-lg-4 imgbrvid" key={index}>
+                            //                     <video width="200" height="200"  controls>
+                            //                         <source src={ticketVideo.videoLink} type="video/mp4" />
+                            //                     </video>
+                            //                 </div>
+                            //                 );
+                            //         })
+                            //     :
+                            //         ""
+                            //     :
+                            //         this.state.videos? 
+                            //             this.state.videos.map((ticketVideo,index) =>{
+                            //             return(
+                            //                 <div className="col-lg-4 imgbrvid" key={index}>
+                            //                     <video width="200" height="200"  controls>
+                            //                         <source src={ticketVideo.videoLink} type="video/mp4" />
+                            //                     </video>
+                            //                 </div>
+                            //             );
+                            //             })
+                            // :
+                            //     ""
                             }
                             </div>
                             {/* End of Video upload and Display */}
@@ -526,7 +612,7 @@ class VerificationDataSubmit extends TrackerReact(Component){
                                     <div className="col-lg-12 noLRPad Selectimg">Remark:</div>
                                 </div>
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12  ">
-                                    <textarea className="form-control col-lg-12 col-sm-12 col-md-12 col-xs-12" name="remark" ref="remark" id="remark" onChange={this.handleChange} value={this.state.remark} rows="5" id="remark"></textarea>          
+                                    <textarea className="form-control col-lg-12 col-sm-12 col-md-12 col-xs-12" name="remark" ref="remark" id="remark" onChange={this.handleChange} value={this.state.remark} rows="5" id="remark" pattern="[a-zA-Z0-9\s]+"></textarea>          
                                 </div>
                             </div>
                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12  wholeborder text-center">
@@ -540,12 +626,14 @@ class VerificationDataSubmit extends TrackerReact(Component){
         }       
     }
 VerificationDataSubmitContainer = withTracker(props => { 
-    const ticketId       = props.ticketId;
+    const ticketId     = props.ticketId;
+    console.log("ticketId",ticketId);
     const postHandle   = Meteor.subscribe('allTicketImages');
     const postHandle1  = Meteor.subscribe('allTicketVideo');
     const postHandle2  = Meteor.subscribe('checklistFieldExpert');
     const postHandle3  = Meteor.subscribe('singleTicket',ticketId);
     const ticketImages = TempTicketImages.find({}).fetch() || []; 
+    console.log("ticketImages",ticketImages);
     const ticketVideo  = TempTicketVideo.find({}).fetch() || [];  
     const loading     = !postHandle.ready();
     const loading1    = !postHandle1.ready();
@@ -553,7 +641,7 @@ VerificationDataSubmitContainer = withTracker(props => {
     var checkList = [];
     if (ticketId) {
         var tickets =  TicketMaster.findOne({"_id" : ticketId});
-        // console.log("tickets",tickets);
+        console.log("tickets",tickets);
         if (tickets) {
             var verificationType = tickets.verificationType;
             if (verificationType == "professionalEducation") {

@@ -197,71 +197,71 @@ export default class UMListOfUsers extends TrackerReact(Component) {
 		            <h3 className="box-title">ALL USERS</h3>
 		            </div>
 		            <div className="box-body"> 
-					<div className="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
-						
-						<label className="col-lg-10 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 selectTitle noLRPad">Select Action</label>
-						<select className="col-lg-10 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 userListDropdown actionSelect" ref="userListDropdown" name="userListDropdown" onChange={this.adminUserActions.bind(this)}>
-							<option className="col-lg-12 col-md-12 col-sm-12 col-xs-12" data-limit='37' value="-" name="userListDDOption">-- Select --</option>	
-							<option className="col-lg-12 col-md-12 col-sm-12 col-xs-12" data-limit='37' value="block_selected" name="userListDDOption">Block Selected</option>	
-							<option className="col-lg-12 col-md-12 col-sm-12 col-xs-12" data-limit='37' value="active_selected" name="userListDDOption">Active Selected</option>
-							<option className="col-lg-12 col-md-12 col-sm-12 col-xs-12" data-limit='37' value="cancel_selected" name="userListDDOption">Cancel Selected Acccounts</option>	
-							{ this.rolesListData().map( (rolesData)=>{
-								return <UMAddRolRow key={rolesData._id} roleDataVales={rolesData}/>
-							  }) 
-							}	
-							{ this.rolesListData().map( (rolesData)=>{
-								return <UMDelRolRow key={rolesData._id} roleDataVales={rolesData}/>
-							  }) 
-							}
-						</select>
-					</div> 
+									<div className="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+										
+										<label className="col-lg-10 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 selectTitle noLRPad">Select Action</label>
+										<select className="col-lg-10 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 userListDropdown actionSelect" ref="userListDropdown" name="userListDropdown" onChange={this.adminUserActions.bind(this)}>
+											<option className="col-lg-12 col-md-12 col-sm-12 col-xs-12" data-limit='37' value="-" name="userListDDOption">-- Select --</option>	
+											<option className="col-lg-12 col-md-12 col-sm-12 col-xs-12" data-limit='37' value="block_selected" name="userListDDOption">Block Selected</option>	
+											<option className="col-lg-12 col-md-12 col-sm-12 col-xs-12" data-limit='37' value="active_selected" name="userListDDOption">Active Selected</option>
+											<option className="col-lg-12 col-md-12 col-sm-12 col-xs-12" data-limit='37' value="cancel_selected" name="userListDDOption">Cancel Selected Acccounts</option>	
+											{ this.rolesListData().map( (rolesData)=>{
+												return <UMAddRolRow key={rolesData._id} roleDataVales={rolesData}/>
+											  }) 
+											}	
+											{ this.rolesListData().map( (rolesData)=>{
+												return <UMDelRolRow key={rolesData._id} roleDataVales={rolesData}/>
+											  }) 
+											}
+										</select>
+									</div> 
 
-					<div className="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
-						
-						<label className="col-md-10 col-lg-10 col-lg-offset-1 col-sm-12 col-xs-12 selectTitle noLRPad">Select Role</label>
-						<select className="col-md-10 col-lg-10 col-lg-offset-1 col-sm-12 col-xs-12 userListDropdown roleFilter noLRPad" ref="roleListDropdown" name="roleListDropdown" onChange={this.roleFilter.bind(this)}>
-							<option value="-" name="roleListDDOption">-- Select --</option>
-							<option value="all" name="roleListDDOption">Show All</option>		
-							{ this.rolesListData().map( (rolesData)=>{
-								return <UMSelectRoleUsers key={rolesData._id} roleDataVales={rolesData}/>
-							  }) 
-							}	
-						</select>
-					</div>
+									<div className="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+										
+										<label className="col-md-10 col-lg-10 col-lg-offset-1 col-sm-12 col-xs-12 selectTitle noLRPad">Select Role</label>
+										<select className="col-md-10 col-lg-10 col-lg-offset-1 col-sm-12 col-xs-12 userListDropdown roleFilter noLRPad" ref="roleListDropdown" name="roleListDropdown" onChange={this.roleFilter.bind(this)}>
+											<option value="-" name="roleListDDOption">-- Select --</option>
+											<option value="all" name="roleListDDOption">Show All</option>		
+											{ this.rolesListData().map( (rolesData)=>{
+												return <UMSelectRoleUsers key={rolesData._id} roleDataVales={rolesData}/>
+											  }) 
+											}	
+										</select>
+									</div>
 
-					<div className="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
-						
-						<label className="col-md-10 col-lg-10 col-lg-offset-1 col-sm-12 col-xs-12 selectTitle noLRPad">Select Block & Active Roles</label>
-						<select className="col-md-10 col-lg-10 col-lg-offset-1 col-sm-12 col-xs-12 userListDropdown activeBlockRoles noLRPad" ref="blockActive" name="blockActive" onChange={this.activeBlockRoles.bind(this)}>
-							<option value="-" name="roleListDDOption">-- Select --</option>	
-							<option value="Blocked" name="roleListDDOption">Blocked</option>	
-							<option value="Active" name="roleListDDOption">Active </option>	
-						</select>
-					</div>
+									<div className="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+										
+										<label className="col-md-10 col-lg-10 col-lg-offset-1 col-sm-12 col-xs-12 selectTitle noLRPad">Select Block & Active Roles</label>
+										<select className="col-md-10 col-lg-10 col-lg-offset-1 col-sm-12 col-xs-12 userListDropdown activeBlockRoles noLRPad" ref="blockActive" name="blockActive" onChange={this.activeBlockRoles.bind(this)}>
+											<option value="-" name="roleListDDOption">-- Select --</option>	
+											<option value="Blocked" name="roleListDDOption">Blocked</option>	
+											<option value="Active" name="roleListDDOption">Active </option>	
+										</select>
+									</div>
 
 
-				  	<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 table-responsive noLRPad">
-						<table className="table table-bordered table-striped table-hover myTable dataTable no-footer col-lg-10 col-md-10 col-sm-10 col-xs-12">
-							<thead className="table-head umtblhdr">
-							<tr className="hrTableHeader info">
+							  	<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 table-responsive noLRPad outerListOfUsersTable">
+										<table className="table table-bordered table-striped table-hover myTable dataTable no-footer col-lg-10 col-md-10 col-sm-10 col-xs-12">
+											<thead className="table-head umtblhdr">
+											<tr className="hrTableHeader info">
 
-								<th className="umHeader col-lg-1 col-md-1 col-sm-1 col-xs-1 "> <input type="checkbox" className="allSelector" name="allSelector" onChange={this.checkAll.bind(this)}/> </th>
-								<th className="umHeader col-lg-4 col-md-4 col-sm-6 col-xs-6"> Username </th>
-								<th className="umHeader col-lg-2 col-md-2 hidden-xs hidden-sm"> Status </th>
-								<th className="umHeader col-lg-2 col-md-2 col-sm-2 col-xs-2"> Roles </th>
-								<th className="umHeader col-lg-1 col-md-1 hidden-xs hidden-sm"> Member for </th>
-								<th className="umHeader col-lg-1 col-md-1 hidden-xs hidden-sm"> Last Access </th>
-								<th className="umHeader col-lg-1 col-md-1 col-sm-3 col-xs-3"> Operations </th>
-							</tr>
-							</thead>
-							<tbody className="noLRPad">
-								{ this.usersListData().map( (usersData)=>{
-									return <UMUsers key={usersData._id} usersDataValues={usersData} id={this.props.params.id}/>
-								  }) 
-								}
-							</tbody>
-						</table>
-					</div>
+												<th className="umHeader col-lg-1 col-md-1 col-sm-1 col-xs-1 "> <input type="checkbox" className="allSelector" name="allSelector" onChange={this.checkAll.bind(this)}/> </th>
+												<th className="umHeader col-lg-4 col-md-4 col-sm-6 col-xs-6"> Username </th>
+												<th className="umHeader col-lg-2 col-md-2 hidden-xs hidden-sm"> Status </th>
+												<th className="umHeader col-lg-2 col-md-2 col-sm-2 col-xs-2"> Roles </th>
+												<th className="umHeader col-lg-1 col-md-1 hidden-xs hidden-sm"> Member for </th>
+												<th className="umHeader col-lg-1 col-md-1 hidden-xs hidden-sm"> Last Access </th>
+												<th className="umHeader col-lg-1 col-md-1 col-sm-3 col-xs-3"> Operations </th>
+											</tr>
+											</thead>
+											<tbody className="noLRPad">
+												{ this.usersListData().map( (usersData)=>{
+													return <UMUsers key={usersData._id} usersDataValues={usersData} id={this.props.params.id}/>
+												  }) 
+												}
+											</tbody>
+										</table>
+								</div>
 					</div>
 				</div>
 			  </div>

@@ -11,7 +11,7 @@ export default class TotalInFlowTickets extends TrackerReact(Component){
         super(props);
         this.state = {
         } 
-    }
+    } 
 
     componentWillMount(){
 

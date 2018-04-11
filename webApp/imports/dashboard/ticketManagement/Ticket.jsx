@@ -17,13 +17,11 @@ import VerifiedDocuments from './VerifiedDocuments.jsx';
 import ScreeningCommittee from '/imports/dashboard/ticketManagement/ScreeningCommittee.jsx';
 import TicketDocumentDetails from '/imports/dashboard/ticketManagement/TicketDocumentDetail.jsx';
 import DocumentStatus from './DocumentStatus.jsx';
-import AddImagesVideo from './AddImagesVideo.jsx';
 import VerificationDataSubmit from './VerificationDataSubmit.jsx';
 import VerifyDetailsDocument from './VerifyDetailsDocument.jsx';
 import { UserProfile } from '../../website/forms/api/userProfile.js';
 import SubmittedDocuments from './SubmittedDocuments.jsx';
 import UploadReport from './UploadReport.jsx';
-import SubmittedAdditionalReportData from './SubmittedAdditionalReportData.jsx';
 
 class Ticket extends TrackerReact(Component){
   constructor(props){
@@ -742,7 +740,7 @@ class Ticket extends TrackerReact(Component){
                         <VerifiedDocuments ticketId={this.props.params.id}/>
                         <div id="SubmittedDocuments" >
                           {this.props.getTicket.submitedDoc ?
-                            <SubmittedDocuments submittedDocuments={this.props.getTicket.submitedDoc}/>
+                            <SubmittedDocuments submittedDocuments={this.props.getTicket.submitedDoc} ticketId={this.props.params.id} />
                             :
                             ""
                           }

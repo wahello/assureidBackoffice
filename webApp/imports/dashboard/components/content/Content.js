@@ -74,7 +74,7 @@ export default class Sidebar extends TrackerReact(Component){
         <div className="content-wrapper dashboardBackground">
           {/* Content Header (Page header) */}
           <section className="content-header">
-            <h1>Dashboard
+            <h1>Dashboard 
             </h1>
             <ol className="breadcrumb">
               <li>
