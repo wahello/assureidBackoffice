@@ -6612,19 +6612,8 @@ margin-top: 20px;
 .outerStatusBlock{
   padding-top: 3%;
 }
-<<<<<<< Updated upstream
+
 .rolebtn{
   margin-top:5%;
 }
 /*==================Dashboard CSS*/
-.amcharts-bg{
-  height:347px!important;
-=======
-.outerListOfUsersTable{
-  height: 678px;
-  overflow: hidden;
-}
-.outerListOfUsersTable:hover{
-  overflow-y: auto;
->>>>>>> Stashed changes
-}

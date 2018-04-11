@@ -106,20 +106,19 @@ export default class Sidebar extends TrackerReact(Component){
             :
              
               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tablewrap">
-                <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
                     <TotalInFlowTickets />          
                 </div>
-                <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                    <TopStates />          
+                <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 chartwrapper">
+                      <TopStates />          
                 </div>
                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                     <TotalBusiness />          
                 </div>
-                <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
                     <CustomerComplaints />          
                 </div>
               </div>
-            
           }
 
           </section>
