@@ -147,8 +147,11 @@ class Ticket extends TrackerReact(Component){
     event.preventDefault();
     let self = this;
     if (event.currentTarget.files && event.currentTarget.files[0]) { 
-    var dataImg =event.currentTarget.files[0];
-        if(dataImg){      
+      console.log('report ', event.currentTarget.files);
+      console.log('report1 ', event.currentTarget.files[0]);
+      var dataImg =event.currentTarget.files[0];
+        if(dataImg){
+          console.log('dataImg ',dataImg);      
         var reader = new FileReader();       
         reader.onload = function (e) {          
         };      
@@ -213,12 +216,17 @@ class Ticket extends TrackerReact(Component){
         }
         insertData.allocatedToUserid   = '';
         insertData.allocatedToUserName = '';
+        console.log('report submitted ',insertData);
         break;
       case 'ReportReSubmitted' :
         if(!this.props.loading){
+            console.log('in loading');
             var reportLinkDetails = TempTicketReport.findOne({},{sort:{'createdAt':-1}});  
             if(reportLinkDetails){
+              console.log('in loading');
               insertData.reportSubmited = reportLinkDetails.ReportLink;
+              console.log('report link',reportLinkDetails.ReportLink);
+              console.log('report ',insertData.reportSubmited);
             } 
         }
         var ticketElements      = this.props.getTicket.ticketElement;  
@@ -547,7 +555,7 @@ class Ticket extends TrackerReact(Component){
                   </div>
                   <lable className=" col-lg-9 col-md-9 col-sm-12 col-xs-12 downloadLable">Download Previous Report</lable>
                 </div>
-
+                <span>Upload Report : </span>
                 <div className="col-lg-7 col-lg-offset-0 col-md-7 col-md-offset-0 col-sm-10 col-sm-offset-1 col-xs-12">
                   <div className="">
                       <input type="file" ref="uploadReportFile" id="uploadReport" name="uploadReport" className="col-lg-7 reporttitle noLRPad" onChange={this.handleReportUpload.bind(this)} multiple/>

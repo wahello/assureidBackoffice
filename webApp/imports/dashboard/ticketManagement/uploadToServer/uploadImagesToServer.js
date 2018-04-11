@@ -12,13 +12,10 @@ import fs from 'fs';
 
 import { ProjectSettings } from '/imports/dashboard/product/addNewProduct/api/projectSettings.js';
  
-
-
 var s3Data = ProjectSettings.findOne({"_id":"1"});
 if(s3Data){
+    // console.log('img s3Data ',s3Data);
     process.env.S3='{"s3":{"key": "'+ s3Data.key+'", "secret": "'+ s3Data.secret+'", "bucket": "'+ s3Data.bucket +'", "region": "'+s3Data.region+'"}}' ;
-    
-
     if (process.env.S3) {
         Meteor.settings.s3 = JSON.parse(process.env.S3).s3;
         const s3Conf = Meteor.settings.s3 || {};

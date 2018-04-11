@@ -58,7 +58,7 @@ class AllTickets extends TrackerReact(Component){
                                                   <td>{data.serviceName}</td>
                                                   <td>{moment(data.createdAt).format('l')}</td>
                                                   <td>{data.tatDate}</td> 
-                                                  <td>{data.status}</td>       
+                                                  <td className={data.bgClassName}>{data.status}</td>       
                                               </tr>
                                           );
                                         })
@@ -94,7 +94,6 @@ export default AllTicketContainer = withTracker(props => {
     if(roleArr){
       var role = roleArr.find(function (obj) { return obj != 'backofficestaff' });
     }
-
     //Get all the Tickets
     var alltickets = TicketMaster.find({}).fetch();
     if(alltickets){
@@ -102,16 +101,144 @@ export default AllTicketContainer = withTracker(props => {
       
       for(i=0;i< alltickets.length; i++){
         var ticketElements = alltickets[i].ticketElement;
-        // var userList = ticketElements[ticketElements.length - 1]
-        alltickets[i].status = ticketElements[ticketElements.length - 1].roleStatus ;
-      }
-      
-      
+        switch(role){
+          case 'screening committee' : 
+            switch (ticketElements[ticketElements.length - 1].roleStatus) {
+              case 'NewScrAllocated':
+                alltickets[i].status = 'New' ;  
+                alltickets[i].bgClassName = 'btn-warning';    
+                break;
+              case 'ScreenApproved' :
+                alltickets[i].status = 'Approved' ; 
+                alltickets[i].bgClassName = 'btn-success';
+                break;
+              case 'ScreenRejected' :
+                alltickets[i].status = 'Rejected' ;
+                alltickets[i].bgClassName = 'btn-danger';
+                break;
+              case 'ReviewPass' :
+                alltickets[i].status = 'Completed' ;
+                alltickets[i].bgClassName = 'btn-success';
+                break;
+              default:
+                alltickets[i].status = 'In Process' ;
+                alltickets[i].bgClassName = 'btn-primary';
+                break;
+            }
+            break;
+          case 'team leader' :
+            switch (ticketElements[ticketElements.length - 1].roleStatus) {
+              case 'screenTLAllocated':
+                alltickets[i].status = 'New' ;      
+                alltickets[i].bgClassName = 'btn-warning';
+                break;
+              case 'AssignAccept' :
+                alltickets[i].status = 'Allocated' ; 
+                alltickets[i].bgClassName = 'btn-success';
+                break;
+              case 'AssignReject' :
+                alltickets[i].status = 'Rejected' ;
+                alltickets[i].bgClassName = 'btn-danger';
+                break;
+              case 'ReviewPass' :
+                alltickets[i].status = 'Completed' ;
+                alltickets[i].bgClassName = 'btn-success';
+                break;
+              default:
+                alltickets[i].status = 'In Process' ;
+                alltickets[i].bgClassName = 'btn-primary';
+                break;
+            }
+            break;
+          case 'team member' :
+            switch (ticketElements[ticketElements.length - 1].roleStatus) {
+              case 'Assign':
+                alltickets[i].status = 'New' ;      
+                alltickets[i].bgClassName = 'btn-warning';
+                break;
+              case 'QAFail':
+                alltickets[i].status = 'New' ;      
+                alltickets[i].bgClassName = 'btn-warning';
+                break;
+              case 'AssignAccept' :
+                alltickets[i].status = 'Accepted' ; 
+                alltickets[i].bgClassName = 'btn-success';
+                break;
+              case 'AssignReject' :
+                alltickets[i].status = 'Rejected' ;
+                alltickets[i].bgClassName = 'btn-danger';
+                break;
+              case 'ReviewPass' :
+                alltickets[i].status = 'Completed' ;
+                alltickets[i].bgClassName = 'btn-success';
+                break;
+              default:
+                alltickets[i].status = 'In Process' ;
+                alltickets[i].bgClassName = 'btn-primary';
+                break;
+            }
+            break;
+          case 'quality team member' : 
+            switch (ticketElements[ticketElements.length - 1].roleStatus) {
+              case 'VerificationPassQTMAllocated':
+                alltickets[i].status = 'New' ;      
+                alltickets[i].bgClassName = 'btn-warning';
+                break;
+              case 'ReviewFail':
+                alltickets[i].status = 'New' ;      
+                alltickets[i].bgClassName = 'btn-warning';
+                break;
+              case 'QAPass' :
+                alltickets[i].status = 'Approved' ; 
+                alltickets[i].bgClassName = 'btn-success';
+                break;
+              case 'QAFail' :
+                alltickets[i].status = 'Rejected' ;
+                alltickets[i].bgClassName = 'btn-danger';
+                break;
+              case 'ReviewPass' :
+                alltickets[i].status = 'Completed' ;
+                alltickets[i].bgClassName = 'btn-success';
+                break;
+              default:
+                alltickets[i].status = 'In Process' ;
+                alltickets[i].bgClassName = 'btn-primary';
+                break;
+            }
+            break;
+          case 'quality team leader' :
+            switch (ticketElements[ticketElements.length - 1].roleStatus) {
+              case 'QAPassQTLAllocated':
+                alltickets[i].status = 'New' ;      
+                alltickets[i].bgClassName = 'btn-warning';
+                break;
+              case 'ReviewPass' :
+                alltickets[i].status = 'Approved' ; 
+                alltickets[i].bgClassName = 'btn-success';
+                break;
+              case 'ReiewFail' :
+                alltickets[i].status = 'Rejected' ;
+                alltickets[i].bgClassName = 'btn-danger';
+                break;
+              case 'ReviewPass' :
+                alltickets[i].status = 'Completed' ;
+                alltickets[i].bgClassName = 'btn-success';
+                break;
+              default:
+                alltickets[i].status = 'In Process' ;
+                alltickets[i].bgClassName = 'btn-primary';
+                break;
+            }
+            break;
+          default : 
+            alltickets[i].status = 'In Process' ;
+            alltickets[i].bgClassName = 'btn-primary';
+            break;
+        }
+        // alltickets[i].status = ticketElements[ticketElements.length - 1].roleStatus ;
+      }  
     }
-
   }
-  
-  
   return {
     loading,
     alltickets
