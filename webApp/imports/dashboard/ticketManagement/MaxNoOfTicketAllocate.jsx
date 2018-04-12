@@ -46,7 +46,7 @@ class MaxNoOfTicketAllocate extends TrackerReact(Component){
     delAllocatedTicket(event){
     	event.preventDefault();
     	var selectedTax = this;
-	  	var targetedID = event.currentTarget.id;
+      var targetedID = event.currentTarget.id;
       Meteor.call('removeAllocatedTickets', targetedID);
     }
 
@@ -74,6 +74,8 @@ class MaxNoOfTicketAllocate extends TrackerReact(Component){
       }   
       var targetedID = Session.get('targetedID'); 
       var role = Session.get('role'); 
+
+
       if(targetedID){
         Meteor.call('updateAllocatedTicket',formValues,targetedID,(error, result)=>{
           if(error){
@@ -174,8 +176,8 @@ class MaxNoOfTicketAllocate extends TrackerReact(Component){
                                           <td> {allocationNumber.role} </td>	
                                           <td>
                                           <button onClick={this.editAllocatedTicket.bind(this)} id={index} className="editTax fa fa-pencil-square-o"></button>	
-                                          <button className= "taxDelete fa fa-trash delIcon detailsCenter" data-toggle="modal" data-target={`#del-${allocationNumber.role}`}></button>
-                                            <div className="modal fade" id={`del-${allocationNumber.role}`} role="dialog">
+                                          <button className= "taxDelete fa fa-trash delIcon detailsCenter" data-toggle="modal" data-target={`#del-${index}`}></button>
+                                            <div className="modal fade" id={`del-${index}`} role="dialog">
                                               <div className="modal-dialog modal-sm">
                                                 <div className="modal-content">
                                                   <div className="modal-header">

@@ -269,6 +269,7 @@ Meteor.methods({
       }
   },
   'insertMaxTicketAllocate':function(formValues){
+    console.log(formValues);
     CompanySettings.update({'companyId': 1},
           {$push:{ maxnoOfTicketAllocate :{
 
@@ -282,6 +283,7 @@ Meteor.methods({
   },
 
   removeAllocatedTickets: function(targetedID){
+
     CompanySettings.update({'companyId': 1}, {$unset : {['maxnoOfTicketAllocate.'+targetedID] : 1}});
     CompanySettings.update({'companyId': 1}, {$pull : {'maxnoOfTicketAllocate' : null}});
  
