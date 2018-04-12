@@ -40,22 +40,41 @@ export default class SubmittedDocuments extends TrackerReact(Component){
     $('#AddImagesVideo1').css({"display" : "block"});
     $('#submitedDocWrap').css({"display" : "none"});
 	}
+	showEditButton(){
+		var userId = Meteor.userId();
+	    if(userId){
+	    	var getTicket = TicketMaster.findOne({"_id" :this.props.ticketId});
+	    	if(getTicket){	
+		      var ticketElement = getTicket.ticketElement;
+		      if(ticketElement){
+		        var docApproveRejectData = ticketElement.find(function(obj){return (obj.userId == userId && obj.roleStatus == 'SelfAllocated' ) ? obj : false});
+		        if(docApproveRejectData){
+		          var showEditButton = true;
+		        }else{
+		          var showEditButton = false;
+		        }
+		      }
+	    	}
+	    }
+	    console.log('showEditButton ',showEditButton);
+	    return showEditButton;
+	}
   render(){ 
-  	var userId = Meteor.userId();
-    if(userId){
-    	var getTicket = TicketMaster.findOne({"_id" :this.props.ticketId});
-    	if(getTicket){	
-	      var ticketElement = getTicket.ticketElement;
-	      if(ticketElement){
-	        var docApproveRejectData = ticketElement.find(function(obj){return (obj.role == 'team member' ) ? obj : false});
-	        if(docApproveRejectData){
-	          var showEditButton = true;
-	        }else{
-	          var showEditButton = false;
-	        }
-	      }
-    	}
-    }	
+  	// var userId = Meteor.userId();
+   //  if(userId){
+   //  	var getTicket = TicketMaster.findOne({"_id" :this.props.ticketId});
+   //  	if(getTicket){	
+	  //     var ticketElement = getTicket.ticketElement;
+	  //     if(ticketElement){
+	  //       var docApproveRejectData = ticketElement.find(function(obj){return (obj.role == 'team member' ) ? obj : false});
+	  //       if(docApproveRejectData){
+	  //         var showEditButton = true;
+	  //       }else{
+	  //         var showEditButton = false;
+	  //       }
+	  //     }
+   //  	}
+   //  }	
    	return(
    		<div>
        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad" id="outersubmitedDocWrap">
@@ -68,9 +87,13 @@ export default class SubmittedDocuments extends TrackerReact(Component){
 			        		<span className="checkBoxtitle">Verified Information:</span>
 			        	</strong>
 			        </div>
-			       <div className="col-lg-1 pull-right">
-					    <span><i className="fa fa-pencil editdoc" aria-hidden="true" title="Edit Document" onClick={this.EditDocument.bind(this)}></i></span>					
-	           </div>
+			        {this.showEditButton() == true ? 
+				       	<div className="col-lg-1 pull-right">
+						    <span><i className="fa fa-pencil editdoc" aria-hidden="true" title="Edit Document" onClick={this.EditDocument.bind(this)}></i></span>					
+			           	</div>
+			        :
+			        	""
+			        }
 			      </div>
 			      <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
              {this.props.submittedDocuments.documents ?

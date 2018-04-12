@@ -136,8 +136,8 @@ export default AllTicketContainer = withTracker(props => {
                 assignedTicketList[i].bgClassName = 'btn-success';
                 break;
               case 'AssignReject' :
-                assignedTicketList[i].status = 'Rejected' ;
-                assignedTicketList[i].bgClassName = 'btn-danger';
+                assignedTicketList[i].status = 'Re-Allocate' ;
+                assignedTicketList[i].bgClassName = 'btn-warning';
                 break;
               case 'ReviewPass' :
                 assignedTicketList[i].status = 'Completed' ;
@@ -156,7 +156,7 @@ export default AllTicketContainer = withTracker(props => {
                 assignedTicketList[i].bgClassName = 'btn-warning';
                 break;
               case 'QAFail':
-                assignedTicketList[i].status = 'New' ;      
+                assignedTicketList[i].status = 'Quality Rejected' ;      
                 assignedTicketList[i].bgClassName = 'btn-warning';
                 break;
               case 'AssignAccept' :
@@ -166,6 +166,22 @@ export default AllTicketContainer = withTracker(props => {
               case 'AssignReject' :
                 assignedTicketList[i].status = 'Rejected' ;
                 assignedTicketList[i].bgClassName = 'btn-danger';
+                break;
+              case 'ProofSubmit' :
+                openTicketDetails[i].status = 'Proof Submitted' ;      
+                openTicketDetails[i].bgClassName = 'btn-warning';
+                break;
+              case 'VerificationFail' :
+                assignedTicketList[i].status = 'Proof Re-Submit' ;      
+                assignedTicketList[i].bgClassName = 'btn-warning';
+                break;
+              case 'ProofResubmitted' : 
+                assignedTicketList[i].status = 'Proof Re-Submitted' ;      
+                assignedTicketList[i].bgClassName = 'btn-warning';
+                break;
+              case 'VerificationPass' : 
+                assignedTicketList[i].status = 'Submit Report' ;      
+                assignedTicketList[i].bgClassName = 'btn-warning';
                 break;
               case 'ReviewPass' :
                 assignedTicketList[i].status = 'Completed' ;
@@ -210,10 +226,6 @@ export default AllTicketContainer = withTracker(props => {
               case 'QAPassQTLAllocated':
                 assignedTicketList[i].status = 'New' ;      
                 assignedTicketList[i].bgClassName = 'btn-warning';
-                break;
-              case 'ReviewPass' :
-                assignedTicketList[i].status = 'Approved' ; 
-                assignedTicketList[i].bgClassName = 'btn-success';
                 break;
               case 'ReiewFail' :
                 assignedTicketList[i].status = 'Rejected' ;

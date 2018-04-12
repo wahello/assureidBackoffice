@@ -145,8 +145,8 @@ export default OpenTicketsContainer = withTracker(props => {
                   openTicketDetails[i].bgClassName = 'btn-success';
                   break;
                 case 'AssignReject' :
-                  openTicketDetails[i].status = 'Rejected' ;
-                  openTicketDetails[i].bgClassName = 'btn-danger';
+                  openTicketDetails[i].status = 'Re-Allocate' ;
+                  openTicketDetails[i].bgClassName = 'btn-warning';
                   break;
                 case 'ReviewPass' :
                   openTicketDetails[i].status = 'Completed' ;
@@ -165,7 +165,7 @@ export default OpenTicketsContainer = withTracker(props => {
                   openTicketDetails[i].bgClassName = 'btn-warning';
                   break;
                 case 'QAFail':
-                  openTicketDetails[i].status = 'New' ;      
+                  openTicketDetails[i].status = 'Quality Rejected' ;      
                   openTicketDetails[i].bgClassName = 'btn-warning';
                   break;
                 case 'AssignAccept' :
@@ -175,6 +175,22 @@ export default OpenTicketsContainer = withTracker(props => {
                 case 'AssignReject' :
                   openTicketDetails[i].status = 'Rejected' ;
                   openTicketDetails[i].bgClassName = 'btn-danger';
+                  break;
+                case 'ProofSubmit' :
+                  openTicketDetails[i].status = 'Proof Submitted' ;      
+                  openTicketDetails[i].bgClassName = 'btn-warning';
+                  break;
+                case 'VerificationFail' :
+                  openTicketDetails[i].status = 'Proof Re-Submit' ;      
+                  openTicketDetails[i].bgClassName = 'btn-warning';
+                  break;
+                case 'ProofResubmitted' : 
+                  openTicketDetails[i].status = 'Proof Re-Submitted' ;      
+                  openTicketDetails[i].bgClassName = 'btn-warning';
+                  break;
+                case 'VerificationPass' : 
+                  openTicketDetails[i].status = 'Submit Report' ;      
+                  openTicketDetails[i].bgClassName = 'btn-warning';
                   break;
                 case 'ReviewPass' :
                   openTicketDetails[i].status = 'Completed' ;

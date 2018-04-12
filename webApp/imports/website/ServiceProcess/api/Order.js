@@ -81,8 +81,9 @@ if(Meteor.isServer){
             {"_id":orderId,"ticket.ticketId":ticketId},
             {
               $set:{
-                  "ticket.$.status" : status,
-                  "ticket.$.report" : reportLink,
+                  "ticket.$.status"        : status,
+                  "ticket.$.report"        : reportLink,
+                  "ticket.$.completedDate" : new Date(),
               }
             }
         );
@@ -99,6 +100,7 @@ if(Meteor.isServer){
               {
                 $set:{
                     "orderStatus" : status,
+                    "completedDate" : new Date(),
                 }
               }
             );  

@@ -9,7 +9,7 @@ import validator from 'validator';
 import {Tracker} from 'meteor/tracker';
 import { browserHistory } from 'react-router';
 import { Link } from 'react-router';
-import { TicketBucket } from '/imports/website/ServiceProcess/api/TicketMaster.js';
+import { TicketMaster } from '/imports/website/ServiceProcess/api/TicketMaster.js';
 class RejectedTickets extends TrackerReact(Component){
   constructor(props){
     super(props);
@@ -48,15 +48,15 @@ class RejectedTickets extends TrackerReact(Component){
                                         <tbody>
                                         {
                                                 !this.props.loading ?
-                                                  this.props.ticketBucketData.map((data, index)=>{
+                                                  this.props.rejectedTicketList.map((data, index)=>{
                                                     return(
                                                         <tr key={index}>
-                                                             <td><Link to={"/admin/ticket/"+data.ticketid}>{data.ticketNumber}</Link></td>
+                                                             <td><Link to={"/admin/ticket/"+data._id}>{data.ticketNumber}</Link></td>
                                                              <td>{data.orderNo}</td>
                                                              <td>{data.serviceName}</td>
                                                              <td>{moment(data.createdAt).format('l')}</td>
                                                              <td>{data.tatDate}</td> 
-                                                             <td>{data.status}</td>
+                                                             <td className={data.bgClassName}>{data.status}</td>
                                                         </tr>
                                                     );
                                                   })
@@ -125,8 +125,139 @@ export default RejectedTicketsContainer = withTracker(props => {
       //find last status of the Tickets
       for(i=0;i< rejectedTicketDetails.length; i++){
         var ticketElements = rejectedTicketDetails[i].ticketElement;
-        rejectedTicketDetails[i].status = ticketElements[ticketElements.length - 1].roleStatus ;
+
+        // rejectedTicketDetails[i].status = ticketElements[ticketElements.length - 1].roleStatus ;
         if(ticketElements.find(function (obj) { return obj.roleStatus == roleStatus})){
+          switch(role){
+            case 'screening committee' : 
+              switch (ticketElements[ticketElements.length - 1].roleStatus) {
+                case 'NewScrAllocated':
+                  rejectedTicketDetails[i].status = 'New' ;  
+                  rejectedTicketDetails[i].bgClassName = 'btn-warning';    
+                  break;
+                case 'ScreenApproved' :
+                  rejectedTicketDetails[i].status = 'Approved' ; 
+                  rejectedTicketDetails[i].bgClassName = 'btn-success';
+                  break;
+                case 'ScreenRejected' :
+                  rejectedTicketDetails[i].status = 'Rejected' ;
+                  rejectedTicketDetails[i].bgClassName = 'btn-danger';
+                  break;
+                case 'ReviewPass' :
+                  rejectedTicketDetails[i].status = 'Completed' ;
+                  rejectedTicketDetails[i].bgClassName = 'btn-success';
+                  break;
+                default:
+                  rejectedTicketDetails[i].status = 'In Process' ;
+                  rejectedTicketDetails[i].bgClassName = 'btn-primary';
+                  break;
+              }
+              break;
+            case 'team leader' :
+              switch (ticketElements[ticketElements.length - 1].roleStatus) {
+                case 'screenTLAllocated':
+                  rejectedTicketDetails[i].status = 'New' ;      
+                  rejectedTicketDetails[i].bgClassName = 'btn-warning';
+                  break;
+                case 'AssignAccept' :
+                  rejectedTicketDetails[i].status = 'Allocated' ; 
+                  rejectedTicketDetails[i].bgClassName = 'btn-success';
+                  break;
+                case 'AssignReject' :
+                  rejectedTicketDetails[i].status = 'Rejected' ;
+                  rejectedTicketDetails[i].bgClassName = 'btn-danger';
+                  break;
+                case 'ReviewPass' :
+                  rejectedTicketDetails[i].status = 'Completed' ;
+                  rejectedTicketDetails[i].bgClassName = 'btn-success';
+                  break;
+                default:
+                  rejectedTicketDetails[i].status = 'In Process' ;
+                  rejectedTicketDetails[i].bgClassName = 'btn-primary';
+                  break;
+              }
+              break;
+            case 'team member' :
+              switch (ticketElements[ticketElements.length - 1].roleStatus) {
+                case 'Assign':
+                  rejectedTicketDetails[i].status = 'New' ;      
+                  rejectedTicketDetails[i].bgClassName = 'btn-warning';
+                  break;
+                case 'QAFail':
+                  rejectedTicketDetails[i].status = 'New' ;      
+                  rejectedTicketDetails[i].bgClassName = 'btn-warning';
+                  break;
+                case 'AssignAccept' :
+                  rejectedTicketDetails[i].status = 'Accepted' ; 
+                  rejectedTicketDetails[i].bgClassName = 'btn-success';
+                  break;
+                case 'AssignReject' :
+                  rejectedTicketDetails[i].status = 'Rejected' ;
+                  rejectedTicketDetails[i].bgClassName = 'btn-danger';
+                  break;
+                case 'ReviewPass' :
+                  rejectedTicketDetails[i].status = 'Completed' ;
+                  rejectedTicketDetails[i].bgClassName = 'btn-success';
+                  break;
+                default:
+                  rejectedTicketDetails[i].status = 'In Process' ;
+                  rejectedTicketDetails[i].bgClassName = 'btn-primary';
+                  break;
+              }
+              break;
+            case 'quality team member' : 
+              switch (ticketElements[ticketElements.length - 1].roleStatus) {
+                case 'VerificationPassQTMAllocated':
+                  rejectedTicketDetails[i].status = 'New' ;      
+                  rejectedTicketDetails[i].bgClassName = 'btn-warning';
+                  break;
+                case 'ReviewFail':
+                  rejectedTicketDetails[i].status = 'New' ;      
+                  rejectedTicketDetails[i].bgClassName = 'btn-warning';
+                  break;
+                case 'QAPass' :
+                  rejectedTicketDetails[i].status = 'Approved' ; 
+                  rejectedTicketDetails[i].bgClassName = 'btn-success';
+                  break;
+                case 'QAFail' :
+                  rejectedTicketDetails[i].status = 'Rejected' ;
+                  rejectedTicketDetails[i].bgClassName = 'btn-danger';
+                  break;
+                case 'ReviewPass' :
+                  rejectedTicketDetails[i].status = 'Completed' ;
+                  rejectedTicketDetails[i].bgClassName = 'btn-success';
+                  break;
+                default:
+                  rejectedTicketDetails[i].status = 'In Process' ;
+                  rejectedTicketDetails[i].bgClassName = 'btn-primary';
+                  break;
+              }
+              break;
+            case 'quality team leader' :
+              switch (ticketElements[ticketElements.length - 1].roleStatus) {
+                case 'QAPassQTLAllocated':
+                  rejectedTicketDetails[i].status = 'New' ;      
+                  rejectedTicketDetails[i].bgClassName = 'btn-warning';
+                  break;
+                case 'ReiewFail' :
+                  rejectedTicketDetails[i].status = 'Rejected' ;
+                  rejectedTicketDetails[i].bgClassName = 'btn-danger';
+                  break;
+                case 'ReviewPass' :
+                  rejectedTicketDetails[i].status = 'Completed' ;
+                  rejectedTicketDetails[i].bgClassName = 'btn-success';
+                  break;
+                default:
+                  rejectedTicketDetails[i].status = 'In Process' ;
+                  rejectedTicketDetails[i].bgClassName = 'btn-primary';
+                  break;
+              }
+              break;
+            default : 
+              rejectedTicketDetails[i].status = 'In Process' ;
+              rejectedTicketDetails[i].bgClassName = 'btn-primary';
+              break;
+          }
           rejectedTicketList.push(rejectedTicketDetails[i]);
         }
       } 
