@@ -587,8 +587,9 @@ class Ticket extends TrackerReact(Component){
                   </div>
                   <lable className=" col-lg-9 col-md-9 col-sm-12 col-xs-12 downloadLable">Download Report</lable>
                 </div>
-
+                  <span>Is the Report appropriate ? </span>
                 <div className="col-lg-6 col-lg-offset-0 col-md-6 col-md-offset-0 col-sm-10 col-sm-offset-1 col-xs-12">
+
                   <button className="btn btn-danger col-lg-3 col-md-3 col-sm-4 col-xs-5 approvebtn" id="QTLRejectTicket" data-roleStatus="ReviewFail" data-msg="Rejected Verification Report For Quality Issue" onClick={this.showRejectBoxState.bind(this)} > 
                     Reject 
                   </button>
@@ -618,7 +619,7 @@ class Ticket extends TrackerReact(Component){
                   </div>
                   <lable className=" col-lg-9 col-md-9 col-sm-12 col-xs-12 downloadLable">Download Report</lable>
                 </div>
-
+                <span>Is the Report appropriate ? </span>
                 <div className="col-lg-6 col-lg-offset-0 col-md-6 col-md-offset-0 col-sm-10 col-sm-offset-1 col-xs-12">
                   <button className="btn btn-danger col-lg-3 col-md-3 col-sm-4 col-xs-5 approvebtn" id="QTMReRejectTicket" data-roleStatus="QAFail" data-msg="Rejected Verification Report For Quality Issue" onClick={this.showRejectBoxState.bind(this)} > 
                     Reject 
