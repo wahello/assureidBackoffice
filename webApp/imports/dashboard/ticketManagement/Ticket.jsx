@@ -218,7 +218,7 @@ class Ticket extends TrackerReact(Component){
         insertData.allocatedToUserName = '';
         console.log('report submitted ',insertData);
         break;
-      case 'ReportReSubmitted' :
+      case 'QAFail' :
         if(!this.props.loading){
             console.log('in loading');
             var reportLinkDetails = TempTicketReport.findOne({},{sort:{'createdAt':-1}});  
@@ -530,7 +530,8 @@ class Ticket extends TrackerReact(Component){
                     Reject 
                   </button>
                   <button className="btn btn-success col-lg-3 col-md-3 col-sm-4 col-xs-5 approvebtn" data-roleStatus="QAPass" data-msg="Approved Verification Report" onClick={this.approveButton.bind(this)} > 
-                        Approve </button>
+                   Approve 
+                  </button>
                 </div>
                {this.state.showRejectBox === 'Y' ? this.getRejectBox() : '' }
               </div>
@@ -747,6 +748,20 @@ class Ticket extends TrackerReact(Component){
                             <VerifyDetailsDocument ticketId={this.props.params.id}/>
                         </div>
                         <VerifiedDocuments ticketId={this.props.params.id}/>
+                         <div>
+                          {this.props.getTicket.reportSubmited ?
+                            <div className="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                              <div className="docdownload col-lg-3 col-lg-offset-1" title="Download Report">
+                                  <a href={this.props.getTicket.reportSubmited.documents} download>
+                                    <i className="fa fa-file-text-o" aria-hidden="true"></i>
+                                  </a>
+                              </div>
+                              <lable className=" col-lg-9 col-md-9 col-sm-12 col-xs-12 downloadLable">Download Report</lable>
+                            </div>                            
+                            :
+                            ""
+                          }
+                        </div>
                         <div id="SubmittedDocuments" >
                           {this.props.getTicket.submitedDoc ?
                             <SubmittedDocuments submittedDocuments={this.props.getTicket.submitedDoc} ticketId={this.props.params.id} />
@@ -754,6 +769,7 @@ class Ticket extends TrackerReact(Component){
                             ""
                           }
                         </div>
+                       
                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outerShadow">
                               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 activityDetails">                            

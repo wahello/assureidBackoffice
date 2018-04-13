@@ -6466,6 +6466,7 @@ margin-top: 20px;
   font-weight: bold;
   letter-spacing: 1.2px;
   text-transform: capitalize;
+  font-size: 15px;
 }
 .h5Style{
   margin-left: 4%;
@@ -6554,7 +6555,9 @@ margin-top: 20px;
   background: #fff;
 }
 .checkBoxtitle{
-  color: #333!important;
+      color: #555!important;
+    font-size: 13px;
+    letter-spacing: 1px;
 }
 .tickchkbox{
   margin-left: 3%!important;
