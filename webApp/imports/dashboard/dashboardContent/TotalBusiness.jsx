@@ -53,7 +53,8 @@ class TotalBusiness extends TrackerReact(Component){
             </div>
         )
     }
-}export default TotalBusinessContainer = withTracker(props => {
+}
+export default TotalBusinessContainer = withTracker(props => {
   var ticketHandle = Meteor.subscribe("allTickets");
   var loading   = !ticketHandle.ready();
   var allTickets = TicketMaster.find({}).fetch();
