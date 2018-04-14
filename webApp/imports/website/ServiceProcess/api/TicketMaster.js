@@ -146,6 +146,7 @@ if(Meteor.isServer){
 							$set: {
 								'reportSubmited.createdAt' : insertData.createdAt,
 								'reportSubmited.documents' : insertData.reportSubmited,
+								'reportSubmited.fileExtension' : insertData.fileExtension,
 							}
 						});
 						TempTicketReport.remove({});

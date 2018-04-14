@@ -153,13 +153,18 @@ class Ticket extends TrackerReact(Component){
       var dataImg =event.currentTarget.files[0];
         if(dataImg){
           console.log('dataImg ',dataImg);     
+          console.log('dataImg.extension :',dataImg.name); 
+          var imageFileName = dataImg.name;
+          var splitName = imageFileName.split(".");
+          var fileextension = splitName[1];
+          console.log("Fileextension :"+fileextension);  
         var reader = new FileReader();      
         reader.onload = function (e) {         
         };     
         reader.readAsDataURL(event.currentTarget.files[0]);     
         var file = event.currentTarget.files[0];
         if (file) {        
-                addReportFunction(file,self);      
+                addReportFunction(file,self,fileextension);      
             }
         };
         } else {
@@ -213,6 +218,7 @@ class Ticket extends TrackerReact(Component){
             var reportLinkDetails = TempTicketReport.findOne({},{sort:{'createdAt':-1}}); 
             if(reportLinkDetails){
               insertData.reportSubmited = reportLinkDetails.ReportLink;
+              insertData.fileExtension  = reportLinkDetails.fileExtension;
             }
         }
         insertData.allocatedToUserid   = '';
@@ -351,7 +357,7 @@ class Ticket extends TrackerReact(Component){
                   Reject
                 </button>
                 <button className="btn btn-success col-lg-3 col-md-3 col-sm-4 col-xs-5 approvebtn" data-roleStatus="AssignAccept" data-msg="Accepted Ticket" onClick={this.approveButton.bind(this)} >
-                      Accept </button>
+                  Accept </button>
               </div>
               {this.state.showRejectBox === 'Y' ? this.getRejectBox() : '' }
             </div>
@@ -753,13 +759,25 @@ render(){
                           {this.props.getTicket.reportSubmited ?
                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outeReportBlock">
-                                <h6 className="dataDetails">Report:</h6> 
-                                  <div className="docdownload col-lg-3 col-lg-offset-1" title="Download Report">
+                                <h6 className="dataDetails col-lg-1 col-md-1 col-sm-1 col-xs-1">Report:</h6> 
+                                  <div className="docdownload col-lg-1 col-lg-offset-1" title="Download Report">
                                       <a href={this.props.getTicket.reportSubmited.documents} download>
-                                        <i className="fa fa-file-text-o" aria-hidden="true"></i>
+                                        {
+                                          this.props.getTicket.reportSubmited.fileExtension ?
+                                          this.props.getTicket.reportSubmited.fileExtension == "pdf" || this.props.getTicket.reportSubmited.fileExtension == "ods" ?
+                                             <i className="fa fa-file-text-o" aria-hidden="true"></i>
+                                          :
+                                          this.props.getTicket.reportSubmited.fileExtension == "jpg" || this.props.getTicket.reportSubmited.fileExtension == "jpeg" || this.props.getTicket.reportSubmited.fileExtension == "png" || this.props.getTicket.reportSubmited.fileExtension == "gif" ?
+                                          <i className="fa fa-file-image-o" aria-hidden="true"></i>
+                                          :
+                                          ""
+                                          :
+                                          ""
+                                          
+                                        }
                                       </a>
                                   </div>
-                                <lable className=" col-lg-9 col-md-9 col-sm-12 col-xs-12 downloadLable">Download Report</lable>
+                                <lable className=" col-lg-11 col-md-11 col-sm-12 col-xs-12 downloadLable">Download Report</lable>
                               </div>   
                             </div>                       
                             :
@@ -787,7 +805,7 @@ render(){
                                       <h5> {element.role} </h5>
                                       <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                       <b>{element.userName}</b> {element.msg} <b>{element.allocatedToUserName}</b> on {moment(element.createdAt).format("DD/MM/YYYY hh:mm A")}
-                                        <br />
+                                      reportSubmited<br />
                                         {
                                           element.remark ?
                                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">

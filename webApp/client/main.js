@@ -567,7 +567,7 @@ addTicketVideoS3Function = function(file,self) {
     uploadInstance.start(); // Must manually start the uploaded
 },
 
-addReportFunction = function(file,self) {
+addReportFunction = function(file,self,fileextension) {
     console.log("self",self);
     uploadInstance = TicketReport.insert({
                                         file: file,
@@ -595,7 +595,7 @@ addReportFunction = function(file,self) {
     uploadInstance.on('uploaded',  (error, fileObj) => {
         if(fileObj){
             // console.log("fileObj._id: ",fileObj._id);
-            Meteor.call("TempReportToS3function",fileObj._id,(error, result)=>{
+            Meteor.call("TempReportToS3function",fileObj._id,fileextension,(error, result)=>{
             swal({
                 position: 'top-right',
                 type: 'success',

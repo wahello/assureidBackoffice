@@ -44,13 +44,14 @@ if(Meteor.isServer){
         });
       }, 
 
-      "TempReportToS3function": function (id) {
+      "TempReportToS3function": function (id,fileextension) {
         var data = TicketReport.findOne({"_id" : id});
         var ReportLink = data.link();
           TempTicketReport.insert({
           "userId": Meteor.userId(),
           "ReportLink":ReportLink,
           "createdAt":new Date(),
+          "fileExtension":fileextension
           },(error, result)=>{
 
         });
