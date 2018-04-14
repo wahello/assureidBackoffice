@@ -5,8 +5,16 @@ import { render } from 'react-dom';
 import TrackerReact from 'meteor/ultimatejs:tracker-react';
 import { withTracker } from 'meteor/react-meteor-data';
 import {Link} from 'react-router';
+<<<<<<< Updated upstream
 import { TicketMaster } from '/imports/website/ServiceProcess/api/TicketMaster.js';
 class AllocatedTickets extends TrackerReact(Component){
+=======
+
+
+
+
+export default class AllocatedTickets extends TrackerReact(Component){
+>>>>>>> Stashed changes
 	constructor(props){
         super(props);
         this.state = {
