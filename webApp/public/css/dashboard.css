@@ -6599,7 +6599,6 @@ margin-top: 20px;
 .tempImageDelete{
   cursor: pointer;
 }
-<<<<<<< Updated upstream
 .teamsubmitouter {
   margin-left: 2%;
   margin-top: 4%;
@@ -6616,13 +6615,24 @@ margin-top: 20px;
 .outerStatusBlock{
   padding-top: 3%;
 }
-
 .rolebtn{
   margin-top:5%;
 }
-/*==================Dashboard CSS*/
-=======
 .rolebtn{
   margin-top:5%;
 }
->>>>>>> Stashed changes
+#outersubmitedDocWrap{
+padding-top: 4%;
+border-top: 2px solid #aaa;
+}
+.checkListDiv{
+  padding-bottom: 2%;
+}
+.selectedValue{
+  font-size: 13px;
+  letter-spacing: 1px;
+}
+.outeReportBlock{
+  padding-top: 4%;
+border-top: 2px solid #aaa;
+}

@@ -40,7 +40,7 @@ export default class SubmittedDocuments extends TrackerReact(Component){
     $('#AddImagesVideo1').css({"display" : "block"});
     $('#submitedDocWrap').css({"display" : "none"});
 	}
-	showEditButton(){
+	showEditButton(){ 
 		var userId = Meteor.userId();
 	    if(userId){
 	    	var getTicket = TicketMaster.findOne({"_id" :this.props.ticketId});
@@ -76,13 +76,13 @@ export default class SubmittedDocuments extends TrackerReact(Component){
    //  	}
    //  }	
    	return(
-   		<div>
+   		<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad" id="outersubmitedDocWrap">
 				<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 submitedDocWrap" id="submitedDocWrap">			
 				 <h6 className="dataDetails">Submitted Information:</h6>  
-          <div className="col-lg-12 wholeborder ">
-						<div className="imgtitile col-lg-12 noLRPad">
-			        <div className="col-lg-6  noLRPad Selectimg">
+          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 wholeborder ">
+						<div className="imgtitile col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
+			        <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12  noLRPad Selectimg">
 			        	<strong>
 			        		<span className="checkBoxtitle">Verified Information:</span>
 			        	</strong>
@@ -99,7 +99,7 @@ export default class SubmittedDocuments extends TrackerReact(Component){
              {this.props.submittedDocuments.documents ?
                 this.props.submittedDocuments.documents.checkLists.map((submittedChecklist,index)=>{
                   return(
-                    <div className="col-lg-6 noLRPad" key={index}>  
+                    <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12  checkListDiv noLRPad" key={index}>  
                        <input type="checkbox" className="tickchkbox" ref="submittedChecklist" name="submittedChecklist" value={submittedChecklist.status} checked={submittedChecklist.status} />&nbsp;<span className="checkBoxtitle">{submittedChecklist.statement}</span>
                     </div>
                   );
@@ -113,8 +113,8 @@ export default class SubmittedDocuments extends TrackerReact(Component){
 								this.props.submittedDocuments.documents.textLists.map((textListsData,index)=>{
 									return(
 										<div className="imgtitile col-lg-12  noLRPad" key={index}>
-											<div className="col-lg-3 noLRPad Selectimg"><span className="checkBoxtitle"><strong>{textListsData.task} &nbsp;</strong></span><span className="pull-right"><strong>:</strong></span></div> 
-											<div className="col-lg-9">{textListsData.value}</div>
+											<div className="col-lg-3 col-md-12 noLRPad Selectimg"><span className="checkBoxtitle"><strong>{textListsData.task} &nbsp;</strong></span><span className="pull-right"><strong>:</strong></span></div> 
+											<div className="col-lg-9 selectedValue">{textListsData.value}</div>
 										</div>
 									);
 								})
@@ -160,34 +160,33 @@ export default class SubmittedDocuments extends TrackerReact(Component){
                	 ""
 							 }
 							 <div className="col-lg-2">
-           {this.props.submittedDocuments.documents ?
-           	 this.props.submittedDocuments.documents.videos.map((submittedVideo,index) =>{
-           	 	 return(
-           	 	 	  <div className="col-lg-4 VideoDiv" key={index}>
-						          <video className="videoStyle" controls>
-							          <source src={submittedVideo.videoLink} type="video/mp4" />
-							        </video>
-					        </div>
-           	 	 	);
-           	 })
-           	 :
-           	 ""
-           }
-		        
-	        </div>
-			        </div>
+			           {this.props.submittedDocuments.documents ?
+			           	 this.props.submittedDocuments.documents.videos.map((submittedVideo,index) =>{
+			           	 	 return(
+			           	 	 	  <div className="col-lg-4 VideoDiv" key={index}>
+									          <video className="videoStyle" controls>
+										          <source src={submittedVideo.videoLink} type="video/mp4" />
+										        </video>
+								        </div>
+			           	 	 	);
+			           	 })
+			           	 :
+			           	 ""
+			           }
+	            </div>
+			      </div>
 	       </div>
 				 	<div className="imgtitile col-lg-12 ">
 						<div className="col-lg-3 noLRPad Selectimg"><span className="checkBoxtitle"><strong>Status &nbsp;</strong></span><span className="pull-right"><strong>:</strong></span></div> 
-						<div className="col-lg-9">{this.props.submittedDocuments.documents.status}</div>
+						<div className="col-lg-9 selectedValue">{this.props.submittedDocuments.documents.status}</div>
 					</div>
 					<div className="imgtitile col-lg-12 ">
 						<div className="col-lg-3 noLRPad Selectimg"><span className="checkBoxtitle"><strong>Sub-status &nbsp;</strong></span><span className="pull-right"><strong>:</strong></span></div> 
-						<div className="col-lg-9">{this.props.submittedDocuments.documents.subStatus}</div>
+						<div className="col-lg-9 selectedValue">{this.props.submittedDocuments.documents.subStatus}</div>
 					</div>
 		      <div className="imgtitile col-lg-12">
 	            <div className="col-lg-3 noLRPad Selectimg"><span className="checkBoxtitle"><strong>Remark &nbsp;</strong></span><span className="pull-right"><strong>:</strong></span></div> 
-              <div className="col-lg-9">{this.props.submittedDocuments.documents.remark}</div>
+              <div className="col-lg-9 selectedValue">{this.props.submittedDocuments.documents.remark}</div>
           </div>
 
 				</div>
