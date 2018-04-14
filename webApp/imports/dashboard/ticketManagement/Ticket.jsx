@@ -31,6 +31,8 @@ class Ticket extends TrackerReact(Component){
       'userDetails': {},
       "userRoleIn": Meteor.userId(),
       "showRejectBox" : 'N',
+      "radioState":'',
+      "showRadiobtn": 'N',
     }   
   }
   componentWillReceiveProps(nextProps){
@@ -52,6 +54,14 @@ class Ticket extends TrackerReact(Component){
   showRejectBoxState(){
     this.setState({"showRejectBox" : 'Y'});
   }
+  showTicketDataState(){
+    // console.log("Inside showTicketDataState");
+    // this.setState({"showRadiobtn" : 'Y'});
+    this.setState({ showRadiobtn: "Y" }, () => {
+      console.log(this.state.showRadiobtn, 'showRadiobtn');
+    }); 
+  }
+
   getRejectBox(){
     console.log('showRejectBox: ' + this.state.showRejectBox);
     // var roleStatus = $(event.currentTarget).attr('data-roleStatus');
@@ -128,12 +138,16 @@ class Ticket extends TrackerReact(Component){
   }
   /*Get radio value and display dropdown and textbox*/
   getRadioValue(event){
-    event.preventDefault();
-    var radioValue = $(event.currentTarget).val();
+    // event.preventDefault();
+    var radioValue = $('input[name=radioState]:checked').val();
+    
+    console.log($('input[name=radioState]:checked').val());
+    console.log('radioValue: ',radioValue);
     this.setState({
         'radioState':radioValue,
     });
-    console.log("radioState :"+this.state.radioState);
+   
+    console.log("radio btn value :"+this.state.radioState);
   }
   showBAFEList(role){
     var teammemberDetails = Meteor.users.find({"roles": {$in:[role]}}).fetch();
@@ -177,6 +191,23 @@ class Ticket extends TrackerReact(Component){
         });  
     }
   }
+
+  showTicketDataRadiobtn(){
+    return(
+    <div className="col-lg-9 col-lg-offset-3 col-md-11 col-sm-12 col-xs-12 finalstatuswrap">
+      <label className="radio-inline">
+        <input type="radio" name="ticketDataApproveReject" value ="Ticket Approve"/>Ticket Information Approve
+      </label>
+      <label className="radio-inline">
+        <input type="radio" name="ticketDataApproveReject" value ="Ticket Reject"/>Ticket Information Reject
+      </label>
+      <div className="col-lg-8 col-lg-offset-4 finaldatasubmit">
+        <button className="col-lg-5 rejectSubmit" data-roleStatus="ReviewPass" data-msg="Approved And Delivered Verification Report" onClick={this.approveButton.bind(this)}>Submit </button>
+      </div>
+    </div>
+    )
+  }
+
   approveButton(event){
     event.preventDefault();
     var ticketId = this.props.ticketId;
@@ -242,8 +273,10 @@ class Ticket extends TrackerReact(Component){
         var allocatedToUserName = teamMemberDetails.userName;
         break;
       case 'VerificationPassQTLAllocated' :
-        insertData.allocatedToUserid = this.props.getTicket.ticketElement[0].userId;
-          insertData.allocatedToUserName = this.props.getTicket.ticketElement[0].userName;
+        insertData.allocatedToUserid   = this.props.getTicket.ticketElement[0].userId;
+        insertData.allocatedToUserName = this.props.getTicket.ticketElement[0].userName;
+        insertData.ticketDataChangeStaus = $('input[name=ticketDataApproveReject]:checked').val();
+        console.log("insertData.ticketDataChangeStaus :"+insertData.ticketDataChangeStaus);
         break;
       default :
         insertData.allocatedToUserid   = '';
@@ -253,6 +286,7 @@ class Ticket extends TrackerReact(Component){
     // console.log('insertData ',insertData);
     Meteor.call('genericUpdateTicketMasterElement',this.props.ticketId,insertData);
   }
+ 
   actionBlock(){
     var n = this.props.getTicket.ticketElement.length;
     var reportLinkDetails = TempTicketReport.findOne({},{sort:{'createdAt':-1}}); 
@@ -374,19 +408,19 @@ class Ticket extends TrackerReact(Component){
               <h5> {title} </h5>
               <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1 col-xs-12">
                 <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper ">
-                    <div className="radio radiobtn col-lg-3 noLRPad">
-                      <label className="noLRPad">
-                        <input type="radio" name="radioState" value="Self" className="optradio" onChange={this.getRadioValue.bind(this)}/>Self
-                      </label>
+                    <div className="radio radiobtn col-lg-3 noLRPad" value="Self">
+                      <label className="noLRPad" value="Self">
+                        <input type="radio" name="radioState" value="Self" checked={ this.state.radioState == 'Self'} className="optradio" onChange={this.getRadioValue.bind(this)}/>Self
+                      </label >
                     </div>    
                     <div className="radio col-lg-5 radiobtn noLRPad">
                       <label className="noLRPad">
-                        <input type="radio" name="radioState" value="field expert" className="optradio" onChange={this.getRadioValue.bind(this)}/>Field Expert
+                        <input type="radio" name="radioState" value="field expert" checked={ this.state.radioState == 'field expert'} className="optradio" onChange={this.getRadioValue.bind(this)}/>Field Expert
                       </label>
                     </div>
                     <div className="radio radiobtn col-lg-4 noLRPad">
                       <label className="noLRPad">
-                        <input type="radio" name="radioState" value="ba" className="optradio" onChange={this.getRadioValue.bind(this)}/>Business Associate
+                        <input type="radio" name="radioState" value="ba" className="optradio" checked={ this.state.radioState == 'ba' ? true : false } onChange={this.getRadioValue.bind(this)}/>Business Associate
                       </label>
                     </div>
                 </div>
@@ -595,17 +629,28 @@ class Ticket extends TrackerReact(Component){
                   </div>
                   <lable className=" col-lg-9 col-md-9 col-sm-12 col-xs-12 downloadLable">Download Report</lable>
                 </div>
-                  <span>Is the Report appropriate ? </span>
-                <div className="col-lg-6 col-lg-offset-0 col-md-6 col-md-offset-0 col-sm-10 col-sm-offset-1 col-xs-12">
+                
+                <div className="col-lg-7 col-lg-offset-0 col-md-6 col-md-offset-0 col-sm-10 col-sm-offset-1 col-xs-12">
+                 
 
+                  <label className="col-lg-12">Is the Report appropriate ? </label>                  
                   <button className="btn btn-danger col-lg-3 col-md-3 col-sm-4 col-xs-5 approvebtn" id="QTLRejectTicket" data-roleStatus="ReviewFail" data-msg="Rejected Verification Report For Quality Issue" onClick={this.showRejectBoxState.bind(this)} >
                     Reject
                   </button>
-                  <button className="btn btn-success col-lg-3 col-md-3 col-sm-4 col-xs-5 approvebtn" data-roleStatus="ReviewPass" data-msg="Approved And Delivered Verification Report" onClick={this.approveButton.bind(this)} >
-                        Approve </button>
+                  {/* <button className="btn btn-success col-lg-3 col-md-3 col-sm-4 col-xs-5 approvebtn" data-roleStatus="ReviewPass" data-msg="Approved And Delivered Verification Report" onClick={this.approveButton.bind(this)} >
+                   Approve 
+                  </button> */}
+                  <button className="btn btn-success col-lg-3 col-md-3 col-sm-4 col-xs-5 approvebtn" onClick={this.showTicketDataState.bind(this)} >
+                   Approve 
+                  </button>
                 </div>
                 {this.state.showRejectBox === 'Y' ? this.getRejectBox() : '' }
+                {this.state.showRadiobtn === 'Y' ? this.showTicketDataRadiobtn() : '' }
+                
               </div>
+
+             
+              
             </div>
           )
         }
@@ -804,8 +849,8 @@ render(){
                                     <div key={i} className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
                                       <h5> {element.role} </h5>
                                       <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                      <b>{element.userName}</b> {element.msg} <b>{element.allocatedToUserName}</b> on {moment(element.createdAt).format("DD/MM/YYYY hh:mm A")}
-                                      reportSubmited<br />
+                                      <b>{element.userName}</b> {element.msg} <b>{element.allocatedToUserName}</b> on {moment(element.createdAt).format("DD/MM/YYYY hh:mm A")}.
+                                      
                                         {
                                           element.remark ?
                                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">

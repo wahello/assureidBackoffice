@@ -275,7 +275,7 @@ if(Meteor.isServer){
 			case 'ReviewPass' :
 				var ticketDetails = TicketMaster.findOne({"_id":ticketid});
 				if(ticketDetails){ 
-					Meteor.call('changeTicketStatusInOrder',ticketDetails.orderId,ticketid,'Approved',ticketDetails.reportSubmited.documents)
+					Meteor.call('changeTicketStatusInOrder',ticketDetails.orderId,ticketid,insertData.ticketDataChangeStaus,ticketDetails.reportSubmited.documents)
 				}
 				break;
 		}
