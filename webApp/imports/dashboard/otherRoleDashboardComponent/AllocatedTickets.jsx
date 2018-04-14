@@ -5,21 +5,14 @@ import { render } from 'react-dom';
 import TrackerReact from 'meteor/ultimatejs:tracker-react';
 import { withTracker } from 'meteor/react-meteor-data';
 import {Link} from 'react-router';
-<<<<<<< Updated upstream
 import { TicketMaster } from '/imports/website/ServiceProcess/api/TicketMaster.js';
+
 class AllocatedTickets extends TrackerReact(Component){
-=======
-
-
-
-
-export default class AllocatedTickets extends TrackerReact(Component){
->>>>>>> Stashed changes
 	constructor(props){
         super(props);
         this.state = {
         } 
-    }
+    } 
     render(){
         return(    
             <div className="col-lg-12 col-md-3 col-sm-3 col-xs-3 noLRPad">
@@ -224,6 +217,5 @@ export default AllocatedTicketsContainer = withTracker(props => {
         loading,
         allocatedTicketList
     };
-   
 })(AllocatedTickets);
 
