@@ -91,7 +91,7 @@ if(Meteor.isServer){
         if(orderDetails){
           var ticketDetails = TicketMaster.findOne({"_id":ticketId});
           if(ticketDetails){
-            Meteor.call('actulStatuofVerificationType',ticketDetails.userId,ticketDetails.verificationType,ticketDetails.verificationId,"Verified");
+            Meteor.call('actulStatuofVerificationType',ticketDetails.userId,ticketDetails.verificationType,ticketDetails.verificationId,status);
           }
           var ticketList = orderDetails.ticket
           if(ticketList.length == 1){

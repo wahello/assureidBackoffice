@@ -36,7 +36,6 @@ class Ticket extends TrackerReact(Component){
     }   
   }
   componentWillReceiveProps(nextProps){
-
     if(!nextProps.loading){
       this.setState({
         'userDetails':nextProps.user,
@@ -55,23 +54,16 @@ class Ticket extends TrackerReact(Component){
     this.setState({"showRejectBox" : 'Y'});
   }
   showTicketDataState(){
-    // console.log("Inside showTicketDataState");
-    // this.setState({"showRadiobtn" : 'Y'});
     this.setState({ showRadiobtn: "Y" }, () => {
-      console.log(this.state.showRadiobtn, 'showRadiobtn');
+     
     }); 
   }
-
   getRejectBox(){
-    console.log('showRejectBox: ' + this.state.showRejectBox);
-    // var roleStatus = $(event.currentTarget).attr('data-roleStatus');
     return(
       <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <textarea rows="3" cols="60" className="col-lg-6 col-lg-offset-0" id="rejectReason"/>
         <button onClick={this.rejectButton.bind(this)}
           id="rejectButton"
-          // data-roleStatus = {roleStatus}
-          // data-msg = {$(event.currentTarget).attr('data-msg')}
           className="col-lg-2 rejectSubmit">
           Submit </button>
       </div>
@@ -140,9 +132,6 @@ class Ticket extends TrackerReact(Component){
   getRadioValue(event){
     // event.preventDefault();
     var radioValue = $('input[name=radioState]:checked').val();
-    
-    console.log($('input[name=radioState]:checked').val());
-    console.log('radioValue: ',radioValue);
     this.setState({
         'radioState':radioValue,
     });
@@ -162,16 +151,11 @@ class Ticket extends TrackerReact(Component){
     event.preventDefault();
     let self = this;
     if (event.currentTarget.files && event.currentTarget.files[0]) {
-      console.log('report ', event.currentTarget.files);
-      console.log('report1 ', event.currentTarget.files[0]);
       var dataImg =event.currentTarget.files[0];
         if(dataImg){
-          console.log('dataImg ',dataImg);     
-          console.log('dataImg.extension :',dataImg.name); 
           var imageFileName = dataImg.name;
           var splitName = imageFileName.split(".");
           var fileextension = splitName[1];
-          console.log("Fileextension :"+fileextension);  
         var reader = new FileReader();      
         reader.onload = function (e) {         
         };     
@@ -191,15 +175,14 @@ class Ticket extends TrackerReact(Component){
         });  
     }
   }
-
   showTicketDataRadiobtn(){
     return(
     <div className="col-lg-9 col-lg-offset-3 col-md-11 col-sm-12 col-xs-12 finalstatuswrap">
       <label className="radio-inline">
-        <input type="radio" name="ticketDataApproveReject" value ="Ticket Approve"/>Ticket Information Approve
+        <input type="radio" name="ticketDataApproveReject" value ="Approved"/>Ticket Information Approve
       </label>
       <label className="radio-inline">
-        <input type="radio" name="ticketDataApproveReject" value ="Ticket Reject"/>Ticket Information Reject
+        <input type="radio" name="ticketDataApproveReject" value ="Reject"/>Ticket Information Reject
       </label>
       <div className="col-lg-8 col-lg-offset-4 finaldatasubmit">
         <button className="col-lg-5 rejectSubmit" data-roleStatus="ReviewPass" data-msg="Approved And Delivered Verification Report" onClick={this.approveButton.bind(this)}>Submit </button>
@@ -207,7 +190,6 @@ class Ticket extends TrackerReact(Component){
     </div>
     )
   }
-
   approveButton(event){
     event.preventDefault();
     var ticketId = this.props.ticketId;
@@ -254,17 +236,12 @@ class Ticket extends TrackerReact(Component){
         }
         insertData.allocatedToUserid   = '';
         insertData.allocatedToUserName = '';
-        console.log('report submitted ',insertData);
         break;
       case 'QAFail' :
         if(!this.props.loading){
-            console.log('in loading');
             var reportLinkDetails = TempTicketReport.findOne({},{sort:{'createdAt':-1}}); 
             if(reportLinkDetails){
-              console.log('in loading');
               insertData.reportSubmited = reportLinkDetails.ReportLink;
-              console.log('report link',reportLinkDetails.ReportLink);
-              console.log('report ',insertData.reportSubmited);
             }
         }
         var ticketElements      = this.props.getTicket.ticketElement; 
@@ -272,11 +249,10 @@ class Ticket extends TrackerReact(Component){
         var allocatedToUserid   = teamMemberDetails.userid;
         var allocatedToUserName = teamMemberDetails.userName;
         break;
-      case 'VerificationPassQTLAllocated' :
+      case 'QAPassQTLAllocated' :
         insertData.allocatedToUserid   = this.props.getTicket.ticketElement[0].userId;
         insertData.allocatedToUserName = this.props.getTicket.ticketElement[0].userName;
         insertData.ticketDataChangeStaus = $('input[name=ticketDataApproveReject]:checked').val();
-        console.log("insertData.ticketDataChangeStaus :"+insertData.ticketDataChangeStaus);
         break;
       default :
         insertData.allocatedToUserid   = '';
@@ -400,7 +376,6 @@ class Ticket extends TrackerReact(Component){
         break;
       case 'AssignAccept' :
         if(Meteor.user().roles.find(this.getRole) == 'team member' && this.props.getTicket.ticketElement[n-1].userId == Meteor.userId()){
-          console.log("in team Member");
           var title = "Team Member";
           var data = [];
           return(
@@ -447,31 +422,32 @@ class Ticket extends TrackerReact(Component){
                         </div>
                     </div>
                   :this.state.radioState == 'ba'?      
-                  <div>
-                      <div className="col-lg-7 teamMemOuter">
-                        <lable>Allocate To Business Associate</lable>
-                        <select className="form-control" id="selectMember" aria-describedby="basic-addon1" ref="allocateToFEName">
-                            {
-                              this.showBAFEList('ba').map((data,i)=>{
-                                return(
-                                  <option key={i} value={data._id}>
-                                    {data.profile.firstname + ' ' + data.profile.lastname}
-                                  </option>
-                                );
-                              })
-                            }
-                        </select>
-                      </div>
-                      <div className="col-lg-4 fesubmitouter noLRPad">
-                        <button type="submit" value="Submit" className="col-lg-11 feSubmitbtn  noLRPad" data-role="Business Associate" data-roleStatus="BAAllocated" data-msg="Allocated Ticket To Business Associate" onClick={this.approveButton.bind(this)} >Submit</button>                                      
-                      </div>
-                  </div>
+                    <div>
+                        <div className="col-lg-7 teamMemOuter">
+                          <lable>Allocate To Business Associate</lable>
+                          <select className="form-control" id="selectMember" aria-describedby="basic-addon1" ref="allocateToFEName">
+                              {
+                                this.showBAFEList('ba').map((data,i)=>{
+                                  return(
+                                    <option key={i} value={data._id}>
+                                      {data.profile.firstname + ' ' + data.profile.lastname}
+                                    </option>
+                                  );
+                                })
+                              }
+                          </select>
+                        </div>
+                        <div className="col-lg-4 fesubmitouter noLRPad">
+                          <button type="submit" value="Submit" className="col-lg-11 feSubmitbtn  noLRPad" data-role="Business Associate" data-roleStatus="BAAllocated" data-msg="Allocated Ticket To Business Associate" onClick={this.approveButton.bind(this)} >Submit</button>                                      
+                        </div>
+                    </div>
                   : this.state.radioState == 'Self'?
                     <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12 selfallocatedwrap noLRPad">
                       <h5><strong>You are going to handle this ticket</strong></h5>
                       <button type="submit" value="Submit" className="col-lg-5 col-lg-offset-3 col-md-5 col-md-offset-3 col-lg-12 col-xs-12 selfsubmit noLRPad" data-role="team member" data-roleStatus="SelfAllocated"  data-msg="Allocated Ticket To Self" onClick={this.approveButton.bind(this)} >Submit</button>                                                                             
-                  </div>
-                  :    ""
+                    </div>
+                  :    
+                    ""
                   }
                 </div>
               </div>

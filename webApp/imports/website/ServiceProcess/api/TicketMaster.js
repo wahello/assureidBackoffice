@@ -187,7 +187,6 @@ if(Meteor.isServer){
 					}
 					break;
 			case 'ReportReSubmitted':
-					
 						TicketMaster.update({"_id": ticketid},{
 							$set: {
 								'reportSubmited.createdAt' : insertData.createdAt,
@@ -229,7 +228,7 @@ if(Meteor.isServer){
 								Meteor.call('updateCommitteeUserCount',newCount,newMember._id);
 							}
 						}
-					break;
+						break;
 			case 'QAPass' :
 					var newCount = Meteor.user().count;
 					if(newCount){

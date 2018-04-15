@@ -264,6 +264,7 @@ if(Meteor.isServer){
             );
             console.log('status ',status);
         },
+
         'actulStatuofVerificationType':function(userId,verificationType,verificationId,remark){
           if (verificationType == "permanentAddress") {
             var verificationUniqueId = "permanentAddressId";
