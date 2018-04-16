@@ -106,7 +106,7 @@ export default RejectedTicketsContainer = withTracker(props => {
         roleStatus = 'AssignReject';
         break;
       case 'team member':
-        roleStatus = 'VerificationFail';
+        roleStatus = 'AssignReject';
         break;
       case 'quality team leader':
         roleStatus = 'ReviewFail';

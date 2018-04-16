@@ -101,7 +101,7 @@ export default ApprovedTicketsContainer = withTracker(props => {
         roleStatus = 'AssignAccept';
         break;
       case 'team member':
-        roleStatus = 'VerificationPass';
+        roleStatus = 'AssignAccept';
         break;
       case 'quality team leader':
         roleStatus = 'ReviewPass';

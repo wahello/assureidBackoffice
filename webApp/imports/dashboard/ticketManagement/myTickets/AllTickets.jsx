@@ -133,12 +133,12 @@ export default AllTicketContainer = withTracker(props => {
                 alltickets[i].bgClassName = 'btn-warning';
                 break;
               case 'AssignAccept' :
-                alltickets[i].status = 'Allocated' ; 
-                alltickets[i].bgClassName = 'btn-success';
+                alltickets[i].status = 'In Process' ; 
+                alltickets[i].bgClassName = 'btn-primary';
                 break;
               case 'AssignReject' :
-                alltickets[i].status = 'Rejected' ;
-                alltickets[i].bgClassName = 'btn-danger';
+                alltickets[i].status = 'TM Rejected' ;
+                alltickets[i].bgClassName = 'btn-warning';
                 break;
               case 'ReviewPass' :
                 alltickets[i].status = 'Completed' ;
@@ -157,16 +157,24 @@ export default AllTicketContainer = withTracker(props => {
                 alltickets[i].bgClassName = 'btn-warning';
                 break;
               case 'QAFail':
-                alltickets[i].status = 'New' ;      
+                alltickets[i].status = 'Quality Rejected' ;      
+                alltickets[i].bgClassName = 'btn-warning';
+                break;
+              case 'SelfAllocated':
+                alltickets[i].status = 'Self Allocated' ;      
+                alltickets[i].bgClassName = 'btn-warning';
+                break;
+              case 'ProofSubmit':
+                alltickets[i].status = 'Proof Submitted' ;      
+                alltickets[i].bgClassName = 'btn-warning';
+                break;
+              case 'VerificationPass':
+                alltickets[i].status = 'TM Verified' ;      
                 alltickets[i].bgClassName = 'btn-warning';
                 break;
               case 'AssignAccept' :
                 alltickets[i].status = 'Accepted' ; 
-                alltickets[i].bgClassName = 'btn-success';
-                break;
-              case 'AssignReject' :
-                alltickets[i].status = 'Rejected' ;
-                alltickets[i].bgClassName = 'btn-danger';
+                alltickets[i].bgClassName = 'btn-warning';
                 break;
               case 'ReviewPass' :
                 alltickets[i].status = 'Completed' ;
@@ -185,7 +193,7 @@ export default AllTicketContainer = withTracker(props => {
                 alltickets[i].bgClassName = 'btn-warning';
                 break;
               case 'ReviewFail':
-                alltickets[i].status = 'New' ;      
+                alltickets[i].status = 'Review Fail' ;      
                 alltickets[i].bgClassName = 'btn-warning';
                 break;
               case 'QAPass' :
@@ -236,7 +244,171 @@ export default AllTicketContainer = withTracker(props => {
             break;
         }
         // alltickets[i].status = ticketElements[ticketElements.length - 1].roleStatus ;
-      }  
+      } 
+
+      //Sorting the array according to the status depending upon the role
+      var newTickets = [];
+      var vFailTickets = [];
+      var reviewFailTickets = [];
+      var approvedTickets = [];
+      var acceptedTickets = [];
+      var allocatedTickets = [];
+      var rejectedTickets = [];
+      var completedTickets = [];
+      var inProcessTickets = [];
+      var selfAllocatedTickets = [];
+      var proofSubmittedTickets = [];
+      var tmVerifiedTickets = [];
+      switch(role){
+        case 'screening committee' :
+          for(i=0; i < alltickets.length;i++){
+            if(alltickets[i].status == 'New'){
+              newTickets.push(alltickets[i]);
+            }else if(alltickets[i].status == 'Approved'){
+              approvedTickets.push(alltickets[i]);
+            }else if(alltickets[i].status == 'Rejected'){
+              rejectedTickets.push(alltickets[i]);
+            }else if(alltickets[i].status == 'Completed'){
+              completedTickets.push(alltickets[i]);
+            }else if(alltickets[i].status == 'In Process'){
+              inProcessTickets.push(alltickets[i]);
+            }
+          }
+          alltickets = [];
+          newTickets.sort(function(a,b){ return new Date(a.tatDate) - new Date(b.tatDate);});
+          approvedTickets.sort(function(a,b){ return new Date(a.tatDate) - new Date(b.tatDate);});
+          rejectedTickets.sort(function(a,b){ return new Date(a.tatDate) - new Date(b.tatDate);});
+          completedTickets.sort(function(a,b){ return new Date(a.tatDate) - new Date(b.tatDate);});
+          inProcessTickets.sort(function(a,b){ return new Date(a.tatDate) - new Date(b.tatDate);});
+          alltickets = newTickets.concat(approvedTickets);
+          alltickets = alltickets.concat(rejectedTickets);
+          alltickets = alltickets.concat(completedTickets);
+          alltickets = alltickets.concat(inProcessTickets);
+          break;
+        case 'team leader' :
+          for(i=0; i < alltickets.length;i++){
+            if(alltickets[i].status == 'New'){
+              newTickets.push(alltickets[i]);
+            }else if(alltickets[i].status == 'Allocated'){
+              allocatedTickets.push(alltickets[i]);
+            }else if(alltickets[i].status == 'TM Rejected'){
+              rejectedTickets.push(alltickets[i]);
+            }else if(alltickets[i].status == 'Completed'){
+              completedTickets.push(alltickets[i]);
+            }else if(alltickets[i].status == 'In Process'){
+              inProcessTickets.push(alltickets[i]);
+            }
+          }
+          alltickets = [];
+          newTickets.sort(function(a,b){ return new Date(a.tatDate) - new Date(b.tatDate);});
+          allocatedTickets.sort(function(a,b){ return new Date(a.tatDate) - new Date(b.tatDate);});
+          rejectedTickets.sort(function(a,b){ return new Date(a.tatDate) - new Date(b.tatDate);});
+          completedTickets.sort(function(a,b){ return new Date(a.tatDate) - new Date(b.tatDate);});
+          inProcessTickets.sort(function(a,b){ return new Date(a.tatDate) - new Date(b.tatDate);});
+          alltickets = newTickets.concat(rejectedTickets);
+          alltickets = alltickets.concat(allocatedTickets);
+          alltickets = alltickets.concat(completedTickets);
+          alltickets = alltickets.concat(inProcessTickets);
+          break;
+        case 'team member' :
+          for(i=0; i < alltickets.length;i++){
+            if(alltickets[i].status == 'Quality Rejected'){
+              vFailTickets.push(alltickets[i]);
+            }if(alltickets[i].status == 'New'){
+              newTickets.push(alltickets[i]);
+            }else if(alltickets[i].status == 'Self Allocated'){
+              selfAllocatedTickets.push(alltickets[i]);
+            }else if(alltickets[i].status == 'Proof Submitted'){
+              proofSubmittedTickets.push(alltickets[i]);
+            }else if(alltickets[i].status == 'TM Verified'){
+              tmVerifiedTickets.push(alltickets[i]);
+            }else if(alltickets[i].status == 'Accepted'){
+              acceptedTickets.push(alltickets[i]);
+            }else if(alltickets[i].status == 'Rejected'){
+              rejectedTickets.push(alltickets[i]);
+            }else if(alltickets[i].status == 'Completed'){
+              completedTickets.push(alltickets[i]);
+            }else if(alltickets[i].status == 'In Process'){
+              inProcessTickets.push(alltickets[i]);
+            }
+          }
+          alltickets = [];
+          vFailTickets.sort(function(a,b){ return new Date(a.tatDate) - new Date(b.tatDate);});
+          tmVerifiedTickets.sort(function(a,b){ return new Date(a.tatDate) - new Date(b.tatDate);});
+          proofSubmittedTickets.sort(function(a,b){ return new Date(a.tatDate) - new Date(b.tatDate);});
+          selfAllocatedTickets.sort(function(a,b){ return new Date(a.tatDate) - new Date(b.tatDate);});
+          newTickets.sort(function(a,b){ return new Date(a.tatDate) - new Date(b.tatDate);});
+          acceptedTickets.sort(function(a,b){ return new Date(a.tatDate) - new Date(b.tatDate);});
+          rejectedTickets.sort(function(a,b){ return new Date(a.tatDate) - new Date(b.tatDate);});
+          completedTickets.sort(function(a,b){ return new Date(a.tatDate) - new Date(b.tatDate);});
+          inProcessTickets.sort(function(a,b){ return new Date(a.tatDate) - new Date(b.tatDate);});
+          alltickets = vFailTickets.concat(newTickets);
+          alltickets = alltickets.concat(tmVerifiedTickets);
+          alltickets = alltickets.concat(proofSubmittedTickets);
+          alltickets = alltickets.concat(selfAllocatedTickets);
+          alltickets = alltickets.concat(acceptedTickets);
+          alltickets = alltickets.concat(rejectedTickets);
+          alltickets = alltickets.concat(completedTickets);
+          alltickets = alltickets.concat(inProcessTickets);
+          break;
+        case 'quality team member' :
+          for(i=0; i < alltickets.length;i++){
+            if(alltickets[i].status == 'Review Fail'){
+              reviewFailTickets.push(alltickets[i]);
+            }if(alltickets[i].status == 'New'){
+              newTickets.push(alltickets[i]);
+            }else if(alltickets[i].status == 'Approved'){
+              approvedTickets.push(alltickets[i]);
+            }else if(alltickets[i].status == 'Rejected'){
+              rejectedTickets.push(alltickets[i]);
+            }else if(alltickets[i].status == 'Completed'){
+              completedTickets.push(alltickets[i]);
+            }else if(alltickets[i].status == 'In Process'){
+              inProcessTickets.push(alltickets[i]);
+            }
+          }
+          alltickets = [];
+          reviewFailTickets.sort(function(a,b){ return new Date(a.tatDate) - new Date(b.tatDate);});
+          tmVerifiedTickets.sort(function(a,b){ return new Date(a.tatDate) - new Date(b.tatDate);});
+          proofSubmittedTickets.sort(function(a,b){ return new Date(a.tatDate) - new Date(b.tatDate);});
+          selfAllocatedTickets.sort(function(a,b){ return new Date(a.tatDate) - new Date(b.tatDate);});
+          newTickets.sort(function(a,b){ return new Date(a.tatDate) - new Date(b.tatDate);});
+          approvedTickets.sort(function(a,b){ return new Date(a.tatDate) - new Date(b.tatDate);});
+          rejectedTickets.sort(function(a,b){ return new Date(a.tatDate) - new Date(b.tatDate);});
+          completedTickets.sort(function(a,b){ return new Date(a.tatDate) - new Date(b.tatDate);});
+          inProcessTickets.sort(function(a,b){ return new Date(a.tatDate) - new Date(b.tatDate);});
+          alltickets = reviewFailTickets.concat(newTickets);
+          alltickets = alltickets.concat(approvedTickets);
+          alltickets = alltickets.concat(rejectedTickets);
+          alltickets = alltickets.concat(completedTickets);
+          alltickets = alltickets.concat(inProcessTickets);
+          break;
+        case 'quality team leader' :
+          for(i=0; i < alltickets.length;i++){
+            if(alltickets[i].status == 'New'){
+              newTickets.push(alltickets[i]);
+            }else if(alltickets[i].status == 'Approved'){
+              approvedTickets.push(alltickets[i]);
+            }else if(alltickets[i].status == 'Rejected'){
+              rejectedTickets.push(alltickets[i]);
+            }else if(alltickets[i].status == 'Completed'){
+              completedTickets.push(alltickets[i]);
+            }else if(alltickets[i].status == 'In Process'){
+              inProcessTickets.push(alltickets[i]);
+            }
+          }
+          alltickets = [];
+          newTickets.sort(function(a,b){ return new Date(a.tatDate) - new Date(b.tatDate);});
+          approvedTickets.sort(function(a,b){ return new Date(a.tatDate) - new Date(b.tatDate);});
+          rejectedTickets.sort(function(a,b){ return new Date(a.tatDate) - new Date(b.tatDate);});
+          completedTickets.sort(function(a,b){ return new Date(a.tatDate) - new Date(b.tatDate);});
+          inProcessTickets.sort(function(a,b){ return new Date(a.tatDate) - new Date(b.tatDate);});
+          alltickets = newTickets.concat(approvedTickets);
+          alltickets = alltickets.concat(rejectedTickets);
+          alltickets = alltickets.concat(completedTickets);
+          alltickets = alltickets.concat(inProcessTickets);
+          break;
+      } 
     }
   }
   return {
