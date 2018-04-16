@@ -14,26 +14,70 @@ class TotalBusiness extends TrackerReact(Component){
         this.state = {
         } 
     }
+    // amchartDisplay()
+   componentDidlMount(){
 
-    amchartDisplay(){
-        if(!this.props.loading &&  this.props.dataWithLabels.length > 0 ){
-          var chart = AmCharts.makeChart( "totalbusiness",{
-              "type": "pie",
-              "theme": "light",
-              "dataProvider": this.props.dataWithLabels,
-              "valueField": "litres",
-              "titleField": "country",
-              "balloon":{
-              "fixedPosition":true
-              },
-              "export": {
-                "enabled": true
-              }
-          });
-        return (<div id="totalbusiness"></div>);
-      }else{
-        return(<span>No Data Available</span>)
-      }
+      var chart = AmCharts.makeChart( "chartdiv", {
+        "type": "pie",
+        "theme": "light",
+        "dataProvider": [ {
+          "country": "Lithuania",
+          "litres": 501.9
+        }, {
+          "country": "Czech Republic",
+          "litres": 301.9
+        }, {
+          "country": "Ireland",
+          "litres": 201.1
+        }, {
+          "country": "Germany",
+          "litres": 165.8
+        }, {
+          "country": "Australia",
+          "litres": 139.9
+        }, {
+          "country": "Austria",
+          "litres": 128.3
+        }, {
+          "country": "UK",
+          "litres": 99
+        }, {
+          "country": "Belgium",
+          "litres": 60
+        }, {
+          "country": "The Netherlands",
+          "litres": 50
+        } ],
+        "valueField": "litres",
+        "titleField": "country",
+         "balloon":{
+         "fixedPosition":true
+        },
+        "export": {
+          "enabled": true
+        }
+      } );
+        // return chart;
+      
+
+      //   if(!this.props.loading &&  this.props.dataWithLabels.length > 0 ){
+      //     var chart = AmCharts.makeChart( "totalbusiness",{
+      //         "type": "pie",
+      //         "theme": "light",
+      //         "dataProvider": this.props.dataWithLabels,
+      //         "valueField": "litres",
+      //         "titleField": "country",
+      //         "balloon":{
+      //         "fixedPosition":true
+      //         },
+      //         "export": {
+      //           "enabled": true
+      //         }
+      //     });
+      //   return (<div id="totalbusiness"></div>);
+      // }else{
+      //   return(<span>No Data Available</span>)
+      // }
     }
 
     render(){
@@ -47,7 +91,10 @@ class TotalBusiness extends TrackerReact(Component){
                         </Link>
                     </span>
                 </label>
-                  {this.amchartDisplay()}
+                <div id="totalbusiness">
+                  {/* {this.amchartDisplay()} */}
+                </div>
+                  
                 </div>
                
             </div>

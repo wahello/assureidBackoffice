@@ -19,7 +19,7 @@ export default class TopStates extends TrackerReact(Component){
                     <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12 ticketTableLabel">Top States                    
                         <span>
                             <Link to="/admin/assignedtickets" title="View All">
-                                <i className="fa fa-arrow-right pull-right arrowcolor" aria-hidden="true"></i>
+                                {/* <i className="fa fa-arrow-right pull-right arrowcolor" aria-hidden="true"></i> */}
                             </Link>
                         </span>
                     </label>

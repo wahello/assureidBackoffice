@@ -91,6 +91,7 @@ class TotalInFlowTickets extends TrackerReact(Component){
                         </Link>
                     </span>
                 </label>
+                
                {this.amchartDisplay()}
                 
                 </div>
@@ -137,7 +138,7 @@ class TotalInFlowTickets extends TrackerReact(Component){
       }
     }
 
-       
+    
     return {
       loading,    
       dataWithLabels
