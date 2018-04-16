@@ -7,7 +7,6 @@ import { Header, Card, Button, Avatar, Icon, SearchBar, CheckBox } from "react-n
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from "react-native-table-component";
 import { TextField } from 'react-native-material-textfield';
 import { CameraKitCameraScreen, CameraKitCamera } from 'react-native-camera-kit';
-import { DocumentPicker, DocumentPickerUtil } from 'react-native-document-picker';
 // import CheckBox from 'react-native-check-box';
 
 import PropTypes from "prop-types";
@@ -18,7 +17,6 @@ import SideMenu from "react-native-side-menu";
 import RNExitApp from "react-native-exit-app";
 
 
-
 import styles from "./styles.js";
 import Menu from "../../components/Menu/Menu.js";
 import HeaderDy from "../../components/HeaderDy/HeaderDy.js";
@@ -26,15 +24,12 @@ import ViewCustomerTable from "../../components/tableComponent/ViewCustomerTable
 import ViewCustomerModal from "../../components/modalComponent/ViewCustomerModal.js";
 import { Dropdown } from 'react-native-material-dropdown';
 
-class ViewTicketFormInfo extends React.Component {
+class ViewSubmittedTicket extends React.Component {
   constructor(props) {
     super(props);
     let name = "";
     if (this.props.userName) name = "Welcome " + this.props.userName;
-    // let lineName ="";
-    // if(this.props.navigation.state.params.lineName)
-    //   lineName = this.props.navigation.state.params.lineName;
-    // console.log("line constructor ", lineName);
+
     this.state = {
       name              : name,
       isOpen            : false,
@@ -58,16 +53,6 @@ class ViewTicketFormInfo extends React.Component {
     this.closeDrawer = this.closeDrawer.bind(this);
     this.toggle = this.toggle.bind(this);
     // this.handleEdit = this.handleEdit.bind(this);
-  }
-
-  componentWillReceiveProps(nextProps) {
-
-    // console.log('-------------%%%%0<---------------------');
-    // console.log('nextProps: ',nextProps);
-      this.setState({
-          parkSpaceFor  : nextProps,
-      });
-    // console.log('----------------%%%%%0<------------------');
   }
 
   componentDidMount() {
@@ -124,170 +109,15 @@ class ViewTicketFormInfo extends React.Component {
   handleOnPress(value) {
     this.setState({ value });
   }
-  // handleEdit() {
-  //   this._toggleModal();
-  //   this.props.navigation.navigate("EditCustomer",{'customerId':this.state.customerIdModal});
-  // }
 
-  // _dyToggleModal = (_id) =>{
-  //   console.log("id : ",_id);
-  //   this.setState({ isModalVisible: !this.state.isModalVisible });
-  //   this.setState({ customerIdModal: _id });
-  // }
-  // _toggleModal = () =>
-  //   this.setState({ isModalVisible: !this.state.isModalVisible });
-
-  // _editLineModal = () =>
-  //   this.setState({ isModalVisibleOne: !this.state.isModalVisibleOne});
-
-  // updateLine = () => {
-  //   let index = this.props.navigation.state.params.index;
-  //   // console.log("index : ", index);
-  //   // let lineName = this.state.lineName;
-  //   // console.log('lineName : ', lineName);
-  //   Meteor.call('updateLine',index,lineName,(error,result) =>{
-  //     if(error){
-  //       Alert.alert(
-  //         'Error',
-  //       )
-  //     }else{
-  //       Alert.alert(
-  //         '','Line has been edited Successfully!',
-  //       );
-  //     }
-  //   });
-  //   this._editLineModal();
-  // }
-
-  getRole(role) {
-      return role != "backofficestaff";
-  }
-
-  submit(event) {
-    event.preventDefault();
-
-    var checkLists = [];
-    //Get values for all the check box
-    for(var i=0; i<this.props.checkObjs.length;i++){
-      var dataChk ={};
-
-      if(this.state[this.props.checkObjs[i].id] === true){
-          dataChk.statement = this.props.checkObjs[i].task;
-          dataChk.status = true;
-      }else{
-          dataChk.statement = this.props.checkObjs[i].task;
-          dataChk.status = false;
-      }
-      checkLists.push(dataChk);
-
-    } // EOF i loop
-
-    //Get Values for all the text field
-    var textLists = [];
-    for(var j=0; j<this.props.textObjs.length;j++){
-      var dataChk    = {};
-      dataChk.task   = this.props.textObjs[j].task;
-      if(this.refs[this.props.textObjs[j].id].value()){
-        dataChk.value  = this.refs[this.props.textObjs[j].id].value();
-      }else{
-        dataChk.value  = '';
-      }
-      textLists.push(dataChk);
-    } // EOF j loop 
-
-    var status      = this.state.status;
-    var subStatus   = this.state.subStatus;
-    var images      = [
-                        {  
-                          'userId'    : Meteor.userId(),
-                          'imageLink' : 'https://s3.ap-south-1.amazonaws.com/harmonicgroup/ProductImage/2Wvb8h6dvwMf7nppL.jpeg',
-                          'createdAt' : new Date(),
-                        }
-                      ];
-    var videos      = [
-                        {
-                          'userId'    : Meteor.userId(),
-                          'videoLink' : 'https://s3.ap-south-1.amazonaws.com/harmonicgroup/ProductVideo/2XAwdwWSg2qfpgKFf.mp4',
-                          'createdAt' : new Date(),
-                        }
-                      ];
-    var roleStatus  = "ProofSubmit";
-    var msg         = "Submitted Verification Information";
-    var remark      = this.state.remark;
-
-    var documents = {
-        checkLists : checkLists,
-        textLists  : textLists,
-        status     : status,
-        subStatus  : subStatus,
-        images     : images,
-        videos     : videos,
-        remark     : remark,
-    }
-        
-    // console.log('documents: ',documents);
-
-    if (this.props.tickets) {
-        if (this.props.tickets.ticketElement) {
-            if (this.props.tickets.ticketElement.length > 0) {
-                var ticketElements = this.props.tickets.ticketElement;
-                var teamMemberDetails = ticketElements.find(function (obj) { return obj.roleStatus == 'FEAllocated' });
-                // console.log('teamMemberDetails ',teamMemberDetails);
-            }
-        }
-
-        var role = this.props.userData.roles.find(this.getRole);
-        if(role){
-
-            var insertData = {
-                "userId"              : Meteor.userId(),
-                "userName"            : Meteor.user().profile.firstname + ' ' + Meteor.user().profile.lastname,
-                "allocatedToUserid"   : teamMemberDetails.userId,
-                "allocatedToUserName" : teamMemberDetails.userName,
-                "role"                : role,
-                "roleStatus"          : roleStatus,
-                "msg"                 : msg,
-                "submitedDoc"         : documents,
-                "createdAt"           : new Date(),
-            }
-            // console.log('insertData: ',insertData);    
-
-              Meteor.call('genericUpdateTicketMasterElement', this.props.tickets._id, insertData, (error,result)=>{
-                  if (error) {
-                    console.log(error.reason);
-                  }else{
-                    console.log("Inserted Successfully!");
-                    this.props.navigation.navigate('ViewSubmittedTicket', { ticket: this.props.tickets._id });
-                  }
-              });
-
-        }
-
-    }
-
-
-  }
-
-
-  browseFile(event){
-    event.preventDefault();
-
-    let self = this; 
-    DocumentPicker.show({ filetype : [DocumentPickerUtil.images()]},(error,res) => {
-                          // Android
-                          console.log("----------res-----------------");
-                          console.log("res: ",res);
-   
-                        });    
-  }
-
-  delImg(event, id){
-    console.log('click id: ' ,id);
-  }
   render() {
     
     const { navigate, goBack, state } = this.props.navigation;
-    // console.log('navigate: ',navigate);
+    
+    console.log('this.props.navigation: ',this.props.navigation);
+    console.log('goBack: ',goBack);
+    console.log('state: ',state);
+    console.log('navigate: ',navigate);
 
     let status = [{
       value: '-- Select --',
@@ -317,7 +147,6 @@ class ViewTicketFormInfo extends React.Component {
     }, {
       value: 'Case Drop',
     }];
-
     const menu = <Menu navigate={navigate} userName={this.props.userName} />;
     var navigationView = (
       <ScrollView
@@ -440,7 +269,7 @@ class ViewTicketFormInfo extends React.Component {
                 }
               />
 
-              <HeaderDy headerTitle="Ticket Tool" goBack={goBack} />
+              <HeaderDy headerTitle="Verified Information" goBack={goBack} />
                 <View style={styles.formContainer}>
 
                   <View style={styles.formInputView}>
@@ -450,29 +279,18 @@ class ViewTicketFormInfo extends React.Component {
                   </View>
 
                   
-                  {this.props.checkObjs ?
-                    this.props.checkObjs.map((checkListDefault,index)=>{
+                  {this.props.selectFEData ?
+                    this.props.selectFEData.submitedDoc.checkLists.map((checkListDefault,index)=>{
                       return(
                               <View style={styles.container} key={index}>
                                 <CheckBox
                                   center
                                   containerStyle={{ backgroundColor: "transparent", borderWidth: 0 }}
                                   checkedColor="green"
-                                  checked={this.state[checkListDefault.id]}
-                                  onPress={this.handleOnChange}
+                                  checked={checkListDefault.status}
                                   textStyle={{ color: "#aaa" }}
-                                  title={checkListDefault.task}
-                                  value={checkListDefault.task}
-                                  onPress={(value) => { 
-                                                        if(this.state[checkListDefault.id]){
-                                                          // console.log('data: ',this.state[checkListDefault.id]);
-                                                          this.setState({ [checkListDefault.id] : !this.state[checkListDefault.id] });
-                                                        }else{
-                                                          // console.log('no data:',this.state[checkListDefault.id]);
-                                                          this.setState({ [checkListDefault.id] : true });
-                                                        } 
-                                                      }
-                                                }
+                                  title={checkListDefault.statement}
+                                  value={checkListDefault.statement}
                                 />     
                               </View>
                             );
@@ -489,8 +307,8 @@ class ViewTicketFormInfo extends React.Component {
 
 
                 <View style={{width:'100%',padding:10}}>
-                {this.props.textObjs ?
-                  this.props.textObjs.map((textListDefault,index)=>{
+                {this.props.selectFEData ?
+                  this.props.selectFEData.submitedDoc.textLists.map((textListDefault,index)=>{
                     return(
                             <View style={styles.inputWrapper} key={index}>
                               <View style={styles.formInputView1}>
@@ -507,11 +325,7 @@ class ViewTicketFormInfo extends React.Component {
                                   activeLineWidth       = {0}
                                   fontSize              = {this.state.fontSize}
                                   labelFontSize         = {this.state.fontSize}
-                                  ref                   = {textListDefault.id}
-                                  onChangeText          = {(value) => { 
-                                                                        this.setState({ [textListDefault.id] : value });
-                                                                      }
-                                                          }
+                                  value                 = {textListDefault.value}
                                 />
                               </View>
                             </View>
@@ -532,29 +346,39 @@ class ViewTicketFormInfo extends React.Component {
                   <View style = {styles.formInputView}> 
                     <View style={{flex:1}}>
                       <View style={{flexDirection:'row'}}>
-                        <TouchableOpacity  onPress={()=>navigate('Camera',{ ticket : this.props.ticket })} >
+                        <TouchableOpacity >
                           <Icon name="camera-enhance" type="MaterialIcons" size={50} color="#aaa"   />
                         </TouchableOpacity>
-
-                        { this.props.imgData.length > 0 ?
-
-                         this.props.imgData.map((data,index)=>{
-                            return (
-                                    <View key={index} style={{paddingHorizontal:10,paddingVertical:10}}>
-                                      <View style={styles.closeBtn}>
-                                        <TouchableOpacity  onPress={(e) =>this.delImg(e, data._id)}><Icon name="close" type="MaterialIcons" size={23} color="#aaa"  /></TouchableOpacity>
-                                      </View>
-                                      <Image
-                                        style={{ width: 50, height: 50, borderRadius: 15}}
-                                        resizeMode="stretch"
-                                        source={{ uri : data.imgs }}
-                                      />
-                                    </View>
-                                  );
-                          }) 
-                        
-                        : <Text></Text>}
-
+                        <View style={{paddingHorizontal:10,paddingVertical:10}}>
+                          <View style={styles.closeBtn}>
+                            <Icon name="close" type="MaterialIcons" size={20} color="#aaa"  />
+                          </View>
+                          <Image
+                            style={{ width: 50, height: 50, borderRadius: 15,}}
+                            resizeMode="stretch"
+                            source={require("../../images/pdf-icon.png")}
+                          />
+                        </View>
+                        <View style={{paddingHorizontal:10,paddingVertical:10}}>
+                          <View style={styles.closeBtn}>
+                            <Icon name="close" type="MaterialIcons" size={20} color="#aaa"  />
+                          </View>
+                          <Image
+                            style={{ width: 50, height: 50, borderRadius: 15,}}
+                            resizeMode="stretch"
+                            source={require("../../images/pdf-icon.png")}
+                          />
+                        </View>
+                        <View style={{paddingHorizontal:10,paddingVertical:10}}>
+                          <View style={styles.closeBtn}>
+                            <Icon name="close" type="MaterialIcons" size={20} color="#aaa"  />
+                          </View>
+                          <Image
+                            style={{ width: 50, height: 50, borderRadius: 15, }}
+                            resizeMode="stretch"
+                            source={require("../../images/pdf-icon.png")}
+                          />
+                        </View>
                       </View>
                     </View>
                   </View>
@@ -630,11 +454,7 @@ class ViewTicketFormInfo extends React.Component {
                         multiline             = {true}
                         numberOfLines         = {4}
                         ref                   = 'remark'
-                        value                 = {this.state.remark}
-                        onChangeText          = {(value) => { 
-                                                              this.setState({ 'remark' : value });
-                                                            }
-                                                }
+                        value                 = {this.props.selectFEData.submitedDoc.remark}
                       />
                     </View>
                   </View>
@@ -648,7 +468,7 @@ class ViewTicketFormInfo extends React.Component {
                         inputContainerPadding = {0}
                         labelHeight           = {16}
                         ref                   = 'status'
-                        onChangeText          = {(status) => this.setState({status})}
+                        value                 = {this.props.selectFEData.submitedDoc.status}
                       /> 
                     </View>
                   </View>
@@ -662,18 +482,11 @@ class ViewTicketFormInfo extends React.Component {
                         inputContainerPadding = {0}
                         labelHeight           = {16}
                         ref                   = 'subStatus'
-                        onChangeText          = {(subStatus) => this.setState({subStatus})}
+                        value                 = {this.props.selectFEData.submitedDoc.subStatus}
                       /> 
                     </View>
                   </View>
 
-              <View style={{ alignItems: "center"}}>
-                <Button
-                  buttonStyle={styles.buttonLarge}
-                  title="SAVE"
-                  onPress={this.submit.bind(this)}
-                />
-              </View>
               </View>
 
             </ScrollView>
@@ -685,9 +498,9 @@ class ViewTicketFormInfo extends React.Component {
 }
 
 
-ViewTicketForm = createContainer( (props) => {
+ViewSubmittedTicketContainer = createContainer( (props) => {
 
-    // console.log('ticket: ',props.navigation.state.params.ticket);
+    console.log('inside view');
     const ticket       = props.navigation.state.params.ticket;
     const postHandle   = Meteor.subscribe('allTicketImages');
     const postHandle1  = Meteor.subscribe('allTicketVideo');
@@ -726,6 +539,12 @@ ViewTicketForm = createContainer( (props) => {
          }
        }
 
+      var selectFEData = tickets.ticketElement.find(( obj ) =>{
+        if( (obj.role === 'field expert') && (obj.roleStatus == "ProofSubmit") ) return obj;
+      });
+
+      console.log('selectFEData: ',selectFEData);
+
        // console.log('checkListFrom: ',checkListFrom);
        var checkListObjs = Meteor.collection("checklistFieldExpert").find({"checkListFor" : checkListFrom}) || [];
         if (checkListObjs && checkListObjs.length > 0) {
@@ -750,11 +569,6 @@ ViewTicketForm = createContainer( (props) => {
       const postHandle5     = Meteor.subscribe('currentUserfunction');
       const userData        = Meteor.collection('users').findOne({"_id":Meteor.userId()}) || {};
 
-      const postHandle6     = Meteor.subscribe('tempFEImgData' ,ticket, 'image');
-      const loading6        = !postHandle6.ready();
-      const imgData         = Meteor.collection('tempFEUploadData').find({ "ticketId"  : ticket, "type" : "image" }) || [];
-
-      // console.log('imgData: ',imgData);
       var result =  {
           loading      : loading,
           loading1     : loading1,
@@ -766,13 +580,12 @@ ViewTicketForm = createContainer( (props) => {
           textObjs     : textObjs,
           s3Data       : s3Data,
           userData     : userData,
-          imgData      : imgData,
-          loading6     : loading6,
+          selectFEData : selectFEData,
       };
 
       // console.log("result",result);
       // console.log("userData",userData);
       return result;
 
-}, ViewTicketFormInfo);
-export default ViewTicketForm;
+}, ViewSubmittedTicket);
+export default ViewSubmittedTicketContainer;

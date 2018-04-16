@@ -58,6 +58,9 @@ import ViewCustomerBillDetails from '../layouts/ViewCustomerBillDetails/ViewCust
 import ListOfTickets from '../layouts/ListOfTickets/ListOfTickets.js';
 import ViewTicket from '../layouts/ViewTicket/ViewTicket.js';
 import ViewTicketForm from '../layouts/ViewTicket/ViewTicketForm.js';
+import ViewSubmittedTicketContainer from '../layouts/ViewTicket/ViewSubmittedTicketContainer.js';
+
+
 import Camera from '../layouts/Camera/Camera.js';
 import CameraView from '../layouts/CameraView/CameraView.js';
 import CameraGallery from '../layouts/CameraGallery/CameraGallery.js';
@@ -73,16 +76,37 @@ import NotificationLayout from '../layouts/NotificationLayout/NotificationLayout
 
 export const AuthStack = StackNavigator({
 
-
-
+  
   ListOfTickets: {
   screen: ListOfTickets,
   navigationOptions: {
     header: null
     }
   },
-
   
+  Camera:{
+    screen:Camera,
+    navigationOptions:{
+      header:null
+    }
+  },
+
+
+  GeoTagging:{
+    screen:GeoTagging,
+    navigationOptions:{
+      header:null
+    }
+  },
+
+  ViewSubmittedTicket: {
+  screen: ViewSubmittedTicketContainer,
+  navigationOptions: {
+    header: null
+    }
+  },
+
+
   ViewTicket: {
     screen: ViewTicket,
     navigationOptions: {
@@ -97,19 +121,7 @@ export const AuthStack = StackNavigator({
     }
   },
 
-  GeoTagging:{
-    screen:GeoTagging,
-    navigationOptions:{
-      header:null
-    }
-  },
-  
-  Camera:{
-    screen:Camera,
-    navigationOptions:{
-      header:null
-    }
-  },
+
 
   
    Dashboard:{

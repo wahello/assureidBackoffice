@@ -11,6 +11,7 @@ export const TicketBucket = new Mongo.Collection("ticketbucket");
 export const BADetails = new Mongo.Collection("badetails");
 
 if(Meteor.isServer){
+	
 	Meteor.publish('allTickets',()=>{
         return TicketMaster.find({});
 	});
@@ -28,8 +29,11 @@ if(Meteor.isServer){
 	Meteor.publish('listTickets',()=>{
 		return TicketMaster.find({},{fields:{ticketNumber:1,orderNo:1,serviceName:1,createdAt:1,tatDate:1,'ticketElement.userId':1,'ticketElement.allocatedUsrId':1,'ticketElement.role':1,'ticketElement.roleStatus':1,'ticketElement.createdAt':1}});
 	});
+
 	Meteor.methods({
-   	 
+   	'testAPI':function(){
+   		console.log('testAPI');
+   	},
 	//Find User with minium tickets for specific role and serviceName
 	'autoAllocateMember':function(role,serviceName){
 		//Allocating Ticket to Screening Committte

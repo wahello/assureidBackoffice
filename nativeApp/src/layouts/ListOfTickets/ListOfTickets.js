@@ -81,6 +81,80 @@ class ListOfTickets extends React.Component {
     this.drawer.closeDrawer();
   }
 
+  ticketDetails(){
+
+  var { ticketData, user } = this.props;
+  
+  if(user){
+    // console.log('user: ',user);
+    roleArr          = ['field expert'];
+    var role         = roleArr.find((obj)=> { return obj != 'backofficestaff' });
+
+    //Get all the Tickets
+          
+    // alltickets = ticketData;
+    if(ticketData){
+      //find last status of the Tickets
+      
+      for(i=0;i< ticketData.length; i++){
+        var ticketElementsData = ticketData[i].ticketElement;
+        console.log(i,' = ',ticketElementsData);
+        console.log('----------------------');
+        // switch(role){
+        //   case 'field expert' : 
+        //     switch (ticketElementsData[ticketElementsData.length - 1].roleStatus) {
+        //       case 'FEAllocated':
+        //         ticketData[i].status = 'New' ;  
+        //         ticketData[i].bgClassName = 'btn-warning';    
+        //         break;
+        //       case 'ProofResubmitted' :
+        //         ticketData[i].status = 'New-Reallocated' ;  
+        //         ticketData[i].bgClassName = 'btn-warning';    
+        //         break;
+        //       case 'ReviewPass' :
+        //         ticketData[i].status = 'Completed' ;
+        //         ticketData[i].bgClassName = 'btn-success';
+        //         break;
+        //       default:
+        //         ticketData[i].status = 'In Process' ;
+        //         ticketData[i].bgClassName = 'btn-primary';
+        //         break;
+        //     }
+        //     break;
+        //   case 'ba' :
+        //     switch (ticketElementsData[ticketElementsData.length - 1].roleStatus) {
+        //       case 'BAAllocated':
+        //         ticketData[i].status = 'New' ;      
+        //         ticketData[i].bgClassName = 'btn-warning';
+        //         break;
+        //       case 'ProofResubmitted' :
+        //         ticketData[i].status = 'New-Reallocated' ;  
+        //         ticketData[i].bgClassName = 'btn-warning';    
+        //         break;
+        //       case 'ReviewPass' :
+        //         ticketData[i].status = 'Completed' ;
+        //         ticketData[i].bgClassName = 'btn-success';
+        //         break;
+        //       default:
+        //         ticketData[i].status = 'In Process' ;
+        //         ticketData[i].bgClassName = 'btn-primary';
+        //         break;
+        //     }
+        //     break;
+        //   default : 
+        //     ticketData[i].status = 'In Process' ;
+        //     ticketData[i].bgClassName = 'btn-primary';
+        //     break;
+        // }
+      }  // EOF i loop
+
+    }    
+  }
+
+  console.log(ticketData);
+
+  }
+
   displayTicket =()=>{
   var { ticketData } = this.props;
     // console.log('displayTicket ticketData',ticketData);
@@ -138,6 +212,8 @@ class ListOfTickets extends React.Component {
   }
 
   render(){
+
+    console.log(this.ticketDetails());
 
     const { navigate,goBack } = this.props.navigation;
 
@@ -276,23 +352,25 @@ class ListOfTickets extends React.Component {
 
 export default createContainer((props) => {
 
-  const handle     = Meteor.subscribe('allTicketBucket');
-  const ticketData = Meteor.collection('ticketMaster').find({});
-  const loading    = handle.ready() ;
+  //initialise
 
-  // console.log(loading,'loading');
-  // console.log(handle,'handle');
-  // console.log("----------ticketData----------");
-  // console.log(ticketData);
+  const handle     = Meteor.subscribe('allTickets');
+  const handle1    = Meteor.subscribe('currentUserfunction');
+  const loading    = handle.ready();
+
+  var _id          = Meteor.userId();
+  const user       = Meteor.collection('users').findOne({"_id":_id});
+  var alltickets   =  Meteor.collection('ticketMaster').find({});
 
   var result = {
-    ticketData : ticketData ,
-    handle     : handle,
+    ticketData : alltickets ,
     loading    : loading,
+    user       : user,
   };
 
 
   // console.log(JSON.stringify(result,null,4));
+
   return result;
 
 }, ListOfTickets);

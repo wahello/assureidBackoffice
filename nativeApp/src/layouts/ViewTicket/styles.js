@@ -138,7 +138,7 @@ export default StyleSheet.create({
   closeBtn:{
     marginLeft:33,
     position:'absolute',
-    top:2,
+    top:1,
     left:15,
     zIndex:100
   },

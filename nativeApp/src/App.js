@@ -14,7 +14,7 @@ Meteor.connect(settings.METEOR_URL);
 class App extends Component {
   constructor(props) {
      super(props);
-   }
+  }
   render() {
     const { status, user, loggingIn } = this.props;
     // console.log(settings.METEOR_URL);
@@ -34,15 +34,15 @@ class App extends Component {
   }
 }
 App.propTypes = {
-  status: PropTypes.object,
-  user: PropTypes.object,
-  loggingIn: PropTypes.bool,
+  status    : PropTypes.object,
+  user      : PropTypes.object,
+  loggingIn : PropTypes.bool,
 };
 
 export default createContainer((props) => {
   return {
-    status: Meteor.status(),
-    user: Meteor.user(),
-    loggingIn: Meteor.loggingIn(),
+    status    : Meteor.status(),
+    user      : Meteor.user(),
+    loggingIn : Meteor.loggingIn(),
   };
 }, App);
