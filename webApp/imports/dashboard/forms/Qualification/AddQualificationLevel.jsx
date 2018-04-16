@@ -51,6 +51,19 @@ class AddQualificationLevel extends TrackerReact(Component) {
      adminLte.src = "/js/adminLte.js";  
      $("body").append(adminLte);  
     }
+    $("#qualificationVaild").validate({
+        rules: {
+          QualificationLevelTitle: {
+            required: true,
+          },
+        },
+        messages: {
+          QualificationLevelTitle: {
+            required: "Please enter Qualification Level Title!",
+            // minlength: "Use at least 1 characters, please."
+          },
+        }
+    });
   }
  componentWillMount() {
   // if (!!!$("link[href='/css/dashboard.css']").length > 0) {
@@ -76,28 +89,30 @@ class AddQualificationLevel extends TrackerReact(Component) {
   }
   handleSubmit(e){
     e.preventDefault();
-    var QualificationLevelTitle  = this.uppercase(this.refs.QualificationLevelTitle.value);
-    var id = this.props.params.id;
-    if(id){
-      Meteor.call('updateQualificationLevel',id,QualificationLevelTitle,(error,result)=>{
-        if(error){ 
-            console.log(error.reason);
-        }else{                      
-          swal("Done","Your Qualification Title has been Updated!.","success");  
-          var path = "/admin/Qualification";
-          browserHistory.replace(path);
-          $(".QualificationLevelTitle").val("");
-        }            
-      });
-    }else{
-      Meteor.call('createQualificationLevel',QualificationLevelTitle,(error,result)=>{
-        if(error){
-            console.log(error.reason);
-        }else{                      
-          swal("Done","Your Qualification Title has been Created!.","success");  
-          $(".QualificationLevelTitle").val("");
-        }            
-      });  
+    if($("#qualificationVaild").valid()){ 
+      var QualificationLevelTitle  = this.uppercase(this.refs.QualificationLevelTitle.value);
+      var id = this.props.params.id;
+      if(id){
+        Meteor.call('updateQualificationLevel',id,QualificationLevelTitle,(error,result)=>{
+          if(error){ 
+              console.log(error.reason);
+          }else{                      
+            swal("Done","Your Qualification Title has been Updated!.","success");  
+            var path = "/admin/Qualification";
+            browserHistory.replace(path);
+            $(".QualificationLevelTitle").val("");
+          }            
+        });
+      }else{
+        Meteor.call('createQualificationLevel',QualificationLevelTitle,(error,result)=>{
+          if(error){
+              console.log(error.reason);
+          }else{                      
+            swal("Done","Your Qualification Title has been Created!.","success");  
+            $(".QualificationLevelTitle").val("");
+          }            
+        });  
+      }
     }
         
   }
@@ -109,7 +124,7 @@ class AddQualificationLevel extends TrackerReact(Component) {
      });
    }
   
-		render() { 
+    render() { 
        return (
         <div className="content-wrapper">
            <section className="content-header">
@@ -129,7 +144,7 @@ class AddQualificationLevel extends TrackerReact(Component) {
                     </div>
                     <div className="box-body ">
                       <div className="col-lg-12 col-sm-12 col-xs-12 col-md-12">
-                        <form id="">
+                        <form id="qualificationVaild">
                           <div className="notifWrapper col-lg-12 col-md-8 col-sm-12 col-xs-12">
                             <div className="form-group col-lg-12 col-md-12 col-xs-12 col-sm-12 ">
                               <span className="blocking-span">
@@ -181,10 +196,3 @@ EditPageContainer = withTracker(({params}) => {
 })(AddQualificationLevel);
 
 export default EditPageContainer;
-
-
-
-
-
-
-

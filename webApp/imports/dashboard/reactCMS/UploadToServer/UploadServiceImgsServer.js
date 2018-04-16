@@ -9,7 +9,6 @@ import S3 from 'aws-sdk/clients/s3'; // http://docs.aws.amazon.com/AWSJavaScript
 // See fs-extra and graceful-fs NPM packages
 // For better i/o performance
 import fs from 'fs';
-
 import { ProjectSettings } from '/imports/dashboard/product/addNewProduct/api/projectSettings.js';
 
 

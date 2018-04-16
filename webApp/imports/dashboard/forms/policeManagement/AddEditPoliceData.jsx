@@ -63,7 +63,7 @@ class AddEditPoliceData extends TrackerReact(Component) {
 
     this.handleChange = this.handleChange.bind(this);
   }
-	componentDidMount() {
+  componentDidMount() {
    $("html,body").scrollTop(0);
    if (!$("#adminLte").length>0 && !$('body').hasClass('adminLte')) {
      var adminLte = document.createElement("script");  
@@ -71,6 +71,56 @@ class AddEditPoliceData extends TrackerReact(Component) {
      adminLte.src = "/js/adminLte.js";  
      $("body").append(adminLte);  
     }
+    $("#policeValid").validate({
+        rules: {
+          policeStationName: {
+            required: true,
+          },
+          policeStationAddressLine1: {
+            required: true,
+          },
+          country: {
+            required: true,
+          },
+          state: {
+            required: true,
+          },
+          city: {
+            required: true,
+          },
+          area: {
+            required: true,
+          },
+          pinCode: {
+            required: true,
+          },
+
+        },
+        messages: {
+          policeStationName: {
+            required: "Please enter policeStationName!",
+          },
+          policeStationAddressLine1: {
+            required: "Please enter policeStationAddressLine!",
+          },
+          country: {
+            required: "Please enter country!",
+          },
+          state: {
+            required: "Please enter state!",
+          },
+          city: {
+            required: "Please enter city!",
+          },
+          area: {
+            required: "Please enter area!",
+          },
+          pinCode: {
+            required: "Please enter pinCode!",
+          },
+          
+        }
+    });
   }
   componentWillMount() {
     // if (!!!$("link[href='/css/dashboard.css']").length > 0) {
@@ -103,47 +153,48 @@ class AddEditPoliceData extends TrackerReact(Component) {
   } 
   handleSubmit(event){
     event.preventDefault();
-    var policeStationName            = this.uppercase(this.refs.policeStationName.value);
-    var policeStationAddressLine1    = this.refs.policeStationAddressLine1.value;
-    var policeStationAddressLine2    = this.refs.policeStationAddressLine2.value;
-    var policeStationAddressLine3    = this.refs.policeStationAddressLine3.value;
-    var country                      = this.refs.country.value;
-    var state                        = this.refs.state.value;
-    var city                         = this.refs.city.value;
-    var area                         = this.refs.area.value;
-    var pinCode                      = this.refs.pinCode.value;
-
-    var id = this.props.params.id;
-    if(id){
-      Meteor.call('updatePoliceStation',id,policeStationName,policeStationAddressLine1,policeStationAddressLine2,policeStationAddressLine3,country,state,city,area,pinCode,(error,result)=>{
-        if(error){
-            console.log(error.reason);
-        }else{                      
-          swal("Done","Palice Station Data has been Updated!.","success"); 
-          var path = "/admin/PoliceStation";
-          browserHistory.replace(path);
-        }            
-      });
-    }else{
-      Meteor.call('createPoliceStation',policeStationName,policeStationAddressLine1,policeStationAddressLine2,policeStationAddressLine3,country,state,city,area,pinCode,(error,result)=>{
-        if(error){
-            console.log(error.reason);
-        }else{                      
-          swal("Done","Palice Station Data has been Inserted!.","success");  
-          $(".policeStationName").val("");
-          $(".policeStationAddressLine1").val("");
-          $(".policeStationAddressLine2").val("");
-          $(".policeStationAddressLine3").val("");
-          $(".country").val("");
-          $(".state").val("");
-          $(".city").val("");
-          $(".area").val("");
-          $(".pinCode").val("");
-        }            
-      });   
+    if($("#policeValid").valid()){
+      var policeStationName            = this.uppercase(this.refs.policeStationName.value);
+      var policeStationAddressLine1    = this.refs.policeStationAddressLine1.value;
+      var policeStationAddressLine2    = this.refs.policeStationAddressLine2.value;
+      var policeStationAddressLine3    = this.refs.policeStationAddressLine3.value;
+      var country                      = this.refs.country.value;
+      var state                        = this.refs.state.value;
+      var city                         = this.refs.city.value;
+      var area                         = this.refs.area.value;
+      var pinCode                      = this.refs.pinCode.value;
+      var id = this.props.params.id;
+      if(id){
+        Meteor.call('updatePoliceStation',id,policeStationName,policeStationAddressLine1,policeStationAddressLine2,policeStationAddressLine3,country,state,city,area,pinCode,(error,result)=>{
+          if(error){
+              console.log(error.reason);
+          }else{                      
+            swal("Done","Palice Station Data has been Updated!.","success"); 
+            var path = "/admin/PoliceStation";
+            browserHistory.replace(path);
+          }            
+        });
+      }else{
+        Meteor.call('createPoliceStation',policeStationName,policeStationAddressLine1,policeStationAddressLine2,policeStationAddressLine3,country,state,city,area,pinCode,(error,result)=>{
+          if(error){
+              console.log(error.reason);
+          }else{                      
+            swal("Done","Palice Station Data has been Inserted!.","success");  
+            $(".policeStationName").val("");
+            $(".policeStationAddressLine1").val("");
+            $(".policeStationAddressLine2").val("");
+            $(".policeStationAddressLine3").val("");
+            $(".country").val("");
+            $(".state").val("");
+            $(".city").val("");
+            $(".area").val("");
+            $(".pinCode").val("");
+          }            
+        });   
+      }
     }
   }
-	render() {
+  render() {
    return (
     <div className="content-wrapper">
       <section className="content-header">
@@ -163,7 +214,7 @@ class AddEditPoliceData extends TrackerReact(Component) {
                 </div>
                 <div className="box-body">                      
                   <div className="col-lg-12 col-sm-12 col-xs-12 col-md-12">
-                    <form id="">
+                    <form id="policeValid">
                        <div className="row inputrow">
                           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div className="form-group">
@@ -272,4 +323,3 @@ EditPageContainer = withTracker(({params}) => {
     }
 })(AddEditPoliceData);
 export default EditPageContainer;
-

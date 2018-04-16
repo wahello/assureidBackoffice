@@ -44,7 +44,7 @@ class AddEditCollege extends TrackerReact(Component) {
 
     this.handleChange = this.handleChange.bind(this);
   }
-	componentDidMount() {
+  componentDidMount() {
     $("html,body").scrollTop(0);
     if (!$("#adminLte").length>0 && !$('body').hasClass('adminLte')) {
      var adminLte = document.createElement("script");  
@@ -52,6 +52,25 @@ class AddEditCollege extends TrackerReact(Component) {
      adminLte.src = "/js/adminLte.js";  
      $("body").append(adminLte);  
     }
+     $("#collegeVaild").validate({
+        rules: {
+          collegeName: {
+            required: true,
+          },
+          universityName: {
+            required: true,
+          },
+        },
+        messages: {
+          collegeName: {
+            required: "Please enter College Name!",
+            // minlength: "Use at least 1 characters, please."
+          },
+          universityName: {
+            required: "Please enter University Name!",
+          },
+        }
+    });
   }
   componentWillMount() {
     // if (!!!$("link[href='/css/dashboard.css']").length > 0) {
@@ -85,37 +104,44 @@ class AddEditCollege extends TrackerReact(Component) {
   } 
    handleSubmit(event){
     event.preventDefault();
-    var collegeName       = this.uppercase(this.refs.collegeName.value);
-    var universityName    = this.uppercase(this.refs.universityName.value);
-    var collegeStatus     = this.refs.collegeStatus.value;
-    var id = this.props.params.id;
-    if(id){
-      Meteor.call('updateCollegeData',id,collegeName,universityName,collegeStatus,(error,result)=>{
-        if(error){
-            console.log(error.reason);
-        }else{                      
-          swal("Done","College Data has been Updated!.","success"); 
-          var path = "/admin/College";
-          browserHistory.replace(path);
-          $(".collegeName").val("");
-          $(".universityName").val("");
-          $(".collegeStatus").val(""); 
-        }            
-      });
-    }else{
-      Meteor.call('createCollegeData',collegeName,universityName,collegeStatus,(error,result)=>{
-        if(error){
-            console.log(error.reason);
-        }else{                      
-          swal("Done","College Data has been Created!.","success");  
-          $(".collegeName").val("");
-          $(".universityName").val("");
-          $(".collegeStatus").val("");
-        }            
-      });  
+    if($("#collegeVaild").valid()){ 
+      var collegeName       = this.uppercase(this.refs.collegeName.value);
+      var universityName    = this.uppercase(this.refs.universityName.value);
+      var collegeStatus     = this.refs.collegeStatus.value;
+      var id = this.props.params.id;
+      if(id){
+        Meteor.call('updateCollegeData',id,collegeName,universityName,collegeStatus,(error,result)=>{
+          if(error){
+              console.log(error.reason);
+          }else{                      
+            swal("Done","College Data has been Updated!.","success"); 
+            var path = "/admin/College";
+            browserHistory.replace(path);
+            $(".collegeName").val("");
+            $(".universityName").val("");
+            $(".collegeStatus").val(""); 
+          }            
+        });
+      }else{
+        var dataMatch = College.findOne({"collegeName" : collegeName, "universityName" : universityName});
+        if (!dataMatch) {
+          Meteor.call('createCollegeData',collegeName,universityName,collegeStatus,(error,result)=>{
+            if(error){
+                console.log(error.reason);
+            }else{                      
+              swal("Done","College Data has been Created!.","success");  
+              $(".collegeName").val("");
+              $(".universityName").val("");
+              $(".collegeStatus").val("");
+            }            
+          }); 
+        }else{
+            swal("Duplicate entry occurs!");
+        }
+      }
     }
    }
-	render() {
+  render() {
    return (
     <div className="content-wrapper">
       <section className="content-header">
@@ -135,7 +161,7 @@ class AddEditCollege extends TrackerReact(Component) {
                 </div>
                 <div className="box-body">                      
                   <div className="col-lg-12 col-sm-12 col-xs-12 col-md-12">
-                    <form id="">
+                    <form id="collegeVaild">
                        <div className="row inputrow">
                           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div className="form-group">
@@ -157,6 +183,7 @@ class AddEditCollege extends TrackerReact(Component) {
                             <div className="form-group">
                              <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12 label-category">Status</label>
                               <select className="form-control inputText collegeStatus" ref="collegeStatus" value={this.state.collegeStatus} onChange={this.handleChange} id="collegeStatus" name="collegeStatus" required>
+                                <option selected disabled value>-- Select Status --</option>
                                 <option value="Functioning">Functioning</option>
                                 <option value="Fake">Fake</option>
                                 <option value="Disfunctioning">Disfunctioning</option>
@@ -204,4 +231,3 @@ EditPageContainer = withTracker(({params}) => {
     }
 })(AddEditCollege);
 export default EditPageContainer;
-

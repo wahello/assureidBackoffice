@@ -4,7 +4,7 @@ import TrackerReact from 'meteor/ultimatejs:tracker-react';
 import { University } from '../api/University.js';
 import  ListOfUniversity  from './ListOfUniversity.jsx';
 import { withTracker } from 'meteor/react-meteor-data';
-import {browserHistory} from 'react-router';
+import { browserHistory } from 'react-router';
 import { Link } from 'react-router';
 
 
@@ -53,6 +53,24 @@ class AddEditUniversity extends TrackerReact(Component) {
      adminLte.src = "/js/adminLte.js";  
      $("body").append(adminLte);  
     }
+    $("#universityValid").validate({
+        rules: {
+          UniversityName: {
+            required: true,
+          },
+          UniversityStatus: {
+            required: true,
+          },
+        },
+        messages: {
+          UniversityName: {
+            required: "Please enter University Name!",
+          },
+          UniversityStatus: {
+            required: "Please select University Status!",
+          },
+      }
+    });
  }
  componentWillMount() {
     // if (!!!$("link[href='/css/dashboard.css']").length > 0) {
@@ -80,32 +98,41 @@ class AddEditUniversity extends TrackerReact(Component) {
 } 
   handleSubmit(e){
     e.preventDefault();
-    var UniversityName    = this.uppercase(this.refs.UniversityName.value);
-    var UniversityStatus  = this.refs.UniversityStatus.value;
-    var id = this.props.params.id;
-    if(id){
-      Meteor.call('updateUniversity',id,UniversityName,UniversityStatus,(error,result)=>{
-        if(error){
-            console.log(error.reason);
-        }else{                      
-          swal("Done","Your University Name has been Updated!.","success");  
-          var path = "/admin/University";
-          browserHistory.replace(path);
-          $(".UniversityName").val("");
-          $(".UniversityStatus").val("");
-        }            
-      });
-    }else{
-      Meteor.call('createUniversity',UniversityName,UniversityStatus,(error,result)=>{
-        if(error){
-            console.log(error.reason);
-        }else{                      
-          swal("Done","Your University Name has been Created!.","success");  
-          $(".UniversityName").val("");
-        }            
-      });  
-    }
-        
+    if($("#universityValid").valid()){ 
+      var UniversityName    = this.uppercase(this.refs.UniversityName.value);
+      var UniversityStatus  = this.refs.UniversityStatus.value;
+      var id = this.props.params.id;
+      if(id){
+          Meteor.call('updateUniversity',id,UniversityName,UniversityStatus,(error,result)=>{
+            if(error){
+                console.log(error.reason);
+            }else{                      
+              swal("Done","Your University Name has been Updated!.","success");  
+              var path = "/admin/University";
+              browserHistory.replace(path);
+              $(".UniversityName").val("");
+              $(".UniversityStatus").val("");
+            }            
+          });
+      }else{
+        var dataMatch = University.findOne({'UniversityName' : UniversityName});
+        if (!dataMatch) {
+           Meteor.call('createUniversity',UniversityName,UniversityStatus,(error,result)=>{
+            if(error){
+                console.log(error.reason);
+            }else{                      
+              swal("Done","Your University Name has been Created!.","success"); 
+              this.refs.UniversityName.value  = "";
+              // $(".UniversityName").val("");
+              $(".UniversityStatus").val("");
+            }            
+          });  
+         }else{
+            swal("Duplicate entry occurs!");
+         }
+       
+      }
+    }      
   }
   handleChange(event){
      const target = event.target;
@@ -115,7 +142,7 @@ class AddEditUniversity extends TrackerReact(Component) {
      });
    }
 
-		render() {
+    render() {
        return (
         <div className="content-wrapper">
           <section className="content-header">
@@ -135,18 +162,19 @@ class AddEditUniversity extends TrackerReact(Component) {
                     </div>
                     <div className="box-body ">
                       <div className="col-lg-12 col-sm-12 col-xs-12 col-md-12">
-                        <form id="">
+                        <form id="universityValid">
                           <div className="notifWrapper col-lg-12 col-md-8 col-sm-12 col-xs-12">
                             <div className="form-group col-lg-6 col-md-6 col-xs-12 col-sm-12 ">
                               <span className="blocking-span">
                                   <label className="floating-label">Title</label>
-                                  <input type="text" className="form-control inputText UniversityName" ref="UniversityName" id="UniversityName" value={this.state.UniversityName} name="UniversityName" onChange={this.handleChange} required />
-                              </span>
+                                  <input type="text" className="form-control inputText UniversityName" ref="UniversityName" id="UniversityName" value={this.state.UniversityName} name="UniversityName" onChange={this.handleChange}/>
+                              </span> 
                             </div>
                             <div className="form-group col-lg-6 col-md-6 col-xs-12 col-sm-12 ">
                               <span className="blocking-span">
                                   <label className="floating-label">Status</label>
-                                  <select className="form-control inputText UniversityStatus" ref="UniversityStatus" id="UniversityStatus" value={this.state.UniversityStatus} name="UniversityStatus" onChange={this.handleChange} required>
+                                  <select className="form-control inputText UniversityStatus" ref="UniversityStatus" id="UniversityStatus" value={this.state.UniversityStatus} name="UniversityStatus" onChange={this.handleChange}>
+                                    <option selected disabled value>-- Select Status --</option>
                                     <option value="Functioning">Functioning</option>
                                     <option value="Fake">Fake</option>
                                     <option value="Disfunctioning">Disfunctioning</option>
@@ -197,10 +225,3 @@ EditPageContainer = withTracker(({params}) => {
 })(AddEditUniversity);
 
 export default EditPageContainer;
-
-
-
-
-
-
-

@@ -7,17 +7,17 @@ import {browserHistory} from 'react-router';
 import { Link } from 'react-router';
 
 export default class ListOfQualificationLevel extends TrackerReact(Component) {
-	constructor(props) {
+  constructor(props) {
     super(props); 
     this.state = {
-    	qualificationLevel : [],
+      qualificationLevel : [],
       "subscription"  : {
         "qualificationLevel" : Meteor.subscribe("qualificationLevel"),
       }   
     }; 
   }
-	componentDidMount() {
-	    $("html,body").scrollTop(0);
+  componentDidMount() {
+      $("html,body").scrollTop(0);
      if (!$("#adminLte").length>0 && !$('body').hasClass('adminLte')) {
      var adminLte = document.createElement("script");  
      adminLte.type="text/javascript";  
@@ -30,7 +30,7 @@ export default class ListOfQualificationLevel extends TrackerReact(Component) {
       this.setState({qualificationLevel: qualificationLevel});
     });
     
-	 }
+   }
    componentWillMount() {
     // if (!!!$("link[href='/css/dashboard.css']").length > 0) {
     //   var dashboardCss = document.createElement("link");
@@ -65,27 +65,27 @@ export default class ListOfQualificationLevel extends TrackerReact(Component) {
     }
     delete(e){
      e.preventDefault();
-	    let id = $(e.currentTarget).attr("id");
-	    swal({
-	      title: "Are you sure?",
-	      text: "You want to delete this page!",
-	      type: "warning",
-	      showCancelButton: true,
-	      confirmButtonColor: "#DD6B55",
-	      confirmButtonText: "Yes, delete it!",
-	      closeOnConfirm: false,
-	      html: false
-	    }, function(){
-	      Meteor.call("deleteQualificationLevel",id,function(error,result){
-	          if(error){
-	              console.log(error.reason);
-	          }else{
-	              swal("Done","Your news has been deleted!.", "success");
-	          }
-	      });
+      let id = $(e.currentTarget).attr("id");
+      swal({
+        title: "Are you sure?",
+        text: "You want to delete this page!",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Yes, delete it!",
+        closeOnConfirm: false,
+        html: false
+      }, function(){
+        Meteor.call("deleteQualificationLevel",id,function(error,result){
+            if(error){
+                console.log(error.reason);
+            }else{
+                swal("Done","Your news has been deleted!.", "success");
+            }
+        });
 
-	    });
-	  }
+      });
+    }
 
   render() {
        return (

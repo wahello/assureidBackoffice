@@ -18,7 +18,7 @@ class VerificationDataSubmit extends TrackerReact(Component){
     constructor(props){ 
         super(props); 
         if(this.props.EditValue){
-            console.log("edit values:",this.props.EditValue);
+            // console.log("edit values:",this.props.EditValue);
             this.state ={ 
                 "checkLists"       : this.props.EditValue.checkLists,
                 "textLists"        : this.props.EditValue.textLists,
@@ -46,11 +46,33 @@ class VerificationDataSubmit extends TrackerReact(Component){
                 }
             };
         }
-        this.handleChange = this.handleChange.bind(this);
+        this.handleChange          = this.handleChange.bind(this);
+        this.handleChangeChecklist = this.handleChangeChecklist.bind(this);
+        this.handleChangeForArray  = this.handleChangeForArray.bind(this);
     }
     getRole(role) {
         return role != "backofficestaff";
     }
+     handleChangeChecklist(event){
+        event.preventDefault();
+
+        const target = event.target;
+        const value  = target.type === 'checkbox' ? target.checked : target.value;
+        const name   = target.name;
+        // console.log('name: ',name);
+        // console.log('value: ',event.target.value);
+        var index = $(event.currentTarget).attr('data-index');
+        // console.log('index: ',index);
+        // console.log('--------Before textLists---------');
+        // console.log(this.state.textLists);
+        this.state.checkLists[index].value = event.target.value;
+        // console.log('--------After textLists---------');
+        // console.log(this.state.textLists);
+        this.setState({
+         [name]: event.target.value,
+        });
+    }
+
     handleChangeForArray(event){
         event.preventDefault();
 
@@ -59,12 +81,12 @@ class VerificationDataSubmit extends TrackerReact(Component){
         // console.log('name: ',name);
         // console.log('value: ',event.target.value);
         var index = $(event.currentTarget).attr('data-index');
-        console.log('index: ',index);
-        console.log('--------Before textLists---------');
-        console.log(this.state.textLists);
+        // console.log('index: ',index);
+        // console.log('--------Before textLists---------');
+        // console.log(this.state.textLists);
         this.state.textLists[index].value = event.target.value;
-        console.log('--------After textLists---------');
-        console.log(this.state.textLists);
+        // console.log('--------After textLists---------');
+        // console.log(this.state.textLists);
         this.setState({
          [name]: event.target.value,
         });
@@ -88,7 +110,7 @@ class VerificationDataSubmit extends TrackerReact(Component){
             for (var i = 0; i < event.currentTarget.files.length; i++) {
               if (event.currentTarget.files[i]) {
                 var dataImg = event.currentTarget.files[i]; 
-                console.log("dataImg",dataImg);
+                // console.log("dataImg",dataImg);
                  if(dataImg.type == "image/jpeg" || dataImg.type == "image/png"){     
                    var reader = new FileReader();       
                    reader.onload = function (e) {         
@@ -333,7 +355,7 @@ class VerificationDataSubmit extends TrackerReact(Component){
                                         this.state.checkLists.map((checkObjsDefault,index)=>{
                                         return(
                                             <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6" key={index}>  
-                                              <input type="checkbox" ref="checkObjs" id="checkObjs" name="checkObjs" className={"checkObjs-"+index} value={checkObjsDefault.statement} />&nbsp;{checkObjsDefault.statement}
+                                              <input type="checkbox" ref="checkObjs" id="checkObjs" data-index={index} name="checkObjs" className={"checkObjs-"+index} value={checkObjsDefault.statement} onChange={this.handleChangeChecklist}/>&nbsp;{checkObjsDefault.statement}
                                             </div>
                                           );
                                         })

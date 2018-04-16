@@ -6,7 +6,6 @@ import {browserHistory} from 'react-router';
 import { Link } from 'react-router';
 import { withTracker } from 'meteor/react-meteor-data';
 import ListOfLocations from './ListOfLocations.jsx';
-import { Session} from 'meteor/session';
 
 class ManageLocation extends TrackerReact(Component) {
   constructor(props) {
@@ -19,7 +18,7 @@ class ManageLocation extends TrackerReact(Component) {
       pinCode  : '',
       button   : '',
       "subscription"  : {
-        "singleLocation" : Meteor.subscribe("location"),
+        "singleLocation" : Meteor.subscribe("singleLocation"),
       }
     }; 
     this.handleChange = this.handleChange.bind(this);
@@ -59,9 +58,45 @@ class ManageLocation extends TrackerReact(Component) {
      adminLte.src = "/js/adminLte.js";  
      $("body").append(adminLte);  
     }
-    // $('.showHideSearchList').addClass('searchDisplayHide').removeClass('searchDisplayShow');
+    $("#add-book").validate({
+        rules: {
+          country: {
+            required: true,
+          },
+          state: {
+            required: true,
+          },
+          area: {
+            required: true,
+          },
+          city: {
+            required: true,
+          },
+          pinCode: {
+            required: true,
+          },
+        },
+        messages: {
+          country: {
+            required: "Please enter country!",
+            // minlength: "Use at least 1 characters, please."
+          },
+          state: {
+            required: "Please enter state!",
+          },
+          area: {
+            required: "Please enter area!",
+          },
+          city: {
+            required: "Please enter city!",
+          },
+          pinCode: {
+            required: "Please enter state!",
+          },
+      }
+    });
   }
-  componentWillMount() {
+  componentWillMount() { 
     // if (!!!$("link[href='/css/dashboard.css']").length > 0) {
     //   var dashboardCss = document.createElement("link");
     //   dashboardCss.type = "text/css"; 
@@ -83,52 +118,55 @@ class ManageLocation extends TrackerReact(Component) {
   }
   handleSubmit(event){
     event.preventDefault();
-    var country   = this.refs.country.value.charAt(0).toUpperCase() + this.refs.country.value.slice(1);
-    var state     = this.refs.state.value.charAt(0).toUpperCase() + this.refs.state.value.slice(1);
-    var city      = this.refs.city.value.charAt(0).toUpperCase() + this.refs.city.value.slice(1);
-    var area      = this.refs.area.value.charAt(0).toUpperCase() + this.refs.area.value.slice(1);
-    var pinCode   = this.refs.pinCode.value;
-    var id        = this.props.params.id;
-    if(id){
-       Meteor.call('updateLocation',id,country,state,city,area,pinCode,(error,result)=>{
-        if(error){
-            console.log(error.reason);
-        }else{                      
-          swal("Done","Location has been Updated!.","success");  
-          var path = "/admin/ManageLocation";
-          browserHistory.replace(path);
-        }            
-      });
-
-    }else{
-      Meteor.call('addLocation',country,state,city,area,pinCode,(error,result)=>{
-        if(error){
-            console.log(error.reason);
-        }else{                      
-          swal("Done","Location has been Inserted!.","success");  
-          $(".country").val("");
-          $(".state").val("");
-          $(".city").val("");
-          $(".area").val("");
-          $(".pinCode").val("");
-
-        }            
-      });
+    if($('#add-book').valid()){
+      var country   = this.refs.country.value.charAt(0).toUpperCase() + this.refs.country.value.slice(1);
+      var state     = this.refs.state.value.charAt(0).toUpperCase() + this.refs.state.value.slice(1);
+      var city      = this.refs.city.value.charAt(0).toUpperCase() + this.refs.city.value.slice(1);
+      var area      = this.refs.area.value.charAt(0).toUpperCase() + this.refs.area.value.slice(1);
+      var pinCode   = this.refs.pinCode.value;
+      var id        = this.props.params.id;
+      // console.log("country :",country);
+      
+        if(id){
+          var dataMatch = Location.findOne({"country" : country, "state" : state, "city" : city, "area" :area, "pinCode" : pinCode});
+          if (!dataMatch) {
+           Meteor.call('updateLocation',id,country,state,city,area,pinCode,(error,result)=>{
+              if(error){
+                  console.log(error.reason);
+              }else{                      
+                swal("Done","Location has been Updated!.","success");  
+                var path = "/admin/ManageLocation";
+                browserHistory.replace(path);
+              }            
+            });
+           }else{
+            swal("Duplicate entry occurs!");
+           }
+        }else{
+          var dataMatch = Location.findOne({"country" : country, "state" : state, "city" : city, "area" :area, "pinCode" : pinCode});
+          if (!dataMatch) {
+            Meteor.call('addLocation',country,state,city,area,pinCode,(error,result)=>{
+              if(error){
+                  console.log(error.reason);
+              }else{                      
+                swal("Done","Location has been Inserted!.","success");  
+                $(".country").val("");
+                $(".state").val("");
+                $(".city").val("");
+                $(".area").val("");
+                $(".pinCode").val("");
+              }            
+            });
+          }else{
+            swal("Duplicate entry occurs!");
+          }
+          
+        }
+      
     }
   }
-   buildRegExp(searchText) {
-    // console.log('buildRegExp business');
-    var words = searchText.trim().split(/[ \-\:]+/);
-    var exps = _.map(words, function(word) {
-      return "(?=.*" + word + ")";
-    });
-    var fullExp = exps.join('') + ".+";
-    return new RegExp(fullExp, "i");
-  }
-	render() {
-    
+  render() {
    return (
-
     <div className="content-wrapper">
       <section className="content-header">
         <h1> Master Data </h1>
@@ -152,7 +190,7 @@ class ManageLocation extends TrackerReact(Component) {
                           <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                             <div className="form-group">
                              <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12 label-category">Country</label>
-                               <input type="text" ref="country" id="country" name="country" value={this.state.country} className="templateName country col-lg-12 col-md-12 col-sm-12 col-xs-12 inputValid required"  />
+                               <input type="text" ref="country" id="country" name="country" value={this.state.country} className="templateName country col-lg-12 col-md-12 col-sm-12 col-xs-12 inputValid" onChange={this.handleChange} />
                             </div>
                            </div>
                            <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
@@ -166,7 +204,7 @@ class ManageLocation extends TrackerReact(Component) {
                           <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                             <div className="form-group">
                              <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12 label-category">City</label>
-                               <input type="text" ref="city" id="city" name="city" value={this.state.city} className="templateName city col-lg-12 col-md-12 col-sm-12 col-xs-12 inputValid required" onChange={this.handleChange} />
+                               <input type="text" ref="city" id="city" name="city" value={this.state.city} className="templateName city col-lg-12 col-md-12 col-sm-12 col-xs-12 inputValid" onChange={this.handleChange} />
                             </div>
                            </div>
                            <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
@@ -180,7 +218,7 @@ class ManageLocation extends TrackerReact(Component) {
                           <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                             <div className="form-group">
                              <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12 label-category">Pin Code</label>
-                               <input type="text" ref="pinCode" id="pinCode" name="pinCode" value={this.state.pinCode} className="templateName pinCode col-lg-12 col-md-12 col-sm-12 col-xs-12 inputValid required" onChange={this.handleChange} />
+                               <input type="text" ref="pinCode" id="pinCode" name="pinCode" value={this.state.pinCode} className="templateName pinCode col-lg-12 col-md-12 col-sm-12 col-xs-12 inputValid" onChange={this.handleChange} />
                             </div>
                            </div>
                         </div>

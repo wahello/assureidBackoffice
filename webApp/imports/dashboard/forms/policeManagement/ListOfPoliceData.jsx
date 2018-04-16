@@ -6,16 +6,16 @@ import {browserHistory} from 'react-router';
 import { Link } from 'react-router';
 
 export default class ListOfPoliceStation extends TrackerReact(Component) {
-	constructor(props) {
+  constructor(props) {
     super(props); 
     this.state = {
-    	policeStation : [],
+      policeStation : [],
       "subscription"  : {
         "policeStation" : Meteor.subscribe("policeStation"),
       }   
     }; 
   }
-	componentDidMount() {
+  componentDidMount() {
     $("html,body").scrollTop(0);
     if (!$("#adminLte").length>0 && !$('body').hasClass('adminLte')) {
      var adminLte = document.createElement("script");  
@@ -29,7 +29,7 @@ export default class ListOfPoliceStation extends TrackerReact(Component) {
       this.setState({policeStation: policeStation});
     });
     
-	 }
+   }
   componentWillMount() {
     // if (!!!$("link[href='/css/dashboard.css']").length > 0) {
     //   var dashboardCss = document.createElement("link");
@@ -72,27 +72,27 @@ export default class ListOfPoliceStation extends TrackerReact(Component) {
     }
     delete(e){
      e.preventDefault();
-	    let id = $(e.currentTarget).attr("id");
-	    swal({
-	      title: "Are you sure?",
-	      text: "You want to delete this police data!",
-	      type: "warning",
-	      showCancelButton: true,
-	      confirmButtonColor: "#DD6B55",
-	      confirmButtonText: "Yes, delete it!",
-	      closeOnConfirm: false,
-	      html: false
-	    }, function(){
-	      Meteor.call("deletePoliceStation",id,function(error,result){
-	          if(error){
-	              console.log(error.reason);
-	          }else{
-	              swal("Done","Police station has been deleted!.", "success");
-	          }
-	      });
+      let id = $(e.currentTarget).attr("id");
+      swal({
+        title: "Are you sure?",
+        text: "You want to delete this police data!",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Yes, delete it!",
+        closeOnConfirm: false,
+        html: false
+      }, function(){
+        Meteor.call("deletePoliceStation",id,function(error,result){
+            if(error){
+                console.log(error.reason);
+            }else{
+                swal("Done","Police station has been deleted!.", "success");
+            }
+        });
 
-	    });
-	  }
+      });
+    }
 
   render() {
        return (

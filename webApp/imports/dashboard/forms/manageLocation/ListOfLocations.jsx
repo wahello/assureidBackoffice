@@ -6,16 +6,16 @@ import {browserHistory} from 'react-router';
 import { Link } from 'react-router';
 
 export default class ListOfLocations extends TrackerReact(Component) {
-	constructor(props) {
+  constructor(props) {
     super(props); 
     this.state = {
-    	location : [],
+      location : [],
       "subscription"  : {
         "location" : Meteor.subscribe("location"),
       }   
     }; 
   }
-	componentDidMount() {
+  componentDidMount() {
     if (!$("#adminLte").length>0 && !$('body').hasClass('adminLte')) {
      var adminLte = document.createElement("script");  
      adminLte.type="text/javascript";  
@@ -27,7 +27,7 @@ export default class ListOfLocations extends TrackerReact(Component) {
       const location = Location.find().fetch();
       this.setState({location: location});
     }); 
-	 }
+   }
   componentWillMount() {
     // if (!!!$("link[href='/css/dashboard.css']").length > 0) {
     //   var dashboardCss = document.createElement("link");
@@ -46,7 +46,6 @@ export default class ListOfLocations extends TrackerReact(Component) {
   }
   renderTableRow(){
     return this.state.location.map((location,index) =>{
-
       return <tr key={index}>
               <td> {location.country} </td>
               <td> {location.state} </td>
@@ -66,27 +65,27 @@ export default class ListOfLocations extends TrackerReact(Component) {
     }
     delete(e){
      e.preventDefault();
-	    let id = $(e.currentTarget).attr("id");
-	    swal({
-	      title: "Are you sure?",
-	      text: "You want to delete this location!",
-	      type: "warning",
-	      showCancelButton: true,
-	      confirmButtonColor: "#DD6B55",
-	      confirmButtonText: "Yes, delete it!",
-	      closeOnConfirm: false,
-	      html: false
-	    }, function(){
-	      Meteor.call("deleteLocation",id,function(error,result){
-	          if(error){
-	              console.log(error.reason);
-	          }else{
-	              swal("Done","Locatiom has been deleted!.", "success");
-	          }
-	      });
+      let id = $(e.currentTarget).attr("id");
+      swal({
+        title: "Are you sure?",
+        text: "You want to delete this location!",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Yes, delete it!",
+        closeOnConfirm: false,
+        html: false
+      }, function(){
+        Meteor.call("deleteLocation",id,function(error,result){
+            if(error){
+                console.log(error.reason);
+            }else{
+                swal("Done","Locatiom has been deleted!.", "success");
+            }
+        });
 
-	    });
-	  }
+      });
+    }
 
   render() {
        return (
@@ -94,21 +93,23 @@ export default class ListOfLocations extends TrackerReact(Component) {
                 <div className="box-body ">  
                   <div className="dataTable tableBasicPage col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <h4 className="">List Of university</h4>  
-                    <table className="display table table-bordered servicesTable" width="100%" cellSpacing="0">
-                        <thead>
-                            <tr>
-                                <th>Country</th>
-                                <th>State</th>
-                                <th>City</th>
-                                <th>Area</th>
-                                <th>Pin Code</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>                       
-                        <tbody>
-                            {this.renderTableRow()}
-                        </tbody>
-                      </table>
+                      <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding">
+                        <table className="display table table-bordered servicesTable" width="100%" cellSpacing="0">
+                          <thead>
+                              <tr>
+                                  <th>Country</th>
+                                  <th>State</th>
+                                  <th>City</th>
+                                  <th>Area</th>
+                                  <th>Pin Code</th>
+                                  <th>Actions</th>
+                              </tr>
+                          </thead>                       
+                          <tbody>
+                              {this.renderTableRow()}
+                          </tbody>
+                       </table>
+                      </div>
                   </div>
                 </div>
                  

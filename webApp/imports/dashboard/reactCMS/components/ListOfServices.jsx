@@ -8,10 +8,10 @@ import {browserHistory} from 'react-router';
 import { Link } from 'react-router';
 
 export default class ListOfServices extends TrackerReact(Component) {
-	constructor(props) {
+  constructor(props) {
     super(props); 
     this.state = {
-    	services          : [],
+      services          : [],
       "subscription"  : {
         "singleServices" : Meteor.subscribe("singleServices"),
         "projectSettingsPublish" : Meteor.subscribe("projectSettingsPublish"),
@@ -19,7 +19,7 @@ export default class ListOfServices extends TrackerReact(Component) {
       }  
     }; 
   }
-	componentDidMount() {
+  componentDidMount() {
     $("html,body").scrollTop(0);
     if (!$("#adminLte").length>0 && !$('body').hasClass('adminLte')) {
      var adminLte = document.createElement("script");  
@@ -37,7 +37,7 @@ export default class ListOfServices extends TrackerReact(Component) {
       const tempServiceImages = TempServiceImages.find().fetch();
       this.setState({tempServiceImages});
     });
-	 }
+   }
   componentWillMount() {
     // if (!!!$("link[href='/css/dashboard.css']").length > 0) {
     //   var dashboardCss = document.createElement("link");
@@ -66,9 +66,10 @@ export default class ListOfServices extends TrackerReact(Component) {
       // text = text.replace(regex, '\n');
       return <tr key={index}>
               <td><img src={service.image} className="img-responsive serviceLogo" /></td>
+              <td> {service.serviceFor} </td>
               <td> {service.serviceName} </td>
               <td> {service.serviceRate} </td>
-              <td> {service.serviceDuration} </td>
+              <td>{service.serviceDayNumbers} {service.serviceDuration} </td>
               <td>
                 <Link to={'/admin/EditService/'+service._id} className="editButton" title="Edit">
                   <i className = "fa fa-pencil"> </i>
@@ -131,6 +132,7 @@ export default class ListOfServices extends TrackerReact(Component) {
                           <thead>
                               <tr>
                                   <th>Logo</th>
+                                  <th>Service For</th>
                                   <th>Service Name</th>
                                   <th>Service Rate</th>
                                   <th>Service Duration</th>

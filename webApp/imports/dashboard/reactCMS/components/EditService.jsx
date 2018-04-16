@@ -11,18 +11,20 @@ import { Link } from 'react-router';
 import {Services} from '../api/Services';
 import {TempServiceImages} from '../api/Services';
 import {browserHistory} from 'react-router';
+// import { ChecklistFieldExpert } from '../api/Services.js';
 
-
+ 
 class EditService extends TrackerReact (Component){
   constructor(props) {
-	  super(props); 
+    super(props); 
     var metaContext = {id: Meteor.userId(), dir: "images" , name: "serviceImage"};
     // var uploader    = new Slingshot.Upload("myFileUploads" ,metaContext);
-	  this.state = {
+    this.state = {
       serviceName         : '',
-	    serviceRate         : '',
-	    serviceDuration     : '',
+      serviceRate         : '',
+      serviceDuration     : '',
       servicesDescription : '',
+      serviceFor          : '',
       id                  : '',
       services            : [],
       ProfileForms        : false,
@@ -35,19 +37,21 @@ class EditService extends TrackerReact (Component){
       isUploading         : false,
       // progressValue     : "0%",
       edit                : false,
+      serviceDayNumbers   : '',
       "subscription"  : {
         "singleServices" : Meteor.subscribe("singleServices"),
         "projectSettingsPublish" : Meteor.subscribe("projectSettingsPublish"),
         "tempServiceImages" : Meteor.subscribe("tempServiceImages"),
       }  
-	  }; 
+    }; 
     this.handleChange = this.handleChange.bind(this);
-	}
+  }
   componentWillReceiveProps(nextProps) {
     if(!nextProps.loading){
       if(nextProps.services){
         console.log("nextProps.services",nextProps.services);
          this.setState({
+             // fieldChecklist      : nextProps.services.fieldChecklist,
              serviceName         : nextProps.services.serviceName,
              serviceRate         : nextProps.services.serviceRate,
              serviceDuration     : nextProps.services.serviceDuration,
@@ -61,14 +65,18 @@ class EditService extends TrackerReact (Component){
              SkillsCertificate   : nextProps.services.SkillsCertificate,
              OtherInfoForm       : nextProps.services.OtherInfoForm,
              id                  : nextProps.services._id,
+             serviceFor          : nextProps.services.serviceFor,
+             serviceDayNumbers   : nextProps.services.serviceDayNumbers,
          });
       }
     }else{
       this.setState({
+             // fieldChecklist      : '',
              serviceName         : '',
              serviceRate         : '',
              serviceDuration     : '',
              servicesDescription : '',
+             serviceFor          : '',
              image               : '',
              id                  : '',
              ProfileForms        : false,
@@ -78,9 +86,10 @@ class EditService extends TrackerReact (Component){
              WorkForm            : false,
              SkillsCertificate   : false,
              OtherInfoForm       : false,
+             serviceDayNumbers   : '',
       });
     }
-    console.log("nextProps.services",nextProps.services);
+    // console.log("nextProps.services",nextProps.services);
 
     this.handleChange = this.handleChange.bind(this);
   }
@@ -121,13 +130,7 @@ class EditService extends TrackerReact (Component){
     // });
   }
   componentWillMount() {
-    // if (!!!$("link[href='/css/dashboard.css']").length > 0) {
-    //   var dashboardCss = document.createElement("link");
-    //   dashboardCss.type = "text/css"; 
-    //   dashboardCss.rel = "stylesheet";
-    //   dashboardCss.href = "/css/dashboard.css"; 
-    //   document.head.append(dashboardCss);
-    // }
+    
   }
   componentWillUnmount() {
       $("script[src='/js/adminLte.js']").remove(); 
@@ -194,11 +197,26 @@ class EditService extends TrackerReact (Component){
       e.preventDefault();
       let serviceName         = this.refs.serviceName.value;
       let serviceRate         = this.refs.serviceRate.value;
+      var serviceDayNumbers   = this.refs.serviceDayNumbers.value;
       let serviceDuration     = this.refs.serviceDuration.value;
       // let servicesDescription = $('#servicesDescription').summernote('code');
       let servicesDescription = this.refs.servicesDescription.value;
       let userId              = Meteor.userId();
       var id                  = this.props.params.id;
+      var serviceFor = $('input[name=serviceFor]:checked', '.newTemplateForm').val();
+      // var fieldChecklist       = [];
+      //   var checklistFieldExpert = this.props.checklistFieldExpert;
+      //   if (checklistFieldExpert) {
+      //     for (var i = 0; i < checklistFieldExpert.length; i++) {
+      //       fieldChecklist.push(checklistFieldExpert[i].task);
+      //     }
+      //   }
+      //   if (this.props.services.fieldChecklist.length > 0) {
+      //     for (var i = 0; i < this.props.services.fieldChecklist.length; i++) {
+      //       fieldChecklist.push(this.props.services.fieldChecklist[i]);
+      //     }
+      //   }
+      // console.log("fieldChecklist",fieldChecklist);
       if(this.refs.ProfileForms.value =='true'){ var ProfileForms = true;}else{var ProfileForms = false;}
       if(this.refs.StatutoryForm.value =='true'){ var StatutoryForm = true;}else{var StatutoryForm = false;}
       if(this.refs.AddressForm.value =='true'){ var AddressForm = true;}else{var AddressForm = false;}
@@ -209,7 +227,7 @@ class EditService extends TrackerReact (Component){
        
       if (id) {
         let lastModified        = new Date();
-         Meteor.call('updateService',id,ProfileForms,StatutoryForm,AddressForm,EducationForm,WorkForm,SkillsCertificate,OtherInfoForm,serviceName,serviceRate,serviceDuration,servicesDescription,userId,lastModified,(error,result)=>{
+         Meteor.call('updateService',id,ProfileForms,StatutoryForm,AddressForm,EducationForm,WorkForm,SkillsCertificate,OtherInfoForm,serviceName,serviceRate,serviceDuration,servicesDescription,userId,lastModified,serviceDayNumbers,serviceFor,(error,result)=>{
             if(error){
                 console.log(error.reason);
             }else{               
@@ -218,18 +236,54 @@ class EditService extends TrackerReact (Component){
                 $("#serviceName").val("");
                 var path = "/admin/ListOfServices";
                 browserHistory.replace(path);
-                 $('.uploadedImageFromLocl').attr('src', "");
-                  $(".serviceName").val("");   
-                  $(".serviceRate").val("");   
-                  $(".serviceDuration").val("");   
-                  $(".servicesDescription").val("");  
+                $('.uploadedImageFromLocl').attr('src', "");
+                $(".serviceName").val("");   
+                $(".serviceRate").val("");   
+                $(".serviceDuration").val("");   
+                $(".servicesDescription").val("");  
                   // $('#servicesDescription').summernote('code','');
             }
         });
       }
-    }
-
-  
+  }
+  // addCheckList(event){
+  //   event.preventDefault();
+  //   var task = this.refs.fieldChecklist.value;
+  //   Meteor.call('addCheckList',task,function(error,result) {
+  //     if (error) {
+  //       console.log(error.reason);
+  //     }else{
+  //       console.log("add successfully!");
+  //       $('#fieldChecklist').val('');
+  //     }
+  //   });
+  // }
+  // deleteTask(event){
+  //   event.preventDefault();
+  //   var id = $(event.currentTarget).attr('id');
+  //   Meteor.call('deleteTask',id,function(error,result) {
+  //     if (error) {
+  //       console.log(error.reason);
+  //     }else{
+  //       // console.log('deleted successfully');
+  //     }
+  //   });
+  // }
+  // deletefieldChecklist(event){
+  //   event.preventDefault();
+  //   var serviceId = this.state.id;
+  //   console.log("serviceId",serviceId);
+  //   var id = $(event.currentTarget).attr('id');
+  //   console.log("id",id);
+  //   var checklistData = $(event.currentTarget).attr('data-checklist'); 
+  //   Meteor.call('deletefieldChecklist',serviceId,id,checklistData,function(error,result) {
+  //     if (error) {
+  //       console.log(error.reason);
+  //     }else{
+  //       // console.log('deleted successfully');
+  //     }
+  //   });
+  // }
  
   render(){
    // $('.note-editable').html(this.state.servicesDescription);
@@ -290,10 +344,17 @@ class EditService extends TrackerReact (Component){
                     <div className="row">
                       <div className="col-md-12">
                         <div className="notifWrapper col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                				
-                					<div className="create-email-template-wrapper col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                						<form className="newTemplateForm">
+                        
+                          <div className="create-email-template-wrapper col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <form className="newTemplateForm">
                               <div className="row inputrow">
+                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                  <div className="form-group">
+                                    <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12 label-category">Service For:</label>
+                                    <label className="radio-inline" style={{fontSize : '13' + 'px'}}><input value="user" type="radio" name="serviceFor" ref="serviceFor" checked={this.state.serviceFor === 'user'} onChange={this.handleChange} />User</label>
+                                    <label className="radio-inline" style={{fontSize : '13' + 'px', marginLeft : '30' + 'px'}}><input value="company" type="radio" name="serviceFor" checked={this.state.serviceFor === 'company'} ref="serviceFor" onChange={this.handleChange}/>Company</label>
+                                  </div>
+                                </div>
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                   <div className="form-group">
                                    <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12 label-category">Service Name<span className="astrick">*</span>:</label>
@@ -302,19 +363,30 @@ class EditService extends TrackerReact (Component){
                                 </div>
                               </div>
                               <div className="row inputrow">
-                								<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                									<div className="form-group">
-                									 <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12 label-category">Service Rate<span className="astrick">*</span>:</label>
-                								     <input type="number" ref="serviceRate" id="serviceRate" name="serviceRate" value={this.state.serviceRate}  onChange={this.handleChange} className="templateName serviceRate col-lg-12 col-md-12 col-sm-12 col-xs-12 inputValid" />
-                									</div>
-                								</div>
-                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div className="col-lg-6 col-md-12 col-sm-12 col-xs-12">
                                   <div className="form-group">
-                                   <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12 label-category">Service Duration<span className="astrick">*</span>:</label>
-                                     <input type="text" ref="serviceDuration" id="serviceDuration" name="serviceDuration" value={this.state.serviceDuration}  onChange={this.handleChange} className="templateName serviceDuration col-lg-12 col-md-12 col-sm-12 col-xs-12 inputValid" />
+                                   <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12 label-category">Service Rate<span className="astrick">*</span>:</label>
+                                     <input type="number" ref="serviceRate" id="serviceRate" name="serviceRate" value={this.state.serviceRate}  onChange={this.handleChange} className="templateName serviceRate col-lg-12 col-md-12 col-sm-12 col-xs-12 inputValid" />
                                   </div>
                                 </div>
-                							</div>
+                                <div className="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                                  <div className="form-group">
+                                   <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12 label-category">Service Duration<span className="astrick">*</span>:</label>
+{/*                                     <input type="text" ref="serviceDuration" id="serviceDuration" name="serviceDuration" value={this.state.serviceDuration}  onChange={this.handleChange} className="templateName serviceDuration col-lg-12 col-md-12 col-sm-12 col-xs-12 inputValid" />
+*/}                                   <div className="col-lg-4 servicesDays">
+                                        <input type="number" className="templateName serviceRate col-lg-4 col-md-12 col-sm-12 col-xs-12 form-control inputValid"
+                                        ref="serviceDayNumbers" id="serviceDayNumbers" name="serviceDayNumbers" value={this.state.serviceDayNumbers}   onChange={this.handleChange}/>
+                                      </div>
+                                      <div className="col-lg-8">
+                                        <select className="form-control inputText serviceDuration col-lg-8 " ref="serviceDuration" value={this.state.serviceDuration} onChange={this.handleChange} id="serviceDuration" name="serviceDuration" required>
+                                          <option value="Days">Days</option>
+                                          <option value="Weeks">Weeks</option>
+                                          <option value="Months">Months</option>
+                                        </select> 
+                                      </div>      
+                                  </div>
+                                </div>
+                              </div>
                               <div className="row inputrow">
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                   <div className="form-group">
@@ -339,8 +411,56 @@ class EditService extends TrackerReact (Component){
                                   </div>
                                 
                                 </div>
+                           </div>
+                          {/*  <div className="row inputrow">
+                              <div className="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                                <div className="form-group">
+                                  <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12 label-category">Checklist for field expert:</label>
+                                  <input type="text" ref="fieldChecklist" id="fieldChecklist" name="fieldChecklist"  onChange={this.handleChange} className="templateName serviceRate col-lg-12 col-md-12 col-sm-12 col-xs-12 inputValid" />
+                                </div>
                               </div>
-
+                              <div className="col-lg-2 col-md-2 col-sm-2 col-xs-2 checkListOuterBlock">
+                                <button className="btn btn-primary sendtxtmsgbtn col-lg-12 col-md-12 col-sm-12 col-xs-12" onClick={this.addCheckList.bind(this)}>ADD</button>
+                              </div>
+                            </div>
+                            <div className="row inputrow">
+                               {this.props.services.fieldChecklist ?
+                                this.props.services.fieldChecklist.map((fieldChecklist,index)=> {
+                                  return(
+                                     <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3 checkListDataOuter" key={index}>
+                                       <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 checkListDataInner">
+                                          <div className="col-lg-10 col-md-10 col-sm-10 col-xs-10 taskName">
+                                            <p>{fieldChecklist}</p> 
+                                          </div>
+                                          <div className="col-lg-1 col-md-1 col-sm-1 col-xs-1 deleteTask">
+                                            <i className="fa fa-times" id={index} data-checklist={fieldChecklist} onClick={this.deletefieldChecklist.bind(this)}></i>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    );
+                                })
+                                :
+                                ""
+                               }
+                                {this.props.checklistFieldExpert ?
+                                  this.props.checklistFieldExpert.map((checklistDetails,index)=> {
+                                    return(
+                                       <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3 checkListDataOuter" key={index}>
+                                         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 checkListDataInner">
+                                            <div className="col-lg-10 col-md-10 col-sm-10 col-xs-10 taskName">
+                                              <p>{checklistDetails.task}</p> 
+                                            </div>
+                                            <div className="col-lg-1 col-md-1 col-sm-1 col-xs-1 deleteTask">
+                                              <i className="fa fa-times" id={checklistDetails._id} onClick={this.deleteTask.bind(this)}></i>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      );
+                                  })
+                                  :
+                                  ""
+                                }
+                            </div>*/}
                             <div className="row inputrow subjectRow">
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                   <div className="col-lg-12 uploadedImageFromLocl1">
@@ -384,14 +504,15 @@ class EditService extends TrackerReact (Component){
                                     </div> 
                                   </div>
                                 </div>
+                            </div>
+                           
+                            <div className="savetemp col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <button onClick={this.handleSubmit.bind(this)} type="submit" className="col-lg-2 col-md-3 col-sm-6 col-xs-12 btn btn-primary pull-right sendtxtmsgbtn">UPDATE</button>
                               </div>
-                						<div className="savetemp col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                								<button onClick={this.handleSubmit.bind(this)} type="submit" className="col-lg-2 col-md-3 col-sm-6 col-xs-12 btn btn-primary pull-right sendtxtmsgbtn">UPDATE</button>
-                							</div>
-                						</form>
-                					</div>
+                            </form>
+                          </div>
                           
-                				</div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -409,15 +530,21 @@ class EditService extends TrackerReact (Component){
 EditPageContainer = withTracker(({params}) => {
     var _id = params.id;
     const postHandle = Meteor.subscribe('singleServices',_id);
-	  // var editServices   = this.props.params.id;
+    // var editServices   = this.props.params.id;
     // console.log("Param" +editServices);
     const services = Services.findOne({"_id":_id})|| {};
+    console.log("services",services);
     const loading = !postHandle.ready();
+    // const postHandle1    = Meteor.subscribe("checklistFieldExpert");
+    // const loading1       = !postHandle1.ready();
+    // const checklistFieldExpert  = ChecklistFieldExpert.find({}).fetch()||[];
     
     if(_id){
       return {
           loading,
           services,
+          // loading1,
+          // checklistFieldExpert
       };
     }
 })(EditService);

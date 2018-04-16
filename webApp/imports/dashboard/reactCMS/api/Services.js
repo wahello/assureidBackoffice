@@ -1,8 +1,8 @@
-import { Mongo } from 'meteor/mongo';
-import { Meteor } from 'meteor/meteor';
+import {Mongo} from 'meteor/mongo';
+import {Meteor} from 'meteor/meteor';
 
-export const Services             = new Mongo.Collection("services");
-export const TempServiceImages    = new Mongo.Collection("tempServiceImages");
+export const Services = new Mongo.Collection("services");
+export const TempServiceImages = new Mongo.Collection("tempServiceImages");
 export const ChecklistFieldExpert = new Mongo.Collection("checklistFieldExpert");
 
 if(Meteor.isServer){
@@ -80,7 +80,6 @@ import { ServiceImage } from "../UploadToServer/UploadServiceImgsServer.js";
           'lastModified'  : lastModified,
           'serviceFor'    : serviceFor,
         }); 
-        ChecklistFieldExpert.remove({});
         TempServiceImages.remove({});
       },
       //update service method
@@ -119,7 +118,6 @@ import { ServiceImage } from "../UploadToServer/UploadServiceImgsServer.js";
               } //End of set
             }
         );
-        ChecklistFieldExpert.remove({});
         TempServiceImages.remove({});
 
       },
