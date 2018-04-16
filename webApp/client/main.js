@@ -438,6 +438,7 @@ addProofToS3Function = function(userId,file,prooftype,proofSubtype,self) {
     });
 
     uploadInstance.on('progress', function (progress, fileObj) {
+        console.log("session set progress :"+progress);
         Session.set("uploadProofDocProgressPercent",progress);
         
         self.setState({
@@ -476,13 +477,15 @@ addImgsToS3Function = function(file,self) {
         if(fileObj){
             // console.log("fileObj._id: ",fileObj._id);
             Meteor.call("addNewTemporaryTicketImages",fileObj._id,(error, result)=>{
-                swal({
-                    position: 'top-right',
-                    type: 'success',
-                    title: 'Uploaded Successfully',
-                    showConfirmButton: false,
-                    timer: 1500
-                });
+                // swal({
+                //     position: 'top-right',
+                //     type: 'success',
+                //     title: 'Uploaded Successfully',
+                //     showConfirmButton: false,
+                //     timer: 1500
+                // });
+                
+
             });
         }
 
@@ -497,7 +500,7 @@ addImgsToS3Function = function(file,self) {
     });
 
     uploadInstance.on('progress', function (progress, fileObj) {
-        Session.set("uploadServiceImgProgressPercent",progress);
+        Session.set("uploadDocumentProgressbar",progress);
         
         self.setState({
             progress : progress
@@ -536,13 +539,14 @@ addTicketVideoS3Function = function(file,self) {
         if(fileObj){
             // console.log("fileObj._id: ",fileObj._id);
             Meteor.call("TempTicketVideoToS3function",fileObj._id,(error, result)=>{
-            swal({
-                position: 'top-right',
-                type: 'success',
-                title: 'Uploaded Successfully',
-                showConfirmButton: false,
-                timer: 1500
-            });
+            // swal({
+            //     position: 'top-right',
+            //     type: 'success',
+            //     title: 'Uploaded Successfully',
+            //     showConfirmButton: false,
+            //     timer: 1500
+            // });
+            
           }); 
         }
 
@@ -557,7 +561,7 @@ addTicketVideoS3Function = function(file,self) {
     });
 
     uploadInstance.on('progress', function (progress, fileObj) {
-        Session.set("uploadServiceImgProgressPercent",progress);
+        Session.set("uploadVideoProgressbar",progress);
         
         self.setState({
             progress : progress
@@ -596,13 +600,15 @@ addReportFunction = function(file,self,fileextension) {
         if(fileObj){
             // console.log("fileObj._id: ",fileObj._id);
             Meteor.call("TempReportToS3function",fileObj._id,fileextension,(error, result)=>{
-            swal({
-                position: 'top-right',
-                type: 'success',
-                title: 'Uploaded Successfully',
-                showConfirmButton: false,
-                timer: 1500
-            });
+            // swal({
+            //     position: 'top-right',
+            //     type: 'success',
+            //     title: 'Uploaded Successfully',
+            //     showConfirmButton: false,
+            //     timer: 1500
+            // });
+        // Session.set("uploadReportProgressPercent","");
+            
           }); 
         }
 
@@ -617,7 +623,7 @@ addReportFunction = function(file,self,fileextension) {
     });
 
     uploadInstance.on('progress', function (progress, fileObj) {
-        Session.set("uploadServiceImgProgressPercent",progress);
+        Session.set("uploadReportProgressPercent",progress);
         
         self.setState({
             progress : progress

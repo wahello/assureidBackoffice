@@ -14,8 +14,62 @@ class TotalInFlowTickets extends TrackerReact(Component){
         } 
     } 
 
-    amchartDisplay(){
-      if(!this.props.loading &&  this.props.dataWithLabels.length > 0 ){
+    componentDidMount(){
+      var dateArray = [];
+      var datavalues = [];
+      var datalabels = [];
+      var dataWithLabels = [];      
+      this.chartTracker = Tracker.autorun( ()=> {
+      var handle = Meteor.subscribe("allTickets");
+      var allTickets = TicketMaster.find({}).fetch();
+      console.log("allTickets");
+      console.log(allTickets);
+        
+        if(handle.ready()){
+          if(allTickets.length> 0){
+            for(i=0;i<allTickets.length;i++){
+              var dateValue = allTickets[i].orderDate;
+              var date = dateValue.toLocaleDateString('en-IN');
+              dateArray.push({'date':date});
+          }
+           
+            var pluckDate = _.pluck(dateArray,"date");
+            var uniqueDate = _.uniq(pluckDate);
+      
+            if(uniqueDate.length>0){
+              
+              for(j=0;j<uniqueDate.length;j++){
+              var count = 0;
+                for(k=0;k<allTickets.length;k++){
+                  var alldateValue = allTickets[k].orderDate;
+                  var alldate = alldateValue.toLocaleDateString('en-IN');
+                  if(uniqueDate[j]===alldate){
+                      count++;
+                  }
+                  
+                }//EOF k
+                var splitDate = uniqueDate[j].split('/');
+                var monthNumber = splitDate[1];
+                var monthName =moment(monthNumber,"M").format("MMM");
+      
+                dataWithLabels.push({'year':monthName,'income':count,'expense':count});
+              }//EOF i
+              // chartValues(dataWithLabels);
+            }
+          }
+
+        }
+        console.log("dataWithLabels");
+      console.log(dataWithLabels);
+      this.amchartDisplay(dataWithLabels)
+
+      });
+      
+    }
+  
+
+    amchartDisplay(dataWithLabels){
+      // if(!this.props.loading &&  this.props.dataWithLabels.length > 0 ){
         var chart = AmCharts.makeChart("inflowtickets", {
                 "type": "serial",
                 "addClassNames": true,
@@ -32,7 +86,7 @@ class TotalInFlowTickets extends TrackerReact(Component){
                   "color": "#ffffff"
                 },
               
-                "dataProvider": this.props.dataWithLabels,
+                "dataProvider": dataWithLabels,
                 "valueAxes": [ {
                   "axisAlpha": 0,
                   "position": "left"
@@ -71,12 +125,12 @@ class TotalInFlowTickets extends TrackerReact(Component){
                 "export": {
                   "enabled": true
                 }
-              } );
-
+              } 
+            );
             return (<div id="inflowtickets"></div>);
-          }else{
-            return(<span>No Data Available</span>)
-          }
+          // }else{
+          //   return(<span>No Data Available</span>)
+          // }
     }
 
 
@@ -111,7 +165,7 @@ class TotalInFlowTickets extends TrackerReact(Component){
         var dateValue = allTickets[i].orderDate;
         var date = dateValue.toLocaleDateString('en-IN');
         dateArray.push({'date':date});
-      }
+    }
      
       var pluckDate = _.pluck(dateArray,"date");
       var uniqueDate = _.uniq(pluckDate);

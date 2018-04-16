@@ -103,7 +103,11 @@ export default class CustomerComplaints extends TrackerReact(Component){
                         </Link>
                     </span>
                 </label>
-                <div id="customercomplaints" style={{"height":"400"+"px"}}>
+                {/* <div id="customercomplaints" style={{"height":"400"+"px"}}>
+                </div> */}
+
+                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="customerComplaint">
+                    <h4>Comming Soon</h4>
                 </div>
                 </div>
                

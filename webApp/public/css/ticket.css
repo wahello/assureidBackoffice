@@ -66,7 +66,10 @@
 #inflowtickets,
 #totalbusiness{
   width: 100%;
-  height: 400px!important;
+  height: 281px!important;
+}
+#customerComplaint{
+	height: 314px;
 }
 .amcharts-export-menu li{
 	padding-top: 22%!important;
@@ -100,4 +103,7 @@
 }
 .finaldatasubmit{
 	margin-top: 5%;
+}
+.uploadreportTitle{
+	float: left;
 }

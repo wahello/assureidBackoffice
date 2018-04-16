@@ -33,11 +33,11 @@ export default class TopStates extends TrackerReact(Component){
                             <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12">Delhi</label>                                 
                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 statediv bg-success"></div>
                             <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12">Kerala</label>                                 
-                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 statediv bg-info"></div>
-                            <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12">Kokan</label>                                 
+                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 statediv bg-info"></div>
+                           {/* <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12">Kokan</label>                                 
                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 statediv bg-secondary"></div>
                             <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12">Aurangabad</label>                                 
-                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 statediv bg-warning"></div>
+                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 statediv bg-warning"></div> */}
                         </div>
                     </div>
                 </div>

@@ -190,6 +190,52 @@ class Ticket extends TrackerReact(Component){
     </div>
     )
   }
+
+  /*=========== Report Progressbar =============*/
+  getUploadReportPercentage(){
+    var uploadProgressPercent = Session.get("uploadReportProgressPercent");
+    if(uploadProgressPercent){
+        var percentVal = parseInt(uploadProgressPercent);
+        if(percentVal){
+            
+            var styleC = {
+                width:percentVal + "%",
+                display:"block",
+            }
+            var styleCBar = {
+                display:"block",
+                marginTop:5,
+            }
+        }
+        if(!percentVal){
+            var percentVal = 0;
+
+            var styleC = {
+                width:0 + "%",
+                display:"none",
+            }
+            var styleCBar = {
+                display:"none",
+                marginTop:5,
+            }
+        }
+
+        if(parseInt(percentVal)==100){
+          setTimeout(()=>{ 
+              Session.set("uploadReportProgressPercent",0); 
+          }, 3000);    
+        }
+
+        return (
+          <div className="progress"  style= {styleCBar}>
+            <div className="progress-bar progress-bar-striped active" role="progressbar"
+            aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style= {styleC}>
+              {percentVal} %
+            </div>
+          </div>
+        );
+    }
+  }
   approveButton(event){
     event.preventDefault();
     var ticketId = this.props.ticketId;
@@ -511,13 +557,18 @@ class Ticket extends TrackerReact(Component){
           return(
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
               <h5> {title} </h5>
-              <span>Upload Report : </span>
-              <div className="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-xm-12 col-xs-12">
-                <div className="col-lg-6 col-lg-offset-1">
+              <span className="uploadreportTitle">Upload Report : </span>
+              <div className="col-lg-7 col-lg-offset-1 col-md-10 col-md-offset-1 col-xm-12 col-xs-12">
+                <div className="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                    
+                    {this.getUploadReportPercentage()}
+                </div>
+              
+                <div className="col-lg-9 col-lg-offset-1">
                     <input type="file" ref="uploadReportFile" id="uploadReport" name="uploadReport" className="col-lg-7 reporttitle noLRPad" onChange={this.handleReportUpload.bind(this)} multiple/>
                 </div>
-                <div className="col-lg-4">
-                    <button type="button" className="fesubmitbtn col-lg-5" data-roleStatus="ReportSubmitted" data-msg="Submitted Verification Information" onClick={this.approveButton.bind(this)}>Submit</button>
+                <div className="col-lg-7">
+                    <button type="button" className="fesubmitbtn col-lg-5 col-lg-offset-2" data-roleStatus="ReportSubmitted" data-msg="Submitted Verification Information" onClick={this.approveButton.bind(this)}>Submit</button>
                 </div>
               </div>
             </div>

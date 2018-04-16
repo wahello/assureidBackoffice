@@ -18,7 +18,11 @@ class VerificationDataSubmit extends TrackerReact(Component){
     constructor(props){ 
         super(props); 
         if(this.props.EditValue){
+<<<<<<< Updated upstream
             // console.log("edit values:",this.props.EditValue);
+=======
+            
+>>>>>>> Stashed changes
             this.state ={ 
                 "checkLists"       : this.props.EditValue.checkLists,
                 "textLists"        : this.props.EditValue.textLists,
@@ -83,7 +87,11 @@ class VerificationDataSubmit extends TrackerReact(Component){
         var index = $(event.currentTarget).attr('data-index');
         // console.log('index: ',index);
         // console.log('--------Before textLists---------');
+<<<<<<< Updated upstream
         // console.log(this.state.textLists);
+=======
+        console.log(this.state.textLists);
+>>>>>>> Stashed changes
         this.state.textLists[index].value = event.target.value;
         // console.log('--------After textLists---------');
         // console.log(this.state.textLists);
@@ -105,12 +113,13 @@ class VerificationDataSubmit extends TrackerReact(Component){
         let self = this;
          // this.setState({isUploading: true});
          // console.log(event.currentTarget.files.length);
+         
+         Session.set("uploadDocumentProgressbar","");
         if (this.props.ticketImages.length >= 0 && this.props.ticketImages.length < 5 ) {
           if (event.currentTarget.files.length <= 5) {
             for (var i = 0; i < event.currentTarget.files.length; i++) {
               if (event.currentTarget.files[i]) {
                 var dataImg = event.currentTarget.files[i]; 
-                // console.log("dataImg",dataImg);
                  if(dataImg.type == "image/jpeg" || dataImg.type == "image/png"){     
                    var reader = new FileReader();       
                    reader.onload = function (e) {         
@@ -329,7 +338,7 @@ class VerificationDataSubmit extends TrackerReact(Component){
                 if (error) {
                   console.log(error.reason);
                 }else{
-                  console.log("Inserted Successfully!");
+
                   $("#AddImagesVideo1").css({"display" : "none"});
                   $("#uploadButtonDiv").css({"display" : "none"});
                   $('#submitedDocWrap').css({"display" : "block"});
@@ -337,8 +346,99 @@ class VerificationDataSubmit extends TrackerReact(Component){
             });
         }
     }
+    /**================ Image Progress  Bar==================*/
+    getUploadImagePercentage(){
+        var uploadProgressPercent = Session.get("uploadDocumentProgressbar");
+        if(uploadProgressPercent){
+            var percentVal = parseInt(uploadProgressPercent);
+            if(percentVal){
+                
+                var styleC = {
+                    width:percentVal + "%",
+                    display:"block",
+                }
+                var styleCBar = {
+                    display:"block",
+                    marginTop:5,
+                }
+            }
+            if(!percentVal){
+                var percentVal = 0;
+    
+                var styleC = {
+                    width:0 + "%",
+                    display:"none",
+                }
+                var styleCBar = {
+                    display:"none",
+                    marginTop:5,
+                }
+            }
+
+            if(parseInt(percentVal)==100){
+                setTimeout(()=>{ 
+                    Session.set("uploadDocumentProgressbar",0); 
+                }, 3000);
+                
+                 
+            }
+    
+            return (
+              <div className="progress"  style= {styleCBar}>
+                <div className="progress-bar progress-bar-striped active" role="progressbar"
+                aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style= {styleC}>
+                  {percentVal} %
+                </div>
+              </div>
+            );
+        }
+    }
+    /**=========== Video Progress Bar ==============*/
+    getUploadVideoPercentage(){
+        var uploadProgressPercent = Session.get("uploadVideoProgressbar");
+        if(uploadProgressPercent){
+            var percentVal = parseInt(uploadProgressPercent);
+            if(percentVal){
+                
+                var styleC = {
+                    width:percentVal + "%",
+                    display:"block",
+                }
+                var styleCBar = {
+                    display:"block",
+                    marginTop:5,
+                }
+            }
+            if(!percentVal){
+                var percentVal = 0;
+    
+                var styleC = {
+                    width:0 + "%",
+                    display:"none",
+                }
+                var styleCBar = {
+                    display:"none",
+                    marginTop:5,
+                }
+            }
+            if(parseInt(percentVal)==100){
+                setTimeout(()=>{ 
+                    Session.set("uploadVideoProgressbar",0); 
+                }, 3000);    
+            }
+    
+            return (
+              <div className="progress"  style= {styleCBar}>
+                <div className="progress-bar progress-bar-striped active" role="progressbar"
+                aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style= {styleC}>
+                  {percentVal} %
+                </div>
+              </div>
+            );
+        }
+    }
     render(){
-         // console.log("ticketId",this.props.ticketId);
+
 
         return(
             <div>
@@ -424,6 +524,10 @@ class VerificationDataSubmit extends TrackerReact(Component){
                                     <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad Selectimg"> Select images: (minium 3 images and maximum 5)</div>
                                     <input type="file" ref="ticketImageFile" id="s3file" name="ticketImageFile"  onChange={this.handleUpload.bind(this)} className="col-lg-7 noLRPad" name="img" multiple />
                                 </div>
+                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    {/* <div id="errorProofList"></div> */}
+                                    {this.getUploadImagePercentage()}
+                                </div>
                             </div>
                             {!this.props.loading ?
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 imgbox">
@@ -492,6 +596,10 @@ class VerificationDataSubmit extends TrackerReact(Component){
                                 <div className="imgtitile col-lg-12 ">
                                     <div className="col-lg-12 noLRPad Selectimg"> Select Video:</div>
                                         <input type="file" ref="ticketVideoFile" id="s3file" name="ticketVideoFile"  onChange={this.handleVideoUpload.bind(this)} className="col-lg-7 noLRPad" name="img" multiple />
+                                </div>
+                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="videoProgressbar">
+                                    {/* <div id="errorProofList"></div> */}
+                                    {this.getUploadVideoPercentage()}
                                 </div>
                             </div>
                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 imgbox">
@@ -649,13 +757,13 @@ class VerificationDataSubmit extends TrackerReact(Component){
     }
 VerificationDataSubmitContainer = withTracker(props => { 
     const ticketId     = props.ticketId;
-    console.log("ticketId",ticketId);
+    
     const postHandle   = Meteor.subscribe('allTicketImages');
     const postHandle1  = Meteor.subscribe('allTicketVideo');
     const postHandle2  = Meteor.subscribe('checklistFieldExpert');
     const postHandle3  = Meteor.subscribe('singleTicket',ticketId);
     const ticketImages = TempTicketImages.find({}).fetch() || []; 
-    console.log("ticketImages",ticketImages);
+    
     const ticketVideo  = TempTicketVideo.find({}).fetch() || [];  
     const loading     = !postHandle.ready();
     const loading1    = !postHandle1.ready();
@@ -663,7 +771,7 @@ VerificationDataSubmitContainer = withTracker(props => {
     var checkList = [];
     if (ticketId) {
         var tickets =  TicketMaster.findOne({"_id" : ticketId});
-        console.log("tickets",tickets);
+        
         if (tickets) {
             var verificationType = tickets.verificationType;
             if (verificationType == "professionalEducation") {

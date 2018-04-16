@@ -56,7 +56,7 @@ export default class SubmittedDocuments extends TrackerReact(Component){
 		      }
 	    	}
 	    }
-	    console.log('showEditButton ',showEditButton);
+	    //console.log('showEditButton ',showEditButton);
 	    return showEditButton;
 	}
   render(){ 

@@ -6571,7 +6571,7 @@ margin-top: 20px;
 }
 .reporttitle{
   margin-top:1%;
-  margin-bottom: 1%;
+  margin-bottom: 6%;
   text-align: center;
 }
 .docdownload{
@@ -6639,4 +6639,8 @@ border-top: 2px solid #aaa;
 /*==================Dashboard CSS*/
 .rolebtn{
   margin-top:5%;
+}
+.sidebar{
+  font-size: 16px;
+  font-family: 'Source Sans Pro','Helvetica Neue',Helvetica,Arial,sans-serif;
 }

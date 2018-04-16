@@ -69,7 +69,7 @@ AssignToMeTicketsContainer = withTracker(props => {
             var role = roleArr.find(function (obj) { return obj != 'backofficestaff' });
         }
         //Get all the Tickets Assigned to Me 
-        var assignToMeTicketList = TicketMaster.find({ticketElement: { $elemMatch: { allocatedToUserid: _id }}}).fetch();
+        var assignToMeTicketList = TicketMaster.find({ticketElement: { $elemMatch: { allocatedToUserid: _id }}},{ limit : 5}).fetch();
         if(assignToMeTicketList){
             //find last status of the Tickets
             for(i=0;i< assignToMeTicketList.length; i++){

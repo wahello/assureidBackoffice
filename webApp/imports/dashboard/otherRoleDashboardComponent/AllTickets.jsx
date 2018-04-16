@@ -69,7 +69,7 @@ AllTicketsContainer = withTracker(props => {
             var role = roleArr.find(function (obj) { return obj != 'backofficestaff' });
         }
         //Get all the Tickets Assigned to Me
-        var allTicketList = TicketMaster.find({}).fetch();
+        var allTicketList = TicketMaster.find({},{ limit : 5}).fetch();
         if(allTicketList){
             //find last status of the Tickets
             for(i=0;i< allTicketList.length; i++){

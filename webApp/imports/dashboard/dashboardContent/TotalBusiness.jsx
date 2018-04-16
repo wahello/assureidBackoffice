@@ -14,70 +14,72 @@ class TotalBusiness extends TrackerReact(Component){
         this.state = {
         } 
     }
-    // amchartDisplay()
-   componentDidlMount(){
+    
+    componentDidMount(){
+      var serviceArray = [];
+      var datavalues = [];
+      var datalabels = [];
+      var dataWithLabels = [];      
+      this.chartTracker = Tracker.autorun( ()=> {
+      var handle = Meteor.subscribe("allTickets");
+      var allTickets = TicketMaster.find({}).fetch();
+      console.log("allTickets");
+      console.log(allTickets);
+        
+        if(handle.ready()){
+          if(allTickets.length> 0){
+            for(i=0;i<allTickets.length;i++){
+              var serviceValue = allTickets[i].serviceName;
+              serviceArray.push({'service':serviceValue});
+            }
+           
+            var pluckService = _.pluck(serviceArray,"service");
+            var uniqueService = _.uniq(pluckService);
+        
+            console.log("uniqueService");
+            console.log(uniqueService);
+            if(uniqueService.length>0){
+              for(j=0;j<uniqueService.length;j++){
+                  var ticketDetails = TicketMaster.find({'serviceName':uniqueService[j]}).fetch();
+                  var count = ticketDetails.length;
+                console.log("count :"+count);
+                // datavalues.push(count);
+                dataWithLabels.push({'country':uniqueService[j],'litres':count});
+                
+                }//EOF j
+        
+              }//EOF i
+              // chartValues(dataWithLabels);
+          }
 
-      var chart = AmCharts.makeChart( "chartdiv", {
-        "type": "pie",
-        "theme": "light",
-        "dataProvider": [ {
-          "country": "Lithuania",
-          "litres": 501.9
-        }, {
-          "country": "Czech Republic",
-          "litres": 301.9
-        }, {
-          "country": "Ireland",
-          "litres": 201.1
-        }, {
-          "country": "Germany",
-          "litres": 165.8
-        }, {
-          "country": "Australia",
-          "litres": 139.9
-        }, {
-          "country": "Austria",
-          "litres": 128.3
-        }, {
-          "country": "UK",
-          "litres": 99
-        }, {
-          "country": "Belgium",
-          "litres": 60
-        }, {
-          "country": "The Netherlands",
-          "litres": 50
-        } ],
-        "valueField": "litres",
-        "titleField": "country",
-         "balloon":{
-         "fixedPosition":true
-        },
-        "export": {
-          "enabled": true
         }
-      } );
-        // return chart;
-      
+        console.log("dataWithLabels");
+      console.log(dataWithLabels);
+      this.amchartDisplay(dataWithLabels)
 
-      //   if(!this.props.loading &&  this.props.dataWithLabels.length > 0 ){
-      //     var chart = AmCharts.makeChart( "totalbusiness",{
-      //         "type": "pie",
-      //         "theme": "light",
-      //         "dataProvider": this.props.dataWithLabels,
-      //         "valueField": "litres",
-      //         "titleField": "country",
-      //         "balloon":{
-      //         "fixedPosition":true
-      //         },
-      //         "export": {
-      //           "enabled": true
-      //         }
-      //     });
-      //   return (<div id="totalbusiness"></div>);
-      // }else{
-      //   return(<span>No Data Available</span>)
-      // }
+      });
+      
+    }
+    amchartDisplay(){
+    
+      if(!this.props.loading &&  this.props.dataWithLabels.length > 0 ){
+          var chart = AmCharts.makeChart( "totalbusiness",{
+              "type": "pie",
+              "theme": "light",
+              "dataProvider": this.props.dataWithLabels,
+              "valueField": "litres",
+              "titleField": "country",
+              "balloon":{
+              "fixedPosition":true
+              },
+              "export": {
+                "enabled": true
+              }
+          });
+        return (<div id="totalbusiness"></div>);
+      }else{
+        return(<span>No Data Available</span>)
+      }
     }
 
     render(){
