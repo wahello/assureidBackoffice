@@ -18,11 +18,7 @@ class VerificationDataSubmit extends TrackerReact(Component){
     constructor(props){ 
         super(props); 
         if(this.props.EditValue){
-<<<<<<< Updated upstream
-            // console.log("edit values:",this.props.EditValue);
-=======
             
->>>>>>> Stashed changes
             this.state ={ 
                 "checkLists"       : this.props.EditValue.checkLists,
                 "textLists"        : this.props.EditValue.textLists,
@@ -87,11 +83,7 @@ class VerificationDataSubmit extends TrackerReact(Component){
         var index = $(event.currentTarget).attr('data-index');
         // console.log('index: ',index);
         // console.log('--------Before textLists---------');
-<<<<<<< Updated upstream
-        // console.log(this.state.textLists);
-=======
         console.log(this.state.textLists);
->>>>>>> Stashed changes
         this.state.textLists[index].value = event.target.value;
         // console.log('--------After textLists---------');
         // console.log(this.state.textLists);

@@ -152,28 +152,38 @@ class Ticket extends TrackerReact(Component){
     let self = this;
     if (event.currentTarget.files && event.currentTarget.files[0]) {
       var dataImg =event.currentTarget.files[0];
-        if(dataImg){
-          var imageFileName = dataImg.name;
-          var splitName = imageFileName.split(".");
-          var fileextension = splitName[1];
-        var reader = new FileReader();      
-        reader.onload = function (e) {         
-        };     
-        reader.readAsDataURL(event.currentTarget.files[0]);     
-        var file = event.currentTarget.files[0];
-        if (file) {        
-                addReportFunction(file,self,fileextension);      
-            }
-        };
-        } else {
-        swal({   
-            position: 'top-right',    
-            type: 'error',   
-            title: 'Please select Video',      
-            showConfirmButton: false,     
-            timer: 1500     
-        });  
-    }
+      if(dataImg){
+          if(dataImg.type == "pdf"){             
+            var imageFileName = dataImg.name;
+            var splitName = imageFileName.split(".");
+            var fileextension = splitName[1];
+            var reader = new FileReader();      
+              reader.onload = function (e) {         
+            };     
+            reader.readAsDataURL(event.currentTarget.files[0]);     
+            var file = event.currentTarget.files[0];
+            if (file){        
+                    addReportFunction(file,self,fileextension);      
+                }
+          }else{
+              swal({   
+                position: 'top-right',    
+                type: 'error',   
+                title: 'Please Upload Report In Pdf Format',      
+                showConfirmButton: false,     
+                timer: 2000     
+              }); 
+          }
+          };
+          } else {
+          swal({   
+              position: 'top-right',    
+              type: 'error',   
+              title: 'Please select Video',      
+              showConfirmButton: false,     
+              timer: 1500     
+          });  
+      }
   }
   showTicketDataRadiobtn(){
     return(
@@ -867,7 +877,7 @@ render(){
                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outerShadow">
                               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 activityDetails">                           
-                                  <h3> Activities</h3>
+                                  <h3> Activity Log</h3>
                               </div>
                               {this.actionBlock()}
                               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
