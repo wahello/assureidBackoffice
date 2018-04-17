@@ -62,7 +62,16 @@ if(Meteor.isServer){
 		});
 	},
 	'genericUpdateTicketMasterElement': function(ticketid,insertData){
-		//Update TicketElement 
+
+		//Update TicketElement
+		//Write code for split
+		var memberValue = insertData.allocatedToUserName;
+		var a = memberValue.indexOf("(");
+		if(a !== -1){
+			var splitDropdownValue = memberValue.split('(');
+			insertData.allocatedToUserName = splitDropdownValue[0];
+			var countValueSplit = splitDropdownValue[1].split(')');
+		}
 		var updateStatus = TicketMaster.update(
 			{'_id':ticketid},
 			{
@@ -71,6 +80,7 @@ if(Meteor.isServer){
 				}
 			}
 		);	
+
 		switch(insertData.roleStatus){
 			case 'ScreenApproved' 	:
 				var newCount = Meteor.user().count;
@@ -124,6 +134,23 @@ if(Meteor.isServer){
 					Meteor.call('changeStatusMethod',ticketid,ticketDetails.userId,insertData.remark,ticketDetails.verificationType,ticketDetails.verificationId);
 				}
 				break;
+			
+			case 'Assign':
+				count = parseInt(countValueSplit)+1;	
+				if(count){
+					Meteor.call('updateCommitteeUserCount',count,insertData.allocatedToUserid);
+				}
+				break;
+			
+			case 'AssignReject':
+				var teamMember = Meteor.users.findOne({"_id":insertData.userId});
+				if(teamMember && teamMember.count){
+					var newCount = teamMember.count - 1;
+				} else{
+					var newCount = 0;
+				}			
+				Meteor.call('updateCommitteeUserCount',newCount,teamMember._id);
+				break;
 			case 'ProofSubmit'      :
 				TicketMaster.update({"_id": ticketid},{
 					$set: {
@@ -133,6 +160,8 @@ if(Meteor.isServer){
 				});
 				TempTicketImages.remove({});
 				TempTicketVideo.remove({});
+
+
 				break;
 			case 'ProofResubmitted' :
 					TicketMaster.update({"_id": ticketid},{
@@ -410,6 +439,7 @@ if(Meteor.isServer){
 	},
 
 	'updateCommitteeUserCount':function(count,id){
+		// console.log("count,id :"+count,id);
 		Meteor.users.update(
 			{'_id':id},
 			{$set:{

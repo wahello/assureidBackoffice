@@ -6644,3 +6644,11 @@ border-top: 2px solid #aaa;
   font-size: 16px;
   font-family: 'Source Sans Pro','Helvetica Neue',Helvetica,Arial,sans-serif;
 }
+.allocatedtitle{
+  margin-top:2%;
+}
+.allocatedtitlevalue{
+  color: #fff;
+  font-size: 13px;
+  text-align: center;
+}

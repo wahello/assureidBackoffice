@@ -234,6 +234,7 @@ export const routes = (
        <Route path="/admin/approvedtickets" component={ApprovedTickets}/>
        <Route path="/admin/rejectedtickets" component={RejectedTickets}/>
        <Route path="/admin/escalatedtickets" component={EscalatedTickets}/>
+       <Route path="/backofficeadmin/company-info" component={CompanySettingTabs}/>
        
     </Route>
 

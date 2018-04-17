@@ -4,6 +4,9 @@ import {browserHistory} from 'react-router';
 import TrackerReact from 'meteor/ultimatejs:tracker-react';
 import { render } from 'react-dom';
 import { withTracker } from 'meteor/react-meteor-data';
+import { CompanySettings } from '/imports/dashboard/companySetting/api/CompanySettingMaster.js';
+// import { console } from 'meteor/tools';
+
 
 class Header extends TrackerReact(Component){
   constructor() { 
@@ -123,7 +126,16 @@ class Header extends TrackerReact(Component){
             {/* Navbar Right Menu */}
             <div className="navbar-custom-menu">
               <ul className="nav navbar-nav">
-               
+              {Roles.userIsInRole(Meteor.userId(),['screening committee','team leader','quality team member','quality team leader'])?
+        
+                <li className="allocatedtitle">
+                  <span className ="allocatedtitlevalue">Current Allocated Ticket </span><br/>
+                  <label className="col-lg-12 allocatedtitlevalue">{this.props.count ? this.props.count +'/'+this.props.MaxallocatedTickets : this.props.count/this.props.MaxallocatedTickets}</label>
+                </li>
+                :
+                ""
+              }
+
                 {/* Notifications: style can be found in dropdown.less */}
                 <li className="dropdown notifications-menu">
                   <Link to="javascript:void(0)" className="dropdown-toggle" data-toggle="dropdown">
@@ -205,11 +217,19 @@ class Header extends TrackerReact(Component){
                   </ul>
                 </li>
                 {/* Control Sidebar Toggle Button */}
-                <li>
-                  <Link to="/admin/company-info" data-toggle="control-sidebar">
-                    <i className="fa fa-gears" />
-                  </Link>
-                </li>
+                {Roles.userIsInRole(Meteor.userId(),['screening committee','team leader','team member','field expert','quality team member','quality team leader'])?
+                  <li>
+                    <Link to="/backofficeadmin/company-info" data-toggle="control-sidebar">
+                      <i className="fa fa-gears" />
+                    </Link>
+                  </li>
+                :
+                  <li>
+                    <Link to="/admin/company-info" data-toggle="control-sidebar">
+                      <i className="fa fa-gears" />
+                    </Link>
+                  </li>
+                }
               </ul>
             </div>
           </nav>
@@ -222,12 +242,42 @@ headerContainer = withTracker(props => {
     var _id  = Meteor.userId();
 
     const userHandle  = Meteor.subscribe('userData',_id);
-
+    const companyData = Meteor.subscribe('companyData');
     const user        = Meteor.users.findOne({"_id" : _id}) || {};
     const loading     = !userHandle.ready();
-      return {
-          loading  : loading,
-          user     : user,
-      };
+    if(Meteor.user().count){
+      var count = Meteor.user().count;
+    }else{
+      var count = 0;
+    }
+   
+    var loginrole = Meteor.user().roles;
+   
+     var companyDetails =  CompanySettings.findOne({'companyId':1});
+     if(companyDetails){
+      console.log(companyDetails);
+      var maxallocatedArr  = companyDetails.maxnoOfTicketAllocate;
+      var singleObj  =  maxallocatedArr.find(o=>o.role === "screening committee");
+     console.log(singleObj);
+     var MaxallocatedTickets = singleObj.maxTicketAllocate;
+     }else{
+      var MaxallocatedTickets = "";
+     }
+   
+    //  for(i=0;i<companyDetails.maxnoOfTicketAllocate.length;i++){
+    //     if(companyDetails.maxnoOfTicketAllocate[i].role ==){
+
+    //     }
+    //  }
+
+
+    console.log("loginrole :");
+    console.log(loginrole);
+    return {
+        loading  : loading,
+        user     : user,
+        MaxallocatedTickets : MaxallocatedTickets,
+        count    : count
+    };
 })(Header);
 export default headerContainer;

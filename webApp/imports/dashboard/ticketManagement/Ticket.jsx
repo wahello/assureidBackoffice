@@ -135,8 +135,6 @@ class Ticket extends TrackerReact(Component){
     this.setState({
         'radioState':radioValue,
     });
-   
-    console.log("radio btn value :"+this.state.radioState);
   }
   showBAFEList(role){
     var teammemberDetails = Meteor.users.find({"roles": {$in:[role]}}).fetch();
@@ -153,10 +151,11 @@ class Ticket extends TrackerReact(Component){
     if (event.currentTarget.files && event.currentTarget.files[0]) {
       var dataImg =event.currentTarget.files[0];
       if(dataImg){
-          if(dataImg.type == "pdf"){             
+        
             var imageFileName = dataImg.name;
             var splitName = imageFileName.split(".");
             var fileextension = splitName[1];
+          if(fileextension == "pdf"){             
             var reader = new FileReader();      
               reader.onload = function (e) {         
             };     
@@ -164,7 +163,7 @@ class Ticket extends TrackerReact(Component){
             var file = event.currentTarget.files[0];
             if (file){        
                     addReportFunction(file,self,fileextension);      
-                }
+            }
           }else{
               swal({   
                 position: 'top-right',    
@@ -173,6 +172,7 @@ class Ticket extends TrackerReact(Component){
                 showConfirmButton: false,     
                 timer: 2000     
               }); 
+              $('#uploadReport').val('');
           }
           };
           } else {
@@ -267,6 +267,7 @@ class Ticket extends TrackerReact(Component){
       case 'AssignReject' :
         insertData.allocatedToUserid = $("#selectTMMember option:selected").val();
         insertData.allocatedToUserName = $("#selectTMMember option:selected").text();
+        console.log(insertData);        
         break;
       case 'Assign' :
       case 'ProofSubmit' :
@@ -341,7 +342,8 @@ class Ticket extends TrackerReact(Component){
                     this.showBAFEList('team member').map((data,i)=>{
                       return(
                         <option key={i} value={data._id}>
-                          {data.profile.firstname + ' ' + data.profile.lastname}
+                          {data.profile.firstname + ' ' + data.profile.lastname}&nbsp;
+                          ({data.count? data.count : 0})
                         </option>
                       );
                     })
