@@ -289,6 +289,16 @@ class Ticket extends TrackerReact(Component){
             if(reportLinkDetails){
               insertData.reportSubmited = reportLinkDetails.ReportLink;
               insertData.fileExtension  = reportLinkDetails.fileExtension;
+            }else{
+
+              swal({
+                position: 'top-right',
+                type: 'success',
+                title: 'Please Select File',
+                showConfirmButton: false,
+                timer: 1500
+              });
+
             }
         }
         insertData.allocatedToUserid   = '';
@@ -419,7 +429,7 @@ class Ticket extends TrackerReact(Component){
           return(
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
               <h5> {title} </h5>
-              <span>Please accept if your are going to work on this ticket. If rejected please provide appropriate reason.</span>
+              <span>Please accept if your are going to work on this ticket. If rejected please provide an appropriate reason.</span>
               <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1 col-xs-12 acceptrejectwrap">
                 <button className="btn btn-danger approvebtn col-lg-3 col-md-3 col-sm-4 col-xs-5" id="TMRejectTicket" data-roleStatus="AssignReject" data-msg="Rejected Ticket and returned back to " onClick={this.showRejectBoxState.bind(this)}>
                   Reject
@@ -814,7 +824,7 @@ render(){
                                   Age<span className="pull-right">:</span>
                                   </div> 
                                    <div className="col-lg-7 col-md-7 col-sm-8 col-xs-8 text-left userValue">
-                                    <p>{this.props.userProfile.dateOfBirth}&nbsp;Year</p>
+                                    <p>{this.props.userProfile.dateOfBirth}&nbsp;Years</p>
                                   </div>
                                 </div>
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">

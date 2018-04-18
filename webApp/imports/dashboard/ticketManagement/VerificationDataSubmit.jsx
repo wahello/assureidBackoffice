@@ -520,9 +520,12 @@ class VerificationDataSubmit extends TrackerReact(Component){
                                     {/* <div id="errorProofList"></div> */}
                                     {this.getUploadImagePercentage()}
                                 </div>
+                                <div className="col-lg-12 bcolor">
+                                    <div className="col-lg-12 noLRPad Selectimg">Added Images will show here</div>                              
+                                </div>
                             </div>
                             {!this.props.loading ?
-                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 imgbox">
+                                <div className="col-lg-11 col-md-12 col-sm-12 col-xs-12 imgbox">
                                     {  this.props.EditValue ?
                                         <div>
                                           { this.state.images? 
@@ -593,8 +596,11 @@ class VerificationDataSubmit extends TrackerReact(Component){
                                     {/* <div id="errorProofList"></div> */}
                                     {this.getUploadVideoPercentage()}
                                 </div>
+                                <div className="col-lg-12 bcolor">
+                                    <div className="col-lg-12 noLRPad Selectimg">Added Videos will show here</div>                              
+                                </div>
                             </div>
-                           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 imgbox">
+                           <div className="col-lg-11 col-md-11 col-sm-12 col-xs-12 imgbox">
 
                             {
                                 this.props.EditValue ?
@@ -699,8 +705,8 @@ class VerificationDataSubmit extends TrackerReact(Component){
                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outerStatusBlock">
                                 {/* Status Block */}
                                 <div className="imgtitile col-lg-6 col-md-6 col-sm-12 col-xs-12 noLRPad">
-                                    <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3  Selectimg"> Status:</div>
-                                    <div className="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                    <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3  Selectimg statusTitle"> Status:</div>
+                                    <div className="col-lg-8 col-md-8 col-sm-9 col-xs-9">
                                         <select className="form-control inputText documentStatus" ref="documentStatus" id="documentStatus" defaultValue={this.state.status ? this.state.status : ''} name="documentStatus" onChange={this.handleChange}>
                                             <option disabled="disabled">-- Select --</option>
                                             <option value="Initiated">Initiated</option>
@@ -713,8 +719,8 @@ class VerificationDataSubmit extends TrackerReact(Component){
                                 </div>{/* Status Block */}
                                 {/* Sub Status Block */}
                                 <div className="imgtitile col-lg-6 col-md-6 col-sm-12 col-xs-12 noLRPad">
-                                    <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3  Selectimg"> Sub-status:</div>
-                                    <div className="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                    <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3  Selectimg statusTitle"> Sub-status:</div>
+                                    <div className="col-lg-8 col-md-8 col-sm-9 col-xs-9">
                                         <select className="form-control inputText documentSubStatus" ref="documentSubStatus" id="documentSubStatus" defaultValue={this.state.subStatus ? this.state.subStatus : ''} name="documentSubStatus" onChange={this.handleChange}>
                                             <option disabled="disabled">-- Select --</option>
                                             <option value="Clear">Clear</option>

@@ -117,7 +117,7 @@ class OtherRoleSidebar extends TrackerReact(Component){
                 <li className="">
                   <Link to="/admin/assignedtickets" activeClassName="active">
                   <i className="fa fa-ticket" />
-                      <span>Ticket Assigned To Me({this.props.assignedTicketCount})</span>
+                      <span>Tickets Assigned To Me({this.props.assignedTicketCount})</span>
                   </Link>
                 </li>
                 <li className="">

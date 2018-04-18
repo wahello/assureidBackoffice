@@ -27,7 +27,7 @@ class RejectedTickets extends TrackerReact(Component){
                 <div className="col-md-12">
                   <div className="box">
                     <div className="box-header with-border">
-                      <h2 className="box-title">Rejected Ticket</h2> 
+                      <h2 className="box-title">My Rejected Tickets</h2> 
                     </div>
                         <div className="box-body">
                             <div className="ticketWrapper col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -63,7 +63,7 @@ class RejectedTickets extends TrackerReact(Component){
                                             
                                                 :
                                                 <div>
-                                                    return(<span>loading...</span>);
+                                                  return(<span className ="nodata">Nothing To Dispaly</span>);
                                                 </div>
                                             }
 

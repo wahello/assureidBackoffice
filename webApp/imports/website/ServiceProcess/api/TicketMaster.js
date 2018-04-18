@@ -160,7 +160,33 @@ if(Meteor.isServer){
 				});
 				TempTicketImages.remove({});
 				TempTicketVideo.remove({});
-
+				var curTicket = TicketMaster.findOne({"_id":ticketid});
+				if(curTicket){
+					console.log('in curTicket ',curTicket._id);
+					var ticketElements = curTicket.ticketElement; 
+					var selfAllocated = ticketElements.find(function (obj) { return obj.roleStatus == 'SelfAllocated' });
+					if(selfAllocated){
+						var insertData = {
+							"userId"              : Meteor.userId(),
+							"userName"            : Meteor.user().profile.firstname + ' ' + Meteor.user().profile.lastname,
+							"allocatedToUserid"   : '',
+							"allocatedToUserName" : '',
+							"role"                : 'team member',
+							"roleStatus"          : 'VerificationPass',
+							"msg"                 : 'Approved Verification Information',
+							"createdAt"           : new Date()
+						}
+						TicketMaster.update(
+							{'_id':ticketid},
+							{
+								$push:{
+									'ticketElement' : insertData,
+								}
+							}
+						);	
+					}
+				}
+				
 
 				break;
 			case 'ProofResubmitted' :
@@ -172,6 +198,32 @@ if(Meteor.isServer){
 					});
 					TempTicketImages.remove({});
 					TempTicketVideo.remove({});
+					var curTicket = TicketMaster.findOne({"_id":ticketid});
+					if(curTicket){
+						console.log('in curTicket ',curTicket._id);
+						var ticketElements = curTicket.ticketElement; 
+						var selfAllocated = ticketElements.find(function (obj) { return obj.roleStatus == 'SelfAllocated' });
+						if(selfAllocated){
+							var insertData = {
+								"userId"              : Meteor.userId(),
+								"userName"            : Meteor.user().profile.firstname + ' ' + Meteor.user().profile.lastname,
+								"allocatedToUserid"   : '',
+								"allocatedToUserName" : '',
+								"role"                : 'team member',
+								"roleStatus"          : 'VerificationPass',
+								"msg"                 : 'Approved Verification Information',
+								"createdAt"           : new Date()
+							}
+							TicketMaster.update(
+								{'_id':ticketid},
+								{
+									$push:{
+										'ticketElement' : insertData,
+									}
+								}
+							);	
+						}
+					}
 					break;
 			case 'ReportSubmitted' 	:
 					if(insertData.reportSubmited){
