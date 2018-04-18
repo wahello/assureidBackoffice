@@ -56,7 +56,7 @@ class AllTickets extends TrackerReact(Component){
                                                   <td><Link to={"/admin/ticket/"+data._id}>{data.ticketNumber}</Link></td>
                                                   <td>{data.orderNo}</td>
                                                   <td>{data.serviceName}</td>
-                                                  <td>{moment(data.createdAt).format('l')}</td>
+                                                  <td>{moment(data.createdAt).format('DD-MM-YYYY')}</td>
                                                   <td>{data.tatDate}</td> 
                                                   <td className={data.bgClassName}>{data.status}</td>       
                                               </tr>

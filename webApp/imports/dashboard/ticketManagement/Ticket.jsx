@@ -51,16 +51,16 @@ class Ticket extends TrackerReact(Component){
     return role != "backofficestaff";
   }
   showRejectBoxState(){
-    this.setState({"showRejectBox" : 'Y'});
+    this.setState({"showRejectBox" : 'Y','showRadiobtn': "N"});
   }
   showTicketDataState(){
-    this.setState({ showRadiobtn: "Y" }, () => {
+    this.setState({ showRadiobtn: "Y",showRejectBox : 'N'}, () => {
      
     }); 
   }
   getRejectBox(){
     return(
-      <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <div className="col-lg-7 col-md-7 col-sm-12 col-xs-12 finalApprovewrap">
         <textarea rows="3" cols="60" className="col-lg-6 col-lg-offset-0" id="rejectReason"/>
         <button onClick={this.rejectButton.bind(this)}
           id="rejectButton"
@@ -260,7 +260,7 @@ class Ticket extends TrackerReact(Component){
     }
     var memberid ='';
     var memberName = '';
-
+    var exeQuery = 1;
     switch(this.props.getTicket.ticketElement[elementLength-1].roleStatus){
       case 'screenTLAllocated' :
       case 'ReAssign' :
@@ -286,15 +286,15 @@ class Ticket extends TrackerReact(Component){
       case 'VerificationPass' :
         if(!this.props.loading){
             var reportLinkDetails = TempTicketReport.findOne({},{sort:{'createdAt':-1}}); 
-            if(reportLinkDetails){
+            if(reportLinkDetails!=undefined){
               insertData.reportSubmited = reportLinkDetails.ReportLink;
               insertData.fileExtension  = reportLinkDetails.fileExtension;
             }else{
-
+              exeQuery = 0;
               swal({
                 position: 'top-right',
-                type: 'success',
-                title: 'Please Select File',
+                type: 'error',
+                title: 'Please Select Report File To Upload',
                 showConfirmButton: false,
                 timer: 1500
               });
@@ -327,7 +327,9 @@ class Ticket extends TrackerReact(Component){
         break;
     }
     // console.log('insertData ',insertData);
-    Meteor.call('genericUpdateTicketMasterElement',this.props.ticketId,insertData);
+    if(exeQuery == 1){
+      Meteor.call('genericUpdateTicketMasterElement',this.props.ticketId,insertData);
+    }
   }
  
   actionBlock(){
@@ -599,7 +601,7 @@ class Ticket extends TrackerReact(Component){
         break;
       case 'VerificationPassQTMAllocated' :
         if(Meteor.user().roles.find(this.getRole) == 'quality team member' && this.props.getTicket.ticketElement[n-1].allocatedToUserid == Meteor.userId()){
-          var title = "Qulity Team Member"; 
+          var title = "Quality Team Member"; 
           return(
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
               <h5> {title} </h5>
@@ -676,7 +678,7 @@ class Ticket extends TrackerReact(Component){
                         <i className="fa fa-file-text-o" aria-hidden="true"></i>
                       </a>
                   </div>
-                  <lable className=" col-lg-9 col-md-9 col-sm-12 col-xs-12 downloadLable">Download Report</lable>
+                  <lable className=" col-lg-9 col-md-9 col-sm-12 col-xs-12">Download Report</lable>
                 </div>
                 
                 <div className="col-lg-7 col-lg-offset-0 col-md-6 col-md-offset-0 col-sm-10 col-sm-offset-1 col-xs-12">
@@ -762,7 +764,7 @@ render(){
                               </div>
                             <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-right outerTicketIcons">
                                 <i className="fa fa-print ticketIcons" title="Print"></i> 
-                                <i className="fa fa-file-pdf-o ticketIcons"  title="pdf"></i>
+                                <i className="fa fa-file-pdf-o ticketIcons"  title="PDF"></i>
                                 <i className="fa fa-download ticketIcons" title="Download"></i>
                             </div>
                             </div>
@@ -780,7 +782,7 @@ render(){
                                   <img src="/images/assureid/userIcon.png" className="ticketUserImage" />
                                 }
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight assureidValue">
-                                    <button type="button" className="btn viewbtn" data-userid={this.props.user._id} onClick= {this.viewprofile.bind(this)}>View</button>
+                                    <button type="button" className="btn viewbtn" data-userid={this.props.user._id} onClick= {this.viewprofile.bind(this)}>View Profile</button>
                                 </div>
                               </div>
                               <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8">
@@ -798,7 +800,7 @@ render(){
                                   </div> 
                                   <div className="col-lg-7 col-md-7 col-sm-8 col-xs-8 text-left userValue">
                                   
-                                    <p>{this.props.userProfile.assureId}</p>
+                                    <p>&nbsp;{this.props.userProfile.assureId}</p>
                                   </div>
                                 </div>
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">

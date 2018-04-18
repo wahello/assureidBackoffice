@@ -87,8 +87,8 @@ class ServiceInformation extends TrackerReact(Component){
                 <div className="col-lg-5 col-md-4 col-sm-4 col-xs-4 text-left noLRPad userLabel">
                  Service Name<span className="pull-right">:</span>
                 </div>  
-                <div className="col-lg-7 col-md-8 col-sm-8 col-xs-8 text-left userValue">
-                  <p>{this.props.serviceInfo.serviceName}</p>
+                <div className="col-lg-7 col-md-8 col-sm-8 col-xs-8 text-left noLRPad userValue">
+                  <p>&nbsp;{this.props.serviceInfo.serviceName}</p>
                 </div> 
               </div>
               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">

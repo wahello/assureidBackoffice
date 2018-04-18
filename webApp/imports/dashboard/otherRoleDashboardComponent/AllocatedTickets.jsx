@@ -47,7 +47,7 @@ class AllocatedTickets extends TrackerReact(Component){
                                 })
                             :
                                 <div>
-                                    return(<span>loading...</span>);
+                                    return(<span className ="nodata">Nothing To Dispaly</span>);
                                 </div>
                             }
                         </tbody>

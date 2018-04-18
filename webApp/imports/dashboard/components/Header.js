@@ -255,24 +255,12 @@ headerContainer = withTracker(props => {
    
      var companyDetails =  CompanySettings.findOne({'companyId':1});
      if(companyDetails){
-      console.log(companyDetails);
       var maxallocatedArr  = companyDetails.maxnoOfTicketAllocate;
       var singleObj  =  maxallocatedArr.find(o=>o.role === "screening committee");
-     console.log(singleObj);
      var MaxallocatedTickets = singleObj.maxTicketAllocate;
      }else{
       var MaxallocatedTickets = "";
      }
-   
-    //  for(i=0;i<companyDetails.maxnoOfTicketAllocate.length;i++){
-    //     if(companyDetails.maxnoOfTicketAllocate[i].role ==){
-
-    //     }
-    //  }
-
-
-    console.log("loginrole :");
-    console.log(loginrole);
     return {
         loading  : loading,
         user     : user,

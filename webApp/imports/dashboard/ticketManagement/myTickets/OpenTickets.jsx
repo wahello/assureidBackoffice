@@ -388,22 +388,22 @@ export default OpenTicketsContainer = withTracker(props => {
           openTicketList = openTicketList.concat(inProcessTickets);
           break;
         case 'quality team member' :
-          for(i=0; i < assignedTicketList.length;i++){
-            if(assignedTicketList[i].status == 'Review Fail'){
-              reviewFailTickets.push(assignedTicketList[i]);
-            }if(assignedTicketList[i].status == 'New'){
-              newTickets.push(assignedTicketList[i]);
-            }else if(assignedTicketList[i].status == 'Approved'){
-              approvedTickets.push(assignedTicketList[i]);
-            }else if(assignedTicketList[i].status == 'Rejected'){
-              rejectedTickets.push(assignedTicketList[i]);
-            }else if(assignedTicketList[i].status == 'Completed'){
-              completedTickets.push(assignedTicketList[i]);
-            }else if(assignedTicketList[i].status == 'In Process'){
-              inProcessTickets.push(assignedTicketList[i]);
+          for(i=0; i < openTicketList.length;i++){
+            if(openTicketList[i].status == 'Review Fail'){
+              reviewFailTickets.push(openTicketList[i]);
+            }if(openTicketList[i].status == 'New'){
+              newTickets.push(openTicketList[i]);
+            }else if(openTicketList[i].status == 'Approved'){
+              approvedTickets.push(openTicketList[i]);
+            }else if(openTicketList[i].status == 'Rejected'){
+              rejectedTickets.push(openTicketList[i]);
+            }else if(openTicketList[i].status == 'Completed'){
+              completedTickets.push(openTicketList[i]);
+            }else if(openTicketList[i].status == 'In Process'){
+              inProcessTickets.push(openTicketList[i]);
             }
           }
-          assignedTicketList = [];
+          openTicketList = [];
           reviewFailTickets.sort(function(a,b){ return new Date(a.tatDate) - new Date(b.tatDate);});
           tmVerifiedTickets.sort(function(a,b){ return new Date(a.tatDate) - new Date(b.tatDate);});
           proofSubmittedTickets.sort(function(a,b){ return new Date(a.tatDate) - new Date(b.tatDate);});
@@ -413,11 +413,11 @@ export default OpenTicketsContainer = withTracker(props => {
           rejectedTickets.sort(function(a,b){ return new Date(a.tatDate) - new Date(b.tatDate);});
           completedTickets.sort(function(a,b){ return new Date(a.tatDate) - new Date(b.tatDate);});
           inProcessTickets.sort(function(a,b){ return new Date(a.tatDate) - new Date(b.tatDate);});
-          assignedTicketList = reviewFailTickets.concat(newTickets);
-          assignedTicketList = assignedTicketList.concat(approvedTickets);
-          assignedTicketList = assignedTicketList.concat(rejectedTickets);
-          assignedTicketList = assignedTicketList.concat(completedTickets);
-          assignedTicketList = assignedTicketList.concat(inProcessTickets);
+          openTicketList = reviewFailTickets.concat(newTickets);
+          openTicketList = openTicketList.concat(approvedTickets);
+          openTicketList = openTicketList.concat(rejectedTickets);
+          openTicketList = openTicketList.concat(completedTickets);
+          openTicketList = openTicketList.concat(inProcessTickets);
           break;
         case 'quality team leader' :
           for(i=0; i < openTicketList.length;i++){
@@ -433,16 +433,16 @@ export default OpenTicketsContainer = withTracker(props => {
               inProcessTickets.push(openTicketList[i]);
             }
           }
-          assignedTicketList = [];
+          openTicketList = [];
           newTickets.sort(function(a,b){ return new Date(a.tatDate) - new Date(b.tatDate);});
           approvedTickets.sort(function(a,b){ return new Date(a.tatDate) - new Date(b.tatDate);});
           rejectedTickets.sort(function(a,b){ return new Date(a.tatDate) - new Date(b.tatDate);});
           completedTickets.sort(function(a,b){ return new Date(a.tatDate) - new Date(b.tatDate);});
           inProcessTickets.sort(function(a,b){ return new Date(a.tatDate) - new Date(b.tatDate);});
-          assignedTicketList = newTickets.concat(approvedTickets);
-          assignedTicketList = assignedTicketList.concat(rejectedTickets);
-          assignedTicketList = assignedTicketList.concat(completedTickets);
-          assignedTicketList = assignedTicketList.concat(inProcessTickets);
+          openTicketList = newTickets.concat(approvedTickets);
+          openTicketList = openTicketList.concat(rejectedTickets);
+          openTicketList = openTicketList.concat(completedTickets);
+          openTicketList = openTicketList.concat(inProcessTickets);
           break;
       }
     }

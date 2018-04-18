@@ -43,7 +43,8 @@
 .downloadLable{
     font-size: 14px;
     padding: 1%;
-    margin-left: 15%
+	margin-left: 15%
+	
 }
 .acceptrejectwrap{
 	margin-top:2%;
@@ -117,4 +118,14 @@
 }
 .bcolor{
 	color: #333;
+}
+.viewbtn:hover{
+	color: #fff;
+}
+.finalApprovewrap{
+	margin-top:2%;
+}
+.docdownload label{
+	font-size: 14px;
+    padding: 1%;
 }

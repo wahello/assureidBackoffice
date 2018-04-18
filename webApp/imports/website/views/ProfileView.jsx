@@ -45,16 +45,6 @@ class ProfileView extends TrackerReact(Component){
               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <hr className="col-lg-11 col-md-12 col-sm-12 col-xs-12 horizontalLine" />
                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noProfilePadding">
-                  <i className="fa fa-file-text-o col-lg-1 col-md-1 col-sm-1 col-xs-1 viewlogo"></i> 
-                  <span className="col-lg-11 col-md-11 col-sm-11 col-xs-11 viewTitle">Summary</span>
-                </div>
-                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 summeryContent">
-                  <p>
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-                  </p>
-                </div>
-                <hr className="col-lg-11 col-md-12 col-sm-12 col-xs-12 horizontalLine" />
-                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noProfilePadding">
                   <i className="fa fa-user col-lg-1 col-md-1 col-sm-1 col-xs-1 viewlogo"></i> 
                   <span className="col-lg-9 col-md-9 col-sm-9 col-xs-9 viewTitle">Basic Information</span>
                   {
@@ -85,9 +75,18 @@ class ProfileView extends TrackerReact(Component){
                 </div>
                 <BasicInfoRequired userData={this.props.userData}/> 
                 <hr className="col-lg-11 col-md-12 col-sm-12 col-xs-12 horizontalLine" />
+                {}
                 <AddressRequired profileId={this.props.userData._id} permanentAddress={this.props.userData.permanentAddress} currentAddress={this.props.userData.currentAddress} currentUrl={this.props._id}/>
                 <hr className="col-lg-11 col-md-12 col-sm-12 col-xs-12 horizontalLine" />  
-                <AcademiceRequired key={this.props.userData._id + '-academics'} academicsData={this.props.userData.education} professionalData={this.props.userData.professionalEducation} currentUrl={this.props._id} />  
+                {
+                  this.props.userData.education || this.props.userData.professionalEducation ?
+                    this.props.userData.education.length > 0 || this.props.userData.professionalEducation.length > 0 ?
+                      <AcademiceRequired key={this.props.userData._id + '-academics'} academicsData={this.props.userData.education} professionalData={this.props.userData.professionalEducation} currentUrl={this.props._id} />  
+                    :
+                    ""
+                  :
+                  ""
+                }
                 <hr className="col-lg-11 col-md-12 col-sm-12 col-xs-12 horizontalLine" />
                 <EmploymentRequired key={this.props.userData._id + '-employement'} employeeData={this.props.userData.employement} currentUrl={this.props._id} />	      
                 <hr className="col-lg-11 col-md-12 col-sm-12 col-xs-12 horizontalLine" />
