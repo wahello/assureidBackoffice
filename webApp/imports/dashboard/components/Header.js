@@ -245,14 +245,14 @@ headerContainer = withTracker(props => {
     const companyData = Meteor.subscribe('companyData');
     const user        = Meteor.users.findOne({"_id" : _id}) || {};
     const loading     = !userHandle.ready();
-    if(Meteor.user().count){
-      var count = Meteor.user().count;
-    }else{
-      var count = 0;
+    var roles = Roles.userIsInRole(Meteor.userId(),['screening committee','team leader','quality team member','quality team leader'])
+    if(roles){
+      if(Meteor.user().count){
+        var count = Meteor.user().count;
+      }else{
+        var count = 0;
+      }
     }
-   
-    var loginrole = Meteor.user().roles;
-   
      var companyDetails =  CompanySettings.findOne({'companyId':1});
      if(companyDetails){
       var maxallocatedArr  = companyDetails.maxnoOfTicketAllocate;

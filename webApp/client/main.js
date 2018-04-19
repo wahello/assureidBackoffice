@@ -572,7 +572,6 @@ addTicketVideoS3Function = function(file,self) {
 },
 
 addReportFunction = function(file,self,fileextension) {
-    console.log("self",self);
     uploadInstance = TicketReport.insert({
                                         file: file,
                                         meta: {

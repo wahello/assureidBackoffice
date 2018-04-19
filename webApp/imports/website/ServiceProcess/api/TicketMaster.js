@@ -65,6 +65,7 @@ if(Meteor.isServer){
 
 		//Update TicketElement
 		//Write code for split
+	
 		var memberValue = insertData.allocatedToUserName;
 		var a = memberValue.indexOf("(");
 		if(a !== -1){
@@ -162,7 +163,7 @@ if(Meteor.isServer){
 				TempTicketVideo.remove({});
 				var curTicket = TicketMaster.findOne({"_id":ticketid});
 				if(curTicket){
-					console.log('in curTicket ',curTicket._id);
+					
 					var ticketElements = curTicket.ticketElement; 
 					var selfAllocated = ticketElements.find(function (obj) { return obj.roleStatus == 'SelfAllocated' });
 					if(selfAllocated){
@@ -276,6 +277,8 @@ if(Meteor.isServer){
 							$set: {
 								'reportSubmited.createdAt' : insertData.createdAt,
 								'reportSubmited.documents' : insertData.reportSubmited,
+								'reportSubmited.fileExtension' : insertData.fileExtension,
+								
 							}
 						});
 						TempTicketReport.remove({});
@@ -903,5 +906,17 @@ if(Meteor.isServer){
 			}
 
 		},
+	
+	/**============== Delete Report================== */
+	deleteReport(ticketid){
+		TicketMaster.update({'_id':ticketid},
+		{
+			$set:{
+				reportSubmited:{},
+			}
+		}
+		)
+
+	}
 	});
 }

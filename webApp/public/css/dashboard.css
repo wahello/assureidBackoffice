@@ -6575,16 +6575,7 @@ margin-top: 20px;
   margin-bottom: 6%;
   text-align: center;
 }
-.docdownload{
-    font-size: 46px;
-    /*padding: 0px 10px;*/
-    text-align: center;
-    color: #ccc;
-    border: 1px solid #aaa;
-    margin-bottom: 2%;
-    padding: 0%!important;
-    cursor: pointer;
-}
+
 .NOleftPad{
   padding-left: 0px;
 }

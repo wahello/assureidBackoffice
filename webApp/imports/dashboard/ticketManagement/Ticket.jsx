@@ -33,6 +33,7 @@ class Ticket extends TrackerReact(Component){
       "showRejectBox" : 'N',
       "radioState":'',
       "showRadiobtn": 'N',
+      // "showHideBtn":true,
     }   
   }
   componentWillReceiveProps(nextProps){
@@ -60,7 +61,7 @@ class Ticket extends TrackerReact(Component){
   }
   getRejectBox(){
     return(
-      <div className="col-lg-7 col-md-7 col-sm-12 col-xs-12 finalApprovewrap">
+      <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 finalApprovewrap">
         <textarea rows="3" cols="60" className="col-lg-6 col-lg-offset-0" id="rejectReason"/>
         <button onClick={this.rejectButton.bind(this)}
           id="rejectButton"
@@ -146,10 +147,12 @@ class Ticket extends TrackerReact(Component){
     $(event.currentTarget).css({"display" : "none"});
   }
   handleReportUpload(event){
+    
     event.preventDefault();
     let self = this;
     if (event.currentTarget.files && event.currentTarget.files[0]) {
       var dataImg =event.currentTarget.files[0];
+       
       if(dataImg){
         
             var imageFileName = dataImg.name;
@@ -246,6 +249,32 @@ class Ticket extends TrackerReact(Component){
         );
     }
   }
+  reportReSubmit(event){
+    event.preventDefault();
+    var ticketId = this.props.ticketId;
+    var insertData = {
+      "userId"              : Meteor.userId(),
+      "userName"            : Meteor.user().profile.firstname + ' ' + Meteor.user().profile.lastname,
+      "role"                : Meteor.user().roles.find(this.getRole),
+      "roleStatus"          : $(event.currentTarget).attr('data-roleStatus'),
+      "msg"                 : $(event.currentTarget).attr('data-msg'),
+      "allocatedToUserid"   : '',
+      "allocatedToUserName" : '',
+      "createdAt"           : new Date()
+    }
+    if(!this.props.loading){
+      var reportLinkDetails = TempTicketReport.findOne({},{sort:{'createdAt':-1}}); 
+      if(reportLinkDetails){
+        insertData.reportSubmited = reportLinkDetails.ReportLink;
+        insertData.fileExtension  = reportLinkDetails.fileExtension;
+      }
+    }
+    Meteor.call('genericUpdateTicketMasterElement',this.props.ticketId,insertData,(error,result)=>{
+      if(result == 1){
+        $('#showReport').css('display','none');
+      }
+    });
+  }
   approveButton(event){
     event.preventDefault();
     var ticketId = this.props.ticketId;
@@ -267,7 +296,7 @@ class Ticket extends TrackerReact(Component){
       case 'AssignReject' :
         insertData.allocatedToUserid = $("#selectTMMember option:selected").val();
         insertData.allocatedToUserName = $("#selectTMMember option:selected").text();
-        console.log(insertData);        
+            
         break;
       case 'Assign' :
       case 'ProofSubmit' :
@@ -332,6 +361,24 @@ class Ticket extends TrackerReact(Component){
     }
   }
  
+  targetReport(){
+    window.scrollBy(0, -300);
+  }
+  deleteReport(event){
+      event.preventDefault();
+      var id = $(event.currentTarget).attr('id');
+      
+      
+      Meteor.call('deleteReport',id,function (error,result) {
+        if (error) {
+          console.log(error.reason);
+        }else{
+        $('#showReport').css('display','block');
+          
+        }
+      });
+
+  }
   actionBlock(){
     var n = this.props.getTicket.ticketElement.length;
     var reportLinkDetails = TempTicketReport.findOne({},{sort:{'createdAt':-1}}); 
@@ -633,34 +680,27 @@ class Ticket extends TrackerReact(Component){
         break;
       case 'QAFail' :
         if(Meteor.user().roles.find(this.getRole) == 'team member' && this.props.getTicket.ticketElement[n-1].allocatedToUserid == Meteor.userId()){
-          var title = "Team Member"; 
+          
           return(
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
               <h5> {title} </h5>
-             
-              <div className="col-lg-10 col-md-10 col-md-offset-0 col-xm-12 col-xs-12">
-                <h6>Submitted Report</h6>
-                <div className="col-lg-5 col-md-5 col-sm-12 col-xs-12">
-                  <div className="docdownload col-lg-3 col-lg-offset-1" title="Download Previous Report">
-                      <a href={this.props.getTicket.reportSubmited.documents} download>
-                        <i className="fa fa-file-text-o" aria-hidden="true"></i>
-                      </a>
-                  </div>
-                  <lable className=" col-lg-9 col-md-9 col-sm-12 col-xs-12 downloadLable">Download Previous Report</lable>
-                </div>
-                <span>Upload Report : </span>
-                <div className="col-lg-7 col-lg-offset-0 col-md-7 col-md-offset-0 col-sm-10 col-sm-offset-1 col-xs-12">
-                  <div className="">
-                      <input type="file" ref="uploadReportFile" id="uploadReport" name="uploadReport" className="col-lg-7 reporttitle noLRPad" onChange={this.handleReportUpload.bind(this)} multiple/>
-                  </div>
-                  <div className="col-lg-5">
-                      <button type="button" className="fesubmitbtn col-lg-5" data-roleStatus="ReportReSubmitted" data-msg="Re-Submitted Verification Information" onClick={this.approveButton.bind(this)}>Submit</button>
-                  </div>
-                </div>
+              <div className="col-lg-10 col-lg-offset-2 col-md-12 col-sm-12 col-xs-12 fesubmitbtn">
+              {/* <a href="#displayReporta"> */}
+                   <button type="button" className="btn reportcommonbtn btn-info" onClick = {this.targetReport.bind(this)}>Edit Report</button>
+              {/* </a> */}
+
                
+                {
+                  this.props.getTicket.ticketElement.find(function (obj) { return obj.roleStatus == 'SelfAllocated' })?
+                    
+                    <button type="button" className="btn reportcommonbtn btn-info">Edit Inforamation</button>
+                  :
+                 
+                    <button type="button" className="btn reportcommonbtn btn-info">Ask FE/BA To Report</button>
+                }
               </div>
             </div>
-          )
+          ) 
         }
         break;
       case 'QAPassQTLAllocated' :
@@ -741,6 +781,8 @@ class Ticket extends TrackerReact(Component){
         break;
     }
   }
+
+
 
 render(){
     if(!this.props.loading){
@@ -851,12 +893,28 @@ render(){
                             <VerifyDetailsDocument ticketId={this.props.params.id}/>
                         </div>
                         <VerifiedDocuments ticketId={this.props.params.id}/>
-                         <div>
-                          {this.props.getTicket.reportSubmited ?
+                        <div id="SubmittedDocuments" >
+                          {this.props.getTicket.submitedDoc ?
+                            <SubmittedDocuments submittedDocuments={this.props.getTicket.submitedDoc} ticketId={this.props.params.id} />
+                            :
+                            ""
+                          }
+                        </div>
+
+                        <div id="displayReporta">
+                          {this.props.getTicket.reportSubmited && this.props.getTicket.reportSubmited.documents?
                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outeReportBlock">
                                 <h6 className="dataDetails col-lg-1 col-md-1 col-sm-1 col-xs-1">Report:</h6> 
+                                {
+                                  Roles.userIsInRole(Meteor.userId(),['team member'])?
+                                    <i className="fa fa-times tempImageDelete" title="Delete Report" id={this.props.params.id} onClick={this.deleteReport.bind(this)}></i>                                
+                                  :
+                                    ""
+                                }
                                   <div className="docdownload col-lg-1 col-lg-offset-1" title="Download Report">
+
+
                                       <a href={this.props.getTicket.reportSubmited.documents} download>
                                         {
                                           this.props.getTicket.reportSubmited.fileExtension ?
@@ -877,16 +935,33 @@ render(){
                               </div>   
                             </div>                       
                             :
-                            ""
+                            null
                           }
-                        </div>
-                        <div id="SubmittedDocuments" >
-                          {this.props.getTicket.submitedDoc ?
-                            <SubmittedDocuments submittedDocuments={this.props.getTicket.submitedDoc} ticketId={this.props.params.id} />
+                          {
+                            this.props.showHideBtn ?
+                            <div  id="showReport" className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
+                            {/* <h5> {title} </h5> */}
+                            <span className="uploadreportTitle">Upload Report : </span>
+                            <div className="col-lg-7 col-lg-offset-1 col-md-10 col-md-offset-1 col-xm-12 col-xs-12">
+                              <div className="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                                  
+                                  {this.getUploadReportPercentage()}
+                              </div>
+                            
+                              <div className="col-lg-9 col-lg-offset-1">
+                                  <input type="file" ref="uploadReportFile" id="uploadReport" name="uploadReport" className="col-lg-7 reporttitle noLRPad" onChange={this.handleReportUpload.bind(this)} multiple/>
+                              </div>
+                              <div className="col-lg-7">
+                                  <button type="button" className="fesubmitbtn col-lg-5 col-lg-offset-2" data-roleStatus="ReportReSubmitted" data-msg="Submitted Verification Information" onClick={this.reportReSubmit.bind(this)}>Submit</button>
+                              </div>
+                            </div>
+                          </div>
                             :
-                            ""
+                            null
                           }
+                          
                         </div>
+
                       
                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outerShadow">
@@ -964,7 +1039,14 @@ export default UserDetailsContainer = withTracker(props => {
       }
     }
    
-  }       
+  }   
+  
+  if(getTicket && getTicket.reportSubmited && getTicket.reportSubmited.documents){
+    var showHideBtn = false;
+  }else{
+    var showHideBtn = true;
+
+  }
  
   return {
     loading,
@@ -972,6 +1054,6 @@ export default UserDetailsContainer = withTracker(props => {
     user,
     userProfile,
     ticketId,
-   
+    showHideBtn,
   };
 })(Ticket);

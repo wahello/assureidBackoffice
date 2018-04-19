@@ -47,7 +47,7 @@ class AllocatedTickets extends TrackerReact(Component){
                                 })
                             :
                                 <div>
-                                    return(<span className ="nodata">Nothing To Dispaly</span>);
+                                    <span className ="nodata">Nothing To Dispaly</span>
                                 </div>
                             }
                         </tbody>
@@ -185,24 +185,24 @@ export default AllocatedTicketsContainer = withTracker(props => {
                 case 'quality team leader' :
                     switch (ticketElements[ticketElements.length - 1].roleStatus) {
                     case 'QAPassQTLAllocated':
-                        assignedTicketList[i].status = 'New' ;      
-                        assignedTicketList[i].bgClassName = 'btn-warning';
+                        allocatedTicketList[i].status = 'New' ;      
+                        allocatedTicketList[i].bgClassName = 'btn-warning';
                         break;
                     case 'ReviewPass' :
-                        assignedTicketList[i].status = 'Approved' ; 
-                        assignedTicketList[i].bgClassName = 'btn-success';
+                        allocatedTicketList[i].status = 'Approved' ; 
+                        allocatedTicketList[i].bgClassName = 'btn-success';
                         break;
                     case 'ReiewFail' :
-                        assignedTicketList[i].status = 'Rejected' ;
-                        assignedTicketList[i].bgClassName = 'btn-danger';
+                        allocatedTicketList[i].status = 'Rejected' ;
+                        allocatedTicketList[i].bgClassName = 'btn-danger';
                         break;
                     case 'ReviewPass' :
-                        assignedTicketList[i].status = 'Completed' ;
-                        assignedTicketList[i].bgClassName = 'btn-success';
+                        allocatedTicketList[i].status = 'Completed' ;
+                        allocatedTicketList[i].bgClassName = 'btn-success';
                         break;
                     default:
-                        assignedTicketList[i].status = 'In Process' ;
-                        assignedTicketList[i].bgClassName = 'btn-primary';
+                        allocatedTicketList[i].status = 'In Process' ;
+                        allocatedTicketList[i].bgClassName = 'btn-primary';
                         break;
                     }
                     break;

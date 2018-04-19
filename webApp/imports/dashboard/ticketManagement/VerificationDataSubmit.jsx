@@ -242,9 +242,7 @@ class VerificationDataSubmit extends TrackerReact(Component){
     deleteImageFromticket(event){
         event.preventDefault();
         var id = $(event.currentTarget).attr('id');
-        // console.log("id",id);
         var dataIndex = parseInt($(event.currentTarget).attr('data-index'));
-        // console.log("dataIndex",dataIndex);
         Meteor.call('deleteImageFromSubmitDocument',id,dataIndex,function(error,result){
             if (error) {
                 console.log(error.reason);
