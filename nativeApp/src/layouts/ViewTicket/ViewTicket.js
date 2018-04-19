@@ -13,7 +13,10 @@ import {
   Alert,
   BackAndroid,
   findNodeHandle,
-  DrawerLayoutAndroid
+  DrawerLayoutAndroid,
+  Modal,
+  TouchableHighlight,
+  Dimensions
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import {
@@ -36,10 +39,11 @@ import {
   Cols,
   Cell
 } from "react-native-table-component";
-import Modal from "react-native-modal";
+// import Modal from "react-native-modal";
 import { TextField } from 'react-native-material-textfield';
+import Pdf from 'react-native-pdf';
 
-
+const window = Dimensions.get('window');
 import styles from "./styles.js";
 import Menu from "../../components/Menu/Menu.js";
 import HeaderDy from "../../components/HeaderDy/HeaderDy.js";
@@ -58,6 +62,7 @@ class ViewTicket extends React.Component {
       selectedItem      : "About",
       inputFocusColor   : '#f7ac57',
       Remark            : '',
+      modalVisible      : false,
       
     };
     this.openDrawer = this.openDrawer.bind(this);
@@ -115,27 +120,102 @@ class ViewTicket extends React.Component {
     this.drawer.closeDrawer();
   }
 
+  setModalVisible(visible) {
+    this.setState({modalVisible: visible});
+  }
+
   displayAttachments =()=>{
-   
+    var data = [];
     var verificationDocuments = this.props.verificationDocument;
-     // console.log('verificationDocuments ',verificationDocuments);
-      if(verificationDocuments){
-        return(
-          verificationDocuments.map((item,i)=>
-            <View key={i} style={{paddingHorizontal:10,paddingVertical:10}}>
-             <Image
-                style={{ width: 50, height: 50, borderRadius: 15,}}
-                resizeMode="stretch"
-                source={{uri:`item`}}
-              />
-            </View>
-        )
-      );
-    }    
+    if(verificationDocuments){
+       verificationDocuments.map((item,i)=>{
+
+        var fileName = "https://s3.ap-south-1.amazonaws.com/assureidportal/ProofDocuments/"+item.proofOfDocument.split('original/')[1]+'.'+item.fileExt;
+        data.push(
+                  <View key={i} style={{paddingHorizontal:10,paddingVertical:10}}>
+                    <TouchableHighlight
+                      onPress={() => {
+                        this.setModalVisible(true);
+                    }}>
+                    {item.fileExt == 'pdf' ? 
+                      <Image
+                        onPress={() => {this.setModalVisible(true);}}
+                        style={{ width: 50, height: 50, borderRadius: 15}}
+                        resizeMode="stretch"
+                        source={require("../../images/pdf-icon.png")}
+                      />
+                    :
+                      <Image
+                        onPress={() => {this.setModalVisible(true);}}
+                        style={{ width: 50, height: 50, borderRadius: 15}}
+                        resizeMode="stretch"
+                        source={require("../../images/imgIcon.png")}
+                      />
+                    }
+                    </TouchableHighlight>
+                    <Modal
+                      animationType="slide"
+                      transparent={false}
+                      visible={this.state.modalVisible}
+                      onRequestClose={() => {
+                        Alert.alert('Modal has been closed.');
+                      }}>
+                      <View>
+                        <View>
+                        <View style={{zIndex : 1, position : 'absolute',backgroundColor:'rgba(52, 52, 52, 0.6)'}}>
+                          <TouchableOpacity>
+                          <Button
+                            large
+                            title="Close"
+                            onPress={() => {
+                              this.setModalVisible(!this.state.modalVisible);
+                            }}
+                            buttonStyle={{ width : window.width, backgroundColor : 'transparent'}}
+                            />  
+                          </TouchableOpacity>  
+                        </View>
+                        {item.fileExt == 'pdf' ? 
+
+                          <View style = {[styles.lineStyle,{height: window.height, width: window.width}]}>
+                              <Pdf
+                                  // source={source}
+                                  source={{uri:fileName}}
+                                  onLoadComplete={(numberOfPages,filePath)=>{
+                                      console.log(`number of pages: ${numberOfPages}`);
+                                  }}
+                                  onPageChanged={(page,numberOfPages)=>{
+                                      console.log(`current page: ${page}`);
+                                  }}
+                                  onError={(error)=>{
+                                      console.log('error: ',error);
+                                  }}
+                                  style={styles.pdf}
+                                  fitWidth={true}/>
+                          </View>
+
+                          :
+
+                          <Image
+                            onPress={() => {this.setModalVisible(true);}}
+                            style={{ height: window.height, width: window.width}}
+                            resizeMode="stretch"
+                            source={{uri:fileName}}
+                          />
+                        }
+                        </View>
+                      </View>
+                    </Modal>
+                  </View>
+                  )
+        })       
+    }
+
+    return data;    
   }
 
 
   render() {
+
     var userData  = Meteor.user().profile;
     // console.log('view ticket:',userData);
     const { navigate, goBack, state } = this.props.navigation;
@@ -287,13 +367,13 @@ class ViewTicket extends React.Component {
                   </View>
                   <View style={{flex:1,flexDirection:'row',paddingVertical:10}}>
                     <View style={{ flex:.5,marginLeft:15}}>
-                     {userData.userProfile 
+                     {this.props.viewTicketData &&  this.props.viewTicketData.userProfile
                       ?
                         <Avatar
                           width={80}
                           height={80}
                           rounded
-                          source={{uri:userData.userProfile}}
+                          source={{ uri : "https://s3.ap-south-1.amazonaws.com/assureid.com/UserImage/"+this.props.viewTicketData.userProfile.split('original/')[1]}}
                           avatarStyle={{borderWidth:1,borderColor:'#000'}}
                           containerStyle={{marginBottom:5}}
                         />
@@ -302,7 +382,7 @@ class ViewTicket extends React.Component {
                             width={90}
                             height={90}
                             rounded
-                            source={{uri : "https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg"}}
+                            source={require('../../images/userIcon.jpg')}
                             activeOpacity={0.7}
                           />  
                       }
@@ -324,6 +404,7 @@ class ViewTicket extends React.Component {
                     :<Loading />}
                   </View>
                   <View style = {styles.lineStyle} />
+
                   {this.props.viewTicketData?
                     <View style = {styles.formInputView}>
                       <View style={{flex:.5,paddingVertical:15}}>
@@ -398,6 +479,7 @@ export default createContainer((props) => {
     viewTicketData.lastName    = viewTicketUserData.lastName;
     viewTicketData.gender      = viewTicketUserData.gender;
     viewTicketData.dateOfBirth = viewTicketUserData.dateOfBirth;
+    viewTicketData.userProfile = viewTicketUserData.userProfile;
 
     var ticketElements    = viewTicketData.ticketElement;
     var FEDetails         = ticketElements.find((obj)=> { return obj.roleStatus == 'FEAllocated' });
@@ -407,7 +489,7 @@ export default createContainer((props) => {
     if(assignedBy){
       assignedByName = assignedBy.profile.firstname+' '+assignedBy.profile.lastname
     }
-    console.log('FEDetails: ',FEDetails);
+    // console.log('FEDetails: ',FEDetails);
     
     var today     = new Date();    
     var birthDate = new Date(viewTicketUserData.dateOfBirth);    

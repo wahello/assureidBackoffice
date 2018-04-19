@@ -172,4 +172,14 @@ export default StyleSheet.create({
     paddingTop:0,
     paddingBottom:0,
   },
+  container: {
+      flex: 1,
+      justifyContent: 'flex-start',
+      alignItems: 'center',
+      marginTop: 25,
+  },
+  pdf: {
+      flex:1,
+      width:window.width,
+  }
 });
