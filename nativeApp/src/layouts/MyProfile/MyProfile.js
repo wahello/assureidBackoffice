@@ -85,7 +85,7 @@ class MyProfile extends React.Component {
 
   render(){
     var {userData}= this.props;
-    const {navigate}  = this.props.navigation;
+    const {navigate, goBack}  = this.props.navigation;
     const { state }   = this.props.navigation;
     const menu = <Menu navigate={navigate} userName={this.props.userName}/>;
     var navigationView = (
@@ -108,10 +108,11 @@ class MyProfile extends React.Component {
       </ScrollView>
     );
 
+
     return(
       <DrawerLayoutAndroid
        drawerWidth={300}
-        ref={(_drawer) => this.drawer = _drawer}
+       ref={(_drawer) => this.drawer = _drawer}
        drawerPosition={DrawerLayoutAndroid.positions.Right}
        renderNavigationView={() => navigationView}>
         <SideMenu disableGestures={true} openMenuOffset={300} menu={menu} isOpen={this.state.isOpen}  onChange={isOpen => this.updateMenuState(isOpen)} >
@@ -139,12 +140,13 @@ class MyProfile extends React.Component {
                 <Header
                   centerComponent={{ text: "My Profile", style:{ color: '#fff',alignSelf:'center'} }}
                   leftComponent={
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={()=> this.props.navigation.navigate('Dashboard')}>
                       <Icon size={25} name='arrow-left' type='feather' color='#fff' />
                     </TouchableOpacity>
                   }
                   outerContainerStyles={{borderColor:'transparent', backgroundColor: '#3c8dbc',height:50,padding:10,margin:0}}
                   innerContainerStyles={{marginTop:0,paddingTop:0}}
+                  
                 />
 
               <TouchableOpacity onPress={()=> navigate('EditMyProfile')}>
@@ -154,16 +156,28 @@ class MyProfile extends React.Component {
               </TouchableOpacity>
                 <View style={styles.formContainer}>
                   <View style={{ flex: 3}}>
-                    <Avatar
-                      width={90}
-                      height={90}
-                      rounded
-                      source={{
-                        uri:
-                          "https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg"
-                      }}
-                      activeOpacity={0.7}
-                    />
+                   {userData.profile.userProfile 
+                    ?
+                      <Avatar
+                        width={80}
+                        height={80}
+                        rounded
+                        source={{uri:userData.profile.userProfile}}
+                        avatarStyle={{borderWidth:1,borderColor:'#000'}}
+                        containerStyle={{marginBottom:5}}
+                      />
+                    :
+                        <Avatar
+                          width={90}
+                          height={90}
+                          rounded
+                          source={{
+                            uri:
+                              "https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg"
+                          }}
+                          activeOpacity={0.7}
+                        />  
+                    }
                   </View>
                   <View style={styles.formInputView}>
                     <View style={{flex:.5}}>
@@ -189,14 +203,14 @@ class MyProfile extends React.Component {
                       <Text>{userData.emails[0].address}</Text>
                     </View>
                   </View>
-                  <View style={styles.formInputView}>
+{/*                  <View style={styles.formInputView}>
                     <View style={{flex:.5}}>
                       <Text style={{fontWeight: 'bold',paddingRight:77}}>Alternate Email Id</Text>
                     </View>
                     <View style={{flex:.5}}>
                       <Text></Text>
                     </View>
-                  </View>
+                  </View>*/}
                   <View style={styles.formInputView}>
                     <View style={{flex:.5}}>
                       <Text style={{fontWeight: 'bold',paddingRight:20}}>Mobile Number</Text>
@@ -205,19 +219,19 @@ class MyProfile extends React.Component {
                       <Text>{userData.profile.mobNumber}</Text>
                     </View>
                   </View>
-                  <View style={styles.formInputView}>
+{/*                  <View style={styles.formInputView}>
                     <View style={{flex:.5}}>
                       <Text style={{fontWeight: 'bold',paddingRight:20}}>Alternate Mobile Number</Text>
                     </View>
                     <View style={{flex:.5}}>
                       <Text></Text>
                     </View>
-                  </View>
-                  <View style={styles.formInputView}>
+                  </View>*/}
+{/*                  <View style={styles.formInputView}>
                     <View style={{flex:.5}}>
                       <Text style={{fontWeight: 'bold',paddingRight:20}}>Address</Text>
                     </View>
-                  </View>
+                  </View>*/}
                 </View>
                 </ScrollView>
               </View>

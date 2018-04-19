@@ -167,6 +167,7 @@ class ViewTicketFormInfo extends React.Component {
     event.preventDefault();
 
     var checkLists = [];
+    var images     = [];
     //Get values for all the check box
     for(var i=0; i<this.props.checkObjs.length;i++){
       var dataChk ={};
@@ -197,13 +198,14 @@ class ViewTicketFormInfo extends React.Component {
 
     var status      = this.state.status;
     var subStatus   = this.state.subStatus;
-    var images      = [
-                        {  
-                          'userId'    : Meteor.userId(),
-                          'imageLink' : 'https://s3.ap-south-1.amazonaws.com/harmonicgroup/ProductImage/2Wvb8h6dvwMf7nppL.jpeg',
-                          'createdAt' : new Date(),
-                        }
-                      ];
+    for(var i=0; i<this.props.imgData.length;i++){
+      images.push({
+                    'userId'    : Meteor.userId(),
+                    'imageLink' : this.props.imgData[i].imgs,
+                    'createdAt' : new Date(),                  
+                });
+    }// EOF i loop
+
     var videos      = [
                         {
                           'userId'    : Meteor.userId(),
@@ -230,8 +232,8 @@ class ViewTicketFormInfo extends React.Component {
     if (this.props.tickets) {
         if (this.props.tickets.ticketElement) {
             if (this.props.tickets.ticketElement.length > 0) {
-                var ticketElements = this.props.tickets.ticketElement;
-                var teamMemberDetails = ticketElements.find(function (obj) { return obj.roleStatus == 'FEAllocated' });
+                var ticketElements    = this.props.tickets.ticketElement;
+                var teamMemberDetails = ticketElements.find((obj)=> { return obj.roleStatus == 'FEAllocated' });
                 // console.log('teamMemberDetails ',teamMemberDetails);
             }
         }
@@ -275,14 +277,14 @@ class ViewTicketFormInfo extends React.Component {
     let self = this; 
     DocumentPicker.show({ filetype : [DocumentPickerUtil.images()]},(error,res) => {
                           // Android
-                          console.log("----------res-----------------");
-                          console.log("res: ",res);
+                          // console.log("----------res-----------------");
+                          // console.log("res: ",res);
    
                         });    
   }
 
   delImg(event, id){
-    console.log('click id: ' ,id);
+    // console.log('click id: ' ,id);
   }
   render() {
     
@@ -531,7 +533,7 @@ class ViewTicketFormInfo extends React.Component {
 
                   <View style = {styles.formInputView}> 
                     <View style={{flex:1}}>
-                      <View style={{flexDirection:'row'}}>
+                      <View style={{flexDirection:'row',flex:1}}>
                         <TouchableOpacity  onPress={()=>navigate('Camera',{ ticket : this.props.ticket })} >
                           <Icon name="camera-enhance" type="MaterialIcons" size={50} color="#aaa"   />
                         </TouchableOpacity>
@@ -544,11 +546,14 @@ class ViewTicketFormInfo extends React.Component {
                                       <View style={styles.closeBtn}>
                                         <TouchableOpacity  onPress={(e) =>this.delImg(e, data._id)}><Icon name="close" type="MaterialIcons" size={23} color="#aaa"  /></TouchableOpacity>
                                       </View>
-                                      <Image
-                                        style={{ width: 50, height: 50, borderRadius: 15}}
-                                        resizeMode="stretch"
-                                        source={{ uri : data.imgs }}
+                                      <View style={{flex:0.3,alignItems:'center',justifyContent:'center'}}>
+                                      <Image  
+                                      style={{ width:40, height:40, borderRadius:20 }}                    
+                                      resizeMode="stretch"
+                                      source={{uri: data.imgs}}
+                                                     
                                       />
+                                      </View>
                                     </View>
                                   );
                           }) 

@@ -83,6 +83,7 @@ export default StyleSheet.create({
     // flex:1,
     // flexDirection:'row',
     backgroundColor:'#fff',
+    // color: '#fff',
     paddingVertical:5,
     borderBottomWidth:1,
     borderBottomColor:'#bbb'

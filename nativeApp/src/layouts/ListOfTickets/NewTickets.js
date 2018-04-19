@@ -19,7 +19,7 @@ import HeaderDy from '../../components/HeaderDy/HeaderDy.js';
 import styles from './styles.js';
 import Menu   from '../../components/Menu/Menu.js';
 
-class ListOfTickets extends React.Component {
+class NewTickets extends React.Component {
   constructor(props){
     super(props);
     let name = "";
@@ -83,6 +83,7 @@ class ListOfTickets extends React.Component {
 
   displayTicket(){
 
+  var newTickets = [];
   var { ticketData, user } = this.props;
   
   if(user){
@@ -106,19 +107,7 @@ class ListOfTickets extends React.Component {
               case 'FEAllocated':
                 ticketData[i].status = 'New' ;  
                 ticketData[i].bgClassName = '#f0ad4e';    
-                // ticketData[i].bgClassName = 'btn-warning';    
-                break;
-              case 'ProofResubmitted' :
-                ticketData[i].status = 'New-Reallocated' ;  
-                ticketData[i].bgClassName = '#f0ad4e';    
-                break;
-              case 'ReviewPass' :
-                ticketData[i].status = 'Completed' ;
-                ticketData[i].bgClassName = '#00a65a';
-                break;
-              default:
-                ticketData[i].status = 'In Process' ;
-                ticketData[i].bgClassName = '#337ab7';
+                newTickets.push(ticketData[i]);
                 break;
             }
             break;
@@ -128,23 +117,8 @@ class ListOfTickets extends React.Component {
                 ticketData[i].status = 'New' ;      
                 ticketData[i].bgClassName = '#f0ad4e';
                 break;
-              case 'ProofResubmitted' :
-                ticketData[i].status = 'New-Reallocated' ;  
-                ticketData[i].bgClassName = '#f0ad4e';    
-                break;
-              case 'ReviewPass' :
-                ticketData[i].status = 'Completed' ;
-                ticketData[i].bgClassName = '#00a65a';
-                break;
-              default:
-                ticketData[i].status = 'In Process' ;
-                ticketData[i].bgClassName = '#337ab7';
-                break;
+                newTickets.push(ticketData[i]);
             }
-            break;
-          default : 
-            ticketData[i].status = 'In Process' ;
-            ticketData[i].bgClassName = '#337ab7';
             break;
         }
       }  // EOF i loop
@@ -152,7 +126,7 @@ class ListOfTickets extends React.Component {
     }    
   }
 
-  // console.log('ticketData: ',ticketData);
+  console.log('ticketData: ',ticketData);
 
     return(
       ticketData.map((item,i)=>
@@ -326,7 +300,7 @@ class ListOfTickets extends React.Component {
                   </View>
                 }
               />
-            <HeaderDy headerTitle="List of Tickets" goBack={goBack} />
+            <HeaderDy headerTitle="New Tickets" goBack={goBack} />
               <View style={{ padding: 10 }}>
                 { this.displayTicket()}
               </View>
@@ -341,14 +315,13 @@ class ListOfTickets extends React.Component {
 export default createContainer((props) => {
 
   //initialise
-
-  const handle     = Meteor.subscribe('allTickets');
+  var _id          = Meteor.userId();
+  const handle     = Meteor.subscribe('allocatedTickets', _id);
   const handle1    = Meteor.subscribe('currentUserfunction');
   const loading    = handle.ready();
 
-  var _id          = Meteor.userId();
   const user       = Meteor.collection('users').findOne({"_id":_id});
-  var alltickets   =  Meteor.collection('ticketMaster').find({});
+  var alltickets   =  Meteor.collection('ticketMaster').find({ticketElement: { $elemMatch: { allocatedToUserid: _id }}});
 
   var result = {
     ticketData : alltickets ,
@@ -361,4 +334,4 @@ export default createContainer((props) => {
 
   return result;
 
-}, ListOfTickets);
+}, NewTickets);

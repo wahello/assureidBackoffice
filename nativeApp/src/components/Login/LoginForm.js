@@ -65,20 +65,35 @@ export default class LoginForm extends ValidationComponent {
     // }) ){
       // if (this.validInput(true)) {
         const { user, password } = this.state;
-        Meteor.loginWithPassword(user, password, (err) => {
-          if (err) {
-            console.log(err);
-            Alert.alert(
-              "Sorry! Unable to login",
-              err.reason,
-              [{ text: "OK"}],
-              { cancelable: false }
-            );
-            this.handleError("Unable to Login. Check Email / Mobile Number and Password.");
+
+        Meteor.call('FELogin', user, password, (error, result)=>{
+          if(error){
+            Alert.alert('error: ',error);
           }else{
-            this.handleError(null);
+            console.log('login result: ',result);
+            if(result){
+              Meteor.loginWithPassword(user, password, (err) => {
+                if (err) {
+                  console.log(err);
+                  Alert.alert(
+                    "Sorry! Unable to login",
+                    err.reason,
+                    [{ text: "OK"}],
+                    { cancelable: false }
+                  );
+                  this.handleError("Unable to Login. Check Email / Mobile Number and Password.");
+                }else{
+                  this.handleError(null);
+                }
+              });
+            }else{
+              Alert.alert('You are not authorised person.');
+            }
+
+
           }
         });
+
       // }
     // }
     // if(this.isFieldInError('user')){

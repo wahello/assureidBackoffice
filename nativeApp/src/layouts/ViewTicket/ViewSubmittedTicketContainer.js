@@ -114,10 +114,10 @@ class ViewSubmittedTicket extends React.Component {
     
     const { navigate, goBack, state } = this.props.navigation;
     
-    console.log('this.props.navigation: ',this.props.navigation);
-    console.log('goBack: ',goBack);
-    console.log('state: ',state);
-    console.log('navigate: ',navigate);
+    // console.log('this.props.navigation: ',this.props.navigation);
+    // console.log('goBack: ',goBack);
+    // console.log('state: ',state);
+    // console.log('navigate: ',navigate);
 
     let status = [{
       value: '-- Select --',
@@ -306,27 +306,18 @@ class ViewSubmittedTicket extends React.Component {
                   </View>
 
 
-                <View style={{width:'100%',padding:10}}>
+                <View style={[styles.lineStyle, {width:'100%',padding:10}]}>
                 {this.props.selectFEData ?
                   this.props.selectFEData.submitedDoc.textLists.map((textListDefault,index)=>{
                     return(
-                            <View style={styles.inputWrapper} key={index}>
+                            <View style={styles.lineStyle} key={index}>
                               <View style={styles.formInputView1}>
-                                <TextField
-                                  label                 = {textListDefault.task}
-                                  lineWidth             = {0}
-                                  tintColor             = {this.state.inputFocusColor}
-                                  inputContainerPadding = {4}
-                                  labelHeight           = {16}
-                                  keyboardType          = 'default'
-                                  inputContainerStyle   = {{height:60}}
-                                  style                 = {styles.inputTextNew}
-                                  labelTextStyle        = {styles.labelTextNew}
-                                  activeLineWidth       = {0}
-                                  fontSize              = {this.state.fontSize}
-                                  labelFontSize         = {this.state.fontSize}
-                                  value                 = {textListDefault.value}
-                                />
+                                <View>
+                                  <Text style={{fontWeight: 'bold'}}>{textListDefault.task}</Text>
+                                </View>
+                              </View>
+                              <View style={styles.formInputView1}>
+                                <Text>{textListDefault.value}</Text>
                               </View>
                             </View>
                           );
@@ -349,36 +340,25 @@ class ViewSubmittedTicket extends React.Component {
                         <TouchableOpacity >
                           <Icon name="camera-enhance" type="MaterialIcons" size={50} color="#aaa"   />
                         </TouchableOpacity>
-                        <View style={{paddingHorizontal:10,paddingVertical:10}}>
-                          <View style={styles.closeBtn}>
-                            <Icon name="close" type="MaterialIcons" size={20} color="#aaa"  />
-                          </View>
-                          <Image
-                            style={{ width: 50, height: 50, borderRadius: 15,}}
-                            resizeMode="stretch"
-                            source={require("../../images/pdf-icon.png")}
-                          />
-                        </View>
-                        <View style={{paddingHorizontal:10,paddingVertical:10}}>
-                          <View style={styles.closeBtn}>
-                            <Icon name="close" type="MaterialIcons" size={20} color="#aaa"  />
-                          </View>
-                          <Image
-                            style={{ width: 50, height: 50, borderRadius: 15,}}
-                            resizeMode="stretch"
-                            source={require("../../images/pdf-icon.png")}
-                          />
-                        </View>
-                        <View style={{paddingHorizontal:10,paddingVertical:10}}>
-                          <View style={styles.closeBtn}>
-                            <Icon name="close" type="MaterialIcons" size={20} color="#aaa"  />
-                          </View>
-                          <Image
-                            style={{ width: 50, height: 50, borderRadius: 15, }}
-                            resizeMode="stretch"
-                            source={require("../../images/pdf-icon.png")}
-                          />
-                        </View>
+
+
+                        {this.props.selectFEData ?
+                          this.props.selectFEData.submitedDoc.images.map((imgObj,index)=>{
+                            return(
+                                    <View style={{paddingHorizontal:10,paddingVertical:10}} key={index}>
+                                      <Image
+                                        style={{ width: 50, height: 50, borderRadius: 15}}
+                                        resizeMode="stretch"
+                                        source={{uri:imgObj.imageLink}}
+                                      />
+                                    </View>
+                                  );
+                                })
+                                :
+                               ""
+                        }
+
+
                       </View>
                     </View>
                   </View>
@@ -396,6 +376,7 @@ class ViewSubmittedTicket extends React.Component {
                     <View style={{flex:1}}>
                       <View style={{flexDirection:'row'}}>
                         <Icon name="videocam" type="MaterialIcons" size={50} color="#aaa"  />
+
                         <View style={{paddingHorizontal:10,paddingVertical:10}}>
                           <View style={styles.closeBtn}>
                             <Icon name="close" type="MaterialIcons" size={20} color="#aaa"  />
@@ -406,26 +387,7 @@ class ViewSubmittedTicket extends React.Component {
                             source={require("../../images/pdf-icon.png")}
                           />
                         </View>
-                        <View style={{paddingHorizontal:10,paddingVertical:10}}>
-                          <View style={styles.closeBtn}>
-                            <Icon name="close" type="MaterialIcons" size={20} color="#aaa"  />
-                          </View>
-                          <Image
-                            style={{ width: 50, height: 50, borderRadius: 15,}}
-                            resizeMode="stretch"
-                            source={require("../../images/pdf-icon.png")}
-                          />
-                        </View>
-                        <View style={{paddingHorizontal:10,paddingVertical:10}}>
-                          <View style={styles.closeBtn}>
-                            <Icon name="close" type="MaterialIcons" size={20} color="#aaa"  />
-                          </View>
-                          <Image
-                            style={{ width: 50, height: 50, borderRadius: 15, }}
-                            resizeMode="stretch"
-                            source={require("../../images/pdf-icon.png")}
-                          />
-                        </View>
+
                       </View>
                     </View>
                   </View>
@@ -438,7 +400,8 @@ class ViewSubmittedTicket extends React.Component {
                       </View>
                     </View>
                     <View style={styles.formInputViews}>
-                      <TextField
+                      <Text>{this.props.selectFEData.submitedDoc.remark}</Text>
+{/*                      <TextField
                         label                 = ''
                         lineWidth             = {0}
                         tintColor             = {this.state.inputFocusColor}
@@ -455,13 +418,19 @@ class ViewSubmittedTicket extends React.Component {
                         numberOfLines         = {4}
                         ref                   = 'remark'
                         value                 = {this.props.selectFEData.submitedDoc.remark}
-                      />
+                      />*/}
                     </View>
                   </View>
 
                   <View style = {styles.lineStyle} >
+                    <View style={styles.formInputView}>
+                      <View>
+                        <Text style={{fontWeight: 'bold'}}>Status</Text>
+                      </View>
+                    </View>
                     <View style={styles.formInputViews}>
-                      <Dropdown
+                    <Text>{this.props.selectFEData.submitedDoc.status}</Text>
+{/*                      <Dropdown
                         label                 = 'Status'
                         data                  = {status}
                         inputContainerStyle   = {styles.dropdownStyle}
@@ -469,13 +438,19 @@ class ViewSubmittedTicket extends React.Component {
                         labelHeight           = {16}
                         ref                   = 'status'
                         value                 = {this.props.selectFEData.submitedDoc.status}
-                      /> 
+                      />*/} 
                     </View>
                   </View>
 
                   <View style = {styles.lineStyle} >
+                    <View style={styles.formInputView}>
+                      <View>
+                        <Text style={{fontWeight: 'bold'}}>Sub-status</Text>
+                      </View>
+                    </View>
                     <View style={styles.formInputViews}>
-                      <Dropdown
+                      <Text>{this.props.selectFEData.submitedDoc.subStatus}</Text>
+{/*                      <Dropdown
                         label                 = 'Sub-status'
                         data                  = {subStatus}
                         inputContainerStyle   = {styles.dropdownStyle}
@@ -483,7 +458,7 @@ class ViewSubmittedTicket extends React.Component {
                         labelHeight           = {16}
                         ref                   = 'subStatus'
                         value                 = {this.props.selectFEData.submitedDoc.subStatus}
-                      /> 
+                      /> */}
                     </View>
                   </View>
 
@@ -500,7 +475,6 @@ class ViewSubmittedTicket extends React.Component {
 
 ViewSubmittedTicketContainer = createContainer( (props) => {
 
-    console.log('inside view');
     const ticket       = props.navigation.state.params.ticket;
     const postHandle   = Meteor.subscribe('allTicketImages');
     const postHandle1  = Meteor.subscribe('allTicketVideo');

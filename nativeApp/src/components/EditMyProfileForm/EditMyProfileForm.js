@@ -11,10 +11,13 @@ import SideMenu from 'react-native-side-menu';
 import RNExitApp from 'react-native-exit-app';
 import ValidationComponent from "react-native-form-validator";
 
+import { DocumentPicker, DocumentPickerUtil } from 'react-native-document-picker';
+import { RNS3 } from 'react-native-aws3';
+
 import styles from './styles.js';
 import Menu from '../../components/Menu/Menu.js';
 
-export default class EditMyProfileForm extends ValidationComponent {
+class EditMyProfileForm extends ValidationComponent {
   constructor(props){
     super(props);
     if(Meteor.user().emails[0].address){
@@ -29,6 +32,7 @@ export default class EditMyProfileForm extends ValidationComponent {
       inputFocusColor : '#00b8FF',
       firstname       : Meteor.user().profile.firstname,
       lastname        : Meteor.user().profile.lastname,
+      mobNumber       : Meteor.user().profile.mobNumber,
       emailId         : email,
       firstNameError  : "",
       lastNameError   : "",
@@ -125,10 +129,10 @@ export default class EditMyProfileForm extends ValidationComponent {
 
       'firstname'   : this.state.firstname,
       'lastname'    : this.state.lastname,
-      'email'       : this.state.emailId,
+      // 'email'       : this.state.emailId,
     }
     if(this.validInput()){
-      console.log(formValues,'formValues');
+      // console.log(formValues,'formValues');
       Meteor.call('userCustom',formValues,(error,result) =>{
         if(error){
           Alert.alert(
@@ -144,24 +148,102 @@ export default class EditMyProfileForm extends ValidationComponent {
     }
   };
 
+  editProfileImage = () =>{
+
+    var userId = Meteor.userId();
+    var s3Data = this.props.s3Data;
+
+    DocumentPicker.show({ filetype : [DocumentPickerUtil.images()]},(error,res) => {
+                          // Android
+                          console.log("Result:: ",res);
+                          // var fileName = userId+'_'+Date.now()+'_'+res.fileName;
+                          var fileName = userId+'_'+res.fileName;
+                          var fileExt = fileName.split('.').pop();  
+
+                          var file = {
+                            uri   : res.uri,
+                            name  : fileName,
+                            type  : res.type,
+                          }
+                          
+                          console.log("file obj => ",file);
+                          
+                          const options = {
+                            keyPrefix           : "uploads/",
+                            bucket              : s3Data.bucket,
+                            region              : s3Data.region,
+                            accessKey           : s3Data.key,
+                            secretKey           : s3Data.secret,
+                          }
+
+                          RNS3.put(file, options).then((response) => {
+                            console.log("------------response---------------");
+                            console.log('response: ',response);
+                            if (response.status !== 201)
+                              throw new Error("Failed to upload image to S3");
+                            console.log("=========  response.body  ==================");
+                            console.log(response.body);
+                            console.log("---------  response.body  ------------------");
+                            
+                            var imageLink = response.body.postResponse.location;
+                            
+                            Meteor.call("addUserProfileImage",userId,imageLink,(error,result) =>{
+                              if(error){
+                                console.log(error.reason);
+                                Alert.alert(
+                                  'Error',
+                                )
+                              }else{
+                                console.log("Image details saved.");
+                              }
+                            });
+                            /**
+                             * {
+                             *   postResponse: {
+                             *     bucket: "your-bucket",
+                             *     etag : "9f620878e06d28774406017480a59fd4",
+                             *     key: "uploads/image.png",
+                             *     location: "https://your-bucket.s3.amazonaws.com/uploads%2Fimage.png"
+                             *   }
+                             * }
+                             */
+                          }).catch((error) => console.log("Handled Exceptions image ",error));
+
+                        });    
+  }
   render(){
 
-    var userData = Meteor.user();
+    var userData = Meteor.user().profile;
  
     return(
         <View>
           <View style={styles.formContainer}>
             <View style={{ flex: 3, paddingTop: 15 }}>
-              <Avatar
-                width={90}
-                height={90}
-                rounded
-                source={{
-                  uri:
-                    "https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg"
-                }}
-                activeOpacity={0.7}
-              />
+
+             {userData.userProfile 
+              ?
+                <Avatar
+                  width={80}
+                  height={80}
+                  rounded
+                  source={{uri:userData.userProfile}}
+                  avatarStyle={{borderWidth:1,borderColor:'#000'}}
+                  containerStyle={{marginBottom:5}}
+                />
+              :
+                  <Avatar
+                    width={90}
+                    height={90}
+                    rounded
+                    source={{
+                      uri:
+                        "https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg"
+                    }}
+                    activeOpacity={0.7}
+                  />  
+              }
+
+              <View style={{zIndex : 1, position : 'absolute',bottom: 0}}><Icon name="camera" type="entypo" color="#54Aff3" onPress={this.editProfileImage.bind(this)}/></View>
             </View>
             <View style={styles.formInputView}>
               <TextField
@@ -202,87 +284,52 @@ export default class EditMyProfileForm extends ValidationComponent {
                 <Text style={styles.errorText}>{this.state.lastNameError}</Text>
               </View>
             ) : null}
-            <View style={styles.formInputView}>
-              <TextField
-                label                 = 'Email Id'
-                onChangeText          = {(emailId) => this.setState({emailId:emailId})}
-                value                 = {this.state.emailId}
-                lineWidth             = {1}
-                tintColor             = {this.state.inputFocusColor}
-                inputContainerPadding = {4}
-                labelHeight           = {16}
-                keyboardType          = 'default'
-                ref={input => (this.emailId = input)}
-              />
-            </View>
-            {this.state.emailError ? (
-              <View style={styles.error}>
-                <Text style={styles.errorText}>{this.state.emailError}</Text>
-              </View>
-            ) : null}
-             <View style={styles.formInputView}>
-              <TextField
-                label                 = 'Alternate Email Id'
-                onChangeText          = {(emailId) => this.setState({emailId:emailId})}
-                value                 = {this.state.emailId}
-                lineWidth             = {1}
-                tintColor             = {this.state.inputFocusColor}
-                inputContainerPadding = {4}
-                labelHeight           = {16}
-                keyboardType          = 'default'
-                ref={input => (this.emailId = input)}
-              />
-            </View>
-            {this.state.emailError ? (
-              <View style={styles.error}>
-                <Text style={styles.errorText}>{this.state.emailError}</Text>
-              </View>
-            ) : null}
+
             <View style={styles.formInputView}>
               <View>
-                <Text style={{fontSize:12,color:'#aaa'}}>Mobile Number *</Text>
+                <Text style={{fontSize:12,color:'#aaa'}}>Email Id</Text>
               </View>
               <View>
-                <Text style={{fontSize:15,color:'#000'}} ></Text>
+                <Text style={{fontSize:15,color:'#000'}} >{this.state.emailId}</Text>
               </View>
             </View>
+
             <View style={styles.formInputView}>
               <View>
-                <Text style={{fontSize:12,color:'#aaa'}}>Alternate Mobile Number *</Text>
+                <Text style={{fontSize:12,color:'#aaa'}}>Mobile Number</Text>
               </View>
               <View>
-                <Text style={{fontSize:15,color:'#000'}} ></Text>
+                <Text style={{fontSize:15,color:'#000'}} >{this.state.mobNumber}</Text>
               </View>
             </View>
-            <View style={styles.formInputView}>
-              <TextField
-                label                 = 'Address'
-                onChangeText          = {(Address) => this.setState({Address})}
-                value                 = {this.state.Address}
-                lineWidth             = {1}
-                tintColor             = {this.state.inputFocusColor}
-                inputContainerPadding = {4}
-                labelHeight           = {16}
-                keyboardType          = 'default'
-              />
-            </View>
+
+
             <View style={{
                 alignItems: 'center',
                 marginTop: 15
               }}>
-              <Button onPress = {this.updateProfile}
+              <Button onPress = {this.updateProfile.bind(this)}
               buttonStyle     = {styles.buttonLarge}
               title           = "UPDATE" />
             </View>
-            <View style={styles.formInputViews}>
-              <TouchableOpacity onPress={()=> this.props.navigate('ChangePassword')}>
-                  <Text style={{fontSize:15,color:'#aaa'}}>Change Password</Text>
-              </TouchableOpacity>
-              <Icon name="chevrons-right" type="feather" color="#aaa" />
-            </View>
+
           </View>
     </View>
          
     );
   }
 }
+
+
+export default createContainer((props) => {
+
+  const postHandle      = Meteor.subscribe('projectSettingsPublish');
+  const loading         = postHandle.ready();
+  const s3Data          = Meteor.collection('projectSettings').findOne({"_id":"1"});
+
+  return{
+    loading,
+    s3Data,
+  }
+
+}, EditMyProfileForm);

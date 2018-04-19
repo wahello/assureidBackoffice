@@ -19,7 +19,7 @@ import HeaderDy from '../../components/HeaderDy/HeaderDy.js';
 import styles from './styles.js';
 import Menu   from '../../components/Menu/Menu.js';
 
-class ListOfTickets extends React.Component {
+class CompletedRejectedTickets extends React.Component {
   constructor(props){
     super(props);
     let name = "";
@@ -83,6 +83,7 @@ class ListOfTickets extends React.Component {
 
   displayTicket(){
 
+  var completedTickets = [];
   var { ticketData, user } = this.props;
   
   if(user){
@@ -94,68 +95,26 @@ class ListOfTickets extends React.Component {
           
     // alltickets = ticketData;
     if(ticketData){
-      //find last status of the Tickets
+      //find last status of the Tickets if Review pass i.e. completed the push into the array 
       
       for(i=0;i< ticketData.length; i++){
         var ticketElementsData = ticketData[i].ticketElement;
-        // console.log(i,' = ',ticketElementsData);
-        // console.log('----------------------');
-        switch(role){
-          case 'field expert' : 
-            switch (ticketElementsData[ticketElementsData.length - 1].roleStatus) {
-              case 'FEAllocated':
-                ticketData[i].status = 'New' ;  
-                ticketData[i].bgClassName = '#f0ad4e';    
-                // ticketData[i].bgClassName = 'btn-warning';    
-                break;
-              case 'ProofResubmitted' :
-                ticketData[i].status = 'New-Reallocated' ;  
-                ticketData[i].bgClassName = '#f0ad4e';    
-                break;
-              case 'ReviewPass' :
-                ticketData[i].status = 'Completed' ;
-                ticketData[i].bgClassName = '#00a65a';
-                break;
-              default:
-                ticketData[i].status = 'In Process' ;
-                ticketData[i].bgClassName = '#337ab7';
-                break;
-            }
-            break;
-          case 'ba' :
-            switch (ticketElementsData[ticketElementsData.length - 1].roleStatus) {
-              case 'BAAllocated':
-                ticketData[i].status = 'New' ;      
-                ticketData[i].bgClassName = '#f0ad4e';
-                break;
-              case 'ProofResubmitted' :
-                ticketData[i].status = 'New-Reallocated' ;  
-                ticketData[i].bgClassName = '#f0ad4e';    
-                break;
-              case 'ReviewPass' :
-                ticketData[i].status = 'Completed' ;
-                ticketData[i].bgClassName = '#00a65a';
-                break;
-              default:
-                ticketData[i].status = 'In Process' ;
-                ticketData[i].bgClassName = '#337ab7';
-                break;
-            }
-            break;
-          default : 
-            ticketData[i].status = 'In Process' ;
-            ticketData[i].bgClassName = '#337ab7';
-            break;
+
+        if(ticketElementsData[ticketElementsData.length - 1].roleStatus == 'VerificationFail'){
+            ticketData[i].status = 'Re-Submit Info' ;
+            ticketData[i].bgClassName = '#f0ad4e';
+            completedTickets.push(ticketData[i]);
         }
+
       }  // EOF i loop
 
     }    
   }
 
-  // console.log('ticketData: ',ticketData);
+  console.log('ticketData: ',ticketData);
 
     return(
-      ticketData.map((item,i)=>
+      completedTickets.map((item,i)=>
         <TouchableOpacity key={i} onPress={()=>this.props.navigation.navigate('ViewTicket',{ticketid:item._id})}>
           <Card containerStyle={[styles.newCard]}>
             <View style={[styles.cardHeader,{backgroundColor:item.bgClassName}]}>
@@ -326,7 +285,7 @@ class ListOfTickets extends React.Component {
                   </View>
                 }
               />
-            <HeaderDy headerTitle="List of Tickets" goBack={goBack} />
+            <HeaderDy headerTitle="Rejected Tickets" goBack={goBack} />
               <View style={{ padding: 10 }}>
                 { this.displayTicket()}
               </View>
@@ -341,14 +300,13 @@ class ListOfTickets extends React.Component {
 export default createContainer((props) => {
 
   //initialise
-
-  const handle     = Meteor.subscribe('allTickets');
+  var _id          = Meteor.userId();
+  const handle     = Meteor.subscribe('allocatedTickets', _id);
   const handle1    = Meteor.subscribe('currentUserfunction');
   const loading    = handle.ready();
 
-  var _id          = Meteor.userId();
   const user       = Meteor.collection('users').findOne({"_id":_id});
-  var alltickets   =  Meteor.collection('ticketMaster').find({});
+  var alltickets   =  Meteor.collection('ticketMaster').find({ticketElement: { $elemMatch: { allocatedToUserid: _id }}});
 
   var result = {
     ticketData : alltickets ,
@@ -361,4 +319,4 @@ export default createContainer((props) => {
 
   return result;
 
-}, ListOfTickets);
+}, CompletedRejectedTickets);

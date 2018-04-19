@@ -244,12 +244,12 @@ export default class EditMyProfile extends React.Component {
               />
               <Header
                 centerComponent={{
-                  text: "My Profile",
+                  text: "Edit Profile",
                   style: { color: "#fff", alignSelf: "center" }
                 }}
                 leftComponent={
                   <TouchableOpacity
-                    onPress={() => console.log("back pressed!")}
+                    onPress={() => this.props.navigation.navigate('MyProfile')}
                   >
                     <Icon
                       size={25}

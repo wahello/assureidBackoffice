@@ -37,7 +37,7 @@ export default class Dashboard extends React.Component {
     BackHandler.removeEventListener('hardwareBackPress',this.androidBackHandler.bind(this));
   }
   androidBackHandler= ()=>{
-    console.log(this.props.navigation.state.routeName );
+    // console.log(this.props.navigation.state.routeName );
     if(this.props.navigation.state.routeName != 'ServiceList'){
       this.props.navigation.goBack(null);
       return true;
@@ -45,7 +45,7 @@ export default class Dashboard extends React.Component {
     return true;
   }
   toggle() {
-    console.log('is open ' + this.state.isOpen);
+    // console.log('is open ' + this.state.isOpen);
     let isOpen = !this.state.isOpen;
       this.setState({
         isOpen
@@ -63,16 +63,16 @@ export default class Dashboard extends React.Component {
   });
 
   handleLogout(){
-    console.log('Logout function!');
+    // console.log('Logout function!');
     Meteor.logout();
     Actions.LogIn();
   }
   openDrawer(){
-    console.log('opening drawer!');
+    // console.log('opening drawer!');
           this.drawer.openDrawer();
   }
   closeDrawer(){
-    console.log('opening drawer!');
+    // console.log('opening drawer!');
           this.drawer.closeDrawer();
   }
 
@@ -131,11 +131,55 @@ export default class Dashboard extends React.Component {
                         innerContainerStyles={{marginTop:0,paddingTop:0}}
                       />
 
-                      <View style={styles.imgWrapper}>
+{/*                      <View style={styles.imgWrapper}>
                         <Image style={styles.imgDisplay} resizeMode="stretch"
                               source={require('../../images/coming-soon.png')}/>
+                      </View>*/}
+
+                      <View style={{flexDirection:'row', flex:1}}>
+
+                        <View style={{flex:.5}}>
+                        <TouchableOpacity onPress={()=>this.props.navigation.navigate('NewTickets')}>
+                        <View style={{flex:.5,paddingHorizontal:10,paddingVertical:10}}>   
+                          <View style={{flex:1, backgroundColor:'#f0ad4e',paddingVertical:'25%'}}>
+                            <Text style={{textAlign:'center', color:'#fff'}}>New Tickets</Text>
+                          </View>
+                        </View>
+                        </TouchableOpacity>
+                        </View>
+
+                        <View style={{flex:.5}}>
+                        <TouchableOpacity onPress={()=>this.props.navigation.navigate('CompletedAcceptedTickets')}>
+                          <View style={{flex:.5,paddingHorizontal:10,paddingVertical:10}}>
+                            <View style={{flex:1, backgroundColor:'#00a65a',paddingVertical:'25%'}}>
+                              <Text style={{textAlign:'center', color:'#fff'}}>Accepted Tickets</Text>
+                            </View>
+                          </View>
+                        </TouchableOpacity>
+                        </View>
                       </View>
 
+                      <View style={{flexDirection:'row', flex:1}}>
+                        <View style={{flex:.5}}>
+                        <TouchableOpacity onPress={()=>this.props.navigation.navigate('CompletedRejectedTickets')}>
+                          <View style={{flex:1,paddingHorizontal:10,paddingVertical:10}}>
+                            <View style={{flex:1, backgroundColor:'#d9534f',paddingHorizontal:10,paddingVertical:'25%'}}>
+                              <Text style={{textAlign:'center', color:'#fff'}}>Rejected Tickets</Text>
+                            </View>
+                          </View>
+                        </TouchableOpacity>
+                      </View>
+
+                        <View style={{flex:.5}}>
+                        <TouchableOpacity onPress={()=>this.props.navigation.navigate('ReopenedTickets')}>
+                          <View style={{flex:1,paddingHorizontal:10,paddingVertical:10}}>
+                            <View style={{flex:1, backgroundColor:'#337ab7',paddingHorizontal:10,paddingVertical:'25%'}}>
+                              <Text style={{textAlign:'center', color:'#fff'}}>Reopened Tickets</Text>
+                            </View>
+                          </View>
+                        </TouchableOpacity>
+                        </View>
+                      </View>
 
               </ScrollView>
             </View>

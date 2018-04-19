@@ -56,6 +56,11 @@ import ViewCustomerBillDetails from '../layouts/ViewCustomerBillDetails/ViewCust
 
 
 import ListOfTickets from '../layouts/ListOfTickets/ListOfTickets.js';
+import NewTickets from '../layouts/ListOfTickets/NewTickets.js';
+import CompletedAcceptedTickets from '../layouts/ListOfTickets/CompletedAcceptedTickets.js';
+import CompletedRejectedTickets from '../layouts/ListOfTickets/CompletedRejectedTickets.js';
+import ReopenedTickets from '../layouts/ListOfTickets/ReopenedTickets.js';
+
 import ViewTicket from '../layouts/ViewTicket/ViewTicket.js';
 import ViewTicketForm from '../layouts/ViewTicket/ViewTicketForm.js';
 import ViewSubmittedTicketContainer from '../layouts/ViewTicket/ViewSubmittedTicketContainer.js';
@@ -76,7 +81,41 @@ import NotificationLayout from '../layouts/NotificationLayout/NotificationLayout
 
 export const AuthStack = StackNavigator({
 
+   Dashboard:{
+     screen: Dashboard,
+    navigationOptions: {
+      header: null
+    }
+  },
   
+  ReopenedTickets: {
+  screen: ReopenedTickets,
+  navigationOptions: {
+    header: null
+    }
+  },
+
+  CompletedRejectedTickets: {
+  screen: CompletedRejectedTickets,
+  navigationOptions: {
+    header: null
+    }
+  },
+
+  CompletedAcceptedTickets: {
+  screen: CompletedAcceptedTickets,
+  navigationOptions: {
+    header: null
+    }
+  },
+
+  NewTickets: {
+  screen: NewTickets,
+  navigationOptions: {
+    header: null
+    }
+  },
+
   ListOfTickets: {
   screen: ListOfTickets,
   navigationOptions: {
@@ -120,17 +159,6 @@ export const AuthStack = StackNavigator({
       header:null
     }
   },
-
-
-
-  
-   Dashboard:{
-     screen: Dashboard,
-    navigationOptions: {
-      header: null
-    }
-  },
-
   
    CameraView:{
     screen:CameraView,

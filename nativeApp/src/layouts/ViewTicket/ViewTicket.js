@@ -136,6 +136,8 @@ class ViewTicket extends React.Component {
 
 
   render() {
+    var userData  = Meteor.user().profile;
+    // console.log('view ticket:',userData);
     const { navigate, goBack, state } = this.props.navigation;
     if(this.props.viewTicketUserData){
       var userViewTicketData = this.props.viewTicketUserData;
@@ -273,7 +275,7 @@ class ViewTicket extends React.Component {
                         <Text style={{fontWeight: 'bold'}}>Assigned By</Text>
                       </View>
                       <View  style= {{flex:.5}}>
-                        <Text style={{flexWrap:'wrap'}} >Samruddhi Madhamshettiwar</Text>
+                        <Text style={{flexWrap:'wrap'}} >{this.props.assignedByName}</Text>
                       </View>
                     </View> 
                   </View>
@@ -285,15 +287,25 @@ class ViewTicket extends React.Component {
                   </View>
                   <View style={{flex:1,flexDirection:'row',paddingVertical:10}}>
                     <View style={{ flex:.5,marginLeft:15}}>
-                      <Avatar
-                        width={90}
-                        height={90}
-                        rounded
-                        source={{
-                          uri:
-                            "https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg"
-                        }}
-                      />
+                     {userData.userProfile 
+                      ?
+                        <Avatar
+                          width={80}
+                          height={80}
+                          rounded
+                          source={{uri:userData.userProfile}}
+                          avatarStyle={{borderWidth:1,borderColor:'#000'}}
+                          containerStyle={{marginBottom:5}}
+                        />
+                      :
+                          <Avatar
+                            width={90}
+                            height={90}
+                            rounded
+                            source={{uri : "https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg"}}
+                            activeOpacity={0.7}
+                          />  
+                      }
                     </View>
                     {this.props.viewTicketData?
                       <View style= {{flex:.5,marginRight:15}}>
@@ -302,8 +314,8 @@ class ViewTicket extends React.Component {
                           <Text>{viewTicketData.lastName}</Text>
                         </View>
                         <View style= {{flex:1,flexDirection:'row'}}>
-                          <Text style= {{flex:.5,flexDirection:'row'}}>{viewTicketData.gender}</Text>
-                          <Text style= {{flex:.5,flexDirection:'row'}}>{viewTicketData.age} Years</Text>
+                          <Text style= {{flex:.4,flexDirection:'row'}}>{viewTicketData.gender}</Text>
+                          {viewTicketData.age <= 0 ? <Text></Text> : <Text style= {{flex:.5,flexDirection:'row'}}>{viewTicketData.age} Years</Text>}
                         </View>
                         <View style= {{flex:1,flexDirection:'row'}}>
                           <Text>{viewTicketData.serviceName}</Text>
@@ -355,6 +367,7 @@ class ViewTicket extends React.Component {
 export default createContainer((props) => {
 
   var ticketId  = '';
+  var assignedByName = '';
   var viewTicketUserData, handle1, loadingUser,verificationDocument = '';
 
   const { state } = props.navigation;
@@ -386,6 +399,16 @@ export default createContainer((props) => {
     viewTicketData.gender      = viewTicketUserData.gender;
     viewTicketData.dateOfBirth = viewTicketUserData.dateOfBirth;
 
+    var ticketElements    = viewTicketData.ticketElement;
+    var FEDetails         = ticketElements.find((obj)=> { return obj.roleStatus == 'FEAllocated' });
+    var handle2           = Meteor.subscribe('userData',FEDetails.userId);
+    var assignedBy        = Meteor.collection('users').findOne({'_id': FEDetails.userId});
+    
+    if(assignedBy){
+      assignedByName = assignedBy.profile.firstname+' '+assignedBy.profile.lastname
+    }
+    console.log('FEDetails: ',FEDetails);
+    
     var today     = new Date();    
     var birthDate = new Date(viewTicketUserData.dateOfBirth);    
     var age       = today.getFullYear() - birthDate.getFullYear();    
@@ -405,6 +428,7 @@ export default createContainer((props) => {
     handle1              : handle1,
     loading              : loading,
     loadingUser          : loadingUser,
+    assignedByName       : assignedByName,
   };
 
   // console.log(JSON.stringify(result,null,4));

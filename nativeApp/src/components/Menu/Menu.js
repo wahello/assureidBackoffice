@@ -135,42 +135,44 @@ export default class Menu extends React.Component {
   }
   render(){
     var userData  = Meteor.user().profile;
+    // console.log('userData: ',userData);
 
     return (
       <ScrollView scrollsToTop={false} style={styles.menu}>
         <LinearGradient colors={['(rgb(30, 87, 153) 0%', 'rgb(41, 137, 216) 50%', 'rgb(32, 124, 202) 51%', 'rgb(125, 185, 232) 100%)']} style={styles.linearGradient}>
             <View style={{flex:1, flexDirection:'row'}}>
-              <Avatar
-                overlayContainerStyle={{flex:1}}
-                width={50}
-                height={40}
-                rounded
-                source={{uri:"https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg"}}
-                onPress={() => console.log("Works!")}
-                activeOpacity={0.7}
-              />
+               {userData.userProfile 
+                ?
+                  <Avatar
+                    width={80}
+                    height={80}
+                    rounded
+                    source={{uri:userData.userProfile}}
+                    avatarStyle={{borderWidth:1,borderColor:'#000'}}
+                    containerStyle={{marginBottom:5}}
+                  />
+                :
+                    <Avatar
+                      width={90}
+                      height={90}
+                      rounded
+                      source={{
+                        uri:
+                          "https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg"
+                      }}
+                      activeOpacity={0.7}
+                    />  
+                }
               <View style={{flex:3, height:50,left:0,right:0,paddingLeft:15,justifyContent:'flex-start', alignItems:'flex-start'}}>
                 <Text style={{flex:1,color:'#fff'}}>
-                  {userData.firstName} {userData.lastName}
+                  {userData.firstname} {userData.lastname}
                 </Text>
-               {/* <Text style={{flex:1,color:'#fff'}}>
-                  {userData.activeServiceName}
-                </Text>
-                <Text style={{flex:1,color:'#fff'}}>
-                  {userData.activeServiceType} Service
-                </Text>*/}
+
               </View>
             </View>
         </LinearGradient>
         <View style={styles.menuView}>
-        {/*  <View >
-            <TouchableOpacity style={styles.menuRow} onPress={ ()=> this.props.navigate('ServiceList')}>
-              <Icon size={25} name='home' type='font-awesome' color='#666' />
-              <Text style={styles.item}>
-                My Services
-              </Text>
-            </TouchableOpacity>
-          </View>*/}
+
           <View style={styles.menuRow}>
             <TouchableOpacity onPress={()=> this.props.navigate('Dashboard')} style={{flexDirection:'row',flex:1}} >
               <Icon size={25} name='dashboard' type='font-awesome' color='#666' />
@@ -178,100 +180,29 @@ export default class Menu extends React.Component {
                 Home
               </Text>
             </TouchableOpacity>
-           {/* <Icon size={15} onPress={this.handleExpandDashboard} name={this.state.expandDashboardIcon} type='font-awesome' color='#666' />*/}
           </View>
-         {/* { this.state.expandDashboard ?
-            <View>
-              <View style={styles.subMenuRow} >
-                <TouchableOpacity style={{flexDirection:'row',flex:1}} onPress={ ()=> this.props.navigate('DeliveriesLine')}>
-                  <Icon size={25} name='dashboard' type='font-awesome' color='#666' />
-                  <Text style={styles.item}  >
-                    Delivery
-                  </Text>
-                </TouchableOpacity>
-              </View>
-              <View style={styles.subMenuRow} >
-                <TouchableOpacity style={{flexDirection:'row',flex:1}} onPress={()=>this.props.navigate('LogIn')}>
-                  <Icon size={25} name='dashboard' type='font-awesome' color='#666' />
-                  <Text style={styles.item}  >
-                    Reports
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-            : null
-          }*/}
+
           <View style={styles.menuRow}>
             <TouchableOpacity  onPress={()=> this.props.navigate('ListOfTickets')}  style={{flexDirection:'row',flex:1}} >
-              <Icon size={25} name='credit-card' type='font-awesome' color='#666' />
+              <Icon size={25} name='ticket' type='font-awesome' color='#666' />
               <Text style={styles.item}>
                 All Tickets
               </Text>
             </TouchableOpacity>
-          {/*  <Icon size={15} onPress={this.handleExpandHome} name={this.state.expandIcon} type='font-awesome' color='#666' />*/}
           </View>
-         {/* { this.state.expandHome ?
-            <View>
-              <View style={styles.subMenuRow} >
-                <TouchableOpacity style={{flexDirection:'row',flex:1}} onPress={()=>this.props.navigate('ViewBill')}>
-                  <Icon size={25} name='credit-card' type='material-community' color='#666' />
-                  <Text style={styles.item}  >
-                    View Bill
-                  </Text>
-                </TouchableOpacity>
-              </View>
-              <View style={styles.subMenuRow} >
-                <TouchableOpacity style={{flexDirection:'row',flex:1}} onPress={()=>this.props.navigate('ViewCollection')}>
-                  <Icon size={25} name='credit-card' type='material-community' color='#666' />
-                  <Text style={styles.item}  >
-                    Collection
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-            : null
-          }*/}
+
           <View style={styles.menuRow}>
-            <TouchableOpacity onPress={this.handleExpandDelivery} style={{flexDirection:'row',flex:1}} >
-              <Icon size={25} name='truck' type='font-awesome' color='#666' />
+            <TouchableOpacity onPress={()=> this.props.navigate('NewTickets')} style={{flexDirection:'row',flex:1}} >
+              <Icon size={25} name='ticket' type='font-awesome' color='#666' />
               <Text style={styles.item}>
                 New Tickets
               </Text>
             </TouchableOpacity>
-            {/*<Icon size={15} onPress={this.handleExpandDelivery} name={this.state.expandDeliveryIcon} type='font-awesome' color='#666' />*/}
           </View>
-         {/* { this.state.expandDelivery ?
-            <View>
-              <View style={styles.subMenuRow} >
-                <TouchableOpacity style={{flexDirection:'row',flex:1}} onPress={ ()=> this.props.navigate('CustomerHoliday')}>
-                  <Icon size={25} name='truck' type='font-awesome' color='#666' />
-                  <Text style={styles.item}  >
-                    Customer Holiday
-                  </Text>
-                </TouchableOpacity>
-              </View>
-              <View style={styles.subMenuRow} >
-                <TouchableOpacity style={{flexDirection:'row',flex:1}} onPress={()=>this.props.navigate('LogIn')}>
-                  <Icon size={25} name='truck' type='font-awesome' color='#666' />
-                  <Text style={styles.item}  >
-                    Newspaper Holiday
-                  </Text>
-                </TouchableOpacity>
-              </View>
-              <View style={styles.subMenuRow} >
-                <TouchableOpacity style={{flexDirection:'row',flex:1}} onPress={()=>this.props.navigate('ExtraReduced')}>
-                  <Icon size={25} name='truck' type='font-awesome' color='#666' />
-                  <Text style={styles.item}  >
-                    Add Extra / Reduce Paper
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-            : null
-          }*/}
+
           <View style={styles.menuRow}>
             <TouchableOpacity onPress={this.handleExpandProduct} style={{flexDirection:'row',flex:1}} >
-              <Icon size={25} name='gears' type='font-awesome' color='#666' />
+              <Icon size={25} name='ticket' type='font-awesome' color='#666' />
               <Text style={styles.item}>
                 Completed Tickets
               </Text>
@@ -281,16 +212,16 @@ export default class Menu extends React.Component {
           { this.state.expandProduct ?
             <View>
               <View style={styles.subMenuRow} >
-                <TouchableOpacity style={{flexDirection:'row',flex:1}} onPress={ ()=> this.props.navigate('CustomerArea')}>
-                  <Icon size={25} name='gears' type='font-awesome' color='#666' />
+                <TouchableOpacity style={{flexDirection:'row',flex:1}} onPress={ ()=> this.props.navigate('CompletedAcceptedTickets')}>
+                  <Icon size={25} name='ticket' type='font-awesome' color='#666' />
                   <Text style={styles.item}  >
                     Accepted
                   </Text>
                 </TouchableOpacity>
               </View>
               <View style={styles.subMenuRow} >
-                <TouchableOpacity style={{flexDirection:'row',flex:1}} onPress={()=>this.props.navigate('ProductList')}>
-                  <Icon size={25} name='gears' type='font-awesome' color='#666' />
+                <TouchableOpacity style={{flexDirection:'row',flex:1}} onPress={()=>this.props.navigate('CompletedRejectedTickets')}>
+                  <Icon size={25} name='ticket' type='font-awesome' color='#666' />
                   <Text style={styles.item}  >
                     Rejected
                   </Text>
@@ -301,54 +232,21 @@ export default class Menu extends React.Component {
           }
 
           <View style={styles.menuRow}>
-            <TouchableOpacity onPress={this.handleExpandSetup} style={{flexDirection:'row',flex:1}} >
-              <Icon size={25} name='gears' type='font-awesome' color='#666' />
+            <TouchableOpacity onPress={()=>this.props.navigate('ReopenedTickets')} style={{flexDirection:'row',flex:1}} >
+              <Icon size={25} name='ticket' type='font-awesome' color='#666' />
               <Text style={styles.item}>
                 Reopened Tickets
               </Text>
             </TouchableOpacity>
-           {/* <Icon size={15} onPress={this.handleExpandSetup} name={this.state.expandSetupIcon} type='font-awesome' color='#666' />*/}
           </View>
-         {/* { this.state.expandSetup ?
-            <View>
-              <View style={styles.subMenuRow} >
-                <TouchableOpacity style={{flexDirection:'row',flex:1}} onPress={()=> this.props.navigate('MyProfile')}>
-                  <Icon size={25} name='gears' type='font-awesome' color='#666' />
-                  <Text style={styles.item}  >
-                    My Profile
-                  </Text>
-                </TouchableOpacity>
-              </View>
-              <View style={styles.subMenuRow} >
-                <TouchableOpacity style={{flexDirection:'row',flex:1}}
-                  onPress={()=>this.props.navigate('AdditionalSetting',{'businessId':userData.activeServiceId})}>
-                  <Icon size={25} name='gears' type='font-awesome' color='#666' />
-                  <Text style={styles.item}  >
-                    Additional Setting
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-            : null
-          }
-*/}
-          <View style={styles.menuRow}>
-            <TouchableOpacity onPress={this.handleExpandSetup} style={{flexDirection:'row',flex:1}} >
-              <Icon size={25} name='gears' type='font-awesome' color='#666' />
-              <Text style={styles.item}>
-                Escalated Tickets
-              </Text>
-            </TouchableOpacity>
-           {/* <Icon size={15} onPress={this.handleExpandSetup} name={this.state.expandSetupIcon} type='font-awesome' color='#666' />*/}
-          </View>
+
           <View style={styles.menuRow}>
             <TouchableOpacity onPress={()=> this.props.navigate('MyProfile')} style={{flexDirection:'row',flex:1}} >
-              <Icon size={25} name='gears' type='font-awesome' color='#666' />
+              <Icon size={25} name='user' type='entypo' color='#666' />
               <Text style={styles.item}>
                 Profile
               </Text>
             </TouchableOpacity>
-           {/* <Icon size={15} onPress={this.handleExpandSetup} name={this.state.expandSetupIcon} type='font-awesome' color='#666' />*/}
           </View>
           <View >
             <TouchableOpacity style={[styles.menuRow,{borderBottomWidth:0}]} onPress={this.handleLogout}>
