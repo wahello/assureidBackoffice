@@ -250,6 +250,7 @@ class Ticket extends TrackerReact(Component){
     }
   }
   reportReSubmit(event){
+    var exeQuery = 1;    
     event.preventDefault();
     var ticketId = this.props.ticketId;
     var insertData = {
@@ -264,16 +265,29 @@ class Ticket extends TrackerReact(Component){
     }
     if(!this.props.loading){
       var reportLinkDetails = TempTicketReport.findOne({},{sort:{'createdAt':-1}}); 
-      if(reportLinkDetails){
+      if(reportLinkDetails!=undefined && reportLinkDetails!={}){
         insertData.reportSubmited = reportLinkDetails.ReportLink;
         insertData.fileExtension  = reportLinkDetails.fileExtension;
+      }else{
+        exeQuery = 0;
+        swal({
+          position: 'top-right',
+          type: 'error',
+          title: 'Please Select Report File To Upload',
+          showConfirmButton: false,
+          timer: 1500
+        });
       }
     }
-    Meteor.call('genericUpdateTicketMasterElement',this.props.ticketId,insertData,(error,result)=>{
-      if(result == 1){
-        $('#showReport').css('display','none');
-      }
-    });
+
+    if(exeQuery == 1){
+      Meteor.call('genericUpdateTicketMasterElement',this.props.ticketId,insertData,(error,result)=>{
+        if(result == 1){
+          // $('#showReport').css('display','none');
+        }
+      });
+    }    
+    
   }
   approveButton(event){
     event.preventDefault();
@@ -363,6 +377,10 @@ class Ticket extends TrackerReact(Component){
  
   targetReport(){
     window.scrollBy(0, -300);
+    
+  }
+  editInformation(){
+    window.scrollBy(0, -700);
   }
   deleteReport(event){
       event.preventDefault();
@@ -373,7 +391,7 @@ class Ticket extends TrackerReact(Component){
         if (error) {
           console.log(error.reason);
         }else{
-        $('#showReport').css('display','block');
+        // $('#showReport').css('display','block');
           
         }
       });
@@ -685,15 +703,14 @@ class Ticket extends TrackerReact(Component){
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
               <h5> {title} </h5>
               <div className="col-lg-10 col-lg-offset-2 col-md-12 col-sm-12 col-xs-12 fesubmitbtn">
-              {/* <a href="#displayReporta"> */}
                    <button type="button" className="btn reportcommonbtn btn-info" onClick = {this.targetReport.bind(this)}>Edit Report</button>
-              {/* </a> */}
+              
 
                
                 {
                   this.props.getTicket.ticketElement.find(function (obj) { return obj.roleStatus == 'SelfAllocated' })?
                     
-                    <button type="button" className="btn reportcommonbtn btn-info">Edit Inforamation</button>
+                    <button type="button" className="btn reportcommonbtn btn-info" onClick = {this.editInformation.bind(this)}>Edit Inforamation</button>
                   :
                  
                     <button type="button" className="btn reportcommonbtn btn-info">Ask FE/BA To Report</button>
@@ -938,26 +955,33 @@ render(){
                             null
                           }
                           {
-                            this.props.showHideBtn ?
-                            <div  id="showReport" className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
-                            {/* <h5> {title} </h5> */}
-                            <span className="uploadreportTitle">Upload Report : </span>
-                            <div className="col-lg-7 col-lg-offset-1 col-md-10 col-md-offset-1 col-xm-12 col-xs-12">
-                              <div className="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-                                  
-                                  {this.getUploadReportPercentage()}
+                            this.props.showHideBtn && this.props.getTicket.reportSubmited ?
+
+                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outeReportBlock">
+                                  <h6 className="dataDetails col-lg-1 col-md-1 col-sm-1 col-xs-1">Report:</h6> 
+                                
+                                      <div  id="showReport" className="col-lg-12 col-md-12 col-sm-12 col-xs-12 fesubmitbtn tickStatWrapper">
+                                      <span className="uploadreportTitle">Upload Report : </span>
+                                        <div className="col-lg-7 col-lg-offset-1 col-md-10 col-md-offset-1 col-xm-12 col-xs-12">
+                                          <div className="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                                              
+                                              {this.getUploadReportPercentage()}
+                                          </div>
+                                        
+                                          <div className="col-lg-9 col-lg-offset-1">
+                                              <input type="file" ref="uploadReportFile" id="uploadReport" name="uploadReport" className="col-lg-7 reporttitle noLRPad" onChange={this.handleReportUpload.bind(this)} multiple/>
+                                          </div>
+                                          <div className="col-lg-7">
+                                              <button type="button" className="fesubmitbtn col-lg-5 col-lg-offset-2" data-roleStatus="ReportReSubmitted" data-msg="Submitted Verification Information" onClick={this.reportReSubmit.bind(this)}>Submit</button>
+                                          </div>
+                                        </div>
+                                      </div>
+                                  </div>
                               </div>
-                            
-                              <div className="col-lg-9 col-lg-offset-1">
-                                  <input type="file" ref="uploadReportFile" id="uploadReport" name="uploadReport" className="col-lg-7 reporttitle noLRPad" onChange={this.handleReportUpload.bind(this)} multiple/>
-                              </div>
-                              <div className="col-lg-7">
-                                  <button type="button" className="fesubmitbtn col-lg-5 col-lg-offset-2" data-roleStatus="ReportReSubmitted" data-msg="Submitted Verification Information" onClick={this.reportReSubmit.bind(this)}>Submit</button>
-                              </div>
-                            </div>
-                          </div>
-                            :
-                            null
+
+                              :
+                              null
                           }
                           
                         </div>

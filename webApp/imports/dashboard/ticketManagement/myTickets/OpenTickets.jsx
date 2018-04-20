@@ -38,11 +38,11 @@ class OpenTickets extends TrackerReact(Component){
                                     <table id="subscriber-list-outerTable" className="newOrderwrap subscriber-list-outerTable table table-bordered table-hover table-striped table-striped table-responsive table-condensed table-bordered">
                                     <thead className="table-head umtblhdr">
                                     <tr className="hrTableHeader info UML-TableTr">
-                                    <th className=""> Ticket No.</th>
-                                    <th className=""> Order ID </th>
+                                    <th className=""> Ticket No.</th>                            
                                     <th className=""> Service Name </th>
                                     <th className=""> Arrival Date </th>
                                     <th className=""> TAT(Date) </th>
+                                    <th className=""> Ticket age(In Days) </th>
                                     <th className=""> Status </th>
                                     
                                     </tr>
@@ -54,11 +54,12 @@ class OpenTickets extends TrackerReact(Component){
                                                 return(
                                                     <tr key={index}>
                                                           <td><Link to={"/admin/ticket/"+data._id}>{data.ticketNumber}</Link></td>
-                                                          <td>{data.orderNo}</td>
-                                                          <td>{data.serviceName}</td>
-                                                          <td>{moment(data.createdAt).format('DD-MM-YYYY')}</td>
-                                                          <td>{data.tatDate}</td> 
-                                                          <td className={data.bgClassName}>{data.status}</td>
+                                                          
+                                                          <td><Link to={"/admin/ticket/"+data._id}>{data.serviceName}</Link></td>
+                                                          <td><Link to={"/admin/ticket/"+data._id}>{moment(data.createdAt).format('DD-MM-YYYY')}</Link></td>
+                                                          <td><Link to={"/admin/ticket/"+data._id}>{data.tatDate}</Link></td>
+                                                          <td><Link to={"/admin/ticket/"+data._id}>{Math.round(Math.abs((new Date().getTime() - data.createdAt.getTime())/(24*60*60*1000)))}</Link></td> 
+                                                          <td className={data.bgClassName}><Link to={"/admin/ticket/"+data._id} className="statuswcolor">{data.status}</Link></td>
                                                     </tr>
                                                 );
                                               })

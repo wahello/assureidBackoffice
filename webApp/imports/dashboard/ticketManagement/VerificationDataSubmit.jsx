@@ -50,6 +50,55 @@ class VerificationDataSubmit extends TrackerReact(Component){
         this.handleChangeChecklist = this.handleChangeChecklist.bind(this);
         this.handleChangeForArray  = this.handleChangeForArray.bind(this);
     }
+    componentDidMount(){
+        // $("#submitDocument").validate({
+        //     rules: {
+              
+        //       checkObjs: {
+        //         required: true,
+        //       }, 
+        //       textObjs: {
+        //         required: true,
+        //       }, 
+        //       ticketImageFile: {
+        //         required: true, 
+        //       },
+              
+        //       documentStatus: {
+        //         required: true,
+        //       },   
+        //       documentSubStatus: {
+        //         required: true,
+        //       },  
+        //       remark: {
+        //         required: true,
+        //       },
+              
+              
+               
+        //     },
+        //     messages: {
+        //       checkObjs: {
+        //         required: "Please check checbox !",
+        //       },
+        //       textObjs: {
+        //         required: "Please enter text!",
+        //       },
+        //       ticketImageFile: {
+        //         required: "Please select images to upload",
+        //       },
+        //       documentStatus: {
+        //         required: "Please select document status",
+        //       },
+        //       documentSubStatus: {
+        //         required: "Please select document sub status",
+        //       },
+        //       remark: {
+        //         required: "Please write remark",
+        //       },
+        //     }
+        // });
+    }
     getRole(role) {
         return role != "backofficestaff";
     }
@@ -59,15 +108,9 @@ class VerificationDataSubmit extends TrackerReact(Component){
         const target = event.target;
         const value  = target.type === 'checkbox' ? target.checked : target.value;
         const name   = target.name;
-        // console.log('name: ',name);
-        // console.log('value: ',event.target.value);
         var index = $(event.currentTarget).attr('data-index');
-        // console.log('index: ',index);
-        // console.log('--------Before textLists---------');
-        // console.log(this.state.textLists);
+
         this.state.checkLists[index].value = event.target.value;
-        // console.log('--------After textLists---------');
-        // console.log(this.state.textLists);
         this.setState({
          [name]: event.target.value,
         });
@@ -75,18 +118,10 @@ class VerificationDataSubmit extends TrackerReact(Component){
 
     handleChangeForArray(event){
         event.preventDefault();
-
         const target = event.target;
         const name   = target.name;
-        // console.log('name: ',name);
-        // console.log('value: ',event.target.value);
         var index = $(event.currentTarget).attr('data-index');
-        // console.log('index: ',index);
-        // console.log('--------Before textLists---------');
-        console.log(this.state.textLists);
         this.state.textLists[index].value = event.target.value;
-        // console.log('--------After textLists---------');
-        // console.log(this.state.textLists);
         this.setState({
          [name]: event.target.value,
         });
@@ -254,6 +289,7 @@ class VerificationDataSubmit extends TrackerReact(Component){
     submitReport(event){
         event.preventDefault();
         var checkLists = [];
+     
         //Get values for all the check box
         $('input[name="checkObjs"]').each(function(i){
             var dataChk ={};
@@ -291,6 +327,8 @@ class VerificationDataSubmit extends TrackerReact(Component){
             var msg         = "Submitted Verification Information";
             var remark      = this.refs.remark.value;
         }  
+
+       
         var documents ={
             checkLists : checkLists,
             textLists  : textLists,
@@ -300,41 +338,60 @@ class VerificationDataSubmit extends TrackerReact(Component){
             videos     : videos,
             remark     : remark,
         }
-        //Fetch object ticketElement for getting information of Team Leader
-        if (this.props.tickets) {
-            if (this.props.tickets.ticketElement) {
-                if (this.props.tickets.ticketElement.length > 0) {
-                    var ticketElements = this.props.tickets.ticketElement;
-                    var teamMemberDetails = ticketElements.find(function (obj) { return obj.roleStatus == 'SelfAllocated' });
-                    // console.log('teamMemberDetails ',teamMemberDetails);
+       
+        if(documents.status != "Select" && documents.images.length >0 && documents.subStatus != "Select"){
+            if (this.props.tickets) {
+                if (this.props.tickets.ticketElement) {
+                    if (this.props.tickets.ticketElement.length > 0) {
+                        var ticketElements = this.props.tickets.ticketElement;
+                        var teamMemberDetails = ticketElements.find(function (obj) { return obj.roleStatus == 'SelfAllocated' });
+                        // console.log('teamMemberDetails ',teamMemberDetails);
+                    }
                 }
-            }
-            var role = Meteor.user().roles.find(this.getRole);
-            if(role){
-                var insertData ={
-                    "userId"              : Meteor.userId(),
-                    "userName"            : Meteor.user().profile.firstname + ' ' + Meteor.user().profile.lastname,
-                    "allocatedToUserid"   : teamMemberDetails.userId,
-                    "allocatedToUserName" : teamMemberDetails.userName,
-                    "role"                : role,
-                    "roleStatus"          : roleStatus,
-                    "msg"                 : msg,
-                    "submitedDoc"         : documents,
-                    "createdAt"           : new Date(),
+                var role = Meteor.user().roles.find(this.getRole);
+                if(role){
+                    var insertData ={
+                        "userId"              : Meteor.userId(),
+                        "userName"            : Meteor.user().profile.firstname + ' ' + Meteor.user().profile.lastname,
+                        "allocatedToUserid"   : teamMemberDetails.userId,
+                        "allocatedToUserName" : teamMemberDetails.userName,
+                        "role"                : role,
+                        "roleStatus"          : roleStatus,
+                        "msg"                 : msg,
+                        "submitedDoc"         : documents,
+                        "createdAt"           : new Date(),
+                    }
+                    // console.log('insertData ',insertData);    
                 }
-                // console.log('insertData ',insertData);    
+                // if($('#submitDocument').valid()){
+                    Meteor.call('genericUpdateTicketMasterElement',this.props.tickets._id,insertData,function(error,result){
+                        if (error) {
+                          console.log(error.reason);
+                        }else{
+        
+                          $("#AddImagesVideo1").css({"display" : "none"});
+                          $("#uploadButtonDiv").css({"display" : "none"});
+                          $('#submitedDocWrap').css({"display" : "block"});
+                        }
+                    });
+                // }else{
+                //     // $(event.target).parent().parent().parent().find('.effect-21.error:first').focus();
+                //     $(event.target).parent().parent().parent().find('input.error').addClass('error');
+                // }
+               
             }
-            Meteor.call('genericUpdateTicketMasterElement',this.props.tickets._id,insertData,function(error,result){
-                if (error) {
-                  console.log(error.reason);
-                }else{
+        }else{
 
-                  $("#AddImagesVideo1").css({"display" : "none"});
-                  $("#uploadButtonDiv").css({"display" : "none"});
-                  $('#submitedDocWrap').css({"display" : "block"});
-                }
-            });
+            swal({   
+                position: 'top-right',    
+                type: 'error',   
+                title: 'Please fill mandatory fields',      
+                showConfirmButton: false,     
+                timer: 2000     
+              });
         }
+        //Fetch object ticketElement for getting information of Team Leader
+    
     }
     /**================ Image Progress  Bar==================*/
     getUploadImagePercentage(){
@@ -433,7 +490,7 @@ class VerificationDataSubmit extends TrackerReact(Component){
         return(
             <div>
                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 choosefilebox">
-                    <form>
+                    <form id="submitDocument">
                         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 wholeborder ">
                             <div className="imgtitile col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad Selectimg"> <b>Verify Information:</b></div>
@@ -459,7 +516,7 @@ class VerificationDataSubmit extends TrackerReact(Component){
                                         this.props.checkObjs.map((checkObjsDefault,index)=>{
                                         return(
                                             <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6" key={index}>  
-                                              <input type="checkbox" ref="checkObjs" id="checkObjs" name="checkObjs" className={"checkObjs-"+index} value={checkObjsDefault} />&nbsp;{checkObjsDefault}
+                                              <input type="checkbox" ref="checkObjs" id="checkObjs" name="checkObjs" className={"checkObjs-"+index} value={checkObjsDefault} required/>&nbsp;{checkObjsDefault}
                                             </div>
                                           );
                                         })
@@ -477,7 +534,7 @@ class VerificationDataSubmit extends TrackerReact(Component){
                                         <div className="imgtitile col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad" key={index}>
                                             <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3  Selectimg">{textObjsUsrUpload.task}:</div>
                                             <div className="col-lg-9 col-md-9 col-sm-9 col-xs-7">
-                                                <textarea className="form-control textObjs" id={textObjsUsrUpload.task} data-index={index} name="textObjs" value={textObjsUsrUpload.value} ref="textObjs" rows="1" onChange={this.handleChangeForArray} ></textarea>
+                                                <textarea className="form-control textObjs" id={textObjsUsrUpload.task} data-index={index} name="textObjs" value={textObjsUsrUpload.value} ref="textObjs" rows="1" onChange={this.handleChangeForArray}></textarea>
                                             </div>
                                         </div>
                                         );
@@ -495,7 +552,7 @@ class VerificationDataSubmit extends TrackerReact(Component){
                                         <div className="imgtitile col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad" key={index}>
                                             <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3  Selectimg">{textObjsUsrUpload}:</div>
                                             <div className="col-lg-9 col-md-9 col-sm-9 col-xs-7">
-                                                <textarea className="form-control textObjs" id={textObjsUsrUpload} name="textObjs" ref="textObjs" rows="1" onChange={this.handleChange}>
+                                                <textarea className="form-control textObjs" id={textObjsUsrUpload} name="textObjs" ref="textObjs" rows="1" onChange={this.handleChange} required>
                                                 </textarea>
                                             </div>
                                         </div>
@@ -511,11 +568,12 @@ class VerificationDataSubmit extends TrackerReact(Component){
                             {/* Images upload and Display */}
                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 wholeborder ">
                                 <div className="imgtitile col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad Selectimg"> Select images: (minium 3 images and maximum 5)</div>
-                                    <input type="file" ref="ticketImageFile" id="s3file" name="ticketImageFile"  onChange={this.handleUpload.bind(this)} className="col-lg-7 noLRPad" name="img" multiple />
+                                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad Selectimg"> Select images:<span className="starcolor1">*</span>&nbsp;</div>
+                                    <input type="file" ref="ticketImageFile" id="s3file" name="ticketImageFile"  onChange={this.handleUpload.bind(this)} className="col-lg-12 noLRPad" multiple/>
                                 </div>
+                                <label>(You can choose maximum 5 images)</label>
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                    {/* <div id="errorProofList"></div> */}
+                                    
                                     {this.getUploadImagePercentage()}
                                 </div>
                                 <div className="col-lg-12 bcolor">
@@ -588,7 +646,7 @@ class VerificationDataSubmit extends TrackerReact(Component){
                             <div className="col-lg-12 wholeborder">
                                 <div className="imgtitile col-lg-12 ">
                                     <div className="col-lg-12 noLRPad Selectimg"> Select Video:</div>
-                                        <input type="file" ref="ticketVideoFile" id="s3file" name="ticketVideoFile"  onChange={this.handleVideoUpload.bind(this)} className="col-lg-7 noLRPad" name="img" multiple />
+                                        <input type="file" ref="ticketVideoFile" id="s3file" name="ticketVideoFile"  onChange={this.handleVideoUpload.bind(this)} className="col-lg-12 noLRPad" multiple/>
                                 </div>
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="videoProgressbar">
                                     {/* <div id="errorProofList"></div> */}
@@ -658,44 +716,6 @@ class VerificationDataSubmit extends TrackerReact(Component){
                                         ""
                                     :
                                   ""
-                            //     this.props.ticketVideo ?
-                            //     this.props.ticketVideo.length > 0 ?
-                            //         this.props.ticketVideo.map((ticketVideo,index) =>{
-                            //             return(
-                            //             <div className="col-lg-4 imgbrvid" key={index}>
-                            //                 <i className="fa fa-times pull-right tempImageDelete" id={ticketVideo._id} onClick={this.deleteTempVideo.bind(this)}></i>
-                            //                 <video width="200" height="200"  controls>
-                            //                     <source src={ticketVideo.videoLink} type="video/mp4" />
-                            //                 </video>
-                            //             </div>
-                            //             );
-                            //         })
-                            //     :
-                            //         this.state.videos? 
-                            //             this.state.videos.map((ticketVideo,index) =>{
-                            //                 return(
-                            //                 <div className="col-lg-4 imgbrvid" key={index}>
-                            //                     <video width="200" height="200"  controls>
-                            //                         <source src={ticketVideo.videoLink} type="video/mp4" />
-                            //                     </video>
-                            //                 </div>
-                            //                 );
-                            //         })
-                            //     :
-                            //         ""
-                            //     :
-                            //         this.state.videos? 
-                            //             this.state.videos.map((ticketVideo,index) =>{
-                            //             return(
-                            //                 <div className="col-lg-4 imgbrvid" key={index}>
-                            //                     <video width="200" height="200"  controls>
-                            //                         <source src={ticketVideo.videoLink} type="video/mp4" />
-                            //                     </video>
-                            //                 </div>
-                            //             );
-                            //             })
-                            // :
-                            //     ""
                             }
                             </div>
                             {/* End of Video upload and Display */}
@@ -703,10 +723,10 @@ class VerificationDataSubmit extends TrackerReact(Component){
                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outerStatusBlock">
                                 {/* Status Block */}
                                 <div className="imgtitile col-lg-6 col-md-6 col-sm-12 col-xs-12 noLRPad">
-                                    <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3  Selectimg statusTitle"> Status:</div>
+                                    <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3  Selectimg statusTitle"> Status:<span className="starcolor">*</span></div>
                                     <div className="col-lg-8 col-md-8 col-sm-9 col-xs-9">
-                                        <select className="form-control inputText documentStatus" ref="documentStatus" id="documentStatus" defaultValue={this.state.status ? this.state.status : ''} name="documentStatus" onChange={this.handleChange}>
-                                            <option disabled="disabled">-- Select --</option>
+                                        <select className="form-control inputText documentStatus required" defaultValue ="0" ref="documentStatus" id="documentStatus" defaultValue={this.state.status ? this.state.status : ''} name="documentStatus" onChange={this.handleChange}>
+                                            <option value="Select">-- Select --</option>
                                             <option value="Initiated">Initiated</option>
                                             <option value="WIP">WIP ( Work in Progress)</option>
                                             <option value="Insufficiency">Insufficiency</option> 
@@ -717,10 +737,10 @@ class VerificationDataSubmit extends TrackerReact(Component){
                                 </div>{/* Status Block */}
                                 {/* Sub Status Block */}
                                 <div className="imgtitile col-lg-6 col-md-6 col-sm-12 col-xs-12 noLRPad">
-                                    <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3  Selectimg statusTitle"> Sub-status:</div>
+                                    <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3  Selectimg statusTitle"> Sub-status:<span className="starcolor">*</span></div>
                                     <div className="col-lg-8 col-md-8 col-sm-9 col-xs-9">
                                         <select className="form-control inputText documentSubStatus" ref="documentSubStatus" id="documentSubStatus" defaultValue={this.state.subStatus ? this.state.subStatus : ''} name="documentSubStatus" onChange={this.handleChange}>
-                                            <option disabled="disabled">-- Select --</option>
+                                            <option value="Select">-- Select --</option>
                                             <option value="Clear">Clear</option>
                                             <option value="Minor Discrepancy">Minor Discrepancy</option>
                                             <option value="Major Discrepancy">Major Discrepancy</option>
@@ -735,10 +755,10 @@ class VerificationDataSubmit extends TrackerReact(Component){
                             {/* Remark Block */}
                             <div className="col-lg-12 wholeborder">
                                 <div className="imgtitile col-lg-12 ">
-                                    <div className="col-lg-12 noLRPad Selectimg">Remark:</div>
+                                    <div className="col-lg-12 noLRPad Selectimg">Remark:<span className="starcolor1">*</span></div>
                                 </div>
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12  ">
-                                    <textarea className="form-control col-lg-12 col-sm-12 col-md-12 col-xs-12" name="remark" ref="remark" id="remark" onChange={this.handleChange} value={this.state.remark} rows="5" id="remark" pattern="[a-zA-Z0-9\s]+"></textarea>          
+                                    <textarea className="form-control col-lg-12 col-sm-12 col-md-12 col-xs-12" name="remark" ref="remark" id="remark" onChange={this.handleChange} value={this.state.remark} rows="5" id="remark" pattern="[a-zA-Z0-9\s]+" required ></textarea>          
                                 </div>
                             </div>
                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12  wholeborder text-center">
