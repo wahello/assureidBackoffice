@@ -174,8 +174,8 @@ export default AllTicketContainer = withTracker(props => {
                 assignedTicketList[i].bgClassName = 'btn-danger';
                 break;
               case 'ProofSubmit' :
-                openTicketDetails[i].status = 'Proof Submitted' ;      
-                openTicketDetails[i].bgClassName = 'btn-warning';
+                assignedTicketList[i].status = 'Proof Submitted' ;      
+                assignedTicketList[i].bgClassName = 'btn-warning';
                 break;
               case 'VerificationFail' :
                 assignedTicketList[i].status = 'Proof Re-Submit' ;      
