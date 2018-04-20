@@ -373,7 +373,7 @@ class ViewTicket extends React.Component {
                           width={80}
                           height={80}
                           rounded
-                          source={{ uri : "https://s3.ap-south-1.amazonaws.com/assureid.com/UserImage/"+this.props.viewTicketData.userProfile.split('original/')[1]}}
+                          source={{ uri : this.props.viewTicketData.userProfile }}
                           avatarStyle={{borderWidth:1,borderColor:'#000'}}
                           containerStyle={{marginBottom:5}}
                         />
@@ -479,8 +479,8 @@ export default createContainer((props) => {
     viewTicketData.lastName    = viewTicketUserData.lastName;
     viewTicketData.gender      = viewTicketUserData.gender;
     viewTicketData.dateOfBirth = viewTicketUserData.dateOfBirth;
-    viewTicketData.userProfile = viewTicketUserData.userProfile;
-
+    viewTicketData.userProfile = "https://s3.ap-south-1.amazonaws.com/assureidportal/UserImage/"+viewTicketUserData.userProfile.split('original/')[1]+'.'+viewTicketUserData.userFileExt;
+    console.log('viewTicketData.userProfile: ',viewTicketData.userProfile);
     var ticketElements    = viewTicketData.ticketElement;
     var FEDetails         = ticketElements.find((obj)=> { return obj.roleStatus == 'FEAllocated' });
     var handle2           = Meteor.subscribe('userData',FEDetails.userId);

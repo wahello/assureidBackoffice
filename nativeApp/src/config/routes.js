@@ -69,6 +69,7 @@ import ViewSubmittedTicketContainer from '../layouts/ViewTicket/ViewSubmittedTic
 import Camera from '../layouts/Camera/Camera.js';
 import CameraView from '../layouts/CameraView/CameraView.js';
 import CameraGallery from '../layouts/CameraGallery/CameraGallery.js';
+import VideoRecording from '../layouts/VideoRecording/VideoRecording.js';
 
 import Dashboard from '../layouts/Dashboard/Dashboard.js';
 import MyProfile from '../layouts/MyProfile/MyProfile.js';
@@ -81,7 +82,14 @@ import NotificationLayout from '../layouts/NotificationLayout/NotificationLayout
 
 export const AuthStack = StackNavigator({
 
-   Dashboard:{
+  VideoRecording:{
+      screen: VideoRecording,
+      navigationOptions: {
+      header: null
+    }
+  },
+
+  Dashboard:{
      screen: Dashboard,
     navigationOptions: {
       header: null
@@ -123,12 +131,12 @@ export const AuthStack = StackNavigator({
     }
   },
   
-  Camera:{
-    screen:Camera,
-    navigationOptions:{
-      header:null
-    }
-  },
+  // Camera:{
+  //   screen:Camera,
+  //   navigationOptions:{
+  //     header:null
+  //   }
+  // },
 
 
   GeoTagging:{

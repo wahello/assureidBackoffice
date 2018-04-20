@@ -271,21 +271,44 @@ class ViewTicketFormInfo extends React.Component {
   }
 
 
-  browseFile(event){
-    event.preventDefault();
-
-    let self = this; 
-    DocumentPicker.show({ filetype : [DocumentPickerUtil.images()]},(error,res) => {
-                          // Android
-                          // console.log("----------res-----------------");
-                          // console.log("res: ",res);
-   
-                        });    
-  }
-
   delImg(event, id){
-    // console.log('click id: ' ,id);
+    console.log('click id: ' ,id);
+    Meteor.call('delTempFEImage', id, (error, result)=>{
+      if(error){
+        Alert.alert(error.reason);
+      }else{
+        Alert.alert('success');
+      }
+    });
   }
+
+  displayAttachments =()=>{
+    var data = [];
+    var verificationDocuments = this.props.imgData;
+    if(verificationDocuments){
+       verificationDocuments.map((item, index)=>{
+        var fileName = item.imgs;
+        // console.log('fileName:',fileName);
+        data.push(
+                  <View key={index} style={{paddingHorizontal:10, paddingVertical:10,flex:0.3}}>
+                    <View style={[styles.delBtn]}>
+                      <TouchableOpacity onPress={(e) =>this.delImg(e, item._id)}><Icon name="close" type="MaterialIcons" size={25} color="#aaa"/></TouchableOpacity>
+                    </View>
+                    <View style={{flex:0.3,alignItems:'center',justifyContent:'center'}}>
+                    <Image  
+                    style={{ width:50, height:50}}                    
+                    resizeMode="stretch"
+                    source={{uri: fileName}}              
+                    />
+                    </View>
+                  </View>
+                  )
+        })       
+    }
+
+    return data;    
+  }
+
   render() {
     
     const { navigate, goBack, state } = this.props.navigation;
@@ -533,32 +556,13 @@ class ViewTicketFormInfo extends React.Component {
 
                   <View style = {styles.formInputView}> 
                     <View style={{flex:1}}>
-                      <View style={{flexDirection:'row',flex:1}}>
-                        <TouchableOpacity  onPress={()=>navigate('Camera',{ ticket : this.props.ticket })} >
-                          <Icon name="camera-enhance" type="MaterialIcons" size={50} color="#aaa"   />
-                        </TouchableOpacity>
-
-                        { this.props.imgData.length > 0 ?
-
-                         this.props.imgData.map((data,index)=>{
-                            return (
-                                    <View key={index} style={{paddingHorizontal:10,paddingVertical:10}}>
-                                      <View style={styles.closeBtn}>
-                                        <TouchableOpacity  onPress={(e) =>this.delImg(e, data._id)}><Icon name="close" type="MaterialIcons" size={23} color="#aaa"  /></TouchableOpacity>
-                                      </View>
-                                      <View style={{flex:0.3,alignItems:'center',justifyContent:'center'}}>
-                                      <Image  
-                                      style={{ width:40, height:40, borderRadius:20 }}                    
-                                      resizeMode="stretch"
-                                      source={{uri: data.imgs}}
-                                                     
-                                      />
-                                      </View>
-                                    </View>
-                                  );
-                          }) 
-                        
-                        : <Text></Text>}
+                      <View style={{flexDirection:'row'}}>
+                         <View style={{flex:0.3}}>
+                          <TouchableOpacity  onPress={()=>navigate('Camera',{ ticket : this.props.ticket })} >
+                            <Icon name="camera-enhance" type="MaterialIcons" size={50} color="#aaa"   />
+                          </TouchableOpacity>
+                         </View>
+                        {this.displayAttachments()}
 
                       </View>
                     </View>

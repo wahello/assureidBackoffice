@@ -138,9 +138,16 @@ export default StyleSheet.create({
   closeBtn:{
     marginLeft:33,
     position:'absolute',
-    top:1,
-    left:15,
-    zIndex:100
+    top:2,
+    left:5,
+    zIndex:10
+  },
+  delBtn:{
+    // marginLeft:27,
+    position:'absolute',
+    top:0,
+    // left:5,
+    zIndex:10
   },
   textInput:{
     width:'100%',
@@ -171,12 +178,6 @@ export default StyleSheet.create({
     textAlignVertical:'center',
     paddingTop:0,
     paddingBottom:0,
-  },
-  container: {
-      flex: 1,
-      justifyContent: 'flex-start',
-      alignItems: 'center',
-      marginTop: 25,
   },
   pdf: {
       flex:1,

@@ -53,67 +53,7 @@ class CameraChild extends React.Component{
   componentWillReceiveProps(nextProps) {
     // console.log('nextProps: ',nextProps);
   }
-
-// browseFile(event){
-//     event.preventDefault();
-//     var id = Meteor.userId();
-//     console.log("id => ",id);
-//     var s3Data = this.props.s3Data;
-
-//     console.log("s3Data = ",s3Data);
-
-//     DocumentPicker.show({ filetype : [DocumentPickerUtil.images()]},(error,res) => {
-//                           // Android
-//                           console.log("Result:: ",res);
-//                           var fileName = id+'_'+res.fileName;
-//                           var fileExt = fileName.split('.').pop();  
-
-//                           var file = {
-//                             uri   : res.uri,
-//                             name  : fileName,
-//                             type  : res.type,
-//                           }
-                          
-//                           // var prooftype    = "employement";
-//                           // var proofSubtype = "editEmployementDetails";
-//                           const options = {
-//                             keyPrefix           : "uploads/",
-//                             bucket              : s3Data.bucket,
-//                             region              : s3Data.region,
-//                             accessKey           : s3Data.key,
-//                             secretKey           : s3Data.secret,
-//                           }
-
-//                           RNS3.put(file, options).then((response) => {
-//                             console.log("------------response---------------");
-//                             console.log('response: ',response);
-//                             if (response.status !== 201)
-//                               throw new Error("Failed to upload image to S3");
-//                             console.log("=========  response.body  ==================");
-//                             console.log(response.body);
-//                             console.log("---------  response.body  ------------------");
-                            
-//                             var fileLocation = response.body.postResponse.location;
-//                             var fileDetails = {
-//                               fileName      : fileName,
-//                               fileExt       : fileExt,
-//                               fileLocation  : fileLocation,
-//                             }
-//                             console.log("fileDetails = ",fileDetails);
-//                             /**
-//                              * {
-//                              *   postResponse: {
-//                              *     bucket: "your-bucket",
-//                              *     etag : "9f620878e06d28774406017480a59fd4",
-//                              *     key: "uploads/image.png",
-//                              *     location: "https://your-bucket.s3.amazonaws.com/uploads%2Fimage.png"
-//                              *   }
-//                              * }
-//                              */
-//                           }).catch((error) => console.log("Handled Exceptions image ",error));
-
-//                         });    
-//   }
+  
 
   render() {
     // console.log('-------------------------------------');
