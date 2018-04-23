@@ -39,7 +39,7 @@ export default class CertificateRequired extends TrackerReact(Component){
     return ( 
       <div>
        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noProfilePadding">
-          <i className="fa fa-certificate col-lg-1 col-md-1 col-sm-1 col-xs-1 viewlogo"></i> 
+          <i className="fa fa-certificate viewlogo"></i> 
           <span className="col-lg-10 col-md-10 col-sm-10 col-xs-10 viewTitle">Certification Information</span>
           {
             // browserHistory.getCurrentLocation().pathname == "/viewProfile/"+this.props.currentUrl ?
@@ -56,6 +56,7 @@ export default class CertificateRequired extends TrackerReact(Component){
           }
         </div>
         <div className="Experience-info col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+        <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12 profileViewAddressWrap  ">
           {this.props.certificateData ?
             this.props.certificateData.map((certificateDetails, index)=>{
               return (   
@@ -68,12 +69,12 @@ export default class CertificateRequired extends TrackerReact(Component){
                       <input type="checkbox" className="reqInfocheck" name="certificateCheck" id={certificateDetails.chkid} value={"Certificate Details : "+certificateDetails.certificateId}/>
                     </div> 
                  } */}
-                  <div className="col-lg-2 col-md-2 col-sm-2 col-xs-2 noProfilePadding">
+                  {/* <div className="col-lg-2 col-md-2 col-sm-2 col-xs-2 noProfilePadding">
 			              <div className={certificateDetails.editStatus == "Reopen" ? "reOpenedu-box" : "edu-box"}>
 			              <img src="/images/assureid/certificate.png" className="college-img"/>
 			              </div>
-			            </div>
-			            <div className={ browserHistory.getCurrentLocation().pathname == "/viewProfile/"+this.props.currentUrl || browserHistory.getCurrentLocation().pathname == '/profileForms' ? "edu-university col-lg-9 col-md-9 col-sm-9 col-xs-9" : "edu-university col-lg-8 col-md-8 col-sm-8 col-xs-8" }>
+			            </div> */}
+			            <div className={ browserHistory.getCurrentLocation().pathname == "/viewProfile/"+this.props.currentUrl || browserHistory.getCurrentLocation().pathname == '/profileForms' ? "edu-university col-lg-12 col-md-9 col-sm-9 col-xs-9" : "edu-university col-lg-12 col-md-8 col-sm-8 col-xs-8" }>
 			              <span className="university-name">{certificateDetails.certificateName}</span><br />
 			              <span className="company-name">{certificateDetails.issuedBy}</span><br />
 			              <span className="year">{certificateDetails.certificatedOn ? moment(certificateDetails.certificatedOn).format('MMMM YYYY') : ""}</span>                
@@ -143,6 +144,7 @@ export default class CertificateRequired extends TrackerReact(Component){
             :
             <span className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noProfilePadding">Please add your Certificate Information</span>
           }
+          </div>
         </div>
         <div className="modal fade" id="certificateinfo" role="dialog">
           <div className="modal-dialog">

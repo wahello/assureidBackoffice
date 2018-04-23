@@ -96,3 +96,9 @@
     cursor: pointer;
     border-radius: 0 !important;
 }
+.tableinnetWrap1{
+    height: 370px;
+    border-top: 2px solid #00c0ef; 
+    overflow: hidden;
+    
+}

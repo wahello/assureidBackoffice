@@ -1,0 +1,32 @@
+.outerProfileView{
+    margin-top:3%;
+}
+.profileViewAddressHead{
+	text-align: center;
+    border: 1px solid #ddd;
+    background: #eee;
+}
+.detailsAddressView{
+    padding-bottom: 4%;
+    padding-top: 4%;
+}
+.profileViewAddressWrap{
+    border: 1px solid #ddd;
+    padding: 0;
+    margin-top:2%;
+}
+.requiredAddress{
+    margin-top:4%;
+    margin-bottom: 4%;
+}
+.edu-university{
+    height: 124px;
+    padding-bottom: 16%;
+    padding-top: 5%;
+}
+.currentAddresswrap{
+    margin-bottom: 3%;
+}
+.Experience-info{
+    margin-bottom: 1%;  
+}

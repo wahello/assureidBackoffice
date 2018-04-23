@@ -53,6 +53,7 @@ class EscalatedTickets extends TrackerReact(Component){
 
                                         {
                                                 !this.props.loading ?
+                                                this.props.ticketBucketData.length>0 ?
                                                   this.props.ticketBucketData.map((data, index)=>{
                                                     return(
                                                         <tr key={index}>
@@ -67,9 +68,17 @@ class EscalatedTickets extends TrackerReact(Component){
                                                   })
                                             
                                                 :
-                                                <div>
-                                                    return(<span className ="nodata">Nothing To Dispaly</span>);
-                                             </div>
+                                                <tr>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td className ="nodata">Nothing To Dispaly</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                :
+                                                ""
+
                                             }
                                         </tbody>
                                     </table>

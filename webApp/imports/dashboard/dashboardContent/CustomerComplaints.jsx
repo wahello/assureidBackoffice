@@ -95,7 +95,7 @@ export default class CustomerComplaints extends TrackerReact(Component){
     render(){
         return(    
             <div className="col-lg-12 col-md-3 col-sm-3 col-xs-3 noLRPad">
-                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 innerblock tableinnetWrap noLRPad">
+                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 innerblock tableinnetWrap1 noLRPad">
                 <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12 ticketTableLabel">Customer Complaints                    
                     <span>
                         <Link to="/ComingSoon" title="View All">

@@ -166,10 +166,10 @@ export default class LogIn extends TrackerReact(React.Component) {
                         </div>
                       </form>
                       <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 bottomLiksOuter">
-                        <div className="text-left col-lg-6 col-md-6 col-sm-6 col-xs-6 nopadLeft ">
+                        {/* <div className="text-left col-lg-6 col-md-6 col-sm-6 col-xs-6 nopadLeft ">
                           <a href="#" className="bottomLinks" onClick={this.showSignUp.bind(this)}><i className="fa fa-angle-double-left" aria-hidden="true"></i> Sign Up</a>
-                        </div>
-                        <div className="text-right col-lg-6 col-md-6 col-sm-6 col-xs-6 nopadRight">
+                        </div> */}
+                        <div className="text-right col-lg-6 col-md-6 col-sm-6 col-xs-6 nopadRight pull-right">
                           <a href="#" className="bottomLinks" onClick={this.showForgotModal.bind(this)}>Forgot Password ?</a>
                         </div>
                       </div>

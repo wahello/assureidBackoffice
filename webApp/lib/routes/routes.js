@@ -226,8 +226,6 @@ export const routes = (
 
     <Route component={BackofficeDashApp} >
       <Route path="/backoffice/dashboard" component={Content}/>
-      <Route path="/admin/viewProfile/:id" component={ProfileView}/>
-      <Route path="/admin/ticket/:id" component={Ticket}/>
       <Route path="/admin/alltickets" component={AllTickets}/>
        <Route path="/admin/assignedtickets" component={AssignedTickets}/>
        <Route path="/admin/opentickets" component={OpenTickets}/>
@@ -235,6 +233,9 @@ export const routes = (
        <Route path="/admin/rejectedtickets" component={RejectedTickets}/>
        <Route path="/admin/escalatedtickets" component={EscalatedTickets}/>
        <Route path="/backofficeadmin/company-info" component={CompanySettingTabs}/>
+      <Route path="/admin/ticket/:id" component={Ticket}/>       
+      <Route path="/admin/viewProfile/:id" component={ProfileView}/>
+       
        
     </Route>
 

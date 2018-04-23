@@ -15,7 +15,7 @@ export default class SignUp extends TrackerReact(React.Component) {
     $('#outerLoginWrapper').show();
     $('.modalContent').removeClass('addModalHeight');
 	}
-	showOTP(event){
+	showOTP(event){ 
 		event.preventDefault();
     $('#outerSignUpWrapper').hide();
     $('#OtpBlock').show();

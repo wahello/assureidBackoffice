@@ -260,11 +260,11 @@ class Sidebar extends TrackerReact(Component){
                   </span>
                 </Link>
                 <ul className="treeview-menu">
-                  <li>
+                  {/* <li>
                     <Link to="/admin/mytickets">
                       <i className="fa fa-circle-o" /> My Ticket
                     </Link>
-                  </li>
+                  </li> */}
                   <li>
                     <Link to="/admin/maxnoofticketallocate">
                       <i className="fa fa-circle-o" /> Allocate Max No. Tickets
@@ -339,12 +339,7 @@ class Sidebar extends TrackerReact(Component){
                     <span>Check List For Field Expert</span>
                 </Link>
               </li>
-              <li>
-                <Link to="/ComingSoon">
-                  <i className="fa fa-key" />
-                    <span>Access Management</span>
-                </Link>
-              </li>
+             
             </ul>
           </section>
           {/* /.sidebar */}

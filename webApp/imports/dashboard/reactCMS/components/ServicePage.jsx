@@ -156,7 +156,9 @@ export default class ServicePage extends TrackerReact (Component){
         // console.log('serviceDuration :',serviceDuration); 
         // let servicesDescription = $('#servicesDescription').summernote('code');
         var servicesDescription  = this.refs.servicesDescription.value;
-        var serviceFor           = $('input[name=serviceFor]:checked', '.newTemplateForm').val();
+        // var serviceFor           = $('input[name=serviceFor]:checked', '.newTemplateForm').val();
+        var serviceFor           = "user";
+        
         // var fieldChecklist       = [];
         // var checklistFieldExpert = this.props.checklistFieldExpert;
         // if (checklistFieldExpert) {
@@ -205,6 +207,53 @@ export default class ServicePage extends TrackerReact (Component){
           }
       }    
   }
+
+  getUploadImagePercentage(){
+    var uploadProgressPercent = Session.get("uploadServiceImgProgressPercent");
+    if(uploadProgressPercent){
+        var percentVal = parseInt(uploadProgressPercent);
+        if(percentVal){
+            
+            var styleC = {
+                width:percentVal + "%",
+                display:"block",
+            }
+            var styleCBar = {
+                display:"block",
+                marginTop:5,
+            }
+        }
+        if(!percentVal){
+            var percentVal = 0;
+
+            var styleC = {
+                width:0 + "%",
+                display:"none",
+            }
+            var styleCBar = {
+                display:"none",
+                marginTop:5,
+            }
+        }
+
+        if(parseInt(percentVal)==100){
+            setTimeout(()=>{ 
+                Session.set("uploadServiceImgProgressPercent",0); 
+            }, 3000);
+            
+             
+        }
+
+        return (
+          <div className="progress"  style= {styleCBar}>
+            <div className="progress-bar progress-bar-striped active" role="progressbar"
+            aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style= {styleC}>
+              {percentVal} %
+            </div>
+          </div>
+        );
+    }
+}
   // addCheckList(event){
   //   event.preventDefault();
   //   var task = this.refs.fieldChecklist.value;
@@ -262,11 +311,11 @@ export default class ServicePage extends TrackerReact (Component){
                             <form className="newTemplateForm" id="serviceForm">
                               <div className="row inputrow">
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                  <div className="form-group">
+                                  {/* <div className="form-group">
                                     <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12 label-category">Service For:</label>
                                     <label className="radio-inline" style={{fontSize : '13' + 'px'}}><input value="user" type="radio" name="serviceFor" ref="serviceFor" checked={this.state.serviceFor === 'user'} onChange={this.handleChange} />User</label>
                                     <label className="radio-inline" style={{fontSize : '13' + 'px', marginLeft : '30' + 'px'}}><input value="company" type="radio" name="serviceFor" checked={this.state.serviceFor === 'company'} ref="serviceFor" onChange={this.handleChange}/>Company</label>
-                                  </div>
+                                  </div> */}
                                 </div>
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                   <div className="form-group">
@@ -321,6 +370,10 @@ export default class ServicePage extends TrackerReact (Component){
                                        <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12 label-category">Image Upload<span className="astrick">*</span>:</label>
                                         <input type="file" ref="serviceImageFile" id="s3file" name="serviceImageFile"  onChange={this.handleUpload.bind(this)}  className="subject col-lg-12 col-md-12 col-sm-12 col-xs-12 inputValid"  required/>     
                                       </div> 
+                                  </div>
+                                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    
+                                    {this.getUploadImagePercentage()}
                                   </div>
 
                                   <div className="col-lg-6 uploadedImageFromLocl2">    

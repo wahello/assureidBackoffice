@@ -100,92 +100,85 @@ class AddressRequired extends TrackerReact(Component){
       return(
         <div>
           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noProfilePadding">
-            <i className="fa fa-id-card col-lg-1 col-md-1 col-sm-1 col-xs-1 viewlogo"></i> 
+            <i className="fa fa-id-card viewlogo"></i> 
             <span className="col-lg-11 col-md-11 col-sm-11 col-xs-11 viewTitle">Address Information</span>
           </div> 
           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 addressInfoOuter">
-            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 addressInfoInner requiredAddress noProfilePadding">
-              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noProfilePadding">
-                <h5 className="pull-left">Permanent Address</h5>
-                {
-                  // browserHistory.getCurrentLocation().pathname == "/viewProfile/"+this.props.currentUrl ?
-                  //   Meteor.userId() == this.props.currentUrl ?
-                  //     <i className="fa fa-plus pull-right add-btn" title="Add Address" onClick={this.newaddPermAddressModal.bind(this)}></i>              
-                  //   :
-                  //   ""
-                  // :
-                  // <i className="fa fa-plus pull-right add-btn" title="Add Address" onClick={this.newaddPermAddressModal.bind(this)}></i>              
-                }
-              </div>  
-              { this.props.permanentAddress ?
-                this.props.permanentAddress.map((permAddress,index)=>{
-                  return(
-                    <div key={index}> 
-                      <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noProfilePadding outerPermanentAddress">
-                        <div className="col-lg-2 col-md-2 col-sm-2 col-xs-2 noProfilePadding">
-                          <div className={permAddress.editStatus == "Reopen" ? "reOpenedu-box" : "edu-box"}>
-                            <img src="/images/assureid/pinImage2.png" className="college-img"/>
-                          </div>
-                        </div>
-                        <div className={ browserHistory.getCurrentLocation().pathname == "/viewProfile/"+this.props.currentUrl || browserHistory.getCurrentLocation().pathname == '/profileForms' ? "edu-university col-lg-9 col-md-9 col-sm-9 col-xs-9" : "edu-university col-lg-8 col-md-8 col-sm-8 col-xs-8" }>
-                          <span className="pull-left"> {permAddress.line1} {permAddress.line2 ? ', ' + permAddress.line2 : ""} {permAddress.line3 ? ', ' + permAddress.line3 : ""} {permAddress.landmark ? ', ' + permAddress.landmark : ""} {permAddress.city ? ', ' +permAddress.city : ""} {permAddress.state ? ', ' + permAddress.state : ""} {permAddress.country ? ', ' + permAddress.country : "" } {permAddress.pincode}</span><br />
-                          <span className="year">{permAddress.residingFrom ? moment(permAddress.residingFrom).format('DD/MM/YYYY') + ' - ' : ""}{permAddress.residingTo ? permAddress.residingTo == 'Present' ? permAddress.residingTo : moment(permAddress.residingTo).format('DD/MM/YYYY') : ""}</span>                          
-                        </div>
-                        { 
-                          this.props.currentUrl ?
-                            (permAddress.editStatus == "Open" || permAddress.editStatus == "Reopen") && Meteor.userId() == this.props.currentUrl ?
-                            <div className="col-lg-1 col-md-1 col-sm-1 col-xs-1 noProfilePadding">                          
-                              <i className="fa fa-trash edit-pencil pull-right add-btn" title="Delete Address" data-toggle="modal" onClick={this.editPermanaantAddress.bind(this)} data-target={"delPermanentAddrInfo-"+index}></i>
-                              <i className="fa fa-pencil pull-right add-btn" title="Edit Address" data-toggle="modal" data-target={"permAddressModal-"+index} id={permAddress.permanentAddressId} onClick={this.editPermanaantAddress.bind(this)} style={{marginRight: '10' + 'px'}}></i>
+            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 addressInfoInner requiredAddress noProfilePadding">
+              <div className="col-lg-8 col-md-8 col-sm-12 col-xs-12 profileViewAddressWrap">
+            
+                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noProfilePadding profileViewAddressHead">
+                  <h5 className="">Permanent Address</h5>
+                </div>  
+                { this.props.permanentAddress ?
+                  this.props.permanentAddress.map((permAddress,index)=>{
+                    return(
+                      <div key={index}> 
+                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noProfilePadding outerPermanentAddress detailsAddressView">
+                          {/* <div className="col-lg-2 col-md-2 col-sm-2 col-xs-2 noProfilePadding">
+                            <div className={permAddress.editStatus == "Reopen" ? "reOpenedu-box" : "edu-box"}>
+                              <i className="fa fa-map-marker" aria-hidden="true"></i>
                             </div>
+                          </div> */}
+                          <div className={ browserHistory.getCurrentLocation().pathname == "/viewProfile/"+this.props.currentUrl || browserHistory.getCurrentLocation().pathname == '/profileForms' ? "edu-university col-lg-12 col-md-9 col-sm-9 col-xs-9" : "edu-university col-lg-12 col-md-8 col-sm-8 col-xs-8" }>
+                            <span className="pull-left"> {permAddress.line1} {permAddress.line2 ? ', ' + permAddress.line2 : ""} {permAddress.line3 ? ', ' + permAddress.line3 : ""} {permAddress.landmark ? ', ' + permAddress.landmark : ""} {permAddress.city ? ', ' +permAddress.city : ""} {permAddress.state ? ', ' + permAddress.state : ""} {permAddress.country ? ', ' + permAddress.country : "" } {permAddress.pincode}</span><br />
+                            <span className="year">{permAddress.residingFrom ? moment(permAddress.residingFrom).format('DD/MM/YYYY') + ' - ' : ""}{permAddress.residingTo ? permAddress.residingTo == 'Present' ? permAddress.residingTo : moment(permAddress.residingTo).format('DD/MM/YYYY') : ""}</span>                          
+                          </div>
+                          { 
+                            this.props.currentUrl ?
+                              (permAddress.editStatus == "Open" || permAddress.editStatus == "Reopen") && Meteor.userId() == this.props.currentUrl ?
+                              <div className="col-lg-1 col-md-1 col-sm-1 col-xs-1 noProfilePadding">                          
+                                <i className="fa fa-trash edit-pencil pull-right add-btn" title="Delete Address" data-toggle="modal" onClick={this.editPermanaantAddress.bind(this)} data-target={"delPermanentAddrInfo-"+index}></i>
+                                <i className="fa fa-pencil pull-right add-btn" title="Edit Address" data-toggle="modal" data-target={"permAddressModal-"+index} id={permAddress.permanentAddressId} onClick={this.editPermanaantAddress.bind(this)} style={{marginRight: '10' + 'px'}}></i>
+                              </div>
+                              :
+                              ""
+                            :
+                            permAddress.editStatus == "Open" || permAddress.editStatus == "Reopen" ?
+                              <div className="col-lg-1 col-md-1 col-sm-1 col-xs-1 noProfilePadding">                          
+                                <i className="fa fa-trash edit-pencil pull-right add-btn" title="Delete Address" data-toggle="modal" onClick={this.editPermanaantAddress.bind(this)} data-target={"delPermanentAddrInfo-"+index}></i>
+                                <i className="fa fa-pencil pull-right add-btn" title="Edit Address" data-toggle="modal" data-target={"permAddressModal-"+index} id={permAddress.permanentAddressId} onClick={this.editPermanaantAddress.bind(this)} style={{marginRight: '10' + 'px'}}></i>
+                              </div>
                             :
                             ""
-                          :
-                          permAddress.editStatus == "Open" || permAddress.editStatus == "Reopen" ?
-                            <div className="col-lg-1 col-md-1 col-sm-1 col-xs-1 noProfilePadding">                          
-                              <i className="fa fa-trash edit-pencil pull-right add-btn" title="Delete Address" data-toggle="modal" onClick={this.editPermanaantAddress.bind(this)} data-target={"delPermanentAddrInfo-"+index}></i>
-                              <i className="fa fa-pencil pull-right add-btn" title="Edit Address" data-toggle="modal" data-target={"permAddressModal-"+index} id={permAddress.permanentAddressId} onClick={this.editPermanaantAddress.bind(this)} style={{marginRight: '10' + 'px'}}></i>
-                            </div>
-                          :
-                          ""
-                        }
+                          }
 
-                      </div>
-                      <div className="modal fade" id={"delPermanentAddrInfo-"+index} role="dialog">
-                        <div className="modal-dialog">
-                          <div className="modal-content">
-                            <div className="modal-body col-lg-12 col-md-12 col-sm-12 col-xs-12 deleteModal">
-                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                <button type="button" className="close" data-dismiss="modal">&times;</button>
-                              </div>
-                              <p className="">Do you want to delete this data?</p>
-                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                <button type="button" className="pull-right btn btn-default col-lg-3 col-md-3 col-sm-3 col-xs-3 yesDelete" onClick={this.deleteAcademics.bind(this)} data-index={index}>Yes</button>
-                                &nbsp;&nbsp;
-                                <button type="button" className="pull-right btn btn-default col-lg-3 col-md-3 col-sm-3 col-xs-3 noDelete" data-dismiss="modal">No</button>
-                              </div>
-                            </div>
-                            <div className="modal-footer">
-                            </div>
-                          </div>  
                         </div>
-                      </div> 
-                      <div className="modal fade" id={"permAddressModal-"+index} role="dialog">
+                        <div className="modal fade" id={"delPermanentAddrInfo-"+index} role="dialog">
                           <div className="modal-dialog">
                             <div className="modal-content">
-                              <div className="modal-header">
-                                <button type="button" className="close" data-dismiss="modal">&times;</button>
-                                  <h4 className="modal-title">Edit Permanent Address</h4>                 
+                              <div className="modal-body col-lg-12 col-md-12 col-sm-12 col-xs-12 deleteModal">
+                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                  <button type="button" className="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <p className="">Do you want to delete this data?</p>
+                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                  <button type="button" className="pull-right btn btn-default col-lg-3 col-md-3 col-sm-3 col-xs-3 yesDelete" onClick={this.deleteAcademics.bind(this)} data-index={index}>Yes</button>
+                                  &nbsp;&nbsp;
+                                  <button type="button" className="pull-right btn btn-default col-lg-3 col-md-3 col-sm-3 col-xs-3 noDelete" data-dismiss="modal">No</button>
+                                </div>
                               </div>
-                              <div className="modal-body col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                <form className="basicForm col-lg-12 col-md-12 col-sm-12 col-xs-12 addressForm" id={"permanentAddressForm-" + index}>
-                                 {/* <PermanentAddress  id={this.props.userprofile._id} permanentAddressValues={permAddress} indexVal={index} /> */}
-                                </form>
-                              </div> 
                               <div className="modal-footer">
                               </div>
-                            </div> 
+                            </div>  
                           </div>
+                        </div> 
+                        <div className="modal fade" id={"permAddressModal-"+index} role="dialog">
+                            <div className="modal-dialog">
+                              <div className="modal-content">
+                                <div className="modal-header">
+                                  <button type="button" className="close" data-dismiss="modal">&times;</button>
+                                    <h4 className="modal-title">Edit Permanent Address</h4>                 
+                                </div>
+                                <div className="modal-body col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                  <form className="basicForm col-lg-12 col-md-12 col-sm-12 col-xs-12 addressForm" id={"permanentAddressForm-" + index}>
+                                  {/* <PermanentAddress  id={this.props.userprofile._id} permanentAddressValues={permAddress} indexVal={index} /> */}
+                                  </form>
+                                </div> 
+                                <div className="modal-footer">
+                                </div>
+                              </div> 
+                            </div>
                       </div> 
                     </div>
                   );                   
@@ -211,32 +204,29 @@ class AddressRequired extends TrackerReact(Component){
                   </div>
                 </div> 
               }
-                        
+              </div>          
             </div> 
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 addressInfoInner requiredAddress noProfilePadding">
               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noProfilePadding">
                 <h5 className="pull-left">Current Address</h5>
-                {
-                  // browserHistory.getCurrentLocation().pathname == "/viewProfile/"+this.props.currentUrl ?
-                  //   Meteor.userId() == this.props.currentUrl ?
-                  //     <i className="fa fa-plus pull-right add-btn" title="Add Address" onClick={this.newAddCurrentAddressModal.bind(this)}></i>              
-                  //   :
-                  //   ""
-                  // :
-                  // <i className="fa fa-plus pull-right add-btn" title="Add Address" onClick={this.newAddCurrentAddressModal.bind(this)}></i>              
-                }  
+               
               </div>  
               { this.props.currentAddress ?
                 this.props.currentAddress.map((currentAddress,index)=>{
                   return(
                     <div key={index}> 
-                      <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noProfilePadding outerPermanentAddress">
-                        <div className="col-lg-2 col-md-2 col-sm-2 col-xs-2 noProfilePadding">
+
+                      <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12 currentAddresswrap outerPermanentAddress">
+                      <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad profileViewAddressWrap">
+                        {/* <div className="col-lg-2 col-md-2 col-sm-2 col-xs-2 noProfilePadding">
                           <div className={currentAddress.editStatus == "Reopen" ? "reOpenedu-box" : "edu-box"}>
-                            <img src="/images/assureid/pinImage2.png" className="college-img"/>
+                            <i className="fa fa-map-marker" aria-hidden="true"></i>
                           </div>
-                        </div>
-                        <div className={ browserHistory.getCurrentLocation().pathname == "/viewProfile/"+this.props.currentUrl || browserHistory.getCurrentLocation().pathname == '/profileForms' ? "edu-university col-lg-9 col-md-9 col-sm-9 col-xs-9" : "edu-university col-lg-8 col-md-8 col-sm-8 col-xs-8" }>
+                        </div> */}
+                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noProfilePadding profileViewAddressHead">
+                            <h5 className="">Address Address&nbsp;{index+1}&nbsp;</h5>
+                          </div> 
+                        <div className={ browserHistory.getCurrentLocation().pathname == "/viewProfile/"+this.props.currentUrl || browserHistory.getCurrentLocation().pathname == '/profileForms' ? "edu-university col-lg-12 col-md-12 col-sm-9 col-xs-9" : "edu-university col-lg-12 col-md-12 col-sm-8 col-xs-8" }>
                           <span className="pull-left"> {currentAddress.tempLine1} {currentAddress.tempLine2 ? ', ' + currentAddress.tempLine2 : ""} {currentAddress.tempLine3 ? ', ' + currentAddress.tempLine3 : ""} {currentAddress.tempLandmark ? ', ' +  currentAddress.tempLandmark : ""} {currentAddress.tempCity ? ', ' +  currentAddress.tempCity : ""} {currentAddress.tempState ? ', ' + currentAddress.tempState : ""} {currentAddress.tempCountry ? ', ' + currentAddress.tempCountry : ""} {currentAddress.tempPincode}</span><br />
                           <span className="year">{currentAddress.tempresidingFrom ? moment(currentAddress.tempresidingFrom).format('DD/MM/YYYY') + ' - ' : ""}{currentAddress.tempresidingTo ? currentAddress.tempresidingTo == 'Present' ? currentAddress.tempresidingTo : moment(currentAddress.tempresidingTo).format('DD/MM/YYYY') : ""}</span>                           
                         </div>
@@ -257,7 +247,8 @@ class AddressRequired extends TrackerReact(Component){
                             </div>
                           :
                           ""
-                        }                        
+                        }    
+                        </div>                    
                       </div> 
                       <div className="modal fade" id={"delCurrentAddrInfo-"+index} role="dialog">
                         <div className="modal-dialog">

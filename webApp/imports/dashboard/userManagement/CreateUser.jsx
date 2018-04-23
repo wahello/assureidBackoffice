@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import { render } from 'react-dom';
 import TrackerReact from 'meteor/ultimatejs:tracker-react';
 import {Services} from '/imports/dashboard/reactCMS/api/Services.js';
+import { withTracker } from 'meteor/react-meteor-data';
 
-export default class CreateUser extends TrackerReact(Component) {
+
+class CreateUser extends TrackerReact(Component) {
 
   constructor(props){
     super(props);
@@ -16,12 +18,18 @@ export default class CreateUser extends TrackerReact(Component) {
     }
   }
 	createUser(event){
-		event.preventDefault();
-        var reportrefValue = this.refs.reportToRef.value;
+    event.preventDefault();
+    var reportrefValue = this.refs.reportToRef.value;      
+        if(reportrefValue!=""){
+          var splitValue   =  reportrefValue.split("(");
+          var reportToRole = splitValue[0];
+          var reportToName = splitValue[1].slice(0, -1);
+        }else{
+          var reportToName = '';
+          var reportToRole = '';
+        }
         console.log("reportrefValue :"+reportrefValue);
-        var splitValue   =  reportrefValue.split("(");
-        var reportToRole = splitValue[0];
-        var reportToName = splitValue[1].slice(0, -1);
+        
         
         var formValues = {
                           'firstname'        : this.refs.firstname.value,
@@ -29,7 +37,7 @@ export default class CreateUser extends TrackerReact(Component) {
                           'signupEmail'      : this.refs.signupEmail.value,
                           'mobNumber'        : this.refs.mobNumber.value,
                           'servicesName'     : this.refs.servicesRef.value,
-                          'reportToRole'         : reportToRole,
+                          'reportToRole'     : reportToRole,
                           'reportToName'     : reportToName,
                           'signupPassword'   : "user123",
                         }   
@@ -88,58 +96,56 @@ export default class CreateUser extends TrackerReact(Component) {
       }
     });
 
-    this.roleTracker = Tracker.autorun( ()=> {
-      var handle = Meteor.subscribe("rolefunction");
+    // this.roleTracker = Tracker.autorun( ()=> {
+    //   var handle = Meteor.subscribe("rolefunction");
     
-      if(handle.ready()){
-        if(this.state.userSubscribe.ready()){
-          var allusers = Meteor.users.find({"roles":{$nin:["user","superAdmin","admin"]}}).fetch();
-          var allRoles = Meteor.roles.find({}).fetch();         
+    //   if(handle.ready()){
+    //     if(this.state.userSubscribe.ready()){
+    //       var allusers = Meteor.users.find({"roles":{$nin:["user","superAdmin","admin"]}}).fetch();
+    //       var allRoles = Meteor.roles.find({}).fetch();         
           
-          if(allusers.length >0 && allRoles.length >0){
-            var newArr = [];
-            // console.log("allusers: ",allusers);
-            for(var i=0;i<allusers.length;i++){
+    //       if(allusers.length >0 && allRoles.length >0){
+    //         var newArr = [];
+    //         // console.log("allusers: ",allusers);
+    //         for(var i=0;i<allusers.length;i++){
               
-              var currentText = allusers[i].profile.firstname +" "+ allusers[i].profile.lastname;
-              var reportName  = allusers[i].profile.firstname +" "+ allusers[i].profile.lastname;
-              var userLen = allusers[i].roles;
-              if(userLen.length){
-                for(k=0;k<userLen.length;k++){
-                  if(userLen[k]!="backofficestaff"){
-                    currentText = userLen[k] +"("+currentText+")" ;
-                  }
-                }
-              }
+    //           var currentText = allusers[i].profile.firstname +" "+ allusers[i].profile.lastname;
+    //           var reportName  = allusers[i].profile.firstname +" "+ allusers[i].profile.lastname;
+    //           var userLen = allusers[i].roles;
+    //           if(userLen.length){
+    //             for(k=0;k<userLen.length;k++){
+    //               if(userLen[k]!="backofficestaff"){
+    //                 currentText = userLen[k] +"("+currentText+")" ;
+    //               }
+    //             }
+    //           }
              
-              newArr.push(currentText);
-            }
-            var roleArray = [];
-            for(var j=0;j<allRoles.length;j++){
-              if((allRoles[j].name!="superAdmin") && (allRoles[j].name!= "admin") && (allRoles[j].name!= "user"))  {
+    //           newArr.push(currentText);
+    //         }
+    //         var roleArray = [];
+    //         for(var j=0;j<allRoles.length;j++){
+    //           if((allRoles[j].name!="superAdmin") && (allRoles[j].name!= "admin") && (allRoles[j].name!= "user"))  {
 
-                var rolevalue = allRoles[j].name;
-                roleArray.push(rolevalue);
-              }
-            }
+    //             var rolevalue = allRoles[j].name;
+    //             roleArray.push(rolevalue);
+    //           }
+    //         }
             
 
-            this.setState({
-              "roles": allRoles,
-              "userUniqueData":newArr,
-              "roleList"      : roleArray,
-              "reporttoName"  : reportName
+    //         this.setState({
+    //           "roles": allRoles,
+    //           "userUniqueData":newArr,
+    //           "roleList"      : roleArray,
+    //           "reporttoName"  : reportName
            
-          });   
-          
-          console.log("roleList :"+JSON.stringify(this.state.userUniqueData));
-          console.log("roleList :"+JSON.stringify(this.state.roleList));
-          }
+    //       });   
+
+    //       }
          
-        }
-      }
+    //     }
+    //   }
    
-    });
+    // });
 
 
 	 }
@@ -159,9 +165,8 @@ export default class CreateUser extends TrackerReact(Component) {
 
 
 	render() {
-
+    if(!this.props.loading){      
        return (
-
        	<section className="content-wrapper">
         <div className="content">
           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -209,11 +214,15 @@ export default class CreateUser extends TrackerReact(Component) {
 								   			  <label className="floating-label">Assign Service</label>
                            {/* <span className="input-group-addon" id="basic-addon1"><i className="fa fa-gg" aria-hidden="true"></i></span> */}
                               <select className="form-control allProductSubCategories" aria-describedby="basic-addon1" ref="servicesRef">
-                                  { this.state.service.map( (data, index)=>{
+
+                                  { this.state.service.length>0 ?
+                                    this.state.service.map( (data, index)=>{
                                       return (
                                           <option key={index}>{data.serviceName}</option>
                                       );
                                   })
+                                  :
+                                  ""
                                   }
                               </select>
 										  	</span>
@@ -222,11 +231,18 @@ export default class CreateUser extends TrackerReact(Component) {
 								   			<span className="blocking-span">
 								   			  <label className="floating-label">Assign Role</label>
                            <select className="form-control allProductSubCategories" aria-describedby="basic-addon1" ref="roleRef">
-                                  { this.state.roleList.map( (data, index)=>{
+                                  { 
+                                    !this.props.loading ?
+                                    this.props.roleList.length > 0 ?
+                                    this.props.roleList.map( (data, index)=>{
                                       return (
                                           <option key={index}>{data}</option>
                                       );
                                   })
+                                  :
+                                  ""
+                                  :
+                                  ""
                                   }
                            </select>
 											</span>
@@ -237,14 +253,22 @@ export default class CreateUser extends TrackerReact(Component) {
                            {/* <span className="input-group-addon" id="basic-addon1"><i className="fa fa-gg" aria-hidden="true"></i></span> */}
                            
                               <select className="form-control allProductSubCategories" aria-describedby="basic-addon1" ref="reportToRef">
-                                  { this.state.userUniqueData.map( (data, index)=>{
+                                  { 
+                                    !this.props.loading ?
+                                    this.props.userUniqueData.length>0 ?
+                                    this.props.userUniqueData.map( (data, index)=>{
                                       return (
                                           <option key={index}>
                                             
                                             {data}
                                           </option>
                                       );
-                                  })
+                                    })
+                                    : 
+                                    ""
+                                  :
+                                  ""
+
                                   }
                               </select>
 										  	</span>
@@ -261,9 +285,65 @@ export default class CreateUser extends TrackerReact(Component) {
 			 	</div>
 			 </div>
 		 </div>
-		 </section>
-	    );
+     </section>
+      );
+    }else{
+      return <span>loading</span>
+    }
 
 	} 
+}export default CreateUserContainer = withTracker(props => {
+  var handle = Meteor.subscribe("services");
+  var userSubscribehandle = Meteor.subscribe('userfunction');
+  var rolehandle = Meteor.subscribe("rolefunction");
+  
+  
+  var loading = !handle.ready() && !userSubscribehandle.ready() && !rolehandle.ready(); 
 
-}
+
+  var allusers = Meteor.users.find({"roles":{$nin:["user","superAdmin","admin"]}}).fetch();
+  var allRoles = Meteor.roles.find({}).fetch();         
+  
+  if(allusers.length >0 && allRoles.length >0){
+    var newArr = [];
+    // console.log("allusers: ",allusers);
+    for(var i=0;i<allusers.length;i++){
+      
+      var currentText = allusers[i].profile.firstname +" "+ allusers[i].profile.lastname;
+      var reportName  = allusers[i].profile.firstname +" "+ allusers[i].profile.lastname;
+      var userLen = allusers[i].roles;
+      if(userLen.length){
+        for(k=0;k<userLen.length;k++){
+          if(userLen[k]!="backofficestaff"){
+            currentText = userLen[k] +"("+currentText+")" ;
+          }
+        }
+      }
+     
+      newArr.push(currentText);
+    }
+    var roleArray = [];
+    for(var j=0;j<allRoles.length;j++){
+      if((allRoles[j].name!="superAdmin") && (allRoles[j].name!= "admin") && (allRoles[j].name!= "user"))  {
+
+        var rolevalue = allRoles[j].name;
+        roleArray.push(rolevalue);
+      }
+    }
+    
+  } 
+    var roleList = [];
+    var roles =  allRoles;
+    var userUniqueData=newArr;
+    roleList = roleArray;
+    var reporttoName = reportName;
+
+  return{
+    loading,
+    roles,
+    newArr,
+    userUniqueData,
+    roleList,
+    reporttoName
+  }
+})(CreateUser);

@@ -85,7 +85,7 @@ class TotalBusiness extends TrackerReact(Component){
     render(){
         return(    
             <div className="col-lg-12 col-md-3 col-sm-3 col-xs-3 noLRPad">
-                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 innerblock innerblock1 tableinnetWrap noLRPad">
+                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 innerblock innerblock1 tableinnetWrap1 tableinnetWrap noLRPad">
                 <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12 ticketTableLabel ticketchartTableLabel">Total Business                     
                     <span>
                         <Link to="/ComingSoon" title="View All">

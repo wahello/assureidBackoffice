@@ -37,7 +37,7 @@ export default class EmploymentRequired extends TrackerReact(Component) {
     return ( 
       <div>
         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noProfilePadding">
-          <i className="fa fa-briefcase col-lg-1 col-md-1 col-sm-1 col-xs-1 viewlogo"></i> 
+          <i className="fa fa-briefcase viewlogo"></i> 
           <span className="col-lg-10 col-md-10 col-sm-10 col-xs-10 viewTitle">Experience Information</span>
           {
             // browserHistory.getCurrentLocation().pathname == "/viewProfile/"+this.props.currentUrl ?
@@ -57,13 +57,13 @@ export default class EmploymentRequired extends TrackerReact(Component) {
           {this.props.employeeData ?
             this.props.employeeData.map((employmentDetails, index)=>{
               return (
-                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding" key={index + '-' + 'employment'}> 
-                  <div className="col-lg-2 col-md-2 col-sm-2 col-xs-2 noProfilePadding">
+                <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12 NOpadding profileViewAddressWrap " key={index + '-' + 'employment'}> 
+                  {/* <div className="col-lg-2 col-md-2 col-sm-2 col-xs-2 noProfilePadding">
                     <div className={employmentDetails.editStatus == "Reopen" ? "reOpenedu-box" : "edu-box"}>
                     <img src="/images/assureid/company.png" className="college-img"/>
                     </div>
-                  </div>
-                  <div className={ browserHistory.getCurrentLocation().pathname == "/viewProfile/"+this.props.currentUrl || browserHistory.getCurrentLocation().pathname == '/profileForms' ? "edu-university col-lg-9 col-md-9 col-sm-9 col-xs-9" : "edu-university col-lg-8 col-md-8 col-sm-8 col-xs-8" }>
+                  </div> */}
+                  <div className={ browserHistory.getCurrentLocation().pathname == "/viewProfile/"+this.props.currentUrl || browserHistory.getCurrentLocation().pathname == '/profileForms' ? "edu-university col-lg- col-md-9 col-sm-9 col-xs-9" : "edu-university col-lg-12 col-md-8 col-sm-8 col-xs-8" }>
                     <span className="university-name">{employmentDetails.designation}</span><br />
                       <span className="company-name">{employmentDetails.nameOfEmployer}</span><br />
                       <span className="year">{employmentDetails.employmentFrom ? moment(employmentDetails.employmentFrom).format('MMMM YYYY') + ' - ' : ""}{employmentDetails.employmentTo ? employmentDetails.employmentTo == 'Present' ? employmentDetails.employmentTo : moment(employmentDetails.employmentTo).format('MMMM YYYY') : ""}</span>                 

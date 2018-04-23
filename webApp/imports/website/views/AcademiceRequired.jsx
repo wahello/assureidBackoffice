@@ -54,7 +54,7 @@ deleteProfessionalAcadamic(event){
     return (
      <div>
 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noProfilePadding">
-  <i className="fa fa-graduation-cap col-lg-1 col-md-1 col-sm-1 col-xs-1 viewlogo"></i>
+  <i className="fa fa-graduation-cap viewlogo"></i>
   <span className="col-lg-10 col-md-10 col-sm-10 col-xs-10 viewTitle">Academics Information</span>
   {
 //   browserHistory.getCurrentLocation().pathname == "/viewProfile/"+this.props.currentUrl ?
@@ -74,14 +74,14 @@ deleteProfessionalAcadamic(event){
             {this.props.academicsData ?
             this.props.academicsData.map((academicsDetails, index)=>{
             return(
-            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12" key={index}>
+            <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12 profileViewAddressWrap" key={index}>
               
-              <div className="col-lg-2 col-md-2 col-sm-2 col-xs-2 noProfilePadding">
+              {/* <div className="col-lg-2 col-md-2 col-sm-2 col-xs-2 noProfilePadding">
                  <div className={academicsDetails.editStatus == "Reopen" ? "reOpenedu-box" : "edu-box"}>
                   <img src="/images/assureid/college.png" className="college-img"/>
                 </div>
-              </div>
-              <div className={ browserHistory.getCurrentLocation().pathname == "/viewProfile/"+this.props.currentUrl || browserHistory.getCurrentLocation().pathname == '/profileForms' ? "edu-university col-lg-9 col-md-9 col-sm-9 col-xs-9" : "edu-university col-lg-8 col-md-8 col-sm-8 col-xs-8" }>
+              </div> */}
+              <div className={ browserHistory.getCurrentLocation().pathname == "/viewProfile/"+this.props.currentUrl || browserHistory.getCurrentLocation().pathname == '/profileForms' ? "edu-university col-lg-12 col-md-9 col-sm-9 col-xs-9" : "edu-university col-lg-12 col-md-8 col-sm-8 col-xs-8" }>
                 <span className="university-name">{academicsDetails.university}</span><br />
                   <span className="degree">{academicsDetails.educationQualification}{academicsDetails.specialization ? ' - ' + academicsDetails.specialization : ""}</span><br />
                   <span className="year">{academicsDetails.dateAttendedFrom ? moment(academicsDetails.dateAttendedFrom).format('MMMM YYYY') : ""}{academicsDetails.dateAttendedTo ? ' - ' + moment(academicsDetails.dateAttendedTo).format('MMMM YYYY') : ""}</span>               

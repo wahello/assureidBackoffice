@@ -6019,6 +6019,7 @@ table.text-center th {
 .uploadedImageFromLocl3 {
     width: 30%;
     height: 30%;
+    margin-top:3%;
 }
 .comingSoonBoxBody{
   min-height: 550px;

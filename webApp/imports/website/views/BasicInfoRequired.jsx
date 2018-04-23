@@ -23,38 +23,44 @@ export default class BasicInfoRequired extends TrackerReact(Component) {
         <div>
 	        {
 	        	this.props.userData ?
-	        	<div>
+	        	<div className="col-lg-12 col-md-12 col-sm-6 col-xs-6 outerProfileView">
 	        	 <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6 basicInfoOuter">
 			          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 basicInfoInner noProfilePadding">
-			            <h5 className="col-lg-4">Name</h5>
-			            <p className="col-lg-8">{this.props.userData.firstName} {this.props.userData.lastName}</p>
+			            <p className="col-lg-5">Name</p>
+			            <span className="col-lg-1">:</span>
+			            <p className="col-lg-6">{this.props.userData.firstName} {this.props.userData.lastName}</p>
 			          </div>  
 			          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 basicInfoInner noProfilePadding">
-			            <h5 className="col-lg-4">Date Of Birth</h5>
-			            <p className="col-lg-8">{this.props.userData.dateOfBirth ? moment(this.props.userData.dateOfBirth).format("DD/MM/YYYY") : ""}</p>
+			            <p className="col-lg-5">Date Of Birth</p>
+			            <span className="col-lg-1">:</span>									
+			            <p className="col-lg-6">{this.props.userData.dateOfBirth ? moment(this.props.userData.dateOfBirth).format("DD/MM/YYYY") : ""}</p>
 			          </div>   
 			          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 basicInfoInner noProfilePadding">
-			            <h5 className="col-lg-4">Alternate Phone Number</h5>
-			            <p className="col-lg-8">{this.props.userData.altMobileNo}</p>
+			            <p className="col-lg-5">Alternate Phone Number</p>
+			            <span className="col-lg-1">:</span>																		
+			            <p className="col-lg-6">{this.props.userData.altMobileNo ? this.props.userData.altMobileNo : "-"}</p>
 			          </div>  
 			        </div>
 		          <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6 basicInfoOuter">
 		            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 basicInfoInner noProfilePadding">
-			            <h5 className="col-lg-4">Gender</h5>
-			            <p className="col-lg-8">{this.props.userData.gender}</p>
+			            <h5 className="col-lg-5">Gender</h5>
+			            <span className="col-lg-1">:</span>																											
+			            <p className="col-lg-6">{this.props.userData.gender}</p>
 			          </div>  
 			          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 basicInfoInner noProfilePadding">
-			            <h5 className="col-lg-4">Phone Number</h5>
-			            <p className="col-lg-8">{this.props.userData.mobileNo}</p>
+			            <h5 className="col-lg-5">Phone Number</h5>
+			            <span className="col-lg-1">:</span>																											
+			            <p className="col-lg-6">{this.props.userData.mobileNo}</p>
 			          </div> 
 			          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 basicInfoInner noProfilePadding">
-			            <h5 className="col-lg-4">Email Id</h5>
-			            <p className="col-lg-8">{this.props.userData.emailId}</p>
+			            <h5 className="col-lg-5">Email Id</h5>
+			            <span className="col-lg-1">:</span>																											
+			            <p className="col-lg-6">{this.props.userData.emailId}</p>
 			          </div>  
 			        </div>
 		        </div>
 	        	:
-	        	<span className="col-lg-12 col-md-12 col-sm-12 col-xs-12 basicinfospan">Please add your Basic Information</span>
+	        		""
 	        }
          
         </div>

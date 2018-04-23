@@ -45,9 +45,14 @@ class AssignToMeTickets extends TrackerReact(Component){
                                     );
                                 })
                             :
-                                <div>
-                                    return(<span className ="nodata">Nothing To Dispaly</span>);
-                                </div>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td className ="nodata">Nothing To Dispaly</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
                             }
                         </tbody>
                     </table>

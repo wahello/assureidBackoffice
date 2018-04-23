@@ -34,6 +34,13 @@ class ProfileView extends TrackerReact(Component){
       }  
     }; 
   }
+
+  onpopstate(){
+    console.log("Inside onpopstate");
+    browserHistory.replace('/admin/ticket/rRg6RgwRxLZwCdBEb');
+
+  }
+  
 	render(){
    if(!this.props.loading){
     return (
@@ -45,7 +52,7 @@ class ProfileView extends TrackerReact(Component){
               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <hr className="col-lg-11 col-md-12 col-sm-12 col-xs-12 horizontalLine" />
                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noProfilePadding">
-                  <i className="fa fa-user col-lg-1 col-md-1 col-sm-1 col-xs-1 viewlogo"></i> 
+                  <i className="fa fa-user viewlogo"></i> 
                   <span className="col-lg-9 col-md-9 col-sm-9 col-xs-9 viewTitle">Basic Information</span>
                   {
                     // browserHistory.getCurrentLocation().pathname == "/viewProfile/"+this.props._id ?
@@ -75,8 +82,16 @@ class ProfileView extends TrackerReact(Component){
                 </div>
                 <BasicInfoRequired userData={this.props.userData}/> 
                 <hr className="col-lg-11 col-md-12 col-sm-12 col-xs-12 horizontalLine" />
-                {}
-                <AddressRequired profileId={this.props.userData._id} permanentAddress={this.props.userData.permanentAddress} currentAddress={this.props.userData.currentAddress} currentUrl={this.props._id}/>
+                {
+                   this.props.userData.currentAddress || this.props.userData.permanentAddress ?
+                   this.props.userData.permanentAddress.length > 0 || this.props.userData.currentAddress.length > 0 ?
+                    <AddressRequired profileId={this.props.userData._id} permanentAddress={this.props.userData.permanentAddress} currentAddress={this.props.userData.currentAddress} currentUrl={this.props._id}/>
+                     
+                    :
+                    ""
+                  :
+                  ""
+                }
                 <hr className="col-lg-11 col-md-12 col-sm-12 col-xs-12 horizontalLine" />  
                 {
                   this.props.userData.education || this.props.userData.professionalEducation ?
@@ -87,26 +102,21 @@ class ProfileView extends TrackerReact(Component){
                   :
                   ""
                 }
-                <hr className="col-lg-11 col-md-12 col-sm-12 col-xs-12 horizontalLine" />
-                <EmploymentRequired key={this.props.userData._id + '-employement'} employeeData={this.props.userData.employement} currentUrl={this.props._id} />	      
-                <hr className="col-lg-11 col-md-12 col-sm-12 col-xs-12 horizontalLine" />
+                <hr className="col-lg-11 col-md-12 col-sm-12 col-xs-12 horizontalLine" />                
+                {
+                  this.props.userData.employement ?
+                    this.props.userData.employement.length > 0 ?
+                      <EmploymentRequired key={this.props.userData._id + '-employement'} employeeData={this.props.userData.employement} currentUrl={this.props._id} />	      
+                      
+                    :
+                    ""
+                  :
+                  ""
+                } 
+                {/* <hr className="col-lg-11 col-md-12 col-sm-12 col-xs-12 horizontalLine" />
                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noProfilePadding">
                   <i className="fa fa-certificate col-lg-1 col-md-1 col-sm-1 col-xs-1 viewlogo"></i> 
                   <span className="col-lg-10 col-md-10 col-sm-10 col-xs-10 viewTitle">Skills</span>
-                  {
-                    // browserHistory.getCurrentLocation().pathname == "/viewProfile/"+this.props._id ?
-                    //   Meteor.userId() == this.props._id ?
-                    //     <div className="col-lg-1 col-md-1 col-sm-1 col-xs-1 add-btn">
-                    //       <i className="fa fa-plus add-plus pull-right" data-toggle="modal" data-target="#skillsinfo"></i>
-                    //     </div>
-                    //   :
-                    //   ""
-                    // :
-                    // <div className="col-lg-1 col-md-1 col-sm-1 col-xs-1 add-btn">
-                    //   <i className="fa fa-plus add-plus pull-right" data-toggle="modal" data-target="#skillsinfo"></i>
-                    // </div>
-                  }
-                  {/* <SkillsRequired userId={this.props.userData.userId} skillData={this.props.userData.skills} currentUrl={this.props._id} /> */}
                   <div className="modal fade" id="skillsinfo" role="dialog">
                       <div className="modal-dialog">
                         <div className="modal-content">
@@ -116,16 +126,24 @@ class ProfileView extends TrackerReact(Component){
                               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <h4 className="text-center">Add Skills</h4>
                                 <br/>
-                                {/* <SkillsForm /> */}
+                                
                               </div>
                             </div>
                           </div>
                         </div> 
                       </div>
                   </div>
-                </div>
+                </div> */}
+                {
+                  this.props.userData.certificates ?
+                    this.props.userData.certificates.length > 0 ?
+                         <CertificateRequired key={this.props.userData._id + '-certificate'} certificateData={this.props.userData.certificates} currentUrl={this.props._id} />
+                    :
+                    ""
+                  :
+                  ""
+                } 
                 <hr className="col-lg-11 col-md-12 col-sm-12 col-xs-12 horizontalLine" />
-                <CertificateRequired key={this.props.userData._id + '-certificate'} certificateData={this.props.userData.certificates} currentUrl={this.props._id} />
               </div>
           </div>
         </div>

@@ -41,6 +41,7 @@ import '/public/css/dashboard.css';
 import '/public/css/otherRoleDashboardCss.css';
 import '/public/css/reportCss.css';
 import '/public/css/ticket.css';
+import '/public/css/profileView';
 // import './component.css';
 // import './demo.css';
 // import './normalize.css';
@@ -150,13 +151,13 @@ addServicesImgsToS3Function = function(file,self) {
         if(fileObj){
             // console.log("fileObj._id: ",fileObj._id);
             Meteor.call("addNewTemporaryServiceImage",fileObj._id,(error, result)=>{
-                swal({
-                    position: 'top-right',
-                    type: 'success',
-                    title: 'Uploaded Successfully',
-                    showConfirmButton: false,
-                    timer: 1500
-                });
+                // swal({
+                //     position: 'top-right',
+                //     type: 'success',
+                //     title: 'Uploaded Successfully',
+                //     showConfirmButton: false,
+                //     timer: 1500
+                // });
             });
         }
 
