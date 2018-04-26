@@ -270,6 +270,11 @@ class Sidebar extends TrackerReact(Component){
                       <i className="fa fa-circle-o" /> Allocate Max No. Tickets
                     </Link>
                   </li>
+                  <li>
+                    <Link to="/admin/ticketdistribution">
+                      <i className="fa fa-circle-o" /> SC Ticket Distribution
+                    </Link>
+                  </li>
                   
                   {/* <li>
                     <Link to="/ComingSoon">

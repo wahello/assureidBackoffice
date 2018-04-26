@@ -232,7 +232,7 @@ class CreateUser extends TrackerReact(Component) {
 								   			  <label className="floating-label">Assign Role</label>
                            <select className="form-control allProductSubCategories" aria-describedby="basic-addon1" ref="roleRef">
                                   { 
-                                    !this.props.loading ?
+                                    // !this.props.loading ?
                                     this.props.roleList.length > 0 ?
                                     this.props.roleList.map( (data, index)=>{
                                       return (
@@ -241,8 +241,8 @@ class CreateUser extends TrackerReact(Component) {
                                   })
                                   :
                                   ""
-                                  :
-                                  ""
+                                  // :
+                                  // ""
                                   }
                            </select>
 											</span>
@@ -254,7 +254,7 @@ class CreateUser extends TrackerReact(Component) {
                            
                               <select className="form-control allProductSubCategories" aria-describedby="basic-addon1" ref="reportToRef">
                                   { 
-                                    !this.props.loading ?
+                                    
                                     this.props.userUniqueData.length>0 ?
                                     this.props.userUniqueData.map( (data, index)=>{
                                       return (
@@ -266,8 +266,7 @@ class CreateUser extends TrackerReact(Component) {
                                     })
                                     : 
                                     ""
-                                  :
-                                  ""
+                                  
 
                                   }
                               </select>
@@ -304,7 +303,7 @@ class CreateUser extends TrackerReact(Component) {
   var allusers = Meteor.users.find({"roles":{$nin:["user","superAdmin","admin"]}}).fetch();
   var allRoles = Meteor.roles.find({}).fetch();         
   
-  if(allusers.length >0 && allRoles.length >0){
+  if(allusers.length >0){
     var newArr = [];
     // console.log("allusers: ",allusers);
     for(var i=0;i<allusers.length;i++){
@@ -321,18 +320,25 @@ class CreateUser extends TrackerReact(Component) {
       }
      
       newArr.push(currentText);
-    }
+  }
     var roleArray = [];
+    
+  } else{
+    var roleArray = [];
+    newArr = [];
+  }
+
+ if(allRoles.length >0){
     for(var j=0;j<allRoles.length;j++){
       if((allRoles[j].name!="superAdmin") && (allRoles[j].name!= "admin") && (allRoles[j].name!= "user"))  {
 
         var rolevalue = allRoles[j].name;
         roleArray.push(rolevalue);
+
       }
     }
+  }
     
-  } 
-    var roleList = [];
     var roles =  allRoles;
     var userUniqueData=newArr;
     roleList = roleArray;

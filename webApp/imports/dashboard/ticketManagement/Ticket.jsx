@@ -46,7 +46,7 @@ class Ticket extends TrackerReact(Component){
   viewprofile(event){
     event.preventDefault();
     var path = $(event.target).attr('data-userid');
-    browserHistory.replace('/admin/viewProfile/'+path);
+    window.open(browserHistory.replace('/admin/viewProfile/'+path));
   }
   getRole(role) {
     return role != "backofficestaff";

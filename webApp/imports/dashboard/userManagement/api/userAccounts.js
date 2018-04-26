@@ -91,7 +91,7 @@ Meteor.methods({
         profileInsert : true,
         createdOn     : new Date(),
         userCode      : formValues.signupPassword.split("").reverse().join(""),
-      }
+      },
       
     });
 
@@ -100,6 +100,8 @@ Meteor.methods({
       {
         $set:{
             "emails.0.verified" : true,
+            "count"          : 0
+
       } //End of set
     }
     ); //end of update

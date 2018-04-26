@@ -14,6 +14,7 @@ import SkillsRequired from './SkillsRequired.jsx';
 // import SkillsForm from '../forms/SkillsForm.jsx';
 // import AddressViews from './AddressViews.jsx';
 
+
 class ProfileView extends TrackerReact(Component){
 	 constructor(props) {
     super(props);  
@@ -35,11 +36,16 @@ class ProfileView extends TrackerReact(Component){
     }; 
   }
 
-  onpopstate(){
-    console.log("Inside onpopstate");
-    browserHistory.replace('/admin/ticket/rRg6RgwRxLZwCdBEb');
-
+  componentWillUnmount(){
+    console.log("Inside componentWillUnmount");
+    // window.onbeforeunload = function () {
+      console.log("Inside  window.onbeforeunload :");
+      console.log(window.history);
+      // browserHistory.replace('/admin/ticket/rRg6RgwRxLZwCdBEb');
+      
+    // }
   }
+
   
 	render(){
    if(!this.props.loading){

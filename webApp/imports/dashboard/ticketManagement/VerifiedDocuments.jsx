@@ -20,7 +20,8 @@ class VerifiedDocuments extends TrackerReact(Component){
       "subscription" : {
         "allTickets" : Meteor.subscribe("allTickets"),
         "userfunction" : Meteor.subscribe('userfunction'),
-      }
+      },
+      'showRejectBox':"N",
     }
   }
   showDocuments(event){
@@ -32,6 +33,8 @@ class VerifiedDocuments extends TrackerReact(Component){
 
 //hideShowRejectReason function for show reason block click on Reject button
   hideShowRejectReason(){
+    // console.log("Inside showRejectBox");
+    // this.setState({"showRejectBox":"Y"});
     $('.showHideReasonWrap').toggleClass('showReasonSection');
   }
 // hideShowRejectReason function for show reason block click on Reject button
@@ -185,6 +188,7 @@ class VerifiedDocuments extends TrackerReact(Component){
 /*This function execute when document get approved as well as rejected. */
   approvedCurDocument(event){
     event.preventDefault();
+      $('.showHideReasonWrap').removeClass('showReasonSection');    
     var curURl = location.pathname;
     if(curURl){
       var ticketId = curURl.split('/').pop();
@@ -211,7 +215,7 @@ class VerifiedDocuments extends TrackerReact(Component){
       }
       // console.log('insertData ',insertData ); 
       Meteor.call('genericUpdateTicketMasterElement',ticketId,insertData);
-      $('.showHideReasonWrap').toggleClass('showReasonSection');
+      // $('.showHideReasonWrap').toggleClass('showReasonSection');
     }
   }
 
@@ -269,14 +273,18 @@ class VerifiedDocuments extends TrackerReact(Component){
                                       :
                                       ""
                                       }
-                                    <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 showHideReasonWrap">
-                                    <div className="col-lg-10  col-md-10  col-sm-12 col-xs-12 otherInfoForm">
-                                          <textarea className={"col-lg-12 col-md-12 col-sm-12 col-xs-12 rejectReason rejectReason-"+index} rows='2' placeholder="Enter Reject reason..."></textarea>
-                                    </div>
-                                    <div className="col-lg-2  col-md-2  col-sm-12 col-xs-12 rejectBtnWrap">
-                                      <button className="col-lg-12 col-md-12 btn btn-primary rejectReasonBtn pull-left" data-status="ScreenRejected" onClick={this.approvedCurDocument.bind(this)}>Submit</button>
-                                    </div>
-                                    </div>
+                                      {/* { this.state.showRejectBox =='Y'? */}
+                                      <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 showHideReasonWrap">
+                                      <div className="col-lg-10  col-md-10  col-sm-12 col-xs-12 otherInfoForm">
+                                            <textarea className={"col-lg-12 col-md-12 col-sm-12 col-xs-12 rejectReason rejectReason-"+index} rows='2' placeholder="Enter Reject reason..."></textarea>
+                                      </div>
+                                      <div className="col-lg-2  col-md-2  col-sm-12 col-xs-12 rejectBtnWrap">
+                                        <button className="col-lg-12 col-md-12 btn btn-primary rejectReasonBtn pull-left" data-status="ScreenRejected" onClick={this.approvedCurDocument.bind(this)}>Submit</button>
+                                      </div>
+                                      </div>
+                                      {/* :
+                                      ""
+                                      } */}
                                   </div>
                                 </div>
                               </div>

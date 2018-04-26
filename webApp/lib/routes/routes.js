@@ -81,9 +81,10 @@ import ListOfUniversity from '../../imports/dashboard/forms/University/ListOfUni
 
 import TicketDocumentDetail from '/imports/dashboard/ticketManagement/TicketDocumentDetail.jsx';
 import Reports from '/imports/dashboard/reports/Reports.jsx';
+import SCTicketDistribution from '/imports/dashboard/ticketDistribution/SCTicketDistribution.jsx';
 
 const unauthenticatedPages = ['/', '/signup', '/forgotpassword', '/signup', '/resetpassword/:token','/login'];
-const authenticatedPages = ['/admin/dashboard','/admin/managebasicpage','/admin/manageportfolio','/admin/manageaboutuspage','/admin/manageblockspage','/admin/managecareerpage','/admin/manageeventpage','/admin/managefaq','/admin/managejobpage','/admin/managecontact','/admin/managephotogallery','/admin/managevideolibrary','admin/manageproduct','/admin/manageservice','/admin/manageblogpage', 'admin/company-info', '/dashboard','/admin/UMRolesList','/admin/createUser','/admin/addPackages','/admin/addVerification','/admin/NewsFeed','/admin/UMListOfUsers','/admin/ListOfNewsFeed','/backoffice/dashboard','/admin/reports'];
+const authenticatedPages = ['/admin/dashboard','/admin/managebasicpage','/admin/manageportfolio','/admin/manageaboutuspage','/admin/manageblockspage','/admin/managecareerpage','/admin/manageeventpage','/admin/managefaq','/admin/managejobpage','/admin/managecontact','/admin/managephotogallery','/admin/managevideolibrary','admin/manageproduct','/admin/manageservice','/admin/manageblogpage', 'admin/company-info', '/dashboard','/admin/UMRolesList','/admin/createUser','/admin/addPackages','/admin/addVerification','/admin/NewsFeed','/admin/UMListOfUsers','/admin/ListOfNewsFeed','/backoffice/dashboard','/admin/reports','/admin/ticketdistribution'];
 
 export const onAuthChange = (isAuthenticated) => {
   const pathname = browserHistory.getCurrentLocation().pathname;
@@ -221,6 +222,7 @@ export const routes = (
        <Route path="/admin/Checklist" component={AddEditChecklist} />
        <Route path="/admin/Checklist/:id" component={AddEditChecklist} />       
        <Route path="/admin/reports" component={Reports} />       
+       <Route path="/admin/ticketdistribution" component={SCTicketDistribution} />       
        {/* <Route path="/admin/ticketdocumentdetails" component={TicketDocumentDetail}/> */}
     </Route>
 

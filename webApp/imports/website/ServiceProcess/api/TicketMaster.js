@@ -45,7 +45,7 @@ if(Meteor.isServer){
 				var maxTicketAllocateArray = companyObj.maxnoOfTicketAllocate;
 				//Find max number of ticket allocation to "screening committee"
 				var obj1 = maxTicketAllocateArray.find(function (obj) { return obj.role == role });
-				if(obj1){
+				if(obj1.length > 1){
 					//Find user with minium ticket allocated
 					var userList = memberDetails.reduce(function(prev,curr){ return (prev.count || prev.count < curr.count ) ? prev : curr;});
 					if(userList){

@@ -22,53 +22,51 @@ class TotalInFlowTickets extends TrackerReact(Component){
       this.chartTracker = Tracker.autorun( ()=> {
       var handle = Meteor.subscribe("allTickets");
       var allTickets = TicketMaster.find({}).fetch();
-      console.log("allTickets");
-      console.log(allTickets);
+   
         
         if(handle.ready()){
           if(allTickets.length> 0){
             for(i=0;i<allTickets.length;i++){
               var dateValue = allTickets[i].orderDate;
               var date = dateValue.toLocaleDateString('en-IN');
-              dateArray.push({'date':date});
+               var dateMonth   =  date.split('/');
+              dateArray.push({'date':dateMonth[1]});
           }
            
-            var pluckDate = _.pluck(dateArray,"date");
-            var uniqueDate = _.uniq(pluckDate);
-      
-            if(uniqueDate.length>0){
-              
-              for(j=0;j<uniqueDate.length;j++){
-              var count = 0;
-                for(k=0;k<allTickets.length;k++){
-                  var alldateValue = allTickets[k].orderDate;
-                  var alldate = alldateValue.toLocaleDateString('en-IN');
-                  if(uniqueDate[j]===alldate){
-                      count++;
-                  }
-                  
-                }//EOF k
-                var splitDate = uniqueDate[j].split('/');
-                var monthNumber = splitDate[1];
-                var monthName =moment(monthNumber,"M").format("MMM");
-      
-                dataWithLabels.push({'year':monthName,'income':count,'expense':count});
-              }//EOF i
-              // chartValues(dataWithLabels);
-            }
-          }
+      var pluckDate = _.pluck(dateArray,"date");
+      var uniqueMonth = _.uniq(pluckDate);
 
+      if(uniqueMonth.length>0){
+        
+        for(j=0;j<uniqueMonth.length;j++){
+        var count = 0;
+          for(k=0;k<allTickets.length;k++){
+            var alldateValue = allTickets[k].orderDate;
+            var alldate = alldateValue.toLocaleDateString('en-IN');
+            
+            // var getuniqueMonth = uniqueMonth[j].split('/');
+            var alldateMonth   =  alldate.split('/');
+            if(uniqueMonth[j]===alldateMonth[1]){
+                count++;
+            }
+            
+          }//EOF k
+          var monthName =moment(uniqueMonth[j],"M").format("MMM");
+
+          dataWithLabels.push({'year':monthName,'income':count,'expense':count});
+        }//EOF i
+        // chartValues(dataWithLabels);
+      } 
+    }
         }
-        console.log("dataWithLabels");
-      console.log(dataWithLabels);
+      
       this.amchartDisplay(dataWithLabels)
 
       });
       
     }
   
-
-    amchartDisplay(dataWithLabels){
+    amchartDisplay(){
       // if(!this.props.loading &&  this.props.dataWithLabels.length > 0 ){
         var chart = AmCharts.makeChart("inflowtickets", {
                 "type": "serial",
@@ -86,7 +84,7 @@ class TotalInFlowTickets extends TrackerReact(Component){
                   "color": "#ffffff"
                 },
               
-                "dataProvider": dataWithLabels,
+                "dataProvider": this.props.dataWithLabels,
                 "valueAxes": [ {
                   "axisAlpha": 0,
                   "position": "left"
@@ -127,7 +125,7 @@ class TotalInFlowTickets extends TrackerReact(Component){
                 }
               } 
             );
-            return (<div id="inflowtickets"></div>);
+            // return (<div id="inflowtickets"></div>);
           // }else{
           //   return(<span>No Data Available</span>)
           // }
@@ -145,14 +143,16 @@ class TotalInFlowTickets extends TrackerReact(Component){
                         </Link>
                     </span>
                 </label>
-                
-               {this.amchartDisplay()}
+               <div id="inflowtickets"></div>
+               {/*{this.amchartDisplay()}*/}
                 
                 </div>
             </div>
         )
     }
-  }export default TicketInFlowContainer = withTracker(props => {
+  }
+
+  export default TicketInFlowContainer = withTracker(props => {
     var ticketHandle = Meteor.subscribe("allTickets");
     var loading   = !ticketHandle.ready();
     var allTickets = TicketMaster.find({}).fetch();
@@ -164,27 +164,29 @@ class TotalInFlowTickets extends TrackerReact(Component){
       for(i=0;i<allTickets.length;i++){
         var dateValue = allTickets[i].orderDate;
         var date = dateValue.toLocaleDateString('en-IN');
-        dateArray.push({'date':date});
+         var dateMonth   =  date.split('/');
+        dateArray.push({'date':dateMonth[1]});
     }
      
       var pluckDate = _.pluck(dateArray,"date");
-      var uniqueDate = _.uniq(pluckDate);
+      var uniqueMonth = _.uniq(pluckDate);
 
-      if(uniqueDate.length>0){
+      if(uniqueMonth.length>0){
         
-        for(j=0;j<uniqueDate.length;j++){
+        for(j=0;j<uniqueMonth.length;j++){
         var count = 0;
           for(k=0;k<allTickets.length;k++){
             var alldateValue = allTickets[k].orderDate;
             var alldate = alldateValue.toLocaleDateString('en-IN');
-            if(uniqueDate[j]===alldate){
+            
+            // var getuniqueMonth = uniqueMonth[j].split('/');
+            var alldateMonth   =  alldate.split('/');
+            if(uniqueMonth[j]===alldateMonth[1]){
                 count++;
             }
             
           }//EOF k
-          var splitDate = uniqueDate[j].split('/');
-          var monthNumber = splitDate[1];
-          var monthName =moment(monthNumber,"M").format("MMM");
+          var monthName =moment(uniqueMonth[j],"M").format("MMM");
 
           dataWithLabels.push({'year':monthName,'income':count,'expense':count});
         }//EOF i
@@ -192,7 +194,7 @@ class TotalInFlowTickets extends TrackerReact(Component){
       }
     }
 
-    
+
     return {
       loading,    
       dataWithLabels

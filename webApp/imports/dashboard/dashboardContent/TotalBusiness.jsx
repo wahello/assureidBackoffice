@@ -23,8 +23,7 @@ class TotalBusiness extends TrackerReact(Component){
       this.chartTracker = Tracker.autorun( ()=> {
       var handle = Meteor.subscribe("allTickets");
       var allTickets = TicketMaster.find({}).fetch();
-      console.log("allTickets");
-      console.log(allTickets);
+    
         
         if(handle.ready()){
           if(allTickets.length> 0){
@@ -36,13 +35,12 @@ class TotalBusiness extends TrackerReact(Component){
             var pluckService = _.pluck(serviceArray,"service");
             var uniqueService = _.uniq(pluckService);
         
-            console.log("uniqueService");
-            console.log(uniqueService);
+            
             if(uniqueService.length>0){
               for(j=0;j<uniqueService.length;j++){
                   var ticketDetails = TicketMaster.find({'serviceName':uniqueService[j]}).fetch();
                   var count = ticketDetails.length;
-                console.log("count :"+count);
+                
                 // datavalues.push(count);
                 dataWithLabels.push({'country':uniqueService[j],'litres':count});
                 
@@ -53,8 +51,7 @@ class TotalBusiness extends TrackerReact(Component){
           }
 
         }
-        console.log("dataWithLabels");
-      console.log(dataWithLabels);
+        
       this.amchartDisplay(dataWithLabels)
 
       });
@@ -94,6 +91,7 @@ class TotalBusiness extends TrackerReact(Component){
                     </span>
                 </label>
                 <div id="totalbusiness">
+                
                   {/* {this.amchartDisplay()} */}
                 </div>
                   
@@ -120,13 +118,11 @@ export default TotalBusinessContainer = withTracker(props => {
     var pluckService = _.pluck(serviceArray,"service");
     var uniqueService = _.uniq(pluckService);
 
-    console.log("uniqueService");
-    console.log(uniqueService);
     if(uniqueService.length>0){
       for(j=0;j<uniqueService.length;j++){
           var ticketDetails = TicketMaster.find({'serviceName':uniqueService[j]}).fetch();
           var count = ticketDetails.length;
-        console.log("count :"+count);
+       
         // datavalues.push(count);
         dataWithLabels.push({'country':uniqueService[j],'litres':count});
         
