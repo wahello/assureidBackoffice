@@ -82,13 +82,6 @@ import NotificationLayout from '../layouts/NotificationLayout/NotificationLayout
 
 export const AuthStack = StackNavigator({
 
-  VideoRecording:{
-      screen: VideoRecording,
-      navigationOptions: {
-      header: null
-    }
-  },
-
   Dashboard:{
      screen: Dashboard,
     navigationOptions: {
@@ -96,6 +89,14 @@ export const AuthStack = StackNavigator({
     }
   },
   
+
+  VideoRecording:{
+      screen: VideoRecording,
+      navigationOptions: {
+      header: null
+    }
+  },
+
   ReopenedTickets: {
   screen: ReopenedTickets,
   navigationOptions: {
@@ -131,12 +132,12 @@ export const AuthStack = StackNavigator({
     }
   },
   
-  // Camera:{
-  //   screen:Camera,
-  //   navigationOptions:{
-  //     header:null
-  //   }
-  // },
+  Camera:{
+    screen:Camera,
+    navigationOptions:{
+      header:null
+    }
+  },
 
 
   GeoTagging:{

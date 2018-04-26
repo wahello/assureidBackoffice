@@ -480,7 +480,7 @@ export default createContainer((props) => {
     viewTicketData.gender      = viewTicketUserData.gender;
     viewTicketData.dateOfBirth = viewTicketUserData.dateOfBirth;
     viewTicketData.userProfile = "https://s3.ap-south-1.amazonaws.com/assureidportal/UserImage/"+viewTicketUserData.userProfile.split('original/')[1]+'.'+viewTicketUserData.userFileExt;
-    console.log('viewTicketData.userProfile: ',viewTicketData.userProfile);
+    // console.log('viewTicketData.userProfile: ',viewTicketData.userProfile);
     var ticketElements    = viewTicketData.ticketElement;
     var FEDetails         = ticketElements.find((obj)=> { return obj.roleStatus == 'FEAllocated' });
     var handle2           = Meteor.subscribe('userData',FEDetails.userId);

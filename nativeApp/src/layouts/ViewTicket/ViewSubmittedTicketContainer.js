@@ -110,6 +110,32 @@ class ViewSubmittedTicket extends React.Component {
     this.setState({ value });
   }
 
+  displayAttachments =()=>{
+    var data = [];
+    var verificationDocuments = this.props.selectFEData.documents.images;
+    if(verificationDocuments){
+       verificationDocuments.map((item, index)=>{
+        var fileName = item.imageLink;
+        // console.log('fileName:',fileName);
+        data.push(
+                  <View key={index} style={{ flex:0.3 }}>
+                    <View style={{ flex:0.2, alignItems:'center', justifyContent:'center' }}>
+                      <Image  
+                      style      = {{ width:50, height:50}}                    
+                      resizeMode = "stretch"             
+                      // source     = {{ uri : item.imageLink }} 
+                      source     = {require("../../images/pdf-icon.png")}             
+                      />
+                    </View>
+                    
+                  </View>
+                  )
+        })       
+    }
+
+    return data;    
+  }
+
   render() {
     
     const { navigate, goBack, state } = this.props.navigation;
@@ -280,7 +306,7 @@ class ViewSubmittedTicket extends React.Component {
 
                   
                   {this.props.selectFEData ?
-                    this.props.selectFEData.submitedDoc.checkLists.map((checkListDefault,index)=>{
+                    this.props.selectFEData.documents.checkLists.map((checkListDefault,index)=>{
                       return(
                               <View style={styles.container} key={index}>
                                 <CheckBox
@@ -308,7 +334,7 @@ class ViewSubmittedTicket extends React.Component {
 
                 <View style={[styles.lineStyle, {width:'100%',padding:10}]}>
                 {this.props.selectFEData ?
-                  this.props.selectFEData.submitedDoc.textLists.map((textListDefault,index)=>{
+                  this.props.selectFEData.documents.textLists.map((textListDefault,index)=>{
                     return(
                             <View style={styles.lineStyle} key={index}>
                               <View style={styles.formInputView1}>
@@ -337,26 +363,13 @@ class ViewSubmittedTicket extends React.Component {
                   <View style = {styles.formInputView}> 
                     <View style={{flex:1}}>
                       <View style={{flexDirection:'row'}}>
-                        <TouchableOpacity >
-                          <Icon name="camera-enhance" type="MaterialIcons" size={50} color="#aaa"   />
-                        </TouchableOpacity>
+                        <View style={{flex:0.2}}>
+                          <TouchableOpacity >
+                            <Icon name="camera-enhance" type="MaterialIcons" size={50} color="#aaa"   />
+                          </TouchableOpacity>
+                        </View>
 
-
-                        {this.props.selectFEData ?
-                          this.props.selectFEData.submitedDoc.images.map((imgObj,index)=>{
-                            return(
-                                    <View style={{paddingHorizontal:10,paddingVertical:10}} key={index}>
-                                      <Image
-                                        style={{ width: 50, height: 50, borderRadius: 15}}
-                                        resizeMode="stretch"
-                                        source={{uri:imgObj.imageLink}}
-                                      />
-                                    </View>
-                                  );
-                                })
-                                :
-                               ""
-                        }
+                        {this.displayAttachments()}
 
 
                       </View>
@@ -400,7 +413,7 @@ class ViewSubmittedTicket extends React.Component {
                       </View>
                     </View>
                     <View style={styles.formInputViews}>
-                      <Text>{this.props.selectFEData.submitedDoc.remark}</Text>
+                      <Text>{this.props.selectFEData.documents.remark}</Text>
 {/*                      <TextField
                         label                 = ''
                         lineWidth             = {0}
@@ -429,7 +442,7 @@ class ViewSubmittedTicket extends React.Component {
                       </View>
                     </View>
                     <View style={styles.formInputViews}>
-                    <Text>{this.props.selectFEData.submitedDoc.status}</Text>
+                    <Text>{this.props.selectFEData.documents.status}</Text>
 {/*                      <Dropdown
                         label                 = 'Status'
                         data                  = {status}
@@ -449,7 +462,7 @@ class ViewSubmittedTicket extends React.Component {
                       </View>
                     </View>
                     <View style={styles.formInputViews}>
-                      <Text>{this.props.selectFEData.submitedDoc.subStatus}</Text>
+                      <Text>{this.props.selectFEData.documents.subStatus}</Text>
 {/*                      <Dropdown
                         label                 = 'Sub-status'
                         data                  = {subStatus}
@@ -513,9 +526,11 @@ ViewSubmittedTicketContainer = createContainer( (props) => {
          }
        }
 
-      var selectFEData = tickets.ticketElement.find(( obj ) =>{
-        if( (obj.role === 'field expert') && (obj.roleStatus == "ProofSubmit") ) return obj;
-      });
+      // var selectFEData = tickets.ticketElement.find(( obj ) =>{
+      //   if( (obj.role === 'field expert') && (obj.roleStatus == "ProofSubmit" || obj.roleStatus == "ProofResubmitted") ) return obj;
+      // });
+
+      var selectFEData = tickets.submitedDoc;
 
       console.log('selectFEData: ',selectFEData);
 

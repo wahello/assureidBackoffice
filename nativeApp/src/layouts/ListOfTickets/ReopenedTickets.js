@@ -111,7 +111,7 @@ class ReopenedTickets extends React.Component {
     }    
   }
 
-  console.log('ticketData: ',ticketData);
+  // console.log('ticketData: ',ticketData);
 
     return(
       ReopenedTickets.map((item,i)=>

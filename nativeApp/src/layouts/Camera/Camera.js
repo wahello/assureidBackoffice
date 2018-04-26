@@ -15,8 +15,6 @@ class CameraChild extends React.Component{
     //   var path = null;
     // }
     this.state = {
-      path : 'path',
-      imagesSelected : [],
     }
   }
 
@@ -24,7 +22,6 @@ class CameraChild extends React.Component{
   componentDidMount(){
     // console.log('camera prop : ',this.props.navigate.state.params.ticket);
     this.setState({
-                        "path" : "abc",
                  });
   }
 
@@ -37,12 +34,12 @@ class CameraChild extends React.Component{
 
     const captureImagesStack1 = event.captureImages;
 
-    this.setState({
-                        "imagesSelected" : captureImagesStack1,
-                 });
-    // console.log(captureImagesStack1);
+    // this.setState({
+    //                     "imagesSelected" : captureImagesStack1,
+    //              });
+    // console.log('captureImagesStack1: ',captureImagesStack1);
     var recentImg = "file://"+captureImagesStack1[0].uri;
-    console.log('recentImg: ',recentImg);
+    // console.log('recentImg: ',recentImg);
 
     this.props.navigation.navigate('CameraView', { photoUri: recentImg, ticket: this.props.ticket });
     // event.captureImages = [];
@@ -70,7 +67,7 @@ class CameraChild extends React.Component{
                                   }
                       }
         actions     = {{ rightButtonText: 'Done', leftButtonText: 'Cancel' }}
-        onBottomButtonPressed = {(event) => this.onBottomButtonPressed(event)}
+        onBottomButtonPressed = {this.onBottomButtonPressed.bind(this)}
         // onBottomButtonPressed = {(event) => this.takePicture()}
         flashImages = {{
           on   : require('../../images/flashOn.png'),
@@ -84,7 +81,7 @@ class CameraChild extends React.Component{
         //   ratioOverlay:'1:1',            // optional, ratio overlay on the camera and crop the image seamlessly
         //   ratioOverlayColor: '#00000077' // optional
         // }}
-        selectedImages = {this.state.imagesSelected}
+        // selectedImages = {this.state.imagesSelected}
         cameraFlipImage    = {require('../../images/cameraFlipIcon.png')}
         captureButtonImage = {require('../../images/cameraButton.png')}
       />
@@ -108,9 +105,9 @@ class CameraChild extends React.Component{
 
 Camera = createContainer( (props) => {
 
-  console.log(props.navigation.state.params.ticket);
+  console.log('ticket : ',props.navigation.state.params.ticket);
   var result =  {
-      "ticket"       : props.navigation.state.params.ticket,
+      "ticket" : props.navigation.state.params.ticket,
   };
 
   return result;

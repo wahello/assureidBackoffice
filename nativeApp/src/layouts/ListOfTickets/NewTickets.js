@@ -126,7 +126,7 @@ class NewTickets extends React.Component {
     }    
   }
 
-  console.log('ticketData: ',ticketData);
+  // console.log('ticketData: ',ticketData);
 
     return(
       ticketData.map((item,i)=>

@@ -111,7 +111,7 @@ class CompletedRejectedTickets extends React.Component {
     }    
   }
 
-  console.log('ticketData: ',ticketData);
+  // console.log('ticketData: ',ticketData);
 
     return(
       completedTickets.map((item,i)=>

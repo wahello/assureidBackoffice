@@ -121,6 +121,11 @@ class VerificationDataSubmit extends TrackerReact(Component){
         const target = event.target;
         const name   = target.name;
         var index = $(event.currentTarget).attr('data-index');
+
+        // console.log('index: ',index);
+        // console.log('--------Before textLists---------');
+        // console.log(this.state.textLists);
+
         this.state.textLists[index].value = event.target.value;
         this.setState({
          [name]: event.target.value,
