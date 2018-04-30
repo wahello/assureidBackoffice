@@ -10,6 +10,8 @@ import {Tracker} from 'meteor/tracker';
 import { browserHistory } from 'react-router';
 import { Link } from 'react-router';
 import { TicketMaster } from '/imports/website/ServiceProcess/api/TicketMaster.js';
+import { CompanySettings } from '/imports/dashboard/companySetting/api/CompanySettingMaster.js';
+
 
 class SCTicketDistribution extends TrackerReact(Component){
   constructor(props){
@@ -39,63 +41,81 @@ class SCTicketDistribution extends TrackerReact(Component){
                                 <table id="subscriber-list-outerTable" className="newOrderwrap subscriber-list-outerTable table table-bordered table-hover table-striped table-striped table-responsive table-condensed table-bordered">
                                   <thead className="table-head umtblhdr">
                                     <tr className="hrTableHeader info UML-TableTr">
-                                      <th className=""> SC1</th>
-                                      <th className=""> SC2</th>
-                                      <th className=""> SC3</th>
-                                      <th className=""> SC4</th>
-                                                          
+                                    {
+                                        
+                                            this.props.scNameArr.map((data,index)=>{
+                                                return(
+                                                    <th key={index}> {data.scName}</th>
+                                                )
+                                                
+                                            })
+                                       
+                                            
+                                    }
                                     </tr>
                                   </thead>
                                   <tbody>
                                   <tr>    
-                                    <td>5/10</td>
-                                    <td>5/10</td>
-                                    <td>5/10</td>
-                                    <td>5/10</td>     
+                                    {
+                                        this.props.scCount.length>0?
+                                            this.props.scCount.map((data,index)=>{
+                                                return(
+                                                    
+                                                    <td key={index}>
+                                                        <div className="divtdStyle">{data.count}/{this.props.MaxallocatedTickets ? this.props.MaxallocatedTickets:"" }</div>
+                                                        <div className="divtdStyle">
+                                                            {
+                                                                data.ticketData.map((dataArr, i)=>{
+                                                                    return(
+                                                                            <div key={i}>
+                                                                        <Link to={"/mainadmin/ticket/"+dataArr.id}>
+                                                                            
+                                                                                {dataArr.ticketNumber}
+                                                                        </Link>
+                                                                                
+                                                                            </div>
+                                                                        
+                                                                    );
+                                                                })
+                                                            }
+                                                        </div>
+                                                        
+                                                    </td>
+                                                    
+                                                )
+                                            })
+                                        :
+                                        ""
+                                            
+                                    }
+                                       
                                  </tr>
-                                 <tr>    
-                                    <td>T0</td>
-                                    <td>T1</td>
-                                    <td>T2</td>
-                                    <td>T3</td>     
-                                 </tr>
-                                 <tr>    
-                                    <td>T0</td>
-                                    <td>T1</td>
-                                    <td>T2</td>
-                                    <td>T3</td>     
-                                 </tr>
-                                 <tr>    
-                                    <td>T0</td>
-                                    <td>T1</td>
-                                    <td>T2</td>
-                                    <td>T3</td>     
-                                 </tr>
+
+
+                                
+                              
+                                 
                                     {/* {
-                                      !this.props.loading ?
-                                        this.props.alltickets.map((data, index)=>{
-                                          return(
-                                              <tr key={index}>
-                                                  
-                                                  <td><Link to={"/admin/ticket/"+data._id}>{data.ticketNumber}</Link></td>
-                                                  <td><Link to={"/admin/ticket/"+data._id}>{data.serviceName}</Link></td>
-                                                  <td><Link to={"/admin/ticket/"+data._id}>{moment(data.createdAt).format('DD-MM-YYYY')}</Link></td>
-                                                  <td><Link to={"/admin/ticket/"+data._id}>{data.tatDate}</Link></td> 
-                                                  <td><Link to={"/admin/ticket/"+data._id}>{Math.round(Math.abs((new Date().getTime() - data.createdAt.getTime())/(24*60*60*1000)))}</Link></td>
-                                                  <td className={data.bgClassName}><Link to={"/admin/ticket/"+data._id} className="statuswcolor">{data.status}</Link></td>       
-                                              </tr>
-                                          );
+                                        this.props.scNameArr.map((data, index)=>{
+                                            return(
+                                                <tr key={index}> 
+                                                    {
+                                                       data.ticketData.map((dataArr,i)=>{
+                                                           return(
+                                                                <td key={i}>
+                                                                    {dataArr.ticketNumber}
+                                                                </td>
+                                                           );
+                                                       }) 
+                                                    }   
+                                                   
+                                                </tr>  
+                                            );  
                                         })
-                                      :
-                                      <tr>
-                                          <td></td>
-                                          <td></td>
-                                          <td className ="nodata">Nothing To Dispaly</td>
-                                          <td></td>
-                                          <td></td>
-                                          <td></td>
-                                      </tr>
-                                    } */}
+                                    }  */}
+                                    
+                                       
+                                 
                                   </tbody>
                                 </table>
                               </div>
@@ -112,14 +132,59 @@ class SCTicketDistribution extends TrackerReact(Component){
     }
 }
 export default SCTicketDistributionContainer = withTracker(props => {
-//   var handleAllSCUsers = Meteor.subscribe("listTickets");
-var allUsers = Meteor.users.find({'roles':"screening committee"});
-  var _id  = Meteor.userId();
-  const userHandle  = Meteor.subscribe('userData',_id);
-  const user        = Meteor.users.findOne({"_id" : _id});
-  const loading    = !userHandle.ready() && !handleAllTickets.ready();
-  return {
-    loading,
+
+    var handleAllSCUsers = Meteor.subscribe('allUserData');
+    var allTicketHandle = Meteor.subscribe('allTickets');
+    var companyData = Meteor.subscribe('companyData');
+    var allUsers = Meteor.users.find({"roles":{$in:['screening committee']}}).fetch();
+    var scNameArr = [];
+    var scCount   = [];
+
+    var loading = !handleAllSCUsers.ready() && !companyData.ready();
+    // var roles = Roles.userIsInRole(Meteor.users,['screening committee','team leader','quality team member','quality team leader'])
+     
+    var companyDetails =  CompanySettings.findOne({'companyId':1});
+     if(companyDetails){
+      var maxallocatedArr  = companyDetails.maxnoOfTicketAllocate;
+      var singleObj  =  maxallocatedArr.find(o=>o.role === "screening committee");
+     var MaxallocatedTickets = singleObj.maxTicketAllocate;
+     }else{
+      var MaxallocatedTickets = "";
+     }
+
+    if(allUsers.length>0){
+        for(i=0;i<allUsers.length;i++){
+            var ticketData = [];
+            var scName = allUsers[i].profile.firstname +' '+ allUsers[i].profile.lastname;
+            var count  = allUsers[i].count;
+            var allTicket = TicketMaster.find({'ticketElement.allocatedToUserid':allUsers[i]._id}).fetch();
+            if(allTicket.length>0){
+                for(j=0;j<allTicket.length;j++){
+                    ticketData.push({'id':allTicket[j]._id,"ticketNumber":allTicket[j].ticketNumber});
+                }
+            }
+           
+            scNameArr.push({"scName":scName,"ticketData":ticketData});
+
+            var currentObj = {
+                count: count,
+                ticketData : ticketData,
+            }
+
+            scCount.push(currentObj);
+
+        }
+    }else{
+        scNameArr = [];
+        scCount   = [];
+    }
+
+    return {
+        loading,
+        scNameArr,
+        scCount,
+        MaxallocatedTickets,
+        ticketData
     
-  };
+    };
 })(SCTicketDistribution);

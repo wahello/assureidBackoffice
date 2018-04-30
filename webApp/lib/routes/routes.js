@@ -222,7 +222,9 @@ export const routes = (
        <Route path="/admin/Checklist" component={AddEditChecklist} />
        <Route path="/admin/Checklist/:id" component={AddEditChecklist} />       
        <Route path="/admin/reports" component={Reports} />       
-       <Route path="/admin/ticketdistribution" component={SCTicketDistribution} />       
+       <Route path="/admin/ticketdistribution" component={SCTicketDistribution} /> 
+      <Route path="/mainadmin/ticket/:id" component={Ticket}/>       
+             
        {/* <Route path="/admin/ticketdocumentdetails" component={TicketDocumentDetail}/> */}
     </Route>
 

@@ -213,7 +213,7 @@ class VerifiedDocuments extends TrackerReact(Component){
       if(status == 'ScreenRejected'){
         insertData.remark = remark;
       }
-      // console.log('insertData ',insertData ); 
+    
       Meteor.call('genericUpdateTicketMasterElement',ticketId,insertData);
       // $('.showHideReasonWrap').toggleClass('showReasonSection');
     }

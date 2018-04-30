@@ -356,7 +356,6 @@ sidebarContainer = withTracker(props => {
     var _id  = Meteor.userId();
 
     const userHandle  = Meteor.subscribe('userData',_id);
-
     const user        = Meteor.users.findOne({"_id" : _id}) ;
     const loading     = !userHandle.ready();
       return {

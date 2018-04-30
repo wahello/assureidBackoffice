@@ -36,23 +36,12 @@ if(Meteor.isServer){
    	},
 	//Find User with minium tickets for specific role and serviceName
 	'autoAllocateMember':function(role,serviceName){
-		//Allocating Ticket to Screening Committte
-		var memberDetails = Meteor.users.find({"roles":role,"profile.status":"Active"}).fetch();
+		//Get the Member with minium count for the role specified
+		var memberDetails = Meteor.users.find({"roles":role,"profile.status":"Active"},{sort: {"count":1},limit:1}).fetch();
+		console.log("memberDetails");
+		console.log(memberDetails);
 		if(memberDetails){
-			//Get maximum number of tickets which can be allocated to screening committee
-			var companyObj = CompanySettings.findOne({"maxnoOfTicketAllocate.role":role});
-			if(companyObj){
-				var maxTicketAllocateArray = companyObj.maxnoOfTicketAllocate;
-				//Find max number of ticket allocation to "screening committee"
-				var obj1 = maxTicketAllocateArray.find(function (obj) { return obj.role == role });
-				if(obj1.length > 1){
-					//Find user with minium ticket allocated
-					var userList = memberDetails.reduce(function(prev,curr){ return (prev.count || prev.count < curr.count ) ? prev : curr;});
-					if(userList){
-						return userList;
-					}
-				}
-			}
+			return memberDetails;
 		}	
 	},
 	//Convert String into Sentence Case
@@ -65,7 +54,8 @@ if(Meteor.isServer){
 
 		//Update TicketElement
 		//Write code for split
-	
+		console.log('insertData ',insertData ); 
+		console.log("ticketId :"+ticketid);
 		var memberValue = insertData.allocatedToUserName;
 		var a = memberValue.indexOf("(");
 		if(a !== -1){
@@ -94,6 +84,7 @@ if(Meteor.isServer){
 				if(ticketDetails){
 					var newMember = Meteor.call('autoAllocateMember',role,ticketDetails.serviceName);
 					var roleSentence = Meteor.call('toTitleCase',role);
+					
 					if(roleSentence){
 						var insertData = {
 							"userId"              : '',
@@ -101,8 +92,8 @@ if(Meteor.isServer){
 							"role"                : 'system action',
 							"roleStatus"          : roleStatus,
 							"msg"                 : "System Allocated Ticket To " + roleSentence,
-							"allocatedToUserid"	  : newMember._id,
-							"allocatedToUserName" : newMember.profile.firstname + ' ' + newMember.profile.lastname,
+							"allocatedToUserid"	  : newMember[0]._id,
+							"allocatedToUserName" : newMember[0].profile.firstname + ' ' + newMember[0].profile.lastname,
 							"createdAt"           : new Date()
 						}
 						//Update TicketElement - System Action
@@ -114,12 +105,7 @@ if(Meteor.isServer){
 								}
 							}
 						);	
-						if(newMember.count){
-							var newCount = newMember.count + 1;
-						} else{
-							var newCount = 1;
-						}
-						Meteor.call('updateCommitteeUserCount',newCount,newMember._id);
+						Meteor.call('updateCommitteeUserCount',newMember[0].count+1,newMember._id);
 					}
 				}
 				
@@ -249,8 +235,8 @@ if(Meteor.isServer){
 									"role"                : 'system action',
 									"roleStatus"          : roleStatus,
 									"msg"                 : "System Allocated Ticket To " + roleSentence,
-									"allocatedToUserid"	  : newMember._id,
-									"allocatedToUserName" : newMember.profile.firstname + ' ' + newMember.profile.lastname,
+									"allocatedToUserid"	  : newMember[0]._id,
+									"allocatedToUserName" : newMember[0].profile.firstname + ' ' + newMember[0].profile.lastname,
 									"createdAt"           : new Date()
 								}
 								//Update TicketElement - System Action
@@ -262,12 +248,8 @@ if(Meteor.isServer){
 										}
 									}
 								);	
-								if(newMember.count){
-									var newCount = newMember.count + 1;
-								} else{
-									var newCount = 1;
-								}
-								Meteor.call('updateCommitteeUserCount',newCount,newMember._id);
+							
+								Meteor.call('updateCommitteeUserCount',newMember[0].count+1,newMember[0]._id);
 							}
 						}
 					}
@@ -295,8 +277,8 @@ if(Meteor.isServer){
 									"role"                : 'system action',
 									"roleStatus"          : roleStatus,
 									"msg"                 : "System Allocated Ticket To " + roleSentence,
-									"allocatedToUserid"	  : newMember._id,
-									"allocatedToUserName" : newMember.profile.firstname + ' ' + newMember.profile.lastname,
+									"allocatedToUserid"	  : newMember[0]._id,
+									"allocatedToUserName" : newMember[0].profile.firstname + ' ' + newMember[0].profile.lastname,
 									"createdAt"           : new Date()
 								}
 								//Update TicketElement - System Action
@@ -308,12 +290,7 @@ if(Meteor.isServer){
 										}
 									}
 								);	
-								if(newMember.count){
-									var newCount = newMember.count + 1;
-								} else{
-									var newCount = 1;
-								}
-								Meteor.call('updateCommitteeUserCount',newCount,newMember._id);
+								Meteor.call('updateCommitteeUserCount',newMember[0].count+1,newMember[0]._id);
 							}
 						}
 						break;
@@ -335,8 +312,8 @@ if(Meteor.isServer){
 								"role"                : 'system action',
 								"roleStatus"          : roleStatus,
 								"msg"                 : "System Allocated Ticket To " + roleSentence,
-								"allocatedToUserid"	  : newMember._id,
-								"allocatedToUserName" : newMember.profile.firstname + ' ' + newMember.profile.lastname,
+								"allocatedToUserid"	  : newMember[0]._id,
+								"allocatedToUserName" : newMember[0].profile.firstname + ' ' + newMember[0].profile.lastname,
 								"createdAt"           : new Date()
 							}
 							//Update TicketElement - System Action
@@ -348,12 +325,7 @@ if(Meteor.isServer){
 									}
 								}
 							);	
-							if(newMember.count){
-								var newCount = newMember.count + 1;
-							} else{
-								var newCount = 1;
-							}
-							Meteor.call('updateCommitteeUserCount',newCount,newMember._id);
+							Meteor.call('updateCommitteeUserCount',newMember[0].count,newMember._id);
 						}
 					}
 					break;
