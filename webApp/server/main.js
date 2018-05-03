@@ -62,7 +62,7 @@ if(plivoData){
   Meteor.methods({
   'SEND_SMS': function (toNumber, smsBody) {
     this.unblock();
-    return Meteor.http.call("GET", "http://beta.mahasurvey.net/WebService/MahaSurveyWbSrvce.asmx/SEND_SMS?MOBNO="+toNumber+"&TEXT_MSG="+smsBody);
+    return Meteor.http.call("GET", "http://mahasurvey.in/WebService/MahaSurveyWbSrvce.asmx/SEND_SMS?MOBNO="+toNumber+"&TEXT_MSG="+smsBody);
   },
 
   'sendSMS': function(toNumber, smsBody) {

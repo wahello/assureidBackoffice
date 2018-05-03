@@ -38,8 +38,7 @@ if(Meteor.isServer){
 	'autoAllocateMember':function(role,serviceName){
 		//Get the Member with minium count for the role specified
 		var memberDetails = Meteor.users.find({"roles":role,"profile.status":"Active"},{sort: {"count":1},limit:1}).fetch();
-		console.log("memberDetails");
-		console.log(memberDetails);
+		
 		if(memberDetails){
 			return memberDetails;
 		}	
@@ -54,8 +53,7 @@ if(Meteor.isServer){
 
 		//Update TicketElement
 		//Write code for split
-		console.log('insertData ',insertData ); 
-		console.log("ticketId :"+ticketid);
+		
 		var memberValue = insertData.allocatedToUserName;
 		var a = memberValue.indexOf("(");
 		if(a !== -1){
@@ -187,7 +185,7 @@ if(Meteor.isServer){
 					TempTicketVideo.remove({});
 					var curTicket = TicketMaster.findOne({"_id":ticketid});
 					if(curTicket){
-						console.log('in curTicket ',curTicket._id);
+						
 						var ticketElements = curTicket.ticketElement; 
 						var selfAllocated = ticketElements.find(function (obj) { return obj.roleStatus == 'SelfAllocated' });
 						if(selfAllocated){
