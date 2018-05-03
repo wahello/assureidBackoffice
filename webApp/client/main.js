@@ -41,6 +41,8 @@ import '/public/css/dashboard.css';
 import '/public/css/otherRoleDashboardCss.css';
 import '/public/css/reportCss.css';
 import '/public/css/ticket.css';
+import '/imports/dashboard/companySetting/css/companySetting.css';
+
 import '/public/css/profileView';
 // import './component.css';
 // import './demo.css';

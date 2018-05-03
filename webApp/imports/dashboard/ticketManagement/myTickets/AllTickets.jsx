@@ -56,7 +56,7 @@ class AllTickets extends TrackerReact(Component){
                                                   <td><Link to={"/admin/ticket/"+data._id}>{data.ticketNumber}</Link></td>
                                                   <td><Link to={"/admin/ticket/"+data._id}>{data.serviceName}</Link></td>
                                                   <td><Link to={"/admin/ticket/"+data._id}>{moment(data.createdAt).format('DD-MM-YYYY')}</Link></td>
-                                                  <td><Link to={"/admin/ticket/"+data._id}>{data.tatDate}</Link></td> 
+                                                  <td><Link to={"/admin/ticket/"+data._id}>{moment(data.tatDate).format('DD-MM-YYYY')}</Link></td> 
                                                   <td><Link to={"/admin/ticket/"+data._id}>{Math.round(Math.abs((new Date().getTime() - data.createdAt.getTime())/(24*60*60*1000)))}</Link></td>
                                                   <td className={data.bgClassName}><Link to={"/admin/ticket/"+data._id} className="statuswcolor">{data.status}</Link></td>       
                                               </tr>

@@ -8,30 +8,29 @@ import CompanyInformation from './companyInformation.jsx';
 import CompanyLocation from './CompanyLocation.jsx';
 import CompanyBankDetails from './CompanyBankDetails.jsx';
 import CompanyTaxDetails from './CompanyTaxDetails.jsx';
+import CompanyCommissionCharges from './CompanyCommissionCharges.jsx';
 
 export default class CompanySettingTabs extends TrackerReact(Component) {
   componentDidMount() {
-    console.log("companysetting mounted");
-    if (!!!$("link[href='/css/dashboard.css']").length > 0) {
-      var dashboardCss = document.createElement("link");
-      dashboardCss.type = "text/css";
-      dashboardCss.rel = "stylesheet";
-      dashboardCss.href = "/css/dashboard.css";
-      document.head.append(dashboardCss);
-    }
-    if (!$("#adminLte").length>0 && !$('body').hasClass('adminLte')) {
-      console.log("I am appended!");
+     $('.companyInformation').addClass('divActive');
+    if ( !$('body').hasClass('adminLte')) {
       var adminLte = document.createElement("script");
-      adminLte.type = "text/javascript";
+      adminLte.type="text/javascript";
       adminLte.src = "/js/adminLte.js";
-      adminLte.setAttribute('id','adminLte');
       $("body").append(adminLte);
     }
+
   }
+
+/*
+
+  This function remove adminLte.js for dashboard functionality.
+
+*/  
+
   componentWillUnmount(){
-    console.log('Companysetting unmounted');
-    $("script[src='/js/adminLte.js']").remove();
-    $("link[href='/css/dashboard.css']").remove();
+      $("script[src='/js/adminLte.js']").remove();
+      $("link[href='/css/dashboard.css']").remove();
   }
   render() {
 
@@ -41,14 +40,15 @@ export default class CompanySettingTabs extends TrackerReact(Component) {
         <div className="content-wrapper">
           {/* Content Header (Page header) */}
           <section className="content-header">
-            <h1>Company Setting
+            <h1>Dashboard
+              <small>Version 2.0</small>
             </h1>
             <ol className="breadcrumb">
               <li>
                 <Link to="#"><i className="fa fa-dashboard"/>
                   Home</Link>
               </li>
-              <li className="active">Company Setting</li>
+              <li className="active">Company Information</li>
             </ol>
 
           </section>
@@ -61,7 +61,7 @@ export default class CompanySettingTabs extends TrackerReact(Component) {
                     <h3 className="box-title">
                       Company Settings
                     </h3>
-                    {/*<div className="box-tools pull-right">
+                    <div className="box-tools pull-right">
                       <button type="button" className="btn btn-box-tool btn-minus" data-widget="collapse">
                         <i className="fa fa-minus"/>
                       </button>
@@ -90,7 +90,7 @@ export default class CompanySettingTabs extends TrackerReact(Component) {
                       <button type="button" className="btn btn-box-tool " data-widget="remove">
                         <i className="fa fa-times"/>
                       </button>
-                    </div>*/}
+                    </div>
                   </div>
                   {/* /.box-header */}
                   <div className="box-body">
@@ -98,9 +98,7 @@ export default class CompanySettingTabs extends TrackerReact(Component) {
                       <div className="row">
                         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                           <div className="reportWrapper">
-
-
-                            <div id="parkingreport" className="ReportTabs col-lg-10 col-lg-offset-1">
+                            <div id="parkingreport" className="ReportTabs col-lg-11 col-lg-offset-1">
                               <ul className="nav nav-pills">
                                 <li className="active transactionTab CStab col-lg-3 col-md-3 col-sm-12 col-xs-12">
                                   <a data-toggle="pill" href="#companyInformation" className="">
@@ -109,7 +107,7 @@ export default class CompanySettingTabs extends TrackerReact(Component) {
                                 </li>
                                 <li className="col-lg-3 col-md-3 col-sm-12 col-xs-12 transactionTab CStab">
                                   <a data-toggle="pill" href="#CompanyLocation">
-                                    Company Address
+                                    Branch Details
                                   </a>
                                 </li>
                                 <li className="col-lg-3 col-md-3 col-sm-12 col-xs-12 transactionTab CStab">
@@ -122,6 +120,11 @@ export default class CompanySettingTabs extends TrackerReact(Component) {
                                     Tax Settings
                                   </a>
                                 </li>
+                               {/* <li className="col-lg-3 col-md-3 col-sm-12 col-xs-12 transactionTab CStab">
+                                  <a data-toggle="pill" href="#CompanyCommissionCharges">
+                                    Commission Charges
+                                  </a>
+                                </li>*/}
                               </ul>
                             </div>
                             <div className="break col-lg-12 col-md-12"></div>
@@ -138,7 +141,9 @@ export default class CompanySettingTabs extends TrackerReact(Component) {
                               <div id="CompanyTaxDetails" className="tab-pane fade">
                                 <CompanyTaxDetails/>
                               </div>
-                              
+                              <div id="CompanyCommissionCharges" className="tab-pane fade">
+                                <CompanyCommissionCharges/>
+                              </div>
                             </div>
                           </div>
                         </div>

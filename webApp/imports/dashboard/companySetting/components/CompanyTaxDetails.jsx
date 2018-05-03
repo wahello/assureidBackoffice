@@ -74,13 +74,16 @@ class CompanyTaxDetails extends TrackerReact(Component){
     event.preventDefault();
     var sessionVar = Session.get('taxType');
     var targetedID = Session.get('targetedID');
-
     var taxSettingsFormValue ={
+
     	taxType       : $(".taxType").val(),
       applicableTax : $(".applicableTax").val(),
       effectiveFrom : $(".effectiveFrom").val(),
-     }//close array
 
+     }//close array
+  
+     
+     if($('#companyTaxForm').valid()){
      if(sessionVar){
         Meteor.call('updatetaxSettings', taxSettingsFormValue,targetedID,
               function(error, result){
@@ -110,6 +113,7 @@ class CompanyTaxDetails extends TrackerReact(Component){
 	            }
 	    );
      }
+    }
   }
 
   render(){
@@ -128,22 +132,22 @@ class CompanyTaxDetails extends TrackerReact(Component){
             <form id="companyTaxForm" className="companyTaxForm">
               <div className="form-group col-lg-6 col-md-4 col-sm-12 col-xs-12">
                 <div className="input-group">
-                 <span className="input-group-addon ipAddons"><i className="fa fa-usd" aria-hidden="true"></i></span>
-                 <input value={this.state.taxType} onChange={this.handleChange} type="text" placeholder="Enter Tax Type" name="taxType" className="form-control taxType inputValid" required/>
+                 <span className="input-group-addon ipAddons"><i className="fa fa-usd"></i></span>
+                 <input value={this.state.taxType} onChange={this.handleChange} type="text" placeholder="Enter Tax Type" name="taxType" className="form-control taxType inputValid companyError required" />
                 </div>
               </div>
 
               <div className="form-group col-lg-6 col-md-4 col-sm-12 col-xs-12">
                 <div className="input-group">
                   <span className="input-group-addon ipAddons"><i className="fa fa-money" aria-hidden="true"></i></span>
-                  <input value={this.state.applicableTax} onChange={this.handleChange} type="number" placeholder="Enter Tax Rate(%)" name="applicableTax" className="form-control applicableTax inputValid" required />
+                  <input value={this.state.applicableTax} onChange={this.handleChange} type="number" placeholder="Enter Tax Rate(%)" name="applicableTax" className="form-control applicableTax inputValid companyError required"/>
                 </div>
               </div>
 
                <div className="form-group col-lg-6 col-md-4 col-sm-12 col-xs-12">
                 <div className="input-group">
     	             <span className="input-group-addon ipAddons"><i className="fa fa-calendar" aria-hidden="true"></i></span>
-                   <input value={this.state.effectiveFrom} onChange={this.handleChange} type="date"  name="effectiveFrom" className="form-control effectiveFrom inputValid" required/>
+                   <input value={this.state.effectiveFrom} onChange={this.handleChange} type="date"  name="effectiveFrom" className="form-control effectiveFrom inputValid companyError required"/>
                 </div>
               </div>
               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">

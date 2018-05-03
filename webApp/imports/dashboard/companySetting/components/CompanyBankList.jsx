@@ -15,6 +15,8 @@ export default class CompanyBankList extends TrackerReact(Component) {
     editBank(event){
     	event.preventDefault();
     	$(".accHolderName").val(this.props.companyBankDataVales.accHolderName);
+    	$(".accNickName").val(this.props.companyBankDataVales.accNickName);
+    	$(".accType").val(this.props.companyBankDataVales.accType);
         $(".bankName").val(this.props.companyBankDataVales.bankName);
         $(".branchName").val(this.props.companyBankDataVales.branchName);
         $(".accNumber").val(this.props.companyBankDataVales.accNumber);
@@ -32,13 +34,15 @@ export default class CompanyBankList extends TrackerReact(Component) {
        return(
 				<tr>
 					<td> {this.props.companyBankDataVales.accHolderName}</td>			
+					<td> {this.props.companyBankDataVales.accNickName}</td>			
+					<td> {this.props.companyBankDataVales.accType}</td>			
 					<td> {this.props.companyBankDataVales.bankName}</td>			
 					<td> {this.props.companyBankDataVales.branchName}</td>			
 					<td> {this.props.companyBankDataVales.accNumber}</td>			
 					<td> {this.props.companyBankDataVales.ifscCode}</td>			
 					<td> 
-						<button onClick={this.editBank.bind(this)} className="editInfo fa fa-pencil-square-o"></button>	
-						<button className= "locationDelete fa fa-trash delIcon detailsCenter" data-toggle="modal" data-target={`#del-${this.props.companyBankDataVales.ifscCode}`}></button>
+						<button onClick={this.editBank.bind(this)} className="editInfo fa fa-pencil-square-o btn-primary"></button>&nbsp;	
+						<button className= "locationDelete fa fa-trash delIcon detailsCenter btn-danger" data-toggle="modal" data-target={`#del-${this.props.companyBankDataVales.ifscCode}`}></button>
 
 						 <div className="modal fade" id={`del-${this.props.companyBankDataVales.ifscCode}`} role="dialog">
 						    <div className="modal-dialog modal-sm">

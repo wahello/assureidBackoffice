@@ -61,11 +61,11 @@ class Ticket extends TrackerReact(Component){
   }
   getRejectBox(){
     return(
-      <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 finalApprovewrap">
-        <textarea rows="3" cols="60" className="col-lg-6 col-lg-offset-0" id="rejectReason"/>
+      <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 finalApprovewrap noLRPad">
+        <textarea rows="3" cols="60" className="col-lg-7 col-lg-offset-0" id="rejectReason"/>
         <button onClick={this.rejectButton.bind(this)}
           id="rejectButton"
-          className="col-lg-2 rejectSubmit">
+          className="col-lg-4 rejectSubmit">
           Submit </button>
       </div>
     )
@@ -140,6 +140,12 @@ class Ticket extends TrackerReact(Component){
   showBAFEList(role){
     var teammemberDetails = Meteor.users.find({"roles": {$in:[role]}}).fetch();
     return teammemberDetails;
+  }
+  showTMQTMList(){
+    var teammemQualityDetails = Meteor.users.find({"roles": {$in:["team member","quality team member"]}}).fetch();
+  
+    console.log(teammemQualityDetails);
+    return teammemQualityDetails;
   }
   uploadDocsDiv(event){
     event.preventDefault();
@@ -755,7 +761,30 @@ class Ticket extends TrackerReact(Component){
                    Approve 
                   </button>
                 </div>
-                {this.state.showRejectBox === 'Y' ? this.getRejectBox() : '' }
+                <div className="col-lg-6 acceptrejectwrap">
+                  {this.state.showRejectBox === 'Y' ? 
+
+                    // return(
+                      <div>
+                        <select className="col-lg-7 col-md-7 col-sm-4 col-xs-5 tmListWrap" id="selectTMMember" aria-describedby="basic-addon1" ref="allocateToName"> 
+                            {
+                              this.showTMQTMList('team member').map((data,i)=>{
+                                return(
+                                  <option key={i} value={data._id}>
+                                    {data.profile.firstname + ' ' + data.profile.lastname}&nbsp;
+                                  </option>
+                                );
+                              })
+                            }
+                        </select>
+                      </div>
+                    // );
+                  :
+                  "" 
+                  }
+                  {this.state.showRejectBox === 'Y' ? this.getRejectBox() : '' }
+                </div>
+                
                 {this.state.showRadiobtn === 'Y' ? this.showTicketDataRadiobtn() : '' }
                 
               </div>

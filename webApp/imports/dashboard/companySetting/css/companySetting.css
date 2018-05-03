@@ -1,0 +1,27 @@
+
+.bannerTableImg{max-width: 100%;}
+.cursorPointer{cursor: pointer;}
+.showButton{display: block;}
+.hideButton{display: none;}
+.nopadLeft{padding-left: 0px;}
+.nopadRight{padding-right: 0px;}
+.formError.error{border-bottom: 1px solid #e40b0b!important;}
+/*inputformError{color: #e40b0b;}*/
+.requiredStar{color: #e40b0b;}
+.editIconBanner{margin-left: 20px;}
+label.error{margin-top: 2px;font-weight: 100;color: #e40b0b;display: none!important;}
+.iDelete{position: absolute;cursor: pointer;right: -18px;top: 0px;}
+/* .companyImgPos{position: absolute;right: 20px;top: 200px;} */
+.companyInputPos{position: absolute;right: 0px;bottom: 195px;padding-right: 25px;}
+/* .companyImgPos > div{height: 170px;} */
+/* .companyImgPos > div > img{max-width: 100%;max-height: 100%;} */
+.imgNote{color: #e40b0b;font-weight: 500;padding-left: 15px;font-size: 13px;margin-bottom: 0px;}
+.productImageDiv > .form-group{margin-bottom: 40px;}
+#commissionNumber-error{position: absolute;bottom: 0px;}
+.companyError.error{border: 1px solid #e40b0b!important;}
+.addMarginTopAdmin{margin-top: 20px;}
+.listVenSelect{margin-bottom: 20px;height: 40px;border-radius: 0px;}
+input[type=number].no-spinner::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button {
+-webkit-appearance:none;
+margin:0
+}

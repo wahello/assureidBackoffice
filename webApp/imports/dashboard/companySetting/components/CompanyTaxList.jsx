@@ -37,10 +37,10 @@ export default class CompanyTaxList extends TrackerReact(Component) {
 					<td> {this.props.companyTaxDataVales.effectiveFrom}</td>			
 					<td> {this.props.companyTaxDataVales.effectiveTo}</td>			
 					<td> 
-						<button onClick={this.editTax.bind(this)} id={this.props.companyTaxDataVales.index} className="editTax fa fa-pencil-square-o"></button>	
-						<button className= "taxDelete fa fa-trash delIcon detailsCenter" data-toggle="modal" data-target={`#del-${this.props.companyTaxDataVales.taxType}`}></button>
+						<button onClick={this.editTax.bind(this)} id={this.props.companyTaxDataVales.index} className="btn-primary editTax fa fa-pencil-square-o"></button>	
+						<button className= "btn-danger taxDelete fa fa-trash delIcon detailsCenter" data-toggle="modal" data-target={`#del-${this.props.companyTaxDataVales.taxType}`}></button>
 
-						  <div className="modal fade" id={`del-${this.props.companyTaxDataVales.taxType}`} role="dialog">
+						 <div className="modal fade" id={`del-${this.props.companyTaxDataVales.taxType}`} role="dialog">
 						    <div className="modal-dialog modal-sm">
 						      <div className="modal-content">
 						        <div className="modal-header">
@@ -51,7 +51,7 @@ export default class CompanyTaxList extends TrackerReact(Component) {
 						          <p><b>Are you sure you want to continue?.</b></p>
 						        </div>
 						        <div className="modal-footer">
-						          <button  onClick={this.delTax.bind(this)} id={this.props.companyTaxDataVales.index} type="button" data-dismiss="modal" className="btn btn-danger deleteRole" >Delete</button>
+						          <button  onClick={this.delTax.bind(this)} id={this.props.companyTaxDataVales.index} type="button" data-dismiss="modal" className=" btn btn-danger deleteRole" >Delete</button>
 				    			  <button type="button" data-dismiss="modal" className="btn btn-primary ">Cancel</button>
 						        </div>
 						      </div>

@@ -129,7 +129,7 @@ class Header extends TrackerReact(Component){
               {Roles.userIsInRole(Meteor.userId(),['screening committee','team leader','quality team member','quality team leader'])?
         
                 <li className="allocatedtitle">
-                  <span className ="allocatedtitlevalue">Current Allocated Ticket </span><br/>
+                  <span className ="allocatedtitlevalue">Current Allocated Tickets </span><br/>
                   <label className="col-lg-12 allocatedtitlevalue">{this.props.count ? this.props.count +'/'+this.props.MaxallocatedTickets : this.props.count/this.props.MaxallocatedTickets}</label>
                 </li>
                 :
