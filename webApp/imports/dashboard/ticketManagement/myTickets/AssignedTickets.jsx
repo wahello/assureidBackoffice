@@ -190,7 +190,7 @@ export default AllTicketContainer = withTracker(props => {
                 assignedTicketList[i].bgClassName = 'btn-warning';
                 break;
               case 'VerificationPass' : 
-                assignedTicketList[i].status = 'Submit Report' ;      
+                assignedTicketList[i].status = 'Create Report' ;      
                 assignedTicketList[i].bgClassName = 'btn-warning';
                 break;
               case 'ReviewPass' :
@@ -331,7 +331,7 @@ export default AllTicketContainer = withTracker(props => {
           break;
         case 'team member' :
           for(i=0; i < assignedTicketList.length;i++){
-            if(assignedTicketList[i].status == 'Submit Report'){
+            if(assignedTicketList[i].status == 'Create Report'){
               submitReportTickets.push(assignedTicketList[i]);
             }if(assignedTicketList[i].status == 'Proof Re-Submitted'){
               proofReSubmittedTickets.push(assignedTicketList[i]);
