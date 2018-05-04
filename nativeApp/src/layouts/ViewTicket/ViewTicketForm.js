@@ -173,13 +173,15 @@ class ViewTicketFormInfo extends React.Component {
                 });
     }// EOF i loop
 
-    var videos      = [
-                        {
-                          'userId'    : Meteor.userId(),
-                          'videoLink' : 'https://s3.ap-south-1.amazonaws.com/harmonicgroup/ProductVideo/2XAwdwWSg2qfpgKFf.mp4',
-                          'createdAt' : new Date(),
-                        }
-                      ];
+    // var videos      = [
+    //                     {
+    //                       'userId'    : Meteor.userId(),
+    //                       'videoLink' : 'https://s3.ap-south-1.amazonaws.com/harmonicgroup/ProductVideo/2XAwdwWSg2qfpgKFf.mp4',
+    //                       'createdAt' : new Date(),
+    //                     }
+    //                   ];
+
+    var videos      = [];
 
     if(this.props.tickets.submitedDoc){
 

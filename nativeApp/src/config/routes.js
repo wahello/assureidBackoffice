@@ -69,7 +69,7 @@ import ViewSubmittedTicketContainer from '../layouts/ViewTicket/ViewSubmittedTic
 import Camera from '../layouts/Camera/Camera.js';
 import CameraView from '../layouts/CameraView/CameraView.js';
 import CameraGallery from '../layouts/CameraGallery/CameraGallery.js';
-import VideoRecording from '../layouts/VideoRecording/VideoRecording.js';
+// import VideoRecording from '../layouts/VideoRecording/VideoRecording.js';
 
 import Dashboard from '../layouts/Dashboard/Dashboard.js';
 import MyProfile from '../layouts/MyProfile/MyProfile.js';
@@ -90,12 +90,12 @@ export const AuthStack = StackNavigator({
   },
   
 
-  VideoRecording:{
-      screen: VideoRecording,
-      navigationOptions: {
-      header: null
-    }
-  },
+  // VideoRecording:{
+  //     screen: VideoRecording,
+  //     navigationOptions: {
+  //     header: null
+  //   }
+  // },
 
   ReopenedTickets: {
   screen: ReopenedTickets,
