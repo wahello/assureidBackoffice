@@ -279,6 +279,14 @@ Meteor.methods({
           }
         },
         );
+  },
+  'removeCompanyImage':function(id,link){
+    CompanySettings.update(
+      {'_id':id},
+      {
+        $unset:{'companyLogo':link}
+      }
+    )
   }
 
   

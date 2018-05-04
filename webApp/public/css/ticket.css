@@ -8,7 +8,7 @@
 
 .tickStatWrapper h5{
 	font-weight: bold;
-	/* text-transform: capitalize; */
+	text-transform: capitalize;
 }
 .fesubmitouter{
 	
@@ -168,4 +168,18 @@
 }
 .viewlogo{
 	float: left;
+}
+.documentClose{
+	font-size: 36px;
+    /* background: #f00; */
+    margin-bottom: 3%;
+    padding-top: 0%;
+}
+.documentHead{
+	font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 3%!important;
+}
+.serviceNameonly{
+	padding-left: 4%;
 }

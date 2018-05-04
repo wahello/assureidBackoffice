@@ -2689,6 +2689,9 @@ a:focus {
 .table-bordered > thead > tr > td {
   border-bottom-width: 2px;
 }
+.table-bordered > thead > tr > th{
+  text-transform: capitalize;
+}
 .table.no-border,
 .table.no-border td,
 .table.no-border th {
@@ -5266,7 +5269,7 @@ table.text-center th {
 	height: 60px !important;
 }
 .commonLogo{
-	  height: 60px;
+	  height: 67px;
     width: 40%;
     float: left;
     border: 1px solid #eee;

@@ -79,7 +79,7 @@ export default class SubmittedDocuments extends TrackerReact(Component){
    		<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad" id="outersubmitedDocWrap">
 				<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 submitedDocWrap" id="submitedDocWrap">			
-				 <h6 className="dataDetails">Submitted Information:</h6>  
+				 <h6 className="dataDetails">Submitted Information</h6>  
           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 wholeborder ">
 						<div className="imgtitile col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
 			        <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12  noLRPad Selectimg">

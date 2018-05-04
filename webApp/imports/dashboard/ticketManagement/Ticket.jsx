@@ -891,7 +891,7 @@ render(){
                                   </div> 
                                   <div className="col-lg-7 col-md-7 col-sm-8 col-xs-8 text-left userValue">
                                   
-                                    <p>&nbsp;{this.props.userProfile.assureId}</p>
+                                    <p>&nbsp;{this.props.userProfile.assureId ? this.props.userProfile.assureId : "-"}</p>
                                   </div>
                                 </div>
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
@@ -900,7 +900,7 @@ render(){
                                   </div> 
                                   <div className="col-lg-7 col-md-7 col-sm-8 col-xs-8 text-left userValue">
                                   {/* <p>{this.state.userDetails.emails[0].address}</p> */}
-                                    <p>+91{this.props.userProfile.mobileNo}</p>
+                                    <p>{this.props.userProfile.mobileNo ? "+91"+this.props.userProfile.mobileNo : "-"}</p>
                                   </div>
                                 </div>
 
@@ -909,7 +909,7 @@ render(){
                                   Email Id <span className="pull-right">:</span>
                                   </div> 
                                   <div className="col-lg-7 col-md-7 col-sm-8 col-xs-8 text-left userValue">
-                                    <p>{this.props.userProfile.emailId}</p>
+                                    <p>{this.props.userProfile.emailId ? this.props.userProfile.emailId : "-"}</p>
                                   </div>
                                 </div>
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
@@ -917,7 +917,7 @@ render(){
                                   Age<span className="pull-right">:</span>
                                   </div> 
                                    <div className="col-lg-7 col-md-7 col-sm-8 col-xs-8 text-left userValue">
-                                    <p>{this.props.userProfile.dateOfBirth}&nbsp;Years</p>
+                                    <p>{this.props.userProfile.dateOfBirth ? this.props.userProfile.dateOfBirth  + " Years": "-"}</p>
                                   </div>
                                 </div>
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
@@ -925,7 +925,7 @@ render(){
                                   Gender <span className="pull-right">:</span>
                                   </div> 
                                   <div className="col-lg-7 col-md-7 col-sm-8 col-xs-8 text-left userValue">
-                                    <p className="genName">{this.props.userProfile.gender}</p>
+                                    <p className="genName">{this.props.userProfile.gender ? this.props.userProfile.gender : ""}</p>
                                   </div>
                                 </div>
                               

@@ -50,7 +50,7 @@ class VerifiedDocuments extends TrackerReact(Component){
       case 'permanentAddress' :
         return(
           <div className="col-lg-12 col-md-12 showAddrWrap">
-            <h5>Permanent Address</h5>
+            <h5 className ="documentHead">Permanent Address</h5>
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
               {verificationData.line1 ? verificationData.line1 : ''},
             </div>
@@ -76,7 +76,7 @@ class VerifiedDocuments extends TrackerReact(Component){
       case 'currentAddress' :
         return(
           <div className="col-lg-12 col-md-12 showAddrWrap">
-            <h5>Current Address</h5>
+            <h5 className ="documentHead">Current Address</h5>
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
               {verificationData.tempLine1 ? verificationData.tempLine1 : ''},
             </div>
@@ -102,24 +102,24 @@ class VerifiedDocuments extends TrackerReact(Component){
       case 'employement' :
         return(
           <div className="col-lg-12 col-md-12 showAddrWrap">
-            <h5>Employment</h5>
+            <h5 className ="documentHead">Employment</h5>
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-              <label><b>Employer :</b> </label>{verificationData.nameOfEmployer},<br />
-              <label><b>Address :</b> </label>{verificationData.employerAddress}
+              <label><b>Employer :</b> </label>{verificationData.nameOfEmployer ? verificationData.nameOfEmployer : "-"},<br />
+              <label><b>Address :</b> </label>{verificationData.employerAddress ? verificationData.employerAddress: "-"}<br />
             </div>
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-              <label><b>Contact No. :</b> </label>{verificationData.contactNo},
-              <label><b>Employee Id :</b> </label>{verificationData.employeeCode}
+              <label><b>Contact No. :</b>&nbsp; </label>{verificationData.contactNo ? verificationData.contactNo : "-"}.<br />
+              <label><b>Employee Id :</b>&nbsp; </label>{verificationData.employeeCode ? verificationData.employeeCode : "-"}<br />
             </div>
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-              <label><b>Designation :</b> </label>{verificationData.designation},
-              <label><b>Department :</b> </label>{verificationData.department},
-              <label><b>Employment From :</b> </label>{verificationData.employmentFrom},
-              <label><b>Employment To :</b> </label>{verificationData.employmentTo},<br />
-              <label><b>Type Of Employement :</b> </label>{verificationData.typeOfEmployement}, 
-              <label><b>Duties And Responsibilites :</b> </label>{verificationData.dutiesAndResponsibilites}<br/>
-              <label><b>Reporting Manager :</b> </label>{verificationData.reportingManagerNm}, 
-              <label><b>Previous Designation :</b> </label>{verificationData.prevDesignation}
+              <label><b>Designation :</b>&nbsp; </label>{verificationData.designation ? verificationData.designation :"-"},<br />
+              <label><b>Department :</b> &nbsp;</label>{verificationData.department ? verificationData.department :"-"},<br />
+              <label><b>Employment From :</b> &nbsp;</label>{verificationData.employmentFrom ? verificationData.employmentFrom: "-"},<br />
+              <label><b>Employment To :</b> &nbsp;</label>{verificationData.employmentTo ? verificationData.employmentTo : "-"},<br />
+              <label><b>Type Of Employement :</b> &nbsp;</label>{verificationData.typeOfEmployement? verificationData.typeOfEmployement : "-"},<br /> 
+              <label><b>Duties And Responsibilites :</b> &nbsp;</label>{verificationData.dutiesAndResponsibilites? verificationData.dutiesAndResponsibilites :" - "}<br/>
+              <label><b>Reporting Manager :</b> &nbsp;</label>{verificationData.reportingManagerNm ? verificationData.reportingManagerNm : " - "},<br />
+              <label><b>Previous Designation :</b> &nbsp;</label>{verificationData.prevDesignation ? verificationData.prevDesignation : "-"}<br />
             </div>
           </div>
         );
@@ -127,14 +127,14 @@ class VerifiedDocuments extends TrackerReact(Component){
       case 'certificates' :
         return(
           <div className="col-lg-12 col-md-12 showAddrWrap">
-            <h5>Certificates</h5>
+            <h5 className ="documentHead">Certificates</h5>
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-              {this.props.verificationData[index].certificateName},
-              {this.props.verificationData[index].issuedBy}
+              {this.props.verificationData[index].certificateName ? this.props.verificationData[index].certificateName : " "},<br />
+              {this.props.verificationData[index].issuedBy ? this.props.verificationData[index].issuedBy : ""}<br />
             </div>
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-              {this.props.verificationData[index].certificatedOn},
-              {this.props.verificationData[index].validTill}
+              {this.props.verificationData[index].certificatedOn ? this.props.verificationData[index].certificatedOn : ""},<br />
+              {this.props.verificationData[index].validTill ? this.props.verificationData[index].validTill : ""}<br />
             </div>
           </div>
         );
@@ -142,15 +142,15 @@ class VerifiedDocuments extends TrackerReact(Component){
       case 'professionalEducation' :
         return(
           <div className="col-lg-12 col-md-12 showAddrWrap">
-            <h5>professional Education</h5>
+            <h5 className ="documentHead">professional Education</h5>
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-              {verificationData.professionalQualification},
-              {verificationData.registrationNo}
+              {verificationData.professionalQualification ? verificationData.professionalQualification : ""},<br />
+              {verificationData.registrationNo ? verificationData.registrationNo : "" }<br />
             </div>
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-              {verificationData.dateOfQualification},
-              {verificationData.professionalRollNo}
-              {verificationData.qualifyingBodyNm}
+              {verificationData.dateOfQualification ? verificationData.dateOfQualification : ""},<br />
+              {verificationData.professionalRollNo ? verificationData.professionalRollNo : ""}<br />
+              {verificationData.qualifyingBodyNm ? verificationData.qualifyingBodyNm : ""}<br />
             </div>
             
           </div>
@@ -159,21 +159,21 @@ class VerifiedDocuments extends TrackerReact(Component){
       case 'education' :
         return(
           <div className="col-lg-12 col-md-12 showAddrWrap">
-            <h5>Education</h5>
+            <h5 className ="documentHead">Education</h5>
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-              {verificationData.educationLevel},
-              {verificationData.educationQualification}
+              {verificationData.educationLevel ? verificationData.educationLevel : ""},<br />
+              {verificationData.educationQualification ? verificationData.educationQualification:""}<br />
             </div>
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-              {verificationData.specialization},
-              {verificationData.grades}
+              {verificationData.specialization ? verificationData.specialization: ""},<br />
+              {verificationData.grades ? verificationData.grades: ""}<br />
             </div>
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-              {verificationData.educationMode},
-              {verificationData.dateAttendedTo},
-              {verificationData.collegeName},
-              {verificationData.university},<br />
-              {verificationData.collegeAddress} {verificationData.rollNo}
+              {verificationData.educationMode}{ verificationData.educationMode ? "," : ""}<br />
+              {verificationData.dateAttendedTo}{ verificationData.dateAttendedTo ? "," : ""}<br />
+              {verificationData.collegeName}{ verificationData.collegeName ? "," : ""}<br />
+              {verificationData.university}{ verificationData.university ? "," : ""}<br />
+              {verificationData.collegeAddress} {verificationData.rollNo}<br />
             </div>
           </div>
         );
@@ -236,17 +236,17 @@ class VerifiedDocuments extends TrackerReact(Component){
                     <div key={index}>
                       {verificationDocument.proofOfDocument ?
                         <div>
-                          <div className="col-lg-2 col-md-2 col-sm-3 col-xs-3 verifyDocWrap" >
+                          <div className="col-lg-12 col-md-12 col-sm-3 col-xs-3 verifyDocWrap" >
                             <div data-toggle="modal" data-target={"showProofOfDocumentModal-"+index} onClick={this.showDocuments.bind(this)} title="Click to verify Document">
                               { verificationDocument.fileExt == "png" || verificationDocument.fileExt == "jpg" || verificationDocument.fileExt == "jpeg" || verificationDocument.fileExt == "gif" ?
-                                  <img src="/images/assureid/Photo-icon.png" className="img-responsive addressImage"/>
+                                  <img src="/images/assureid/Photo-icon.png" className=" col-lg-offset-1 img-responsive addressImage"/>
                                 :
                                 verificationDocument.fileExt == "pdf" ?
-                                  <img src="/images/assureid/pdf.png" className="img-responsive addressImage"/>
+                                  <img src="/images/assureid/pdf.png" className="img-responsive col-lg-offset-1 addressImage"/>
                                 :
                                 ""
                               }
-                              <div className="text-center">
+                              <div className="text-center col-lg-4 col-md-4 col-sm-12 col-xs-12">
                                 <p>{verificationDocument.fileName}</p>
                               </div>
                             </div>
@@ -255,7 +255,7 @@ class VerifiedDocuments extends TrackerReact(Component){
                             <div className="modal-dialog">
                               <div className="modal-content">
                                 <div className="modal-body">
-                                  <button type="button" className="close" data-dismiss="modal">&times;</button>
+                                  <button type="button" className="close documentClose" data-dismiss="modal">&times;</button>
                                   <div className="row">
                                     <div className="col-lg-12 col-md-12  col-sm-12 col-sm-12">
                                         {this.showData(this.props.getTicket.verificationType,this.props.getTicket.verificationData)}

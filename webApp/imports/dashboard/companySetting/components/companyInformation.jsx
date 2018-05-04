@@ -261,7 +261,7 @@ class companyInformation extends TrackerReact(Component){
                   !this.props.post.companyLogo ? 
                   <div className="input-group">
                    <span className="input-group-addon ipAddons"><i className="fa fa-upload" aria-hidden="true"></i></span>
-                   <input onChange={this.imgBrowse.bind(this)} type="file" className="form-control companyInfoInput inputValid" name="" required=""/>
+                   <input onChange={this.imgBrowse.bind(this)} type="file" title= "Upload Company Logo" className="form-control companyInfoInput inputValid" name="" required=""/>
                   </div>
                   :
                   <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 nopadLeft">
@@ -269,7 +269,7 @@ class companyInformation extends TrackerReact(Component){
                     <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">                    
                       <img src={this.props.post.companyLogo} className="commonLogo displayLogo img-responsive img-rounded"/>
                     </div>
-                    <i className="fa fa-times-circle timeCircle iDelete col-lg-8" onClick={this.removeCompanyImage.bind(this)} data-link={this.props.post.companyLogo} data-id={this.state.companyId}></i>
+                    <i className="fa fa-times-circle timeCircle iDelete col-lg-8" title= "Upload Company Logo" onClick={this.removeCompanyImage.bind(this)} data-link={this.props.post.companyLogo} data-id={this.state.companyId}></i>
                   </div>
                 }    
               </div>

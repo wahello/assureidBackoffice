@@ -54,7 +54,7 @@ class ProfileView extends TrackerReact(Component){
       <section className="content">
         <div className="row">
           <div className="col-md-12">
-            <div className="box">
+            <div className="">
               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <hr className="col-lg-11 col-md-12 col-sm-12 col-xs-12 horizontalLine" />
                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noProfilePadding">
