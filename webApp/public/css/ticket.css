@@ -183,3 +183,20 @@
 .serviceNameonly{
 	padding-left: 4%;
 }
+.tdStatus{
+	padding: 2% 13%;
+    text-align: center;
+    display: block;
+}
+.removePadding{
+	padding-bottom: 0%!important;
+}
+#selectMember{
+	margin-top:3%;
+}
+.hideProgressBar{
+	display: none !important;
+}
+.showProgressBar{
+	display: block!important;
+}

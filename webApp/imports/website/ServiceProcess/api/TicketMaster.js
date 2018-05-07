@@ -53,7 +53,7 @@ if(Meteor.isServer){
 
 		//Update TicketElement
 		//Write code for split
-		
+	
 		var memberValue = insertData.allocatedToUserName;
 		var a = memberValue.indexOf("(");
 		if(a !== -1){

@@ -498,7 +498,7 @@ class VerificationDataSubmit extends TrackerReact(Component){
                     <form id="submitDocument">
                         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 wholeborder ">
                             <div className="imgtitile col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
-                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad Selectimg"> <b>Verify Information:</b></div>
+                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad Selectimg"> <b>Verified Information:</b></div>
                             </div>
                             {/* Check List Display */}
                             {this.props.EditValue ?
@@ -653,7 +653,7 @@ class VerificationDataSubmit extends TrackerReact(Component){
                                     <div className="col-lg-12 noLRPad Selectimg"> Select Video:</div>
                                         <input type="file" ref="ticketVideoFile" id="s3file" name="ticketVideoFile"  onChange={this.handleVideoUpload.bind(this)} className="col-lg-12 noLRPad" multiple/>
                                 </div>
-                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="videoProgressbar">
+                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="videoProgressbar" >
                                     {/* <div id="errorProofList"></div> */}
                                     {this.getUploadVideoPercentage()}
                                 </div>

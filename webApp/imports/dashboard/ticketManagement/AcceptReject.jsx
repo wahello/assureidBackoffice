@@ -45,7 +45,7 @@ export default class AcceptReject extends TrackerReact(Component){
         </div>
         <div className="col-lg-6 col-md-12 col-sm-12 col-xs-12 otherInfoForm">
           <div className="col-lg-7 col-md-4 col-sm-6 col-xs-6">
-                <button type="button" className="btn btn-info acceptreject" onClick={this.acceptTicket.bind(this)}>Accept</button>
+                <button type="button" className="btn btn-info acceptreject required" onClick={this.acceptTicket.bind(this)}>Accept</button>
                 <button type="button" className="btn btn-info acceptreject" onClick={this.rejectTicket.bind(this)}>Reject</button>
           </div>
         </div>

@@ -46,7 +46,7 @@ class Ticket extends TrackerReact(Component){
   viewprofile(event){
     event.preventDefault();
     var path = $(event.target).attr('data-userid');
-    window.open(browserHistory.replace('/admin/viewProfile/'+path));
+    browserHistory.replace('/admin/viewProfile/'+path);
   }
   getRole(role) {
     return role != "backofficestaff";
@@ -164,7 +164,8 @@ class Ticket extends TrackerReact(Component){
             var imageFileName = dataImg.name;
             var splitName = imageFileName.split(".");
             var fileextension = splitName[1];
-          if(fileextension == "pdf"){             
+          if(fileextension == "pdf"){    
+            $('#uploadReportShowprogress').addClass('showProgressBar');         
             var reader = new FileReader();      
               reader.onload = function (e) {         
             };     
@@ -314,9 +315,20 @@ class Ticket extends TrackerReact(Component){
       case 'screenTLAllocated' :
       case 'ReAssign' :
       case 'AssignReject' :
-        insertData.allocatedToUserid = $("#selectTMMember option:selected").val();
-        insertData.allocatedToUserName = $("#selectTMMember option:selected").text();
-            
+        if($("#selectTMMember option:selected").val() !="--Select--"){
+          insertData.allocatedToUserid = $("#selectTMMember option:selected").val();
+          insertData.allocatedToUserName = $("#selectTMMember option:selected").text();
+        }else{
+          swal({   
+            position: 'top-right',    
+            type: 'error',   
+            title: 'Please select team member ',      
+            showConfirmButton: false,     
+            timer: 1500     
+          });  
+        }
+        
+      
         break;
       case 'Assign' :
       case 'ProofSubmit' :
@@ -421,10 +433,13 @@ class Ticket extends TrackerReact(Component){
               <div className="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-12">
                 <span className="col-lg-3 col-md-3 col-sm-4 col-xs-5"> Assign this ticket to: </span>
                 <select className="col-lg-3 col-md-3 col-sm-4 col-xs-5 tmListWrap" id="selectTMMember" aria-describedby="basic-addon1" ref="allocateToName"> 
+                <option>--Select--</option>
+                
                   {
                     this.showBAFEList('team member').map((data,i)=>{
                       return(
                         <option key={i} value={data._id}>
+
                           {data.profile.firstname + ' ' + data.profile.lastname}&nbsp;
                           ({data.count? data.count : 0})
                         </option>
@@ -523,7 +538,7 @@ class Ticket extends TrackerReact(Component){
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
               <h5> {title} </h5>
               <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1 col-xs-12">
-                <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper ">
+                <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper removePadding">
                     <div className="radio radiobtn col-lg-3 noLRPad" value="Self">
                       <label className="noLRPad" value="Self">
                         <input type="radio" name="radioState" value="Self" checked={ this.state.radioState == 'Self'} className="optradio" onChange={this.getRadioValue.bind(this)}/>Self
@@ -540,6 +555,9 @@ class Ticket extends TrackerReact(Component){
                       </label>
                     </div>
                 </div>
+
+                {this.state.radioState != '' ?     
+                
                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad hideFieldexpert selfallocatedwrap">                           
                   {this.state.radioState == 'field expert'?      
                     <div>
@@ -591,6 +609,9 @@ class Ticket extends TrackerReact(Component){
                     ""
                   }
                 </div>
+                :
+                ""
+                }
               </div>
             </div>
           )
@@ -654,7 +675,7 @@ class Ticket extends TrackerReact(Component){
               <h5> {title} </h5>
               <span className="uploadreportTitle">Upload Report : </span>
               <div className="col-lg-7 col-lg-offset-1 col-md-10 col-md-offset-1 col-xm-12 col-xs-12">
-                <div className="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                <div className="col-lg-6 col-md-12 col-sm-12 col-xs-12 hideProgressBar" id="uploadReportShowprogress">
                     
                     {this.getUploadReportPercentage()}
                 </div>
@@ -917,7 +938,8 @@ render(){
                                   Age<span className="pull-right">:</span>
                                   </div> 
                                    <div className="col-lg-7 col-md-7 col-sm-8 col-xs-8 text-left userValue">
-                                    <p>{this.props.userProfile.dateOfBirth ? this.props.userProfile.dateOfBirth  + " Years": "-"}</p>
+                                    <p>{this.props.userProfile.dateOfBirth ? this.props.userProfile.dateOfBirth +" Years" : "-"}</p>
+                                    
                                   </div>
                                 </div>
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
