@@ -103,7 +103,7 @@ class VerificationDataSubmit extends TrackerReact(Component){
         return role != "backofficestaff";
     }
      handleChangeChecklist(event){
-        event.preventDefault();
+        // event.preventDefault();
 
         const target = event.target;
         const value  = target.type === 'checkbox' ? target.checked : target.value;

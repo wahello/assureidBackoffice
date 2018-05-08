@@ -59,6 +59,11 @@ export default class SubmittedDocuments extends TrackerReact(Component){
 	    //console.log('showEditButton ',showEditButton);
 	    return showEditButton;
 	}
+	removechecked(event){
+		event.preventDefault();
+		$('.tickchkbox').prop('checked',false);
+
+	}
   render(){ 
   	// var userId = Meteor.userId();
    //  if(userId){
@@ -87,7 +92,7 @@ export default class SubmittedDocuments extends TrackerReact(Component){
 			        		<span className="checkBoxtitle">Verified Information:</span>
 			        	</strong>
 			        </div>
-			        {this.showEditButton() == true ? 
+			        {this.showEditButton() == true  ?
 				       	<div className="col-lg-1 pull-right">
 						    <span><i className="fa fa-pencil editdoc" aria-hidden="true" title="Edit Document" onClick={this.EditDocument.bind(this)}></i></span>					
 			           	</div>
@@ -100,7 +105,8 @@ export default class SubmittedDocuments extends TrackerReact(Component){
                 this.props.submittedDocuments.documents.checkLists.map((submittedChecklist,index)=>{
                   return(
                     <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12  checkListDiv noLRPad" key={index}>  
-                       <input type="checkbox" className="tickchkbox" ref="submittedChecklist" name="submittedChecklist" value={submittedChecklist.status} checked={submittedChecklist.status} />&nbsp;<span className="checkBoxtitle">{submittedChecklist.statement}</span>
+												<input type="checkbox" className="tickchkbox" ref="submittedChecklist" name="submittedChecklist" value={submittedChecklist.status} checked={submittedChecklist.status== true? "checked" : ""} onClick = {this.removechecked.bind(this)}/><span className="checkBoxtitle">{submittedChecklist.statement}</span>												
+                       
                     </div>
                   );
                 })

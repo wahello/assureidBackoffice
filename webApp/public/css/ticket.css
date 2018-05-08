@@ -200,3 +200,8 @@
 .showProgressBar{
 	display: block!important;
 }
+.noData{
+	text-align: center;
+	font-size: 18px;
+	
+}

@@ -1057,7 +1057,7 @@ render(){
                                       
                                         {
                                           element.remark ?
-                                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
                                               <span>Remark &nbsp;:</span><span>{element.remark}</span>
                                             </div>
                                           :
@@ -1083,7 +1083,7 @@ render(){
         </div>   
       );
     }else{
-      return(<span>loading...</span>);
+      return(<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noData"> No Data Available</div>);
     }
 
    }

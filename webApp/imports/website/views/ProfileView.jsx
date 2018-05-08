@@ -158,9 +158,7 @@ class ProfileView extends TrackerReact(Component){
     </div>
     );
     }else{
-      return(
-        <span></span>
-      );
+      return(<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noData"> No Data Available</div>);
     }
   }
 } 

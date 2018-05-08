@@ -166,6 +166,13 @@ class companyInformation extends TrackerReact(Component){
           if(error){
             console.log(error);
           }else{
+            swal({   
+              position: 'top-right',    
+              type: 'success',   
+              title: 'Company Info Updated Successfully',      
+              showConfirmButton: false,     
+              timer: 2000     
+            }); 
             //As logo is added to main companySettings table, we can now remove
             //the same logo from temporary collection.
             // Meteor.call('tempLogoImageDelete', fileName);
