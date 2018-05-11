@@ -117,7 +117,8 @@ HeaderBlockContainer = withTracker(props => {
                 var ticketElements = assignedTicketList[i].ticketElement;
                 if(ticketElements.find(function (obj) { return obj.roleStatus == 'ScreenApproved'})){
                   approvedTicketCount++;
-                }else if(ticketElements.find(function (obj) { return obj.roleStatus == 'ScreenRejected'})){                
+                }
+                if(ticketElements.find(function (obj) { return obj.roleStatus == 'ScreenRejected'})){                
                   rejectTicketCount++;
                 }
                 if(ticketElements.find(function (obj) { return obj.roleStatus == 'ReviewPass'})){
@@ -138,7 +139,8 @@ HeaderBlockContainer = withTracker(props => {
                 var ticketElements = assignedTicketList[i].ticketElement;
                 if(ticketElements.find(function (obj) { return obj.roleStatus == 'AssignAccept'})){
                   approvedTicketCount++;
-                }else if(ticketElements.find(function (obj) { return obj.roleStatus == 'AssignReject'})){                
+                }
+                if(ticketElements.find(function (obj) { return obj.roleStatus == 'AssignReject'})){                
                   rejectTicketCount++;
                 }
                 if(ticketElements.find(function (obj) { return obj.roleStatus == 'ReviewPass'})){
@@ -158,10 +160,11 @@ HeaderBlockContainer = withTracker(props => {
                 var ticketElements = assignedTicketList[i].ticketElement;
                 if(ticketElements.find(function (obj) { return obj.roleStatus == 'AssignAccept'})){
                   approvedTicketCount++;
-                  if(ticketElements.find(function (obj) { return obj.roleStatus == 'QAFail'})){
-                    rejectTicketCount++;
-                  }
                 }
+                if(ticketElements.find(function (obj) { return obj.roleStatus == 'QAFail'})){
+                  rejectTicketCount++;
+                }
+                
                 if(ticketElements.find(function (obj) { return obj.roleStatus == 'ReviewPass'})){
                   openTicketCount--;
                 }
@@ -181,11 +184,12 @@ HeaderBlockContainer = withTracker(props => {
                 var ticketElements = assignedTicketList[i].ticketElement;
                 if(ticketElements.find(function (obj) { return obj.roleStatus == 'QAPass'})){
                   approvedTicketCount++;
-
-                  if(ticketElements.find(function (obj) { return obj.roleStatus == 'ReviewFail'})){
+                }                  
+                
+                if(ticketElements.find(function (obj) { return obj.roleStatus == 'ReviewFail'})){
                     rejectTicketCount++;
-                  }
                 }
+                
                 if(ticketElements.find(function (obj) { return obj.roleStatus == 'ReviewPass'})){
                   openTicketCount--;
                 }

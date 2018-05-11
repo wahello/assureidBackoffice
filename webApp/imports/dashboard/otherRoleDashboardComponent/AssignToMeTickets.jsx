@@ -18,7 +18,7 @@ class AssignToMeTickets extends TrackerReact(Component){
                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 innerblock tableinnetWrap noLRPad">
                 <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12 ticketTableLabel">{this.props.header3}                        
                     <span>
-                        <Link to="/admin/assignedtickets" title="View All">
+                        <Link to="/admin/approvedtickets" title="View All">
                             <i className="fa fa-arrow-right pull-right arrowcolor" aria-hidden="true"></i>
                         </Link>
                     </span>

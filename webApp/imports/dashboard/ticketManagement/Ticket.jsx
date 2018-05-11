@@ -139,6 +139,9 @@ class Ticket extends TrackerReact(Component){
   }
   showBAFEList(role){
     var teammemberDetails = Meteor.users.find({"roles": {$in:[role]},}).fetch();
+    console.log('teammemberDetails: ', teammemberDetails);
+   
+    
     return teammemberDetails;
   }
   showTMQTMList(){
@@ -436,12 +439,14 @@ class Ticket extends TrackerReact(Component){
                 <option>--Select--</option>
                 
                   {
+                      
+                    
                     this.showBAFEList('team member').map((data,i)=>{
                       return(
-                        <option key={i} value={data._id}>
+                      <option key={i} value={data._id} >
 
-                          {data.profile.firstname + ' ' + data.profile.lastname}&nbsp;
-                          ({data.count? data.count : 0})
+                          {data.profile.firstname + ' ' + data.profile.lastname}&nbsp; 
+                          ({data.count ? data.count : 0})
                         </option>
                       );
                     })
@@ -470,6 +475,8 @@ class Ticket extends TrackerReact(Component){
                       return(
                         <option key={i} value={data._id}>
                           {data.profile.firstname + ' ' + data.profile.lastname}
+                          {data.count ? data.count : 0}
+                          
                         </option>
                       );
                     })
@@ -497,7 +504,8 @@ class Ticket extends TrackerReact(Component){
                     this.showBAFEList('team member').map((data,i)=>{
                       return(
                         <option key={i} value={data._id}>
-                          {data.profile.firstname + ' ' + data.profile.lastname}
+                          {data.profile.firstname + ' ' + data.profile.lastname}&nbsp;
+                          ({data.count ? data.count : 0})                          
                         </option>
                       );
                     })
@@ -568,7 +576,9 @@ class Ticket extends TrackerReact(Component){
                                 this.showBAFEList('field expert').map((data,i)=>{
                                   return(
                                     <option key={i} value={data._id}>
-                                      {data.profile.firstname + ' ' + data.profile.lastname}
+                                      {data.profile.firstname + ' ' + data.profile.lastname}&nbsp;
+                                      ({data.count ? data.count : 0})
+                                      
                                     </option>
                                   );
                                 })
@@ -590,6 +600,8 @@ class Ticket extends TrackerReact(Component){
                                   return(
                                     <option key={i} value={data._id}>
                                       {data.profile.firstname + ' ' + data.profile.lastname}
+                                      ({data.count ? data.count : 0})
+                                      
                                     </option>
                                   );
                                 })

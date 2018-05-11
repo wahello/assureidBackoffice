@@ -17,9 +17,9 @@ class ReopenTickets extends TrackerReact(Component){
         return(    
             <div className="col-lg-12 col-md-3 col-sm-3 col-xs-3 noLRPad">
                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 innerblock tableinnetWrap noLRPad">
-                <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12 ticketTableLabel">{this.props.header4}                        
+                <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12 ticketTableLabel"> My {this.props.header4}                        
                     <span>
-                        <Link to="/admin/assignedtickets" title="View All">
+                        <Link to="/admin/rejectedtickets" title="View All">
                             <i className="fa fa-arrow-right pull-right arrowcolor" aria-hidden="true"></i>
                         </Link>
                     </span>
@@ -41,7 +41,7 @@ class ReopenTickets extends TrackerReact(Component){
                                             <td><Link to={"/admin/ticket/"+data._id}>{data.ticketNumber}</Link></td>
                                             <td>{data.serviceName}</td>
                                             <td>{moment(data.createdAt).format('l')}</td>
-                                            <td><lable className={ data.bgClassName ? data.bgClassName+ "tdStatus" : "bg-blue" }> {data.status} </lable> </td>       
+                                            <td><lable className={ data.bgClassName ? data.bgClassName+ " tdStatus" : "bg-blue" }> {data.status} </lable> </td>       
                                         </tr>
                                     );
                                 })

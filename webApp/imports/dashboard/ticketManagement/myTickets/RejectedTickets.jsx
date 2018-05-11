@@ -47,7 +47,7 @@ class RejectedTickets extends TrackerReact(Component){
                                 </thead>
                                         <tbody>
                                         {
-                                                !this.props.loading ?
+                                                !this.props.loading && this.props.rejectedTicketList.length>0 ?
                                                   this.props.rejectedTicketList.map((data, index)=>{
                                                     return(
                                                         <tr key={index}>

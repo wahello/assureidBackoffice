@@ -83,8 +83,7 @@ if(Meteor.isServer){
 				if(ticketDetails){
 					
 					var newMember = Meteor.call('autoAllocateMember',role,ticketDetails.serviceName);
-					console.log("newMember");
-					console.log(newMember);
+					
 					var roleSentence = Meteor.call('toTitleCase',role);
 					
 					if(roleSentence){
@@ -468,7 +467,7 @@ if(Meteor.isServer){
 	},
 
 	'updateCommitteeUserCount':function(count,id){
-		console.log("count,id :"+count,id);
+		
 		Meteor.users.update(
 			{'_id':id},
 			{$set:{
