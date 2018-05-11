@@ -138,7 +138,7 @@ class Ticket extends TrackerReact(Component){
     });
   }
   showBAFEList(role){
-    var teammemberDetails = Meteor.users.find({"roles": {$in:[role]}}).fetch();
+    var teammemberDetails = Meteor.users.find({"roles": {$in:[role]},}).fetch();
     return teammemberDetails;
   }
   showTMQTMList(){
@@ -787,7 +787,7 @@ class Ticket extends TrackerReact(Component){
 
                     // return(
                       <div>
-                        <select className="col-lg-7 col-md-7 col-sm-4 col-xs-5 tmListWrap" id="selectTMMember" aria-describedby="basic-addon1" ref="allocateToName"> 
+                        {/* <select className="col-lg-7 col-md-7 col-sm-4 col-xs-5 tmListWrap" id="selectTMMember" aria-describedby="basic-addon1" ref="allocateToName"> 
                             {
                               this.showTMQTMList('team member').map((data,i)=>{
                                 return(
@@ -797,7 +797,7 @@ class Ticket extends TrackerReact(Component){
                                 );
                               })
                             }
-                        </select>
+                        </select> */}
                       </div>
                     // );
                   :
@@ -809,8 +809,6 @@ class Ticket extends TrackerReact(Component){
                 {this.state.showRadiobtn === 'Y' ? this.showTicketDataRadiobtn() : '' }
                 
               </div>
-
-             
               
             </div>
           )

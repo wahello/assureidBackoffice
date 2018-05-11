@@ -41,7 +41,7 @@ class ReopenTickets extends TrackerReact(Component){
                                             <td><Link to={"/admin/ticket/"+data._id}>{data.ticketNumber}</Link></td>
                                             <td>{data.serviceName}</td>
                                             <td>{moment(data.createdAt).format('l')}</td>
-                                            <td><lable className={ data.bgClassName ? data.bgClassName+ " tdStatus" : "bg-blue" }> {data.status} </lable> </td>       
+                                            <td><lable className={ data.bgClassName ? data.bgClassName+ "tdStatus" : "bg-blue" }> {data.status} </lable> </td>       
                                         </tr>
                                     );
                                 })

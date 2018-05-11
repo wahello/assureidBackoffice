@@ -74,7 +74,7 @@ AllTicketsContainer = withTracker(props => {
             var role = roleArr.find(function (obj) { return obj != 'backofficestaff' });
         }
         //Get all the Tickets Assigned to Me
-        var allTicketList = TicketMaster.find({},{ limit : 5}).fetch();
+        var allTicketList = TicketMaster.find({},{sort:{createdAt: -1}, limit : 5}).fetch();
         if(allTicketList){
             //find last status of the Tickets
             for(i=0;i< allTicketList.length; i++){
@@ -83,7 +83,6 @@ AllTicketsContainer = withTracker(props => {
                     case 'screening committee' : 
                         switch (ticketElements[ticketElements.length - 1].roleStatus) {
                         case 'NewScrAllocated':
-                        
                             allTicketList[i].status = 'New' ;  
                             allTicketList[i].bgClassName = 'btn-warning';    
                             break;
@@ -186,40 +185,40 @@ AllTicketsContainer = withTracker(props => {
                         }
                         break;
                     case 'quality team leader' :
+                        
                         switch (ticketElements[ticketElements.length - 1].roleStatus) {
-                        case 'QAPassQTLAllocated':
-                            allTicketList[i].status = 'New' ;      
-                            allTicketList[i].bgClassName = 'btn-warning';
+                            case 'QAPassQTLAllocated':
+                                allTicketList[i].status = 'New' ;      
+                                allTicketList[i].bgClassName = 'btn-warning';
+                                break;
+                            case 'ReviewPass' :
+                                allTicketList[i].status = 'Approved' ; 
+                                allTicketList[i].bgClassName = 'btn-success';
+                                break;
+                            case 'ReviewFail' :
+                                allTicketList[i].status = 'Rejected' ;
+                                allTicketList[i].bgClassName = 'btn-danger';
+                                break;
+                            case 'ReviewPass' :
+                                allTicketList[i].status = 'Completed' ;
+                                allTicketList[i].bgClassName = 'btn-success';
+                                break;
+                            default:
+                                allTicketList[i].status = 'In Process' ;
+                                allTicketList[i].bgClassName = 'btn-primary';
+                                break;
+                            }
                             break;
-                        case 'ReviewPass' :
-                            allTicketList[i].status = 'Approved' ; 
-                            allTicketList[i].bgClassName = 'btn-success';
-                            break;
-                        case 'ReiewFail' :
-                            allTicketList[i].status = 'Rejected' ;
-                            allTicketList[i].bgClassName = 'btn-danger';
-                            break;
-                        case 'ReviewPass' :
-                            allTicketList[i].status = 'Completed' ;
-                            allTicketList[i].bgClassName = 'btn-success';
-                            break;
-                        default:
-                            allTicketList[i].status = 'In Process' ;
-                            allTicketList[i].bgClassName = 'btn-primary';
-                            break;
-                        }
-                        break;
-                    default : 
-                        allTicketList[i].status = 'In Process' ;
-                        allTicketList[i].bgClassName = 'btn-primary';
-                        break;
+                    // default : 
+                    //     allTicketList[i].status = 'In Process' ;
+                    //     allTicketList[i].bgClassName = 'btn-primary';
+                    //     break;
                 }        
                 // allTicketList[i].status = ticketElements[ticketElements.length - 1].roleStatus ;
             } 
         }
     }
-    console.log("allTicketList");
-    console.log(allTicketList);
+
     return {
         loading,
         allTicketList

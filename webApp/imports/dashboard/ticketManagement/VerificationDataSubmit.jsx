@@ -110,11 +110,29 @@ class VerificationDataSubmit extends TrackerReact(Component){
         const value  = target.type === 'checkbox' ? target.checked : target.value;
         const name   = target.name;
         var index = $(event.currentTarget).attr('data-index');
-
         this.state.checkLists[index].value = event.target.value;
         this.setState({
          [name]: event.target.value,
         });
+       
+        var currentData = this.state.checkLists;
+        var newArr = [];
+        for(i=0;i<currentData.length;i++){
+            if(i==index){
+                var newObj = {
+                    statement:currentData[i].statement,
+                    status:!currentData[i].status,
+                    value:!currentData[i].status,
+                }                
+                newArr.push(newObj);
+            }else{
+                newArr.push(currentData[i]);
+            }
+        }
+        
+        this.setState({
+            checkLists: newArr,
+        })
     }
 
     handleChangeForArray(event){
@@ -300,10 +318,12 @@ class VerificationDataSubmit extends TrackerReact(Component){
         $('input[name="checkObjs"]').each(function(i){
             var dataChk ={};
             if($(this).is(":checked")){
-                dataChk.statement = $(this).val();
+                // dataChk.statement = $(this).val();
+                dataChk.statement = $(this).attr('data-value');
                 dataChk.status = true;
             }else{
-                dataChk.statement = $(this).val();
+                // dataChk.statement = $(this).val();
+                dataChk.statement = $(this).attr('data-value');                
                 dataChk.status = false;
             }
             checkLists.push(dataChk);
@@ -501,17 +521,17 @@ class VerificationDataSubmit extends TrackerReact(Component){
                 var newObj = {
                     statement:currentData[i].statement,
                     status:!currentData[i].status,
-                    value:currentData[i].status,
+                    value:!currentData[i].status,
                 }
-                console.log("newObj: ",newObj);
+                
                 newArr.push(newObj);
+                console.log('newObj: ', newObj);
             }else{
                 newArr.push(currentData[i]);
             }
         }
         console.log("newArr: ",newArr);
         
-
         this.setState({
             checkLists: newArr,
         })
@@ -537,7 +557,10 @@ class VerificationDataSubmit extends TrackerReact(Component){
                                         this.state.checkLists.map((checkObjsDefault,index)=>{
                                         return(
                                             <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6" key={index}>  
-                                              <input type="checkbox" ref="checkObjs" id="checkObjs" data-index={index} name="checkObjs" className={"checkObjs-"+index} value={checkObjsDefault.statement} onChange={this.handleChangeChecklist} checked={checkObjsDefault.status== true? "checked" : ""} onClick = {this.removechecked.bind(index)}/>&nbsp;{checkObjsDefault.statement}
+                                              <input type="checkbox" ref="checkObjs" id="checkObjs" data-index={index} name="checkObjs" 
+                                              className={"checkObjs-"+index}  data-value = {checkObjsDefault.statement}
+                                              onChange={this.handleChangeChecklist} checked={checkObjsDefault.status== true? "checked" : ""}
+                                              />&nbsp;{checkObjsDefault.statement}
                                             </div>
                                           );
                                         })
