@@ -59,11 +59,7 @@ export default class SubmittedDocuments extends TrackerReact(Component){
 	    //console.log('showEditButton ',showEditButton);
 	    return showEditButton;
 	}
-	removechecked(event){
-		event.preventDefault();
-		$('.tickchkbox').prop('checked',false);
 
-	}
   render(){ 
   	// var userId = Meteor.userId();
    //  if(userId){
@@ -105,7 +101,7 @@ export default class SubmittedDocuments extends TrackerReact(Component){
                 this.props.submittedDocuments.documents.checkLists.map((submittedChecklist,index)=>{
                   return(
                     <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12  checkListDiv noLRPad" key={index}>  
-												<input type="checkbox" className="tickchkbox" ref="submittedChecklist" name="submittedChecklist" value={submittedChecklist.status} checked={submittedChecklist.status== true? "checked" : ""} onClick = {this.removechecked.bind(this)}/><span className="checkBoxtitle">{submittedChecklist.statement}</span>												
+												<input type="checkbox" className="tickchkbox" ref="submittedChecklist" name="submittedChecklist" value={submittedChecklist.status} checked={submittedChecklist.status== true? "checked" : ""}/><span className="checkBoxtitle">{submittedChecklist.statement}</span>												
                        
                     </div>
                   );

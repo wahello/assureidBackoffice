@@ -117,32 +117,32 @@ class OtherRoleSidebar extends TrackerReact(Component){
                 <li className="">
                   <Link to="/admin/assignedtickets" activeClassName="active">
                   <i className="fa fa-ticket" />
-                      <span>Tickets Assigned To Me({this.props.assignedTicketCount})</span>
+                      <span>Tickets Allocted To Me({this.props.assignedTicketCount ? this.props.assignedTicketCount : 0 })</span>
                   </Link>
                 </li>
                 <li className="">
                   <Link to="/admin/opentickets" activeClassName="active">
                   <i className="fa fa-ticket" />
-                      <span>My Open Tickets({this.props.openTicketCount})</span>
+                      <span>My Open Tickets({this.props.openTicketCount ? this.props.openTicketCount : 0})</span>
                   </Link>
                 </li>
               
                 <li className="">
                   <Link to="/admin/approvedtickets" activeClassName="active">
                   <i className="fa fa-ticket" />
-                      <span>My Approved Tickets({this.props.approvedTicketCount})</span>
+                      <span>My {this.props.header3} ({this.props.approvedTicketCount ? this.props.approvedTicketCount : 0 })</span>
                   </Link>
                 </li>
                 <li className="">
                   <Link to="/admin/rejectedtickets" activeClassName="active">
                   <i className="fa fa-ticket" />
-                      <span>My Rejected Tickets({this.props.rejectTicketCount})</span>
+                      <span>My {this.props.header4} ({this.props.rejectTicketCount ? this.props.rejectTicketCount: 0 })</span>
                   </Link>
                 </li>
                 <li className="">
                   <Link to="/admin/escalatedtickets" activeClassName="active">
                   <i className="fa fa-ticket" />
-                      <span>My Escalated Tickets({this.props.esclationTicketCount})</span>
+                      <span>My Escalated Tickets(0)</span>
                   </Link>
                 </li>
               </ul>
@@ -159,6 +159,13 @@ export default allOtherRoleSidebarContainer = withTracker(props => {
   const userHandle  = Meteor.subscribe('userData',_id);
   const user        = Meteor.users.findOne({"_id" : _id});
   const loading1    = !userHandle.ready();
+  var header3 = 'Approved';
+  var header4 = 'Reopen';
+  var allticketsCount = 0;
+  var assignedTicketCount = 0;
+  var openTicketCount= 0;
+  var approvedTicketCount= 0;
+  var rejectTicketCount= 0;
   if(user){
     var roleArr = user.roles;
     if(roleArr){
@@ -167,102 +174,102 @@ export default allOtherRoleSidebarContainer = withTracker(props => {
     var allticketsDetalis      = TicketMaster.find({}).fetch();
     if(allticketsDetalis){
       var allticketsCount      = TicketMaster.find({}).count();
-      switch (role) {
-        case 'screening committee':
+      switch(role){
+        case 'screening committee' :
+          header3 = 'Approved Tickets';
+          header4 = 'Rejected Tickets';
+
           var assignedTicketList = TicketMaster.find({ticketElement: { $elemMatch: { allocatedToUserid: _id }}}).fetch();
           if(assignedTicketList){
             var assignedTicketCount = assignedTicketList.length;
-            var approvedTicketCount = 0;
-            var rejectTicketCount = 0 ;
-            var openTicketCount = assignedTicketCount;
             
             for(i = 0 ; i < assignedTicketList.length; i++){
               var ticketElements = assignedTicketList[i].ticketElement;
               if(ticketElements.find(function (obj) { return obj.roleStatus == 'ScreenApproved'})){
                 approvedTicketCount++;
-              }else if(ticketElements.find(function (obj) { return obj.roleStatus == 'ScreenRejected'})){
+              }else if(ticketElements.find(function (obj) { return obj.roleStatus == 'ScreenRejected'})){                
                 rejectTicketCount++;
               }
-              if(ticketElements.find(function (obj) { return obj.roleStatus == 'ReviewPass'})){
-                openTicketCount--;
+              if(ticketElements.find(function (obj) { return obj.roleStatus != 'ReviewPass'})){
+                openTicketCount++;
               }
             }
           }
-          var esclationTicketCount = 0;
+          
           break;
-        case 'team leader':
+        case 'team leader' :
+          header3 = 'Assigned Tickets';
+          header4 = 'Reassigned Tickets';
           var assignedTicketList = TicketMaster.find({ticketElement: { $elemMatch: { allocatedToUserid: _id }}}).fetch();
           if(assignedTicketList){
             var assignedTicketCount = assignedTicketList.length;
-            var approvedTicketCount = 0;
-            var rejectTicketCount = 0 ;
-            var openTicketCount = assignedTicketCount;
             
             for(i = 0 ; i < assignedTicketList.length; i++){
               var ticketElements = assignedTicketList[i].ticketElement;
               if(ticketElements.find(function (obj) { return obj.roleStatus == 'AssignAccept'})){
                 approvedTicketCount++;
-              }else if(ticketElements.find(function (obj) { return obj.roleStatus == 'AssignReject'})){
+              }else if(ticketElements.find(function (obj) { return obj.roleStatus == 'AssignReject'})){                
                 rejectTicketCount++;
               }
-              if(ticketElements.find(function (obj) { return obj.roleStatus == 'ReviewPass'})){
-                openTicketCount--;
+              if(ticketElements.find(function (obj) { return obj.roleStatus != 'ReviewPass'})){
+                openTicketCount++;
               }
             }
           }
-          var esclationTicketCount = 0;
           break;
-        case 'team member':
+        case 'team member' :
+          header3 = 'Accepted Tickets';
+          header4 = 'Reopen Tickets';
           var assignedTicketList = TicketMaster.find({ticketElement: { $elemMatch: { allocatedToUserid: _id }}}).fetch();
           if(assignedTicketList){
             var assignedTicketCount = assignedTicketList.length;
-            var approvedTicketCount = 0;
-            var rejectTicketCount = 0 ;
-            var openTicketCount = assignedTicketCount;
             
             for(i = 0 ; i < assignedTicketList.length; i++){
               var ticketElements = assignedTicketList[i].ticketElement;
               if(ticketElements.find(function (obj) { return obj.roleStatus == 'AssignAccept'})){
                 approvedTicketCount++;
-              }else if(ticketElements.find(function (obj) { return obj.roleStatus == 'AssignReject'})){
-                rejectTicketCount++;
+                if(ticketElements.find(function (obj) { return obj.roleStatus == 'QAFail'})){
+                  rejectTicketCount++;
+                }
               }
-              if(ticketElements.find(function (obj) { return obj.roleStatus == 'ReviewPass'})){
-                openTicketCount--;
+              if(ticketElements.find(function (obj) { return obj.roleStatus != 'ReviewPass'})){
+                openTicketCount++;
               }
             }
           }
-          var esclationTicketCount = 0;
           break;
-        case 'quality team member':
+        
+        case 'quality team member' :
+          header3 = 'Approved Tickets';
+          header4 = 'Reopen Tickets';
+
           var assignedTicketList = TicketMaster.find({ticketElement: { $elemMatch: { allocatedToUserid: _id }}}).fetch();
           if(assignedTicketList){
             var assignedTicketCount = assignedTicketList.length;
-            var approvedTicketCount = 0;
-            var rejectTicketCount = 0 ;
-            var openTicketCount = assignedTicketCount;
-            
+          
             for(i = 0 ; i < assignedTicketList.length; i++){
               var ticketElements = assignedTicketList[i].ticketElement;
               if(ticketElements.find(function (obj) { return obj.roleStatus == 'QAPass'})){
                 approvedTicketCount++;
-              }else if(ticketElements.find(function (obj) { return obj.roleStatus == 'QAFail'})){
-                rejectTicketCount++;
+
+                if(ticketElements.find(function (obj) { return obj.roleStatus == 'ReviewFail'})){
+                  rejectTicketCount++;
+                }
               }
-              if(ticketElements.find(function (obj) { return obj.roleStatus == 'ReviewPass'})){
-                openTicketCount--;
+              if(ticketElements.find(function (obj) { return obj.roleStatus != 'ReviewPass'})){
+                openTicketCount++;
               }
             }
           }
-          var esclationTicketCount = 0;
           break;
-        case 'quality team leader':
+
+        case 'quality team leader' :
+          header3 = 'Approved Tickets';
+          header4 = 'Reopen Tickets';
+
           var assignedTicketList = TicketMaster.find({ticketElement: { $elemMatch: { allocatedToUserid: _id }}}).fetch();
           if(assignedTicketList){
             var assignedTicketCount = assignedTicketList.length;
-            var approvedTicketCount = 0;
-            var rejectTicketCount = 0 ;
-            var openTicketCount = assignedTicketCount;
             
             for(i = 0 ; i < assignedTicketList.length; i++){
               var ticketElements = assignedTicketList[i].ticketElement;
@@ -271,32 +278,33 @@ export default allOtherRoleSidebarContainer = withTracker(props => {
               }else if(ticketElements.find(function (obj) { return obj.roleStatus == 'ReviewFail'})){
                 rejectTicketCount++;
               }
-              if(ticketElements.find(function (obj) { return obj.roleStatus == 'ReviewPass'})){
-                openTicketCount--;
+              if(ticketElements.find(function (obj) { return obj.roleStatus != 'ReviewPass'})){
+                openTicketCount++;
               }
             }
           }
-          var esclationTicketCount = 0;
           break;
-        default:
-          break;
+
+        default :
+        break;
+        
       }
+      
     }
   }
-  
+
   return {
       loading,
       loading1,
+      header3,
+      header4,
       allticketsCount,
       assignedTicketCount,
       openTicketCount,
       approvedTicketCount,
       rejectTicketCount,
-      esclationTicketCount,
       user,
       role,
-    };
-
-
+  };
   
 })(OtherRoleSidebar);

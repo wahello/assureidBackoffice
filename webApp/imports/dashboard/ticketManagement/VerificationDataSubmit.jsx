@@ -49,6 +49,7 @@ class VerificationDataSubmit extends TrackerReact(Component){
         this.handleChange          = this.handleChange.bind(this);
         this.handleChangeChecklist = this.handleChangeChecklist.bind(this);
         this.handleChangeForArray  = this.handleChangeForArray.bind(this);
+        // this.removechecked  = this.removechecked.bind(this);
     }
     componentDidMount(){
         // $("#submitDocument").validate({
@@ -489,6 +490,35 @@ class VerificationDataSubmit extends TrackerReact(Component){
             );
         }
     }
+    removechecked = (index)=>{
+        // event.preventDefault();
+        console.log("index: ",index);
+        
+        var currentData = this.state.checkLists;
+        var newArr = [];
+        for(i=0;i<currentData.length;i++){
+            if(i==index){
+                var newObj = {
+                    statement:currentData[i].statement,
+                    status:!currentData[i].status,
+                    value:currentData[i].status,
+                }
+                console.log("newObj: ",newObj);
+                newArr.push(newObj);
+            }else{
+                newArr.push(currentData[i]);
+            }
+        }
+        console.log("newArr: ",newArr);
+        
+
+        this.setState({
+            checkLists: newArr,
+        })
+        
+		// $('#checkObjs').prop('checked',false);
+
+	}
     render(){
 
 
@@ -507,7 +537,7 @@ class VerificationDataSubmit extends TrackerReact(Component){
                                         this.state.checkLists.map((checkObjsDefault,index)=>{
                                         return(
                                             <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6" key={index}>  
-                                              <input type="checkbox" ref="checkObjs" id="checkObjs" data-index={index} name="checkObjs" className={"checkObjs-"+index} value={checkObjsDefault.statement} onChange={this.handleChangeChecklist}/>&nbsp;{checkObjsDefault.statement}
+                                              <input type="checkbox" ref="checkObjs" id="checkObjs" data-index={index} name="checkObjs" className={"checkObjs-"+index} value={checkObjsDefault.statement} onChange={this.handleChangeChecklist} checked={checkObjsDefault.status== true? "checked" : ""} onClick = {this.removechecked.bind(index)}/>&nbsp;{checkObjsDefault.statement}
                                             </div>
                                           );
                                         })

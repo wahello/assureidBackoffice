@@ -15,6 +15,8 @@ import TotalInFlowTickets from '/imports/dashboard/dashboardContent/TotalInFlowT
 import TopStates from '/imports/dashboard/dashboardContent/TopStates.jsx';
 import TotalBusiness from '/imports/dashboard/dashboardContent/TotalBusiness.jsx';
 import CustomerComplaints from '/imports/dashboard/dashboardContent/CustomerComplaints.jsx';
+import ReopenTickets from '/imports/dashboard/otherRoleDashboardComponent/ReopenTickets.jsx';
+
 
 
 export default class Sidebar extends TrackerReact(Component){
@@ -99,6 +101,10 @@ export default class Sidebar extends TrackerReact(Component){
                   </div>
                   <div className="col-lg-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
                     <AssignToMeTickets />
+                                        
+                  </div>
+                  <div className="col-lg-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <ReopenTickets />
                                         
                   </div>
                 </div>

@@ -218,11 +218,7 @@ class Header extends TrackerReact(Component){
                 </li>
                 {/* Control Sidebar Toggle Button */}
                 {Roles.userIsInRole(Meteor.userId(),['screening committee','team leader','team member','field expert','quality team member','quality team leader'])?
-                  <li>
-                    <Link to="/backofficeadmin/company-info" data-toggle="control-sidebar">
-                      <i className="fa fa-gears" />
-                    </Link>
-                  </li>
+                 ""
                 :
                   <li>
                     <Link to="/admin/company-info" data-toggle="control-sidebar">

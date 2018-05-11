@@ -28,7 +28,7 @@ class AssignedTickets extends TrackerReact(Component){
                 <div className="col-md-12">
                   <div className="box">
                     <div className="box-header with-border">
-                      <h2 className="box-title"> Tickets Assigned to Me</h2> 
+                      <h2 className="box-title"> Tickets Allocated to Me</h2> 
                     </div>
                       <div className="box-body">
                         <div className="ticketWrapper col-lg-12 col-md-12 col-sm-12 col-xs-12">

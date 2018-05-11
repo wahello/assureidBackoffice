@@ -23,7 +23,7 @@ class HeaderBlock extends TrackerReact(Component){
                             <div className="col-lg-6 noLRPad">
                                 <div className="col-lg-12 innerboxtext">
                                     <span className="col-lg-12"> &nbsp; &nbsp; All Tickets</span>
-                                    <span className="col-lg-12">&nbsp; &nbsp; {this.props.allticketsCount}</span>
+                                    <span className="col-lg-12">&nbsp; &nbsp; {this.props.allticketsCount ? this.props.allticketsCount : 0}</span>
                                 </div>
                                 {/* <span className="col-lg-12 innerboxtext"> &nbsp; &nbsp; Quantity</span>
                                 <span className="col-lg-12 innerboxtext">&nbsp; &nbsp;11,998</span> */}
@@ -38,7 +38,7 @@ class HeaderBlock extends TrackerReact(Component){
                             <div className="col-lg-6 noLRPad">
                                 <div className="col-lg-12 innerboxtext">
                                     <span className="col-lg-12"> &nbsp; &nbsp; Allocated Tickets</span>
-                                    <span className="col-lg-12">&nbsp; &nbsp; 500</span>
+                                    <span className="col-lg-12">&nbsp; &nbsp; {this.props.assignedTicketCount ? this.props.assignedTicketCount : 0}</span>
                                 </div>
                                 {/* <span className="col-lg-12 innerboxtext"> &nbsp; &nbsp; Quantity</span>
                                 <span className="col-lg-12 innerboxtext">&nbsp; &nbsp;11,998</span> */}
@@ -53,8 +53,8 @@ class HeaderBlock extends TrackerReact(Component){
                             </span>
                             <div className="col-lg-6 noLRPad">
                                 <div className="col-lg-12 innerboxtext">
-                                    <span className="col-lg-12"> &nbsp; &nbsp;Assign To Me </span>
-                                    <span className="col-lg-12">&nbsp; &nbsp; {this.props.assignedTicketCount}</span>
+                                    <span className="col-lg-12"> &nbsp; &nbsp;{this.props.header3} </span>
+                                    <span className="col-lg-12">&nbsp; &nbsp; {this.props.approvedTicketCount ? this.props.approvedTicketCount : 0}</span>
                                 </div>
                                 {/* <span className="col-lg-12 innerboxtext"> &nbsp; &nbsp; Quantity</span>
                                 <span className="col-lg-12 innerboxtext">&nbsp; &nbsp;11,998</span> */}
@@ -69,8 +69,8 @@ class HeaderBlock extends TrackerReact(Component){
                             </span>
                             <div className="col-lg-6 noLRPad">
                                 <div className="col-lg-12 innerboxtext">
-                                    <span className="col-lg-12"> &nbsp; &nbsp;Rejected Tickets </span>
-                                    <span className="col-lg-12">&nbsp; &nbsp; {this.props.rejectTicketCount}</span>
+                                    <span className="col-lg-12"> &nbsp; &nbsp;{this.props.header4} </span>
+                                    <span className="col-lg-12">&nbsp; &nbsp; {this.props.rejectTicketCount ? this.props.rejectTicketCount : 0}</span>
                                 </div>
                                 {/* <span className="col-lg-12 innerboxtext"> &nbsp; &nbsp; Quantity</span>
                                 <span className="col-lg-12 innerboxtext">&nbsp; &nbsp;11,998</span> */}
@@ -89,6 +89,13 @@ HeaderBlockContainer = withTracker(props => {
     const userHandle  = Meteor.subscribe('userData',_id);
     const user        = Meteor.users.findOne({"_id" : _id});
     const loading1    = !userHandle.ready();
+    var header3 = 'Approved';
+    var header4 = 'Reopen';
+    var allticketsCount = 0;
+    var assignedTicketCount = 0;
+    var openTicketCount= 0;
+    var approvedTicketCount= 0;
+    var rejectTicketCount= 0;
     if(user){
       var roleArr = user.roles;
       if(roleArr){
@@ -97,20 +104,20 @@ HeaderBlockContainer = withTracker(props => {
       var allticketsDetalis      = TicketMaster.find({}).fetch();
       if(allticketsDetalis){
         var allticketsCount      = TicketMaster.find({}).count();
-        switch (role) {
-          case 'screening committee':
+        switch(role){
+          case 'screening committee' :
+            header3 = 'Approved Tickets';
+            header4 = 'Rejected Tickets';
+
             var assignedTicketList = TicketMaster.find({ticketElement: { $elemMatch: { allocatedToUserid: _id }}}).fetch();
             if(assignedTicketList){
               var assignedTicketCount = assignedTicketList.length;
-              var approvedTicketCount = 0;
-              var rejectTicketCount = 0 ;
-              var openTicketCount = assignedTicketCount;
               
               for(i = 0 ; i < assignedTicketList.length; i++){
                 var ticketElements = assignedTicketList[i].ticketElement;
                 if(ticketElements.find(function (obj) { return obj.roleStatus == 'ScreenApproved'})){
                   approvedTicketCount++;
-                }else if(ticketElements.find(function (obj) { return obj.roleStatus == 'ScreenRejected'})){
+                }else if(ticketElements.find(function (obj) { return obj.roleStatus == 'ScreenRejected'})){                
                   rejectTicketCount++;
                 }
                 if(ticketElements.find(function (obj) { return obj.roleStatus == 'ReviewPass'})){
@@ -118,20 +125,20 @@ HeaderBlockContainer = withTracker(props => {
                 }
               }
             }
+            
             break;
-          case 'team leader':
+          case 'team leader' :
+            header3 = 'Assigned Tickets';
+            header4 = 'Reassigned Tickets';
             var assignedTicketList = TicketMaster.find({ticketElement: { $elemMatch: { allocatedToUserid: _id }}}).fetch();
             if(assignedTicketList){
               var assignedTicketCount = assignedTicketList.length;
-              var approvedTicketCount = 0;
-              var rejectTicketCount = 0 ;
-              var openTicketCount = assignedTicketCount;
               
               for(i = 0 ; i < assignedTicketList.length; i++){
                 var ticketElements = assignedTicketList[i].ticketElement;
                 if(ticketElements.find(function (obj) { return obj.roleStatus == 'AssignAccept'})){
                   approvedTicketCount++;
-                }else if(ticketElements.find(function (obj) { return obj.roleStatus == 'AssignReject'})){
+                }else if(ticketElements.find(function (obj) { return obj.roleStatus == 'AssignReject'})){                
                   rejectTicketCount++;
                 }
                 if(ticketElements.find(function (obj) { return obj.roleStatus == 'ReviewPass'})){
@@ -140,20 +147,20 @@ HeaderBlockContainer = withTracker(props => {
               }
             }
             break;
-          case 'team member':
+          case 'team member' :
+            header3 = 'Accepted Tickets';
+            header4 = 'Reopen Tickets';
             var assignedTicketList = TicketMaster.find({ticketElement: { $elemMatch: { allocatedToUserid: _id }}}).fetch();
             if(assignedTicketList){
               var assignedTicketCount = assignedTicketList.length;
-              var approvedTicketCount = 0;
-              var rejectTicketCount = 0 ;
-              var openTicketCount = assignedTicketCount;
               
               for(i = 0 ; i < assignedTicketList.length; i++){
                 var ticketElements = assignedTicketList[i].ticketElement;
                 if(ticketElements.find(function (obj) { return obj.roleStatus == 'AssignAccept'})){
                   approvedTicketCount++;
-                }else if(ticketElements.find(function (obj) { return obj.roleStatus == 'AssignReject'})){
-                  rejectTicketCount++;
+                  if(ticketElements.find(function (obj) { return obj.roleStatus == 'QAFail'})){
+                    rejectTicketCount++;
+                  }
                 }
                 if(ticketElements.find(function (obj) { return obj.roleStatus == 'ReviewPass'})){
                   openTicketCount--;
@@ -161,20 +168,23 @@ HeaderBlockContainer = withTracker(props => {
               }
             }
             break;
-          case 'quality team member':
+          
+          case 'quality team member' :
+            header3 = 'Approved Tickets';
+            header4 = 'Reopen Tickets';
+
             var assignedTicketList = TicketMaster.find({ticketElement: { $elemMatch: { allocatedToUserid: _id }}}).fetch();
             if(assignedTicketList){
               var assignedTicketCount = assignedTicketList.length;
-              var approvedTicketCount = 0;
-              var rejectTicketCount = 0 ;
-              var openTicketCount = assignedTicketCount;
-              
+            
               for(i = 0 ; i < assignedTicketList.length; i++){
                 var ticketElements = assignedTicketList[i].ticketElement;
                 if(ticketElements.find(function (obj) { return obj.roleStatus == 'QAPass'})){
                   approvedTicketCount++;
-                }else if(ticketElements.find(function (obj) { return obj.roleStatus == 'QAFail'})){
-                  rejectTicketCount++;
+
+                  if(ticketElements.find(function (obj) { return obj.roleStatus == 'ReviewFail'})){
+                    rejectTicketCount++;
+                  }
                 }
                 if(ticketElements.find(function (obj) { return obj.roleStatus == 'ReviewPass'})){
                   openTicketCount--;
@@ -182,13 +192,14 @@ HeaderBlockContainer = withTracker(props => {
               }
             }
             break;
-          case 'quality team leader':
+
+          case 'quality team leader' :
+            header3 = 'Approved Tickets';
+            header4 = 'Reopen Tickets';
+
             var assignedTicketList = TicketMaster.find({ticketElement: { $elemMatch: { allocatedToUserid: _id }}}).fetch();
             if(assignedTicketList){
               var assignedTicketCount = assignedTicketList.length;
-              var approvedTicketCount = 0;
-              var rejectTicketCount = 0 ;
-              var openTicketCount = assignedTicketCount;
               
               for(i = 0 ; i < assignedTicketList.length; i++){
                 var ticketElements = assignedTicketList[i].ticketElement;
@@ -203,21 +214,25 @@ HeaderBlockContainer = withTracker(props => {
               }
             }
             break;
-          default:
-            break;
+
+          default :
+          break;
+          
         }
+        
       }
     }
 
     return {
         loading,
         loading1,
+        header3,
+        header4,
         allticketsCount,
         assignedTicketCount,
         openTicketCount,
         approvedTicketCount,
         rejectTicketCount,
-        // esclationTicketCount,
         user,
         role,
     };

@@ -27,7 +27,7 @@ class RejectedTickets extends TrackerReact(Component){
                 <div className="col-md-12">
                   <div className="box">
                     <div className="box-header with-border">
-                      <h2 className="box-title">My Rejected Tickets</h2> 
+                      <h2 className="box-title">My {this.props.header4}</h2> 
                     </div>
                         <div className="box-body">
                             <div className="ticketWrapper col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -96,6 +96,7 @@ export default RejectedTicketsContainer = withTracker(props => {
   const userHandle  = Meteor.subscribe('userData',_id);
   const user        = Meteor.users.findOne({"_id" : _id});
   const loading    = !userHandle.ready() && !handleRejectedTicketList.ready();
+  var header4 = '';
 
   if(user){
     var roleArr = user.roles;
@@ -135,6 +136,7 @@ export default RejectedTicketsContainer = withTracker(props => {
         if(ticketElements.find(function (obj) { return obj.roleStatus == roleStatus})){
           switch(role){
             case 'screening committee' : 
+            header4 = 'Rejected Tickets';
               switch (ticketElements[ticketElements.length - 1].roleStatus) {
                 case 'NewScrAllocated':
                   rejectedTicketDetails[i].status = 'New' ;  
@@ -159,6 +161,7 @@ export default RejectedTicketsContainer = withTracker(props => {
               }
               break;
             case 'team leader' :
+            header4 = 'Reassigned Tickets';
               switch (ticketElements[ticketElements.length - 1].roleStatus) {
                 case 'screenTLAllocated':
                   rejectedTicketDetails[i].status = 'New' ;      
@@ -183,6 +186,7 @@ export default RejectedTicketsContainer = withTracker(props => {
               }
               break;
             case 'team member' :
+            header4 = 'Reopen Tickets';
               switch (ticketElements[ticketElements.length - 1].roleStatus) {
                 case 'Assign':
                   rejectedTicketDetails[i].status = 'New' ;      
@@ -211,6 +215,7 @@ export default RejectedTicketsContainer = withTracker(props => {
               }
               break;
             case 'quality team member' : 
+            header4 = 'Reopen Tickets';
               switch (ticketElements[ticketElements.length - 1].roleStatus) {
                 case 'VerificationPassQTMAllocated':
                   rejectedTicketDetails[i].status = 'New' ;      
@@ -239,6 +244,7 @@ export default RejectedTicketsContainer = withTracker(props => {
               }
               break;
             case 'quality team leader' :
+            header4 = 'Reopen Tickets';
               switch (ticketElements[ticketElements.length - 1].roleStatus) {
                 case 'QAPassQTLAllocated':
                   rejectedTicketDetails[i].status = 'New' ;      
@@ -270,6 +276,7 @@ export default RejectedTicketsContainer = withTracker(props => {
   }
   return {
     loading,
-    rejectedTicketList
+    rejectedTicketList,
+    header4,
   };
 })(RejectedTickets);

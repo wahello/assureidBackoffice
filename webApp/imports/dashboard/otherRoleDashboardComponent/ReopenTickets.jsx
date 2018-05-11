@@ -6,7 +6,8 @@ import TrackerReact from 'meteor/ultimatejs:tracker-react';
 import { withTracker } from 'meteor/react-meteor-data';
 import {Link} from 'react-router';
 import { TicketMaster } from '/imports/website/ServiceProcess/api/TicketMaster.js';
-class AssignToMeTickets extends TrackerReact(Component){
+
+class ReopenTickets extends TrackerReact(Component){
 	constructor(props){
         super(props);
         this.state = {
@@ -16,7 +17,7 @@ class AssignToMeTickets extends TrackerReact(Component){
         return(    
             <div className="col-lg-12 col-md-3 col-sm-3 col-xs-3 noLRPad">
                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 innerblock tableinnetWrap noLRPad">
-                <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12 ticketTableLabel">{this.props.header3}                        
+                <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12 ticketTableLabel">{this.props.header4}                        
                     <span>
                         <Link to="/admin/assignedtickets" title="View All">
                             <i className="fa fa-arrow-right pull-right arrowcolor" aria-hidden="true"></i>
@@ -33,8 +34,8 @@ class AssignToMeTickets extends TrackerReact(Component){
                             </tr>
                         </thead>
                         <tbody>
-                            {!this.props.loading && this.props.listApproved.length > 0 ?
-                                this.props.listApproved.map((data, index)=>{
+                            {!this.props.loading && this.props.listR.length > 0 ?
+                                this.props.listR.map((data, index)=>{
                                     return(
                                         <tr key={index}>                  
                                             <td><Link to={"/admin/ticket/"+data._id}>{data.ticketNumber}</Link></td>
@@ -61,14 +62,14 @@ class AssignToMeTickets extends TrackerReact(Component){
         )
     }
 }
-AssignToMeTicketsContainer = withTracker(props => { 
+ReopenTicketsContainer = withTracker(props => { 
     var handleAssignToMeTicketList = Meteor.subscribe("listTickets");
     var _id  = Meteor.userId();
     const userHandle  = Meteor.subscribe('userData',_id);
     const user        = Meteor.users.findOne({"_id" : _id});
     const loading     = !userHandle.ready() && !handleAssignToMeTicketList.ready();
-    var listApproved  = [];
-    var header3 = '';
+    var listR  = [];
+    var header4 = '';
 
     if(user){
         var roleArr = user.roles;
@@ -83,8 +84,8 @@ AssignToMeTicketsContainer = withTracker(props => {
                 var ticketElements = assignToMeTicketList[i].ticketElement;
                 switch(role){
                     case 'screening committee' : 
-                    header3 = 'Approved Tickets';
-                        if(ticketElements.find(function (obj) { return obj.roleStatus == 'ScreenApproved'})){
+                    header4 = 'Rejected Tickets';
+                        if(ticketElements.find(function (obj) { return obj.roleStatus == 'ScreenRejected'})){
                             switch (ticketElements[ticketElements.length - 1].roleStatus) {
                                 case 'NewScrAllocated':
                                     assignToMeTicketList[i].status = 'New' ;  
@@ -107,14 +108,14 @@ AssignToMeTicketsContainer = withTracker(props => {
                                     assignToMeTicketList[i].bgClassName = 'btn-primary';
                                     break;
                             }
-                            listApproved.push(assignToMeTicketList[i]);                            
+                            listR.push(assignToMeTicketList[i]);                            
 
                         }
                        
                         break;
                     case 'team leader' :
-                    header3 = 'Assigned Tickets';
-                        if(ticketElements.find(function (obj) { return obj.roleStatus == 'AssignAccept'})){                    
+                    header4 = 'Reassigned Tickets';
+                        if(ticketElements.find(function (obj) { return obj.roleStatus == 'AssignReject'})){                    
                             switch (ticketElements[ticketElements.length - 1].roleStatus) {
                             case 'screenTLAllocated':
                                 assignToMeTicketList[i].status = 'New' ;      
@@ -137,12 +138,12 @@ AssignToMeTicketsContainer = withTracker(props => {
                                 assignToMeTicketList[i].bgClassName = 'btn-primary';
                                 break;
                             }
-                            listApproved.push(assignToMeTicketList[i]);                                                        
+                            listR.push(assignToMeTicketList[i]);                                                        
                         }
                         break;
                     case 'team member' :
-                    header3 = 'Accepted Tickets';
-                    if(ticketElements.find(function (obj) { return obj.roleStatus == 'AssignAccept'})){                                        
+                    header4 = 'Reopen Tickets';
+                    if(ticketElements.find(function (obj) { return obj.roleStatus == 'QAFail'})){                                        
                         switch (ticketElements[ticketElements.length - 1].roleStatus) {
                             case 'Assign':
                                 assignToMeTicketList[i].status = 'New' ;      
@@ -169,12 +170,12 @@ AssignToMeTicketsContainer = withTracker(props => {
                                 assignToMeTicketList[i].bgClassName = 'btn-primary';
                                 break;
                         }
-                            listApproved.push(assignToMeTicketList[i]);                                                        
+                            listR.push(assignToMeTicketList[i]);                                                        
                         }
                         break;
                     case 'quality team member' :
-                        header3 = 'Approved Tickets';
-                        if(ticketElements.find(function (obj) { return obj.roleStatus == 'QAPass'})){                                                            
+                        header4 = 'Reopen Tickets';
+                        if(ticketElements.find(function (obj) { return obj.roleStatus == 'ReviewFail'})){                                                            
                             switch (ticketElements[ticketElements.length - 1].roleStatus) {
                             case 'VerificationPassQTMAllocated':
                                 assignToMeTicketList[i].status = 'New' ;      
@@ -201,42 +202,42 @@ AssignToMeTicketsContainer = withTracker(props => {
                                 assignToMeTicketList[i].bgClassName = 'btn-primary';
                                 break;
                             }
-                            listApproved.push(assignToMeTicketList[i]);                                                        
+                            listR.push(assignToMeTicketList[i]);                                                        
                         }
                         break;
                     case 'quality team leader' :
-                    header3 = 'Approved Tickets';
-                    if(ticketElements.find(function (obj) { return obj.roleStatus == 'QAPass'})){                    
-                        switch (ticketElements[ticketElements.length - 1].roleStatus) {
-                        case 'QAPassQTLAllocated':
-                            assignToMeTicketList[i].status = 'New' ;      
-                            assignToMeTicketList[i].bgClassName = 'btn-warning';
+                        header4 = 'Reopen Tickets';
+                        if(ticketElements.find(function (obj) { return obj.roleStatus == 'ReviewFail'})){                    
+                            switch (ticketElements[ticketElements.length - 1].roleStatus) {
+                            case 'QAPassQTLAllocated':
+                                assignToMeTicketList[i].status = 'New' ;      
+                                assignToMeTicketList[i].bgClassName = 'btn-warning';
+                                break;
+                            case 'ReviewPass' :
+                                assignToMeTicketList[i].status = 'Approved' ; 
+                                assignToMeTicketList[i].bgClassName = 'btn-success';
+                                break;
+                            case 'ReiewFail' :
+                                assignToMeTicketList[i].status = 'Rejected' ;
+                                assignToMeTicketList[i].bgClassName = 'btn-danger';
+                                break;
+                            case 'ReviewPass' :
+                                assignToMeTicketList[i].status = 'Completed' ;
+                                assignToMeTicketList[i].bgClassName = 'btn-success';
+                                break;
+                            default:
+                                assignToMeTicketList[i].status = 'In Process' ;
+                                assignToMeTicketList[i].bgClassName = 'btn-primary';
+                                break;
+                            }
+                            listR.push(assignToMeTicketList[i]);                                                        
+                        }   
                             break;
-                        case 'ReviewPass' :
-                            assignToMeTicketList[i].status = 'Approved' ; 
-                            assignToMeTicketList[i].bgClassName = 'btn-success';
-                            break;
-                        case 'ReiewFail' :
-                            assignToMeTicketList[i].status = 'Rejected' ;
-                            assignToMeTicketList[i].bgClassName = 'btn-danger';
-                            break;
-                        case 'ReviewPass' :
-                            assignToMeTicketList[i].status = 'Completed' ;
-                            assignToMeTicketList[i].bgClassName = 'btn-success';
-                            break;
-                        default:
+                        default : 
                             assignToMeTicketList[i].status = 'In Process' ;
                             assignToMeTicketList[i].bgClassName = 'btn-primary';
                             break;
-                        }
-                        listApproved.push(assignToMeTicketList[i]);                                                        
-                    }   
-                        break;
-                    default : 
-                        assignToMeTicketList[i].status = 'In Process' ;
-                        assignToMeTicketList[i].bgClassName = 'btn-primary';
-                        break;
-                }
+                    }
                 // assignToMeTicketList[i].status = ticketElements[ticketElements.length - 1].roleStatus ;
             } 
         }
@@ -244,8 +245,8 @@ AssignToMeTicketsContainer = withTracker(props => {
     return {
         loading,
         // assignToMeTicketList,
-        listApproved,
-        header3,
+        listR,
+        header4,
     };
-})(AssignToMeTickets);
-export default AssignToMeTicketsContainer;
+})(ReopenTickets);
+export default ReopenTicketsContainer;

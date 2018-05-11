@@ -34,14 +34,14 @@ class AllocatedTickets extends TrackerReact(Component){
                             </tr>
                         </thead>
                         <tbody>
-                            {!this.props.loading ?
+                            {!this.props.loading && this.props.allocatedTicketList.length > 0 ?
                                 this.props.allocatedTicketList.map((data, index)=>{
                                     return(
                                         <tr key={index}>                  
                                             <td><Link to={"/admin/ticket/"+data._id}>{data.ticketNumber}</Link></td>
                                             <td>{data.serviceName}</td>
                                             <td>{moment(data.createdAt).format('l')}</td>
-                                            <td><lable className="bg-green tdStatus"> {data.status} </lable> </td>       
+                                            <td><lable className={ data.bgClassName ? data.bgClassName+ " tdStatus" : "bg-blue" }> {data.status} </lable> </td>       
                                         </tr>
                                     );
                                 })
@@ -67,7 +67,10 @@ export default AllocatedTicketsContainer = withTracker(props => {
     var _id  = Meteor.userId();
     const userHandle  = Meteor.subscribe('userData',_id);
     const user        = Meteor.users.findOne({"_id" : _id});
-    const loading    = !userHandle.ready() && !handleAllocatedTicketList.ready();
+    const loading    = !userHandle.ready() && !handleAllocatedTicketList.ready(); 
+    var listAllocated = [];
+    var listReopen    = [];
+    var heading = '';
 
     if(user){
         var roleArr = user.roles;
@@ -76,14 +79,15 @@ export default AllocatedTicketsContainer = withTracker(props => {
         }
         //Get all the Tickets Assigned to Me
         var allocatedTicketList = TicketMaster.find({ticketElement: { $elemMatch: { allocatedToUserid: _id }}},{ limit : 5}).fetch();
-        console.log("allocatedTicketList");
-        console.log(allocatedTicketList);
+        // console.log("allocatedTicketList");
+        // console.log(allocatedTicketList);
         if(allocatedTicketList){
         //find last status of the Tickets
         for(i=0;i< allocatedTicketList.length; i++){
             var ticketElements = allocatedTicketList[i].ticketElement;
             switch(role){
                 case 'screening committee' : 
+                heading = 'Approved Tickets';
                     switch (ticketElements[ticketElements.length - 1].roleStatus) {
                     case 'NewScrAllocated':
                         allocatedTicketList[i].status = 'New' ;  
@@ -108,6 +112,7 @@ export default AllocatedTicketsContainer = withTracker(props => {
                     }
                     break;
                 case 'team leader' :
+                heading = 'Assigned Tickets';
                     switch (ticketElements[ticketElements.length - 1].roleStatus) {
                     case 'screenTLAllocated':
                         allocatedTicketList[i].status = 'New' ;      
@@ -132,6 +137,7 @@ export default AllocatedTicketsContainer = withTracker(props => {
                     }
                     break;
                 case 'team member' :
+                heading = 'Accepted Tickets';
                     switch (ticketElements[ticketElements.length - 1].roleStatus) {
                     case 'Assign':
                         allocatedTicketList[i].status = 'New' ;      
@@ -160,6 +166,7 @@ export default AllocatedTicketsContainer = withTracker(props => {
                     }
                     break;
                 case 'quality team member' : 
+                heading = 'Approved Tickets';
                     switch (ticketElements[ticketElements.length - 1].roleStatus) {
                         case 'VerificationPassQTMAllocated':
                             allocatedTicketList[i].status = 'New' ;      
@@ -188,6 +195,7 @@ export default AllocatedTicketsContainer = withTracker(props => {
                     }
                     break;
                 case 'quality team leader' :
+                heading = 'Approved Tickets';
                     switch (ticketElements[ticketElements.length - 1].roleStatus) {
                     case 'QAPassQTLAllocated':
                         allocatedTicketList[i].status = 'New' ;      
@@ -212,17 +220,20 @@ export default AllocatedTicketsContainer = withTracker(props => {
                     }
                     break;
                 default : 
-                    assignedTicketList[i].status = 'In Process' ;
-                    assignedTicketList[i].bgClassName = 'btn-primary';
+                    allocatedTicketList[i].status = 'In Process' ;
+                    allocatedTicketList[i].bgClassName = 'btn-primary';
                     break;
             }
             // allocatedTicketList[i].status = ticketElements[ticketElements.length - 1].roleStatus ;
         } 
         }
     }
+    console.log("allocatedTicketList");
+    console.log(allocatedTicketList);
     return {
         loading,
-        allocatedTicketList
+        allocatedTicketList,
+        heading
     };
 })(AllocatedTickets);
 

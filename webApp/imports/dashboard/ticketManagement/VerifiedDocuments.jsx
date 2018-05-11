@@ -222,6 +222,10 @@ class VerifiedDocuments extends TrackerReact(Component){
         $('.showHideReasonWrap').removeClass('showReasonSection');            
         Meteor.call('genericUpdateTicketMasterElement',ticketId,insertData);
         
+      }else if(status == 'ScreenApproved'){
+        $('.showHideReasonWrap').removeClass('showReasonSection'); 
+        $('.close').click();                           
+        Meteor.call('genericUpdateTicketMasterElement',ticketId,insertData);
       }else{
           swal({
             position: 'top-right',

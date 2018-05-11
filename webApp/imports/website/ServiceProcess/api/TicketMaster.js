@@ -37,7 +37,8 @@ if(Meteor.isServer){
 	//Find User with minium tickets for specific role and serviceName
 	'autoAllocateMember':function(role,serviceName){
 		//Get the Member with minium count for the role specified
-		var memberDetails = Meteor.users.find({"roles":role,"profile.status":"Active"},{sort: {"count":1},limit:1}).fetch();
+		
+		var memberDetails = Meteor.users.find({"roles":role,"profile.status":"Active","profile.servicesName":serviceName},{sort: {"count":1},limit:1}).fetch();
 		
 		if(memberDetails){
 			return memberDetails;
@@ -80,7 +81,10 @@ if(Meteor.isServer){
 				var roleStatus = "screenTLAllocated";
 				var ticketDetails = TicketMaster.findOne({"_id":ticketid});
 				if(ticketDetails){
+					
 					var newMember = Meteor.call('autoAllocateMember',role,ticketDetails.serviceName);
+					console.log("newMember");
+					console.log(newMember);
 					var roleSentence = Meteor.call('toTitleCase',role);
 					
 					if(roleSentence){
@@ -103,7 +107,7 @@ if(Meteor.isServer){
 								}
 							}
 						);	
-						Meteor.call('updateCommitteeUserCount',newMember[0].count+1,newMember._id);
+						Meteor.call('updateCommitteeUserCount',newMember[0].count+1,newMember[0]._id);
 					}
 				}
 				
@@ -323,7 +327,7 @@ if(Meteor.isServer){
 									}
 								}
 							);	
-							Meteor.call('updateCommitteeUserCount',newMember[0].count,newMember._id);
+							Meteor.call('updateCommitteeUserCount',newMember[0].count,newMember[0]._id);
 						}
 					}
 					break;
@@ -464,7 +468,7 @@ if(Meteor.isServer){
 	},
 
 	'updateCommitteeUserCount':function(count,id){
-		// console.log("count,id :"+count,id);
+		console.log("count,id :"+count,id);
 		Meteor.users.update(
 			{'_id':id},
 			{$set:{

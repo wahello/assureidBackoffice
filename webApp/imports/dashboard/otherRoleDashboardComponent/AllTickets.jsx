@@ -33,14 +33,14 @@ class AllTickets extends TrackerReact(Component){
                             </tr>
                         </thead>
                         <tbody>
-                            {!this.props.loading ?
+                            {!this.props.loading && this.props.allTicketList.length > 0 ?
                                 this.props.allTicketList.map((data, index)=>{
                                     return(
                                         <tr key={index}>                  
                                             <td><Link to={"/admin/ticket/"+data._id}>{data.ticketNumber}</Link></td>
                                             <td>{data.serviceName}</td>
                                             <td>{moment(data.createdAt).format('l')}</td>
-                                            <td><lable className="bg-blue tdStatus"> {data.status} </lable> </td>       
+                                            <td><lable className={ data.bgClassName ? data.bgClassName+ " tdStatus" : "bg-blue" }> {data.status} </lable> </td>       
                                         </tr>
                                     );
                                 })
@@ -83,6 +83,7 @@ AllTicketsContainer = withTracker(props => {
                     case 'screening committee' : 
                         switch (ticketElements[ticketElements.length - 1].roleStatus) {
                         case 'NewScrAllocated':
+                        
                             allTicketList[i].status = 'New' ;  
                             allTicketList[i].bgClassName = 'btn-warning';    
                             break;
@@ -217,6 +218,8 @@ AllTicketsContainer = withTracker(props => {
             } 
         }
     }
+    console.log("allTicketList");
+    console.log(allTicketList);
     return {
         loading,
         allTicketList
