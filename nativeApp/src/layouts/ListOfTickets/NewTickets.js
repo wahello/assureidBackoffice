@@ -127,9 +127,11 @@ class NewTickets extends React.Component {
   }
 
   // console.log('ticketData: ',ticketData);
-
     return(
-      ticketData.map((item,i)=>
+      
+  
+      this.props.NewTicketList.length>0 ?
+      this.props.NewTicketList.map((item,i)=>
         <TouchableOpacity key={i} onPress={()=>this.props.navigation.navigate('ViewTicket',{ticketid:item._id})}>
           <Card containerStyle={[styles.newCard]}>
             <View style={[styles.cardHeader,{backgroundColor:item.bgClassName}]}>
@@ -158,18 +160,25 @@ class NewTickets extends React.Component {
                 </View>
               </View>
             </View>
-            <View style={{ flex: 1,flexDirection: "row", backgroundColor: "#ddd"}}>
-              <View style={{flex:.5,paddingVertical: 10,}}>
-                <Text style={{ paddingHorizontal:10 }}>
-                  {item.username}
+            <View style={{ backgroundColor: "#ccc",paddingVertical: 10,alignItems: "center",justifyContent:'center'}}>
+              {/* <View style={{flex:.5,paddingVertical: 10,bac}}> */}
+                <Text style={{color:"#000"}}>
+                  {item.userName}
+                
                 </Text>
-              </View>
-              <View style={{flex:.34,paddingVertical: 10,paddingHorizontal: 15}}>
-              </View>
+              {/* </View> */}
+              {/* <View style={{flex:.34,paddingVertical: 10,paddingHorizontal: 15}}>
+              </View> */}
             </View>
           </Card>
         </TouchableOpacity>       
       )
+      :
+      <View>
+        <Text>
+           Oops!!!! There Are No Tickets To Display
+        </Text>
+      </View>
     );
 
   }
@@ -318,15 +327,46 @@ export default createContainer((props) => {
   var _id          = Meteor.userId();
   const handle     = Meteor.subscribe('allocatedTickets', _id);
   const handle1    = Meteor.subscribe('currentUserfunction');
-  const loading    = handle.ready();
+  const userHandle  = Meteor.subscribe('userData',_id);  
+  const loading    = handle.ready() && userHandle.ready();
+  var NewTicketList = [];
 
   const user       = Meteor.collection('users').findOne({"_id":_id});
   var alltickets   =  Meteor.collection('ticketMaster').find({ticketElement: { $elemMatch: { allocatedToUserid: _id }}});
+
+  if(user){
+    var roleArr = user.roles;
+    if(roleArr){
+    var role = roleArr.find(function (obj) { return obj != 'backofficestaff' });
+    }
+    for(i=0;i< alltickets.length; i++){
+      var ticketElements = alltickets[i].ticketElement; 
+      
+      switch(role){
+        case 'field expert':
+            if(ticketElements[ticketElements.length-1].roleStatus == "FEAllocated"){
+              alltickets[i].status = 'New' ;      
+              alltickets[i].bgClassName = '#f0ad4e';
+              NewTicketList.push(alltickets[i]);
+            }
+        break;
+
+        case 'business Associate':
+        if(ticketElements[ticketElements.length-1].roleStatus == "BAAllocated"){
+          alltickets[i].status = 'New' ;      
+          alltickets[i].bgClassName = '#f0ad4e';
+          NewTicketList.push(alltickets[i]);
+        }
+        break;
+      }//EOF switch
+    }//EOF i
+  }//EOF if
 
   var result = {
     ticketData : alltickets ,
     loading    : loading,
     user       : user,
+    NewTicketList : NewTicketList
   };
 
 

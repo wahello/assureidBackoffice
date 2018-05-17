@@ -49,7 +49,7 @@ import Menu from "../../components/Menu/Menu.js";
 import HeaderDy from "../../components/HeaderDy/HeaderDy.js";
 
 import Loading from '../../components/Loading/Loading.js';
-
+import SubmitedInformation from './SubmitedInformation.js';
 class ViewTicket extends React.Component {
   constructor(props) {
     super(props);
@@ -213,6 +213,142 @@ class ViewTicket extends React.Component {
     return data;    
   }
 
+  showData(viewTicketData){
+    switch(viewTicketData.verificationType){
+      case "currentAddress":
+          return(
+            <View style={{flex: 1, flexDirection: "row"}}>
+              <View style={{flex:.5,paddingVertical:15}}>
+              <Text style={{fontWeight: 'bold'}}>Current Address</Text>
+              </View>
+              <View style={{flex:.5,paddingVertical:15}}>
+                <Text style={{flexWrap:'wrap'}}>{viewTicketData.verificationData.tempLine1}{viewTicketData.verificationData.tempLine2}, {viewTicketData.verificationData.tempLine3}, {viewTicketData.verificationData.tempLandmark}, {viewTicketData.verificationData.tempCity}, {viewTicketData.verificationData.tempState}, {viewTicketData.verificationData.tempCountry}, {viewTicketData.verificationData.tempPincode} </Text>
+              </View>
+          </View>
+          );
+      break;
+
+      case "permanentAddress":
+        return(
+          <View style={{flex: 1, flexDirection: "row"}}>
+            <View style={{flex:.5,paddingVertical:15}}>
+            <Text style={{fontWeight: 'bold'}}>Permanent Address</Text>
+            </View>
+            <View style={{flex:.5,paddingVertical:15}}>
+              <Text style={{flexWrap:'wrap'}}>
+              {viewTicketData.verificationData.line1 ? viewTicketData.verificationData.line1 : ''},&nbsp;{viewTicketData.verificationData.line2 ? viewTicketData.verificationData.line2 : ''},&nbsp;
+              {viewTicketData.verificationData.line3 ? viewTicketData.verificationData.line3 : ''},&nbsp;{viewTicketData.verificationData.landmark ? viewTicketData.verificationData.landmark : ''},&nbsp;
+              {viewTicketData.verificationData.city ? viewTicketData.verificationData.city+',' : ''}&nbsp;{viewTicketData.verificationData.state ? viewTicketData.verificationData.state+',' : ''}&nbsp;
+              </Text>              
+
+              <View>
+                <Text>            
+                  {viewTicketData.verificationData.Country ? viewTicketData.verificationData.Country+',' : ''}&nbsp;{viewTicketData.verificationData.pincode ? viewTicketData.verificationData.pincode : ''},
+                </Text>              
+              </View>                       
+              <View>
+                <Text>
+                  Residing From :{viewTicketData.verificationData.residingFrom} Residing Till :{viewTicketData.verificationData.residingTo}
+              </Text>
+              
+              </View>            
+            </View>
+          </View>
+        );
+      break;
+
+      case "employement":
+        return(
+          <View style={{flex: 1, flexDirection: "row"}}>
+            <View style={{flex:.5, flexDirection: "row",paddingVertical:15}}>
+            <Text style={{fontWeight: 'bold'}}>Employement Details</Text>
+            </View>
+            <View style={{flex:.5, paddingVertical:15}}>
+            <View>
+              <Text>
+
+                Employer : {viewTicketData.verificationData.nameOfEmployer ? viewTicketData.verificationData.nameOfEmployer : "-"},
+                Address : {viewTicketData.verificationData.employerAddress ? viewTicketData.verificationData.employerAddress: "-"}
+            </Text>
+            </View>
+            <View>
+              <Text>
+                Contact No. :&nbsp; {viewTicketData.verificationData.contactNo ? viewTicketData.verificationData.contactNo : "-"}.
+                Employee Id :&nbsp; {viewTicketData.verificationData.employeeCode ? viewTicketData.verificationData.employeeCode : "-"}
+            </Text>
+            </View>
+            <View>
+              <Text>
+                Designation :&nbsp; {viewTicketData.verificationData.designation ? viewTicketData.verificationData.designation :"-"},{"\n"}
+                Department : &nbsp;{viewTicketData.verificationData.department ? viewTicketData.verificationData.department :"-"},{"\n"}
+                Employment From : &nbsp;{viewTicketData.verificationData.employmentFrom ? viewTicketData.verificationData.employmentFrom: "-"},
+                Employment To : &nbsp;{viewTicketData.verificationData.employmentTo ? viewTicketData.verificationData.employmentTo : "-"},
+                Type Of Employement : &nbsp;{viewTicketData.verificationData.typeOfEmployement? viewTicketData.verificationData.typeOfEmployement : "-"},{"\n"} 
+                Duties : &nbsp;{viewTicketData.verificationData.dutiesAndResponsibilites? viewTicketData.verificationData.dutiesAndResponsibilites :"-"}{"\n"}
+                Reporting Manager : &nbsp;{viewTicketData.verificationData.reportingManagerNm ? viewTicketData.verificationData.reportingManagerNm : " - "},{"\n"}
+                Previous Designation : &nbsp;{viewTicketData.verificationData.prevDesignation ? viewTicketData.verificationData.prevDesignation : "-"}{"\n"}
+            </Text>
+            </View>
+            </View>            
+            </View>
+          
+        );
+      break;
+
+      case 'certificates' :
+        return(
+          <View style={{flex: 1, flexDirection: "row"}}>
+            <View style={{flex:.5,paddingVertical:15}}>
+             <Text style={{fontWeight: 'bold'}}>Certificates  Details</Text>
+            </View>
+            <View style={{flex:.5,paddingVertical:15}}>     
+              <View>
+              <Text style={{flexWrap:'wrap'}}>
+                  {viewTicketData.verificationData.certificateName ? viewTicketData.verificationData.certificateName : " "},&nbsp;{viewTicketData.verificationData.issuedBy ? viewTicketData.verificationData.issuedBy : ""}
+              </Text>
+              </View>
+              <View>
+                <Text>
+                  Valid From - {viewTicketData.verificationData.certificatedOn ? viewTicketData.verificationData.certificatedOn : ""},
+                  Valid Till - {viewTicketData.verificationData.validTill ? viewTicketData.verificationData.validTill : ""}
+                </Text>
+              </View>
+            
+            </View>            
+          </View>
+          
+        );
+      break;
+      case 'education' :
+      return(
+        <View style={{flex: 1, flexDirection: "row"}}>
+          <View style={{flex:.5,paddingVertical:15}}>
+          <Text style={{fontWeight: 'bold'}}>Education Details</Text>
+          </View>
+          <View style={{flex:.5,paddingVertical:15}}>
+          <View>
+            <Text>
+              {viewTicketData.verificationData.educationLevel ? viewTicketData.verificationData.educationLevel : ""},&nbsp;
+              {viewTicketData.verificationData.educationQualification ? viewTicketData.verificationData.educationQualification:""}&nbsp;
+         
+              {viewTicketData.verificationData.specialization ? viewTicketData.verificationData.specialization: ""},&nbsp;
+              {viewTicketData.verificationData.grades ? viewTicketData.verificationData.grades: ""}&nbsp;
+         
+              {viewTicketData.verificationData.educationMode}{ viewTicketData.verificationData.educationMode ? "," : ""}&nbsp;{"\n"}
+              {viewTicketData.verificationData.dateAttendedTo}{ viewTicketData.verificationData.dateAttendedTo ? "," : ""}&nbsp;
+              College Address -{viewTicketData.verificationData.collegeName}{ viewTicketData.verificationData.collegeName ? "," : ""}&nbsp;
+              {viewTicketData.verificationData.university}{ viewTicketData.verificationData.university ? "," : ""}&nbsp;
+              {viewTicketData.verificationData.collegeAddress} {"\n"}
+              Roll No-{viewTicketData.verificationData.rollNo}
+          </Text>
+          </View>
+          </View>            
+          </View>
+        
+      );
+    break;
+  }
+  }
 
   render() {
 
@@ -407,12 +543,14 @@ class ViewTicket extends React.Component {
 
                   {this.props.viewTicketData?
                     <View style = {styles.formInputView}>
-                      <View style={{flex:.5,paddingVertical:15}}>
+                      {this.showData(this.props.viewTicketData)}
+                    
+                      {/* <View style={{flex:.5,paddingVertical:15}}>
                         <Text style={{fontWeight: 'bold'}}>Permanent Address</Text>
                       </View>
                       <View style={{flex:.5,paddingVertical:15}}>
                         <Text style={{flexWrap:'wrap'}}>{viewTicketData.verificationData.line1}{viewTicketData.verificationData.line2}, {viewTicketData.verificationData.line3}, {viewTicketData.verificationData.landmark}, {viewTicketData.verificationData.city}, {viewTicketData.verificationData.state}, {viewTicketData.verificationData.country}, {viewTicketData.verificationData.pincode} </Text>
-                      </View>
+                      </View> */}
                     </View>
                   :<Loading />}
                   <View style = {styles.lineStyle} />
@@ -428,15 +566,39 @@ class ViewTicket extends React.Component {
                       </View>
                     </View>
                   </View>
-                <View style = {styles.lineStyle} />
+                    
+                  <View>
+                  {
+                    this.props.buttonVal == "Back" ? 
+                    <SubmitedInformationContainer  ticket={this.props.navigation.state.params.ticketid}/>
+                    :
+                    null
+                  }
+                  </View>
+                {/* <View style = {styles.lineStyle} /> */}
               </View>
-              <View style={{ alignItems: "center",paddingVertical:15}}>
-                <Button
-                  onPress={()=> this.props.navigation.navigate('ViewTicketForm',{'ticket': this.props.navigation.state.params.ticketid})}
-                  buttonStyle={styles.buttonLarge}
-                  title="START"
-                />
-              </View>
+             
+              {
+                this.props.buttonVal == "Start" ? 
+                  <View style={{ alignItems: "center",paddingVertical:15}}>
+                    <Button
+                      onPress={()=> this.props.navigation.navigate('ViewTicketForm',{'ticket': this.props.navigation.state.params.ticketid})}
+                      buttonStyle={styles.buttonLarge}
+                      title="Start" style={{color:"#fff"}}
+                    />
+                  </View>
+                :
+                
+                  <View style={{ alignItems: "center",paddingVertical:15}}>
+                      <Button  
+                       onPress={()=> this.props.navigation.goBack(null)}
+                        buttonStyle={styles.buttonLarge}
+                        title="Back" style={{color:"#fff"}}
+                      />
+                  </View>
+              }
+                
+              
             </ScrollView>
           </View>
         </SideMenu>
@@ -458,7 +620,7 @@ export default createContainer((props) => {
     ticketId = state.params.ticketid;
   }
   // console.log('ticketId: ',ticketId);
-
+  var buttonVal = "";
   const handle             = Meteor.subscribe('singleTicket',ticketId);
   const viewTicketData     = Meteor.collection('ticketMaster').findOne({'_id':ticketId});
   // console.log('viewTicketData', viewTicketData);
@@ -468,12 +630,8 @@ export default createContainer((props) => {
     viewTicketUserData   = Meteor.collection('userProfile').findOne({'userId': viewTicketData.userId});
     loadingUser          = handle1.ready() ; 
     verificationDocument = viewTicketData.verificationDocument;
-    // console.log('-------------------------------');
-    // console.log('verificationDocument ',verificationDocument);
-    // console.log('-------------------------------');
-    // console.log('viewTicketUserData',viewTicketUserData);
   }
-
+ 
   if(viewTicketData && viewTicketUserData){
     viewTicketData.firstName   = viewTicketUserData.firstName;
     viewTicketData.lastName    = viewTicketUserData.lastName;
@@ -490,7 +648,33 @@ export default createContainer((props) => {
       assignedByName = assignedBy.profile.firstname+' '+assignedBy.profile.lastname
     }
     // console.log('FEDetails: ',FEDetails);
-    
+    var _id = Meteor.userId();
+    const user       = Meteor.collection('users').findOne({"_id":_id});
+    if(user){
+        var roleArr = user.roles;
+        if(roleArr){
+          var role = roleArr.find(function (obj) { return obj != 'backofficestaff' });
+        }
+        switch(role){
+            case 'field expert':
+                  if(ticketElements[ticketElements.length-1].roleStatus == "FEAllocated" || ticketElements[ticketElements.length-1].roleStatus == "VerificationFail"){
+                      var showStartButton = true;
+                      buttonVal = "Start";
+                  }else if(ticketElements[ticketElements.length-1].roleStatus != "FEAllocated"){
+                      buttonVal = "Back"
+                  }
+            break;
+
+            case 'business Associate':
+                if(ticketElements[ticketElements.length-1].roleStatus == "BAAllocated" || ticketElements[ticketElements.length-1].roleStatus == "VerificationFail"){
+                  var showStartButton = true;
+                  buttonVal = "Start";                  
+                }
+            break;
+      
+        }
+    }
+
     var today     = new Date();    
     var birthDate = new Date(viewTicketUserData.dateOfBirth);    
     var age       = today.getFullYear() - birthDate.getFullYear();    
@@ -498,7 +682,7 @@ export default createContainer((props) => {
     if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())){age--;}    
     viewTicketData.age = age;
   } 
-  // console.log('viewTicketData', viewTicketData);
+  
 
   const loading = handle.ready() ;
 
@@ -511,6 +695,8 @@ export default createContainer((props) => {
     loading              : loading,
     loadingUser          : loadingUser,
     assignedByName       : assignedByName,
+    showStartButton      : showStartButton,
+    buttonVal            : buttonVal
   };
 
   // console.log(JSON.stringify(result,null,4));

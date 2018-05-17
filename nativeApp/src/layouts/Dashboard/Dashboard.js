@@ -152,7 +152,7 @@ export default class Dashboard extends React.Component {
                         <TouchableOpacity onPress={()=>this.props.navigation.navigate('CompletedAcceptedTickets')}>
                           <View style={{flex:.5,paddingHorizontal:10,paddingVertical:10}}>
                             <View style={{flex:1, backgroundColor:'#00a65a',paddingVertical:'25%'}}>
-                              <Text style={{textAlign:'center', color:'#fff'}}>Accepted Tickets</Text>
+                              <Text style={{textAlign:'center', color:'#fff'}}>Allocated Tickets</Text>
                             </View>
                           </View>
                         </TouchableOpacity>
@@ -163,8 +163,8 @@ export default class Dashboard extends React.Component {
                         <View style={{flex:.5}}>
                         <TouchableOpacity onPress={()=>this.props.navigation.navigate('CompletedRejectedTickets')}>
                           <View style={{flex:1,paddingHorizontal:10,paddingVertical:10}}>
-                            <View style={{flex:1, backgroundColor:'#d9534f',paddingHorizontal:10,paddingVertical:'25%'}}>
-                              <Text style={{textAlign:'center', color:'#fff'}}>Rejected Tickets</Text>
+                            <View style={{flex:1, backgroundColor:'#337ab7',paddingHorizontal:10,paddingVertical:'25%'}}>
+                              <Text style={{textAlign:'center', color:'#fff'}}>Completed Tickets</Text>
                             </View>
                           </View>
                         </TouchableOpacity>
@@ -173,7 +173,7 @@ export default class Dashboard extends React.Component {
                         <View style={{flex:.5}}>
                         <TouchableOpacity onPress={()=>this.props.navigation.navigate('ReopenedTickets')}>
                           <View style={{flex:1,paddingHorizontal:10,paddingVertical:10}}>
-                            <View style={{flex:1, backgroundColor:'#337ab7',paddingHorizontal:10,paddingVertical:'25%'}}>
+                            <View style={{flex:1, backgroundColor:'#d9534f',paddingHorizontal:10,paddingVertical:'25%'}}>
                               <Text style={{textAlign:'center', color:'#fff'}}>Reopened Tickets</Text>
                             </View>
                           </View>

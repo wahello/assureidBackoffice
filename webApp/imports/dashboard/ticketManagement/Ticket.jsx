@@ -62,7 +62,7 @@ class Ticket extends TrackerReact(Component){
   getRejectBox(){
     return(
       <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 finalApprovewrap noLRPad">
-        <textarea rows="3" cols="60" className="col-lg-7 col-lg-offset-0" id="rejectReason"/>
+        <textarea rows="3" cols="60" className="col-lg-8 col-lg-offset-0" id="rejectReason"/>
         <button onClick={this.rejectButton.bind(this)}
           id="rejectButton"
           className="col-lg-4 rejectSubmit">
@@ -657,8 +657,9 @@ class Ticket extends TrackerReact(Component){
               <div className="docbtnwrap col-lg-6 col-lg-offset-4">
                 <button type="button" className="btn btn-danger col-lg-4 ApprovRejDoc" id="TMProofReject" data-roleStatus="VerificationFail" data-msg="Rejected Verification Information from" onClick={this.showRejectBoxState.bind(this)}>Reject</button>
                 <button type="button" className="btn btn-success col-lg-4 ApprovRejDoc" data-roleStatus="VerificationPass" data-msg="Approved Verification Information" onClick ={this.approveButton.bind(this)}>Approve</button>
-              </div>
               {this.state.showRejectBox === 'Y' ? this.getRejectBox() : '' }
+                
+              </div>
             </div>
           )
         }

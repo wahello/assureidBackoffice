@@ -542,11 +542,11 @@ class ViewTicketFormInfo extends React.Component {
                          ""
                   }
 
-                  <View style={styles.formInputView}>
+                  {/* <View style={styles.formInputView}>
                     <View>
                       <Text style={{fontWeight: 'bold'}}>User Upload</Text>
                     </View>
-                  </View>
+                  </View> */}
 
 
                 <View style={{width:'100%',padding:10}}>
@@ -714,7 +714,7 @@ class ViewTicketFormInfo extends React.Component {
                     </View>
                   </View>
 
-              <View style={{ alignItems: "center"}}>
+              <View style={{ alignItems: "center",marginTop:4}}>
                 <Button
                   buttonStyle={styles.buttonLarge}
                   title="SAVE"
@@ -799,7 +799,7 @@ ViewTicketForm = createContainer( (props) => {
        }else{
          var checkListObjs = Meteor.collection("checklistFieldExpert").find({"checkListFor" : checkListFrom}) || [];
           if (checkListObjs && checkListObjs.length > 0) {
-             // console.log('checkListObjs: ',checkListObjs);
+            //  console.log('checkListObjs: ',checkListObjs);
              for (var i = 0; i < checkListObjs.length; i++) {
                 if(checkListObjs[i].checkListFrom == 'Database'){
                     checkObjs.push({'id':checkListObjs[i]._id,'task':checkListObjs[i].task}); 
@@ -814,7 +814,7 @@ ViewTicketForm = createContainer( (props) => {
         
     }
    
-      // console.log("checkObjs",checkObjs);
+      
       // console.log("textObjs",textObjs);
 
       const postHandle4     = Meteor.subscribe('projectSettingsPublish');

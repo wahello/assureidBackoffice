@@ -100,7 +100,7 @@ class CompletedRejectedTickets extends React.Component {
       for(i=0;i< ticketData.length; i++){
         var ticketElementsData = ticketData[i].ticketElement;
 
-        if(ticketElementsData[ticketElementsData.length - 1].roleStatus == 'VerificationFail'){
+        if(ticketElementsData[ticketElementsData.length - 1].roleStatus == 'VerificationPass'){
             ticketData[i].status = 'Re-Submit Info' ;
             ticketData[i].bgClassName = '#f0ad4e';
             completedTickets.push(ticketData[i]);
@@ -114,7 +114,8 @@ class CompletedRejectedTickets extends React.Component {
   // console.log('ticketData: ',ticketData);
 
     return(
-      completedTickets.map((item,i)=>
+      this.props.CompletedTicketList.length > 0 ?
+      this.props.CompletedTicketList.map((item,i)=>
         <TouchableOpacity key={i} onPress={()=>this.props.navigation.navigate('ViewTicket',{ticketid:item._id})}>
           <Card containerStyle={[styles.newCard]}>
             <View style={[styles.cardHeader,{backgroundColor:item.bgClassName}]}>
@@ -143,18 +144,20 @@ class CompletedRejectedTickets extends React.Component {
                 </View>
               </View>
             </View>
-            <View style={{ flex: 1,flexDirection: "row", backgroundColor: "#ddd"}}>
-              <View style={{flex:.5,paddingVertical: 10,}}>
-                <Text style={{ paddingHorizontal:10 }}>
-                  {item.username}
-                </Text>
-              </View>
-              <View style={{flex:.34,paddingVertical: 10,paddingHorizontal: 15}}>
-              </View>
+            <View style={{ backgroundColor: "#ccc",paddingVertical: 10,alignItems: "center",justifyContent:'center'}}>
+              <Text style={{color:"#000"}}>
+                {item.userName}
+              </Text>
             </View>
           </Card>
         </TouchableOpacity>       
       )
+      :
+      <View>
+        <Text>
+           Oops!!!! There Are No Tickets To Display
+        </Text>
+      </View>
     );
 
   }
@@ -285,7 +288,7 @@ class CompletedRejectedTickets extends React.Component {
                   </View>
                 }
               />
-            <HeaderDy headerTitle="Rejected Tickets" goBack={goBack} />
+            <HeaderDy headerTitle="Completed Tickets" goBack={goBack} />
               <View style={{ padding: 10 }}>
                 { this.displayTicket()}
               </View>
@@ -304,14 +307,43 @@ export default createContainer((props) => {
   const handle     = Meteor.subscribe('allocatedTickets', _id);
   const handle1    = Meteor.subscribe('currentUserfunction');
   const loading    = handle.ready();
-
+  var CompletedTicketList = [];
   const user       = Meteor.collection('users').findOne({"_id":_id});
   var alltickets   =  Meteor.collection('ticketMaster').find({ticketElement: { $elemMatch: { allocatedToUserid: _id }}});
 
+  if(user){
+    var roleArr = user.roles;
+    if(roleArr){
+    var role = roleArr.find(function (obj) { return obj != 'backofficestaff' });
+    }
+    for(i=0;i< alltickets.length; i++){
+      var ticketElements = alltickets[i].ticketElement; 
+      
+      switch(role){
+        case 'field expert':
+            if(ticketElements[ticketElements.length-1].roleStatus == "ReviewPass"){
+              alltickets[i].status = 'Completed' ;
+              alltickets[i].bgClassName = '#337ab7';
+              CompletedTicketList.push(alltickets[i]);
+            }
+        break;
+
+        case 'business Associate':
+        if(ticketElements[ticketElements.length-1].roleStatus == "ReviewPass"){
+          alltickets[i].status = 'Completed' ;
+          alltickets[i].bgClassName = '#337ab7';
+          CompletedTicketList.push(alltickets[i]);
+        }
+        break;
+      }//EOF switch
+    }//EOF i
+  }//EOF if
+  
   var result = {
     ticketData : alltickets ,
     loading    : loading,
     user       : user,
+    CompletedTicketList :CompletedTicketList
   };
 
 

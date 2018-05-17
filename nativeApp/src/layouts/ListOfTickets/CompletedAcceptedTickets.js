@@ -114,47 +114,54 @@ class CompletedAcceptedTickets extends React.Component {
   // console.log('ticketData: ',ticketData);
 
     return(
-      completedTickets.map((item,i)=>
+      this.props.AllocatedTicketList.length > 0 ?
+      this.props.AllocatedTicketList.map((item,i)=>
         <TouchableOpacity key={i} onPress={()=>this.props.navigation.navigate('ViewTicket',{ticketid:item._id})}>
           <Card containerStyle={[styles.newCard]}>
-            <View style={[styles.cardHeader,{backgroundColor:item.bgClassName}]}>
-              <View style={{flexDirection:'row',flex:1,paddingHorizontal:10,paddingVertical:5}}>
-                <View style={{flex:.5}}>
-                  <Text>Tickets#</Text>
+            <View style={{borderLeftWidth: 10, borderLeftColor: item.bgClassName}}>
+            {/* {backgroundColor:item.bgClassName} */}
+              <View style={[styles.cardHeader]}>
+                <View style={{flexDirection:'row',flex:1,paddingHorizontal:10,paddingVertical:5}}>
+                  <View style={{flex:.5}}>
+                    <Text style={{color:"#444"}}>Tickets#</Text>
+                  </View>
+                  <View style={{flex:.5}}>
+                    <Text style={{color:"#444"}}>{item.ticketNumber}</Text>
+                  </View>
                 </View>
-                <View style={{flex:.5}}>
-                  <Text>{item.ticketNumber}</Text>
+                <View style={{flexDirection:'row',flex:1,paddingHorizontal:10,paddingVertical:5}}>
+                  <View style={{flex:.5}}>
+                    <Text style={{color:"#444"}}>Service Name</Text>
+                  </View>
+                  <View style={{ flex:.5}}>
+                    <Text style={{color:"#444"}}>{item.serviceName}</Text>
+                  </View>
+                </View>
+                <View style={{flexDirection:'row',flex:1,paddingHorizontal:10,paddingVertical:5}}>
+                  <View style={{flex:.5}}>
+                    <Text style={{color:"#444"}}>TAT (Date)</Text>
+                  </View>
+                  <View style={{flex:.5}}>
+                    <Text style={{color:"#444"}}>{item.tatDate}</Text>
+                  </View>
                 </View>
               </View>
-              <View style={{flexDirection:'row',flex:1,paddingHorizontal:10,paddingVertical:5}}>
-                <View style={{flex:.5}}>
-                  <Text>Service Name</Text>
-                </View>
-                <View style={{ flex:.5}}>
-                  <Text>{item.serviceName}</Text>
-                </View>
-              </View>
-              <View style={{flexDirection:'row',flex:1,paddingHorizontal:10,paddingVertical:5}}>
-                <View style={{flex:.5}}>
-                  <Text>TAT (Date)</Text>
-                </View>
-                <View style={{flex:.5}}>
-                  <Text>{item.tatDate}</Text>
-                </View>
-              </View>
-            </View>
-            <View style={{ flex: 1,flexDirection: "row", backgroundColor: "#ddd"}}>
-              <View style={{flex:.5,paddingVertical: 10,}}>
-                <Text style={{ paddingHorizontal:10 }}>
-                  {item.username}
+              <View style={{ backgroundColor: "#ccc",paddingVertical: 10,alignItems: "center",justifyContent:'center'}}>
+                <Text style={{color:"#444"}}>
+                  {item.userName}
                 </Text>
-              </View>
-              <View style={{flex:.34,paddingVertical: 10,paddingHorizontal: 15}}>
               </View>
             </View>
           </Card>
         </TouchableOpacity>       
       )
+      
+      :
+      <View>
+        <Text>
+           Oops!!!! There Are No Tickets To Display
+        </Text>
+      </View>
     );
 
   }
@@ -285,7 +292,7 @@ class CompletedAcceptedTickets extends React.Component {
                   </View>
                 }
               />
-            <HeaderDy headerTitle="Accepted Tickets" goBack={goBack} />
+            <HeaderDy headerTitle="Allocated Tickets" goBack={goBack} />
               <View style={{ padding: 10 }}>
                 { this.displayTicket()}
               </View>
@@ -304,14 +311,43 @@ export default createContainer((props) => {
   const handle     = Meteor.subscribe('allocatedTickets', _id);
   const handle1    = Meteor.subscribe('currentUserfunction');
   const loading    = handle.ready();
-
+  var AllocatedTicketList = [];
   const user       = Meteor.collection('users').findOne({"_id":_id});
   var alltickets   =  Meteor.collection('ticketMaster').find({ticketElement: { $elemMatch: { allocatedToUserid: _id }}});
 
+  if(user){
+    var roleArr = user.roles;
+    if(roleArr){
+    var role = roleArr.find(function (obj) { return obj != 'backofficestaff' });
+    }
+    for(i=0;i< alltickets.length; i++){
+      var ticketElements = alltickets[i].ticketElement; 
+      switch(role){
+        case 'field expert':
+            if(ticketElements.find(function (obj) { return obj.roleStatus == 'FEAllocated'})){
+              alltickets[i].status = 'In-Process' ;
+              alltickets[i].bgClassName = '#00a65a';
+              AllocatedTicketList.push(alltickets[i]);
+            }
+        break;
+
+        case 'business Associate':
+            if(ticketElements.find(function (obj) { return obj.roleStatus == 'BAAllocated'})){
+              alltickets[i].status = 'In-Process' ;
+              alltickets[i].bgClassName = '#00a65a';
+              AllocatedTicketList.push(alltickets[i]);
+            }
+        break;
+      }//EOF switch
+    }//EOF i
+  }//EOF if
+
+  
   var result = {
     ticketData : alltickets ,
     loading    : loading,
     user       : user,
+    AllocatedTicketList : AllocatedTicketList
   };
 
 
