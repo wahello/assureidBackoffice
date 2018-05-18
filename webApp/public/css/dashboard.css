@@ -6662,3 +6662,8 @@ border-top: 2px solid #aaa;
 .skin-blue .user-panel > .info, .skin-blue .user-panel > .info > a{
   text-transform: capitalize;
 }
+
+.ms-choice{
+  height: 34px;
+  border-radius: 0px;
+}

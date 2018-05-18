@@ -59,6 +59,20 @@ export default class SubmittedDocuments extends TrackerReact(Component){
 	    //console.log('showEditButton ',showEditButton);
 	    return showEditButton;
 	}
+	yesReason(event){
+    event.preventDefault();
+    $(event.target).parent().parent().siblings().slideDown();
+    $(event.target).css({'backgroundColor':'#00b8ff','color':'#fff'});
+    $(event.target).siblings().css({'backgroundColor':'#fff','color':'#00b8ff'});
+    $(event.target).parent().parent().siblings().children().find('textarea').focus();
+  }
+  noReason(event){
+    event.preventDefault();
+    $(event.target).parent().parent().siblings().slideUp();
+    $(event.target).parent().parent().siblings().children().find('textarea').val('');
+    $(event.target).css({'backgroundColor':'#00b8ff','color':'#fff'});
+    $(event.target).siblings().css({'backgroundColor':'#fff','color':'#00b8ff'});
+  }
 
   render(){ 
   	// var userId = Meteor.userId();
@@ -101,8 +115,12 @@ export default class SubmittedDocuments extends TrackerReact(Component){
                 this.props.submittedDocuments.documents.checkLists.map((submittedChecklist,index)=>{
                   return(
                     <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12  checkListDiv noLRPad" key={index}>  
-												<input type="checkbox" className="tickchkbox" ref="submittedChecklist" name="submittedChecklist" value={submittedChecklist.status} checked={submittedChecklist.status== true? "checked" : ""}/><span className="checkBoxtitle">{submittedChecklist.statement}</span>												
-                       
+												{/* <input type="checkbox" className="tickchkbox" ref="submittedChecklist" name="submittedChecklist" value={submittedChecklist.status} checked={submittedChecklist.status== true? "checked" : ""}/><span className="checkBoxtitle">{submittedChecklist.statement}</span>*/}
+                        <label className = "col-lg-6">{submittedChecklist.statement}</label>
+												<div className="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+													<button type="button" className= "btn btn-info"  onClick={this.yesReason.bind(this)}>Yes</button>
+													<button type="button" className= "btn btn-info noDataButton" onClick={this.noReason.bind(this)}>No</button>
+												</div>
                     </div>
                   );
                 })

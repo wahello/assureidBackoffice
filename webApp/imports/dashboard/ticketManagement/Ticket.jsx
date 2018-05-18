@@ -330,8 +330,6 @@ class Ticket extends TrackerReact(Component){
             timer: 1500     
           });  
         }
-        
-      
         break;
       case 'Assign' :
       case 'ProofSubmit' :
@@ -390,7 +388,7 @@ class Ticket extends TrackerReact(Component){
         insertData.allocatedToUserName = '';
         break;
     }
-    // console.log('insertData ',insertData);
+    
     if(exeQuery == 1){
       Meteor.call('genericUpdateTicketMasterElement',this.props.ticketId,insertData);
     }

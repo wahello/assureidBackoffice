@@ -21,6 +21,11 @@ class AddEditChecklist extends TrackerReact(Component) {
     }; 
      this.handleChange = this.handleChange.bind(this);
   }
+  componentDidMount(){
+    
+      $('#fieldSelect').multipleSelect();
+    
+  }
   componentWillReceiveProps(nextProps) {
     if(!nextProps.loading){
       if(nextProps.checkList){
@@ -53,13 +58,41 @@ class AddEditChecklist extends TrackerReact(Component) {
   }
   handleSubmit(e){
     e.preventDefault();
+    var relatedFieldArr = [];
    if($("#checklistValid").valid()){ 
       var checkListFor    = this.refs.checkListFor.value;
       var task            = this.refs.task.value;
       var checkListFrom   = this.refs.checkListFrom.value;
       var id              = this.props.params.id;
+      var checkListForField = $('#fieldSelect').val();
+    
+      var option_all = $("select#fieldSelect option:selected").map(function () {
+          var optionText= $(this).text();
+          var optionValue= $(this).val();
+         
+          relatedFieldArr.push({
+            "selectedField":optionText,
+            "dbField" :optionValue
+          });
+          
+      }).get().join(',');
+      
+    //   "relatedFields" : [ 
+    //     {
+    //         "selectedField" : "AddressLine1",
+    //         "dbField" : "line1"
+    //     }, 
+    //     {
+    //         "selectedField" : "AddressLine2",
+    //         "dbField" : "line2"
+    //     }
+    // ]
+
+    console.log("relatedFieldArr");
+    console.log(relatedFieldArr);
+
       if(id){ 
-        Meteor.call('updateChecklist',id,checkListFor,task,checkListFrom,(error,result)=>{
+        Meteor.call('updateChecklist',id,checkListFor,task,checkListFrom,relatedFieldArr,(error,result)=>{
           if(error){
               console.log(error.reason);
           }else{                      
@@ -72,7 +105,7 @@ class AddEditChecklist extends TrackerReact(Component) {
           }            
         });
       }else{
-        Meteor.call('createChecklist',checkListFor,task,checkListFrom,(error,result)=>{
+        Meteor.call('createChecklist',checkListFor,task,checkListFrom,relatedFieldArr,(error,result)=>{
           if(error){
               console.log(error.reason);
           }else{                      
@@ -109,8 +142,8 @@ class AddEditChecklist extends TrackerReact(Component) {
                     <div className="col-lg-12 col-sm-12 col-xs-12 col-md-12">
                       <form id="checklistValid">
 
-                     <div className="form-group col-lg-12 col-md-12 col-xs-12 col-sm-12 ">
-                        <span className="blocking-span col-lg-6 col-md-6 col-xs-12 col-sm-12 NOleftPad">
+                     <div className="form-group col-lg-6 col-md-6 col-xs-12 col-sm-12 ">
+                        <span className="blocking-span col-lg-12 col-md-6 col-xs-12 col-sm-12 NOleftPad">
                             <label className="floating-label">Checklist For</label>
                             <select className="form-control inputText checkListFor" ref="checkListFor" id="checkListFor" value={this.state.checkListFor} name="checkListFor" onChange={this.handleChange}>
                               <option value="Basic Information">Basic Information</option>
@@ -138,6 +171,25 @@ class AddEditChecklist extends TrackerReact(Component) {
 	                          <option value="User Upload">User Upload</option>
 	                        </select>
 	                       </span> 
+                      </div>
+                      <div className="form-group col-lg-6 col-md-6 col-xs-12 col-sm-12 ">
+                        <span className="blocking-span col-lg-12 col-md-6 col-xs-12 col-sm-12 NOleftPad">
+                            <label className="floating-label col-lg-12">Checklist For Field Value</label>
+                           <select className="w300" multiple="multiple" id="fieldSelect" ref="checkListForField">
+                              <option value="line1">Address Line 1 </option>
+                              <option value="line2 ">Address Line 2 </option>
+                              <option value="line3 ">Address Line 3 </option>
+                              <option value="landmark ">Landmark </option>
+                              <option value="city">City </option>
+                              <option value="state">State </option>
+                              <option value="country">Country </option>
+                              <option value="pincode">Pincode </option>
+                              <option value="residingFrom">residingFrom</option>
+                              <option value="residingTo">residingTo</option>
+                              <option value="proofType">proofType</option>
+                              
+                           </select>
+                        </span>
                       </div>
                        <div className="form-group col-lg-12 col-md-12 col-xs-12 col-sm-12 ">
                           <button className="col-lg-3 col-md-4 col-xs-12 col-sm-12 col-xs-12 btn btn-primary pull-right" type="submit" value="" onClick={this.handleSubmit.bind(this)}>{this.state.button}</button>

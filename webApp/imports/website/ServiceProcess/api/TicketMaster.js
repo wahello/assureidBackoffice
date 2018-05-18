@@ -338,6 +338,14 @@ if(Meteor.isServer){
 					Meteor.call('changeTicketStatusInOrder',ticketDetails.orderId,ticketid,insertData.ticketDataChangeStaus,ticketDetails.reportSubmited.documents)
 				}
 				break;
+				
+			case 'FEAllocated':
+			case 'BAAllocated':
+				count = parseInt(countValueSplit)+1;	
+				if(count){
+					Meteor.call('updateCommitteeUserCount',count,insertData.allocatedToUserid);
+				}
+				break;
 		}
 		return updateStatus;
 	},

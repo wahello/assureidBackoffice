@@ -24,11 +24,12 @@ import { ServiceImage } from "../UploadToServer/UploadServiceImgsServer.js";
     });
     Meteor.methods({
       //add Checklist to ChecklistFieldExpert collection
-      "createChecklist" : function (checkListFor,task,checkListFrom) {
+      "createChecklist" : function (checkListFor,task,checkListFrom,relatedFieldArr) {
          ChecklistFieldExpert.insert({
           "checkListFor": checkListFor,
           "task"        : task,
           "checkListFrom": checkListFrom,
+          "relatedFields": relatedFieldArr
         });
       },
       //delete task from ChecklistFieldExpert
@@ -36,8 +37,9 @@ import { ServiceImage } from "../UploadToServer/UploadServiceImgsServer.js";
         ChecklistFieldExpert.remove({"_id":id});
       },
       //update task from ChecklistFieldExpert
-      'updateChecklist': function (id,checkListFor,task,checkListFrom) {
-        ChecklistFieldExpert.update({"_id":id},{$set:{'checkListFor'  : checkListFor,'task'  : task, 'checkListFrom' : checkListFrom}});
+      'updateChecklist': function (id,checkListFor,task,checkListFrom,relatedFieldArr) {
+          
+          ChecklistFieldExpert.update({"_id":id},{$set:{'checkListFor'  : checkListFor,'task'  : task, 'checkListFrom' : checkListFrom,"relatedFields": relatedFieldArr}});
       },
       //add image to TempServiceImages
       "addNewTemporaryServiceImage": function (id) {

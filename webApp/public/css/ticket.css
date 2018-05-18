@@ -13,7 +13,7 @@
 .fesubmitouter{
 	
 	margin-left: 2%;
-	margin-top:0%;
+	margin-top:2%;
 }
 .teammember{
 	margin-right: 5%;
@@ -204,4 +204,7 @@
 	text-align: center;
 	font-size: 18px;
 	
+}
+.w300 {
+    width: 300px;
 }
