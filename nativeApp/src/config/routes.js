@@ -89,6 +89,12 @@ export const AuthStack = StackNavigator({
     }
   },
   
+  // VideoRecording:{
+  //     screen: VideoRecording,
+  //     navigationOptions: {
+  //     header: null
+  //   }
+  // },
 
   // VideoRecording:{
   //     screen: VideoRecording,
@@ -96,6 +102,7 @@ export const AuthStack = StackNavigator({
   //     header: null
   //   }
   // },
+
 
   ReopenedTickets: {
   screen: ReopenedTickets,

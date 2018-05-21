@@ -173,6 +173,7 @@ class ViewTicketFormInfo extends React.Component {
                 });
     }// EOF i loop
 
+
     // var videos      = [
     //                     {
     //                       'userId'    : Meteor.userId(),
@@ -182,6 +183,15 @@ class ViewTicketFormInfo extends React.Component {
     //                   ];
 
     var videos      = [];
+
+    // var videos      = [
+    //                     {
+    //                       'userId'    : Meteor.userId(),
+    //                       'videoLink' : 'https://s3.ap-south-1.amazonaws.com/harmonicgroup/ProductVideo/2XAwdwWSg2qfpgKFf.mp4',
+    //                       'createdAt' : new Date(),
+    //                     }
+    //                   ];
+
 
     if(this.props.tickets.submitedDoc){
 
@@ -799,6 +809,7 @@ ViewTicketForm = createContainer( (props) => {
        }else{
          var checkListObjs = Meteor.collection("checklistFieldExpert").find({"checkListFor" : checkListFrom}) || [];
           if (checkListObjs && checkListObjs.length > 0) {
+
             //  console.log('checkListObjs: ',checkListObjs);
              for (var i = 0; i < checkListObjs.length; i++) {
                 if(checkListObjs[i].checkListFrom == 'Database'){

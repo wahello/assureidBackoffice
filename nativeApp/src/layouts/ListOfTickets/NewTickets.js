@@ -127,6 +127,7 @@ class NewTickets extends React.Component {
   }
 
   // console.log('ticketData: ',ticketData);
+
     return(
       
   
