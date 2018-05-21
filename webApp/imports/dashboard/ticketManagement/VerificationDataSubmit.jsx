@@ -510,6 +510,20 @@ class VerificationDataSubmit extends TrackerReact(Component){
             );
         }
     }
+    yesReason(event){
+        event.preventDefault();
+        $(event.target).parent().parent().siblings().slideDown();
+        $(event.target).css({'backgroundColor':'#00b8ff','color':'#fff'});
+        $(event.target).siblings().css({'backgroundColor':'#fff','color':'#00b8ff'});
+        $(event.target).parent().parent().siblings().children().find('textarea').focus();
+      }
+      noReason(event){
+        event.preventDefault();
+        $(event.target).parent().parent().siblings().slideUp();
+        $(event.target).parent().parent().siblings().children().find('textarea').val('');
+        $(event.target).css({'backgroundColor':'#00b8ff','color':'#fff'});
+        $(event.target).siblings().css({'backgroundColor':'#fff','color':'#00b8ff'});
+      }
     removechecked = (index)=>{
         // event.preventDefault();
         console.log("index: ",index);
@@ -573,9 +587,19 @@ class VerificationDataSubmit extends TrackerReact(Component){
                                     {this.props.checkObjs ?
                                         this.props.checkObjs.map((checkObjsDefault,index)=>{
                                         return(
-                                            <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6" key={index}>  
-                                              <input type="checkbox" ref="checkObjs" id="checkObjs" name="checkObjs" className={"checkObjs-"+index} value={checkObjsDefault} required/>&nbsp;{checkObjsDefault}
-                                            </div>
+                                            <div className="col-lg-12 col-md-12 col-sm-6 col-xs-6" key={index}>  
+                                              {/* <input type="checkbox" ref="checkObjs" id="checkObjs" name="checkObjs" className={"checkObjs-"+index} value={checkObjsDefault} required/>&nbsp;{checkObjsDefault} */}
+                                                <label className = "col-lg-3">{checkObjsDefault}</label>
+                                                <div className="col-lg-3 col-md-3 col-sm-6 col-xs-6 noLRPad">
+                                                    <button type="button" className= "btn btn-info noDataButton"  onClick={this.yesReason.bind(this)}>Correct</button>
+                                                    <button type="button" className= "btn btn-info noDataButton" onClick={this.noReason.bind(this)}>Incorrect</button>
+                                                </div>
+                                                <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                    <span className="col-lg-12">Remark &nbsp;</span>
+                                                    <textarea rows="3" cols="60" className="col-lg-8 col-lg-offset-0" id=""/>
+                                                </div>	
+                                             </div>
+                                            
                                           );
                                         })
                                     :

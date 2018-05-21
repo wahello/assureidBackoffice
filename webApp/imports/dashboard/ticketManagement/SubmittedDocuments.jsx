@@ -114,13 +114,17 @@ export default class SubmittedDocuments extends TrackerReact(Component){
              {this.props.submittedDocuments.documents ?
                 this.props.submittedDocuments.documents.checkLists.map((submittedChecklist,index)=>{
                   return(
-                    <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12  checkListDiv noLRPad" key={index}>  
+                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12  checkListDiv noLRPad" key={index}>  
 												{/* <input type="checkbox" className="tickchkbox" ref="submittedChecklist" name="submittedChecklist" value={submittedChecklist.status} checked={submittedChecklist.status== true? "checked" : ""}/><span className="checkBoxtitle">{submittedChecklist.statement}</span>*/}
-                        <label className = "col-lg-6">{submittedChecklist.statement}</label>
-												<div className="col-lg-4 col-md-4 col-sm-6 col-xs-6">
-													<button type="button" className= "btn btn-info"  onClick={this.yesReason.bind(this)}>Yes</button>
-													<button type="button" className= "btn btn-info noDataButton" onClick={this.noReason.bind(this)}>No</button>
+                        <label className = "col-lg-3">{submittedChecklist.statement}</label>
+												<div className="col-lg-3 col-md-3 col-sm-6 col-xs-6 noLRPad">
+													<button type="button" className= "btn btn-info noDataButton"  onClick={this.yesReason.bind(this)}>Correct</button>
+													<button type="button" className= "btn btn-info noDataButton" onClick={this.noReason.bind(this)}>Incorrect</button>
 												</div>
+												<div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+													{/* <span>Remark &nbsp;:</span><span>{element.remark}</span> */}
+													<textarea rows="3" cols="60" className="col-lg-8 col-lg-offset-0" id=""/>
+												</div>												
                     </div>
                   );
                 })

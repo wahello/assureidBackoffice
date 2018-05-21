@@ -208,3 +208,17 @@
 .w300 {
     width: 300px;
 }
+.noDataButton{
+	width: 42%;
+    height: 35px;
+    transition: 0.3s ease 0s;
+	transform: translateX(26px);
+
+}
+/* .checkListDiv button{
+	border-radius: 0px;
+    height: 40px;
+    background-color: #00b8ff;
+    border-color: #00b8ff;
+    outline: none;
+} */
