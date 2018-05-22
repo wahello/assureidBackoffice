@@ -23,6 +23,8 @@ import VerifyDetailsDocument from './VerifyDetailsDocument.jsx';
 import { UserProfile } from '../../website/forms/api/userProfile.js';
 import SubmittedDocuments from './SubmittedDocuments.jsx';
 import UploadReport from './UploadReport.jsx';
+import { ChecklistFieldExpert } from '/imports/dashboard/reactCMS/api/Services.js';
+
 
 class Ticket extends TrackerReact(Component){
   constructor(props){
@@ -34,6 +36,7 @@ class Ticket extends TrackerReact(Component){
       "radioState":'',
       "showRadiobtn": 'N',
       // "showHideBtn":true,
+      "verifiedInfo":[],
     }   
   }
   componentWillReceiveProps(nextProps){
@@ -154,6 +157,37 @@ class Ticket extends TrackerReact(Component){
     event.preventDefault();
     $('#AddImagesVideo').css({"display" : "block"});
     $(event.currentTarget).css({"display" : "none"});
+
+
+
+
+    var data = this.props.checkObjs;
+    if(data){
+        var dataArr = [];
+        for(var i=0; i<data.length;i++){
+            var relatedField = data[i].relatedFields;
+            var strngVal = "";
+            for(var k=0;k<relatedField.length;k++){
+                strngVal = strngVal + relatedField[k].dbField + ", ";
+            }
+            var obj = {
+                titleVal : data[i].task,
+                // textVal : strngVal,
+                textVal : [],
+                correctVal : false,
+                remarkVal : "",
+            }
+            dataArr.push(obj);
+            console.log('obj: ', obj);
+        }
+        console.log('verifiedInfo: ', dataArr);
+        this.setState({
+            verifiedInfo: dataArr,
+            
+        })
+    }
+
+
   }
   handleReportUpload(event){
     
@@ -639,7 +673,7 @@ class Ticket extends TrackerReact(Component){
                       Upload Documents & Remark</button> 
               </div>
               <div id="AddImagesVideo" style={{"display":"none"}}>
-                {<VerificationDataSubmit ticketId={this.props.ticketId}/>}
+                {<VerificationDataSubmit ticketId={this.props.ticketId} chekFieldList={ this.state.verifiedInfo}/>}
               </div>
             </div>
           )
@@ -1103,9 +1137,11 @@ export default UserDetailsContainer = withTracker(props => {
   var handleUseFunc = Meteor.subscribe('userfunction');
   var handleUserProfile = Meteor.subscribe("userProfileData");
   var handleReport    = Meteor.subscribe("allTicketReport");
+  const postHandle2  = Meteor.subscribe('checklistFieldExpert');
+
 
   var ticketId = props.params.id;
-  var loading = !handleSinTick.ready() && !handleUseFunc.ready() && !handleUserProfile.ready() && !handleReport.ready();
+  var loading = !handleSinTick.ready() && !handleUseFunc.ready() && !handleUserProfile.ready() && !handleReport.ready() && !postHandle2.ready();
   var getTicket = TicketMaster.findOne({"_id":ticketId}) ;
   if(getTicket){
     var user = Meteor.users.findOne({"_id": getTicket.userId}) || {};
@@ -1125,15 +1161,47 @@ export default UserDetailsContainer = withTracker(props => {
         userProfile.dateOfBirth='-';
       }
     }
+
+    //---------------- Nilam Added code for change remark and new requirement--------------------------------------------------------------
+
+      var verificationType = getTicket.verificationType;
+      if (verificationType == "professionalEducation") {
+      var checkListFrom = "Academic Information";
+      }else if (verificationType == "permanentAddress") {
+      var checkListFrom = "Address Information";
+      }else if (verificationType == "currentAddress") {
+      var checkListFrom = "Address Information";
+      }else if (verificationType == "employement") {
+      var checkListFrom = "Employment Information";
+      }else if (verificationType == "education") {
+      var checkListFrom = "Academic Information";
+      }else  if (verificationType == "certificates") {
+      var checkListFrom = "Skills And CertificationInformation";
+      }
+      var checkListObjs = ChecklistFieldExpert.find({"checkListFor" : checkListFrom}).fetch();
+      var checkObjs = [];
+      var textObjs = [];
+      if (checkListObjs) {
+          for (var i = 0; i < checkListObjs.length; i++) {
+              if(checkListObjs[i].checkListFrom == 'Database'){
+                  checkObjs.push(checkListObjs[i]); 
+              }else{
+                  textObjs.push(checkListObjs[i]); 
+              }
+          }
+      }
+    //------------------------------------------------------------------------------
    
   }   
-  
+  console.log("checkObjs");
+  console.log(checkObjs);
   if(getTicket && getTicket.reportSubmited && getTicket.reportSubmited.documents){
     var showHideBtn = false;
   }else{
     var showHideBtn = true;
 
   }
+  
  
   return {
     loading,
@@ -1141,6 +1209,7 @@ export default UserDetailsContainer = withTracker(props => {
     user,
     userProfile,
     ticketId,
+    checkObjs,
     showHideBtn,
   };
 })(Ticket);

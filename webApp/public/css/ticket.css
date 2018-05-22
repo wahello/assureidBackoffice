@@ -213,6 +213,8 @@
     height: 35px;
     transition: 0.3s ease 0s;
 	transform: translateX(26px);
+	margin-right: 4%;
+	
 
 }
 /* .checkListDiv button{

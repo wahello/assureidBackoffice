@@ -19,7 +19,7 @@ class VerificationDataSubmit extends TrackerReact(Component){
         super(props); 
         if(this.props.EditValue){
             
-            this.state ={ 
+            this.state = { 
                 "checkLists"       : this.props.EditValue.checkLists,
                 "textLists"        : this.props.EditValue.textLists,
                 "images"           : this.props.EditValue.images,
@@ -28,7 +28,10 @@ class VerificationDataSubmit extends TrackerReact(Component){
                 "documents"        : this.props.EditValue.documents,
                 "status"           : this.props.EditValue.status,
                 "subStatus"        : this.props.EditValue.subStatus,
-                "subscription" : {
+                "data"             : [],
+                "verifiedInfo"      :[],
+                "chekFieldList"     : [],
+                "subscription"     : {
                 }
             };
             // console.log("checkLists",this.state.checkLists);
@@ -42,63 +45,20 @@ class VerificationDataSubmit extends TrackerReact(Component){
                 "documents"    : [],
                 "status"       : '',
                 "subStatus"    : '',
-                "subscription" : {
+                "buttonstatus" : 'Incorrect',
+                "chekFieldList"     : [],
+                "finalListArray" : [],
+                "data"           : [],
+                "subscription"   : {
                 }
             };
         }
+
+       
         this.handleChange          = this.handleChange.bind(this);
         this.handleChangeChecklist = this.handleChangeChecklist.bind(this);
         this.handleChangeForArray  = this.handleChangeForArray.bind(this);
         // this.removechecked  = this.removechecked.bind(this);
-    }
-    componentDidMount(){
-        // $("#submitDocument").validate({
-        //     rules: {
-              
-        //       checkObjs: {
-        //         required: true,
-        //       }, 
-        //       textObjs: {
-        //         required: true,
-        //       }, 
-        //       ticketImageFile: {
-        //         required: true, 
-        //       },
-              
-        //       documentStatus: {
-        //         required: true,
-        //       },   
-        //       documentSubStatus: {
-        //         required: true,
-        //       },  
-        //       remark: {
-        //         required: true,
-        //       },
-              
-              
-               
-        //     },
-        //     messages: {
-        //       checkObjs: {
-        //         required: "Please check checbox !",
-        //       },
-        //       textObjs: {
-        //         required: "Please enter text!",
-        //       },
-        //       ticketImageFile: {
-        //         required: "Please select images to upload",
-        //       },
-        //       documentStatus: {
-        //         required: "Please select document status",
-        //       },
-        //       documentSubStatus: {
-        //         required: "Please select document sub status",
-        //       },
-        //       remark: {
-        //         required: "Please write remark",
-        //       },
-        //     }
-        // });
     }
     getRole(role) {
         return role != "backofficestaff";
@@ -315,24 +275,79 @@ class VerificationDataSubmit extends TrackerReact(Component){
             }
         });
     }
+
+
     submitReport(event){
         event.preventDefault();
         var checkLists = [];
-     
+        var dataChk    = {};
+        // var docRemark  = "";
+      
+       
+
         //Get values for all the check box
-        $('input[name="checkObjs"]').each(function(i){
-            var dataChk ={};
-            if($(this).is(":checked")){
-                // dataChk.statement = $(this).val();
-                dataChk.statement = $(this).attr('data-value');
-                dataChk.status = true;
-            }else{
-                // dataChk.statement = $(this).val();
-                dataChk.statement = $(this).attr('data-value');                
-                dataChk.status = false;
-            }
-            checkLists.push(dataChk);
-        });   
+        // $('input[name="checkObjs"]').each(function(i){
+        //     var dataChk ={};
+        //     if($(this).is(":checked")){
+        //         // dataChk.statement = $(this).val();
+        //         dataChk.statement = $(this).attr('data-value');
+        //         dataChk.status = true;
+        //     }else{
+        //         // dataChk.statement = $(this).val();
+        //         dataChk.statement = $(this).attr('data-value');                
+        //         dataChk.status = false;
+        //     }
+        //     checkLists.push(dataChk);
+        // });   
+
+
+        //Get Value of status and button
+
+        // $('label[name="checkObjs"]').each(function(i){
+        //     console.log("inside checkObjs ");
+        //     var dataChk = {};
+        //     dataChk.statement = $(this).attr('data-value');
+        //     dataChk.status = buttoValue;
+        //     checkLists.push(dataChk);
+        // })
+
+      
+
+        
+        // for(var i=0;i<this.props.checkObjs.length;i++){
+        //     var checkBoxEle = this.props.checkObjs[i];
+
+        //     if(checkBoxEle){
+
+        //         console.log('this.props.checkObjs:',JSON.stringify(checkBoxEle,null,4));
+
+        //         if ($("#correct-"+i).hasClass("active")) {
+        //             var buttonValue   = $('#correct-'+i).attr('data-value');    
+        //             dataChk.status    = buttonValue;
+        //             dataChk.statement = checkBoxEle.task;
+        //             console.log("i " +i+ "=buttonValue " + buttonValue);
+        //         } else if ($("#incorrect-"+i).hasClass("active")) {
+        //             var buttonValue   = $('#incorrect-'+i).attr('data-value');      
+        //             dataChk.status    = buttonValue;          
+        //             dataChk.statement = checkBoxEle.task;
+        //             console.log("i " +i+ " =buttonValue " + buttonValue);
+        //         }
+               
+        //         dataChk.docRemark = $("textarea#addDocRemark-"+i).val();
+                 
+        //         if(checkBoxEle && dataChk.status && dataChk.statement &&  dataChk.docRemark){
+        //             console.log("dataChk");
+        //             console.log(dataChk);
+        
+        //             checkLists.push(dataChk);
+        //             console.log("checkLists");
+        //             console.log(checkLists);
+        //             console.log('-----------------------');
+        //         }
+        //     }         
+        // } // EOF i
+        // console.log('checkLists final: ',checkLists);
+
         //Get Values for all the text field
         var textLists = [];
 		$('textarea.textObjs').each(function(i){
@@ -343,20 +358,26 @@ class VerificationDataSubmit extends TrackerReact(Component){
         });
         if(this.props.EditValue){
             var status      = this.refs.documentStatus.value;
+            
             var subStatus   = this.refs.documentSubStatus.value;
             var images      = this.state.images.concat(this.props.ticketImages);
             var videos      = this.state.videos;
             var roleStatus  = "ProofResubmitted";
             var msg         = "Resubmitted Verification Information";
             var remark      = this.refs.remark.value;
+            // var docRemark      = this.refs.textarea#.value;
+            
         }else{
             var status      = this.refs.documentStatus.value;
+            // var status      = buttoValue;            
             var subStatus   = this.refs.documentSubStatus.value;
             var images      = this.props.ticketImages;
             var videos      = this.props.ticketVideo;
             var roleStatus  = "ProofSubmit";
             var msg         = "Submitted Verification Information";
             var remark      = this.refs.remark.value;
+            // var docRemark   = this.refs.textarea#.value;
+            
         }  
 
        
@@ -368,6 +389,7 @@ class VerificationDataSubmit extends TrackerReact(Component){
             images     : images,
             videos     : videos,
             remark     : remark,
+            
         }
        
         if(documents.status != "Select" && documents.images.length >0 && documents.subStatus != "Select"){
@@ -395,16 +417,16 @@ class VerificationDataSubmit extends TrackerReact(Component){
                     // console.log('insertData ',insertData);    
                 }
                 // if($('#submitDocument').valid()){
-                    Meteor.call('genericUpdateTicketMasterElement',this.props.tickets._id,insertData,function(error,result){
-                        if (error) {
-                          console.log(error.reason);
-                        }else{
+                //     Meteor.call('genericUpdateTicketMasterElement',this.props.tickets._id,insertData,function(error,result){
+                //         if (error) {
+                //           console.log(error.reason);
+                //         }else{
         
-                          $("#AddImagesVideo1").css({"display" : "none"});
-                          $("#uploadButtonDiv").css({"display" : "none"});
-                          $('#submitedDocWrap').css({"display" : "block"});
-                        }
-                    });
+                //           $("#AddImagesVideo1").css({"display" : "none"});
+                //           $("#uploadButtonDiv").css({"display" : "none"});
+                //           $('#submitedDocWrap').css({"display" : "block"});
+                //         }
+                //     });
                 // }else{
                 //     // $(event.target).parent().parent().parent().find('.effect-21.error:first').focus();
                 //     $(event.target).parent().parent().parent().find('input.error').addClass('error');
@@ -517,18 +539,59 @@ class VerificationDataSubmit extends TrackerReact(Component){
     }
     yesReason(event){
         event.preventDefault();
-        $(event.target).parent().parent().siblings().slideDown();
-        $(event.target).css({'backgroundColor':'#00b8ff','color':'#fff'});
+        var currentIndex = $(event.currentTarget).attr("data-indexVal");
+        var data = this.state.chekFieldList.length>0 ? this.state.chekFieldList : this.props.chekFieldList;
+        var newArr = [];
+        for(i=0;i<data.length;i++){
+            if(i==currentIndex){
+                data[i].correctVal = true;
+                newArr.push(data[i]);
+            }else{
+                newArr.push(data[i]);
+            }
+        }
+        this.setState({
+            chekFieldList:data,
+        })
+        // $(event.target).parent().parent().siblings().slideDown();
+        $(event.target).css({'backgroundColor':'#00b8ff','color':'#fff'});        
         $(event.target).siblings().css({'backgroundColor':'#fff','color':'#00b8ff'});
-        $(event.target).parent().parent().siblings().children().find('textarea').focus();
+        // $(event.target).parent().parent().siblings().children().find('textarea').focus();
+        // $(event.target).addClass("active");  
+        // $(event.target).siblings().removeClass("active");
+              
       }
-      noReason(event){
-        event.preventDefault();
-        $(event.target).parent().parent().siblings().slideUp();
-        $(event.target).parent().parent().siblings().children().find('textarea').val('');
-        $(event.target).css({'backgroundColor':'#00b8ff','color':'#fff'});
-        $(event.target).siblings().css({'backgroundColor':'#fff','color':'#00b8ff'});
-      }
+
+    noReason(event){
+    event.preventDefault();
+
+    var currentIndex = $(event.currentTarget).attr("data-indexVal");
+    var data = this.state.chekFieldList.length>0 ? this.state.chekFieldList : this.props.chekFieldList;
+    var newArr = [];
+    for(i=0;i<data.length;i++){
+        if(i==currentIndex){
+            data[i].correctVal = false;
+            newArr.push(data[i]);
+        }else{
+            newArr.push(data[i]);
+        }
+    }
+    this.setState({
+        chekFieldList:data,
+    })
+
+    // this.setState({
+    //     'status' : "true"
+    //     })
+    // $(event.target).parent().parent().siblings().slideUp();
+    // $(event.target).parent().parent().siblings().children().find('textarea').val('');
+    $(event.target).css({'backgroundColor':'#00b8ff','color':'#fff'});
+    $(event.target).siblings().css({'backgroundColor':'#fff','color':'#00b8ff'});
+
+    // $(event.target).addClass("active");        
+    // $(event.target).siblings().removeClass("active");
+    }
+
     removechecked = (index)=>{
         // event.preventDefault();
         console.log("index: ",index);
@@ -557,9 +620,81 @@ class VerificationDataSubmit extends TrackerReact(Component){
         
 		// $('#checkObjs').prop('checked',false);
 
-	}
-    render(){
+    }
+    
+    getRemark(event){
+        event.preventDefault();
+        var currentIndex = $(event.currentTarget).attr("data-indexVal");
+        var currentIndexval = $(event.currentTarget).text();
+        var data = this.state.chekFieldList.length>0 ? this.state.chekFieldList : this.props.chekFieldList;
+        var newArr = [];
+        for(i=0;i<data.length;i++){
+            if(i==currentIndex){
+                data[i].remarkVal = currentIndexval;
+                newArr.push(data[i]);
+            }else{
+                newArr.push(data[i]);
+            }
+        }
+        this.setState({
+            chekFieldList:data,
+        })
 
+        // var obj      = {};
+        // var oldArr   = [];
+        // var newArr   = [];
+        
+        
+        // var name  = event.target.getAttribute('name');
+        // var index = name.split('-')[1];
+        // var value = this.refs[name].value;
+        
+    
+        
+        // obj.remark = value;
+        // var task = this.props.checkObjs[index].task;
+        // obj.task = task;
+        // console.log('task: ',task);
+        // console.log('this.state.data: ',this.state);
+        
+        // oldArr = this.state.data;
+        // console.log("oldArr");
+        // console.log(oldArr);
+        // if(oldArr[index]){
+        //     oldArr[index].remark = value;
+        //     oldArr[index].task = task;
+            
+        // }else{
+        //     oldArr[index] = obj;
+        // }
+        // console.log('oldArr: ',oldArr);
+        // oldArr[index] = obj;
+        // console.log('newArr: ',newArr);
+        // this.setState(state =>({
+        //     data : newArr,
+        // }));
+        // console.log('obj: ',obj);
+        console.log("Inside getRemark");
+        // console.log(this.state);
+        
+    }
+
+    // componentWillMount(){
+    //     console.log("Inside component will mount");
+    //     var data = this.props.chekFieldList;
+    //     console.log('data: ', data);
+    //     this.setState({
+    //         verifiedInfo: data,
+    //     })
+        
+    // }
+
+    render(){
+        var chekFieldList  = this.state.chekFieldList.length>0 ? this.state.chekFieldList :  this.props.chekFieldList;
+        
+        console.log('chekFieldList render: ', chekFieldList);
+ 
+        
 
         return(
             <div>
@@ -588,27 +723,43 @@ class VerificationDataSubmit extends TrackerReact(Component){
                                     }
                                 </div>
                                :
+
+
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outerChecklisttoteamM">
-                                    {this.props.checkObjs ?
-                                        this.props.checkObjs.map((checkObjsDefault,index)=>{
+                                    {chekFieldList ?
+                                        chekFieldList.map((checkObjsDefault,index)=>{
                                         return(
+                                            
                                             <div className="col-lg-12 col-md-12 col-sm-6 col-xs-6" key={index}>  
-                                              {/* <input type="checkbox" ref="checkObjs" id="checkObjs" name="checkObjs" className={"checkObjs-"+index} value={checkObjsDefault} required/>&nbsp;{checkObjsDefault} */}
-                                                <label className = "col-lg-3">{checkObjsDefault}</label>
-                                                <div className="col-lg-3 col-md-3 col-sm-6 col-xs-6 noLRPad">
-                                                    <button type="button" className= "btn btn-info noDataButton"  onClick={this.yesReason.bind(this)}>Correct</button>
-                                                    <button type="button" className= "btn btn-info noDataButton" onClick={this.noReason.bind(this)}>Incorrect</button>
+                                                <div className="col-lg-4 col-md-6 col-sm-6 col-xs-6 noLRPad">
+                                                    <label className = "col-lg-12" name ="checkObjs">{checkObjsDefault.titleVal}</label>
+                                                    <div className="col-lg-8 col-lg-offset-0">
+                                                        {
+                                                            checkObjsDefault.textVal ?
+                                                               checkObjsDefault.textVal.map((checkObjsRelatedField,index)=>{
+                                                                    return(
+                                                                        <span key={index}>{checkObjsRelatedField.dbField},&nbsp;</span>
+                                                                    );
+                                                                })
+                                                            :
+                                                             null
+                                                        }
+                                                    </div>
                                                 </div>
-                                                <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                <div className="col-lg-3 col-md-3 col-sm-6 col-xs-6 noLRPad">
+                                                    <button type="button" className= {checkObjsDefault.correctVal ? "btn btn-info noDataButton active":"btn btn-info noDataButton"}  data-indexVal={index} data-value= "Correct" onClick={this.yesReason.bind(this)}>Correct</button>
+                                                    <button type="button" className= {checkObjsDefault.correctVal ? "btn btn-info noDataButton": "btn btn-info noDataButton active"} data-indexVal={index} data-value = "Incorrect" onClick={this.noReason.bind(this)}>Incorrect</button>
+                                                </div>
+                                                <div className="col-lg-4 col-md-6 col-sm-6 col-xs-6">
                                                     <span className="col-lg-12">Remark &nbsp;</span>
-                                                    <textarea rows="3" cols="60" className="col-lg-8 col-lg-offset-0" id=""/>
+                                                    <textarea rows="3" cols="60" className="col-lg-12"  data-indexVal={index} onChange={this.getRemark.bind(this)}/>
                                                 </div>	
                                              </div>
                                             
                                           );
                                         })
                                     :
-                                        ""
+                                        null
                                     }
                                 </div>
                             } 
@@ -860,6 +1011,10 @@ class VerificationDataSubmit extends TrackerReact(Component){
     }
 VerificationDataSubmitContainer = withTracker(props => { 
     const ticketId     = props.ticketId;
+    var chekFieldList  = props.chekFieldList;
+
+    console.log("chekFieldList");
+    console.log(chekFieldList);
     
     const postHandle   = Meteor.subscribe('allTicketImages');
     const postHandle1  = Meteor.subscribe('allTicketVideo');
@@ -896,14 +1051,15 @@ VerificationDataSubmitContainer = withTracker(props => {
             if (checkListObjs) {
                 for (var i = 0; i < checkListObjs.length; i++) {
                     if(checkListObjs[i].checkListFrom == 'Database'){
-                        checkObjs.push(checkListObjs[i].task); 
+                        checkObjs.push(checkListObjs[i]); 
                     }else{
-                        textObjs.push(checkListObjs[i].task); 
+                        textObjs.push(checkListObjs[i]); 
                     }
                 }
             }
         }
     }
+  
     return {
         loading      : loading,
         loading1     : loading1,
@@ -911,7 +1067,7 @@ VerificationDataSubmitContainer = withTracker(props => {
         ticketVideo  : ticketVideo,
         ticketId     : ticketId,
         tickets      : tickets,
-        checkObjs    : checkObjs,
+        chekFieldList    : chekFieldList,
         textObjs     : textObjs
     };
 })(VerificationDataSubmit);
