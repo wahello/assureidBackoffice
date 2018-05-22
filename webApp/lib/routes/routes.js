@@ -58,6 +58,8 @@ import EditNewsFeed from '/imports/dashboard/forms/newsFeed/EditNewsFeed.jsx';
 import ManageLocation from '/imports/dashboard/forms/manageLocation/ManageLocation.jsx';
 import AddEditCollege from '/imports/dashboard/forms/college/AddEditCollege.jsx';
 import AddEditPoliceData from '/imports/dashboard/forms/policeManagement/AddEditPoliceData.jsx';
+import AddEditCodeAndReason from '/imports/dashboard/forms/CodeAndReason/AddEditCodeAndReason.jsx';
+import AddEditHolidays from '/imports/dashboard/forms/HolidayList/AddEditHolidays.jsx';
 
 import LogIn from '/imports/website/forms/LogIn.jsx';
 import MyTickets from '/imports/dashboard/ticketManagement/myTickets/MyTickets.jsx';
@@ -223,8 +225,11 @@ export const routes = (
        <Route path="/admin/Checklist/:id" component={AddEditChecklist} />       
        <Route path="/admin/reports" component={Reports} />       
        <Route path="/admin/ticketdistribution" component={SCTicketDistribution} /> 
-      <Route path="/mainadmin/ticket/:id" component={Ticket}/>       
-             
+      <Route path="/mainadmin/ticket/:id" component={Ticket}/>  
+      <Route path="/admin/CodeAndReason" component={AddEditCodeAndReason}/>     
+      <Route path="/admin/CodeAndReason/:id" component={AddEditCodeAndReason}/>  
+      <Route path="/admin/HolidayList/:id" component={AddEditHolidays}/>  
+      <Route path="/admin/HolidayList" component={AddEditHolidays}/>  
        {/* <Route path="/admin/ticketdocumentdetails" component={TicketDocumentDetail}/> */}
     </Route>
 
@@ -239,8 +244,6 @@ export const routes = (
        <Route path="/backofficeadmin/company-info" component={CompanySettingTabs}/>
       <Route path="/admin/ticket/:id" component={Ticket}/>       
       <Route path="/admin/viewProfile/:id" component={ProfileView}/>
-       
-       
     </Route>
 
     {/* <Route path="/" component={CMainLayout} /> */}

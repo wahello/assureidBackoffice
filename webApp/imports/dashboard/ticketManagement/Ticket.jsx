@@ -773,7 +773,7 @@ class Ticket extends TrackerReact(Component){
                 <div className="col-lg-5 col-md-5 col-sm-12 col-xs-12">
                   <div className="docdownload col-lg-3 col-lg-offset-1" title="Download Report">
                       <a href={this.props.getTicket.reportSubmited.documents} download>
-                        <i className="fa fa-file-text-o" aria-hidden="true"></i>
+                        <i className="fa fa-file-text-o" aria-hidden="true"></i> 
                       </a>
                   </div>
                   <lable className=" col-lg-9 col-md-9 col-sm-12 col-xs-12">Download Report</lable>

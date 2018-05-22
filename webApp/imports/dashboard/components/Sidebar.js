@@ -164,6 +164,22 @@ class Sidebar extends TrackerReact(Component){
                       <i className="fa fa-circle-o" /> Manage Police Station
                     </Link>
                   </li>
+                  <li>
+                    <Link to="/admin/Checklist">
+                      <i className="fa fa-circle-o" /> Check List For Field Expert
+                    </Link>
+                  </li>        
+                  <li>
+                    <Link to="/admin/CodeAndReason">
+                      <i className="fa fa-circle-o" /> Code And Reason
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/admin/HolidayList">
+                      <i className="fa fa-circle-o" /> Holidays List
+                    </Link>
+                  </li>
+                  
                 </ul>
               </li>
               {/* <li className="treeview">
@@ -338,12 +354,12 @@ class Sidebar extends TrackerReact(Component){
                   
                 </ul>
               </li>
-              <li>
-                <Link to="/admin/Checklist">
-                  <i className="fa fa-check-square" />
-                    <span>Check List For Field Expert</span>
-                </Link>
-              </li>
+              {/*// <li>
+              //   <Link to="/admin/Checklist">
+              //     <i className="fa fa-check-square" />
+              //       <span>Check List For Field Expert</span>
+              //   </Link>
+              // </li>*/}
              
             </ul>
           </section>

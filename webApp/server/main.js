@@ -21,6 +21,7 @@ import '../imports/dashboard/reactCMS/api/Products.js';
 import '../imports/dashboard/reactCMS/api/Services.js';
 import '../imports/dashboard/reactCMS/api/plivoDetails.js';
 import '../imports/dashboard/forms/api/NewsFeed.js';
+import '../imports/dashboard/forms/api/CodeAndReason.js';
 
 
 import '/imports/dashboard/notification/api/NotificationTemplate.js';
@@ -28,7 +29,7 @@ import '/imports/dashboard/notification/api/Notification.js';
 import '/imports/dashboard/product/addNewProduct/api/ProductMaster.js';
 import '/imports/dashboard/product/addNewProduct/api/CategoryMaster.js';
 import '/imports/dashboard/product/addNewProduct/api/projectSettings.js';
-
+import '/imports/dashboard/forms/api/HolidaysList.js';
 import '/imports/dashboard/userManagement/api/userAccounts.js';
 // import '../imports/website/forms/api/userProfile.js';
 

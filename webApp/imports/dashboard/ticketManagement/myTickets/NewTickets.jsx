@@ -106,8 +106,8 @@ export default class NewTickets extends TrackerReact(Component){
                           <th className=""> Ticket No.</th>
                           <th className=""> Order ID </th>
                           <th className=""> Service Name </th>
-                          <th className=""> Arrival Date </th>
-                          <th className=""> TAT(Date) </th>
+                          <th className=""> Receive Date </th>
+                          <th className=""> Due Date </th>
                           <th className=""> Status </th>
                           
                         </tr>

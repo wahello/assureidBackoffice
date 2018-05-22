@@ -39,9 +39,9 @@ class RejectedTickets extends TrackerReact(Component){
                                     <tr className="hrTableHeader info UML-TableTr">
                                     <th className=""> Ticket No.</th>                                    
                                     <th className=""> Service Name </th>
-                                    <th className=""> Arrival Date </th>
-                                    <th className=""> TAT &nbsp;( Date ) </th>
-                                    <th className=""> Ticket age &nbsp;( In Days ) </th>      
+                                    <th className=""> Receive Date </th>
+                                    <th className=""> Due Date</th>
+                                    <th className=""> Aging &nbsp;( In Days ) </th>      
                                     <th className=""> Status </th>                        
                                     </tr>
                                 </thead>
