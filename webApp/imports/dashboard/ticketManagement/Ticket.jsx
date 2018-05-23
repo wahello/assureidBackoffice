@@ -59,7 +59,6 @@ class Ticket extends TrackerReact(Component){
   }
   showTicketDataState(){
     this.setState({ showRadiobtn: "Y",showRejectBox : 'N'}, () => {
-     
     }); 
   }
   getRejectBox(){
@@ -94,7 +93,7 @@ class Ticket extends TrackerReact(Component){
         var roleStatus          = $('#QTMRejectTicket').attr('data-roleStatus');
         var msg                 = $('#QTMRejectTicket').attr('data-msg');
         var ticketElements      = this.props.getTicket.ticketElement; 
-        var teamMemberDetails   = ticketElements.find(function (obj) { return obj.roleStatus == 'ReportSubmitted' });
+        var teamMemberDetails   = ticketElements.find(function (obj) { return obj.roleStatus == 'TMReviewRemark' });
         var allocatedToUserid   = teamMemberDetails.userId;
         var allocatedToUserName = teamMemberDetails.userName;
         break;
@@ -110,7 +109,7 @@ class Ticket extends TrackerReact(Component){
         var roleStatus          = $('#QTMReRejectTicket').attr('data-roleStatus');
         var msg                 = $('#QTMReRejectTicket').attr('data-msg');
         var ticketElements      = this.props.getTicket.ticketElement; 
-        var teamMemberDetails   = ticketElements.find(function (obj) { return obj.roleStatus == 'ReportSubmitted' });
+        var teamMemberDetails   = ticketElements.find(function (obj) { return obj.roleStatus == 'TMReviewRemark' });
         var allocatedToUserid   = teamMemberDetails.userId;
         var allocatedToUserName = teamMemberDetails.userName;
         break;
@@ -142,15 +141,10 @@ class Ticket extends TrackerReact(Component){
   }
   showBAFEList(role){
     var teammemberDetails = Meteor.users.find({"roles": {$in:[role]},}).fetch();
-    console.log('teammemberDetails: ', teammemberDetails);
-   
-    
     return teammemberDetails;
   }
   showTMQTMList(){
     var teammemQualityDetails = Meteor.users.find({"roles": {$in:["team member","quality team member"]}}).fetch();
-  
-    console.log(teammemQualityDetails);
     return teammemQualityDetails;
   }
   uploadDocsDiv(event){
@@ -190,7 +184,6 @@ class Ticket extends TrackerReact(Component){
 
   }
   handleReportUpload(event){
-    
     event.preventDefault();
     let self = this;
     if (event.currentTarget.files && event.currentTarget.files[0]) {
@@ -323,7 +316,6 @@ class Ticket extends TrackerReact(Component){
         });
       }
     }
-
     if(exeQuery == 1){
       Meteor.call('genericUpdateTicketMasterElement',this.props.ticketId,insertData,(error,result)=>{
         if(result == 1){
@@ -331,7 +323,6 @@ class Ticket extends TrackerReact(Component){
         }
       });
     }    
-    
   }
   approveButton(event){
     event.preventDefault();
@@ -380,6 +371,20 @@ class Ticket extends TrackerReact(Component){
         }
         break;
       case 'VerificationPass' :
+        insertData.reviewRemark = $('#TMReviewRemark').val();
+        insertData.allocatedToUserid   = '';
+        insertData.allocatedToUserName = '';
+        break;
+      case 'VerificationPassQTMAllocated' :
+        insertData.allocatedToUserid   = '';
+        insertData.allocatedToUserName = '';
+        break;
+      case 'QAPass' :
+        insertData.reviewRemark = $('#QTMReviewRemark').val();
+        insertData.allocatedToUserid   = '';
+        insertData.allocatedToUserName = '';
+        break;
+      case 'QTMReviewRemark' :
         if(!this.props.loading){
             var reportLinkDetails = TempTicketReport.findOne({},{sort:{'createdAt':-1}}); 
             if(reportLinkDetails!=undefined){
@@ -413,9 +418,17 @@ class Ticket extends TrackerReact(Component){
         var allocatedToUserName = teamMemberDetails.userName;
         break;
       case 'QAPassQTLAllocated' :
-        insertData.allocatedToUserid   = this.props.getTicket.ticketElement[0].userId;
-        insertData.allocatedToUserName = this.props.getTicket.ticketElement[0].userName;
-        insertData.ticketDataChangeStaus = $('input[name=ticketDataApproveReject]:checked').val();
+        insertData.allocatedToUserid   = '';
+        insertData.allocatedToUserName = '';
+        break;
+      case 'ReviewPass' :
+        insertData.reviewRemark = $('#QTLReviewRemark').val();
+        insertData.allocatedToUserid   = '';
+        insertData.allocatedToUserName = '';
+        break;
+      case 'ReportReGenerated' :
+        insertData.allocatedToUserid   = '';
+        insertData.allocatedToUserName = '';
         break;
       default :
         insertData.allocatedToUserid   = '';
@@ -427,10 +440,8 @@ class Ticket extends TrackerReact(Component){
       Meteor.call('genericUpdateTicketMasterElement',this.props.ticketId,insertData);
     }
   }
- 
   targetReport(){
-    window.scrollBy(0, -300);
-    
+    window.scrollBy(0, -300); 
   }
   editInformation(){
     window.scrollBy(0, -700);
@@ -438,17 +449,13 @@ class Ticket extends TrackerReact(Component){
   deleteReport(event){
       event.preventDefault();
       var id = $(event.currentTarget).attr('id');
-      
-      
       Meteor.call('deleteReport',id,function (error,result) {
         if (error) {
           console.log(error.reason);
         }else{
         // $('#showReport').css('display','block');
-          
         }
       });
-
   }
   actionBlock(){
     var n = this.props.getTicket.ticketElement.length;
@@ -456,7 +463,6 @@ class Ticket extends TrackerReact(Component){
     if(reportLinkDetails){
       var reportLink = reportLinkDetails.ReportLink;
     }
-   
     switch(this.props.getTicket.ticketElement[n-1].roleStatus){
       case 'screenTLAllocated' :
         if(Meteor.user().roles.find(this.getRole) == 'team leader' && this.props.getTicket.ticketElement[n-1].allocatedToUserid == Meteor.userId()){
@@ -469,14 +475,10 @@ class Ticket extends TrackerReact(Component){
                 <span className="col-lg-3 col-md-3 col-sm-4 col-xs-5"> Assign this ticket to: </span>
                 <select className="col-lg-3 col-md-3 col-sm-4 col-xs-5 tmListWrap" id="selectTMMember" aria-describedby="basic-addon1" ref="allocateToName"> 
                 <option>--Select--</option>
-                
                   {
-                      
-                    
                     this.showBAFEList('team member').map((data,i)=>{
                       return(
                       <option key={i} value={data._id} >
-
                           {data.profile.firstname + ' ' + data.profile.lastname}&nbsp; 
                           ({data.count ? data.count : 0})
                         </option>
@@ -718,18 +720,13 @@ class Ticket extends TrackerReact(Component){
           return(
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
               <h5> {title} </h5>
-              <span className="uploadreportTitle">Upload Report : </span>
+              <span className="uploadreportTitle">Review Remark: </span>
               <div className="col-lg-7 col-lg-offset-1 col-md-10 col-md-offset-1 col-xm-12 col-xs-12">
-                <div className="col-lg-6 col-md-12 col-sm-12 col-xs-12 hideProgressBar" id="uploadReportShowprogress">
-                    
-                    {this.getUploadReportPercentage()}
-                </div>
-              
                 <div className="col-lg-9 col-lg-offset-1">
-                    <input type="file" ref="uploadReportFile" id="uploadReport" name="uploadReport" className="col-lg-7 reporttitle noLRPad" onChange={this.handleReportUpload.bind(this)} multiple/>
+                <textarea rows="3" cols="160" className="col-lg-8 col-lg-offset-0" id="TMReviewRemark"/>
                 </div>
                 <div className="col-lg-7">
-                    <button type="button" className="fesubmitbtn col-lg-5 col-lg-offset-2" data-roleStatus="ReportSubmitted" data-msg="Submitted Verification Information" onClick={this.approveButton.bind(this)}>Submit</button>
+                    <button type="button" className="fesubmitbtn col-lg-5 col-lg-offset-2" data-roleStatus="TMReviewRemark" data-msg="Team Member Review Remark Submitted" onClick={this.approveButton.bind(this)}>Submit</button>
                 </div>
               </div>
             </div>
@@ -742,29 +739,57 @@ class Ticket extends TrackerReact(Component){
           return(
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
               <h5> {title} </h5>
-               
-              <h6>Submitted Report</h6>
-                <div className="col-lg-5 col-md-5 col-sm-12 col-xs-12">
-                  <div className="docdownload col-lg-3 col-lg-offset-1" title="Download Report">
-                      <a href={this.props.getTicket.reportSubmited.documents} download>
-                        <i className="fa fa-file-text-o" aria-hidden="true"></i>
-                      </a>
-                  </div>
-                  <lable className=" col-lg-9 col-md-9 col-sm-12 col-xs-12 downloadLable">Download Report</lable>
-                 </div>
-                <div className="col-lg-7 col-lg-offset-0 col-md-7 col-md-offset-0 col-xm-12 col-xs-12">
-                <span>Is the Report appropriate ? </span>
-                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 acceptrejectwrap">
-                  <button className="btn btn-danger col-lg-3 col-md-3 col-sm-4 col-xs-5 approvebtn" id="QTMRejectTicket" data-roleStatus="QAFail" data-msg="Rejected Verification Report For Quality Issue" onClick={this.showRejectBoxState.bind(this)} >
-                    Reject
-                  </button>
-                  <button className="btn btn-success col-lg-3 col-md-3 col-sm-4 col-xs-5 approvebtn" data-roleStatus="QAPass" data-msg="Approved Verification Report" onClick={this.approveButton.bind(this)} >
-                   Approve
-                  </button>
-                </div>
-               {this.state.showRejectBox === 'Y' ? this.getRejectBox() : '' }
+              <span>If Information submited then correct then generate Report or else reject and notify the Team Member with reason</span>
+              <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1 col-xs-12 acceptrejectwrap">
+                <button className="btn btn-danger approvebtn col-lg-3 col-md-3 col-sm-4 col-xs-5" id="QTMRejectTicket" data-roleStatus="QAFail" data-msg="Rejected Ticket and returned back to " onClick={this.showRejectBoxState.bind(this)}>
+                  Reject
+                </button>
+                <button className="btn btn-success col-lg-3 col-md-3 col-sm-4 col-xs-5 approvebtn" data-roleStatus="QAPass" data-msg="Verified the Ticket related Information" onClick={this.approveButton.bind(this)} >
+                  Approved </button>
               </div>
-              </div>       
+              {this.state.showRejectBox === 'Y' ? this.getRejectBox() : '' }
+            </div>       
+          )
+        }
+        break;
+      case 'QAPass' :
+        if(Meteor.user().roles.find(this.getRole) == 'quality team member' && this.props.getTicket.ticketElement[n-1].userId == Meteor.userId()){
+          var title = "Quality Team Member"; 
+          return(
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
+              <h5> {title} </h5>
+              <span className="uploadreportTitle">Review Remark: </span>
+              <div className="col-lg-7 col-lg-offset-1 col-md-10 col-md-offset-1 col-xm-12 col-xs-12">
+                <div className="col-lg-9 col-lg-offset-1">
+                <textarea rows="3" cols="160" className="col-lg-8 col-lg-offset-0" id="QTMReviewRemark"/>
+                </div>
+                <div className="col-lg-7">
+                    <button type="button" className="fesubmitbtn col-lg-5 col-lg-offset-2" data-roleStatus="QTMReviewRemark" data-msg="Quality Team Member Review Remark Submitted" onClick={this.approveButton.bind(this)}>Submit</button>
+                </div>
+              </div>
+            </div>
+          )
+        }
+        break;
+      case 'QTMReviewRemark' :
+        if(Meteor.user().roles.find(this.getRole) == 'quality team member' && this.props.getTicket.ticketElement[n-1].userId == Meteor.userId()){
+          var title = "Quality Team Member"; 
+          return(
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
+              <h5> {title} </h5>
+              <span className="uploadreportTitle">Upload Report : </span>
+              <div className="col-lg-7 col-lg-offset-1 col-md-10 col-md-offset-1 col-xm-12 col-xs-12">
+                <div className="col-lg-6 col-md-12 col-sm-12 col-xs-12 hideProgressBar" id="uploadReportShowprogress">
+                    {this.getUploadReportPercentage()}
+                </div>
+                <div className="col-lg-9 col-lg-offset-1">
+                    <input type="file" ref="uploadReportFile" id="uploadReport" name="uploadReport" className="col-lg-7 reporttitle noLRPad" onChange={this.handleReportUpload.bind(this)} multiple/>
+                </div>
+                <div className="col-lg-7">
+                    <button type="button" className="fesubmitbtn col-lg-5 col-lg-offset-2" data-roleStatus="ReportSubmitted" data-msg="Generated The Ticket" onClick={this.approveButton.bind(this)}>Submit</button>
+                </div>
+              </div>
+            </div>       
           )
         }
         break;
@@ -801,7 +826,6 @@ class Ticket extends TrackerReact(Component){
           return(
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
               <h5> {title} </h5>
-             
               <div className="col-lg-10 col-md-10 col-md-offset-0 col-xm-12 col-xs-12">
                 <h6>Submitted Report</h6>
                 <div className="col-lg-5 col-md-5 col-sm-12 col-xs-12">
@@ -812,18 +836,12 @@ class Ticket extends TrackerReact(Component){
                   </div>
                   <lable className=" col-lg-9 col-md-9 col-sm-12 col-xs-12">Download Report</lable>
                 </div>
-                
                 <div className="col-lg-7 col-lg-offset-0 col-md-6 col-md-offset-0 col-sm-10 col-sm-offset-1 col-xs-12">
-                 
-
                   <label className="col-lg-12">Is the Report appropriate ? </label>                  
                   <button className="btn btn-danger col-lg-3 col-md-3 col-sm-4 col-xs-5 approvebtn" id="QTLRejectTicket" data-roleStatus="ReviewFail" data-msg="Rejected Verification Report For Quality Issue" onClick={this.showRejectBoxState.bind(this)} >
                     Reject
                   </button>
-                  {/* <button className="btn btn-success col-lg-3 col-md-3 col-sm-4 col-xs-5 approvebtn" data-roleStatus="ReviewPass" data-msg="Approved And Delivered Verification Report" onClick={this.approveButton.bind(this)} >
-                   Approve 
-                  </button> */}
-                  <button className="btn btn-success col-lg-3 col-md-3 col-sm-4 col-xs-5 approvebtn" onClick={this.showTicketDataState.bind(this)} >
+                  <button className="btn btn-success col-lg-3 col-md-3 col-sm-4 col-xs-5 approvebtn" data-roleStatus="ReviewPass" data-msg="Approved the Ticket" onClick={this.approveButton.bind(this)} >
                    Approve 
                   </button>
                 </div>
@@ -856,6 +874,62 @@ class Ticket extends TrackerReact(Component){
               </div>
               
             </div>
+          )
+        }
+        break;
+      case 'ReviewPass' :
+        if(Meteor.user().roles.find(this.getRole) == 'quality team leader' && this.props.getTicket.ticketElement[n-1].userId == Meteor.userId()){
+          var title = "Quality Team Leader"; 
+          return(
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
+              <h5> {title} </h5>
+              <span className="uploadreportTitle">Review Remark: </span>
+              <div className="col-lg-7 col-lg-offset-1 col-md-10 col-md-offset-1 col-xm-12 col-xs-12">
+                <div className="col-lg-9 col-lg-offset-1">
+                <textarea rows="3" cols="160" className="col-lg-8 col-lg-offset-0" id="QTLReviewRemark"/>
+                </div>
+                <div className="col-lg-7">
+                    <button type="button" className="fesubmitbtn col-lg-5 col-lg-offset-2" data-roleStatus="QTLReviewRemark" data-msg="Quality Team Leader Review Remark Submitted" onClick={this.approveButton.bind(this)}>Submit</button>
+                </div>
+              </div>
+            </div>
+          )
+        }
+        break;
+      case 'QTLReviewRemark' :
+        if(Meteor.user().roles.find(this.getRole) == 'quality team leader' && this.props.getTicket.ticketElement[n-1].userId == Meteor.userId()){
+          var title = "Quality Team Leader"; 
+          return(
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
+              <h5> {title} </h5>
+              <span className="uploadreportTitle">Upload Updated Report : </span>
+              <div className="col-lg-7 col-lg-offset-1 col-md-10 col-md-offset-1 col-xm-12 col-xs-12">
+                <div className="col-lg-6 col-md-12 col-sm-12 col-xs-12 hideProgressBar" id="uploadReportShowprogress">
+                    {this.getUploadReportPercentage()}
+                </div>
+                <div className="col-lg-9 col-lg-offset-1">
+                    <input type="file" ref="uploadReportFile" id="uploadReport" name="uploadReport" className="col-lg-7 reporttitle noLRPad" onChange={this.handleReportUpload.bind(this)} multiple/>
+                </div>
+                <div className="col-lg-7">
+                    <button type="button" className="fesubmitbtn col-lg-5 col-lg-offset-2" data-roleStatus="ReportReGenerated" data-msg="Regenerated The Report" onClick={this.reportReSubmit.bind(this)}>Submit</button>
+                </div>
+              </div>
+            </div>        
+          )
+        }
+        break;
+      case 'ReportReGenerated' :
+        if(Meteor.user().roles.find(this.getRole) == 'quality team leader' && this.props.getTicket.ticketElement[n-1].userId == Meteor.userId()){
+          var title = "Quality Team Leader"; 
+          return(
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
+              <h5> {title} </h5>
+              <div className="col-lg-7 col-lg-offset-1 col-md-10 col-md-offset-1 col-xm-12 col-xs-12">
+                <div className="col-lg-7">
+                    <button type="button" className="fesubmitbtn col-lg-5 col-lg-offset-2" data-roleStatus="TicketClosed" data-msg="Closed the Ticket" onClick={this.approveButton.bind(this)}>Close Ticket</button>
+                </div>
+              </div>
+            </div>        
           )
         }
         break;
@@ -894,243 +968,240 @@ class Ticket extends TrackerReact(Component){
         break;
     }
   }
-
-
-
-render(){
-    if(!this.props.loading){
-      return(           
-        <div>
-          <div className="content-wrapper">
-            <section className="content">
-              <div className="row">
-                <div className="col-md-12">
-                  <div className="box">
-                    <div className="box-header with-border">
-                      <h2 className="box-title">Ticket</h2>
-                    </div>
-                    <div className="box-body">
-                       <div className="ticketWrapper col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                          <div className="ticketHeader col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div className="ticketBorder col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                              <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 noLRPad">
-                                  <img src="/images/assureid/Assure-ID-logo-Grey.png" className="assureidLogo" />
-                              </div>
-                            <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-right outerTicketIcons">
-                                <i className="fa fa-print ticketIcons" title="Print"></i> 
-                                <i className="fa fa-file-pdf-o ticketIcons"  title="PDF"></i>
-                                <i className="fa fa-download ticketIcons" title="Download"></i>
-                            </div>
-                            </div>
-                          </div>
-
+  render(){
+      if(!this.props.loading){
+        return(           
+          <div>
+            <div className="content-wrapper">
+              <section className="content">
+                <div className="row">
+                  <div className="col-md-12">
+                    <div className="box">
+                      <div className="box-header with-border">
+                        <h2 className="box-title">Ticket</h2>
+                      </div>
+                      <div className="box-body">
+                         <div className="ticketWrapper col-lg-12 col-md-12 col-sm-12 col-xs-12">
                           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-
-                            <h3 className="ticketheadStyle col-lg-12">{this.props.getTicket.serviceName}/{this.props.getTicket.ticketNumber}</h3>
-                          </div>
-                          <div className="ticketPills col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 noLRPad">
-                              <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                { this.props.userProfile.userProfile ?
-                                  <img src={this.props.userProfile.userProfile } className="ticketUserImage" /> :
-                                  <img src="/images/assureid/userIcon.png" className="ticketUserImage" />
-                                }
-                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight assureidValue">
-                                    <button type="button" className="btn viewbtn" data-userid={this.props.user._id} onClick= {this.viewprofile.bind(this)}>View Profile</button>
+                            <div className="ticketHeader col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                              <div className="ticketBorder col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 noLRPad">
+                                    <img src="/images/assureid/Assure-ID-logo-Grey.png" className="assureidLogo" />
                                 </div>
+                              <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-right outerTicketIcons">
+                                  <i className="fa fa-print ticketIcons" title="Print"></i> 
+                                  <i className="fa fa-file-pdf-o ticketIcons"  title="PDF"></i>
+                                  <i className="fa fa-download ticketIcons" title="Download"></i>
                               </div>
-                              <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
-                                  {/* <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
-                                  Name <span className="pull-right">:</span>
-                                  </div>   */}
-                                  <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-left userName">
-                                    <h5>{this.props.userProfile.firstName} {this.props.userProfile.lastName}</h5>
-                                  </div>
-                                </div>
-                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
-                                  <div className="col-lg-5 col-md-5 col-sm-4 col-xs-4 text-left  userLabel">
-                                  Assure ID <span className="pull-right">:</span>
-                                  </div> 
-                                  <div className="col-lg-7 col-md-7 col-sm-8 col-xs-8 text-left userValue">
-                                  
-                                    <p>&nbsp;{this.props.userProfile.assureId ? this.props.userProfile.assureId : "-"}</p>
-                                  </div>
-                                </div>
-                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
-                                  <div className="col-lg-5 col-md-5 col-sm-4 col-xs-4 text-left userLabel">
-                                 Mobile <span className="pull-right">:</span>
-                                  </div> 
-                                  <div className="col-lg-7 col-md-7 col-sm-8 col-xs-8 text-left userValue">
-                                  {/* <p>{this.state.userDetails.emails[0].address}</p> */}
-                                    <p>{this.props.userProfile.mobileNo ? "+91"+this.props.userProfile.mobileNo : "-"}</p>
-                                  </div>
-                                </div>
+                              </div>
+                            </div>
 
-                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
-                                  <div className="col-lg-5 col-md-5 col-sm-4 col-xs-4 text-left userLabel">
-                                  Email Id <span className="pull-right">:</span>
-                                  </div> 
-                                  <div className="col-lg-7 col-md-7 col-sm-8 col-xs-8 text-left userValue">
-                                    <p>{this.props.userProfile.emailId ? this.props.userProfile.emailId : "-"}</p>
+                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                              <h3 className="ticketheadStyle col-lg-12">{this.props.getTicket.serviceName}/{this.props.getTicket.ticketNumber}</h3>
+                            </div>
+                            <div className="ticketPills col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 noLRPad">
+                                <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                  { this.props.userProfile.userProfile ?
+                                    <img src={this.props.userProfile.userProfile } className="ticketUserImage" /> :
+                                    <img src="/images/assureid/userIcon.png" className="ticketUserImage" />
+                                  }
+                                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight assureidValue">
+                                      <button type="button" className="btn viewbtn" data-userid={this.props.user._id} onClick= {this.viewprofile.bind(this)}>View Profile</button>
                                   </div>
                                 </div>
-                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
-                                  <div className="col-lg-5 col-md-5 col-sm-4 col-xs-4 text-left userLabel">
-                                  Age<span className="pull-right">:</span>
-                                  </div> 
-                                   <div className="col-lg-7 col-md-7 col-sm-8 col-xs-8 text-left userValue">
-                                    <p>{this.props.userProfile.dateOfBirth ? this.props.userProfile.dateOfBirth +" Years" : "-"}</p>
+                                <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
+                                    {/* <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-left userLabel">
+                                    Name <span className="pull-right">:</span>
+                                    </div>   */}
+                                    <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 text-left userName">
+                                      <h5>{this.props.userProfile.firstName} {this.props.userProfile.lastName}</h5>
+                                    </div>
+                                  </div>
+                                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
+                                    <div className="col-lg-5 col-md-5 col-sm-4 col-xs-4 text-left  userLabel">
+                                    Assure ID <span className="pull-right">:</span>
+                                    </div> 
+                                    <div className="col-lg-7 col-md-7 col-sm-8 col-xs-8 text-left userValue">
                                     
+                                      <p>&nbsp;{this.props.userProfile.assureId ? this.props.userProfile.assureId : "-"}</p>
+                                    </div>
                                   </div>
+                                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
+                                    <div className="col-lg-5 col-md-5 col-sm-4 col-xs-4 text-left userLabel">
+                                   Mobile <span className="pull-right">:</span>
+                                    </div> 
+                                    <div className="col-lg-7 col-md-7 col-sm-8 col-xs-8 text-left userValue">
+                                    {/* <p>{this.state.userDetails.emails[0].address}</p> */}
+                                      <p>{this.props.userProfile.mobileNo ? "+91"+this.props.userProfile.mobileNo : "-"}</p>
+                                    </div>
+                                  </div>
+
+                                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
+                                    <div className="col-lg-5 col-md-5 col-sm-4 col-xs-4 text-left userLabel">
+                                    Email Id <span className="pull-right">:</span>
+                                    </div> 
+                                    <div className="col-lg-7 col-md-7 col-sm-8 col-xs-8 text-left userValue">
+                                      <p>{this.props.userProfile.emailId ? this.props.userProfile.emailId : "-"}</p>
+                                    </div>
+                                  </div>
+                                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
+                                    <div className="col-lg-5 col-md-5 col-sm-4 col-xs-4 text-left userLabel">
+                                    Age<span className="pull-right">:</span>
+                                    </div> 
+                                     <div className="col-lg-7 col-md-7 col-sm-8 col-xs-8 text-left userValue">
+                                      <p>{this.props.userProfile.dateOfBirth ? this.props.userProfile.dateOfBirth +" Years" : "-"}</p>
+                                      
+                                    </div>
+                                  </div>
+                                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
+                                    <div className="col-lg-5 col-md-5 col-sm-4 col-xs-4 text-left userLabel">
+                                    Gender <span className="pull-right">:</span>
+                                    </div> 
+                                    <div className="col-lg-7 col-md-7 col-sm-8 col-xs-8 text-left userValue">
+                                      <p className="genName">{this.props.userProfile.gender ? this.props.userProfile.gender : ""}</p>
+                                    </div>
+                                  </div>
+                                
                                 </div>
-                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
-                                  <div className="col-lg-5 col-md-5 col-sm-4 col-xs-4 text-left userLabel">
-                                  Gender <span className="pull-right">:</span>
-                                  </div> 
-                                  <div className="col-lg-7 col-md-7 col-sm-8 col-xs-8 text-left userValue">
-                                    <p className="genName">{this.props.userProfile.gender ? this.props.userProfile.gender : ""}</p>
-                                  </div>
-                                </div>
-                              
-                              </div>
-                              {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right viewProfileLink noPadLeftRight">
-                                <Link>View profile</Link>
-                              </div> */}
-                         </div>
-                         <div className="col-lg-6">
-                         <ServiceInformation ticketId={this.props.params.id}/>
-                         </div>
-                        </div>
-                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <VerifyDetailsDocument ticketId={this.props.params.id}/>
-                        </div>
-                        <VerifiedDocuments ticketId={this.props.params.id}/>
-                        <div id="SubmittedDocuments" >
-                          {this.props.getTicket.submitedDoc ?
-                            <SubmittedDocuments submittedDocuments={this.props.getTicket.submitedDoc} ticketId={this.props.params.id} />
-                            :
-                            ""
-                          }
-                        </div>
+                                {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right viewProfileLink noPadLeftRight">
+                                  <Link>View profile</Link>
+                                </div> */}
+                           </div>
+                           <div className="col-lg-6">
+                           <ServiceInformation ticketId={this.props.params.id}/>
+                           </div>
+                          </div>
+                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                              <VerifyDetailsDocument ticketId={this.props.params.id}/>
+                          </div>
+                          <VerifiedDocuments ticketId={this.props.params.id}/>
+                          <div id="SubmittedDocuments" >
+                            {this.props.getTicket.submitedDoc ?
+                              <SubmittedDocuments submittedDocuments={this.props.getTicket.submitedDoc} ticketId={this.props.params.id} />
+                              :
+                              ""
+                            }
+                          </div>
 
-                        <div id="displayReporta">
-                          {this.props.getTicket.reportSubmited && this.props.getTicket.reportSubmited.documents?
-                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outeReportBlock">
-                                <h6 className="dataDetails col-lg-1 col-md-1 col-sm-1 col-xs-1">Report:</h6> 
-                                {
-                                  Roles.userIsInRole(Meteor.userId(),['team member'])?
-                                    <i className="fa fa-times tempImageDelete" title="Delete Report" id={this.props.params.id} onClick={this.deleteReport.bind(this)}></i>                                
-                                  :
-                                    ""
-                                }
-                                  <div className="docdownload col-lg-1 col-lg-offset-1" title="Download Report">
-
-
-                                      <a href={this.props.getTicket.reportSubmited.documents} download>
-                                        {
-                                          this.props.getTicket.reportSubmited.fileExtension ?
-                                          this.props.getTicket.reportSubmited.fileExtension == "pdf" || this.props.getTicket.reportSubmited.fileExtension == "ods" ?
-                                             <i className="fa fa-file-text-o" aria-hidden="true"></i>
-                                          :
-                                          this.props.getTicket.reportSubmited.fileExtension == "jpg" || this.props.getTicket.reportSubmited.fileExtension == "jpeg" || this.props.getTicket.reportSubmited.fileExtension == "png" || this.props.getTicket.reportSubmited.fileExtension == "gif" ?
-                                          <i className="fa fa-file-image-o" aria-hidden="true"></i>
-                                          :
-                                          ""
-                                          :
-                                          ""
-                                          
-                                        }
-                                      </a>
-                                  </div>
-                                <lable className=" col-lg-11 col-md-11 col-sm-12 col-xs-12 downloadLable">Download Report</lable>
-                              </div>   
-                            </div>                       
-                            :
-                            null
-                          }
-                          {
-                            this.props.showHideBtn && this.props.getTicket.reportSubmited ?
-
-                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                          <div id="displayReporta">
+                            {this.props.getTicket.reportSubmited && this.props.getTicket.reportSubmited.documents?
+                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outeReportBlock">
                                   <h6 className="dataDetails col-lg-1 col-md-1 col-sm-1 col-xs-1">Report:</h6> 
-                                
-                                      <div  id="showReport" className="col-lg-12 col-md-12 col-sm-12 col-xs-12 fesubmitbtn tickStatWrapper">
-                                      <span className="uploadreportTitle">Upload Report : </span>
-                                        <div className="col-lg-7 col-lg-offset-1 col-md-10 col-md-offset-1 col-xm-12 col-xs-12">
-                                          <div className="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-                                              
-                                              {this.getUploadReportPercentage()}
-                                          </div>
-                                        
-                                          <div className="col-lg-9 col-lg-offset-1">
-                                              <input type="file" ref="uploadReportFile" id="uploadReport" name="uploadReport" className="col-lg-7 reporttitle noLRPad" onChange={this.handleReportUpload.bind(this)} multiple/>
-                                          </div>
-                                          <div className="col-lg-7">
-                                              <button type="button" className="fesubmitbtn col-lg-5 col-lg-offset-2" data-roleStatus="ReportReSubmitted" data-msg="Submitted Verification Information" onClick={this.reportReSubmit.bind(this)}>Submit</button>
-                                          </div>
-                                        </div>
-                                      </div>
-                                  </div>
-                              </div>
+                                  {
+                                    Roles.userIsInRole(Meteor.userId(),['team member'])?
+                                      <i className="fa fa-times tempImageDelete" title="Delete Report" id={this.props.params.id} onClick={this.deleteReport.bind(this)}></i>                                
+                                    :
+                                      ""
+                                  }
+                                    <div className="docdownload col-lg-1 col-lg-offset-1" title="Download Report">
 
+
+                                        <a href={this.props.getTicket.reportSubmited.documents} download>
+                                          {
+                                            this.props.getTicket.reportSubmited.fileExtension ?
+                                            this.props.getTicket.reportSubmited.fileExtension == "pdf" || this.props.getTicket.reportSubmited.fileExtension == "ods" ?
+                                               <i className="fa fa-file-text-o" aria-hidden="true"></i>
+                                            :
+                                            this.props.getTicket.reportSubmited.fileExtension == "jpg" || this.props.getTicket.reportSubmited.fileExtension == "jpeg" || this.props.getTicket.reportSubmited.fileExtension == "png" || this.props.getTicket.reportSubmited.fileExtension == "gif" ?
+                                            <i className="fa fa-file-image-o" aria-hidden="true"></i>
+                                            :
+                                            ""
+                                            :
+                                            ""
+                                            
+                                          }
+                                        </a>
+                                    </div>
+                                  <lable className=" col-lg-11 col-md-11 col-sm-12 col-xs-12 downloadLable">Download Report</lable>
+                                </div>   
+                              </div>                       
                               :
                               null
-                          }
-                          
-                        </div>
+                            }
+                            {
+                              this.props.showHideBtn && this.props.getTicket.reportSubmited ?
 
-                      
-                         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outerShadow">
-                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 activityDetails">                           
-                                  <h3> Activity Log</h3>
-                              </div>
-                              {this.actionBlock()}
-                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
-                                {this.props.getTicket.ticketElement.slice(0).reverse().map((element,i)=>{
-                                   return (
-                                    <div key={i} className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
-                                      <h5> {element.role} </h5>
-                                      <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                      <b>{element.userName}</b> {element.msg} <b>{element.allocatedToUserName}</b> on {moment(element.createdAt).format("DD/MM/YYYY hh:mm A")}.
-                                      
-                                        {
-                                          element.remark ?
-                                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
-                                              <span>Remark &nbsp;:</span><span>{element.remark}</span>
+                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outeReportBlock">
+                                    <h6 className="dataDetails col-lg-1 col-md-1 col-sm-1 col-xs-1">Report:</h6> 
+                                  
+                                        <div  id="showReport" className="col-lg-12 col-md-12 col-sm-12 col-xs-12 fesubmitbtn tickStatWrapper">
+                                        <span className="uploadreportTitle">Upload Report : </span>
+                                          <div className="col-lg-7 col-lg-offset-1 col-md-10 col-md-offset-1 col-xm-12 col-xs-12">
+                                            <div className="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                                                
+                                                {this.getUploadReportPercentage()}
                                             </div>
-                                          :
-                                          ""
-                                        }
-                                      </div> 
+                                          
+                                            <div className="col-lg-9 col-lg-offset-1">
+                                                <input type="file" ref="uploadReportFile" id="uploadReport" name="uploadReport" className="col-lg-7 reporttitle noLRPad" onChange={this.handleReportUpload.bind(this)} multiple/>
+                                            </div>
+                                            <div className="col-lg-7">
+                                                <button type="button" className="fesubmitbtn col-lg-5 col-lg-offset-2" data-roleStatus="ReportReSubmitted" data-msg="Submitted Verification Information" onClick={this.reportReSubmit.bind(this)}>Submit</button>
+                                            </div>
+                                          </div>
+                                        </div>
                                     </div>
-                                    )
-                                  })
-                                }
+                                </div>
+
+                                :
+                                null
+                            }
+                            
+                          </div>
+
+                        
+                           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outerShadow">
+                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 activityDetails">                           
+                                    <h3> Activity Log</h3>
+                                </div>
+                                {this.actionBlock()}
+                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
+                                  {this.props.getTicket.ticketElement.slice(0).reverse().map((element,i)=>{
+                                     return (
+                                      <div key={i} className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
+                                        <h5> {element.role} </h5>
+                                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <b>{element.userName}</b> {element.msg} <b>{element.allocatedToUserName}</b> on {moment(element.createdAt).format("DD/MM/YYYY hh:mm A")}.
+                                        
+                                          {
+                                            element.remark ?
+                                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
+                                                <span>Remark &nbsp;:</span><span>{element.remark}</span>
+                                              </div>
+                                            :
+                                            ""
+                                          }
+                                        </div> 
+                                      </div>
+                                      )
+                                    })
+                                  }
+                                </div>
                               </div>
                             </div>
-                          </div>
-                       </div>
-                       </div>
-                       </div>
+                         </div>
+                         </div>
+                         </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              {/* </div> */}
-            </section>
-          </div>
-        </div>   
-      );
-    }else{
-      return(<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noData"> No Data Available</div>);
-    }
+                {/* </div> */}
+              </section>
+            </div>
+          </div>   
+        );
+      }else{
+        return(<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noData"> No Data Available</div>);
+      }
 
-   }
-}
+     }
+  }
 
 export default UserDetailsContainer = withTracker(props => {
   var handleSinTick = Meteor.subscribe("singleTicket",props.params.id);

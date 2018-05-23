@@ -122,14 +122,22 @@ if(Meteor.isServer){
 					Meteor.call('changeStatusMethod',ticketid,ticketDetails.userId,insertData.remark,ticketDetails.verificationType,ticketDetails.verificationId);
 				}
 				break;
-			
 			case 'Assign':
 				count = parseInt(countValueSplit)+1;	
 				if(count){
 					Meteor.call('updateCommitteeUserCount',count,insertData.allocatedToUserid);
 				}
 				break;
-			
+			case 'AssignAccept' :
+				TicketMaster.update(
+					{'_id':ticketid},
+					{
+						$set:{
+							'ticketStatus' : 'Initiated',
+						}
+					}
+				);	
+				break;
 			case 'AssignReject':
 				var teamMember = Meteor.users.findOne({"_id":insertData.userId});
 				if(teamMember && teamMember.count){
@@ -223,8 +231,8 @@ if(Meteor.isServer){
 							}
 						});
 						TempTicketReport.remove({});
-						var role = "quality team member";
-						var roleStatus = "VerificationPassQTMAllocated";
+						var role = "quality team leader";
+						var roleStatus = "QAPassQTLAllocated";
 						var ticketDetails = TicketMaster.findOne({"_id":ticketid});
 						if(ticketDetails){
 							var newMember = Meteor.call('autoAllocateMember',role,ticketDetails.serviceName);
@@ -255,97 +263,169 @@ if(Meteor.isServer){
 						}
 					}
 					break;
-			case 'ReportReSubmitted':
-						TicketMaster.update({"_id": ticketid},{
-							$set: {
-								'reportSubmited.createdAt' : insertData.createdAt,
-								'reportSubmited.documents' : insertData.reportSubmited,
-								'reportSubmited.fileExtension' : insertData.fileExtension,
-								
-							}
-						});
-						TempTicketReport.remove({});
-						var role = "quality team member";
-						var roleStatus = "VerificationPassQTMAllocated";
-						var ticketDetails = TicketMaster.findOne({"_id":ticketid});
-						if(ticketDetails){
-							var newMember = Meteor.call('autoAllocateMember',role,ticketDetails.serviceName);
-							var roleSentence = Meteor.call('toTitleCase',role);
-							if(roleSentence){
-								var insertData = {
-									"userId"              : '',
-									"userName"            : '',
-									"role"                : 'system action',
-									"roleStatus"          : roleStatus,
-									"msg"                 : "System Allocated Ticket To " + roleSentence,
-									"allocatedToUserid"	  : newMember[0]._id,
-									"allocatedToUserName" : newMember[0].profile.firstname + ' ' + newMember[0].profile.lastname,
-									"createdAt"           : new Date()
-								}
-								//Update TicketElement - System Action
-								TicketMaster.update(
-									{'_id':ticketid},
-									{
-										$push:{
-											'ticketElement' : insertData,
-										}
-									}
-								);	
-								Meteor.call('updateCommitteeUserCount',newMember[0].count+1,newMember[0]._id);
-							}
-						}
-						break;
-			case 'QAPass' :
-					var newCount = Meteor.user().count;
-					if(newCount){
-						Meteor.call('updateCommitteeUserCount',newCount-1,insertData.userId);
+			case 'TMReviewRemark':
+				var reviewRemark = {
+					'createdAt' : insertData.createdAt,
+					'remark' 	 : insertData.reviewRemark,
+					'role'      : 'Team Member',
+					'userName'  : insertData.userName,
+					'userId'    : insertData.userId,
+				}
+				TicketMaster.update({"_id": ticketid},{
+					$push: {
+						'reviewRemark' : reviewRemark, 
 					}
-					var role = "quality team leader";
-					var roleStatus = "QAPassQTLAllocated";
-					var ticketDetails = TicketMaster.findOne({"_id":ticketid});
-					if(ticketDetails){
-						var newMember = Meteor.call('autoAllocateMember',role,ticketDetails.serviceName);
-						var roleSentence = Meteor.call('toTitleCase',role);
-						if(roleSentence){
-							var insertData = {
-								"userId"              : '',
-								"userName"            : '',
-								"role"                : 'system action',
-								"roleStatus"          : roleStatus,
-								"msg"                 : "System Allocated Ticket To " + roleSentence,
-								"allocatedToUserid"	  : newMember[0]._id,
-								"allocatedToUserName" : newMember[0].profile.firstname + ' ' + newMember[0].profile.lastname,
-								"createdAt"           : new Date()
-							}
-							//Update TicketElement - System Action
-							TicketMaster.update(
-								{'_id':ticketid},
-								{
-									$push:{
-										'ticketElement' : insertData,
-									}
-								}
-							);	
-							Meteor.call('updateCommitteeUserCount',newMember[0].count,newMember[0]._id);
-						}
-					}
-					break;
-			case 'QAFail' :
-					break;
-			case 'ReviewPass' :
+				});
+				var role = "quality team member";
+				var roleStatus = "VerificationPassQTMAllocated";
 				var ticketDetails = TicketMaster.findOne({"_id":ticketid});
-				if(ticketDetails){ 
-					Meteor.call('changeTicketStatusInOrder',ticketDetails.orderId,ticketid,insertData.ticketDataChangeStaus,ticketDetails.reportSubmited.documents)
+				if(ticketDetails){
+					var newMember = Meteor.call('autoAllocateMember',role,ticketDetails.serviceName);
+					var roleSentence = Meteor.call('toTitleCase',role);
+					if(roleSentence){
+						var insertData = {
+							"userId"              : '',
+							"userName"            : '',
+							"role"                : 'system action',
+							"roleStatus"          : roleStatus,
+							"msg"                 : "System Allocated Ticket To " + roleSentence,
+							"allocatedToUserid"	  : newMember[0]._id,
+							"allocatedToUserName" : newMember[0].profile.firstname + ' ' + newMember[0].profile.lastname,
+							"createdAt"           : new Date()
+						}
+						//Update TicketElement - System Action
+						TicketMaster.update(
+							{'_id':ticketid},
+							{
+								$push:{
+									'ticketElement' : insertData,
+								}
+							}
+						);	
+					
+						Meteor.call('updateCommitteeUserCount',newMember[0].count-1,newMember[0]._id);
+					}
 				}
 				break;
+			case 'QTMReviewRemark':
+				var reviewRemark = {
+					'createdAt' : insertData.createdAt,
+					'remark' 	 : insertData.reviewRemark,
+					'role'      : 'Quality Team Member',
+					'userName'  : insertData.userName,
+					'userId'    : insertData.userId,
+				}
+				TicketMaster.update({"_id": ticketid},{
+					$push: {
+						'reviewRemark' : reviewRemark, 
+					}
+				});
+				// Meteor.call('updateCommitteeUserCount',newMember[0].count-1,newMember[0]._id);
 				
+				break;
+			case 'ReportReGenerated':
+				TicketMaster.update({"_id": ticketid},{
+					$set: {
+						'reportSubmited.createdAt' : insertData.createdAt,
+						'reportSubmited.documents' : insertData.reportSubmited,
+						'reportSubmited.fileExtension' : insertData.fileExtension,
+						
+					}
+				});
+				TempTicketReport.remove({});
+				// TicketMaster.update({"_id": ticketid},{
+				// 	$set: {
+				// 		'ticketStatus' : 'Completed',
+				// 	}
+				// });
+				// var ticketDetails = TicketMaster.findOne({"_id":ticketid});
+				// if(ticketDetails){ 
+				// 	Meteor.call('changeTicketStatusInOrder',ticketDetails.orderId,ticketid,insertData.ticketDataChangeStaus,ticketDetails.reportSubmited.documents)
+				// }
+				break;
+			// case 'QAPass' :
+			// 		var newCount = Meteor.user().count;
+			// 		if(newCount){
+			// 			Meteor.call('updateCommitteeUserCount',newCount-1,insertData.userId);
+			// 		}
+			// 		var role = "quality team leader";
+			// 		var roleStatus = "QAPassQTLAllocated";
+			// 		var ticketDetails = TicketMaster.findOne({"_id":ticketid});
+			// 		if(ticketDetails){
+			// 			var newMember = Meteor.call('autoAllocateMember',role,ticketDetails.serviceName);
+			// 			var roleSentence = Meteor.call('toTitleCase',role);
+			// 			if(roleSentence){
+			// 				var insertData = {
+			// 					"userId"              : '',
+			// 					"userName"            : '',
+			// 					"role"                : 'system action',
+			// 					"roleStatus"          : roleStatus,
+			// 					"msg"                 : "System Allocated Ticket To " + roleSentence,
+			// 					"allocatedToUserid"	  : newMember[0]._id,
+			// 					"allocatedToUserName" : newMember[0].profile.firstname + ' ' + newMember[0].profile.lastname,
+			// 					"createdAt"           : new Date()
+			// 				}
+			// 				//Update TicketElement - System Action
+			// 				TicketMaster.update(
+			// 					{'_id':ticketid},
+			// 					{
+			// 						$push:{
+			// 							'ticketElement' : insertData,
+			// 						}
+			// 					}
+			// 				);	
+			// 				Meteor.call('updateCommitteeUserCount',newMember[0].count,newMember[0]._id);
+			// 			}
+			// 		}
+			// 		break;
+			case 'QAFail' :
+					break;
+			case 'TicketClosed' :
+				// var ticketDetails = TicketMaster.findOne({"_id":ticketid});
+				// if(ticketDetails){ 
+				// 	Meteor.call('changeTicketStatusInOrder',ticketDetails.orderId,ticketid,insertData.ticketDataChangeStaus,ticketDetails.reportSubmited.documents)
+				// }
+
+				break;
+			case 'QTLReviewRemark' :
+				var reviewRemark = {
+					'createdAt' : insertData.createdAt,
+					'remark' 	 : insertData.reviewRemark,
+					'role'      : 'Quality Team Leader',
+					'userName'  : insertData.userName,
+					'userId'    : insertData.userId,
+				}
+				TicketMaster.update({"_id": ticketid},{
+					$push: {
+						'reviewRemark' : reviewRemark, 
+					}
+				});
+				break;
 			case 'FEAllocated':
 			case 'BAAllocated':
 				count = parseInt(countValueSplit)+1;	
 				if(count){
 					Meteor.call('updateCommitteeUserCount',count,insertData.allocatedToUserid);
 				}
+				TicketMaster.update(
+					{'_id':ticketid},
+					{
+						$set:{
+							'ticketStatus' : 'WIP',
+						}
+					}
+				);
 				break;
+			case 'SelfAllocated':
+				TicketMaster.update(
+					{'_id':ticketid},
+					{
+						$set:{
+							'ticketStatus' : 'WIP',
+						}
+					}
+				);
+			break;
 		}
 		return updateStatus;
 	},
