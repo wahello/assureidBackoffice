@@ -8,6 +8,10 @@ const window = Dimensions.get('window');
 
 class CameraViewChild extends React.Component{
 
+  componentWillUnmount() {
+      console.log('#####################CameraViewChild Component WILL UNMOUNT!@@@@@@@@@@@@@@@@@@@@@');
+   }
+
   backToCamera(event){
     event.preventDefault();
     
@@ -152,6 +156,7 @@ class CameraViewChild extends React.Component{
 
 CameraView = createContainer( (props) => {
 
+  console.log('CameraView props: ',props);
   console.log(props.navigation.state.params.ticket);
   const postHandle      = Meteor.subscribe('projectSettingsPublish');
   const s3Data          = Meteor.collection('projectSettings').findOne({"_id":"1"}) || {};

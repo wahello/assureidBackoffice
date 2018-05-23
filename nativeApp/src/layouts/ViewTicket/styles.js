@@ -182,5 +182,17 @@ export default StyleSheet.create({
   pdf: {
       flex:1,
       width:window.width,
-  }
+  },
+  backgroundVideo: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+    backgroundColor:'#f00',
+  },
+  videoWrapper: {
+   flex:1,
+   backgroundColor:'#0f0',
+  },
 });

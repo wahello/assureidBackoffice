@@ -24,6 +24,8 @@ import ViewCustomerTable from "../../components/tableComponent/ViewCustomerTable
 import ViewCustomerModal from "../../components/modalComponent/ViewCustomerModal.js";
 import { Dropdown } from 'react-native-material-dropdown';
 
+import Video from "react-native-video";
+
 class ViewTicketFormInfo extends React.Component {
   constructor(props) {
     super(props);
@@ -350,9 +352,18 @@ class ViewTicketFormInfo extends React.Component {
   }
 
 
-  goToCamera =()=>{
+  goToCamera =(event)=>{
+    console.log('in goToCamera');
     this.props.navigation.navigate('Camera',{ ticket : this.props.ticket });
   }
+
+    uploadVideo(event){
+      DocumentPicker.show({ filetype : [DocumentPickerUtil.allFiles()]},(error,res) => {
+                            // Android
+                            console.log(res);
+
+                          });    
+    }
 
   render() {
     
@@ -626,37 +637,18 @@ class ViewTicketFormInfo extends React.Component {
                   <View style = {styles.formInputView}> 
                     <View style={{flex:1}}>
                       <View style={{flexDirection:'row'}}>
-                        <Icon name="videocam" type="MaterialIcons" size={50} color="#aaa"  />
-                        <View style={{paddingHorizontal:10,paddingVertical:10}}>
-                          <View style={styles.closeBtn}>
-                            <Icon name="close" type="MaterialIcons" size={20} color="#aaa"  />
-                          </View>
-                          <Image
-                            style={{ width: 50, height: 50, borderRadius: 15,}}
-                            resizeMode="stretch"
-                            source={require("../../images/pdf-icon.png")}
+                        <Icon name="videocam" type="MaterialIcons" size={50} color="#aaa" onPress = {this.uploadVideo.bind(this)} />
+
+                        <View style={{width: 50, height: 50, paddingHorizontal:10,paddingVertical:10}}>
+                          <Video
+                            repeat
+                            resizeMode='cover'
+                            // source={require('../../videos/videoplayback.mp4')}
+                            source={{uri: 'https://s3.ap-south-1.amazonaws.com/harmonicgroup/ProductVideo/2XAwdwWSg2qfpgKFf.mp4', type: 'mp4'}}
+                            style={styles.backgroundVideo}
                           />
                         </View>
-                        <View style={{paddingHorizontal:10,paddingVertical:10}}>
-                          <View style={styles.closeBtn}>
-                            <Icon name="close" type="MaterialIcons" size={20} color="#aaa"  />
-                          </View>
-                          <Image
-                            style={{ width: 50, height: 50, borderRadius: 15,}}
-                            resizeMode="stretch"
-                            source={require("../../images/pdf-icon.png")}
-                          />
-                        </View>
-                        <View style={{paddingHorizontal:10,paddingVertical:10}}>
-                          <View style={styles.closeBtn}>
-                            <Icon name="close" type="MaterialIcons" size={20} color="#aaa"  />
-                          </View>
-                          <Image
-                            style={{ width: 50, height: 50, borderRadius: 15, }}
-                            resizeMode="stretch"
-                            source={require("../../images/pdf-icon.png")}
-                          />
-                        </View>
+
                       </View>
                     </View>
                   </View>
