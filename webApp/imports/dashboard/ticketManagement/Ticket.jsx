@@ -127,7 +127,7 @@ class Ticket extends TrackerReact(Component){
       "remark"              : $('#rejectReason').val(),
       "createdAt"           : new Date()
     }
-    // console.log('insertData ',insertData);
+    // 
     Meteor.call('genericUpdateTicketMasterElement',this.props.ticketId,insertData);
     this.setState({"showRejectBox" : 'N'});
   }
@@ -151,15 +151,12 @@ class Ticket extends TrackerReact(Component){
     event.preventDefault();
     $('#AddImagesVideo').css({"display" : "block"});
     $(event.currentTarget).css({"display" : "none"});
-
-
-
-
     var data = this.props.checkObjs;
     if(data){
         var dataArr = [];
         for(var i=0; i<data.length;i++){
             var relatedField = data[i].relatedFields;
+            
             var strngVal = "";
             for(var k=0;k<relatedField.length;k++){
                 strngVal = strngVal + relatedField[k].dbField + ", ";
@@ -167,17 +164,16 @@ class Ticket extends TrackerReact(Component){
             var obj = {
                 titleVal : data[i].task,
                 // textVal : strngVal,
-                textVal : [],
-                correctVal : false,
+                textVal : relatedField,
+                correctVal : "Incorrect",
                 remarkVal : "",
             }
             dataArr.push(obj);
-            console.log('obj: ', obj);
+            
         }
-        console.log('verifiedInfo: ', dataArr);
+        
         this.setState({
             verifiedInfo: dataArr,
-            
         })
     }
 
@@ -451,7 +447,7 @@ class Ticket extends TrackerReact(Component){
       var id = $(event.currentTarget).attr('id');
       Meteor.call('deleteReport',id,function (error,result) {
         if (error) {
-          console.log(error.reason);
+          
         }else{
         // $('#showReport').css('display','block');
         }
@@ -1249,7 +1245,11 @@ export default UserDetailsContainer = withTracker(props => {
       }else  if (verificationType == "certificates") {
       var checkListFrom = "Skills And CertificationInformation";
       }
+
+      
       var checkListObjs = ChecklistFieldExpert.find({"checkListFor" : checkListFrom}).fetch();
+      
+      
       var checkObjs = [];
       var textObjs = [];
       if (checkListObjs) {
@@ -1264,8 +1264,7 @@ export default UserDetailsContainer = withTracker(props => {
     //------------------------------------------------------------------------------
    
   }   
-  console.log("checkObjs");
-  console.log(checkObjs);
+  
   if(getTicket && getTicket.reportSubmited && getTicket.reportSubmited.documents){
     var showHideBtn = false;
   }else{
