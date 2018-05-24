@@ -151,10 +151,6 @@ class Ticket extends TrackerReact(Component){
     event.preventDefault();
     $('#AddImagesVideo').css({"display" : "block"});
     $(event.currentTarget).css({"display" : "none"});
-
-
-
-
     var data = this.props.checkObjs;
     if(data){
         var dataArr = [];
@@ -180,8 +176,6 @@ class Ticket extends TrackerReact(Component){
             
         })
     }
-
-
   }
   handleReportUpload(event){
     event.preventDefault();
@@ -739,7 +733,7 @@ class Ticket extends TrackerReact(Component){
           return(
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
               <h5> {title} </h5>
-              <span>If Information submited then correct then generate Report or else reject and notify the Team Member with reason</span>
+              <span>Is the Information submitted appropriate ?</span>
               <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1 col-xs-12 acceptrejectwrap">
                 <button className="btn btn-danger approvebtn col-lg-3 col-md-3 col-sm-4 col-xs-5" id="QTMRejectTicket" data-roleStatus="QAFail" data-msg="Rejected Ticket and returned back to " onClick={this.showRejectBoxState.bind(this)}>
                   Reject
@@ -827,15 +821,6 @@ class Ticket extends TrackerReact(Component){
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
               <h5> {title} </h5>
               <div className="col-lg-10 col-md-10 col-md-offset-0 col-xm-12 col-xs-12">
-                <h6>Submitted Report</h6>
-                <div className="col-lg-5 col-md-5 col-sm-12 col-xs-12">
-                  <div className="docdownload col-lg-3 col-lg-offset-1" title="Download Report">
-                      <a href={this.props.getTicket.reportSubmited.documents} download>
-                        <i className="fa fa-file-text-o" aria-hidden="true"></i> 
-                      </a>
-                  </div>
-                  <lable className=" col-lg-9 col-md-9 col-sm-12 col-xs-12">Download Report</lable>
-                </div>
                 <div className="col-lg-7 col-lg-offset-0 col-md-6 col-md-offset-0 col-sm-10 col-sm-offset-1 col-xs-12">
                   <label className="col-lg-12">Is the Report appropriate ? </label>                  
                   <button className="btn btn-danger col-lg-3 col-md-3 col-sm-4 col-xs-5 approvebtn" id="QTLRejectTicket" data-roleStatus="ReviewFail" data-msg="Rejected Verification Report For Quality Issue" onClick={this.showRejectBoxState.bind(this)} >
@@ -970,6 +955,7 @@ class Ticket extends TrackerReact(Component){
   }
   render(){
       if(!this.props.loading){
+        console.log('testing1');
         return(           
           <div>
             <div className="content-wrapper">
@@ -1025,7 +1011,6 @@ class Ticket extends TrackerReact(Component){
                                     Assure ID <span className="pull-right">:</span>
                                     </div> 
                                     <div className="col-lg-7 col-md-7 col-sm-8 col-xs-8 text-left userValue">
-                                    
                                       <p>&nbsp;{this.props.userProfile.assureId ? this.props.userProfile.assureId : "-"}</p>
                                     </div>
                                   </div>
@@ -1071,7 +1056,7 @@ class Ticket extends TrackerReact(Component){
                                 </div> */}
                            </div>
                            <div className="col-lg-6">
-                           <ServiceInformation ticketId={this.props.params.id}/>
+                             <ServiceInformation ticketId={this.props.params.id}/>
                            </div>
                           </div>
                           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -1092,14 +1077,12 @@ class Ticket extends TrackerReact(Component){
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outeReportBlock">
                                   <h6 className="dataDetails col-lg-1 col-md-1 col-sm-1 col-xs-1">Report:</h6> 
                                   {
-                                    Roles.userIsInRole(Meteor.userId(),['team member'])?
+                                    Roles.userIsInRole(Meteor.userId(),['quality team member','quality team leader'])?
                                       <i className="fa fa-times tempImageDelete" title="Delete Report" id={this.props.params.id} onClick={this.deleteReport.bind(this)}></i>                                
                                     :
                                       ""
                                   }
                                     <div className="docdownload col-lg-1 col-lg-offset-1" title="Download Report">
-
-
                                         <a href={this.props.getTicket.reportSubmited.documents} download>
                                           {
                                             this.props.getTicket.reportSubmited.fileExtension ?
@@ -1112,7 +1095,6 @@ class Ticket extends TrackerReact(Component){
                                             ""
                                             :
                                             ""
-                                            
                                           }
                                         </a>
                                     </div>
@@ -1124,19 +1106,15 @@ class Ticket extends TrackerReact(Component){
                             }
                             {
                               this.props.showHideBtn && this.props.getTicket.reportSubmited ?
-
                               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                   <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outeReportBlock">
                                     <h6 className="dataDetails col-lg-1 col-md-1 col-sm-1 col-xs-1">Report:</h6> 
-                                  
                                         <div  id="showReport" className="col-lg-12 col-md-12 col-sm-12 col-xs-12 fesubmitbtn tickStatWrapper">
                                         <span className="uploadreportTitle">Upload Report : </span>
                                           <div className="col-lg-7 col-lg-offset-1 col-md-10 col-md-offset-1 col-xm-12 col-xs-12">
                                             <div className="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-                                                
                                                 {this.getUploadReportPercentage()}
                                             </div>
-                                          
                                             <div className="col-lg-9 col-lg-offset-1">
                                                 <input type="file" ref="uploadReportFile" id="uploadReport" name="uploadReport" className="col-lg-7 reporttitle noLRPad" onChange={this.handleReportUpload.bind(this)} multiple/>
                                             </div>
@@ -1147,14 +1125,37 @@ class Ticket extends TrackerReact(Component){
                                         </div>
                                     </div>
                                 </div>
-
                                 :
                                 null
                             }
-                            
                           </div>
+                          <div id="displayReporta">
+                            {this.props.getTicket.reviewRemark ?
+                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outeReportBlock">
+                                  <h6 className="dataDetails col-lg-2 col-md-2 col-sm-1 col-xs-1">Review Remark:</h6> 
+                                    {this.props.getTicket.reviewRemark.map((review,i)=>{
+                                      return(
+                                        <div key={i} className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
+                                          <h5> {review.role} </h5>
 
-                        
+                                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <b>Name   : </b>{review.userName}
+                                          </div>
+                                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <i className="fa fa-edit tempImageDelete col-lg-4 pull-right" title="Edit Review" id={this.props.params.id} onClick={this.deleteReport.bind(this)}></i><br/>
+                                            <b>Review Remark : </b>{review.remark}
+                                          </div>
+                                        </div>
+                                      )
+                                    })}
+                                    
+                                </div>   
+                              </div>                       
+                              :
+                              null
+                            }
+                          </div>
                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outerShadow">
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 activityDetails">                           
@@ -1173,6 +1174,14 @@ class Ticket extends TrackerReact(Component){
                                             element.remark ?
                                               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
                                                 <span>Remark &nbsp;:</span><span>{element.remark}</span>
+                                              </div>
+                                            :
+                                            ""
+                                          }
+                                          {
+                                            element.reviewRemark ?
+                                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
+                                                <span>Review Remark &nbsp;:</span><span>{element.reviewRemark}</span>
                                               </div>
                                             :
                                             ""
@@ -1209,8 +1218,6 @@ export default UserDetailsContainer = withTracker(props => {
   var handleUserProfile = Meteor.subscribe("userProfileData");
   var handleReport    = Meteor.subscribe("allTicketReport");
   const postHandle2  = Meteor.subscribe('checklistFieldExpert');
-
-
   var ticketId = props.params.id;
   var loading = !handleSinTick.ready() && !handleUseFunc.ready() && !handleUserProfile.ready() && !handleReport.ready() && !postHandle2.ready();
   var getTicket = TicketMaster.findOne({"_id":ticketId}) ;
@@ -1262,18 +1269,14 @@ export default UserDetailsContainer = withTracker(props => {
           }
       }
     //------------------------------------------------------------------------------
-   
   }   
-  console.log("checkObjs");
-  console.log(checkObjs);
+  console.log("checkObjs",checkObjs);
+  console.log("textObjs",textObjs);
   if(getTicket && getTicket.reportSubmited && getTicket.reportSubmited.documents){
     var showHideBtn = false;
   }else{
     var showHideBtn = true;
-
   }
-  
- 
   return {
     loading,
     getTicket,

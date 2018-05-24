@@ -350,9 +350,9 @@ class VerificationDataSubmit extends TrackerReact(Component){
 
         //Get Values for all the text field
         var textLists = [];
-		$('textarea.textObjs').each(function(i){
-			var dataChk    = {};
-			dataChk.task   = $(this).attr('id');
+        $('textarea.textObjs').each(function(i){
+            var dataChk    = {};
+            dataChk.task   = $(this).attr('id');
             dataChk.value  = $(this).val();
             textLists.push(dataChk);
         });
@@ -618,7 +618,7 @@ class VerificationDataSubmit extends TrackerReact(Component){
             checkLists: newArr,
         })
         
-		// $('#checkObjs').prop('checked',false);
+        // $('#checkObjs').prop('checked',false);
 
     }
     
@@ -753,7 +753,7 @@ class VerificationDataSubmit extends TrackerReact(Component){
                                                 <div className="col-lg-4 col-md-6 col-sm-6 col-xs-6">
                                                     <span className="col-lg-12">Remark &nbsp;</span>
                                                     <textarea rows="3" cols="60" className="col-lg-12"  data-indexVal={index} onChange={this.getRemark.bind(this)}/>
-                                                </div>	
+                                                </div>  
                                              </div>
                                             
                                           );
