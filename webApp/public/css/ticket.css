@@ -217,7 +217,14 @@
 	
 
 }
-/* .checkListDiv button{
+.bgSelect{
+	background: #f00;
+}
+.bgNotSelect{
+	background: transparent;
+}
+/* 
+.checkListDiv button{
 	border-radius: 0px;
     height: 40px;
     background-color: #00b8ff;

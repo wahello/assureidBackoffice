@@ -34,7 +34,7 @@ class VerificationDataSubmit extends TrackerReact(Component){
                 "subscription"     : {
                 }
             };
-            // console.log("checkLists",this.state.checkLists);
+            // 
         }else{
             this.state ={
                 "checkLists"   : [],
@@ -101,14 +101,14 @@ class VerificationDataSubmit extends TrackerReact(Component){
         const name   = target.name;
         var index = $(event.currentTarget).attr('data-index');
 
-        // console.log('index: ',index);
-        // console.log('--------Before textLists---------');
+        // 
+        // 
 
-        // console.log(this.state.textLists);
+        // 
         this.state.textLists[index].value = event.target.value;
-        // console.log('--------After textLists---------');
+        // 
 
-        // console.log(this.state.textLists);
+        // 
 
         this.state.textLists[index].value = event.target.value;
         this.setState({
@@ -128,7 +128,7 @@ class VerificationDataSubmit extends TrackerReact(Component){
         event.preventDefault();
         let self = this;
          // this.setState({isUploading: true});
-         // console.log(event.currentTarget.files.length);
+         // 
          
          Session.set("uploadDocumentProgressbar","");
         if (this.props.ticketImages.length >= 0 && this.props.ticketImages.length < 5 ) {
@@ -242,24 +242,24 @@ class VerificationDataSubmit extends TrackerReact(Component){
     deleteTempImage(event){
         event.preventDefault();
         var id = $(event.currentTarget).attr('id');
-        // console.log("id",id);
+        // 
         Meteor.call('deleteTempImage',id,function (error,result) {
           if (error) {
-            console.log(error.reason);
+            
           }else{
-            console.log("Deleted Successfully");
+            
           }
         });
     }
     deleteTempVideo(event){
         event.preventDefault();
         var id = $(event.currentTarget).attr('id');
-        // console.log("id",id);
+        // 
         Meteor.call('deleteTempVideo',id,function (error,result) {
           if (error) {
-            console.log(error.reason);
+            
           }else{
-            console.log("Deleted Successfully");
+            
           }
         });
     }
@@ -269,9 +269,9 @@ class VerificationDataSubmit extends TrackerReact(Component){
         var dataIndex = parseInt($(event.currentTarget).attr('data-index'));
         Meteor.call('deleteImageFromSubmitDocument',id,dataIndex,function(error,result){
             if (error) {
-                console.log(error.reason);
+                
             }else{
-                console.log("deleted successfully");
+                
             }
         });
     }
@@ -281,72 +281,9 @@ class VerificationDataSubmit extends TrackerReact(Component){
         event.preventDefault();
         var checkLists = [];
         var dataChk    = {};
-        // var docRemark  = "";
-      
-       
-
-        //Get values for all the check box
-        // $('input[name="checkObjs"]').each(function(i){
-        //     var dataChk ={};
-        //     if($(this).is(":checked")){
-        //         // dataChk.statement = $(this).val();
-        //         dataChk.statement = $(this).attr('data-value');
-        //         dataChk.status = true;
-        //     }else{
-        //         // dataChk.statement = $(this).val();
-        //         dataChk.statement = $(this).attr('data-value');                
-        //         dataChk.status = false;
-        //     }
-        //     checkLists.push(dataChk);
-        // });   
-
-
-        //Get Value of status and button
-
-        // $('label[name="checkObjs"]').each(function(i){
-        //     console.log("inside checkObjs ");
-        //     var dataChk = {};
-        //     dataChk.statement = $(this).attr('data-value');
-        //     dataChk.status = buttoValue;
-        //     checkLists.push(dataChk);
-        // })
-
-      
-
         
-        // for(var i=0;i<this.props.checkObjs.length;i++){
-        //     var checkBoxEle = this.props.checkObjs[i];
-
-        //     if(checkBoxEle){
-
-        //         console.log('this.props.checkObjs:',JSON.stringify(checkBoxEle,null,4));
-
-        //         if ($("#correct-"+i).hasClass("active")) {
-        //             var buttonValue   = $('#correct-'+i).attr('data-value');    
-        //             dataChk.status    = buttonValue;
-        //             dataChk.statement = checkBoxEle.task;
-        //             console.log("i " +i+ "=buttonValue " + buttonValue);
-        //         } else if ($("#incorrect-"+i).hasClass("active")) {
-        //             var buttonValue   = $('#incorrect-'+i).attr('data-value');      
-        //             dataChk.status    = buttonValue;          
-        //             dataChk.statement = checkBoxEle.task;
-        //             console.log("i " +i+ " =buttonValue " + buttonValue);
-        //         }
-               
-        //         dataChk.docRemark = $("textarea#addDocRemark-"+i).val();
-                 
-        //         if(checkBoxEle && dataChk.status && dataChk.statement &&  dataChk.docRemark){
-        //             console.log("dataChk");
-        //             console.log(dataChk);
         
-        //             checkLists.push(dataChk);
-        //             console.log("checkLists");
-        //             console.log(checkLists);
-        //             console.log('-----------------------');
-        //         }
-        //     }         
-        // } // EOF i
-        // console.log('checkLists final: ',checkLists);
+        
 
         //Get Values for all the text field
         var textLists = [];
@@ -382,7 +319,7 @@ class VerificationDataSubmit extends TrackerReact(Component){
 
        
         var documents ={
-            checkLists : checkLists,
+            checkLists : this.state.chekFieldList,
             textLists  : textLists,
             status     : status,
             subStatus  : subStatus,
@@ -391,6 +328,8 @@ class VerificationDataSubmit extends TrackerReact(Component){
             remark     : remark,
             
         }
+        
+        
        
         if(documents.status != "Select" && documents.images.length >0 && documents.subStatus != "Select"){
             if (this.props.tickets) {
@@ -398,7 +337,7 @@ class VerificationDataSubmit extends TrackerReact(Component){
                     if (this.props.tickets.ticketElement.length > 0) {
                         var ticketElements = this.props.tickets.ticketElement;
                         var teamMemberDetails = ticketElements.find(function (obj) { return obj.roleStatus == 'SelfAllocated' });
-                        // console.log('teamMemberDetails ',teamMemberDetails);
+                        // 
                     }
                 }
                 var role = Meteor.user().roles.find(this.getRole);
@@ -414,23 +353,23 @@ class VerificationDataSubmit extends TrackerReact(Component){
                         "submitedDoc"         : documents,
                         "createdAt"           : new Date(),
                     }
-                    // console.log('insertData ',insertData);    
+                    //     
                 }
-                // if($('#submitDocument').valid()){
-                //     Meteor.call('genericUpdateTicketMasterElement',this.props.tickets._id,insertData,function(error,result){
-                //         if (error) {
-                //           console.log(error.reason);
-                //         }else{
+                if($('#submitDocument').valid()){
+                    Meteor.call('genericUpdateTicketMasterElement',this.props.tickets._id,insertData,function(error,result){
+                        if (error) {
+                          
+                        }else{
         
-                //           $("#AddImagesVideo1").css({"display" : "none"});
-                //           $("#uploadButtonDiv").css({"display" : "none"});
-                //           $('#submitedDocWrap').css({"display" : "block"});
-                //         }
-                //     });
-                // }else{
-                //     // $(event.target).parent().parent().parent().find('.effect-21.error:first').focus();
-                //     $(event.target).parent().parent().parent().find('input.error').addClass('error');
-                // }
+                          $("#AddImagesVideo1").css({"display" : "none"});
+                          $("#uploadButtonDiv").css({"display" : "none"});
+                          $('#submitedDocWrap').css({"display" : "block"});
+                        }
+                    });
+                }else{
+                    // $(event.target).parent().parent().parent().find('.effect-21.error:first').focus();
+                    $(event.target).parent().parent().parent().find('input.error').addClass('error');
+                }
                
             }
         }else{
@@ -544,7 +483,7 @@ class VerificationDataSubmit extends TrackerReact(Component){
         var newArr = [];
         for(i=0;i<data.length;i++){
             if(i==currentIndex){
-                data[i].correctVal = true;
+                data[i].correctVal = "Correct";
                 newArr.push(data[i]);
             }else{
                 newArr.push(data[i]);
@@ -570,7 +509,7 @@ class VerificationDataSubmit extends TrackerReact(Component){
     var newArr = [];
     for(i=0;i<data.length;i++){
         if(i==currentIndex){
-            data[i].correctVal = false;
+            data[i].correctVal = "Incorrect";
             newArr.push(data[i]);
         }else{
             newArr.push(data[i]);
@@ -579,22 +518,14 @@ class VerificationDataSubmit extends TrackerReact(Component){
     this.setState({
         chekFieldList:data,
     })
-
-    // this.setState({
-    //     'status' : "true"
-    //     })
-    // $(event.target).parent().parent().siblings().slideUp();
-    // $(event.target).parent().parent().siblings().children().find('textarea').val('');
-    $(event.target).css({'backgroundColor':'#00b8ff','color':'#fff'});
-    $(event.target).siblings().css({'backgroundColor':'#fff','color':'#00b8ff'});
-
-    // $(event.target).addClass("active");        
-    // $(event.target).siblings().removeClass("active");
+  
+        $(event.target).css({'backgroundColor':'#00b8ff','color':'#fff'});
+        $(event.target).siblings().css({'backgroundColor':'#fff','color':'#00b8ff'});
     }
 
     removechecked = (index)=>{
         // event.preventDefault();
-        console.log("index: ",index);
+        
         
         var currentData = this.state.checkLists;
         var newArr = [];
@@ -607,12 +538,12 @@ class VerificationDataSubmit extends TrackerReact(Component){
                 }
                 
                 newArr.push(newObj);
-                console.log('newObj: ', newObj);
+                
             }else{
                 newArr.push(currentData[i]);
             }
         }
-        console.log("newArr: ",newArr);
+        
         
         this.setState({
             checkLists: newArr,
@@ -625,7 +556,8 @@ class VerificationDataSubmit extends TrackerReact(Component){
     getRemark(event){
         event.preventDefault();
         var currentIndex = $(event.currentTarget).attr("data-indexVal");
-        var currentIndexval = $(event.currentTarget).text();
+        var currentIndexval = event.target.value;
+        
         var data = this.state.chekFieldList.length>0 ? this.state.chekFieldList : this.props.chekFieldList;
         var newArr = [];
         for(i=0;i<data.length;i++){
@@ -639,63 +571,12 @@ class VerificationDataSubmit extends TrackerReact(Component){
         this.setState({
             chekFieldList:data,
         })
-
-        // var obj      = {};
-        // var oldArr   = [];
-        // var newArr   = [];
-        
-        
-        // var name  = event.target.getAttribute('name');
-        // var index = name.split('-')[1];
-        // var value = this.refs[name].value;
-        
-    
-        
-        // obj.remark = value;
-        // var task = this.props.checkObjs[index].task;
-        // obj.task = task;
-        // console.log('task: ',task);
-        // console.log('this.state.data: ',this.state);
-        
-        // oldArr = this.state.data;
-        // console.log("oldArr");
-        // console.log(oldArr);
-        // if(oldArr[index]){
-        //     oldArr[index].remark = value;
-        //     oldArr[index].task = task;
-            
-        // }else{
-        //     oldArr[index] = obj;
-        // }
-        // console.log('oldArr: ',oldArr);
-        // oldArr[index] = obj;
-        // console.log('newArr: ',newArr);
-        // this.setState(state =>({
-        //     data : newArr,
-        // }));
-        // console.log('obj: ',obj);
-        console.log("Inside getRemark");
-        // console.log(this.state);
-        
     }
-
-    // componentWillMount(){
-    //     console.log("Inside component will mount");
-    //     var data = this.props.chekFieldList;
-    //     console.log('data: ', data);
-    //     this.setState({
-    //         verifiedInfo: data,
-    //     })
-        
-    // }
 
     render(){
         var chekFieldList  = this.state.chekFieldList.length>0 ? this.state.chekFieldList :  this.props.chekFieldList;
         
-        console.log('chekFieldList render: ', chekFieldList);
- 
         
-
         return(
             <div>
                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 choosefilebox">
@@ -722,6 +603,8 @@ class VerificationDataSubmit extends TrackerReact(Component){
                                         ""
                                     }
                                 </div>
+
+                            
                                :
 
 
@@ -747,8 +630,8 @@ class VerificationDataSubmit extends TrackerReact(Component){
                                                     </div>
                                                 </div>
                                                 <div className="col-lg-3 col-md-3 col-sm-6 col-xs-6 noLRPad">
-                                                    <button type="button" className= {checkObjsDefault.correctVal ? "btn btn-info noDataButton active":"btn btn-info noDataButton"}  data-indexVal={index} data-value= "Correct" onClick={this.yesReason.bind(this)}>Correct</button>
-                                                    <button type="button" className= {checkObjsDefault.correctVal ? "btn btn-info noDataButton": "btn btn-info noDataButton active"} data-indexVal={index} data-value = "Incorrect" onClick={this.noReason.bind(this)}>Incorrect</button>
+                                                    <button type="button" className= {checkObjsDefault.correctVal =="Correct" ? "btn btn-info noDataButton active":"btn btn-info noDataButton"}  data-indexVal={index} data-value= "Correct" onClick={this.yesReason.bind(this)}>Correct</button>
+                                                    <button type="button" className= {checkObjsDefault.correctVal == "Correct" ? "btn btn-info noDataButton": "btn btn-info noDataButton active"} data-indexVal={index} data-value = "Incorrect" onClick={this.noReason.bind(this)}>Incorrect</button>
                                                 </div>
                                                 <div className="col-lg-4 col-md-6 col-sm-6 col-xs-6">
                                                     <span className="col-lg-12">Remark &nbsp;</span>
@@ -1013,8 +896,8 @@ VerificationDataSubmitContainer = withTracker(props => {
     const ticketId     = props.ticketId;
     var chekFieldList  = props.chekFieldList;
 
-    console.log("chekFieldList");
-    console.log(chekFieldList);
+    
+    
     
     const postHandle   = Meteor.subscribe('allTicketImages');
     const postHandle1  = Meteor.subscribe('allTicketVideo');
