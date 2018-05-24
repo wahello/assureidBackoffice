@@ -60,6 +60,7 @@ import NewTickets from '../layouts/ListOfTickets/NewTickets.js';
 import CompletedAcceptedTickets from '../layouts/ListOfTickets/CompletedAcceptedTickets.js';
 import CompletedRejectedTickets from '../layouts/ListOfTickets/CompletedRejectedTickets.js';
 import ReopenedTickets from '../layouts/ListOfTickets/ReopenedTickets.js';
+import AllocatedTickets from '../layouts/ListOfTickets/AllocatedTickets.js';
 
 import ViewTicket from '../layouts/ViewTicket/ViewTicket.js';
 import ViewTicketForm from '../layouts/ViewTicket/ViewTicketForm.js';
@@ -104,12 +105,19 @@ export const AuthStack = StackNavigator({
   // },
 
 
+  AllocatedTickets: {
+  screen: AllocatedTickets,
+  navigationOptions: {
+    header: null
+    }
+  },
   ReopenedTickets: {
   screen: ReopenedTickets,
   navigationOptions: {
     header: null
     }
   },
+
 
   CompletedRejectedTickets: {
   screen: CompletedRejectedTickets,

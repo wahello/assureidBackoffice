@@ -26,13 +26,14 @@ export default StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    padding:25,
     paddingVertical:20,
   },
-  formInputView:{
-    width:'80%',
-    paddingVertical:10,
-    flexDirection:'row',
-  },
+  // formInputView:{
+  //   width:'90%',
+  //   paddingVertical:10,
+  //   flexDirection:'row',
+  // },
   buttonLarge:{
     width: (window.width - 75),
     height: 50,

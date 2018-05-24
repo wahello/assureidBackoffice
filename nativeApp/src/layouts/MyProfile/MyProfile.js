@@ -2,13 +2,14 @@ import React,{Component } from 'react';
 import PropTypes from 'prop-types';
 import {Platform, ScrollView, StyleSheet, Text,
 TouchableOpacity, TextInput, View,  BackHandler, Alert,
- Image, BackAndroid, findNodeHandle, DrawerLayoutAndroid } from 'react-native';
+ Image, BackAndroid, findNodeHandle, DrawerLayoutAndroid,ImageBackground } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Header, Card, Button, Icon, Avatar} from 'react-native-elements';
 import Meteor, {createContainer} from 'react-native-meteor';
 import SideMenu from 'react-native-side-menu';
 import RNExitApp from 'react-native-exit-app';
 import { TextField } from 'react-native-material-textfield';
+import { robotoWeights } from 'react-native-typography';
 
 import styles from './styles.js';
 import Menu from '../../components/Menu/Menu.js';
@@ -120,7 +121,7 @@ class MyProfile extends React.Component {
             <ScrollView createContainerStyle={{marginBottom: 25,borderWidth:0,margin:0}}>
 
               <Header
-                centerComponent={{ text: "AssureID", style: { color: '#fff' } }}
+                centerComponent={{ text: "ASSUREID", style: { color: '#fff',fontWeight:'bold'} }}
                 leftComponent={
                   <TouchableOpacity  onPress={this.toggle} >
                     <Icon size={25} name='bars' type='font-awesome' color='#fff' />
@@ -137,7 +138,7 @@ class MyProfile extends React.Component {
                     }
                 />
 
-                <Header
+               {/* <Header
                   centerComponent={{ text: "My Profile", style:{ color: '#fff',alignSelf:'center'} }}
                   leftComponent={
                     <TouchableOpacity onPress={()=> this.props.navigation.navigate('Dashboard')}>
@@ -149,13 +150,37 @@ class MyProfile extends React.Component {
                   
                 />
 
+*/}
+              <ImageBackground source={require('../../images/Background.png')} style={{width: '100%', height:200}}>
+                <View style={{flex:1,flexDirection:'row'}}>
+                  <View style={{flex:.2,alignItems:'flex-start'}}>
+                    <TouchableOpacity onPress={this.backPressed}>
+                      <Icon name="keyboard-arrow-left" type="MaterialIcons" size={50}  color="#333333" />
+                    </TouchableOpacity>
+                  </View> 
+                  <View style={{flex:.5,paddingTop:15,}}>
+                    <Text style={[(robotoWeights.bold),{fontSize:18,color:'#333333',textAlign:'center',paddingLeft:27}]}>My Profile</Text>      
+                  </View>
+                </View>   
+                <View style={{flex:.6,alignItems:'center',paddingTop:50}}>
+                  <View style={{borderWidth:2,borderColor:'#fff',borderRadius:100,padding:5}}>
+                    <Avatar
+                      width={90}
+                      height={90}
+                      rounded
+                      source={require('../../images/Vinod.png')}
+                      activeOpacity={0.7}
+                    />
+                  </View>
+                </View>
+              </ImageBackground>
               <TouchableOpacity onPress={()=> navigate('EditMyProfile')}>
                 <View style={{alignSelf:'flex-end',paddingTop:20,paddingRight:25}}>
                   <Icon size={20} name="edit" type="font-awesome" color="#6d6e70" />
                 </View>
               </TouchableOpacity>
                 <View style={styles.formContainer}>
-                  <View style={{ flex: 3}}>
+                  {/*<View style={{ flex: 3}}>
                    {userData.profile.userProfile 
                     ?
                       <Avatar
@@ -178,60 +203,60 @@ class MyProfile extends React.Component {
                           activeOpacity={0.7}
                         />  
                     }
-                  </View>
-                  <View style={styles.formInputView}>
-                    <View style={{flex:.5}}>
-                      <Text style={{fontWeight: 'bold',paddingRight:60}}>First Name</Text>
-                    </View>
-                    <View style={{flex:.5}}>
-                      <Text>{userData.profile.firstname}</Text>
-                    </View>
-                  </View>
-                  <View style={styles.formInputView}>
-                    <View style={{flex:.5}}>
-                      <Text style={{fontWeight: 'bold',paddingRight:60}}>Last Name</Text>
-                    </View>
-                    <View style={{flex:.5}}>
-                      <Text>{userData.profile.lastname}</Text>
-                    </View>
-                  </View>
-                  <View style={styles.formInputView}>
-                    <View style={{flex:.5}}>
-                      <Text style={{fontWeight: 'bold',paddingRight:77}}>Email Id</Text>
-                    </View>
-                    <View style={{flex:.5}}>
-                      <Text>{userData.emails[0].address}</Text>
-                    </View>
-                  </View>
-{/*                  <View style={styles.formInputView}>
-                    <View style={{flex:.5}}>
-                      <Text style={{fontWeight: 'bold',paddingRight:77}}>Alternate Email Id</Text>
-                    </View>
-                    <View style={{flex:.5}}>
-                      <Text></Text>
-                    </View>
                   </View>*/}
-                  <View style={styles.formInputView}>
-                    <View style={{flex:.5}}>
-                      <Text style={{fontWeight: 'bold',paddingRight:20}}>Mobile Number</Text>
+
+                  <View style={{flex:1,flexDirection:"row",paddingVertical:15}}>
+                    <View style={{flex:.5,flexDirection:"row"}}>
+                      <View style={{flex:.1}}>
+                        <Icon size={18} name='user' type='font-awesome' color='#aaa' />
+                      </View>
+                      <View style={{flex:.9}}>
+                        <Text style={[(robotoWeights.medium),{fontSize:14,color:'#666666',paddingLeft:4}]}>First Name</Text>
+                      </View>
                     </View>
                     <View style={{flex:.5}}>
-                      <Text>{userData.profile.mobNumber}</Text>
+                      <Text style={[(robotoWeights.medium),{fontSize:14,color:'#333333'}]}>{userData.profile.firstname}</Text>
                     </View>
                   </View>
-{/*                  <View style={styles.formInputView}>
-                    <View style={{flex:.5}}>
-                      <Text style={{fontWeight: 'bold',paddingRight:20}}>Alternate Mobile Number</Text>
+                  <View style={{flex:1,flexDirection:"row"}}>
+                    <View style={{flex:.5,flexDirection:"row"}}>
+                      <View style={{flex:.1}}>
+                        <Icon size={18} name='user' type='font-awesome' color='#aaa' />
+                      </View>
+                      <View style={{flex:.9}}>
+                        <Text style={[(robotoWeights.medium),{fontSize:14,color:'#666666',paddingLeft:4}]}>Last Name</Text>
+                      </View>
                     </View>
                     <View style={{flex:.5}}>
-                      <Text></Text>
+                      <Text style={[(robotoWeights.medium),{fontSize:14,color:'#333333'}]}>{userData.profile.lastname}</Text>
                     </View>
-                  </View>*/}
-{/*                  <View style={styles.formInputView}>
+                  </View>
+                  <View style={{flex:1,flexDirection:"row",paddingVertical:15}}>
+                    <View style={{flex:.5,flexDirection:"row"}}>
+                      <View style={{flex:.1}}>
+                        <Icon size={18} name='email' type='zocial' color='#aaa' />
+                      </View>
+                      <View style={{flex:.9}}>
+                        <Text style={[(robotoWeights.medium),{fontSize:14,color:'#666666',paddingLeft:4,marginTop:3}]}>Email Id</Text>
+                      </View>
+                    </View>
                     <View style={{flex:.5}}>
-                      <Text style={{fontWeight: 'bold',paddingRight:20}}>Address</Text>
+                      <Text style={[(robotoWeights.medium),{fontSize:14,color:'#333333'}]}>{userData.emails[0].address}</Text>
                     </View>
-                  </View>*/}
+                  </View>
+                  <View style={{flex:1,flexDirection:"row"}}>
+                    <View style={{flex:.5,flexDirection:"row"}}>
+                      <View style={{flex:.1}}>
+                        <Icon size={18} name='old-mobile' type='entypo' color='#aaa' />
+                      </View>
+                      <View style={{flex:.9}}>
+                        <Text style={[(robotoWeights.medium),{fontSize:14,color:'#666666',paddingLeft:4}]}>Mobile Number</Text>
+                      </View>
+                    </View>
+                    <View style={{flex:.5}}>
+                      <Text style={[(robotoWeights.medium),{fontSize:14,color:'#333333'}]}>{userData.profile.mobNumber}</Text>
+                    </View>
+                  </View>
                 </View>
                 </ScrollView>
               </View>

@@ -26,5 +26,11 @@ export default StyleSheet.create({
     height:300,
     marginTop: 40,
   },
+   buttonLarge:{
+    width: (window.width - 22),
+    height: 50,
+    backgroundColor: '#ffbb33',
+ 
+  },
 
 });

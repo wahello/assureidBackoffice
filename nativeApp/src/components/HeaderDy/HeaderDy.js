@@ -10,6 +10,7 @@ import { Header, Icon } from "react-native-elements";
 import { NavigationActions } from "react-navigation";
 import { TextField } from "react-native-material-textfield";
 import ValidationComponent from 'react-native-form-validator';
+import { robotoWeights } from 'react-native-typography';
 
 import styles from "./styles.js";
 import Loading from "../Loading";
@@ -53,7 +54,7 @@ export default class HeaderDy extends React.Component {
     const {goBack, headerTitle } = this.props;
     return (
       <Header
-        centerComponent={ <Text style={{color:'#fff',paddingBottom:4}}>{headerTitle}</Text>}
+        centerComponent={ <Text style={[(robotoWeights.bold),{fontSize:15,color:'#fff',textAlign:'center',paddingBottom:4}]}>{headerTitle}</Text>}
         leftComponent={
           <TouchableOpacity  onPress={()=>  this.props.goBack(null)} >
             <Icon size={25} name='arrow-left' type='feather' color='#fff' />

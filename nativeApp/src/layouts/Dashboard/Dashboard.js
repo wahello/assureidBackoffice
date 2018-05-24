@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import Meteor, { Accounts, createContainer } from "react-native-meteor";
 import {
   StyleSheet,
@@ -8,9 +7,13 @@ import {
   TextInput,BackHandler,
   TouchableOpacity, ScrollView, DrawerLayoutAndroid, Image
 } from "react-native";
-import SideMenu from 'react-native-side-menu';
-import { Header, Button, Icon } from "react-native-elements";
+import { Header, Button, Icon,Avatar} from "react-native-elements";
 import { NavigationActions } from "react-navigation";
+import { robotoWeights } from 'react-native-typography';
+
+
+import SideMenu from 'react-native-side-menu';
+import PropTypes from "prop-types";
 
 import styles from "./styles.js";
 import Menu from '../../components/Menu/Menu.js';
@@ -79,6 +82,7 @@ export default class Dashboard extends React.Component {
   render(){
     const { navigate,goBack } = this.props.navigation;
     const menu = <Menu navigate={navigate} userName={this.props.userName}/>;
+    
     var navigationView = (
       <ScrollView style={{backgroundColor: '#fbae16'}} createContainerstyle={{flex: 1,backgroundColor: '#fbae16'}}>
         <View style={{borderBottomWidth: 1, padding:10, borderColor: '#fff'}}>
@@ -108,7 +112,7 @@ export default class Dashboard extends React.Component {
           <View style={{ flex: 1, backgroundColor: '#FFF',borderWidth:0,padding:0}}>
               <ScrollView createContainerStyle={{marginBottom: 25,borderWidth:0,margin:0}}>
                   <Header
-                    centerComponent={{ text: "AssureID", style: { color: '#fff' } }}
+                    centerComponent={{ text: "ASSUREID", style: { color: '#fff',fontWeight:'bold' } }}
                     leftComponent={
                       <TouchableOpacity  onPress={this.toggle} >
                         <Icon size={25} name='bars' type='font-awesome' color='#fff' />
@@ -125,24 +129,54 @@ export default class Dashboard extends React.Component {
                       </View>
                         }
                     />
-                     <Header
+                    {/* <Header
                         centerComponent={{ text: "Dashboard", style:{ fontSize:17, color: '#fff',alignSelf:'center'} }}
                         outerContainerStyles={{borderColor:'transparent', backgroundColor: '#3c8dbc',height:50,padding:10,margin:0}}
                         innerContainerStyles={{marginTop:0,paddingTop:0}}
                       />
-
+*/}
 {/*                      <View style={styles.imgWrapper}>
                         <Image style={styles.imgDisplay} resizeMode="stretch"
                               source={require('../../images/coming-soon.png')}/>
                       </View>*/}
-
-                      <View style={{flexDirection:'row', flex:1}}>
+                     <View  style={{backgroundColor:'#fff',height:185,marginBottom:18,borderBottomWidth:1,borderColor:'#f2f2f2', shadowOffset: {
+                        width: 0,
+                        height: 3
+                      },
+                      elevation:3,
+                      shadowRadius: 5,
+                      shadowOpacity: 2.0}}>
+                        <View style={{flex:1,flexDirection:'row',padding:10,marginTop:10}}>
+                           <View style={{flex:0.5}}>
+                              <Avatar
+                               width={90}
+                               height={90}
+                               rounded
+                               source={require("../../images/Vinod.png")}
+                               activeOpacity={0.7}
+                              />  
+                           </View> 
+                           <View style={{flex:0.5,flexDirection:'row',justifyContent:'flex-end',paddingHorizontal:15,}}>
+                              
+                           </View>
+                        </View>
+                        <View style={{padding:10,marginBottom:10}}>
+                           <Text style={[(robotoWeights.bold),{fontSize:18,color:'#3c8dbc',textAlign:'left',paddingVertical:2}]}>Hello Vinod Shinde,</Text>
+                           <Text style={[(robotoWeights.regular),{fontSize:15,color:'#666666',textAlign:'left',}]}>You have 20 Tickets Pending</Text>
+                        </View>
+                     </View>
+                     <View style={{flexDirection:'row', flex:1}}>
 
                         <View style={{flex:.5}}>
                         <TouchableOpacity onPress={()=>this.props.navigation.navigate('NewTickets')}>
                         <View style={{flex:.5,paddingHorizontal:10,paddingVertical:10}}>   
-                          <View style={{flex:1, backgroundColor:'#f0ad4e',paddingVertical:'25%'}}>
-                            <Text style={{textAlign:'center', color:'#fff'}}>New Tickets</Text>
+                          <View style={{flex:1, backgroundColor:'#33b5e5',}}>
+                            <Text style={[(robotoWeights.bold),{fontSize:15,color:'#333333',textAlign:'center',paddingVertical:15}]}>New</Text>
+                              <Image
+                                style={{ width: 50, height: 50, marginVertical: 2,alignSelf:"center" }}
+                                source={require("../../images/New_40px_X_40px.png")}
+                              />
+                            <Text style={[(robotoWeights.bold),{fontSize:15,color:'#fff',textAlign:'center',paddingVertical:15}]}>10 Since 21 April 18</Text>
                           </View>
                         </View>
                         </TouchableOpacity>
@@ -151,8 +185,13 @@ export default class Dashboard extends React.Component {
                         <View style={{flex:.5}}>
                         <TouchableOpacity onPress={()=>this.props.navigation.navigate('CompletedAcceptedTickets')}>
                           <View style={{flex:.5,paddingHorizontal:10,paddingVertical:10}}>
-                            <View style={{flex:1, backgroundColor:'#00a65a',paddingVertical:'25%'}}>
-                              <Text style={{textAlign:'center', color:'#fff'}}>Allocated Tickets</Text>
+                            <View style={{flex:1, backgroundColor:'#00c851',}}>
+                              <Text style={[(robotoWeights.bold),{fontSize:15,color:'#333333',textAlign:'center',paddingVertical:15}]}>Allocated</Text>
+                                 <Image
+                                style={{ width: 50, height: 50, marginVertical: 2,alignSelf:"center" }}
+                                source={require("../../images/Allocated_40px_X_40px.png")}
+                              />
+                              <Text style={[(robotoWeights.bold),{fontSize:15,color:'#fff',textAlign:'center',paddingVertical:15}]}>10 Since 21 April 18</Text>
                             </View>
                           </View>
                         </TouchableOpacity>
@@ -163,8 +202,13 @@ export default class Dashboard extends React.Component {
                         <View style={{flex:.5}}>
                         <TouchableOpacity onPress={()=>this.props.navigation.navigate('CompletedRejectedTickets')}>
                           <View style={{flex:1,paddingHorizontal:10,paddingVertical:10}}>
-                            <View style={{flex:1, backgroundColor:'#337ab7',paddingHorizontal:10,paddingVertical:'25%'}}>
-                              <Text style={{textAlign:'center', color:'#fff'}}>Completed Tickets</Text>
+                            <View style={{flex:1, backgroundColor:'#ff4444',paddingHorizontal:10,}}>
+                              <Text style={[(robotoWeights.bold),{fontSize:15,color:'#333333',textAlign:'center',paddingVertical:15}]}>Esclated</Text>
+                                 <Image
+                                style={{ width: 50, height: 50, marginVertical: 2,alignSelf:"center"}}
+                                source={require("../../images/Esclated_40px_X_40px.png")}
+                              />
+                               <Text style={[(robotoWeights.bold),{fontSize:15,color:'#fff',textAlign:'center',paddingVertical:15}]}>10 Since 21 April 18</Text>
                             </View>
                           </View>
                         </TouchableOpacity>
@@ -173,12 +217,31 @@ export default class Dashboard extends React.Component {
                         <View style={{flex:.5}}>
                         <TouchableOpacity onPress={()=>this.props.navigation.navigate('ReopenedTickets')}>
                           <View style={{flex:1,paddingHorizontal:10,paddingVertical:10}}>
-                            <View style={{flex:1, backgroundColor:'#d9534f',paddingHorizontal:10,paddingVertical:'25%'}}>
-                              <Text style={{textAlign:'center', color:'#fff'}}>Reopened Tickets</Text>
+                            <View style={{flex:1, backgroundColor:'#33b5e5',paddingHorizontal:10,}}>
+                              <Text style={[(robotoWeights.bold),{fontSize:15,color:'#333333',textAlign:'center',paddingVertical:15}]}>Re-Open</Text>
+                                 <Image
+                                style={{ width:50, height: 50, marginVertical:2,alignSelf:"center"}}
+                                source={require("../../images/Re-Open_40px_X_40px.png")}
+                              />
+                              <Text style={[(robotoWeights.bold),{fontSize:15,color:'#fff',textAlign:'center',paddingVertical:15}]}>10 Since 21 April 18</Text>
                             </View>
                           </View>
                         </TouchableOpacity>
                         </View>
+                          </View>
+                           <View
+                            style={{
+                              alignItems: "center",
+                              marginTop: 0,
+                              paddingVertical:20
+                            }}
+                          >
+                            <Button
+                              onPress={this.handleSignIn}
+                              buttonStyle={styles.buttonLarge}
+                              title="Completed Tickets (20)"
+                              titleStyle={{fontWeight: "800"}}
+                            />
                       </View>
 
               </ScrollView>

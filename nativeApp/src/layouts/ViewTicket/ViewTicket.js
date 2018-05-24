@@ -39,6 +39,7 @@ import {
   Cols,
   Cell
 } from "react-native-table-component";
+import { robotoWeights } from 'react-native-typography';
 // import Modal from "react-native-modal";
 import { TextField } from 'react-native-material-textfield';
 import Pdf from 'react-native-pdf';
@@ -234,8 +235,9 @@ class ViewTicket extends React.Component {
             <View style={{flex:.5,paddingVertical:15}}>
             <Text style={{fontWeight: 'bold'}}>Permanent Address</Text>
             </View>
-            <View style={{flex:.5,paddingVertical:15}}>
-              <Text style={{flexWrap:'wrap'}}>
+            <View style={{flex:.5,paddingVertical:15,flexDirection:'row'}}>
+              <Icon size={18} name='map-pin' type='feather' color='#ccc' />
+              <Text style={{flexWrap:'wrap',paddingHorizontal:5}}>
               {viewTicketData.verificationData.line1 ? viewTicketData.verificationData.line1 : ''},&nbsp;{viewTicketData.verificationData.line2 ? viewTicketData.verificationData.line2 : ''},&nbsp;
               {viewTicketData.verificationData.line3 ? viewTicketData.verificationData.line3 : ''},&nbsp;{viewTicketData.verificationData.landmark ? viewTicketData.verificationData.landmark : ''},&nbsp;
               {viewTicketData.verificationData.city ? viewTicketData.verificationData.city+',' : ''}&nbsp;{viewTicketData.verificationData.state ? viewTicketData.verificationData.state+',' : ''}&nbsp;
@@ -326,7 +328,8 @@ class ViewTicket extends React.Component {
           <Text style={{fontWeight: 'bold'}}>Education Details</Text>
           </View>
           <View style={{flex:.5,paddingVertical:15}}>
-          <View>
+          <View >
+            
             <Text>
               {viewTicketData.verificationData.educationLevel ? viewTicketData.verificationData.educationLevel : ""},&nbsp;
               {viewTicketData.verificationData.educationQualification ? viewTicketData.verificationData.educationQualification:""}&nbsp;
@@ -441,7 +444,7 @@ class ViewTicket extends React.Component {
               }}
             >
               <Header
-                centerComponent={{ text: "AssureID", style: { color: "#fff" } }}
+                centerComponent={{ text: "ASSUREID", style: { color: "#fff",fontWeight:'bold'} }}
                 leftComponent={
                   <TouchableOpacity onPress={this.toggle}>
                     <Icon
@@ -483,15 +486,27 @@ class ViewTicket extends React.Component {
                   </View>
                 }
               />
-              <HeaderDy headerTitle="Ticket Tool" goBack={goBack} />
+              <HeaderDy headerTitle="Address Verification / AAA-589426" goBack={goBack} />
                 <View style={styles.formContainer}>
                   <View style = {styles.formInputView}>
                     <View style= {{flex:1,flexDirection:'row',}}>
                       <View  style= {{flex:.5}}>
                         <Text style={{fontWeight: 'bold'}}>Assigned By</Text>
                       </View>
-                      <View  style= {{flex:.5}}>
-                        <Text style={{flexWrap:'wrap'}} >{this.props.assignedByName}</Text>
+                      <View  style= {{flex:.5,flexDirection:'row',}}>
+                        <Icon size={18} name='user-o' type='font-awesome' color='#ccc' />
+                        <Text style={{flexWrap:'wrap',paddingHorizontal:5}} >{this.props.assignedByName}</Text>
+                      </View>
+                    </View> 
+                  </View>
+                   <View style = {styles.formInputView}>
+                    <View style= {{flex:1,flexDirection:'row',}}>
+                      <View  style= {{flex:.5,}}>
+                        <Text style={{fontWeight: 'bold'}}>Assigned Date</Text>
+                      </View>
+                      <View  style= {{flex:.5,flexDirection:'row'}}>
+                        <Icon size={18} name='calendar' type='font-awesome' color='#ccc' />
+                        <Text style={{flexWrap:'wrap',paddingHorizontal:5}} >20 May 2018</Text>
                       </View>
                     </View> 
                   </View>
@@ -526,15 +541,18 @@ class ViewTicket extends React.Component {
                     {this.props.viewTicketData?
                       <View style= {{flex:.5,marginRight:15}}>
                         <View style= {{flex:1,flexDirection:'row'}}>
-                          <Text style= {{}}>{viewTicketData.firstName} </Text>
+                          <Icon size={18} name='user-o' type='font-awesome' color='#ccc' />
+                          <Text style= {{paddingHorizontal:5}}>{viewTicketData.firstName} </Text>
                           <Text>{viewTicketData.lastName}</Text>
                         </View>
                         <View style= {{flex:1,flexDirection:'row'}}>
-                          <Text style= {{flex:.4,flexDirection:'row'}}>{viewTicketData.gender}</Text>
+                          <Icon size={18} name='gender-male-female' type='material-community' color='#ccc' />
+                          <Text style= {{flex:.4,flexDirection:'row',paddingHorizontal:5}}>{viewTicketData.gender}, </Text>
                           {viewTicketData.age <= 0 ? <Text></Text> : <Text style= {{flex:.5,flexDirection:'row'}}>{viewTicketData.age} Years</Text>}
                         </View>
                         <View style= {{flex:1,flexDirection:'row'}}>
-                          <Text>{viewTicketData.serviceName}</Text>
+                          <Icon size={18} name='map-pin' type='feather' color='#ccc' />
+                          <Text style= {{paddingHorizontal:5}}>{viewTicketData.serviceName}</Text>
                         </View>
                       </View>
                     :<Loading />}
@@ -556,15 +574,14 @@ class ViewTicket extends React.Component {
                   <View style = {styles.lineStyle} />
                   <View style={styles.formInputView}>
                     <View>
-                      <Text style={{fontWeight: 'bold'}}>Attachments</Text>
+                      <Text style={{fontWeight: 'bold'}}>Reference Attachments</Text>
                     </View>
                   </View>
-                  <View style = {styles.formInputView}>
-                    <View style={{flex:1}}>
-                      <View style={{flexDirection:'row'}}>
+                  <View style={styles.referenceContainer}>
+                    
                         { this.displayAttachments()}
-                      </View>
-                    </View>
+                        
+                    
                   </View>
                     
                   <View>
@@ -584,12 +601,12 @@ class ViewTicket extends React.Component {
                     <Button
                       onPress={()=> this.props.navigation.navigate('ViewTicketForm',{'ticket': this.props.navigation.state.params.ticketid})}
                       buttonStyle={styles.buttonLarge}
-                      title="Start" style={{color:"#fff"}}
+                      title="Start"
                     />
                   </View>
                 :
                 
-                  <View style={{ alignItems: "center",paddingVertical:15}}>
+                  <View style={{ alignItems: "center",paddingVertical:15,}}>
                       <Button  
                        onPress={()=> this.props.navigation.goBack(null)}
                         buttonStyle={styles.buttonLarge}
@@ -637,6 +654,7 @@ export default createContainer((props) => {
     viewTicketData.lastName    = viewTicketUserData.lastName;
     viewTicketData.gender      = viewTicketUserData.gender;
     viewTicketData.dateOfBirth = viewTicketUserData.dateOfBirth;
+    // viewTicketData.userProfile = "https://s3.ap-south-1.amazonaws.com/assureidportal/UserImage/"+viewTicketUserData.userProfile.split('original/')[1]+'.'+viewTicketUserData.userFileExt;
     viewTicketData.userProfile = "https://s3.ap-south-1.amazonaws.com/assureidportal/UserImage/"+viewTicketUserData.userProfile.split('original/')[1]+'.'+viewTicketUserData.userFileExt;
     // console.log('viewTicketData.userProfile: ',viewTicketData.userProfile);
     var ticketElements    = viewTicketData.ticketElement;

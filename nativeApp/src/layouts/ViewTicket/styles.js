@@ -10,6 +10,23 @@ export default StyleSheet.create({
     alignSelf:"flex-start"
 
   },
+  referenceContainer:{
+    flex: 1,
+    // flexDirection:'row',
+    
+    backgroundColor: '#fff',
+    width: (window.width - 25),
+    // height:(window.height - 75),
+    // alignItems: 'center',
+    // justifyContent: 'center',
+    // marginVertical: 200,
+    // marginHorizontal: 20,
+    borderColor: '#333333',
+    borderRadius: 4,
+    borderWidth: 1,
+    borderStyle: 'dashed'
+
+  },
   bellIcon: {
     right: 0,
     top: 25,
@@ -109,7 +126,7 @@ export default StyleSheet.create({
     paddingVertical:15
   },
    formInputView:{
-    width:(window.width - 45),
+    width:(window.width - 25),
     paddingVertical:10,
     flexDirection:'row'
   }, 
@@ -124,7 +141,7 @@ export default StyleSheet.create({
   lineStyle:{
     // borderWidth: .5,
     borderColor:'#aaa',
-    width:(window.width - 45),
+    width:(window.width - 25),
   },
   inputText:{
     borderWidth:1,
@@ -183,6 +200,7 @@ export default StyleSheet.create({
       flex:1,
       width:window.width,
   },
+
   backgroundVideo: {
     position: 'absolute',
     top: 0,
@@ -195,4 +213,12 @@ export default StyleSheet.create({
    flex:1,
    // backgroundColor:'#0f0',
   },
+
+  buttonLarge:{
+    borderRadius:20,
+    backgroundColor:'#33b5e5',
+    color:"#fff",
+    paddingHorizontal:50
+  }
+
 });

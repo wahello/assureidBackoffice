@@ -13,6 +13,7 @@ import {
 import Meteor from 'react-native-meteor';
 import { Icon, Avatar } from 'react-native-elements';
 import LinearGradient from 'react-native-linear-gradient';
+import { robotoWeights } from 'react-native-typography';
 
 const window = Dimensions.get('window');
 const uri = 'https://pickaface.net/gallery/avatar/Opi51c74d0125fd4.png';
@@ -42,6 +43,12 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     padding: 20,
     color:'#666'
+  },
+  itemProfile:{
+    fontSize:16,
+    fontWeight: '700',
+    color:'#fff',
+    marginLeft:6,
   },
   menuView: {
     paddingLeft: 20,
@@ -140,7 +147,15 @@ export default class Menu extends React.Component {
     return (
       <ScrollView scrollsToTop={false} style={styles.menu}>
         <LinearGradient colors={['(rgb(30, 87, 153) 0%', 'rgb(41, 137, 216) 50%', 'rgb(32, 124, 202) 51%', 'rgb(125, 185, 232) 100%)']} style={styles.linearGradient}>
-            <View style={{flex:1, flexDirection:'row'}}>
+            <View style={{}}>
+                 <View style={{alignItems:"flex-end",padding:0}}>
+                    <TouchableOpacity onPress={()=> this.props.navigate('MyProfile')} style={{flexDirection:'row',flex:1}} >
+                      <Icon size={18} name='user' type='entypo' color='#fff' />
+                      <Text style={styles.itemProfile}>
+                        Profile
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
                {userData.userProfile 
                 ?
                   <Avatar
@@ -156,26 +171,21 @@ export default class Menu extends React.Component {
                       width={90}
                       height={90}
                       rounded
-                      source={{
-                        uri:
-                          "https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg"
-                      }}
+                      source={require("../../images/Vinod.png")}
                       activeOpacity={0.7}
                     />  
                 }
-              <View style={{flex:3, height:50,left:0,right:0,paddingLeft:15,justifyContent:'flex-start', alignItems:'flex-start'}}>
-                <Text style={{flex:1,color:'#fff'}}>
-                  {userData.firstname} {userData.lastname}
-                </Text>
-
-              </View>
+                <View style={{padding:5,marginBottom:10}}>
+                 <Text style={[(robotoWeights.bold),{fontSize:15,flex:1,color:'#fff',textAlign:'left',paddingVertical:4}]}>{userData.firstname} {userData.lastname}</Text>
+                 <Text style={[(robotoWeights.regular),{fontSize:15,flex:1,color:'#fff',textAlign:'left'}]}>Field Expert</Text>
+                </View>
             </View>
         </LinearGradient>
         <View style={styles.menuView}>
 
           <View style={styles.menuRow}>
             <TouchableOpacity onPress={()=> this.props.navigate('Dashboard')} style={{flexDirection:'row',flex:1}} >
-              <Icon size={25} name='dashboard' type='font-awesome' color='#666' />
+              <Icon size={25} name='home' type='font-awesome' color='#666' />
               <Text style={styles.item}>
                 Home
               </Text>
@@ -199,52 +209,27 @@ export default class Menu extends React.Component {
               </Text>
             </TouchableOpacity>
           </View>
-
           <View style={styles.menuRow}>
-            <TouchableOpacity onPress={this.handleExpandProduct} style={{flexDirection:'row',flex:1}} >
+            <TouchableOpacity onPress={()=> this.props.navigate('AllocatedTickets')} style={{flexDirection:'row',flex:1}} >
               <Icon size={25} name='ticket' type='font-awesome' color='#666' />
               <Text style={styles.item}>
-                Completed Tickets
+               Allocated Tickets
               </Text>
             </TouchableOpacity>
-            <Icon size={15} onPress={this.handleExpandProduct} name={this.state.expandProductIcon} type='font-awesome' color='#666' />
           </View>
-          { this.state.expandProduct ?
-            <View>
-              <View style={styles.subMenuRow} >
-                <TouchableOpacity style={{flexDirection:'row',flex:1}} onPress={ ()=> this.props.navigate('CompletedAcceptedTickets')}>
-                  <Icon size={25} name='ticket' type='font-awesome' color='#666' />
-                  <Text style={styles.item}  >
-                    Accepted
-                  </Text>
-                </TouchableOpacity>
-              </View>
-              <View style={styles.subMenuRow} >
-                <TouchableOpacity style={{flexDirection:'row',flex:1}} onPress={()=>this.props.navigate('CompletedRejectedTickets')}>
-                  <Icon size={25} name='ticket' type='font-awesome' color='#666' />
-                  <Text style={styles.item}  >
-                    Rejected
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-            : null
-          }
-
+          <View style={styles.menuRow}>
+            <TouchableOpacity onPress={()=> this.props.navigate('MyProfile')} style={{flexDirection:'row',flex:1}} >
+              <Icon size={25} name='ticket' type='font-awesome' color='#666' />
+              <Text style={styles.item}>
+               Escalated Tickets
+              </Text>
+            </TouchableOpacity>
+          </View>
           <View style={styles.menuRow}>
             <TouchableOpacity onPress={()=>this.props.navigate('ReopenedTickets')} style={{flexDirection:'row',flex:1}} >
               <Icon size={25} name='ticket' type='font-awesome' color='#666' />
               <Text style={styles.item}>
-                Reopened Tickets
-              </Text>
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.menuRow}>
-            <TouchableOpacity onPress={()=> this.props.navigate('MyProfile')} style={{flexDirection:'row',flex:1}} >
-              <Icon size={25} name='user' type='entypo' color='#666' />
-              <Text style={styles.item}>
-                Profile
+               Re-Opened Tickets
               </Text>
             </TouchableOpacity>
           </View>
