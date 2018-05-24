@@ -23,6 +23,8 @@ import HeaderDy from "../../components/HeaderDy/HeaderDy.js";
 import ViewCustomerTable from "../../components/tableComponent/ViewCustomerTable.js";
 import ViewCustomerModal from "../../components/modalComponent/ViewCustomerModal.js";
 import { Dropdown } from 'react-native-material-dropdown';
+import RenderVideo from './RenderVideo.js';
+
 
 class ViewSubmittedTicket extends React.Component {
   constructor(props) {
@@ -385,7 +387,24 @@ class ViewSubmittedTicket extends React.Component {
                     </View>
                   </View>
 
+
                   <View style = {styles.formInputView}> 
+                    <View style={{flex:1}}>
+                      <View style={{flexDirection:'row'}}>
+                        <Icon name="videocam" type="MaterialIcons" size={50} color="#aaa"/>
+
+                        { this.props.selectFEData.documents.videos.length > 0 ?
+                          this.props.selectFEData.documents.videos.map((videoData,index)=>{
+                            return(<RenderVideo key={index} videoData={videoData}/>);
+                          })
+                          :
+                          null
+                        }
+                      </View>
+                    </View>
+                  </View>
+                  
+{/*                  <View style = {styles.formInputView}> 
                     <View style={{flex:1}}>
                       <View style={{flexDirection:'row'}}>
                         <Icon name="videocam" type="MaterialIcons" size={50} color="#aaa"  />
@@ -403,7 +422,8 @@ class ViewSubmittedTicket extends React.Component {
 
                       </View>
                     </View>
-                  </View>
+                  </View>*/}
+
                   </View>
 
                   <View style = {styles.lineStyle} >
