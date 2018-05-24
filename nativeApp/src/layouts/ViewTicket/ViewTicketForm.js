@@ -9,6 +9,9 @@ import { TextField } from 'react-native-material-textfield';
 import { CameraKitCameraScreen, CameraKitCamera } from 'react-native-camera-kit';
 import { DocumentPicker, DocumentPickerUtil } from 'react-native-document-picker';
 import { RNS3 } from 'react-native-aws3';
+import { robotoWeights } from 'react-native-typography';
+import { Dropdown } from 'react-native-material-dropdown';
+
 // import CheckBox from 'react-native-check-box';
 
 import PropTypes from "prop-types";
@@ -17,16 +20,17 @@ import ToggleSwitch from 'toggle-switch-react-native';
 import Modal from "react-native-modal";
 import SideMenu from "react-native-side-menu";
 import RNExitApp from "react-native-exit-app";
+import FlipToggle from 'react-native-flip-toggle-button';
+import Video from "react-native-video";
+import RenderVideo from './RenderVideo.js';
 
 import styles from "./styles.js";
 import Menu from "../../components/Menu/Menu.js";
 import HeaderDy from "../../components/HeaderDy/HeaderDy.js";
 import ViewCustomerTable from "../../components/tableComponent/ViewCustomerTable.js";
 import ViewCustomerModal from "../../components/modalComponent/ViewCustomerModal.js";
-import { Dropdown } from 'react-native-material-dropdown';
 
-import Video from "react-native-video";
-import RenderVideo from './RenderVideo.js';
+
 
 class ViewTicketFormInfo extends React.Component {
   constructor(props) {
@@ -564,7 +568,7 @@ class ViewTicketFormInfo extends React.Component {
               }}
             >
               <Header
-                centerComponent={{ text: "AssureID", style: { color: "#fff" } }}
+                centerComponent={{ text: "ASSUREID", style: { color: "#fff",fontWeight:'bold' } }}
                 leftComponent={
                   <TouchableOpacity onPress={this.toggle}>
                     <Icon
@@ -607,14 +611,12 @@ class ViewTicketFormInfo extends React.Component {
                 }
               />
 
-              <HeaderDy headerTitle="Ticket Tool" goBack={goBack} />
+              <HeaderDy headerTitle="Addresss Verification / AAA-589426" goBack={goBack} />
                 <View style={styles.formContainer}>
-
-                  <View style={styles.formInputView}>
-                    <View>
-                      <Text style={{fontWeight: 'bold'}}>Checklist</Text>
-                    </View>
+                  <View>
+                    <Text style={[(robotoWeights.bold),{fontSize:15,color:'#33b5e5',alignSelf:'center'}]}>Submitted Information</Text>
                   </View>
+               
 
                   
                   {this.props.checkObjs ?
@@ -693,46 +695,50 @@ class ViewTicketFormInfo extends React.Component {
                 </View>
 
                   <View style = {styles.lineStyle} >
-                  <View style={styles.formInputView}>
-                    <View>
-                      <Text style={{fontWeight: 'bold'}}>Upload Photos</Text>
-                    </View>
-                  </View>
-
-                  <View style = {styles.formInputView}> 
-                    <View style={{flex:1}}>
-                      <View style={{flexDirection:'row'}}>
-                         <View style={{flex:0.2}}>
-                          <TouchableOpacity  onPress={this.goToCamera.bind(this)} >
-                            <Icon name="camera-enhance" type="MaterialIcons" size={40} color="#aaa"   />
-                          </TouchableOpacity>
-                         </View>
-                         {this.displayAttachments()}
+                    <View style={styles.formInputView}>
+                      <View>
+                        <Text style={[(robotoWeights.bold),{fontSize:15,color:'#333333'}]}>Upload Photos</Text>
                       </View>
                     </View>
-                  </View>
+                    <View style={styles.referenceContainer}>
+                      <View style = {styles.formInputView}> 
+                        <View style={{flex:1}}>
+                          <View style={{flexDirection:'row',bottom:50}}>
+                             <View style={{flex:0.2}}>
+                              <TouchableOpacity  onPress={this.goToCamera.bind(this)} >
+                                <Icon name="camera-enhance" type="MaterialIcons" size={55} color="#aaa"   />
+                              </TouchableOpacity>
+                             </View>
+                             {this.displayAttachments()}
+                          </View>
+                        </View>
+                      </View>
+                    </View>
                   </View>
 
                   <View style = {styles.lineStyle} >
 
                   <View style={styles.formInputView}>
                     <View>
-                      <Text style={{fontWeight: 'bold'}}>Upload Videos</Text>
+                      <Text style={[(robotoWeights.bold),{fontSize:15,color:'#333333'}]}>Upload Videos</Text>
                     </View>
                   </View>
+                  <View style={styles.referenceContainer}>
+                    <View style = {styles.formInputView}> 
+                      <View style={{flex:1}}>
+                        <View style={{flexDirection:'row',bottom:50}}>
+                          <View style={{flex:0.2}}>
+                          <Icon name="videocam" type="MaterialIcons" size={65} color="#aaa" onPress = {this.uploadVideo.bind(this)} />
 
-                  <View style = {styles.formInputView}> 
-                    <View style={{flex:1}}>
-                      <View style={{flexDirection:'row'}}>
-                        <Icon name="videocam" type="MaterialIcons" size={50} color="#aaa" onPress = {this.uploadVideo.bind(this)} />
-
-                        { this.state.videos.length > 0 ?
-                          this.state.videos.map((videoData,index)=>{
-                            return(<RenderVideo key={index} videoData={videoData}/>);
-                          })
-                          :
-                          null
-                        }
+                          { this.state.videos.length > 0 ?
+                            this.state.videos.map((videoData,index)=>{
+                              return(<RenderVideo key={index} videoData={videoData}/>);
+                            })
+                            :
+                            null
+                          }
+                          </View>
+                        </View>
                       </View>
                     </View>
                   </View>
@@ -741,7 +747,7 @@ class ViewTicketFormInfo extends React.Component {
                   <View style = {styles.lineStyle} >
                     <View style={styles.formInputView}>
                       <View>
-                        <Text style={{fontWeight: 'bold'}}>Remark</Text>
+                        <Text style={[(robotoWeights.bold),{fontSize:15,color:'#333333'}]}>Remark</Text>
                       </View>
                     </View>
                     <View style={styles.formInputViews}>

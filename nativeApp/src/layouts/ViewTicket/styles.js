@@ -19,10 +19,10 @@ export default StyleSheet.create({
     // height:(window.height - 75),
     // alignItems: 'center',
     // justifyContent: 'center',
-    // marginVertical: 200,
+    paddingVertical:45,
     // marginHorizontal: 20,
     borderColor: '#333333',
-    borderRadius: 4,
+    borderRadius: 2,
     borderWidth: 1,
     borderStyle: 'dashed'
 
@@ -131,7 +131,7 @@ export default StyleSheet.create({
     flexDirection:'row'
   }, 
   formInputViews:{
-    width:'87%',
+    width:(window.width - 25),
   
     // flexDirection:'row',
     // borderWidth:1,
