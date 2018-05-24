@@ -759,6 +759,7 @@ class Ticket extends TrackerReact(Component){
                 </div>
                 <div className="col-lg-7">
                     <button type="button" className="fesubmitbtn col-lg-5 col-lg-offset-2" data-roleStatus="QTMReviewRemark" data-msg="Quality Team Member Review Remark Submitted" onClick={this.approveButton.bind(this)}>Submit</button>
+<<<<<<< Updated upstream
                 </div>
               </div>
             </div>
@@ -955,7 +956,6 @@ class Ticket extends TrackerReact(Component){
   }
   render(){
       if(!this.props.loading){
-        console.log('testing1');
         return(           
           <div>
             <div className="content-wrapper">
@@ -1094,7 +1094,6 @@ class Ticket extends TrackerReact(Component){
                                             :
                                             ""
                                             :
-                                            ""
                                           }
                                         </a>
                                     </div>
@@ -1186,6 +1185,7 @@ class Ticket extends TrackerReact(Component){
                                             :
                                             ""
                                           }
+
                                         </div> 
                                       </div>
                                       )
