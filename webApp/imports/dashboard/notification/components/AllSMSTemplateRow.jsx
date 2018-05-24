@@ -10,13 +10,25 @@ export default class AllSMSTemplateRow extends TrackerReact(Component){
 	deleteTemplate(event){
 		event.preventDefault();
 		var tempId = $(event.target).attr('id');
-		Meteor.call('removeTemplate',tempId,function(error,result){
-			if(error){
-				console.log(error);
-			}else{
-			   swal('Deleted Successfully !!');
-			}
-		})
+		swal({
+        title: "Are you sure?",
+        text: "You want to delete this!",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Yes, delete it!",
+        closeOnConfirm: false,
+        html: false
+      }, function(){
+				Meteor.call('removeTemplate',tempId,function(error,result){
+					if(error){
+						console.log(error);
+					}else{
+					   swal('Deleted Successfully !!');
+					}
+				});
+     });
+		
 	}
 
 	render() {

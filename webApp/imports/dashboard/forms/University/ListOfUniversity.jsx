@@ -68,7 +68,7 @@ export default class ListOfUniversity extends TrackerReact(Component) {
       let id = $(e.currentTarget).attr("id");
       swal({
         title: "Are you sure?",
-        text: "You want to delete this page!",
+        text: "You want to delete this!",
         type: "warning",
         showCancelButton: true,
         confirmButtonColor: "#DD6B55",
@@ -80,7 +80,7 @@ export default class ListOfUniversity extends TrackerReact(Component) {
             if(error){
                 console.log(error.reason);
             }else{
-                swal("Done","Your news has been deleted!.", "success");
+                swal("Done","University has been deleted!.", "success");
             }
         });
 
@@ -92,13 +92,13 @@ export default class ListOfUniversity extends TrackerReact(Component) {
         
                 <div className="box-body ">  
                   <div className="dataTable tableBasicPage col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <h4 className="">List Of university</h4>  
+                    <h4 className="">List of Universities</h4>  
                     <table className="display table table-bordered servicesTable" width="100%" cellSpacing="0">
                         <thead>
                             <tr>
-                                <th>University Name</th>
-                                <th>Status</th>
-                                <th>Actions</th>
+                                <th className="text-center">University Name</th>
+                                <th className="text-center">Status</th>
+                                <th className="text-center">Actions</th>
                             </tr>
                         </thead>
                        

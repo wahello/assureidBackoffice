@@ -96,27 +96,27 @@ class AddEditPoliceData extends TrackerReact(Component) {
           },
 
         },
-        messages: {
+       messages: {
           policeStationName: {
-            required: "Please enter policeStationName!",
+            required: "Please enter police station Name!",
           },
           policeStationAddressLine1: {
-            required: "Please enter policeStationAddressLine!",
+            required: "Please enter address line!",
           },
           country: {
-            required: "Please enter country!",
+            required: "Please enter Country!",
           },
           state: {
-            required: "Please enter state!",
+            required: "Please enter State!",
           },
           city: {
-            required: "Please enter city!",
+            required: "Please enter City!",
           },
           area: {
-            required: "Please enter area!",
+            required: "Please enter Area!",
           },
           pinCode: {
-            required: "Please enter pinCode!",
+            required: "Please enter Pincode!",
           },
           
         }
@@ -169,7 +169,7 @@ class AddEditPoliceData extends TrackerReact(Component) {
           if(error){
               console.log(error.reason);
           }else{                      
-            swal("Done","Palice Station Data has been Updated!.","success"); 
+            swal("Done","Police Station Data has been Updated!.","success"); 
             var path = "/admin/PoliceStation";
             browserHistory.replace(path);
           }            
@@ -179,7 +179,7 @@ class AddEditPoliceData extends TrackerReact(Component) {
           if(error){
               console.log(error.reason);
           }else{                      
-            swal("Done","Palice Station Data has been Inserted!.","success");  
+            swal("Done","Police Station Data has been Inserted!.","success");  
             $(".policeStationName").val("");
             $(".policeStationAddressLine1").val("");
             $(".policeStationAddressLine2").val("");

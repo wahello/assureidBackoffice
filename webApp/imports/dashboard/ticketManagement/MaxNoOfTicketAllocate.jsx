@@ -30,23 +30,48 @@ class MaxNoOfTicketAllocate extends TrackerReact(Component){
     }
 
     componentDidMount(){
-          this.roleTracker = Tracker.autorun(()=>{
+      this.roleTracker = Tracker.autorun(()=>{
           if(this.state.roleSubscribe.ready()){
             var allRoleObj  = Meteor.roles.find({name: { $nin: [ "superAdmin", "admin","user"]} }).fetch();
             if(allRoleObj){
-              // console.log("allRoleObj :"+JSON.stringify(allRoleObj));
+              // console.log(".allRoleObj :"+JSON.stringify(allRoleObj));
               this.setState({
                   "roleList": allRoleObj,
               })
             }
           }
       });
+
+      // validation
+      $("#maxnoofticketallocate").validate({
+        rules: {
+            numberallocated: {
+              required: true,
+            },
+            role: {
+              required: true,
+            },
+          },
+          messages: {
+            numberallocated: {
+              required: "Please enter number of tickets !",
+              // minlength: "Use at least 1 characters, please."
+            },
+             role: {
+              required: "Please select any of above !",
+              // minlength: "Use at least 1 characters, please."
+            },
+
+          }
+      }); 
     }
 
     delAllocatedTicket(event){
     	event.preventDefault();
     	var selectedTax = this;
-      var targetedID = event.currentTarget.id;
+      var id = event.currentTarget.id;
+      var targetedID = parseInt(id);
+      // console.log("targetedID",targetedID);
       Meteor.call('removeAllocatedTickets', targetedID);
     }
 
@@ -72,12 +97,14 @@ class MaxNoOfTicketAllocate extends TrackerReact(Component){
         'maxTicketAllocate' : this.refs.numberallocated.value,
         'role'              : this.refs.role.value,
       }   
-      var targetedID = Session.get('targetedID'); 
+      var id = Session.get('targetedID'); 
+      var targetedID = parseInt(id);
       var role = Session.get('role'); 
 
-
+      // console.log("targetedID",targetedID);
+      // console.log("type",typeof(targetedID));
       if(targetedID){
-        Meteor.call('updateAllocatedTicket',formValues,targetedID,(error, result)=>{
+        Meteor.call('updateAllocatedTicket',formValues, targetedID,(error, result)=>{
           if(error){
             console.log(error);
           }else{     
@@ -85,6 +112,9 @@ class MaxNoOfTicketAllocate extends TrackerReact(Component){
             swal('Allocated Ticket Updated!');
             $(".numberallocated").val('');
             $(".role").val('');
+            if ($(".companyTaxSubmit").text("Update")){     
+              $(".companyTaxSubmit").html("Submit");
+            }
           }
         });
       }else{
@@ -120,24 +150,23 @@ class MaxNoOfTicketAllocate extends TrackerReact(Component){
                         <div className="box-header with-border">
                          <h2 className="box-title">Allocate Maximum Ticket</h2>  
                         </div>
-                        <div className="box-body ">
+                        <div className="box-body "> 
                           <div className="col-lg-12 col-sm-12 col-xs-12 col-md-12 noofticketwrapouter">
                             <form id="maxnoofticketallocate" onSubmit={this.maxticketallocate.bind(this)}>
-                              <div className="noofticketwrap col-lg-8 col-lg-offset-3 col-md-8 col-sm-12 col-xs-12">
+                              <div className="noofticketwrap col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-12 col-xs-12">
                                 <div className="form-group col-lg-6 col-md-6 col-xs-12 col-sm-12 ">
                                   <span className="blocking-span">
-                                      <label className="floating-label">Enter Maximum No. Of Tickets Allocate </label>
-                                      <input type="text" className="form-control inputText numberallocated" ref="numberallocated"  required />
+                                      <label className="floating-label">Enter Maximum No. Of Tickets to Allocate </label>
+                                      <input type="text" className="form-control inputText numberallocated" ref="numberallocated" name="numberallocated"  required />
                                   </span>
                                 </div>
                                 <div className="form-group col-lg-6 col-md-6 col-xs-12 col-sm-12 ">
                                   <span className="blocking-span">
                                       <label className="floating-label">Role</label>
-                                      <select className="form-control allProductSubCategories role" aria-describedby="basic-addon1" ref="role">
+                                      <select className="form-control allProductSubCategories role" aria-describedby="basic-addon1" name="role" ref="role">
                                         { this.state.roleList.map( (data, index)=>{
                                             return (
                                                 <option key={index}>
-                                                  
                                                   {data.name}
                                                 </option>
                                             );
@@ -158,7 +187,7 @@ class MaxNoOfTicketAllocate extends TrackerReact(Component){
                      {
                        !this.props.loading ?
                       //  return(
-                        <div className="col-lg-6 col-lg-offset-4 col-md-6 col-md-offset-4 col-sm-12 col-xs-12  ">
+                        <div className="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-12 col-xs-12  ">
                           <div className="table-responsive">
                               <table className="table table-bordered table-striped table-hover">
                                 <thead>
@@ -169,7 +198,8 @@ class MaxNoOfTicketAllocate extends TrackerReact(Component){
                                   </tr>
                                 </thead>
                                  <tbody>
-                                 { this.props.maxAllocatedData.map((allocationNumber,index)=>{
+                                 { this.props.maxAllocatedData ?
+                                  this.props.maxAllocatedData.map((allocationNumber,index)=>{
                                       return(
                                         <tr key={index}>
                                           <td> {allocationNumber.maxTicketAllocate} </td>			
@@ -198,6 +228,8 @@ class MaxNoOfTicketAllocate extends TrackerReact(Component){
                                         </tr>
                                       )
                                     })
+                                   : 
+                                   ""
                                   }
                                 </tbody>
                               </table>

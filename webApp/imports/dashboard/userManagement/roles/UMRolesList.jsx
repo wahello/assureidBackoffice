@@ -44,7 +44,7 @@ export default class UMRolesList extends TrackerReact(Component) {
 	          <div className="col-lg-12 col-md-10 col-sm-12 col-xs-12 ">
 	            <div className="box box-primary">
 		            <div className="box-header with-border">
-		            <h3 className="box-title">LIST OF ROLES</h3>
+		            <h3 className="box-title">ADD ROLES</h3>
 		            </div>
 
 					<hr/>	
@@ -52,6 +52,7 @@ export default class UMRolesList extends TrackerReact(Component) {
 						<UMaddRoles/>
 
 						<div className="table-responsive col-lg-10 col-lg-offset-1 col-sm-12 col-xs-12 col-md-12">
+            <h4 className="">List Of Roles</h4>  
 						<table className="table table-bordered table-striped table-hover myTable dataTable no-footer">
 							<thead className="table-head umtblhdr">
 								<tr className="tableHeader">
@@ -60,9 +61,14 @@ export default class UMRolesList extends TrackerReact(Component) {
 								</tr>
 							</thead>
 							<tbody>
-								{ this.rolesListData().map( (rolesData)=>{
-									return <UMadd_role key={rolesData._id} roleDataVales={rolesData}/>
-								  }) 
+								{ this.rolesListData().length > 0 ?
+										this.rolesListData().map( (rolesData)=>{
+										return <UMadd_role key={rolesData._id} roleDataVales={rolesData}/>
+									  }) 
+								  :
+								  <tr>
+								  	<td>No Data Availabele</td>
+								  </tr>
 								}						
 							</tbody>
 						</table>

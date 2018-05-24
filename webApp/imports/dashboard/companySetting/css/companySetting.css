@@ -9,7 +9,7 @@
 /*inputformError{color: #e40b0b;}*/
 .requiredStar{color: #e40b0b;}
 .editIconBanner{margin-left: 20px;}
-label.error{margin-top: 2px;font-weight: 100;color: #e40b0b;display: none!important;}
+label.error{margin-top: 2px;font-weight: 100;color: #e40b0b;}
 .iDelete{position: absolute;cursor: pointer;right: -18px;top: 0px;}
 /* .companyImgPos{position: absolute;right: 20px;top: 200px;} */
 .companyInputPos{position: absolute;right: 0px;bottom: 195px;padding-right: 25px;}

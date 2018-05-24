@@ -86,9 +86,9 @@ class ListOfHolidays extends TrackerReact(Component) {
                     <table className="display table table-bordered servicesTable" width="100%" cellSpacing="0">
                         <thead>
                             <tr>
-                                <th>Holiday Date</th>
-                                <th>Holiday Reason</th>
-                                <th>Actions</th>
+                                <th className="text-center">Holiday Date</th>
+                                <th className="text-center">Holiday Reason</th>
+                                <th className="text-center">Actions</th>
                             </tr>
                         </thead>
                        

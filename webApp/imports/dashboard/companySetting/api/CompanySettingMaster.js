@@ -280,6 +280,20 @@ Meteor.methods({
         },
         );
   },
+  "updateAllocatedTicket":function (formValues,targetedID) {
+     // console.log('maxnoOfTicketAllocate.'+targetedID+'.maxTicketAllocate');
+    CompanySettings.update({'companyId': 1},
+       {$set:{ 
+              ['maxnoOfTicketAllocate.'+targetedID+'.maxTicketAllocate'] : formValues.maxTicketAllocate , 
+              ['maxnoOfTicketAllocate.'+targetedID+'.role'] : formValues.role , 
+           }
+         },
+      );  
+  },
+  "removeAllocatedTickets":function (targetedID) {
+    CompanySettings.update({'companyId': 1}, {$unset : {['maxnoOfTicketAllocate.'+targetedID] : 1}});
+    CompanySettings.update({'companyId': 1}, {$pull : {'maxnoOfTicketAllocate' : null}});
+  },
   'removeCompanyImage':function(id,link){
     CompanySettings.update(
       {'_id':id},

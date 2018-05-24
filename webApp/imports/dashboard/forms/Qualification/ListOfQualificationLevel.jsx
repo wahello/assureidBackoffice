@@ -92,12 +92,12 @@ export default class ListOfQualificationLevel extends TrackerReact(Component) {
         
                 <div className="box-body ">  
                   <div className="dataTable tableBasicPage col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <h4 className="">List Of Qualification</h4>  
+                    <h4 className="">List Of Qualifications</h4>  
                     <table className="display table table-bordered servicesTable" width="100%" cellSpacing="0">
                         <thead>
                             <tr>
-                                <th>Title</th>
-                                <th>Actions</th>
+                                <th className="text-center">Title</th>
+                                <th className="text-center">Actions</th>
                             </tr>
                         </thead>
                        

@@ -187,8 +187,12 @@ class Header extends TrackerReact(Component){
                   <Link to="javascript:void(0)" className="dropdown-toggle" data-toggle="dropdown">
                     {/* <img src={this.currentUser().userProfile} className="user-image" alt="User Image" />
                     <span className="hidden-xs"> {this.currentUser().userName} </span> */}
-                   {!this.props.loading ? 
+                   {!this.props.loading ?
+                    this.props.user ? 
+
                     <span className="hidden-xs">  {this.props.user.profile.firstname} {this.props.user.profile.lastname} </span>
+                   :
+                   ""
                    :
                    ""
                   } 

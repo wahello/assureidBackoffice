@@ -89,10 +89,10 @@ class ListOfCheckList extends TrackerReact(Component) {
                     <table className="display table table-bordered servicesTable" width="100%" cellSpacing="0">
                         <thead>
                             <tr>
-                                <th>Checklist For</th>
-                                <th>Task</th>
-                                <th>Checklist From</th>
-                                <th>Actions</th>
+                                <th className="text-center">Checklist For</th>
+                                <th className="text-center">Task</th>
+                                <th className="text-center">Checklist From</th>
+                                <th className="text-center">Actions</th>
                             </tr>
                         </thead>
                        

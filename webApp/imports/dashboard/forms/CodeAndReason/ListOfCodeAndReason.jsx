@@ -86,9 +86,9 @@ class ListOfCodeAndReason extends TrackerReact(Component) {
                     <table className="display table table-bordered servicesTable" width="100%" cellSpacing="0">
                         <thead>
                             <tr>
-                                <th>Code</th>
-                                <th>Reason</th>
-                                <th>Actions</th>
+                                <th className="text-center">Code</th>
+                                <th className="text-center">Reason</th>
+                                <th className="text-center">Actions</th>
                             </tr>
                         </thead>
                        

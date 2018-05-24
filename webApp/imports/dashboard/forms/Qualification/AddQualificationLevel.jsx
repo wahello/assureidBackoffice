@@ -59,7 +59,7 @@ class AddQualificationLevel extends TrackerReact(Component) {
         },
         messages: {
           QualificationLevelTitle: {
-            required: "Please enter Qualification Level Title!",
+            required: "Please enter Qualification Level!",
             // minlength: "Use at least 1 characters, please."
           },
         }

@@ -62,7 +62,6 @@ export default class ServicePage extends TrackerReact (Component){
   }
   componentDidMount() {
     $("html,body").scrollTop(0);
-    $(".serviceName").focus();
     if (!$("#adminLte").length>0 && !$('body').hasClass('adminLte')) {
      var adminLte = document.createElement("script"); 
      adminLte.type="text/javascript"; 
@@ -197,6 +196,7 @@ export default class ServicePage extends TrackerReact (Component){
                   }else{                     
                      swal("Done","Your page has been Created!.","success");
                       $('.uploadedImageFromLocl').attr('src', "");
+                      $('.uploadServiceImage').val("");
                       $(".serviceName").val("");  
                       $(".serviceRate").val("");  
                       $(".serviceDuration").val("");  
@@ -368,7 +368,7 @@ export default class ServicePage extends TrackerReact (Component){
                                   <div className="col-lg-6 uploadedImageFromLocl1">
                                      <div className="form-group subjectDiv">
                                        <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12 label-category">Image Upload<span className="astrick">*</span>:</label>
-                                        <input type="file" ref="serviceImageFile" id="s3file" name="serviceImageFile"  onChange={this.handleUpload.bind(this)}  className="subject col-lg-12 col-md-12 col-sm-12 col-xs-12 inputValid"  required/>     
+                                        <input type="file" ref="serviceImageFile" id="s3file" name="serviceImageFile"  onChange={this.handleUpload.bind(this)}  className="subject uploadServiceImage col-lg-12 col-md-12 col-sm-12 col-xs-12 inputValid"  required/>     
                                       </div> 
                                   </div>
                                   <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">

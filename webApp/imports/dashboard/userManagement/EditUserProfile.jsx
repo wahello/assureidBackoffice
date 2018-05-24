@@ -6,7 +6,7 @@ import { render } from 'react-dom';
 import TrackerReact from 'meteor/ultimatejs:tracker-react';
 // import { ParkingSlots } from '../../../addressVerification/api/verificationAddress.js';
 // import { UserAddress } from '../../../addressVerification/api/verificationAddress.js';
-
+import {browserHistory} from 'react-router';
 class EditUserProfile extends TrackerReact(Component){
 
 	constructor(props) {
@@ -88,6 +88,9 @@ class EditUserProfile extends TrackerReact(Component){
 	    		console.log("error"+error);
 	    	}else{
 	    		swal('Profile updated Successfully!');
+	    		var path = "/admin/UMListOfUsers";
+          browserHistory.replace(path);
+	    		 
 	    	}
 	    });
 	}
@@ -201,8 +204,8 @@ class EditUserProfile extends TrackerReact(Component){
 
 														<div className="col-lg-2 col-sm-2 col-xs-2 col-md-2">
 															<img src={this.state.userProfile} className="img-responsive"/>
-															<input name="userPic" ref="userPic" onChange={this.uploadProfileImg.bind(this)} className="useruploadImg" type="file" />
-														{/*<button onClick={this.uploadProfileClick.bind(this)} className="uploaduserPic col-lg-12 col-md-12 btn btn-default">Update Photo</button>*/}
+															<input name="userPic" ref="userPic" onChange={this.uploadProfileImg.bind(this)} className="useruploadImg col-lg-12 col-md-12 col-sm-12 col-xs-12" type="file" />
+														<button onClick={this.uploadProfileClick.bind(this)} className="uploaduserPic col-lg-12 col-md-12 btn btn-default">Update Photo</button>
 														</div>
 
 											

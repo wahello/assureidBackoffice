@@ -97,10 +97,10 @@ export default class ListOfColleges extends TrackerReact(Component) {
                     <table className="display table table-bordered servicesTable" width="100%" cellSpacing="0">
                         <thead>
                             <tr>
-                                <th>College Name</th>
-                                <th>University Name</th>
-                                <th>Status</th>
-                                <th>Actions</th>
+                                <th className="text-center">College Name</th>
+                                <th className="text-center">University Name</th>
+                                <th className="text-center">Status</th>
+                                <th className="text-center">Actions</th>
                             </tr>
                         </thead>
                        

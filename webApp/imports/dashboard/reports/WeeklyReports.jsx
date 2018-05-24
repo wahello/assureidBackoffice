@@ -117,7 +117,7 @@ class WeeklyReports extends TrackerReact(Component){
 						{/* <td>{reportData[i].paymentMethod}</td> */}
 						{/* <td>{reportData[i].productLength}</td> */}
 						{/* <td>{reportData[i].totalQuantity}</td> */}
-						<td>R {(parseInt(reportData[i].totalAmount)).toFixed(2)}</td>
+						<td><i className="fa fa-rupee"></i> {(parseInt(reportData[i].totalAmount)).toFixed(2)}</td>
                     </tr>
                 );
             }
@@ -128,7 +128,7 @@ class WeeklyReports extends TrackerReact(Component){
                     <td></td>
                     <td></td>
                     <td className="totalTitle">Total</td>
-                    <td className="totalTitle">R&nbsp;{(total).toFixed(2)}</td>
+                    <td className="totalTitle"><i className="fa fa-rupee"></i>&nbsp;{(total).toFixed(2)}</td>
                 </tr>
             )
         }

@@ -80,7 +80,7 @@ export default class ListOfLocations extends TrackerReact(Component) {
             if(error){
                 console.log(error.reason);
             }else{
-                swal("Done","Locatiom has been deleted!.", "success");
+                swal("Done","Location has been deleted!", "success");
             }
         });
 
@@ -92,17 +92,17 @@ export default class ListOfLocations extends TrackerReact(Component) {
         
                 <div className="box-body ">  
                   <div className="dataTable tableBasicPage col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <h4 className="">List Of university</h4>  
+                    <h4 className="">List of Locations</h4>  
                       <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding">
                         <table className="display table table-bordered servicesTable" width="100%" cellSpacing="0">
                           <thead>
                               <tr>
-                                  <th>Country</th>
-                                  <th>State</th>
-                                  <th>City</th>
-                                  <th>Area</th>
-                                  <th>Pin Code</th>
-                                  <th>Actions</th>
+                                  <th className="text-center">Country</th>
+                                  <th className="text-center">State</th>
+                                  <th className="text-center">City</th>
+                                  <th className="text-center">Area</th>
+                                  <th className="text-center">Pin Code</th>
+                                  <th className="text-center">Actions</th>
                               </tr>
                           </thead>                       
                           <tbody>

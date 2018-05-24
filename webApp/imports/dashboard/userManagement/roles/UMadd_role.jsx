@@ -9,17 +9,16 @@ export default class UMadd_role extends TrackerReact(Component) {
 	  event.preventDefault();
       var roleId    = event.target.id;
       var roleName  = $("input[name="+roleId+"-Namerole]").val();
-
+  
       Meteor.call('updaterole', roleId, roleName,
                 function(error, result) { 
                     if (error) {
                         console.log ( error ); 
                     } //info about what went wrong 
                     else {
+                    	swal("Updated successfully");
                     }//the _id of new object if successful
-                }
-
-// 
+                } 
         );	
 
 	}
@@ -73,8 +72,8 @@ export default class UMadd_role extends TrackerReact(Component) {
 						        <h4 className="modal-title">Edit Role</h4>
 						      </div>
 						      <div className="modal-body col-lg-12 col-md-12 col-sm-12 col-xs-12">
-									<form className="editroles">
-										<div className="form-group col-lg-5 col-md-4 col-xs-12 col-sm-12 paddingLeftz">
+									<form className="editroles" id="editroles">
+										<div className="form-group col-lg-5 col-md-4 col-xs-12 col-sm-12 paddingLeftz text-left">
 											<label>Role Name*</label>
 											<input type="text" ref="roleName" className="form-control rolesField" name={`${this.props.roleDataVales._id}-Namerole`} defaultValue={`${this.state.roleName}`} onChange={this.handleChange.bind(this)} required/>
 										</div>
@@ -85,8 +84,8 @@ export default class UMadd_role extends TrackerReact(Component) {
 									</form>
 						      </div>
 						      <div className="modal-footer">
-						        <button type="button" className="btn btn-primary" data-dismiss="modal">Close</button>
-						      </div>
+{/*						        <button type="button" className="btn btn-primary" data-dismiss="modal">Close</button>
+*/}						      </div>
 						    </div>
 
 						  </div>

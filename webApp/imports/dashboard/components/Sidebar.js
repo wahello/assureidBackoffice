@@ -88,18 +88,21 @@ class Sidebar extends TrackerReact(Component){
               {!this.props.loading1 ?
               <div className="pull-left image">
                { Meteor.user() ?
-                   <img src={Meteor.user().profile.userProfile} className="img-circle" alt="User Image" />
+                  Meteor.user().profile.userProfile == "" ?
+                      <img src="/images/userIcon.png" className="img-circle" alt="User Image" />
+                    :
+                    <img src={Meteor.user().profile.userProfile} className="img-circle" alt="User Image" />
                   :
-                  <img src="/images/userIcon.png" className="img-circle" alt="User Image" />
+                 <img src="/images/userIcon.png" className="img-circle" alt="User Image" />
                }              
               </div>
               :
               ""
             }
             {!this.props.loading1 ?
-                Meteor.user() ? 
+                this.props.user ? 
                 <div className="pull-left info">
-                  <p> {Meteor.user().profile.firstname} {Meteor.user().profile.lastname}</p>
+                  <p> {this.props.user.profile.firstname} {this.props.user.profile.lastname}</p>
                   <Link to="javascript:void(0)"><i className="fa fa-circle text-success" />Online</Link>
                 </div>
                 :
@@ -262,7 +265,7 @@ class Sidebar extends TrackerReact(Component){
                   </li>
                   <li>
                     <Link to="/admin/ListOfServices">
-                      <i className="fa fa-circle-o" /> List Services
+                      <i className="fa fa-circle-o" /> List of Services
                     </Link>
                   </li>
                 </ul>
@@ -283,8 +286,8 @@ class Sidebar extends TrackerReact(Component){
                   </li> */}
                   <li>
                     <Link to="/admin/maxnoofticketallocate">
-                      <i className="fa fa-circle-o" /> Allocate Max No. Tickets
-                    </Link>
+                      <i className="fa fa-circle-o" /> Allocate Max No. of Tickets
+                    </Link> 
                   </li>
                   <li>
                     <Link to="/admin/ticketdistribution">
@@ -315,14 +318,14 @@ class Sidebar extends TrackerReact(Component){
                   </li>
                   <li>
                     <Link to="/ComingSoon">
-                      <i className="fa fa-circle-o" /> List Packages
+                      <i className="fa fa-circle-o" /> List of Packages
                     </Link>
                   </li>
                 </ul>
               </li>
               <li>
                 <Link to="/admin/reports">
-                  <i className="fa fa-file-o" />
+                  <i className="fa fa-file-text" />
                     <span>Reporting System</span>
                 </Link>
               </li>

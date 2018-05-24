@@ -58,7 +58,7 @@ class ManageLocation extends TrackerReact(Component) {
      adminLte.src = "/js/adminLte.js";  
      $("body").append(adminLte);  
     }
-    $("#add-book").validate({
+    $("#add-Location").validate({
         rules: {
           country: {
             required: true,
@@ -91,7 +91,7 @@ class ManageLocation extends TrackerReact(Component) {
             required: "Please enter city!",
           },
           pinCode: {
-            required: "Please enter state!",
+            required: "Please enter Pincode!",
           },
       }
     });
@@ -118,7 +118,7 @@ class ManageLocation extends TrackerReact(Component) {
   }
   handleSubmit(event){
     event.preventDefault();
-    if($('#add-book').valid()){
+    if($('#add-Location').valid()){
       var country   = this.refs.country.value.charAt(0).toUpperCase() + this.refs.country.value.slice(1);
       var state     = this.refs.state.value.charAt(0).toUpperCase() + this.refs.state.value.slice(1);
       var city      = this.refs.city.value.charAt(0).toUpperCase() + this.refs.city.value.slice(1);
@@ -169,7 +169,7 @@ class ManageLocation extends TrackerReact(Component) {
    return (
     <div className="content-wrapper">
       <section className="content-header">
-        <h1> Master Data </h1>
+        <h1> Master Data </h1> 
         <ol className="breadcrumb">
           <li>
             <a href="#"><i className="fa fa-newspaper-o" />Master Data</a></li>
@@ -185,7 +185,7 @@ class ManageLocation extends TrackerReact(Component) {
                 </div>
                 <div className="box-body">                      
                   <div className="col-lg-12 col-sm-12 col-xs-12 col-md-12"> 
-                    <form id="add-book">
+                    <form id="add-Location">
                        <div className="row inputrow">
                           <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                             <div className="form-group">
