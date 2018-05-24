@@ -189,10 +189,10 @@ export default StyleSheet.create({
     left: 0,
     bottom: 0,
     right: 0,
-    backgroundColor:'#f00',
+    // backgroundColor:'#f00',
   },
   videoWrapper: {
    flex:1,
-   backgroundColor:'#0f0',
+   // backgroundColor:'#0f0',
   },
 });

@@ -8,6 +8,7 @@ import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from "react-native-ta
 import { TextField } from 'react-native-material-textfield';
 import { CameraKitCameraScreen, CameraKitCamera } from 'react-native-camera-kit';
 import { DocumentPicker, DocumentPickerUtil } from 'react-native-document-picker';
+import { RNS3 } from 'react-native-aws3';
 // import CheckBox from 'react-native-check-box';
 
 import PropTypes from "prop-types";
@@ -25,6 +26,7 @@ import ViewCustomerModal from "../../components/modalComponent/ViewCustomerModal
 import { Dropdown } from 'react-native-material-dropdown';
 
 import Video from "react-native-video";
+import RenderVideo from './RenderVideo.js';
 
 class ViewTicketFormInfo extends React.Component {
   constructor(props) {
@@ -184,7 +186,7 @@ class ViewTicketFormInfo extends React.Component {
     //                     }
     //                   ];
 
-    var videos      = [];
+    var videos      = this.state.videos;
 
     // var videos      = [
     //                     {
@@ -353,20 +355,105 @@ class ViewTicketFormInfo extends React.Component {
 
 
   goToCamera =(event)=>{
-    console.log('in goToCamera');
+    // console.log('in goToCamera');
     this.props.navigation.navigate('Camera',{ ticket : this.props.ticket });
   }
 
     uploadVideo(event){
+      var userId = Meteor.userId();
+      var s3Data = this.props.s3Data;
+      var timeStamp = new Date().getTime();
       DocumentPicker.show({ filetype : [DocumentPickerUtil.allFiles()]},(error,res) => {
-                            // Android
-                            console.log(res);
+                          // Android
+                          // console.log("Result:: ",res);
+                          // var fileName = userId+'_'+Date.now()+'_'+res.fileName;
+                          
+                          // var fileName = userId+'_'+timeStamp+'_'+res.fileName;
+                          var fileExt = res.fileName.split('.').pop();  
+                          var fileName = timeStamp+'.'+fileExt;
+                          // var fileExt = fileName.split('.').pop();  
+
+                          var file = {
+                            uri   : res.uri,
+                            name  : fileName,
+                            type  : res.type,
+                          }
+                          
+                          // console.log("file obj => ",file);
+                          
+                          const options = {
+                            keyPrefix           : "FEVideoUpload/",
+                            bucket              : s3Data.bucket,
+                            region              : s3Data.region,
+                            accessKey           : s3Data.key,
+                            secretKey           : s3Data.secret,
+                          }
+
+                          // console.log("options obj => ",options);
+
+                          RNS3.put(file, options).then((response) => {
+                            // console.log("------------response---------------");
+                            // console.log('response: ',response);
+                            if (response.status !== 201)
+                              throw new Error("Failed to upload image to S3");
+                            // console.log("=========  response.body  ==================");
+                            // console.log(response.body);
+                            // console.log("---------  response.body  ------------------");
+         
+                            var fileLink = response.body.postResponse.location;
+                            var fileDetails = {
+                              name          : fileName,
+                              ext           : fileExt,
+                              videoLink     : fileLink,
+                              'createdAt'   : new Date(), 
+                              'userId'      : Meteor.userId(),
+                            };
+                            // console.log("fileDetails = ",fileDetails);
+                            // this.state.videos.push(fileDetails);
+                            if(this.state.videos.length > 0){
+                              var newArr = this.state.videos;
+                              newArr.push(fileDetails);
+                              this.setState(state => ({
+                                videos: newArr, 
+                              }));
+                            }else{
+                              this.setState(state => ({
+                                videos: [ fileDetails ] 
+                              }));                              
+                            }
+
+                            // console.log(this.state.videos);
+
+                            // Meteor.call("insertEmpTempProofDocs",userId,fileDetails,prooftype,proofSubtype,(error,result) =>{
+                            //   if(error){
+                            //     console.log(error.reason);
+                            //     Alert.alert(
+                            //       'Error',
+                            //     )
+                            //   }else{
+                            //     console.log("File details saved.");
+                            //   }
+                            // });
+                            /**
+                             * {
+                             *   postResponse: {
+                             *     bucket: "your-bucket",
+                             *     etag : "9f620878e06d28774406017480a59fd4",
+                             *     key: "uploads/image.png",
+                             *     location: "https://your-bucket.s3.amazonaws.com/uploads%2Fimage.png"
+                             *   }
+                             * }
+                             */
+                          }).catch((error) => console.log("Handled Exceptions image ",error));
 
                           });    
     }
 
   render() {
     
+    console.log('render video state');
+    console.log(this.state.videos);
+    console.log('---------------------');
     const { navigate, goBack, state } = this.props.navigation;
 
     let status = [{
@@ -639,16 +726,13 @@ class ViewTicketFormInfo extends React.Component {
                       <View style={{flexDirection:'row'}}>
                         <Icon name="videocam" type="MaterialIcons" size={50} color="#aaa" onPress = {this.uploadVideo.bind(this)} />
 
-                        <View style={{width: 50, height: 50, paddingHorizontal:10,paddingVertical:10}}>
-                          <Video
-                            repeat
-                            resizeMode='cover'
-                            // source={require('../../videos/videoplayback.mp4')}
-                            source={{uri: 'https://s3.ap-south-1.amazonaws.com/harmonicgroup/ProductVideo/2XAwdwWSg2qfpgKFf.mp4', type: 'mp4'}}
-                            style={styles.backgroundVideo}
-                          />
-                        </View>
-
+                        { this.state.videos.length > 0 ?
+                          this.state.videos.map((videoData,index)=>{
+                            return(<RenderVideo key={index} videoData={videoData}/>);
+                          })
+                          :
+                          null
+                        }
                       </View>
                     </View>
                   </View>
@@ -840,6 +924,7 @@ ViewTicketForm = createContainer( (props) => {
           userData     : userData,
           imgData      : imgData,
           loading6     : loading6,
+          s3Data       : s3Data,
       };
 
       // console.log("result",result);
