@@ -116,13 +116,25 @@ export default class SubmittedDocuments extends TrackerReact(Component){
                   return(
                     <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12  checkListDiv noLRPad" key={index}>  
 												{/* <input type="checkbox" className="tickchkbox" ref="submittedChecklist" name="submittedChecklist" value={submittedChecklist.status} checked={submittedChecklist.status== true? "checked" : ""}/><span className="checkBoxtitle">{submittedChecklist.statement}</span>*/}
-                        <label className = "col-lg-3">{submittedChecklist.titleVal}</label>
+												<div className="col-lg-4 col-md-6 col-sm-6 col-xs-6 noLRPad">
+
+													<label className = "col-lg-12">{submittedChecklist.titleVal}</label>
+													<div className="col-lg-8 col-lg-offset-0">
+														{
+															submittedChecklist.textVal.map((submittedCheckDbFields,index)=>{
+																return(
+																		<span key={index}>{submittedCheckDbFields.dbField},&nbsp;</span>
+																);
+															})
+														}
+													</div>
+												</div>
 												<div className="col-lg-3 col-md-3 col-sm-6 col-xs-6 noLRPad">
 													<label>Information Status :{submittedChecklist.correctVal}</label>
 													{/* <button type="button" className= {submittedChecklist.correctVal == "Correct" ? "btn btn-info noDataButton bgSelect": "btn btn-info noDataButton bgNotSelect"}>Correct</button>
 													<button type="button" className= "btn btn-info noDataButton" onClick={this.noReason.bind(this)}>Incorrect</button> */}
 												</div>
-												<div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+												<div className="col-lg-5 col-md-5 col-sm-6 col-xs-6">
 													<span>Remark &nbsp;:</span><span>{submittedChecklist.remarkVal}</span>
 													{/* <textarea rows="3" cols="60" className="col-lg-8 col-lg-offset-0" id=""/> */}
 												</div>												
