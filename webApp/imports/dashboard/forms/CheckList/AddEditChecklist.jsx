@@ -20,9 +20,10 @@ class AddEditChecklist extends TrackerReact(Component) {
       }  
     }; 
      this.handleChange = this.handleChange.bind(this);
+     // this.handleChangeForSelect = this.handleChangeForSelect.bind(this);
   }
   componentDidMount(){
-    
+     
       $('#fieldSelect').multipleSelect();
     
   }
@@ -48,6 +49,7 @@ class AddEditChecklist extends TrackerReact(Component) {
     }
 
     this.handleChange = this.handleChange.bind(this);
+    // this.handleChangeForSelect = this.handleChangeForSelect.bind(this);
   }
   handleChange(event){
      const target = event.target;
@@ -56,6 +58,16 @@ class AddEditChecklist extends TrackerReact(Component) {
       [name]: event.target.value,
      });
   }
+  // handleChangeForSelect(event){
+  //   const target = event.target;
+  //    const name  = target.name;
+  //   console.log("name",name);
+      
+  //    this.setState({
+  //     [name]: event.target.value,
+  //    });
+  //    console.log("checkListFor",this.state.checkListFor);
+  // }
   handleSubmit(e){
     e.preventDefault();
     var relatedFieldArr = [];
@@ -175,20 +187,44 @@ class AddEditChecklist extends TrackerReact(Component) {
                       <div className="form-group col-lg-6 col-md-6 col-xs-12 col-sm-12 ">
                         <span className="blocking-span col-lg-12 col-md-6 col-xs-12 col-sm-12 NOleftPad">
                             <label className="floating-label col-lg-12">Checklist For Field Value</label>
-                           <select className="w300" multiple="multiple" id="fieldSelect" ref="checkListForField">
-                              <option value="line1">Address Line 1 </option>
-                              <option value="line2 ">Address Line 2 </option>
-                              <option value="line3 ">Address Line 3 </option>
-                              <option value="landmark ">Landmark </option>
-                              <option value="city">City </option>
-                              <option value="state">State </option>
-                              <option value="country">Country </option>
-                              <option value="pincode">Pincode </option>
-                              <option value="residingFrom">residingFrom</option>
-                              <option value="residingTo">residingTo</option>
-                              <option value="proofType">proofType</option>
-                              
-                           </select>
+                            {/*this.state.checkListFor == "Address Information" ?
+                               <select className="w300" multiple="multiple" id="fieldSelect" ref="checkListForField">
+                                <option value="line1">Address Line 1 </option>
+                                <option value="line2 ">Address Line 2 </option>
+                                <option value="line3 ">Address Line 3 </option>
+                                <option value="landmark ">Landmark </option>
+                                <option value="city">City </option>
+                                <option value="state">State </option>
+                                <option value="country">Country </option>
+                                <option value="pincode">Pincode </option>
+                                <option value="residingFrom">residingFrom</option>
+                                <option value="residingTo">residingTo</option>
+                                <option value="proofType">proofType</option>
+                             </select>  
+                              :
+                              this.state.checkListFor == "Employment Information" ?*/}
+                                <select className="w300" multiple="multiple" id="fieldSelect" ref="checkListForField">
+                                  <option value="Employer Name">Employer Name </option>
+                                  <option value="Company Address">Company Address </option>
+                                  <option value="Company contact number">Company contact number  </option>
+                                  <option value="Employee ID / Employee code">Employee ID / Employee code </option>
+                                  <option value="Employee designation">Employee designation </option>
+                                  <option value="Employee department">Employee department </option>
+                                  <option value="Employee period from">Employee period from </option>
+                                  <option value="Employee period to">Employee period to </option>
+                                  <option value="Type of Employment">Type of Employment</option>
+                                  <option value="Detail of Agency">Detail of Agency</option>
+                                  <option value="Reporting manager name">Reporting manager name</option>
+                                  <option value="Reporting manager designation">Reporting manager designation</option>
+                                  <option value="Reporting manager contact number">Reporting manager contact number</option>                              
+                               </select>  
+                             {/*:
+                              <select className="w300" multiple="multiple" id="fieldSelect" ref="checkListForField">
+                                  <option value="line1">Select </option>
+                               </select>  
+
+                            */}
+                             
                         </span>
                       </div>
                        <div className="form-group col-lg-12 col-md-12 col-xs-12 col-sm-12 ">
