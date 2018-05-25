@@ -86,6 +86,7 @@ import Reports from '/imports/dashboard/reports/Reports.jsx';
 import SCTicketDistribution from '/imports/dashboard/ticketDistribution/SCTicketDistribution.jsx';
 
 import OrderGeneration from '/imports/dashboard/generation/components/OrderGeneration.jsx';
+import ReportGeneration from '/imports/dashboard/ReportGeneration.jsx';
 
 const unauthenticatedPages = ['/', '/signup', '/forgotpassword', '/signup', '/resetpassword/:token','/login'];
 const authenticatedPages = ['/admin/dashboard','/admin/managebasicpage','/admin/manageportfolio','/admin/manageaboutuspage','/admin/manageblockspage','/admin/managecareerpage','/admin/manageeventpage','/admin/managefaq','/admin/managejobpage','/admin/managecontact','/admin/managephotogallery','/admin/managevideolibrary','admin/manageproduct','/admin/manageservice','/admin/manageblogpage', 'admin/company-info', '/dashboard','/admin/UMRolesList','/admin/createUser','/admin/addPackages','/admin/addVerification','/admin/NewsFeed','/admin/UMListOfUsers','/admin/ListOfNewsFeed','/backoffice/dashboard','/admin/reports','/admin/ticketdistribution'];
@@ -246,7 +247,10 @@ export const routes = (
        <Route path="/backofficeadmin/company-info" component={CompanySettingTabs}/>
       <Route path="/admin/ticket/:id" component={Ticket}/>       
       <Route path="/admin/viewProfile/:id" component={ProfileView}/>
+      
+      
     </Route>
+    <Route path="/reportgeneration" component={ReportGeneration}/>
 
     {/* <Route path="/" component={CMainLayout} /> */}
     <Route path="/" component={LogIn} />

@@ -1,0 +1,22 @@
+.reportgenerationwrap{
+    /* box-shadow: 0px 0px 5px #f00; */
+    color: #000;
+}
+.reportHead{
+    text-align: center;
+    padding: 2%;
+}
+.reporttableHead{
+    border: 2px solid #000;
+    padding: 7px 1px 8px 10px;
+    margin-bottom: 0px;
+}
+.reporttablesecondHead{
+    border-left: 1px solid;
+    border-right: 1px solid;
+    padding: 10px;
+    background-color: #b9bed2;
+}
+.reportGenTable tbody tr td{
+    border: 1px solid;
+}

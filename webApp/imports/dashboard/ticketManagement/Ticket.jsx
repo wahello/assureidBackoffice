@@ -152,21 +152,37 @@ class Ticket extends TrackerReact(Component){
     $('#AddImagesVideo').css({"display" : "block"});
     $(event.currentTarget).css({"display" : "none"});
     var data = this.props.checkObjs;
+   
     if(data){
         var dataArr = [];
         for(var i=0; i<data.length;i++){
             var relatedField = data[i].relatedFields;
             var strngVal = "";
-            for(var k=0;k<relatedField.length;k++){
-                strngVal = strngVal + relatedField[k].dbField + ", ";
-            }
-            var obj = {
+            // for(var k=0;k<relatedField.length;k++){
+            //     strngVal = strngVal + relatedField[k].dbField + ", ";
+            // }
+
+            // if(checkLists.length > 0 ){
+            //   var obj = {
+            //     titleVal : data[i].task,
+            //     textVal : relatedField,
+            //     // textVal : [],
+            //     correctVal : false,
+            //     remarkVal : "",
+            //   }
+
+            // }else{
+
+              var obj = {
                 titleVal : data[i].task,
-                // textVal : strngVal,
-                textVal : [],
+                textVal : relatedField,
+                // textVal : [],
                 correctVal : false,
                 remarkVal : "",
-            }
+              }
+
+            // }
+            
             dataArr.push(obj);
             console.log('obj: ', obj);
         }
@@ -955,6 +971,7 @@ class Ticket extends TrackerReact(Component){
   }
   render(){
       if(!this.props.loading){
+        
         return(           
           <div>
             <div className="content-wrapper">
@@ -1059,9 +1076,9 @@ class Ticket extends TrackerReact(Component){
                            </div>
                           </div>
                           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                              <VerifyDetailsDocument ticketId={this.props.params.id}/>
+                            <VerifyDetailsDocument ticketId={this.props.params.id}/>
                           </div>
-                          <VerifiedDocuments ticketId={this.props.params.id}/>
+                            <VerifiedDocuments ticketId={this.props.params.id}/>
                           <div id="SubmittedDocuments" >
                             {this.props.getTicket.submitedDoc ?
                               <SubmittedDocuments submittedDocuments={this.props.getTicket.submitedDoc} ticketId={this.props.params.id} />

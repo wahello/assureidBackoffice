@@ -214,8 +214,12 @@
     transition: 0.3s ease 0s;
 	transform: translateX(26px);
 	margin-right: 4%;
-	
+}
 
+.Correctborder{
+	background-color: rgb(255, 255, 255);
+	color: rgb(40, 175, 228);
+	border: 1px solid #2b9bbc !important;
 }
 .bgSelect{
 	background: #f00;

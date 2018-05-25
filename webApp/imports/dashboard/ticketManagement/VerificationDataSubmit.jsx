@@ -281,15 +281,12 @@ class VerificationDataSubmit extends TrackerReact(Component){
         event.preventDefault();
         var checkLists = [];
         var dataChk    = {};
-        
-        
-        
 
         //Get Values for all the text field
         var textLists = [];
-        $('textarea.textObjs').each(function(i){
-            var dataChk    = {};
-            dataChk.task   = $(this).attr('id');
+		$('textarea.textObjs').each(function(i){
+			var dataChk    = {};
+			dataChk.task   = $(this).attr('id');
             dataChk.value  = $(this).val();
             textLists.push(dataChk);
         });
@@ -549,7 +546,7 @@ class VerificationDataSubmit extends TrackerReact(Component){
             checkLists: newArr,
         })
         
-        // $('#checkObjs').prop('checked',false);
+		// $('#checkObjs').prop('checked',false);
 
     }
     
@@ -576,7 +573,6 @@ class VerificationDataSubmit extends TrackerReact(Component){
     render(){
         var chekFieldList  = this.state.chekFieldList.length>0 ? this.state.chekFieldList :  this.props.chekFieldList;
         
-        
         return(
             <div>
                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 choosefilebox">
@@ -587,7 +583,7 @@ class VerificationDataSubmit extends TrackerReact(Component){
                             </div>
                             {/* Check List Display */}
                             {this.props.EditValue ?
-                               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outerChecklisttoteamM">
+                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outerChecklisttoteamM">
                                     {this.state.checkLists ?
                                         this.state.checkLists.map((checkObjsDefault,index)=>{
                                         return(
@@ -603,10 +599,8 @@ class VerificationDataSubmit extends TrackerReact(Component){
                                         ""
                                     }
                                 </div>
-
                             
                                :
-
 
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outerChecklisttoteamM">
                                     {chekFieldList ?
@@ -630,13 +624,13 @@ class VerificationDataSubmit extends TrackerReact(Component){
                                                     </div>
                                                 </div>
                                                 <div className="col-lg-3 col-md-3 col-sm-6 col-xs-6 noLRPad">
-                                                    <button type="button" className= {checkObjsDefault.correctVal =="Correct" ? "btn btn-info noDataButton active":"btn btn-info noDataButton"}  data-indexVal={index} data-value= "Correct" onClick={this.yesReason.bind(this)}>Correct</button>
+                                                    <button type="button" className= {checkObjsDefault.correctVal =="Correct" ? "btn btn-info noDataButton active":"btn noDataButton Correctborder"}  data-indexVal={index} data-value= "Correct" onClick={this.yesReason.bind(this)}>Correct</button>
                                                     <button type="button" className= {checkObjsDefault.correctVal == "Correct" ? "btn btn-info noDataButton": "btn btn-info noDataButton active"} data-indexVal={index} data-value = "Incorrect" onClick={this.noReason.bind(this)}>Incorrect</button>
                                                 </div>
                                                 <div className="col-lg-4 col-md-6 col-sm-6 col-xs-6">
                                                     <span className="col-lg-12">Remark &nbsp;</span>
                                                     <textarea rows="3" cols="60" className="col-lg-12"  data-indexVal={index} onChange={this.getRemark.bind(this)}/>
-                                                </div>  
+                                                </div>	
                                              </div>
                                             
                                           );
@@ -895,6 +889,7 @@ class VerificationDataSubmit extends TrackerReact(Component){
 VerificationDataSubmitContainer = withTracker(props => { 
     const ticketId     = props.ticketId;
     var chekFieldList  = props.chekFieldList;
+    console.log('chekFieldList: ', chekFieldList);
 
     
     
