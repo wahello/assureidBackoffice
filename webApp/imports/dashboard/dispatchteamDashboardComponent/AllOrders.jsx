@@ -30,7 +30,7 @@ class AllOrders extends TrackerReact(Component){
                               <div className="reports-table-main">
                                 <table id="subscriber-list-outerTable" className="newOrderwrap subscriber-list-outerTable table table-bordered table-hover table-striped table-striped table-responsive table-condensed table-bordered">
                                   <thead className="table-head umtblhdr">
-                                    <tr className="hrTableHeader info UML-TableTr">
+                                    <tr className="hrTableHeader UML-TableTr">
                                       <th className=""> Order No.</th>
                                       <th className=""> Service Name </th>
                                       <th className=""> Receive Date </th>
@@ -46,11 +46,11 @@ class AllOrders extends TrackerReact(Component){
                                           return(
                                               <tr key={index}>
                                                   
-                                                  <td><Link to={"/admin/order/"+data._id}>{data.orderNo}</Link></td>
-                                                  <td><Link to={"/admin/order/"+data._id}>{data.serviceName}</Link></td>
-                                                  <td><Link to={"/admin/order/"+data._id}>{moment(data.createdAt).format('DD-MM-YYYY')}</Link></td>
-                                                  <td><Link to={"/admin/order/"+data._id}>{moment(data.tatDate).format('DD-MM-YYYY')}</Link></td> 
-                                                  <td><Link to={"/admin/order/"+data._id}>{Math.round(Math.abs((new Date().getTime() - data.createdAt.getTime())/(24*60*60*1000)))}</Link></td>
+                                                  <td><Link to={"/admin/orderdetails/"+data._id}>{data.orderNo}</Link></td>
+                                                  <td><Link to={"/admin/orderdetails/"+data._id}>{data.serviceName}</Link></td>
+                                                  <td><Link to={"/admin/orderdetails/"+data._id}>{moment(data.createdAt).format('DD-MM-YYYY')}</Link></td>
+                                                  <td><Link to={"/admin/orderdetails/"+data._id}>{moment(data.tatDate).format('DD-MM-YYYY')}</Link></td> 
+                                                  <td><Link to={"/admin/orderdetails/"+data._id}>{Math.round(Math.abs((new Date().getTime() - data.createdAt.getTime())/(24*60*60*1000)))}</Link></td>
                                                   <td className={data.bgClassName}><Link to={"/admin/ticket/"+data._id} className="statuswcolor">{data.orderStatus}</Link></td>       
                                               </tr>
                                           );
