@@ -132,7 +132,7 @@ export default class Dashboard extends React.Component {
                       elevation:3,
                       shadowRadius: 5,
                       shadowOpacity: 2.0}}>
-                        <View style={{flex:1,flexDirection:'row',padding:10,marginTop:10}}>
+                        <View style={{flex:1,flexDirection:'row',padding:10}}>
                            <View style={{flex:0.4}}>
                               { this.state.userData.userProfile ?
                                 <Avatar
