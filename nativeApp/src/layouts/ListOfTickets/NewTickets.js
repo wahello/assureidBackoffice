@@ -9,15 +9,16 @@ import Moment         from 'react-moment';
 
 import { Platform, ScrollView, StyleSheet, Text, TouchableOpacity, TextInput, View,  BackHandler, Image, BackAndroid, findNodeHandle, DrawerLayoutAndroid,Alert } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { Header, Card, Button, Icon, SearchBar  } from 'react-native-elements';
+import { Header, Card, Button, Icon, SearchBar, Avatar  } from 'react-native-elements';
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 import { Dropdown } from 'react-native-material-dropdown';
 import { TextField } from 'react-native-material-textfield';
-
+import { robotoWeights } from 'react-native-typography';
 
 import HeaderDy from '../../components/HeaderDy/HeaderDy.js';
 import styles from './styles.js';
 import Menu   from '../../components/Menu/Menu.js';
+var moment = require('moment');
 
 class NewTickets extends React.Component {
   constructor(props){
@@ -127,49 +128,68 @@ class NewTickets extends React.Component {
   }
 
   // console.log('ticketData: ',ticketData);
-
     return(
-      
-  
       this.props.NewTicketList.length>0 ?
       this.props.NewTicketList.map((item,i)=>
         <TouchableOpacity key={i} onPress={()=>this.props.navigation.navigate('ViewTicket',{ticketid:item._id})}>
           <Card containerStyle={[styles.newCard]}>
             <View style={[styles.cardHeader,{backgroundColor:item.bgClassName}]}>
-              <View style={{flexDirection:'row',flex:1,paddingHorizontal:10,paddingVertical:5}}>
+              <View style={{flexDirection:'row',flex:1,padding:8}}>
                 <View style={{flex:.5}}>
-                  <Text>Tickets#</Text>
+                  <Avatar
+                   width={70}
+                   height={70}
+                   rounded
+                   source={require("../../images/Address-Verification.png")}
+                   activeOpacity={0.7}
+                  />  
                 </View>
                 <View style={{flex:.5}}>
-                  <Text>{item.ticketNumber}</Text>
+                  <Text style={[(robotoWeights.bold),{fontSize:15,color:'#fff',alignSelf:'flex-end'}]}>{item.ticketNumber}</Text>
                 </View>
               </View>
-              <View style={{flexDirection:'row',flex:1,paddingHorizontal:10,paddingVertical:5}}>
+              <View style={{flexDirection:'row',flex:1,padding:8}}>
                 <View style={{flex:.5}}>
-                  <Text>Service Name</Text>
+                  <Text style={[(robotoWeights.regular),{fontSize:14,color:'#333333'}]} >{item.serviceName}</Text>
                 </View>
                 <View style={{ flex:.5}}>
-                  <Text>{item.serviceName}</Text>
-                </View>
-              </View>
-              <View style={{flexDirection:'row',flex:1,paddingHorizontal:10,paddingVertical:5}}>
-                <View style={{flex:.5}}>
-                  <Text>TAT (Date)</Text>
-                </View>
-                <View style={{flex:.5}}>
-                  <Text>{item.tatDate}</Text>
+                  <Text style={[(robotoWeights.regular),{fontSize:14,color:'#333333',alignSelf:'flex-end'}]}>Status : {item.status}</Text>
                 </View>
               </View>
             </View>
-            <View style={{ backgroundColor: "#ccc",paddingVertical: 10,alignItems: "center",justifyContent:'center'}}>
-              {/* <View style={{flex:.5,paddingVertical: 10,bac}}> */}
-                <Text style={{color:"#000"}}>
-                  {item.userName}
-                
-                </Text>
-              {/* </View> */}
-              {/* <View style={{flex:.34,paddingVertical: 10,paddingHorizontal: 15}}>
-              </View> */}
+            <View style={{ flex: 1,flexDirection:'row',backgroundColor: "#fff"}}>
+              <View style={{ flex:.8,padding:8}}>
+                <View style={{flexDirection:'row',flex:1}}>
+                  <View style={{flex:1}}>
+                    <Text style={[(robotoWeights.bold),{fontSize:14,color:'#333333'}]}> {item.ticketHolderName}</Text>
+                  </View>
+                </View>
+                <View style={{flexDirection:'row',flex:1}}>
+                  <View style={{flex:.5}}>
+                    <Text style={[(robotoWeights.regular),{fontSize:14,color:'#666666'}]}>Recevied On : </Text>
+                  </View>
+                  <View style={{ flex:.5}}>
+                    <Text style={[(robotoWeights.regular),{fontSize:14,color:'#333333'}]}>{moment( item.createdAt ).format("DD-MM-YYYY")}</Text>
+                  </View>
+                </View>
+                <View style={{flexDirection:'row',flex:1}}>
+                  <View style={{flex:.5}}>
+                    <Text style={[(robotoWeights.regular),{fontSize:14,color:'#666666'}]}>Due Date : </Text>
+                  </View>
+                  <View style={{flex:.5}}>
+                    <Text style={[(robotoWeights.regular),{fontSize:14,color:'#333333'}]}>{item.tatDate}</Text>
+                  </View>
+                </View>
+              </View>
+              <View style={{flex:.5,alignItems:"flex-end",padding:8}}>
+                <Avatar
+                   width={75}
+                   height={75}
+                   rounded
+                   source={{ uri : item.ticketHolderImg }}
+                   activeOpacity={0.7}
+                  />  
+              </View>
             </View>
           </Card>
         </TouchableOpacity>       
@@ -181,6 +201,55 @@ class NewTickets extends React.Component {
         </Text>
       </View>
     );
+    // return(
+      
+  
+    //   this.props.NewTicketList.length>0 ?
+    //   this.props.NewTicketList.map((item,i)=>
+    //     <TouchableOpacity key={i} onPress={()=>this.props.navigation.navigate('ViewTicket',{ticketid:item._id})}>
+    //       <Card containerStyle={[styles.newCard]}>
+    //         <View style={[styles.cardHeader,{backgroundColor:item.bgClassName}]}>
+    //           <View style={{flexDirection:'row',flex:1,paddingHorizontal:10,paddingVertical:5}}>
+    //             <View style={{flex:.5}}>
+    //               <Text>Tickets#</Text>
+    //             </View>
+    //             <View style={{flex:.5}}>
+    //               <Text>{item.ticketNumber}</Text>
+    //             </View>
+    //           </View>
+    //           <View style={{flexDirection:'row',flex:1,paddingHorizontal:10,paddingVertical:5}}>
+    //             <View style={{flex:.5}}>
+    //               <Text>Service Name</Text>
+    //             </View>
+    //             <View style={{ flex:.5}}>
+    //               <Text>{item.serviceName}</Text>
+    //             </View>
+    //           </View>
+    //           <View style={{flexDirection:'row',flex:1,paddingHorizontal:10,paddingVertical:5}}>
+    //             <View style={{flex:.5}}>
+    //               <Text>TAT (Date)</Text>
+    //             </View>
+    //             <View style={{flex:.5}}>
+    //               <Text>{item.tatDate}</Text>
+    //             </View>
+    //           </View>
+    //         </View>
+    //         <View style={{ backgroundColor: "#ccc",paddingVertical: 10,alignItems: "center",justifyContent:'center'}}>
+    //             <Text style={{color:"#000"}}>
+    //               {item.userName}
+                
+    //             </Text>
+    //         </View>
+    //       </Card>
+    //     </TouchableOpacity>       
+    //   )
+    //   :
+    //   <View>
+    //     <Text>
+    //        Oops!!!! There Are No Tickets To Display
+    //     </Text>
+    //   </View>
+    // );
 
   }
 
@@ -329,11 +398,12 @@ export default createContainer((props) => {
   const handle     = Meteor.subscribe('allocatedTickets', _id);
   const handle1    = Meteor.subscribe('currentUserfunction');
   const userHandle  = Meteor.subscribe('userData',_id);  
+    
   const loading    = handle.ready() && userHandle.ready();
   var NewTicketList = [];
 
   const user       = Meteor.collection('users').findOne({"_id":_id});
-  var alltickets   =  Meteor.collection('ticketMaster').find({ticketElement: { $elemMatch: { allocatedToUserid: _id }}});
+  var alltickets   = Meteor.collection('ticketMaster').find({ticketElement: { $elemMatch: { allocatedToUserid: _id }}});
 
   if(user){
     var roleArr = user.roles;
@@ -341,33 +411,49 @@ export default createContainer((props) => {
     var role = roleArr.find(function (obj) { return obj != 'backofficestaff' });
     }
     for(i=0;i< alltickets.length; i++){
-      var ticketElements = alltickets[i].ticketElement; 
-      
-      switch(role){
-        case 'field expert':
-            if(ticketElements[ticketElements.length-1].roleStatus == "FEAllocated"){
-              alltickets[i].status = 'New' ;      
-              alltickets[i].bgClassName = '#f0ad4e';
-              NewTicketList.push(alltickets[i]);
-            }
-        break;
 
-        case 'business Associate':
-        if(ticketElements[ticketElements.length-1].roleStatus == "BAAllocated"){
-          alltickets[i].status = 'New' ;      
-          alltickets[i].bgClassName = '#f0ad4e';
-          NewTicketList.push(alltickets[i]);
-        }
-        break;
-      }//EOF switch
+      const ticketHolderHandle  = Meteor.subscribe('userData',alltickets[i].userId);
+      const userTicketHolder    = Meteor.collection('users').findOne({"_id":alltickets[i].userId});
+
+      if(userTicketHolder){
+
+        var ticketElements = alltickets[i].ticketElement; 
+
+        alltickets[i].ticketHolderImg  = "https://s3.ap-south-1.amazonaws.com/assureidportal/UserImage/"+userTicketHolder.profile.userProfile.split('original/')[1]+'.'+userTicketHolder.profile.userFileExt;
+        alltickets[i].ticketHolderName = userTicketHolder.profile.firstname+' '+userTicketHolder.profile.lastname;
+        // alltickets[i].serviceImage     = "https://s3.ap-south-1.amazonaws.com/assureidportal/ServiceImage/"+F3HEuDRcBAfmZ76qJ+".jpg";
+        // console.log('alltickets[i].ticketHolderImg: ',alltickets[i].ticketHolderImg);
+        // console.log('alltickets[i].ticketHolderName: ',alltickets[i].ticketHolderName);
+        switch(role){
+          case 'field expert':
+              if(ticketElements[ticketElements.length-1].roleStatus == "FEAllocated"){
+                alltickets[i].status = 'New' ;      
+                alltickets[i].bgClassName = '#f0ad4e';
+                NewTicketList.push(alltickets[i]);
+              }
+          break;
+
+          case 'business Associate':
+          if(ticketElements[ticketElements.length-1].roleStatus == "BAAllocated"){
+            alltickets[i].status = 'New' ;      
+            alltickets[i].bgClassName = '#f0ad4e';
+            NewTicketList.push(alltickets[i]);
+          }
+          break;
+        }//EOF switch     
+           
+      }
+
+
     }//EOF i
   }//EOF if
+
 
   var result = {
     ticketData : alltickets ,
     loading    : loading,
     user       : user,
-    NewTicketList : NewTicketList
+    NewTicketList : NewTicketList,
   };
 
 

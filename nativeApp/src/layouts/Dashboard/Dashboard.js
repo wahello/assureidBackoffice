@@ -189,7 +189,7 @@ export default class Dashboard extends React.Component {
                         </View>
 
                         <View style={{flex:.5}}>
-                        <TouchableOpacity onPress={()=>this.props.navigation.navigate('CompletedAcceptedTickets')}>
+                        <TouchableOpacity onPress={()=>this.props.navigation.navigate('AllocatedTickets')}>
                           <View style={{flex:.5,paddingHorizontal:10,paddingVertical:10}}>
                             <View style={{flex:1, backgroundColor:'#00c851',}}>
                               <Text style={[(robotoWeights.bold),{fontSize:15,color:'#333333',textAlign:'center',paddingVertical:15}]}>Allocated</Text>
