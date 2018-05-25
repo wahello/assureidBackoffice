@@ -87,6 +87,8 @@ import SCTicketDistribution from '/imports/dashboard/ticketDistribution/SCTicket
 
 import OrderGeneration from '/imports/dashboard/generation/components/OrderGeneration.jsx';
 import ReportGeneration from '/imports/dashboard/generation/components/ReportGeneration.jsx';
+import DispatchTeamSidebar from '/imports/dashboard/components/DispatchTeamSidebar.js';
+import AllOrders from '/imports/dashboard/dispatchteamDashboardComponent/AllOrders.jsx';
 
 const unauthenticatedPages = ['/', '/signup', '/forgotpassword', '/signup', '/resetpassword/:token','/login'];
 const authenticatedPages = ['/admin/dashboard','/admin/managebasicpage','/admin/manageportfolio','/admin/manageaboutuspage','/admin/manageblockspage','/admin/managecareerpage','/admin/manageeventpage','/admin/managefaq','/admin/managejobpage','/admin/managecontact','/admin/managephotogallery','/admin/managevideolibrary','admin/manageproduct','/admin/manageservice','/admin/manageblogpage', 'admin/company-info', '/dashboard','/admin/UMRolesList','/admin/createUser','/admin/addPackages','/admin/addVerification','/admin/NewsFeed','/admin/UMListOfUsers','/admin/ListOfNewsFeed','/backoffice/dashboard','/admin/reports','/admin/ticketdistribution'];
@@ -100,6 +102,8 @@ export const onAuthChange = (isAuthenticated) => {
     browserHistory.replace('/admin/dashboard');
   } else if (isUnauthenticatedPage && isAuthenticated && Roles.userIsInRole(Meteor.userId(),['screening committee','team leader','team member','field expert','quality team member','quality team leader'])){
     browserHistory.replace('/backoffice/dashboard');
+  }else if (isUnauthenticatedPage && isAuthenticated && Roles.userIsInRole(Meteor.userId(),['dispatch team'])){
+    browserHistory.replace('/backoffice/dispactteamdashboard');
   } else if (isAuthenticatedPage && !isAuthenticated) {
     browserHistory.replace('/');
   }
@@ -115,6 +119,30 @@ class DashApp extends React.Component {
           <div className="container-fluid">
             <div className="row">
                 <Sidebar />             
+              <div className="container-fluid main-container">
+                <div className="row">
+                  {this.props.children}
+                  <Footer/>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+
+class DispatchTeamDashApp extends React.Component {
+
+  render() {
+    return (
+      <div className="hold-transition skin-blue sidebar-mini">
+        <div className="wrapper">
+          <Header/>
+          <div className="container-fluid">
+            <div className="row">
+                <DispatchTeamSidebar />             
               <div className="container-fluid main-container">
                 <div className="row">
                   {this.props.children}
@@ -251,6 +279,11 @@ export const routes = (
       
     </Route>
     <Route path="/reportgeneration" component={ReportGeneration}/>
+
+    <Route component={DispatchTeamDashApp} >
+      <Route path="/backoffice/dispactteamdashboard" component={Content}/>
+      <Route path="/admin/allorders" component={AllOrders}/>
+    </Route>
 
     {/* <Route path="/" component={CMainLayout} /> */}
     <Route path="/" component={LogIn} />
