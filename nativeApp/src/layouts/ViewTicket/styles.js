@@ -19,17 +19,10 @@ export default StyleSheet.create({
     // height:(window.height - 75),
     // alignItems: 'center',
     // justifyContent: 'center',
-<<<<<<< Updated upstream
     paddingVertical:45,
     // marginHorizontal: 20,
     borderColor: '#333333',
     borderRadius: 2,
-=======
-    // marginVertical: 200,
-    // marginHorizontal: 20,
-    borderColor: '#333333',
-    borderRadius: 4,
->>>>>>> Stashed changes
     borderWidth: 1,
     borderStyle: 'dashed'
 

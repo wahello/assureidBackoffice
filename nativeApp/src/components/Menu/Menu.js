@@ -218,7 +218,7 @@ export default class Menu extends React.Component {
             </TouchableOpacity>
           </View>
           <View style={styles.menuRow}>
-            <TouchableOpacity onPress={()=> this.props.navigate('MyProfile')} style={{flexDirection:'row',flex:1}} >
+            <TouchableOpacity onPress={()=> this.props.navigate('AllocatedTickets')} style={{flexDirection:'row',flex:1}} >
               <Icon size={25} name='ticket' type='font-awesome' color='#666' />
               <Text style={styles.item}>
                Escalated Tickets

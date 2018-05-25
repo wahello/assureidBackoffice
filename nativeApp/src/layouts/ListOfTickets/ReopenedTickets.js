@@ -246,7 +246,7 @@ class ReopenedTickets extends React.Component {
               }}
             >
               <Header
-                centerComponent={{ text: "AssureID", style: { color: "#fff" } }}
+                centerComponent={{ text: "ASSUREID", style: { color: "#fff",fontWeight:'bold'} }}
                 leftComponent={
                   <TouchableOpacity onPress={this.toggle}>
                     <Icon
@@ -289,7 +289,7 @@ class ReopenedTickets extends React.Component {
                   </View>
                 }
               />
-            <HeaderDy headerTitle="Re-opened Tickets" goBack={goBack} />
+            <HeaderDy headerTitle="RE-OPENED TICKETS " goBack={goBack} />
               <View style={{ padding: 10 }}>
                 { this.displayTicket()}
               </View>

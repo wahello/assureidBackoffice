@@ -1,16 +1,9 @@
 import React, { Component } from "react";
 import Meteor, { Accounts, createContainer } from "react-native-meteor";
-import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,BackHandler,
-  TouchableOpacity, ScrollView, DrawerLayoutAndroid, Image
-} from "react-native";
+import { StyleSheet,Text,View,TextInput,BackHandler,TouchableOpacity, ScrollView, DrawerLayoutAndroid, Image} from "react-native";
 import { Header, Button, Icon,Avatar} from "react-native-elements";
 import { NavigationActions } from "react-navigation";
 import { robotoWeights } from 'react-native-typography';
-
 
 import SideMenu from 'react-native-side-menu';
 import PropTypes from "prop-types";
@@ -18,7 +11,7 @@ import PropTypes from "prop-types";
 import styles from "./styles.js";
 import Menu from '../../components/Menu/Menu.js';
 
-class Dashboard extends React.Component {
+export default class Dashboard extends React.Component {
   constructor(props){
     super(props);
     let name ="";
@@ -266,18 +259,3 @@ class Dashboard extends React.Component {
   }
 }
 
-
-export default createContainer((props) => {
-
-  const handle     = Meteor.subscribe('allTickets');
-  const loading    = handle.ready();
-  var allocatedTickets   =  Meteor.collection('ticketMaster').count({});
-
-  var result = {
-    allocatedTickets : allocatedTickets ,
-  };
-
-
-  return result;
-
-}, Dashboard);

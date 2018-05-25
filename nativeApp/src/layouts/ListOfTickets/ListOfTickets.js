@@ -283,7 +283,7 @@ class ListOfTickets extends React.Component {
               }}
             >
               <Header
-                centerComponent={{ text: "AssureID", style: { color: "#fff" } }}
+                centerComponent={{ text: "ASSUREID", style: { color: "#fff",fontWeight:'bold' } }}
                 leftComponent={
                   <TouchableOpacity onPress={this.toggle}>
                     <Icon
@@ -326,7 +326,7 @@ class ListOfTickets extends React.Component {
                   </View>
                 }
               />
-            <HeaderDy headerTitle="List of Tickets" goBack={goBack} />
+            <HeaderDy headerTitle="LIST OF TICKETS" goBack={goBack} />
               <View style={{ padding: 10 }}>
                 { this.displayTicket()}
               </View>
