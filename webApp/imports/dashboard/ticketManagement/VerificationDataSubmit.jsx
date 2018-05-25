@@ -927,6 +927,8 @@ VerificationDataSubmitContainer = withTracker(props => {
             var checkObjs = [];
             var textObjs = [];
             if (checkListObjs) {
+
+                console.log('checkListObjs: ',checkListObjs);
                 for (var i = 0; i < checkListObjs.length; i++) {
                     if(checkListObjs[i].checkListFrom == 'Database'){
                         checkObjs.push(checkListObjs[i]); 

@@ -302,12 +302,12 @@ class ViewSubmittedTicket extends React.Component {
 
                   <View style={styles.formInputView}>
                     <View>
-                      <Text style={{fontWeight: 'bold'}}>Checklist</Text>
+                      <Text style={{fontWeight: 'bold'}}>Verified Information</Text>
                     </View>
                   </View>
 
                   
-                  {this.props.selectFEData ?
+{/*                  {this.props.selectFEData ?
                     this.props.selectFEData.documents.checkLists.map((checkListDefault,index)=>{
                       return(
                               <View style={styles.container} key={index}>
@@ -325,13 +325,72 @@ class ViewSubmittedTicket extends React.Component {
                           })
                           :
                          ""
-                  }
+                  }*/}
 
-                  {/* <View style={styles.formInputView}>
-                    <View>
-                      <Text style={{fontWeight: 'bold'}}>User Upload</Text>
-                    </View>
-                  </View> */}
+
+                  <View style={{width:'100%',padding:10}}>
+                  {this.props.selectFEData ?
+                    this.props.selectFEData.documents.checkLists.map((checkListDefault,index)=>{
+                      return(
+                              <View key={index} style={{flex:1, flexDirection: 'row', borderBottomColor: '#ddd'}}>
+
+                                <View style={{flex:1}}>
+                                  <View style={{flex:1}}>
+                                    <Text>{index+1}. {checkListDefault.titleVal}</Text>
+                                  </View>
+
+                                  { checkListDefault.textVal ? checkListDefault.textVal.map((data,ind)=>{
+                                    return(
+                                      <View style={{flex:1}} key={ind}>
+                                        <Text>{data.dbField}</Text>
+                                      </View>
+                                    );
+                                 })
+                                  :
+                                  <Text>Null</Text>
+                                }
+                                </View>
+
+                                <View style={{flex:1}}>
+                                  <View style={{flex:1}}>
+                                    <Text>Correct/Incorrect</Text>
+
+                                    <ToggleSwitch
+                                        isOn = {checkListDefault.correctVal == 'Correct' ? true : false}
+                                        onColor='#33b5e5'
+                                        offColor='#ddd'
+                                        label=''
+                                        labelStyle={{color: 'black', fontWeight: '900', flex:1}}
+                                        size='small'
+                                        onToggle={ (isOn) => {}}
+                                    />
+
+
+                                  </View>
+                                <TextField
+                                  label                 = {'Remark'}
+                                  lineWidth             = {0}
+                                  tintColor             = {this.state.inputFocusColor}
+                                  inputContainerPadding = {4}
+                                  labelHeight           = {16}
+                                  keyboardType          = 'default'
+                                  inputContainerStyle   = {{height:60}}
+                                  style                 = {styles.inputTextNew}
+                                  labelTextStyle        = {styles.labelTextNew}
+                                  activeLineWidth       = {0}
+                                  fontSize              = {this.state.fontSize}
+                                  labelFontSize         = {this.state.fontSize}
+                                  ref                   = {checkListDefault.id+'-Remark'}
+                                  value                 = {checkListDefault.remarkVal}
+                                />
+                                </View>
+                              </View>
+                      );
+                    })
+                  :
+                  null
+                  }
+                  </View>
 
 
                 <View style={[styles.lineStyle, {width:'100%',padding:10}]}>
@@ -404,25 +463,6 @@ class ViewSubmittedTicket extends React.Component {
                     </View>
                   </View>
                   
-{/*                  <View style = {styles.formInputView}> 
-                    <View style={{flex:1}}>
-                      <View style={{flexDirection:'row'}}>
-                        <Icon name="videocam" type="MaterialIcons" size={50} color="#aaa"  />
-
-                        <View style={{paddingHorizontal:10,paddingVertical:10}}>
-                          <View style={styles.closeBtn}>
-                            <Icon name="close" type="MaterialIcons" size={20} color="#aaa"  />
-                          </View>
-                          <Image
-                            style={{ width: 50, height: 50, borderRadius: 15,}}
-                            resizeMode="stretch"
-                            source={require("../../images/pdf-icon.png")}
-                          />
-                        </View>
-
-                      </View>
-                    </View>
-                  </View>*/}
 
                   </View>
 
@@ -434,24 +474,7 @@ class ViewSubmittedTicket extends React.Component {
                     </View>
                     <View style={styles.formInputViews}>
                       <Text>{this.props.selectFEData.documents.remark}</Text>
-{/*                      <TextField
-                        label                 = ''
-                        lineWidth             = {0}
-                        tintColor             = {this.state.inputFocusColor}
-                        inputContainerPadding = {4}
-                        labelHeight           = {16}
-                        keyboardType          = 'default'
-                        inputContainerStyle   = {{height:200}}
-                        style                 = {styles.inputText}
-                        labelTextStyle        = {styles.labelText}
-                        activeLineWidth       = {0}
-                        fontSize              = {this.state.fontSize}
-                        labelFontSize         = {this.state.fontSize}
-                        multiline             = {true}
-                        numberOfLines         = {4}
-                        ref                   = 'remark'
-                        value                 = {this.props.selectFEData.submitedDoc.remark}
-                      />*/}
+
                     </View>
                   </View>
 
@@ -463,15 +486,7 @@ class ViewSubmittedTicket extends React.Component {
                     </View>
                     <View style={styles.formInputViews}>
                     <Text>{this.props.selectFEData.documents.status}</Text>
-{/*                      <Dropdown
-                        label                 = 'Status'
-                        data                  = {status}
-                        inputContainerStyle   = {styles.dropdownStyle}
-                        inputContainerPadding = {0}
-                        labelHeight           = {16}
-                        ref                   = 'status'
-                        value                 = {this.props.selectFEData.submitedDoc.status}
-                      />*/} 
+ 
                     </View>
                   </View>
 
@@ -483,15 +498,7 @@ class ViewSubmittedTicket extends React.Component {
                     </View>
                     <View style={styles.formInputViews}>
                       <Text>{this.props.selectFEData.documents.subStatus}</Text>
-{/*                      <Dropdown
-                        label                 = 'Sub-status'
-                        data                  = {subStatus}
-                        inputContainerStyle   = {styles.dropdownStyle}
-                        inputContainerPadding = {0}
-                        labelHeight           = {16}
-                        ref                   = 'subStatus'
-                        value                 = {this.props.selectFEData.submitedDoc.subStatus}
-                      /> */}
+
                     </View>
                   </View>
 
@@ -560,9 +567,9 @@ ViewSubmittedTicketContainer = createContainer( (props) => {
            // console.log('checkListObjs: ',checkListObjs);
            for (var i = 0; i < checkListObjs.length; i++) {
               if(checkListObjs[i].checkListFrom == 'Database'){
-                  checkObjs.push({'id':checkListObjs[i]._id,'task':checkListObjs[i].task}); 
+                  checkObjs.push({'id':checkListObjs[i]._id,'task':checkListObjs[i].task, "relatedFields":checkListObjs[i].relatedFields}); 
               }else{
-                  textObjs.push({'id':checkListObjs[i]._id,'task':checkListObjs[i].task}); 
+                  textObjs.push({'id':checkListObjs[i]._id,'task':checkListObjs[i].task, "relatedFields":checkListObjs[i].relatedFields}); 
               }
            }
         }

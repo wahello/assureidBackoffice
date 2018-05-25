@@ -182,23 +182,7 @@ class ViewTicketFormInfo extends React.Component {
     }// EOF i loop
 
 
-    // var videos      = [
-    //                     {
-    //                       'userId'    : Meteor.userId(),
-    //                       'videoLink' : 'https://s3.ap-south-1.amazonaws.com/harmonicgroup/ProductVideo/2XAwdwWSg2qfpgKFf.mp4',
-    //                       'createdAt' : new Date(),
-    //                     }
-    //                   ];
-
     var videos      = this.state.videos;
-
-    // var videos      = [
-    //                     {
-    //                       'userId'    : Meteor.userId(),
-    //                       'videoLink' : 'https://s3.ap-south-1.amazonaws.com/harmonicgroup/ProductVideo/2XAwdwWSg2qfpgKFf.mp4',
-    //                       'createdAt' : new Date(),
-    //                     }
-    //                   ];
 
 
     if(this.props.tickets.submitedDoc){
@@ -233,19 +217,31 @@ class ViewTicketFormInfo extends React.Component {
 
       //Get values for all the check box
       for(var i=0; i<this.props.checkObjs.length;i++){
-        var dataChk ={};
-
-        if(this.state[this.props.checkObjs[i].id] === true){
-            dataChk.statement = this.props.checkObjs[i].task;
-            dataChk.status = true;
+        console.log('this.state[this.props.checkObjs[i].id+"-Toggle"]: ',this.state[this.props.checkObjs[i].id+"-Toggle"]);
+        if(this.state[this.props.checkObjs[i].id+"-Toggle"] == 'Correct'){
+          var chkBoxToggleVal = this.state[this.props.checkObjs[i].id+"-Toggle"];
         }else{
-            dataChk.statement = this.props.checkObjs[i].task;
-            dataChk.status = false;
+          var chkBoxToggleVal = 'Incorrect';
         }
+
+        if(this.state[this.props.checkObjs[i].id+"-Remark"]){
+          var chkBoxRemarkVal = this.state[this.props.checkObjs[i].id+"-Remark"];
+        }else{
+          var chkBoxRemarkVal = '';
+        }
+
+        var dataChk = {
+                    "titleVal"   : this.props.checkObjs[i].task,
+                    "textVal"    : this.props.checkObjs[i].relatedFields,
+                    "correctVal" : chkBoxToggleVal,
+                    "remarkVal"  : chkBoxRemarkVal,
+                };
+
         checkLists.push(dataChk);
 
       } // EOF i loop
 
+      console.log('checkLists: ',checkLists);
       for(var j=0; j<this.props.textObjs.length;j++){
         var dataChk    = {};
         dataChk.task   = this.props.textObjs[j].task;
@@ -267,12 +263,10 @@ class ViewTicketFormInfo extends React.Component {
 
         checkLists : checkLists,
         textLists  : textLists,
-
-        images     : images,
-        videos     : videos,
-
         status     : status,
         subStatus  : subStatus,
+        images     : images,
+        videos     : videos,
         remark     : remark,
     }
         
@@ -307,7 +301,7 @@ class ViewTicketFormInfo extends React.Component {
                   if (error) {
                     console.log(error.reason);
                   }else{
-                    console.log("Inserted Successfully!");
+                    // console.log("Inserted Successfully!");
                     this.props.navigation.navigate('ViewSubmittedTicket', { ticket: this.props.tickets._id });
                   }
               });
@@ -455,9 +449,9 @@ class ViewTicketFormInfo extends React.Component {
 
   render() {
     
-    console.log('render video state');
-    console.log(this.state.videos);
-    console.log('---------------------');
+    // console.log('render video state');
+    // console.log(this.state.videos);
+    // console.log('---------------------');
     const { navigate, goBack, state } = this.props.navigation;
 
     let status = [{
@@ -611,52 +605,99 @@ class ViewTicketFormInfo extends React.Component {
                 }
               />
 
-              <HeaderDy headerTitle="Addresss Verification / AAA-589426" goBack={goBack} />
+              <HeaderDy headerTitle={this.props.tickets.serviceName +" / "+ this.props.tickets.ticketNumber} goBack={goBack} />
                 <View style={styles.formContainer}>
                   <View>
                     <Text style={[(robotoWeights.bold),{fontSize:15,color:'#33b5e5',alignSelf:'center'}]}>Submitted Information</Text>
                   </View>
                
+                    <View style={styles.formInputView}>
+                      <View>
+                        <Text style={[(robotoWeights.bold),{fontSize:15,color:'#333333'}]}>Verified Information</Text>
+                      </View>
+                    </View>
 
                   
+                  <View style={{width:'100%',padding:10}}>
                   {this.props.checkObjs ?
                     this.props.checkObjs.map((checkListDefault,index)=>{
                       return(
-                              <View style={styles.container} key={index}>
-                                <CheckBox
-                                  center
-                                  containerStyle={{ backgroundColor: "transparent", borderWidth: 0 }}
-                                  checkedColor="green"
-                                  checked={ this.state[checkListDefault.id] === true ? true : false }
-                                  // checked={ this.state[checkListDefault.id] }
-                                  onPress={this.handleOnChange}
-                                  textStyle={{ color: "#aaa" }}
-                                  title={checkListDefault.task}
-                                  value={checkListDefault.task}
-                                  onPress={(value) => { 
-                                                        if( this.state[checkListDefault.id]){
-                                                          // console.log('checkListDefault.statement: ',checkListDefault.statement);
-                                                          // console.log('this.state[checkListDefault.id]: ',this.state[checkListDefault.id]);
-                                                          this.setState({ [checkListDefault.id] : !this.state[checkListDefault.id] });
-                                                        }else{
-                                                          // console.log('no data:',this.state[checkListDefault.id]);
-                                                          this.setState({ [checkListDefault.id] : true });
-                                                        } 
-                                                      }
-                                                }
-                                />     
-                              </View>
-                            );
-                          })
-                          :
-                         ""
-                  }
+                              <View key={index} style={{flex:1, flexDirection: 'row', borderBottomColor: '#ddd'}}>
 
-                  {/* <View style={styles.formInputView}>
-                    <View>
-                      <Text style={{fontWeight: 'bold'}}>User Upload</Text>
-                    </View>
-                  </View> */}
+                                <View style={{flex:1}}>
+                                  <View style={{flex:1}}>
+                                    <Text>{index+1}. {checkListDefault.task}</Text>
+                                  </View>
+
+                                  { checkListDefault.relatedFields ? checkListDefault.relatedFields.map((data,ind)=>{
+                                    return(
+                                      <View style={{flex:1}} key={ind}>
+                                        <Text>{data.dbField}</Text>
+                                      </View>
+                                    );
+                                 })
+                                  :
+                                  <Text>Null</Text>
+                                }
+                                </View>
+
+                                <View style={{flex:1}}>
+                                  <View style={{flex:1}}>
+                                    <Text>Incorrect/Correct</Text>
+                                 { /*</View>
+                                  <View style={{flex:1}}>*/}
+                                    <ToggleSwitch
+                                        isOn={false}
+                                        onColor='#33b5e5'
+                                        offColor='#ddd'
+                                        label=''
+                                        labelStyle={{color: 'black', fontWeight: '900', flex:1}}
+                                        size='small'
+                                        onToggle={ (isOn) => {
+                                                                // console.log('changed to : ', isOn);
+                                                                if(isOn === true){
+                                                                  this.setState({ [checkListDefault.id+'-Toggle'] : 'Correct' }, () => {
+                                                                    // console.log('this.state : ', this.state);
+                                                                  });
+                                                                }else{
+                                                                  this.setState({ [checkListDefault.id+'-Toggle'] : 'Incorrect' }, () => {
+                                                                    // console.log('this.state : ', this.state);
+                                                                  });
+                                                                }         
+                                                              } 
+                                                  }
+                                    />
+                                  </View>
+                                <TextField
+                                  label                 = {'Remark'}
+                                  lineWidth             = {0}
+                                  tintColor             = {this.state.inputFocusColor}
+                                  inputContainerPadding = {4}
+                                  labelHeight           = {16}
+                                  keyboardType          = 'default'
+                                  inputContainerStyle   = {{height:60}}
+                                  style                 = {styles.inputTextNew}
+                                  labelTextStyle        = {styles.labelTextNew}
+                                  activeLineWidth       = {0}
+                                  fontSize              = {this.state.fontSize}
+                                  labelFontSize         = {this.state.fontSize}
+                                  ref                   = {checkListDefault.id+'-Remark'}
+                                  value                 = {this.state[checkListDefault.id+'-Remark']}
+                                  onChangeText          = {(value) => { 
+                                                                        this.setState({ [checkListDefault.id+'-Remark'] : value }, () => {
+                                                                          // console.log('this.state : ', this.state);
+                                                                        });
+                                                                      }
+                                                          }
+                                />
+                                </View>
+                              </View>
+                      );
+                    })
+                  :
+                  null
+                  }
+                  </View>
 
 
                 <View style={{width:'100%',padding:10}}>
@@ -845,7 +886,7 @@ ViewTicketForm = createContainer( (props) => {
     const loading     = !postHandle.ready();
     const loading1    = !postHandle1.ready();
     const loading3    = !postHandle3.ready();
-    var checkObjs     = [];
+    let checkObjs     = [];
     var textObjs      = [];
     var checkListFrom = '';
 
@@ -892,14 +933,16 @@ ViewTicketForm = createContainer( (props) => {
          var checkListObjs = Meteor.collection("checklistFieldExpert").find({"checkListFor" : checkListFrom}) || [];
           if (checkListObjs && checkListObjs.length > 0) {
 
-            //  console.log('checkListObjs: ',checkListObjs);
-             for (var i = 0; i < checkListObjs.length; i++) {
+             // console.log('checkListObjs: ',checkListObjs);
+             for (let i = 0; i < checkListObjs.length; i++) {
                 if(checkListObjs[i].checkListFrom == 'Database'){
-                    checkObjs.push({'id':checkListObjs[i]._id,'task':checkListObjs[i].task}); 
+                    checkObjs.push({'id':checkListObjs[i]._id,'task':checkListObjs[i].task, "relatedFields":checkListObjs[i].relatedFields}); 
                 }else{
-                    textObjs.push({'id':checkListObjs[i]._id,'task':checkListObjs[i].task}); 
+                    textObjs.push({'id':checkListObjs[i]._id,'task':checkListObjs[i].task, "relatedFields":checkListObjs[i].relatedFields}); 
                 }
              }
+
+             // console.log('checkObjs: ',checkObjs);
           }
        }
 

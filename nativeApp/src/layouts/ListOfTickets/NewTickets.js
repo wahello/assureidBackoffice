@@ -99,6 +99,7 @@ class NewTickets extends React.Component {
       //find last status of the Tickets
       
       for(i=0;i< ticketData.length; i++){
+        ticketData[i].serviceImageShow = "https://s3.ap-south-1.amazonaws.com/assureidportal/ServiceImage/"+ticketData[i].serviceImage.split('original/')[1];
         var ticketElementsData = ticketData[i].ticketElement;
         // console.log(i,' = ',ticketElementsData);
         // console.log('----------------------');
@@ -107,7 +108,7 @@ class NewTickets extends React.Component {
             switch (ticketElementsData[ticketElementsData.length - 1].roleStatus) {
               case 'FEAllocated':
                 ticketData[i].status = 'New' ;  
-                ticketData[i].bgClassName = '#f0ad4e';    
+                ticketData[i].bgClassName = '#33b5e5';    
                 newTickets.push(ticketData[i]);
                 break;
             }
@@ -116,7 +117,7 @@ class NewTickets extends React.Component {
             switch (ticketElementsData[ticketElementsData.length - 1].roleStatus) {
               case 'BAAllocated':
                 ticketData[i].status = 'New' ;      
-                ticketData[i].bgClassName = '#f0ad4e';
+                ticketData[i].bgClassName = '#33b5e5';
                 break;
                 newTickets.push(ticketData[i]);
             }
@@ -140,7 +141,7 @@ class NewTickets extends React.Component {
                    width={70}
                    height={70}
                    rounded
-                   source={require("../../images/Address-Verification.png")}
+                   source={{uri : item.serviceImageShow}}
                    activeOpacity={0.7}
                   />  
                 </View>
@@ -201,55 +202,7 @@ class NewTickets extends React.Component {
         </Text>
       </View>
     );
-    // return(
-      
-  
-    //   this.props.NewTicketList.length>0 ?
-    //   this.props.NewTicketList.map((item,i)=>
-    //     <TouchableOpacity key={i} onPress={()=>this.props.navigation.navigate('ViewTicket',{ticketid:item._id})}>
-    //       <Card containerStyle={[styles.newCard]}>
-    //         <View style={[styles.cardHeader,{backgroundColor:item.bgClassName}]}>
-    //           <View style={{flexDirection:'row',flex:1,paddingHorizontal:10,paddingVertical:5}}>
-    //             <View style={{flex:.5}}>
-    //               <Text>Tickets#</Text>
-    //             </View>
-    //             <View style={{flex:.5}}>
-    //               <Text>{item.ticketNumber}</Text>
-    //             </View>
-    //           </View>
-    //           <View style={{flexDirection:'row',flex:1,paddingHorizontal:10,paddingVertical:5}}>
-    //             <View style={{flex:.5}}>
-    //               <Text>Service Name</Text>
-    //             </View>
-    //             <View style={{ flex:.5}}>
-    //               <Text>{item.serviceName}</Text>
-    //             </View>
-    //           </View>
-    //           <View style={{flexDirection:'row',flex:1,paddingHorizontal:10,paddingVertical:5}}>
-    //             <View style={{flex:.5}}>
-    //               <Text>TAT (Date)</Text>
-    //             </View>
-    //             <View style={{flex:.5}}>
-    //               <Text>{item.tatDate}</Text>
-    //             </View>
-    //           </View>
-    //         </View>
-    //         <View style={{ backgroundColor: "#ccc",paddingVertical: 10,alignItems: "center",justifyContent:'center'}}>
-    //             <Text style={{color:"#000"}}>
-    //               {item.userName}
-                
-    //             </Text>
-    //         </View>
-    //       </Card>
-    //     </TouchableOpacity>       
-    //   )
-    //   :
-    //   <View>
-    //     <Text>
-    //        Oops!!!! There Are No Tickets To Display
-    //     </Text>
-    //   </View>
-    // );
+
 
   }
 

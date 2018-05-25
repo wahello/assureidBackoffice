@@ -19,6 +19,8 @@ import HeaderDy from '../../components/HeaderDy/HeaderDy.js';
 import styles from './styles.js';
 import Menu   from '../../components/Menu/Menu.js';
 
+var moment = require('moment');
+
 class AllocatedTickets extends React.Component {
   constructor(props){
     super(props);
@@ -96,56 +98,66 @@ class AllocatedTickets extends React.Component {
       //find last status of the Tickets
       
       for(i=0;i< ticketData.length; i++){
-        var ticketElementsData = ticketData[i].ticketElement;
-        // console.log(i,' = ',ticketElementsData);
-        // console.log('----------------------');
-        switch(role){
-          case 'field expert' : 
-            switch (ticketElementsData[ticketElementsData.length - 1].roleStatus) {
-              case 'FEAllocated':
-                ticketData[i].status = 'New' ;  
-                ticketData[i].bgClassName = '#f0ad4e';    
-                // ticketData[i].bgClassName = 'btn-warning';    
-                break;
-              case 'ProofResubmitted' :
-                ticketData[i].status = 'New-Reallocated' ;  
-                ticketData[i].bgClassName = '#f0ad4e';    
-                break;
-              case 'ReviewPass' :
-                ticketData[i].status = 'Completed' ;
-                ticketData[i].bgClassName = '#00a65a';
-                break;
-              default:
-                ticketData[i].status = 'In Process' ;
-                ticketData[i].bgClassName = '#337ab7';
-                break;
-            }
-            break;
-          case 'ba' :
-            switch (ticketElementsData[ticketElementsData.length - 1].roleStatus) {
-              case 'BAAllocated':
-                ticketData[i].status = 'New' ;      
-                ticketData[i].bgClassName = '#f0ad4e';
-                break;
-              case 'ProofResubmitted' :
-                ticketData[i].status = 'New-Reallocated' ;  
-                ticketData[i].bgClassName = '#f0ad4e';    
-                break;
-              case 'ReviewPass' :
-                ticketData[i].status = 'Completed' ;
-                ticketData[i].bgClassName = '#00a65a';
-                break;
-              default:
-                ticketData[i].status = 'In Process' ;
-                ticketData[i].bgClassName = '#337ab7';
-                break;
-            }
-            break;
-          default : 
-            ticketData[i].status = 'In Process' ;
-            ticketData[i].bgClassName = '#337ab7';
-            break;
+
+      const ticketHolderHandle  = Meteor.subscribe('userData',ticketData[i].userId);
+      const userTicketHolder    = Meteor.collection('users').findOne({"_id":ticketData[i].userId});
+
+      if(userTicketHolder){
+        ticketData[i].ticketHolderImg  = "https://s3.ap-south-1.amazonaws.com/assureidportal/UserImage/"+userTicketHolder.profile.userProfile.split('original/')[1]+'.'+userTicketHolder.profile.userFileExt;
+        ticketData[i].ticketHolderName = userTicketHolder.profile.firstname+' '+userTicketHolder.profile.lastname;
+
+        ticketData[i].serviceImageShow = "https://s3.ap-south-1.amazonaws.com/assureidportal/ServiceImage/"+ticketData[i].serviceImage.split('original/')[1];
+
+          var ticketElementsData = ticketData[i].ticketElement;
+          switch(role){
+            case 'field expert' : 
+              switch (ticketElementsData[ticketElementsData.length - 1].roleStatus) {
+                case 'FEAllocated':
+                  ticketData[i].status = 'New' ;  
+                  ticketData[i].bgClassName = '#00c851';    
+                  // ticketData[i].bgClassName = 'btn-warning';    
+                  break;
+                case 'ProofResubmitted' :
+                  ticketData[i].status = 'New-Reallocated' ;  
+                  ticketData[i].bgClassName = '#f0ad4e';    
+                  break;
+                case 'ReviewPass' :
+                  ticketData[i].status = 'Completed' ;
+                  ticketData[i].bgClassName = '#00a65a';
+                  break;
+                default:
+                  ticketData[i].status = 'In Process' ;
+                  ticketData[i].bgClassName = '#337ab7';
+                  break;
+              }
+              break;
+            case 'ba' :
+              switch (ticketElementsData[ticketElementsData.length - 1].roleStatus) {
+                case 'BAAllocated':
+                  ticketData[i].status = 'New' ;      
+                  ticketData[i].bgClassName = '#f0ad4e';
+                  break;
+                case 'ProofResubmitted' :
+                  ticketData[i].status = 'New-Reallocated' ;  
+                  ticketData[i].bgClassName = '#f0ad4e';    
+                  break;
+                case 'ReviewPass' :
+                  ticketData[i].status = 'Completed' ;
+                  ticketData[i].bgClassName = '#00a65a';
+                  break;
+                default:
+                  ticketData[i].status = 'In Process' ;
+                  ticketData[i].bgClassName = '#337ab7';
+                  break;
+              }
+              break;
+            default : 
+              ticketData[i].status = 'In Process' ;
+              ticketData[i].bgClassName = '#337ab7';
+              break;
+          } //Switch case
         }
+
       }  // EOF i loop
 
     }    
@@ -164,7 +176,7 @@ class AllocatedTickets extends React.Component {
                    width={70}
                    height={70}
                    rounded
-                   source={require("../../images/Address-Verification.png")}
+                   source={{uri:item.serviceImageShow}}
                    activeOpacity={0.7}
                   />  
                 </View>
@@ -177,23 +189,23 @@ class AllocatedTickets extends React.Component {
                   <Text style={[(robotoWeights.regular),{fontSize:14,color:'#333333'}]} >{item.serviceName}</Text>
                 </View>
                 <View style={{ flex:.5}}>
-                  <Text style={[(robotoWeights.regular),{fontSize:14,color:'#333333',alignSelf:'flex-end'}]}>Status : New</Text>
+                  <Text style={[(robotoWeights.regular),{fontSize:14,color:'#333333',alignSelf:'flex-end'}]}>Status : Allocated</Text>
                 </View>
               </View>
             </View>
             <View style={{ flex: 1,flexDirection:'row',backgroundColor: "#fff"}}>
               <View style={{ flex:.8,padding:8}}>
                 <View style={{flexDirection:'row',flex:1}}>
-                  <View style={{flex:.5}}>
-                    <Text style={[(robotoWeights.bold),{fontSize:14,color:'#333333'}]}>Sumit Sethi</Text>
+                  <View style={{flex:1}}>
+                    <Text style={[(robotoWeights.bold),{fontSize:14,color:'#333333'}]}> {item.ticketHolderName}</Text>
                   </View>
                 </View>
                 <View style={{flexDirection:'row',flex:1}}>
                   <View style={{flex:.5}}>
-                    <Text style={[(robotoWeights.regular),{fontSize:14,color:'#666666'}]}>Recevied Date : </Text>
+                    <Text style={[(robotoWeights.regular),{fontSize:14,color:'#666666'}]}>Recevied On : </Text>
                   </View>
                   <View style={{ flex:.5}}>
-                    <Text style={[(robotoWeights.regular),{fontSize:14,color:'#333333'}]}>25/20/2018</Text>
+                    <Text style={[(robotoWeights.regular),{fontSize:14,color:'#333333'}]}>{moment( item.createdAt ).format("DD-MM-YYYY")}</Text>
                   </View>
                 </View>
                 <View style={{flexDirection:'row',flex:1}}>
@@ -201,7 +213,7 @@ class AllocatedTickets extends React.Component {
                     <Text style={[(robotoWeights.regular),{fontSize:14,color:'#666666'}]}>Due Date : </Text>
                   </View>
                   <View style={{flex:.5}}>
-                    <Text style={[(robotoWeights.regular),{fontSize:14,color:'#333333'}]}>May 2018</Text>
+                    <Text style={[(robotoWeights.regular),{fontSize:14,color:'#333333'}]}>{item.tatDate}</Text>
                   </View>
                 </View>
               </View>
@@ -210,7 +222,7 @@ class AllocatedTickets extends React.Component {
                    width={75}
                    height={75}
                    rounded
-                   source={require("../../images/Vinod.png")}
+                   source={{ uri : item.ticketHolderImg }}
                    activeOpacity={0.7}
                   />  
               </View>

@@ -486,7 +486,7 @@ class ViewTicket extends React.Component {
                   </View>
                 }
               />
-              <HeaderDy headerTitle="Address Verification / AAA-589426" goBack={goBack} />
+              <HeaderDy headerTitle={this.props.viewTicketData.serviceName +" / "+ this.props.viewTicketData.ticketNumber} goBack={goBack} />
                 <View style={styles.formContainer}>
                   <View style = {styles.formInputView}>
                     <View style= {{flex:1,flexDirection:'row',}}>

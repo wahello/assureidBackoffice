@@ -151,7 +151,7 @@ class SubmitedInformation extends React.Component {
             </View>
 
                   
-            {
+{/*            {
               this.props.selectFEData ?
               this.props.selectFEData.documents.checkLists.map((checkListDefault,index)=>{
                 return(
@@ -170,7 +170,72 @@ class SubmitedInformation extends React.Component {
                     })
                     :
                     ""
-            }
+            }*/}
+
+
+                  <View style={{width:'100%',padding:10}}>
+                  {this.props.selectFEData ?
+                    this.props.selectFEData.documents.checkLists.map((checkListDefault,index)=>{
+                      return(
+                              <View key={index} style={{flex:1, flexDirection: 'row', borderBottomColor: '#ddd'}}>
+
+                                <View style={{flex:1}}>
+                                  <View style={{flex:1}}>
+                                    <Text>{index+1}. {checkListDefault.titleVal}</Text>
+                                  </View>
+
+                                  { checkListDefault.textVal ? checkListDefault.textVal.map((data,ind)=>{
+                                    return(
+                                      <View style={{flex:1}} key={ind}>
+                                        <Text>{data.dbField}</Text>
+                                      </View>
+                                    );
+                                 })
+                                  :
+                                  <Text>Null</Text>
+                                }
+                                </View>
+
+                                <View style={{flex:1}}>
+                                  <View style={{flex:1}}>
+                                    <Text>Correct/Incorrect</Text>
+
+
+                                    <ToggleSwitch
+                                        isOn = {checkListDefault.correctVal == 'Correct' ? true : false}
+                                        onColor='#33b5e5'
+                                        offColor='#ddd'
+                                        label=''
+                                        labelStyle={{color: 'black', fontWeight: '900', flex:1}}
+                                        size='small'
+                                        onToggle={ (isOn) => {}}
+                                    />
+
+                                  </View>
+                                <TextField
+                                  label                 = {'Remark'}
+                                  lineWidth             = {0}
+                                  tintColor             = {this.state.inputFocusColor}
+                                  inputContainerPadding = {4}
+                                  labelHeight           = {16}
+                                  keyboardType          = 'default'
+                                  inputContainerStyle   = {{height:60}}
+                                  style                 = {styles.inputTextNew}
+                                  labelTextStyle        = {styles.labelTextNew}
+                                  activeLineWidth       = {0}
+                                  fontSize              = {this.state.fontSize}
+                                  labelFontSize         = {this.state.fontSize}
+                                  ref                   = {checkListDefault.id+'-Remark'}
+                                  value                 = {checkListDefault.remarkVal}
+                                />
+                                </View>
+                              </View>
+                      );
+                    })
+                  :
+                  null
+                  }
+                  </View>
                 <View style={[styles.lineStyle, {width:'100%',padding:10}]}>
                 {this.props.selectFEData ?
                   this.props.selectFEData.documents.textLists.map((textListDefault,index)=>{
