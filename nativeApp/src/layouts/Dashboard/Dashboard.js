@@ -143,7 +143,7 @@ export default class Dashboard extends React.Component {
                       shadowRadius: 5,
                       shadowOpacity: 2.0}}>
                         <View style={{flex:1,flexDirection:'row',padding:10,marginTop:10}}>
-                           <View style={{flex:0.5}}>
+                           <View style={{flex:0.4}}>
                               { this.state.userData.userProfile ?
                                 <Avatar
                                  width={90}
@@ -162,9 +162,18 @@ export default class Dashboard extends React.Component {
                                 /> 
                             }
                            </View> 
-                           <View style={{flex:0.5,flexDirection:'row',justifyContent:'flex-end',paddingHorizontal:15,}}>
-                              
+                           <View style={{flex:0.6,flexDirection:'row'}}>
+                              <Text style={{flex:0.2,flexDirection:'row',borderWidth:2,borderColor:'#ccc',height:25,borderRadius:5,fontWeight:'bold',fontSize:15,textAlign:'center',marginRight:3,paddingTop:1,backgroundColor:'#f2f2f2'}}>2</Text>
+                              <Text style={{flex:0.2,flexDirection:'row',borderWidth:2,borderColor:'#ccc',height:25,borderRadius:5,fontWeight:'bold',fontSize:15,textAlign:'center',paddingTop:1,backgroundColor:'#f2f2f2'}}>1</Text>
+                              <Text style={{flex:0.2,flexDirection:'row',borderWidth:2,borderColor:'#ccc',height:25,borderRadius:5,fontWeight:'bold',fontSize:15,textAlign:'center',marginRight:3,marginLeft:15,paddingTop:1,backgroundColor:'#f2f2f2'}}>0</Text>
+                              <Text style={{flex:0.2,flexDirection:'row',borderWidth:2,borderColor:'#ccc',height:25,borderRadius:5,fontWeight:'bold',fontSize:15,textAlign:'center',paddingTop:1,backgroundColor:'#f2f2f2'}}>5</Text>
+                              <Text style={{flex:0.2,flexDirection:'row',borderWidth:2,borderColor:'#ccc',height:25,borderRadius:5,fontWeight:'bold',fontSize:15,textAlign:'center',marginRight:3,marginLeft:15,paddingTop:1,backgroundColor:'#f2f2f2'}}>2</Text>
+                              <Text style={{flex:0.2,flexDirection:'row',borderWidth:2,borderColor:'#ccc',height:25,borderRadius:5,fontWeight:'bold',fontSize:15,textAlign:'center',marginRight:3,paddingTop:1,backgroundColor:'#f2f2f2'}}>0</Text>
+                              <Text style={{flex:0.2,flexDirection:'row',borderWidth:2,borderColor:'#ccc',height:25,borderRadius:5,fontWeight:'bold',fontSize:15,textAlign:'center',marginRight:3,paddingTop:1,backgroundColor:'#f2f2f2'}}>1</Text>
+                              <Text style={{flex:0.2,flexDirection:'row',borderWidth:2,borderColor:'#ccc',height:25,borderRadius:5,fontWeight:'bold',fontSize:15,textAlign:'center',marginRight:3,paddingTop:1,backgroundColor:'#f2f2f2'}}>8</Text>
+
                            </View>
+                           
                         </View>
                         <View style={{padding:10,marginBottom:10}}>
                            <Text style={[(robotoWeights.bold),{fontSize:18,color:'#3c8dbc',textAlign:'left',paddingVertical:2}]}>Hello {this.state.userData ? this.state.userData.firstname : 'User'} {this.state.userData ? this.state.userData.lastname : null},</Text>
