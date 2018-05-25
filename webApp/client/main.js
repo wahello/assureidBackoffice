@@ -42,6 +42,7 @@ import '/public/css/otherRoleDashboardCss.css';
 import '/public/css/reportCss.css';
 import '/public/css/ticket.css';
 import '/imports/dashboard/companySetting/css/companySetting.css';
+import '/imports/dashboard/generation/css/orderGeneration.css';
 
 import '/public/css/profileView';
 // import './component.css';
