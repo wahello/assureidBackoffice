@@ -19,10 +19,17 @@ export default StyleSheet.create({
     // height:(window.height - 75),
     // alignItems: 'center',
     // justifyContent: 'center',
+<<<<<<< Updated upstream
     paddingVertical:45,
     // marginHorizontal: 20,
     borderColor: '#333333',
     borderRadius: 2,
+=======
+    // marginVertical: 200,
+    // marginHorizontal: 20,
+    borderColor: '#333333',
+    borderRadius: 4,
+>>>>>>> Stashed changes
     borderWidth: 1,
     borderStyle: 'dashed'
 
@@ -200,7 +207,6 @@ export default StyleSheet.create({
       flex:1,
       width:window.width,
   },
-
   backgroundVideo: {
     position: 'absolute',
     top: 0,
@@ -213,7 +219,6 @@ export default StyleSheet.create({
    flex:1,
    // backgroundColor:'#0f0',
   },
-
   buttonLarge:{
     borderRadius:20,
     backgroundColor:'#33b5e5',
