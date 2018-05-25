@@ -336,7 +336,7 @@ class NewTickets extends React.Component {
               }}
             >
               <Header
-                centerComponent={{ text: "ASSUREID", style: { color: "#fff",fontWeighT:'bold' } }}
+                centerComponent={{ text: "ASSUREID", style: { color: "#fff",fontWeight:'bold' } }}
                 leftComponent={
                   <TouchableOpacity onPress={this.toggle}>
                     <Icon
