@@ -18,20 +18,23 @@ import PropTypes from "prop-types";
 import styles from "./styles.js";
 import Menu from '../../components/Menu/Menu.js';
 
-export default class Dashboard extends React.Component {
+class Dashboard extends React.Component {
   constructor(props){
     super(props);
     let name ="";
     if(this.props.userName)
       name = "Welcome " + this.props.userName;
-    this.state={
-      name:name,
-      isOpen: false,
-      selectedItem: 'About',
+
+    this.state = {
+      name         : name,
+      isOpen       : false,
+      selectedItem : 'About',
+      userData     : Meteor.user().profile,
     };
-    this.openDrawer = this.openDrawer.bind(this);
+
+    this.openDrawer  = this.openDrawer.bind(this);
     this.closeDrawer = this.closeDrawer.bind(this);
-    this.toggle = this.toggle.bind(this);
+    this.toggle      = this.toggle.bind(this);
   }
   componentDidMount(){
     BackHandler.addEventListener('hardwareBackPress',this.androidBackHandler.bind(this));
@@ -148,20 +151,30 @@ export default class Dashboard extends React.Component {
                       shadowOpacity: 2.0}}>
                         <View style={{flex:1,flexDirection:'row',padding:10,marginTop:10}}>
                            <View style={{flex:0.5}}>
-                              <Avatar
-                               width={90}
-                               height={90}
-                               rounded
-                               source={require("../../images/Vinod.png")}
-                               activeOpacity={0.7}
-                              />  
+                              { this.state.userData.userProfile ?
+                                <Avatar
+                                 width={90}
+                                 height={90}
+                                 rounded
+                                 source={{uri:this.state.userData.userProfile}}
+                                 activeOpacity={0.7}
+                                /> 
+                              : 
+                                <Avatar
+                                 width={90}
+                                 height={90}
+                                 rounded
+                                 source={require("../../images/Vinod.png")}
+                                 activeOpacity={0.7}
+                                /> 
+                            }
                            </View> 
                            <View style={{flex:0.5,flexDirection:'row',justifyContent:'flex-end',paddingHorizontal:15,}}>
                               
                            </View>
                         </View>
                         <View style={{padding:10,marginBottom:10}}>
-                           <Text style={[(robotoWeights.bold),{fontSize:18,color:'#3c8dbc',textAlign:'left',paddingVertical:2}]}>Hello Vinod Shinde,</Text>
+                           <Text style={[(robotoWeights.bold),{fontSize:18,color:'#3c8dbc',textAlign:'left',paddingVertical:2}]}>Hello {this.state.userData ? this.state.userData.firstname : 'User'} {this.state.userData ? this.state.userData.lastname : null},</Text>
                            <Text style={[(robotoWeights.regular),{fontSize:15,color:'#666666',textAlign:'left',}]}>You have 20 Tickets Pending</Text>
                         </View>
                      </View>
@@ -252,3 +265,19 @@ export default class Dashboard extends React.Component {
     );
   }
 }
+
+
+export default createContainer((props) => {
+
+  const handle     = Meteor.subscribe('allTickets');
+  const loading    = handle.ready();
+  var allocatedTickets   =  Meteor.collection('ticketMaster').count({});
+
+  var result = {
+    allocatedTickets : allocatedTickets ,
+  };
+
+
+  return result;
+
+}, Dashboard);

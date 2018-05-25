@@ -12,12 +12,17 @@ export default class RenderVideo extends React.Component {
     super(props);
     this.state = {
       modalVisible : false,  
+      muted        : true,
     };
   }
 
   setModalVisible(visible) {
     // console.log('in modal');
     this.setState({modalVisible: visible});
+  }
+
+  muteFunction(event) {
+    this.setState({muted: !this.state.muted,});
   }
 
   fullScreenPlayerWillPresent(event){
@@ -69,16 +74,29 @@ export default class RenderVideo extends React.Component {
                         <View style={{height: window.height, width: window.width}}>
                         <Video
                           repeat={true}
-                          muted={true}
+                          muted={this.state.muted}
+                          // muted={true}
                           // paused={true}
                           playInBackground={false}
-                          // resizeMode='cover'
+                          resizeMode='cover'
                           // onFullscreenPlayerWillPresent={this.fullScreenPlayerWillPresent}
                           source={require('../../videos/videoplayback.mp4')}
                           // source={{ uri: this.props.videoData.videoLink, type: this.props.videoData.ext }}
-                          style={[ styles.backgroundVideo, {height: window.height, width: window.width}  ]}
+                          style={[ styles.backgroundVideo, {height: window.height/2, width: window.width}  ]}
                         />
                         </View>
+                      </View>
+
+                      <View style={{flex:1, backgroundColor:'#000' }}>
+                          <TouchableOpacity>
+                          <Button
+                            large
+                            title="Mute"
+                            onPress={() => {
+                              this.muteFunction.bind(this);
+                            }}
+                            />  
+                          </TouchableOpacity>
                       </View>
 
                       </Modal>

@@ -97,7 +97,7 @@ export default class Menu extends React.Component {
 
   }
   handleLogout(){
-    console.log('Logout function!');
+    // console.log('Logout function!');
     Meteor.logout();
   }
   handleExpandHome=()=>{
@@ -234,9 +234,9 @@ export default class Menu extends React.Component {
             </TouchableOpacity>
           </View>
           <View >
-            <TouchableOpacity style={[styles.menuRow,{borderBottomWidth:0}]} onPress={this.handleLogout}>
+            <TouchableOpacity style={[styles.menuRow,{borderBottomWidth:0}]} onPress={this.handleLogout.bind(this)}>
               <Icon size={25} name='logout' type='material-community' color='#666' />
-              <Text style={styles.item}  >
+              <Text style={styles.item} >
                 Sign Out
               </Text>
             </TouchableOpacity>
