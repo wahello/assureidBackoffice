@@ -28,7 +28,8 @@ export default StyleSheet.create({
   },
    buttonLarge:{
     width: (window.width - 22),
-    height: 50,
+    height: 45,
+    borderRadius:2,
     backgroundColor: '#ffbb33',
  
   },
