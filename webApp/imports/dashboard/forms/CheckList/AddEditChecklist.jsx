@@ -187,7 +187,7 @@ class AddEditChecklist extends TrackerReact(Component) {
                       <div className="form-group col-lg-6 col-md-6 col-xs-12 col-sm-12 ">
                         <span className="blocking-span col-lg-12 col-md-6 col-xs-12 col-sm-12 NOleftPad">
                             <label className="floating-label col-lg-12">Checklist For Field Value</label>
-                            {/*this.state.checkListFor == "Address Information" ?
+                            {/*this.state.checkListFor == "Address Information" ?*/}
                                <select className="w300" multiple="multiple" id="fieldSelect" ref="checkListForField">
                                 <option value="line1">Address Line 1 </option>
                                 <option value="line2 ">Address Line 2 </option>
@@ -199,10 +199,9 @@ class AddEditChecklist extends TrackerReact(Component) {
                                 <option value="pincode">Pincode </option>
                                 <option value="residingFrom">residingFrom</option>
                                 <option value="residingTo">residingTo</option>
-                                <option value="proofType">proofType</option>
                              </select>  
-                              :
-                              this.state.checkListFor == "Employment Information" ?*/}
+                              {/*:
+                              this.state.checkListFor == "Employment Information" ?
                                 <select className="w300" multiple="multiple" id="fieldSelect" ref="checkListForField">
                                   <option value="Employer Name">Employer Name </option>
                                   <option value="Company Address">Company Address </option>
@@ -217,7 +216,7 @@ class AddEditChecklist extends TrackerReact(Component) {
                                   <option value="Reporting manager name">Reporting manager name</option>
                                   <option value="Reporting manager designation">Reporting manager designation</option>
                                   <option value="Reporting manager contact number">Reporting manager contact number</option>                              
-                               </select>  
+                               </select>*
                              {/*:
                               <select className="w300" multiple="multiple" id="fieldSelect" ref="checkListForField">
                                   <option value="line1">Select </option>

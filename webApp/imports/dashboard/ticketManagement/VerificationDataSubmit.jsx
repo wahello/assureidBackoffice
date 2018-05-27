@@ -572,7 +572,9 @@ class VerificationDataSubmit extends TrackerReact(Component){
 
     render(){
         var chekFieldList  = this.state.chekFieldList.length>0 ? this.state.chekFieldList :  this.props.chekFieldList;
-        
+        console.log('chekFieldList ',chekFieldList);
+        console.log('state chekFieldList ',this.state.chekFieldList);
+        console.log('props chekFieldList ',this.props.chekFieldList);
         return(
             <div>
                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 choosefilebox">
@@ -889,7 +891,7 @@ class VerificationDataSubmit extends TrackerReact(Component){
 VerificationDataSubmitContainer = withTracker(props => { 
     const ticketId     = props.ticketId;
     var chekFieldList  = props.chekFieldList;
-    console.log('chekFieldList: ', chekFieldList);
+    console.log('vds chekFieldList: ', chekFieldList);
 
     
     
