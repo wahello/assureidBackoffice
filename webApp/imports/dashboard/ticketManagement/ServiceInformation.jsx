@@ -11,6 +11,8 @@ import { browserHistory } from 'react-router';
 import { Link } from 'react-router';
 import { TicketMaster } from '../../website/ServiceProcess/api/TicketMaster.js'; 
 import { Services } from '/imports/dashboard/reactCMS/api/Services.js';
+import {Order} from '/imports/website/ServiceProcess/api/Order.js'; 
+
 // import { Services } from '../reactCMS/api/Services.js';
 
 class ServiceInformation extends TrackerReact(Component){   
@@ -147,11 +149,20 @@ class ServiceInformation extends TrackerReact(Component){
 serviceContainer = withTracker(props => {
 
     var _id = props.ticketId;
+    
+
     const postHandle = Meteor.subscribe('singleTicket',_id);
     const servicePublish = Meteor.subscribe('services');
-    const getTicket  = TicketMaster.findOne({"_id" : _id}) || {};
+    var handleSinTick = Meteor.subscribe("singleOrder",_id);
+    const loading = !postHandle.ready() && !servicePublish.ready();  
+    
+    if (window.location.href.indexOf("orderdetails") > -1){
+        var getTicket  = Order.findOne({"_id" : _id});
+    }else{
+        var getTicket  = TicketMaster.findOne({"_id" : _id}) || {};      
+    }
     const serviceInfo = Services.findOne({'_id':getTicket.serviceId});
-    const loading = !postHandle.ready() && !servicePublish.ready();    
+    
       return {
           loading  : loading,
           getTicket : getTicket,

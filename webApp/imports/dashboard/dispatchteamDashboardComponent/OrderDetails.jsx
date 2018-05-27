@@ -14,17 +14,17 @@ import {Order} from '/imports/website/ServiceProcess/api/Order.js';
 // import UserInformation from './UserInformation.jsx';
 // import { TicketMaster } from '/imports/website/ServiceProcess/api/TicketMaster.js';
 // import { TempTicketReport } from "/imports/dashboard/ticketManagement/api/TempUpload.js";
-// import  ServiceInformation from './ServiceInformation.jsx';
-// import VerifiedDocuments from './VerifiedDocuments.jsx';
+import  ServiceInformation from '/imports/dashboard/ticketManagement/ServiceInformation.jsx';
+import VerifiedDocuments from '/imports/dashboard/ticketManagement/VerifiedDocuments.jsx';
 // import ScreeningCommittee from '/imports/dashboard/ticketManagement/ScreeningCommittee.jsx';
 // import TicketDocumentDetails from '/imports/dashboard/ticketManagement/TicketDocumentDetail.jsx';
 // import DocumentStatus from './DocumentStatus.jsx';
-// import VerificationDataSubmit from './VerificationDataSubmit.jsx';
-// import VerifyDetailsDocument from './VerifyDetailsDocument.jsx';
+import VerificationDataSubmit from '/imports/dashboard/ticketManagement/VerificationDataSubmit.jsx';
+import VerifyDetailsDocument from '/imports/dashboard/ticketManagement/VerifyDetailsDocument.jsx';
 import { UserProfile } from '/imports/website/forms/api/userProfile.js';
 // import SubmittedDocuments from './SubmittedDocuments.jsx';
 // import UploadReport from './UploadReport.jsx';
-// import { ChecklistFieldExpert } from '/imports/dashboard/reactCMS/api/Services.js';
+import { ChecklistFieldExpert } from '/imports/dashboard/reactCMS/api/Services.js';
 
 
 class OrderDetails extends TrackerReact(Component){
@@ -468,508 +468,508 @@ class OrderDetails extends TrackerReact(Component){
         }
       });
   }
-  actionBlock(){
-    var n = this.props.getTicket.ticketElement.length;
-    var reportLinkDetails = TempTicketReport.findOne({},{sort:{'createdAt':-1}}); 
-    if(reportLinkDetails){
-      var reportLink = reportLinkDetails.ReportLink;
-    }
-    switch(this.props.getTicket.ticketElement[n-1].roleStatus){
-      case 'screenTLAllocated' :
-        if(Meteor.user().roles.find(this.getRole) == 'team leader' && this.props.getTicket.ticketElement[n-1].allocatedToUserid == Meteor.userId()){
-          var teamMemberList=[];
-          var title = "Team Leader";
-          return(
-            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
-              <h5> {title} </h5>
-              <div className="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-12">
-                <span className="col-lg-3 col-md-3 col-sm-4 col-xs-5"> Assign this ticket to: </span>
-                <select className="col-lg-3 col-md-3 col-sm-4 col-xs-5 tmListWrap" id="selectTMMember" aria-describedby="basic-addon1" ref="allocateToName"> 
-                <option>--Select--</option>
-                  {
-                    this.showBAFEList('team member').map((data,i)=>{
-                      return(
-                      <option key={i} value={data._id} >
-                          {data.profile.firstname + ' ' + data.profile.lastname}&nbsp; 
-                          ({data.count ? data.count : 0})
-                        </option>
-                      );
-                    })
-                  }
-                </select>
-                <div className="col-lg-3 col-md-3 col-sm-6 col-xs-6 fesubmitouter noLRPad">
-                  <button type="submit" value="Submit" className="col-lg-11 fesubmitbtn noLRPad" data-role="Team Leader" data-roleStatus="Assign" data-msg="Assigned Ticket To Team Member" onClick={this.approveButton.bind(this)} >Submit</button>                                      
-                </div>
-              </div>
-            </div>
-          )
-        }
-        break;
-      case 'ReAssign' :
-        if(Meteor.user().roles.find(this.getRole) == 'team leader' && this.props.getTicket.ticketElement[n-1].userId == Meteor.userId()){
-          var teamMemberList=[];
-          var title = "Team Leader";
-          return(
-            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
-              <h5> {title} </h5>
-              <div className="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-12">
-                <span className="col-lg-3 col-md-3 col-sm-4 col-xs-5"> Assign this ticket to: </span>
-                <select className="col-lg-3 col-md-3 col-sm-4 col-xs-5 tmListWrap" id="selectTMMember" aria-describedby="basic-addon1" ref="allocateToName"> 
-                  {
-                    this.showBAFEList('team member').map((data,i)=>{
-                      return(
-                        <option key={i} value={data._id}>
-                          {data.profile.firstname + ' ' + data.profile.lastname}
-                          {data.count ? data.count : 0}
+  // actionBlock(){
+  //   var n = this.props.getTicket.ticketElement.length;
+  //   var reportLinkDetails = TempTicketReport.findOne({},{sort:{'createdAt':-1}}); 
+  //   if(reportLinkDetails){
+  //     var reportLink = reportLinkDetails.ReportLink;
+  //   }
+  //   switch(this.props.getTicket.ticketElement[n-1].roleStatus){
+  //     case 'screenTLAllocated' :
+  //       if(Meteor.user().roles.find(this.getRole) == 'team leader' && this.props.getTicket.ticketElement[n-1].allocatedToUserid == Meteor.userId()){
+  //         var teamMemberList=[];
+  //         var title = "Team Leader";
+  //         return(
+  //           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
+  //             <h5> {title} </h5>
+  //             <div className="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-12">
+  //               <span className="col-lg-3 col-md-3 col-sm-4 col-xs-5"> Assign this ticket to: </span>
+  //               <select className="col-lg-3 col-md-3 col-sm-4 col-xs-5 tmListWrap" id="selectTMMember" aria-describedby="basic-addon1" ref="allocateToName"> 
+  //               <option>--Select--</option>
+  //                 {
+  //                   this.showBAFEList('team member').map((data,i)=>{
+  //                     return(
+  //                     <option key={i} value={data._id} >
+  //                         {data.profile.firstname + ' ' + data.profile.lastname}&nbsp; 
+  //                         ({data.count ? data.count : 0})
+  //                       </option>
+  //                     );
+  //                   })
+  //                 }
+  //               </select>
+  //               <div className="col-lg-3 col-md-3 col-sm-6 col-xs-6 fesubmitouter noLRPad">
+  //                 <button type="submit" value="Submit" className="col-lg-11 fesubmitbtn noLRPad" data-role="Team Leader" data-roleStatus="Assign" data-msg="Assigned Ticket To Team Member" onClick={this.approveButton.bind(this)} >Submit</button>                                      
+  //               </div>
+  //             </div>
+  //           </div>
+  //         )
+  //       }
+  //       break;
+  //     case 'ReAssign' :
+  //       if(Meteor.user().roles.find(this.getRole) == 'team leader' && this.props.getTicket.ticketElement[n-1].userId == Meteor.userId()){
+  //         var teamMemberList=[];
+  //         var title = "Team Leader";
+  //         return(
+  //           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
+  //             <h5> {title} </h5>
+  //             <div className="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-12">
+  //               <span className="col-lg-3 col-md-3 col-sm-4 col-xs-5"> Assign this ticket to: </span>
+  //               <select className="col-lg-3 col-md-3 col-sm-4 col-xs-5 tmListWrap" id="selectTMMember" aria-describedby="basic-addon1" ref="allocateToName"> 
+  //                 {
+  //                   this.showBAFEList('team member').map((data,i)=>{
+  //                     return(
+  //                       <option key={i} value={data._id}>
+  //                         {data.profile.firstname + ' ' + data.profile.lastname}
+  //                         {data.count ? data.count : 0}
                           
-                        </option>
-                      );
-                    })
-                  }
-                </select>
-                <div className="col-lg-3 fesubmitouter noLRPad">
-                  <button type="submit" value="Submit" className="col-lg-11 fesubmitbtn noLRPad" data-role="Team Leader" data-roleStatus="Assign" data-msg="Assigned Ticket To Team Member" onClick={this.approveButton.bind(this)} >Submit</button>                                      
-                </div>
-              </div>
-            </div>
-          )
-        }
-        break;
-      case 'AssignReject' :
-        if(Meteor.user().roles.find(this.getRole) == 'team leader' && this.props.getTicket.ticketElement[n-1].allocatedToUserid == Meteor.userId()){
-          var teamMemberList=[];
-          var title = "Team Leader";
-          return(
-            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
-              <h5> {title} </h5>
-              <div className="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-12">
-                <span className="col-lg-3 col-md-3 col-sm-4 col-xs-5"> Assign this ticket to: </span>
-                <select className="col-lg-3 col-md-3 col-sm-4 col-xs-5 tmListWrap" id="selectTMMember" aria-describedby="basic-addon1" ref="allocateToName"> 
-                  {
-                    this.showBAFEList('team member').map((data,i)=>{
-                      return(
-                        <option key={i} value={data._id}>
-                          {data.profile.firstname + ' ' + data.profile.lastname}&nbsp;
-                          ({data.count ? data.count : 0})                          
-                        </option>
-                      );
-                    })
-                  }
-                </select>
-                <div className="col-lg-3 fesubmitouter noLRPad">
-                  <button type="submit" value="Submit" className="col-lg-11 fesubmitbtn noLRPad" data-role="Team Leader" data-roleStatus="Assign" data-msg="Assigned Ticket To Team Member" onClick={this.approveButton.bind(this)} >Submit</button>                                      
-                </div>
-              </div>
-            </div>
-          )
-        }
-        break;
-      case 'Assign' :
-        if(Meteor.user().roles.find(this.getRole) == 'team member' && this.props.getTicket.ticketElement[n-1].allocatedToUserid == Meteor.userId()){
-          var title = "Team Member"; 
-          return(
-            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
-              <h5> {title} </h5>
-              <span>Please accept if your are going to work on this ticket. If rejected please provide an appropriate reason.</span>
-              <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1 col-xs-12 acceptrejectwrap">
-                <button className="btn btn-danger approvebtn col-lg-3 col-md-3 col-sm-4 col-xs-5" id="TMRejectTicket" data-roleStatus="AssignReject" data-msg="Rejected Ticket and returned back to " onClick={this.showRejectBoxState.bind(this)}>
-                  Reject
-                </button>
-                <button className="btn btn-success col-lg-3 col-md-3 col-sm-4 col-xs-5 approvebtn" data-roleStatus="AssignAccept" data-msg="Accepted Ticket" onClick={this.approveButton.bind(this)} >
-                  Accept </button>
-              </div>
-              {this.state.showRejectBox === 'Y' ? this.getRejectBox() : '' }
-            </div>
-          )
-        }
-        break;
-      case 'AssignAccept' :
-        if(Meteor.user().roles.find(this.getRole) == 'team member' && this.props.getTicket.ticketElement[n-1].userId == Meteor.userId()){
-          var title = "Team Member";
-          var data = [];
-          return(
-            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
-              <h5> {title} </h5>
-              <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1 col-xs-12">
-                <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper removePadding">
-                    <div className="radio radiobtn col-lg-3 noLRPad" value="Self">
-                      <label className="noLRPad" value="Self">
-                        <input type="radio" name="radioState" value="Self" checked={ this.state.radioState == 'Self'} className="optradio" onChange={this.getRadioValue.bind(this)}/>Self
-                      </label >
-                    </div>    
-                    <div className="radio col-lg-5 radiobtn noLRPad">
-                      <label className="noLRPad">
-                        <input type="radio" name="radioState" value="field expert" checked={ this.state.radioState == 'field expert'} className="optradio" onChange={this.getRadioValue.bind(this)}/>Field Expert
-                      </label>
-                    </div>
-                    <div className="radio radiobtn col-lg-4 noLRPad">
-                      <label className="noLRPad">
-                        <input type="radio" name="radioState" value="ba" className="optradio" checked={ this.state.radioState == 'ba' ? true : false } onChange={this.getRadioValue.bind(this)}/>Business Associate
-                      </label>
-                    </div>
-                </div>
+  //                       </option>
+  //                     );
+  //                   })
+  //                 }
+  //               </select>
+  //               <div className="col-lg-3 fesubmitouter noLRPad">
+  //                 <button type="submit" value="Submit" className="col-lg-11 fesubmitbtn noLRPad" data-role="Team Leader" data-roleStatus="Assign" data-msg="Assigned Ticket To Team Member" onClick={this.approveButton.bind(this)} >Submit</button>                                      
+  //               </div>
+  //             </div>
+  //           </div>
+  //         )
+  //       }
+  //       break;
+  //     case 'AssignReject' :
+  //       if(Meteor.user().roles.find(this.getRole) == 'team leader' && this.props.getTicket.ticketElement[n-1].allocatedToUserid == Meteor.userId()){
+  //         var teamMemberList=[];
+  //         var title = "Team Leader";
+  //         return(
+  //           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
+  //             <h5> {title} </h5>
+  //             <div className="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-12">
+  //               <span className="col-lg-3 col-md-3 col-sm-4 col-xs-5"> Assign this ticket to: </span>
+  //               <select className="col-lg-3 col-md-3 col-sm-4 col-xs-5 tmListWrap" id="selectTMMember" aria-describedby="basic-addon1" ref="allocateToName"> 
+  //                 {
+  //                   this.showBAFEList('team member').map((data,i)=>{
+  //                     return(
+  //                       <option key={i} value={data._id}>
+  //                         {data.profile.firstname + ' ' + data.profile.lastname}&nbsp;
+  //                         ({data.count ? data.count : 0})                          
+  //                       </option>
+  //                     );
+  //                   })
+  //                 }
+  //               </select>
+  //               <div className="col-lg-3 fesubmitouter noLRPad">
+  //                 <button type="submit" value="Submit" className="col-lg-11 fesubmitbtn noLRPad" data-role="Team Leader" data-roleStatus="Assign" data-msg="Assigned Ticket To Team Member" onClick={this.approveButton.bind(this)} >Submit</button>                                      
+  //               </div>
+  //             </div>
+  //           </div>
+  //         )
+  //       }
+  //       break;
+  //     case 'Assign' :
+  //       if(Meteor.user().roles.find(this.getRole) == 'team member' && this.props.getTicket.ticketElement[n-1].allocatedToUserid == Meteor.userId()){
+  //         var title = "Team Member"; 
+  //         return(
+  //           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
+  //             <h5> {title} </h5>
+  //             <span>Please accept if your are going to work on this ticket. If rejected please provide an appropriate reason.</span>
+  //             <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1 col-xs-12 acceptrejectwrap">
+  //               <button className="btn btn-danger approvebtn col-lg-3 col-md-3 col-sm-4 col-xs-5" id="TMRejectTicket" data-roleStatus="AssignReject" data-msg="Rejected Ticket and returned back to " onClick={this.showRejectBoxState.bind(this)}>
+  //                 Reject
+  //               </button>
+  //               <button className="btn btn-success col-lg-3 col-md-3 col-sm-4 col-xs-5 approvebtn" data-roleStatus="AssignAccept" data-msg="Accepted Ticket" onClick={this.approveButton.bind(this)} >
+  //                 Accept </button>
+  //             </div>
+  //             {this.state.showRejectBox === 'Y' ? this.getRejectBox() : '' }
+  //           </div>
+  //         )
+  //       }
+  //       break;
+  //     case 'AssignAccept' :
+  //       if(Meteor.user().roles.find(this.getRole) == 'team member' && this.props.getTicket.ticketElement[n-1].userId == Meteor.userId()){
+  //         var title = "Team Member";
+  //         var data = [];
+  //         return(
+  //           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
+  //             <h5> {title} </h5>
+  //             <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1 col-xs-12">
+  //               <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper removePadding">
+  //                   <div className="radio radiobtn col-lg-3 noLRPad" value="Self">
+  //                     <label className="noLRPad" value="Self">
+  //                       <input type="radio" name="radioState" value="Self" checked={ this.state.radioState == 'Self'} className="optradio" onChange={this.getRadioValue.bind(this)}/>Self
+  //                     </label >
+  //                   </div>    
+  //                   <div className="radio col-lg-5 radiobtn noLRPad">
+  //                     <label className="noLRPad">
+  //                       <input type="radio" name="radioState" value="field expert" checked={ this.state.radioState == 'field expert'} className="optradio" onChange={this.getRadioValue.bind(this)}/>Field Expert
+  //                     </label>
+  //                   </div>
+  //                   <div className="radio radiobtn col-lg-4 noLRPad">
+  //                     <label className="noLRPad">
+  //                       <input type="radio" name="radioState" value="ba" className="optradio" checked={ this.state.radioState == 'ba' ? true : false } onChange={this.getRadioValue.bind(this)}/>Business Associate
+  //                     </label>
+  //                   </div>
+  //               </div>
 
-                {this.state.radioState != '' ?     
+  //               {this.state.radioState != '' ?     
                 
-                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad hideFieldexpert selfallocatedwrap">                           
-                  {this.state.radioState == 'field expert'?      
-                    <div>
-                        <div className="col-lg-7 teamMemOuter">
-                          <lable>Allocate To Field Expert</lable>
-                          <select className="form-control" id="selectMember" aria-describedby="basic-addon1" ref="allocateToFEName">
-                              {
-                                this.showBAFEList('field expert').map((data,i)=>{
-                                  return(
-                                    <option key={i} value={data._id}>
-                                      {data.profile.firstname + ' ' + data.profile.lastname}&nbsp;
-                                      ({data.count ? data.count : 0})
+  //               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad hideFieldexpert selfallocatedwrap">                           
+  //                 {this.state.radioState == 'field expert'?      
+  //                   <div>
+  //                       <div className="col-lg-7 teamMemOuter">
+  //                         <lable>Allocate To Field Expert</lable>
+  //                         <select className="form-control" id="selectMember" aria-describedby="basic-addon1" ref="allocateToFEName">
+  //                             {
+  //                               this.showBAFEList('field expert').map((data,i)=>{
+  //                                 return(
+  //                                   <option key={i} value={data._id}>
+  //                                     {data.profile.firstname + ' ' + data.profile.lastname}&nbsp;
+  //                                     ({data.count ? data.count : 0})
                                       
-                                    </option>
-                                  );
-                                })
-                              }
-                          </select>
-                        </div>
-                        <div className="col-lg-4 fesubmitouter noLRPad">
-                          <lable>&nbsp;</lable>
-                          <button type="submit" value="Submit" className="col-lg-11 feSubmitbtn noLRPad" data-role="field expert" data-roleStatus="FEAllocated" data-msg="Allocated Ticket To Field Expert" onClick={this.approveButton.bind(this)} >Submit</button>                                      
-                        </div>
-                    </div>
-                  :this.state.radioState == 'ba'?      
-                    <div>
-                        <div className="col-lg-7 teamMemOuter">
-                          <lable>Allocate To Business Associate</lable>
-                          <select className="form-control" id="selectMember" aria-describedby="basic-addon1" ref="allocateToFEName">
-                              {
-                                this.showBAFEList('ba').map((data,i)=>{
-                                  return(
-                                    <option key={i} value={data._id}>
-                                      {data.profile.firstname + ' ' + data.profile.lastname}
-                                      ({data.count ? data.count : 0})
+  //                                   </option>
+  //                                 );
+  //                               })
+  //                             }
+  //                         </select>
+  //                       </div>
+  //                       <div className="col-lg-4 fesubmitouter noLRPad">
+  //                         <lable>&nbsp;</lable>
+  //                         <button type="submit" value="Submit" className="col-lg-11 feSubmitbtn noLRPad" data-role="field expert" data-roleStatus="FEAllocated" data-msg="Allocated Ticket To Field Expert" onClick={this.approveButton.bind(this)} >Submit</button>                                      
+  //                       </div>
+  //                   </div>
+  //                 :this.state.radioState == 'ba'?      
+  //                   <div>
+  //                       <div className="col-lg-7 teamMemOuter">
+  //                         <lable>Allocate To Business Associate</lable>
+  //                         <select className="form-control" id="selectMember" aria-describedby="basic-addon1" ref="allocateToFEName">
+  //                             {
+  //                               this.showBAFEList('ba').map((data,i)=>{
+  //                                 return(
+  //                                   <option key={i} value={data._id}>
+  //                                     {data.profile.firstname + ' ' + data.profile.lastname}
+  //                                     ({data.count ? data.count : 0})
                                       
-                                    </option>
-                                  );
-                                })
-                              }
-                          </select>
-                        </div>
-                        <div className="col-lg-4 fesubmitouter noLRPad">
-                          <button type="submit" value="Submit" className="col-lg-11 feSubmitbtn  noLRPad" data-role="Business Associate" data-roleStatus="BAAllocated" data-msg="Allocated Ticket To Business Associate" onClick={this.approveButton.bind(this)} >Submit</button>                                      
-                        </div>
-                    </div>
-                  : this.state.radioState == 'Self'?
-                    <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12 selfallocatedwrap noLRPad">
-                      <h5><strong>You are going to handle this ticket</strong></h5>
-                      <button type="submit" value="Submit" className="col-lg-5 col-lg-offset-3 col-md-5 col-md-offset-3 col-lg-12 col-xs-12 selfsubmit noLRPad" data-role="team member" data-roleStatus="SelfAllocated"  data-msg="Allocated Ticket To Self" onClick={this.approveButton.bind(this)} >Submit</button>                                                                             
-                    </div>
-                  :    
-                    ""
-                  }
-                </div>
-                :
-                ""
-                }
-              </div>
-            </div>
-          )
-        }
-        break;
-      case 'SelfAllocated' :
-        if(Meteor.user().roles.find(this.getRole) == 'team member' && this.props.getTicket.ticketElement[n-1].userId == Meteor.userId()){
-          var title = "Team Member"; 
-          return(
-            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
-              <h5> {title} </h5>
+  //                                   </option>
+  //                                 );
+  //                               })
+  //                             }
+  //                         </select>
+  //                       </div>
+  //                       <div className="col-lg-4 fesubmitouter noLRPad">
+  //                         <button type="submit" value="Submit" className="col-lg-11 feSubmitbtn  noLRPad" data-role="Business Associate" data-roleStatus="BAAllocated" data-msg="Allocated Ticket To Business Associate" onClick={this.approveButton.bind(this)} >Submit</button>                                      
+  //                       </div>
+  //                   </div>
+  //                 : this.state.radioState == 'Self'?
+  //                   <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12 selfallocatedwrap noLRPad">
+  //                     <h5><strong>You are going to handle this ticket</strong></h5>
+  //                     <button type="submit" value="Submit" className="col-lg-5 col-lg-offset-3 col-md-5 col-md-offset-3 col-lg-12 col-xs-12 selfsubmit noLRPad" data-role="team member" data-roleStatus="SelfAllocated"  data-msg="Allocated Ticket To Self" onClick={this.approveButton.bind(this)} >Submit</button>                                                                             
+  //                   </div>
+  //                 :    
+  //                   ""
+  //                 }
+  //               </div>
+  //               :
+  //               ""
+  //               }
+  //             </div>
+  //           </div>
+  //         )
+  //       }
+  //       break;
+  //     case 'SelfAllocated' :
+  //       if(Meteor.user().roles.find(this.getRole) == 'team member' && this.props.getTicket.ticketElement[n-1].userId == Meteor.userId()){
+  //         var title = "Team Member"; 
+  //         return(
+  //           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
+  //             <h5> {title} </h5>
 
-              <div id="uploadButtonDiv" className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1 col-xs-12">
-                <button className="btn btn-primary col-lg-7 col-md-7 col-sm-12 col-xs-12"  onClick={this.uploadDocsDiv.bind(this)} >
-                      Upload Documents & Remark</button> 
-              </div>
-              <div id="AddImagesVideo" style={{"display":"none"}}>
-                {<VerificationDataSubmit ticketId={this.props.ticketId} chekFieldList={ this.state.verifiedInfo}/>}
-              </div>
-            </div>
-          )
-        }
-        break;
-      case 'ProofSubmit' :
-        if(Meteor.user().roles.find(this.getRole) == 'team member' && this.props.getTicket.ticketElement[n-1].allocatedToUserid == Meteor.userId()){
-          var title = "Team Member"; 
-          return(
-            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
-              <h5> {title} </h5>
-              <span> Do you accept the Information Regarding the Ticket</span>
-              <div className="docbtnwrap col-lg-6 col-lg-offset-4">
-                <button type="button" className="btn btn-danger col-lg-4 ApprovRejDoc" id="TMProofReject" data-roleStatus="VerificationFail" data-msg="Rejected Verification Information from" onClick={this.showRejectBoxState.bind(this)}>Reject</button>
-                <button type="button" className="btn btn-success col-lg-4 ApprovRejDoc" data-roleStatus="VerificationPass" data-msg="Approved Verification Information" onClick ={this.approveButton.bind(this)}>Approve</button>
-              {this.state.showRejectBox === 'Y' ? this.getRejectBox() : '' }
+  //             <div id="uploadButtonDiv" className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1 col-xs-12">
+  //               <button className="btn btn-primary col-lg-7 col-md-7 col-sm-12 col-xs-12"  onClick={this.uploadDocsDiv.bind(this)} >
+  //                     Upload Documents & Remark</button> 
+  //             </div>
+  //             <div id="AddImagesVideo" style={{"display":"none"}}>
+  //               {<VerificationDataSubmit ticketId={this.props.ticketId} chekFieldList={ this.state.verifiedInfo}/>}
+  //             </div>
+  //           </div>
+  //         )
+  //       }
+  //       break;
+  //     case 'ProofSubmit' :
+  //       if(Meteor.user().roles.find(this.getRole) == 'team member' && this.props.getTicket.ticketElement[n-1].allocatedToUserid == Meteor.userId()){
+  //         var title = "Team Member"; 
+  //         return(
+  //           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
+  //             <h5> {title} </h5>
+  //             <span> Do you accept the Information Regarding the Ticket</span>
+  //             <div className="docbtnwrap col-lg-6 col-lg-offset-4">
+  //               <button type="button" className="btn btn-danger col-lg-4 ApprovRejDoc" id="TMProofReject" data-roleStatus="VerificationFail" data-msg="Rejected Verification Information from" onClick={this.showRejectBoxState.bind(this)}>Reject</button>
+  //               <button type="button" className="btn btn-success col-lg-4 ApprovRejDoc" data-roleStatus="VerificationPass" data-msg="Approved Verification Information" onClick ={this.approveButton.bind(this)}>Approve</button>
+  //             {this.state.showRejectBox === 'Y' ? this.getRejectBox() : '' }
                 
-              </div>
-            </div>
-          )
-        }
-        break;
-      case 'ProofResubmitted' :
-        if(Meteor.user().roles.find(this.getRole) == 'team member' && this.props.getTicket.ticketElement[n-1].allocatedToUserid == Meteor.userId()){
-          var title = "Team Member"; 
-          return(
-            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
-              <h5> {title} </h5>
-              <span> Do you accept the Information Regarding the Ticket</span>
-              <div className="docbtnwrap col-lg-6 col-lg-offset-4">
-                <button type="button" className="btn btn-danger col-lg-4 ApprovRejDoc" id="TMProofReject" data-roleStatus="VerificationFail" data-msg="Rejected Verification Information from" onClick={this.showRejectBoxState.bind(this)}>Reject</button>
-                <button type="button" className="btn btn-primary col-lg-4 ApprovRejDoc" data-roleStatus="VerificationPass" data-msg="Approved Verification Information" onClick ={this.approveButton.bind(this)}>Approve</button>
-              </div>
-              {this.state.showRejectBox === 'Y' ? this.getRejectBox() : '' }
-            </div>
-          )
-        }
-        break;
-      case 'VerificationPass' :
-        if(Meteor.user().roles.find(this.getRole) == 'team member' && this.props.getTicket.ticketElement[n-1].userId == Meteor.userId()){
-          var title = "Team Member"; 
-          return(
-            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
-              <h5> {title} </h5>
-              <span className="uploadreportTitle">Review Remark: </span>
-              <div className="col-lg-7 col-lg-offset-1 col-md-10 col-md-offset-1 col-xm-12 col-xs-12">
-                <div className="col-lg-9 col-lg-offset-1">
-                <textarea rows="3" cols="160" className="col-lg-8 col-lg-offset-0" id="TMReviewRemark"/>
-                </div>
-                <div className="col-lg-7">
-                    <button type="button" className="fesubmitbtn col-lg-5 col-lg-offset-2" data-roleStatus="TMReviewRemark" data-msg="Team Member Review Remark Submitted" onClick={this.approveButton.bind(this)}>Submit</button>
-                </div>
-              </div>
-            </div>
-          )
-        }
-        break;
-      case 'VerificationPassQTMAllocated' :
-        if(Meteor.user().roles.find(this.getRole) == 'quality team member' && this.props.getTicket.ticketElement[n-1].allocatedToUserid == Meteor.userId()){
-          var title = "Quality Team Member"; 
-          return(
-            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
-              <h5> {title} </h5>
-              <span>Is the Information submitted appropriate ?</span>
-              <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1 col-xs-12 acceptrejectwrap">
-                <button className="btn btn-danger approvebtn col-lg-3 col-md-3 col-sm-4 col-xs-5" id="QTMRejectTicket" data-roleStatus="QAFail" data-msg="Rejected Ticket and returned back to " onClick={this.showRejectBoxState.bind(this)}>
-                  Reject
-                </button>
-                <button className="btn btn-success col-lg-3 col-md-3 col-sm-4 col-xs-5 approvebtn" data-roleStatus="QAPass" data-msg="Verified the Ticket related Information" onClick={this.approveButton.bind(this)} >
-                  Approved </button>
-              </div>
-              {this.state.showRejectBox === 'Y' ? this.getRejectBox() : '' }
-            </div>       
-          )
-        }
-        break;
-      case 'QAPass' :
-        if(Meteor.user().roles.find(this.getRole) == 'quality team member' && this.props.getTicket.ticketElement[n-1].userId == Meteor.userId()){
-          var title = "Quality Team Member"; 
-          return(
-            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
-              <h5> {title} </h5>
-              <span className="uploadreportTitle">Review Remark: </span>
-              <div className="col-lg-7 col-lg-offset-1 col-md-10 col-md-offset-1 col-xm-12 col-xs-12">
-                <div className="col-lg-9 col-lg-offset-1">
-                <textarea rows="3" cols="160" className="col-lg-8 col-lg-offset-0" id="QTMReviewRemark"/>
-                </div>
-                <div className="col-lg-7">
-                    <button type="button" className="fesubmitbtn col-lg-5 col-lg-offset-2" data-roleStatus="QTMReviewRemark" data-msg="Quality Team Member Review Remark Submitted" onClick={this.approveButton.bind(this)}>Submit</button>
-                </div>
-              </div>
-            </div>
-          )
-        }
-        break;
-      case 'QTMReviewRemark' :
-        if(Meteor.user().roles.find(this.getRole) == 'quality team member' && this.props.getTicket.ticketElement[n-1].userId == Meteor.userId()){
-          var title = "Quality Team Member"; 
-          return(
-            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
-              <h5> {title} </h5>
-              <span className="uploadreportTitle">Upload Report : </span>
-              <div className="col-lg-7 col-lg-offset-1 col-md-10 col-md-offset-1 col-xm-12 col-xs-12">
-                <div className="col-lg-6 col-md-12 col-sm-12 col-xs-12 hideProgressBar" id="uploadReportShowprogress">
-                    {this.getUploadReportPercentage()}
-                </div>
-                <div className="col-lg-9 col-lg-offset-1">
-                    <input type="file" ref="uploadReportFile" id="uploadReport" name="uploadReport" className="col-lg-7 reporttitle noLRPad" onChange={this.handleReportUpload.bind(this)} multiple/>
-                </div>
-                <div className="col-lg-7">
-                    <button type="button" className="fesubmitbtn col-lg-5 col-lg-offset-2" data-roleStatus="ReportSubmitted" data-msg="Generated The Ticket" onClick={this.approveButton.bind(this)}>Submit</button>
-                </div>
-              </div>
-            </div>       
-          )
-        }
-        break;
-      case 'QAFail' :
-        if(Meteor.user().roles.find(this.getRole) == 'team member' && this.props.getTicket.ticketElement[n-1].allocatedToUserid == Meteor.userId()){
-          var title = "Team Member"; 
+  //             </div>
+  //           </div>
+  //         )
+  //       }
+  //       break;
+  //     case 'ProofResubmitted' :
+  //       if(Meteor.user().roles.find(this.getRole) == 'team member' && this.props.getTicket.ticketElement[n-1].allocatedToUserid == Meteor.userId()){
+  //         var title = "Team Member"; 
+  //         return(
+  //           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
+  //             <h5> {title} </h5>
+  //             <span> Do you accept the Information Regarding the Ticket</span>
+  //             <div className="docbtnwrap col-lg-6 col-lg-offset-4">
+  //               <button type="button" className="btn btn-danger col-lg-4 ApprovRejDoc" id="TMProofReject" data-roleStatus="VerificationFail" data-msg="Rejected Verification Information from" onClick={this.showRejectBoxState.bind(this)}>Reject</button>
+  //               <button type="button" className="btn btn-primary col-lg-4 ApprovRejDoc" data-roleStatus="VerificationPass" data-msg="Approved Verification Information" onClick ={this.approveButton.bind(this)}>Approve</button>
+  //             </div>
+  //             {this.state.showRejectBox === 'Y' ? this.getRejectBox() : '' }
+  //           </div>
+  //         )
+  //       }
+  //       break;
+  //     case 'VerificationPass' :
+  //       if(Meteor.user().roles.find(this.getRole) == 'team member' && this.props.getTicket.ticketElement[n-1].userId == Meteor.userId()){
+  //         var title = "Team Member"; 
+  //         return(
+  //           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
+  //             <h5> {title} </h5>
+  //             <span className="uploadreportTitle">Review Remark: </span>
+  //             <div className="col-lg-7 col-lg-offset-1 col-md-10 col-md-offset-1 col-xm-12 col-xs-12">
+  //               <div className="col-lg-9 col-lg-offset-1">
+  //               <textarea rows="3" cols="160" className="col-lg-8 col-lg-offset-0" id="TMReviewRemark"/>
+  //               </div>
+  //               <div className="col-lg-7">
+  //                   <button type="button" className="fesubmitbtn col-lg-5 col-lg-offset-2" data-roleStatus="TMReviewRemark" data-msg="Team Member Review Remark Submitted" onClick={this.approveButton.bind(this)}>Submit</button>
+  //               </div>
+  //             </div>
+  //           </div>
+  //         )
+  //       }
+  //       break;
+  //     case 'VerificationPassQTMAllocated' :
+  //       if(Meteor.user().roles.find(this.getRole) == 'quality team member' && this.props.getTicket.ticketElement[n-1].allocatedToUserid == Meteor.userId()){
+  //         var title = "Quality Team Member"; 
+  //         return(
+  //           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
+  //             <h5> {title} </h5>
+  //             <span>Is the Information submitted appropriate ?</span>
+  //             <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1 col-xs-12 acceptrejectwrap">
+  //               <button className="btn btn-danger approvebtn col-lg-3 col-md-3 col-sm-4 col-xs-5" id="QTMRejectTicket" data-roleStatus="QAFail" data-msg="Rejected Ticket and returned back to " onClick={this.showRejectBoxState.bind(this)}>
+  //                 Reject
+  //               </button>
+  //               <button className="btn btn-success col-lg-3 col-md-3 col-sm-4 col-xs-5 approvebtn" data-roleStatus="QAPass" data-msg="Verified the Ticket related Information" onClick={this.approveButton.bind(this)} >
+  //                 Approved </button>
+  //             </div>
+  //             {this.state.showRejectBox === 'Y' ? this.getRejectBox() : '' }
+  //           </div>       
+  //         )
+  //       }
+  //       break;
+  //     case 'QAPass' :
+  //       if(Meteor.user().roles.find(this.getRole) == 'quality team member' && this.props.getTicket.ticketElement[n-1].userId == Meteor.userId()){
+  //         var title = "Quality Team Member"; 
+  //         return(
+  //           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
+  //             <h5> {title} </h5>
+  //             <span className="uploadreportTitle">Review Remark: </span>
+  //             <div className="col-lg-7 col-lg-offset-1 col-md-10 col-md-offset-1 col-xm-12 col-xs-12">
+  //               <div className="col-lg-9 col-lg-offset-1">
+  //               <textarea rows="3" cols="160" className="col-lg-8 col-lg-offset-0" id="QTMReviewRemark"/>
+  //               </div>
+  //               <div className="col-lg-7">
+  //                   <button type="button" className="fesubmitbtn col-lg-5 col-lg-offset-2" data-roleStatus="QTMReviewRemark" data-msg="Quality Team Member Review Remark Submitted" onClick={this.approveButton.bind(this)}>Submit</button>
+  //               </div>
+  //             </div>
+  //           </div>
+  //         )
+  //       }
+  //       break;
+  //     case 'QTMReviewRemark' :
+  //       if(Meteor.user().roles.find(this.getRole) == 'quality team member' && this.props.getTicket.ticketElement[n-1].userId == Meteor.userId()){
+  //         var title = "Quality Team Member"; 
+  //         return(
+  //           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
+  //             <h5> {title} </h5>
+  //             <span className="uploadreportTitle">Upload Report : </span>
+  //             <div className="col-lg-7 col-lg-offset-1 col-md-10 col-md-offset-1 col-xm-12 col-xs-12">
+  //               <div className="col-lg-6 col-md-12 col-sm-12 col-xs-12 hideProgressBar" id="uploadReportShowprogress">
+  //                   {this.getUploadReportPercentage()}
+  //               </div>
+  //               <div className="col-lg-9 col-lg-offset-1">
+  //                   <input type="file" ref="uploadReportFile" id="uploadReport" name="uploadReport" className="col-lg-7 reporttitle noLRPad" onChange={this.handleReportUpload.bind(this)} multiple/>
+  //               </div>
+  //               <div className="col-lg-7">
+  //                   <button type="button" className="fesubmitbtn col-lg-5 col-lg-offset-2" data-roleStatus="ReportSubmitted" data-msg="Generated The Ticket" onClick={this.approveButton.bind(this)}>Submit</button>
+  //               </div>
+  //             </div>
+  //           </div>       
+  //         )
+  //       }
+  //       break;
+  //     case 'QAFail' :
+  //       if(Meteor.user().roles.find(this.getRole) == 'team member' && this.props.getTicket.ticketElement[n-1].allocatedToUserid == Meteor.userId()){
+  //         var title = "Team Member"; 
           
-          return(
-            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
-              <h5> {title} </h5>
-              <span>Select  appropriate action ? </span>
+  //         return(
+  //           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
+  //             <h5> {title} </h5>
+  //             <span>Select  appropriate action ? </span>
 
-              <div className="col-lg-10 col-lg-offset-2 col-md-12 col-sm-12 col-xs-12 fesubmitbtn">
-                   <button type="button" className="btn reportcommonbtn btn-info" onClick = {this.targetReport.bind(this)}>Edit Report</button>
+  //             <div className="col-lg-10 col-lg-offset-2 col-md-12 col-sm-12 col-xs-12 fesubmitbtn">
+  //                  <button type="button" className="btn reportcommonbtn btn-info" onClick = {this.targetReport.bind(this)}>Edit Report</button>
               
 
                
-                {
-                  this.props.getTicket.ticketElement.find(function (obj) { return obj.roleStatus == 'SelfAllocated' })?
+  //               {
+  //                 this.props.getTicket.ticketElement.find(function (obj) { return obj.roleStatus == 'SelfAllocated' })?
                     
-                    <button type="button" className="btn reportcommonbtn btn-info" onClick = {this.editInformation.bind(this)}>Edit Inforamation</button>
-                  :
+  //                   <button type="button" className="btn reportcommonbtn btn-info" onClick = {this.editInformation.bind(this)}>Edit Inforamation</button>
+  //                 :
                  
-                    <button type="button" className="btn reportcommonbtn btn-info">Ask FE/BA To Report</button>
-                }
-              </div>
-            </div>
-          ) 
-        }
-        break;
-      case 'QAPassQTLAllocated' :
-        if(Meteor.user().roles.find(this.getRole) == 'quality team leader' && this.props.getTicket.ticketElement[n-1].allocatedToUserid == Meteor.userId()){
-          var title = "Qulity Team Leader"; 
-          return(
-            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
-              <h5> {title} </h5>
-              <div className="col-lg-10 col-md-10 col-md-offset-0 col-xm-12 col-xs-12">
-                <div className="col-lg-7 col-lg-offset-0 col-md-6 col-md-offset-0 col-sm-10 col-sm-offset-1 col-xs-12">
-                  <label className="col-lg-12">Is the Report appropriate ? </label>                  
-                  <button className="btn btn-danger col-lg-3 col-md-3 col-sm-4 col-xs-5 approvebtn" id="QTLRejectTicket" data-roleStatus="ReviewFail" data-msg="Rejected Verification Report For Quality Issue" onClick={this.showRejectBoxState.bind(this)} >
-                    Reject
-                  </button>
-                  <button className="btn btn-success col-lg-3 col-md-3 col-sm-4 col-xs-5 approvebtn" data-roleStatus="ReviewPass" data-msg="Approved the Ticket" onClick={this.approveButton.bind(this)} >
-                   Approve 
-                  </button>
-                </div>
-                <div className="col-lg-6 acceptrejectwrap">
-                  {this.state.showRejectBox === 'Y' ? 
+  //                   <button type="button" className="btn reportcommonbtn btn-info">Ask FE/BA To Report</button>
+  //               }
+  //             </div>
+  //           </div>
+  //         ) 
+  //       }
+  //       break;
+  //     case 'QAPassQTLAllocated' :
+  //       if(Meteor.user().roles.find(this.getRole) == 'quality team leader' && this.props.getTicket.ticketElement[n-1].allocatedToUserid == Meteor.userId()){
+  //         var title = "Qulity Team Leader"; 
+  //         return(
+  //           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
+  //             <h5> {title} </h5>
+  //             <div className="col-lg-10 col-md-10 col-md-offset-0 col-xm-12 col-xs-12">
+  //               <div className="col-lg-7 col-lg-offset-0 col-md-6 col-md-offset-0 col-sm-10 col-sm-offset-1 col-xs-12">
+  //                 <label className="col-lg-12">Is the Report appropriate ? </label>                  
+  //                 <button className="btn btn-danger col-lg-3 col-md-3 col-sm-4 col-xs-5 approvebtn" id="QTLRejectTicket" data-roleStatus="ReviewFail" data-msg="Rejected Verification Report For Quality Issue" onClick={this.showRejectBoxState.bind(this)} >
+  //                   Reject
+  //                 </button>
+  //                 <button className="btn btn-success col-lg-3 col-md-3 col-sm-4 col-xs-5 approvebtn" data-roleStatus="ReviewPass" data-msg="Approved the Ticket" onClick={this.approveButton.bind(this)} >
+  //                  Approve 
+  //                 </button>
+  //               </div>
+  //               <div className="col-lg-6 acceptrejectwrap">
+  //                 {this.state.showRejectBox === 'Y' ? 
 
-                    // return(
-                      <div>
-                        {/* <select className="col-lg-7 col-md-7 col-sm-4 col-xs-5 tmListWrap" id="selectTMMember" aria-describedby="basic-addon1" ref="allocateToName"> 
-                            {
-                              this.showTMQTMList('team member').map((data,i)=>{
-                                return(
-                                  <option key={i} value={data._id}>
-                                    {data.profile.firstname + ' ' + data.profile.lastname}&nbsp;
-                                  </option>
-                                );
-                              })
-                            }
-                        </select> */}
-                      </div>
-                    // );
-                  :
-                  "" 
-                  }
-                  {this.state.showRejectBox === 'Y' ? this.getRejectBox() : '' }
-                </div>
+  //                   // return(
+  //                     <div>
+  //                       {/* <select className="col-lg-7 col-md-7 col-sm-4 col-xs-5 tmListWrap" id="selectTMMember" aria-describedby="basic-addon1" ref="allocateToName"> 
+  //                           {
+  //                             this.showTMQTMList('team member').map((data,i)=>{
+  //                               return(
+  //                                 <option key={i} value={data._id}>
+  //                                   {data.profile.firstname + ' ' + data.profile.lastname}&nbsp;
+  //                                 </option>
+  //                               );
+  //                             })
+  //                           }
+  //                       </select> */}
+  //                     </div>
+  //                   // );
+  //                 :
+  //                 "" 
+  //                 }
+  //                 {this.state.showRejectBox === 'Y' ? this.getRejectBox() : '' }
+  //               </div>
                 
-                {this.state.showRadiobtn === 'Y' ? this.showTicketDataRadiobtn() : '' }
+  //               {this.state.showRadiobtn === 'Y' ? this.showTicketDataRadiobtn() : '' }
                 
-              </div>
+  //             </div>
               
-            </div>
-          )
-        }
-        break;
-      case 'ReviewPass' :
-        if(Meteor.user().roles.find(this.getRole) == 'quality team leader' && this.props.getTicket.ticketElement[n-1].userId == Meteor.userId()){
-          var title = "Quality Team Leader"; 
-          return(
-            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
-              <h5> {title} </h5>
-              <span className="uploadreportTitle">Review Remark: </span>
-              <div className="col-lg-7 col-lg-offset-1 col-md-10 col-md-offset-1 col-xm-12 col-xs-12">
-                <div className="col-lg-9 col-lg-offset-1">
-                <textarea rows="3" cols="160" className="col-lg-8 col-lg-offset-0" id="QTLReviewRemark"/>
-                </div>
-                <div className="col-lg-7">
-                    <button type="button" className="fesubmitbtn col-lg-5 col-lg-offset-2" data-roleStatus="QTLReviewRemark" data-msg="Quality Team Leader Review Remark Submitted" onClick={this.approveButton.bind(this)}>Submit</button>
-                </div>
-              </div>
-            </div>
-          )
-        }
-        break;
-      case 'QTLReviewRemark' :
-        if(Meteor.user().roles.find(this.getRole) == 'quality team leader' && this.props.getTicket.ticketElement[n-1].userId == Meteor.userId()){
-          var title = "Quality Team Leader"; 
-          return(
-            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
-              <h5> {title} </h5>
-              <span className="uploadreportTitle">Upload Updated Report : </span>
-              <div className="col-lg-7 col-lg-offset-1 col-md-10 col-md-offset-1 col-xm-12 col-xs-12">
-                <div className="col-lg-6 col-md-12 col-sm-12 col-xs-12 hideProgressBar" id="uploadReportShowprogress">
-                    {this.getUploadReportPercentage()}
-                </div>
-                <div className="col-lg-9 col-lg-offset-1">
-                    <input type="file" ref="uploadReportFile" id="uploadReport" name="uploadReport" className="col-lg-7 reporttitle noLRPad" onChange={this.handleReportUpload.bind(this)} multiple/>
-                </div>
-                <div className="col-lg-7">
-                    <button type="button" className="fesubmitbtn col-lg-5 col-lg-offset-2" data-roleStatus="ReportReGenerated" data-msg="Regenerated The Report" onClick={this.reportReSubmit.bind(this)}>Submit</button>
-                </div>
-              </div>
-            </div>        
-          )
-        }
-        break;
-      case 'ReportReGenerated' :
-        if(Meteor.user().roles.find(this.getRole) == 'quality team leader' && this.props.getTicket.ticketElement[n-1].userId == Meteor.userId()){
-          var title = "Quality Team Leader"; 
-          return(
-            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
-              <h5> {title} </h5>
-              <div className="col-lg-7 col-lg-offset-1 col-md-10 col-md-offset-1 col-xm-12 col-xs-12">
-                <div className="col-lg-7">
-                    <button type="button" className="fesubmitbtn col-lg-5 col-lg-offset-2" data-roleStatus="TicketClosed" data-msg="Closed the Ticket" onClick={this.approveButton.bind(this)}>Close Ticket</button>
-                </div>
-              </div>
-            </div>        
-          )
-        }
-        break;
-      case 'ReviewFail' :
-        if(Meteor.user().roles.find(this.getRole) == 'quality team member' && this.props.getTicket.ticketElement[n-1].allocatedToUserid == Meteor.userId()){
-          var title = "Qulity Team Member"; 
-          return(
-            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
-              <h5> {title} </h5>
+  //           </div>
+  //         )
+  //       }
+  //       break;
+  //     case 'ReviewPass' :
+  //       if(Meteor.user().roles.find(this.getRole) == 'quality team leader' && this.props.getTicket.ticketElement[n-1].userId == Meteor.userId()){
+  //         var title = "Quality Team Leader"; 
+  //         return(
+  //           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
+  //             <h5> {title} </h5>
+  //             <span className="uploadreportTitle">Review Remark: </span>
+  //             <div className="col-lg-7 col-lg-offset-1 col-md-10 col-md-offset-1 col-xm-12 col-xs-12">
+  //               <div className="col-lg-9 col-lg-offset-1">
+  //               <textarea rows="3" cols="160" className="col-lg-8 col-lg-offset-0" id="QTLReviewRemark"/>
+  //               </div>
+  //               <div className="col-lg-7">
+  //                   <button type="button" className="fesubmitbtn col-lg-5 col-lg-offset-2" data-roleStatus="QTLReviewRemark" data-msg="Quality Team Leader Review Remark Submitted" onClick={this.approveButton.bind(this)}>Submit</button>
+  //               </div>
+  //             </div>
+  //           </div>
+  //         )
+  //       }
+  //       break;
+  //     case 'QTLReviewRemark' :
+  //       if(Meteor.user().roles.find(this.getRole) == 'quality team leader' && this.props.getTicket.ticketElement[n-1].userId == Meteor.userId()){
+  //         var title = "Quality Team Leader"; 
+  //         return(
+  //           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
+  //             <h5> {title} </h5>
+  //             <span className="uploadreportTitle">Upload Updated Report : </span>
+  //             <div className="col-lg-7 col-lg-offset-1 col-md-10 col-md-offset-1 col-xm-12 col-xs-12">
+  //               <div className="col-lg-6 col-md-12 col-sm-12 col-xs-12 hideProgressBar" id="uploadReportShowprogress">
+  //                   {this.getUploadReportPercentage()}
+  //               </div>
+  //               <div className="col-lg-9 col-lg-offset-1">
+  //                   <input type="file" ref="uploadReportFile" id="uploadReport" name="uploadReport" className="col-lg-7 reporttitle noLRPad" onChange={this.handleReportUpload.bind(this)} multiple/>
+  //               </div>
+  //               <div className="col-lg-7">
+  //                   <button type="button" className="fesubmitbtn col-lg-5 col-lg-offset-2" data-roleStatus="ReportReGenerated" data-msg="Regenerated The Report" onClick={this.reportReSubmit.bind(this)}>Submit</button>
+  //               </div>
+  //             </div>
+  //           </div>        
+  //         )
+  //       }
+  //       break;
+  //     case 'ReportReGenerated' :
+  //       if(Meteor.user().roles.find(this.getRole) == 'quality team leader' && this.props.getTicket.ticketElement[n-1].userId == Meteor.userId()){
+  //         var title = "Quality Team Leader"; 
+  //         return(
+  //           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
+  //             <h5> {title} </h5>
+  //             <div className="col-lg-7 col-lg-offset-1 col-md-10 col-md-offset-1 col-xm-12 col-xs-12">
+  //               <div className="col-lg-7">
+  //                   <button type="button" className="fesubmitbtn col-lg-5 col-lg-offset-2" data-roleStatus="TicketClosed" data-msg="Closed the Ticket" onClick={this.approveButton.bind(this)}>Close Ticket</button>
+  //               </div>
+  //             </div>
+  //           </div>        
+  //         )
+  //       }
+  //       break;
+  //     case 'ReviewFail' :
+  //       if(Meteor.user().roles.find(this.getRole) == 'quality team member' && this.props.getTicket.ticketElement[n-1].allocatedToUserid == Meteor.userId()){
+  //         var title = "Qulity Team Member"; 
+  //         return(
+  //           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
+  //             <h5> {title} </h5>
              
-              <div className="col-lg-10 col-md-10 col-md-offset-0 col-xm-12 col-xs-12">
-                <h6>Submitted Report</h6>
-                <div className="col-lg-5 col-md-5 col-sm-12 col-xs-12">
-                  <div className="docdownload col-lg-3 col-lg-offset-1" title="Download Report">
-                      <a href={this.props.getTicket.reportSubmited.documents} download>
-                        <i className="fa fa-file-text-o" aria-hidden="true"></i>
-                      </a>
-                  </div>
-                  <lable className=" col-lg-9 col-md-9 col-sm-12 col-xs-12 downloadLable">Download Report</lable>
-                </div>
-                <span>Is the Report appropriate ? </span>
-                <div className="col-lg-6 col-lg-offset-0 col-md-6 col-md-offset-0 col-sm-10 col-sm-offset-1 col-xs-12">
-                  <button className="btn btn-danger col-lg-3 col-md-3 col-sm-4 col-xs-5 approvebtn" id="QTMReRejectTicket" data-roleStatus="QAFail" data-msg="Rejected Verification Report For Quality Issue" onClick={this.showRejectBoxState.bind(this)} >
-                    Reject
-                  </button>
-                  <button className="btn btn-success col-lg-3 col-md-3 col-sm-4 col-xs-5 approvebtn" data-roleStatus="QAPass" data-msg="Re-Approved Verification Report" onClick={this.approveButton.bind(this)} >
-                        Approve </button>
-                </div>
-                {this.state.showRejectBox === 'Y' ? this.getRejectBox() : '' }
-              </div>
-            </div>
-          )
-        }else if(Meteor.user().roles.find(this.getRole) == 'team member' && this.props.getTicket.ticketElement[n-1].allocatedToUserid == Meteor.userId()){
+  //             <div className="col-lg-10 col-md-10 col-md-offset-0 col-xm-12 col-xs-12">
+  //               <h6>Submitted Report</h6>
+  //               <div className="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+  //                 <div className="docdownload col-lg-3 col-lg-offset-1" title="Download Report">
+  //                     <a href={this.props.getTicket.reportSubmited.documents} download>
+  //                       <i className="fa fa-file-text-o" aria-hidden="true"></i>
+  //                     </a>
+  //                 </div>
+  //                 <lable className=" col-lg-9 col-md-9 col-sm-12 col-xs-12 downloadLable">Download Report</lable>
+  //               </div>
+  //               <span>Is the Report appropriate ? </span>
+  //               <div className="col-lg-6 col-lg-offset-0 col-md-6 col-md-offset-0 col-sm-10 col-sm-offset-1 col-xs-12">
+  //                 <button className="btn btn-danger col-lg-3 col-md-3 col-sm-4 col-xs-5 approvebtn" id="QTMReRejectTicket" data-roleStatus="QAFail" data-msg="Rejected Verification Report For Quality Issue" onClick={this.showRejectBoxState.bind(this)} >
+  //                   Reject
+  //                 </button>
+  //                 <button className="btn btn-success col-lg-3 col-md-3 col-sm-4 col-xs-5 approvebtn" data-roleStatus="QAPass" data-msg="Re-Approved Verification Report" onClick={this.approveButton.bind(this)} >
+  //                       Approve </button>
+  //               </div>
+  //               {this.state.showRejectBox === 'Y' ? this.getRejectBox() : '' }
+  //             </div>
+  //           </div>
+  //         )
+  //       }else if(Meteor.user().roles.find(this.getRole) == 'team member' && this.props.getTicket.ticketElement[n-1].allocatedToUserid == Meteor.userId()){
 
-        }
-        break;
-    }
-  }
+  //       }
+  //       break;
+  //   }
+  // }
   render(){
       if(!this.props.loading){
         
@@ -1076,16 +1076,16 @@ class OrderDetails extends TrackerReact(Component){
                              <ServiceInformation ticketId={this.props.params.id}/>
                            </div>
                           </div>
-                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                          {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <VerifyDetailsDocument ticketId={this.props.params.id}/>
-                          </div>
-                            <VerifiedDocuments ticketId={this.props.params.id}/>
+                          </div> */}
+                            {/* <VerifiedDocuments ticketId={this.props.params.id}/> */}
                           <div id="SubmittedDocuments" >
-                            {this.props.getTicket.submitedDoc ?
+                            {/* {this.props.getTicket.submitedDoc ?
                               <SubmittedDocuments submittedDocuments={this.props.getTicket.submitedDoc} ticketId={this.props.params.id} />
                               :
                               ""
-                            }
+                            } */}
                           </div>
 
                           <div id="displayReporta">
@@ -1175,12 +1175,12 @@ class OrderDetails extends TrackerReact(Component){
                           </div>
                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outerShadow">
-                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 activityDetails">                           
+                                {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 activityDetails">                           
                                     <h3> Activity Log</h3>
-                                </div>
-                                {this.actionBlock()}
+                                </div> */}
+                                {/* {this.actionBlock()} */}
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
-                                  {this.props.getTicket.ticketElement.slice(0).reverse().map((element,i)=>{
+                                  {/* {this.props.getTicket.ticketElement.slice(0).reverse().map((element,i)=>{
                                      return (
                                       <div key={i} className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
                                         <h5> {element.role} </h5>
@@ -1208,7 +1208,7 @@ class OrderDetails extends TrackerReact(Component){
                                       </div>
                                       )
                                     })
-                                  }
+                                  } */}
                                 </div>
                               </div>
                             </div>
@@ -1237,8 +1237,10 @@ export default UserDetailsContainer = withTracker(props => {
   var handleReport    = Meteor.subscribe("allTicketReport");
   const postHandle2  = Meteor.subscribe('checklistFieldExpert');
   var orderId = props.params.id;
+  console.log('orderId: ', orderId);
   var loading = !handleSinTick.ready() && !handleUseFunc.ready() && !handleUserProfile.ready() && !handleReport.ready() && !postHandle2.ready();
   var getTicket = Order.findOne({"_id":orderId}) ;
+  console.log('getTicket: ', getTicket);
   if(getTicket){
     var user = Meteor.users.findOne({"_id": getTicket.userId}) || {};
     if(user){
