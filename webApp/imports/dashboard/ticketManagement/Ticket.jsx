@@ -161,14 +161,15 @@ class Ticket extends TrackerReact(Component){
             // for(var k=0;k<relatedField.length;k++){
             //     strngVal = strngVal + relatedField[k].dbField + ", ";
             // }
-
-            // if(checkLists.length > 0 ){
+            console.log("this.props.getTicket.submitedDoc.checkLists");
+            console.log(this.props.getTicket.submitedDoc.checkLists);
+            // if(this.props.getTicket.submitedDoc.checkLists.length > 0 ){
             //   var obj = {
             //     titleVal : data[i].task,
-            //     textVal : relatedField,
+            //     textVal :  this.props.getTicket.submitedDoc.checkLists.textVal,
             //     // textVal : [],
-            //     correctVal : false,
-            //     remarkVal : "",
+            //     correctVal : this.props.getTicket.submitedDoc.checkLists.correctVal,
+            //     remarkVal : this.props.getTicket.submitedDoc.checkLists.remarkVal,
             //   }
 
             // }else{
@@ -467,7 +468,7 @@ class Ticket extends TrackerReact(Component){
                     })
                   }
                 </select>
-                <div className="col-lg-3 col-md-3 col-sm-6 col-xs-6 fesubmitouter noLRPad">
+                <div className="col-lg-3 col-md-3 col-sm-6 col-xs-6 fesubmitouter fesubmitouter1 noLRPad">
                   <button type="submit" value="Submit" className="col-lg-11 fesubmitbtn noLRPad" data-role="Team Leader" data-roleStatus="Assign" data-msg="Assigned Ticket To Team Member" onClick={this.approveButton.bind(this)} >Submit</button>                                      
                 </div>
               </div>
@@ -706,8 +707,8 @@ class Ticket extends TrackerReact(Component){
                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <textarea rows="3" className="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="TMReviewRemark"/>
                 </div>
-                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outerButton">
-                    <button type="button" className="fesubmitbtn col-lg-3 col-lg-offset-9 col-md-3 col-md-offset-9  " data-roleStatus="TMReviewRemark" data-msg="Team Member Review Remark Submitted" onClick={this.approveButton.bind(this)}>Submit</button>
+                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outerButton acceptrejectwrap">
+                    <button type="button" className="fesubmitbtn col-lg-3 col-lg-offset-5 col-md-3 col-md-offset-9  " data-roleStatus="TMReviewRemark" data-msg="Team Member Review Remark Submitted" onClick={this.approveButton.bind(this)}>Submit</button>
                 </div>
               </div>
             </div>

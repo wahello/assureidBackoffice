@@ -91,6 +91,7 @@ import DispatchTeamSidebar from '/imports/dashboard/components/DispatchTeamSideb
 import AllOrders from '/imports/dashboard/dispatchteamDashboardComponent/AllOrders.jsx';
 import OrderDetails from '/imports/dashboard/dispatchteamDashboardComponent/OrderDetails.jsx';
 // import ReportGeneration from '/imports/dashboard/ReportGeneration.jsx';
+// import ReportGeneration from '/imports/dashboard/ReportGeneration.jsx';
 const unauthenticatedPages = ['/', '/signup', '/forgotpassword', '/signup', '/resetpassword/:token','/login'];
 const authenticatedPages = ['/admin/dashboard','/admin/managebasicpage','/admin/manageportfolio','/admin/manageaboutuspage','/admin/manageblockspage','/admin/managecareerpage','/admin/manageeventpage','/admin/managefaq','/admin/managejobpage','/admin/managecontact','/admin/managephotogallery','/admin/managevideolibrary','admin/manageproduct','/admin/manageservice','/admin/manageblogpage', 'admin/company-info', '/dashboard','/admin/UMRolesList','/admin/createUser','/admin/addPackages','/admin/addVerification','/admin/NewsFeed','/admin/UMListOfUsers','/admin/ListOfNewsFeed','/backoffice/dashboard','/admin/reports','/admin/ticketdistribution'];
 
@@ -287,7 +288,6 @@ export const routes = (
       <Route path="/admin/orderdetails/:id" component={OrderDetails}/>
      
     </Route>
-    
 
     {/* <Route path="/" component={CMainLayout} /> */}
     <Route path="/" component={LogIn} />

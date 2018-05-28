@@ -101,16 +101,9 @@ class VerificationDataSubmit extends TrackerReact(Component){
         const name   = target.name;
         var index = $(event.currentTarget).attr('data-index');
 
-        // 
-        // 
-
-        // 
+       
         this.state.textLists[index].value = event.target.value;
-        // 
 
-        // 
-
-        this.state.textLists[index].value = event.target.value;
         this.setState({
          [name]: event.target.value,
         });
@@ -146,7 +139,8 @@ class VerificationDataSubmit extends TrackerReact(Component){
                     if (file) {        
                       addImgsToS3Function(file,self);      
                     }  
-                 } else {
+                 } 
+                 else {
                   swal({   
                      position: 'top-right',    
                      type: 'error',   
@@ -350,7 +344,7 @@ class VerificationDataSubmit extends TrackerReact(Component){
             remark     : remark,
             
         }
-        if(documents.status != "Select" && documents.images.length >0){
+        if(documents.status != "Select"){
             if (this.props.tickets) {
                 if (this.props.tickets.ticketElement) {
                     if (this.props.tickets.ticketElement.length > 0) {
@@ -594,9 +588,7 @@ class VerificationDataSubmit extends TrackerReact(Component){
 
     render(){
         var chekFieldList  = this.state.chekFieldList.length>0 ? this.state.chekFieldList :  this.props.chekFieldList;
-        console.log('chekFieldList ',chekFieldList);
-        console.log('state chekFieldList ',this.state.chekFieldList);
-        console.log('props chekFieldList ',this.props.chekFieldList);
+        
         return(
             <div>
                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 choosefilebox">
@@ -630,7 +622,7 @@ class VerificationDataSubmit extends TrackerReact(Component){
                                     {chekFieldList ?
                                         chekFieldList.map((checkObjsDefault,index)=>{
                                         return(
-                                            <div className="col-lg-12 col-md-12 col-sm-6 col-xs-6" key={index}>  
+                                            <div className="col-lg-12 col-md-12 col-sm-6 col-xs-6 innerChecklisttoteamM" key={index}>  
                                                 <div className="col-lg-4 col-md-6 col-sm-6 col-xs-6 noLRPad">
                                                     <label className = "col-lg-12" name ="checkObjs">{checkObjsDefault.titleVal}</label>
                                                     <div className="col-lg-8 col-lg-offset-0">
@@ -646,12 +638,12 @@ class VerificationDataSubmit extends TrackerReact(Component){
                                                         }
                                                     </div>
                                                 </div>
-                                                <div className="col-lg-3 col-md-3 col-sm-6 col-xs-6 noLRPad">
+                                                <div className="col-lg-4 col-md-4 col-sm-6 col-xs-6 noLRPad correctBtn">
                                                     <button type="button" className= {checkObjsDefault.correctVal =="Correct" ? "btn btn-info noDataButton active":"btn noDataButton Correctborder"}  data-indexVal={index} data-value= "Correct" onClick={this.yesReason.bind(this)}>Correct</button>
                                                     <button type="button" className= {checkObjsDefault.correctVal == "Correct" ? "btn btn-info noDataButton": "btn btn-info noDataButton active"} data-indexVal={index} data-value = "Incorrect" onClick={this.noReason.bind(this)}>Incorrect</button>
                                                 </div>
                                                 <div className="col-lg-4 col-md-6 col-sm-6 col-xs-6">
-                                                    <span className="col-lg-12">Remark &nbsp;</span>
+                                                    <span className="col-lg-12 noLRPad">Remark &nbsp;</span>
                                                     <textarea rows="3" cols="60" className="col-lg-12"  data-indexVal={index} onChange={this.getRemark.bind(this)}/>
                                                 </div>	
                                              </div>
@@ -706,7 +698,9 @@ class VerificationDataSubmit extends TrackerReact(Component){
                             {/* Images upload and Display */}
                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 wholeborder ">
                                 <div className="imgtitile col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad Selectimg"> Select images:<span className="starcolor1">*</span>&nbsp;</div>
+                                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad Selectimg"> Select images:
+                                    {/* <span className="starcolor1">*</span>&nbsp; */}
+                                    </div>
                                     <input type="file" ref="ticketImageFile" id="s3file" name="ticketImageFile"  onChange={this.handleUpload.bind(this)} className="col-lg-12 noLRPad" multiple/>
                                 </div>
                                 <label>(You can choose maximum 5 images)</label>
@@ -918,7 +912,10 @@ class VerificationDataSubmit extends TrackerReact(Component){
 VerificationDataSubmitContainer = withTracker(props => { 
     const ticketId     = props.ticketId;
     var chekFieldList  = props.chekFieldList;
-    console.log('vds chekFieldList: ', chekFieldList);
+    console.log('chekFieldList: ', chekFieldList);
+
+    
+    
     
     const postHandle   = Meteor.subscribe('allTicketImages');
     const postHandle1  = Meteor.subscribe('allTicketVideo');

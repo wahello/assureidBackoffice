@@ -36,7 +36,7 @@ class ApprovedTickets extends TrackerReact(Component){
                           <div className="reports-table-main">
                               <table id="subscriber-list-outerTable" className="newOrderwrap subscriber-list-outerTable table table-bordered table-hover table-striped table-striped table-responsive table-condensed table-bordered">
                                 <thead className="table-head umtblhdr">
-                                  <tr className="hrTableHeader info UML-TableTr">
+                                  <tr className="hrTableHeader  UML-TableTr">
                                     <th className=""> Ticket No.</th>
                                     <th className=""> Service Name </th>
                                     <th className=""> Receive Date </th>

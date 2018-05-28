@@ -34,11 +34,11 @@
   border: 1px solid #999;
 }
 .selfallocatedwrap{
-	text-align: center;
+  text-align: center;
   margin-bottom: 5%;
 }
 .fesubmitbtn{
-  padding: 3%;
+  padding: 1%;
 }
 .downloadLable{
     font-size: 14px;
@@ -49,8 +49,12 @@
 .acceptrejectwrap{
 	margin-top:2%;
 }
-.fesubmitbtn {
+/* .fesubmitbtn {
 	padding: 4%;
+} */
+
+.fesubmitouter1{
+	margin-top:0%!important;
 }
 .selfsubmit{
 	padding: 1%;
@@ -235,3 +239,10 @@
     border-color: #00b8ff;
     outline: none;
 } */
+
+.innerChecklisttoteamM{
+	margin-bottom: 4%;
+}
+.correctBtn{
+	margin-top:3%;
+}

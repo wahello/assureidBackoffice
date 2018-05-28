@@ -123,19 +123,19 @@ export default class SubmittedDocuments extends TrackerReact(Component){
 														{
 															submittedChecklist.textVal.map((submittedCheckDbFields,index)=>{
 																return(
-																		<span key={index}>{submittedCheckDbFields.dbField},&nbsp;</span>
+																		<span key={index}>{submittedCheckDbFields.value},&nbsp;</span>
 																);
 															})
 														}
 													</div>
 												</div>
 												<div className="col-lg-3 col-md-3 col-sm-6 col-xs-6 noLRPad">
-													<label>Information Status :{submittedChecklist.correctVal}</label>
+													<label>Information Status :&nbsp;{submittedChecklist.correctVal}</label>
 													{/* <button type="button" className= {submittedChecklist.correctVal == "Correct" ? "btn btn-info noDataButton bgSelect": "btn btn-info noDataButton bgNotSelect"}>Correct</button>
 													<button type="button" className= "btn btn-info noDataButton" onClick={this.noReason.bind(this)}>Incorrect</button> */}
 												</div>
 												<div className="col-lg-5 col-md-5 col-sm-6 col-xs-6">
-													<span>Remark &nbsp;:</span><span>{submittedChecklist.remarkVal}</span>
+													<span>Remark &nbsp;:</span><span>&nbsp;{submittedChecklist.remarkVal}</span>
 													{/* <textarea rows="3" cols="60" className="col-lg-8 col-lg-offset-0" id=""/> */}
 												</div>												
                     </div>
@@ -217,10 +217,10 @@ export default class SubmittedDocuments extends TrackerReact(Component){
 						<div className="col-lg-3 noLRPad Selectimg"><span className="checkBoxtitle"><strong>Status &nbsp;</strong></span><span className="pull-right"><strong>:</strong></span></div> 
 						<div className="col-lg-9 selectedValue">{this.props.submittedDocuments.documents.status}</div>
 					</div>
-					<div className="imgtitile col-lg-12 ">
+					{/* <div className="imgtitile col-lg-12 ">
 						<div className="col-lg-3 noLRPad Selectimg"><span className="checkBoxtitle"><strong>Sub-status &nbsp;</strong></span><span className="pull-right"><strong>:</strong></span></div> 
 						<div className="col-lg-9 selectedValue">{this.props.submittedDocuments.documents.subStatus}</div>
-					</div>
+					</div> */}
 		      <div className="imgtitile col-lg-12">
 	            <div className="col-lg-3 noLRPad Selectimg"><span className="checkBoxtitle"><strong>Remark &nbsp;</strong></span><span className="pull-right"><strong>:</strong></span></div> 
               <div className="col-lg-9 selectedValue">{this.props.submittedDocuments.documents.remark}</div>
