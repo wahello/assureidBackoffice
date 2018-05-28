@@ -12,7 +12,7 @@ import { Link } from 'react-router';
 import { TicketMaster } from '../../website/ServiceProcess/api/TicketMaster.js'; 
 
 class VerifyDetailsDocument extends TrackerReact(Component){
-	constructor(props){
+    constructor(props){
     super(props);
     this.state = {
       "subscription" : {
@@ -175,18 +175,12 @@ class VerifyDetailsDocument extends TrackerReact(Component){
                         <h4>Oops Something Went Wrong</h4>
                     </div>
                 );
-
-                
-
-                
-                
-            
         }
     
    }else{
     return(
        <span>Loading</span>
-      );
+      ); 
    }
    
   }

@@ -152,7 +152,7 @@ class Ticket extends TrackerReact(Component){
     $('#AddImagesVideo').css({"display" : "block"});
     $(event.currentTarget).css({"display" : "none"});
     var data = this.props.checkObjs;
-   console.log('this.props.checkObjs',this.props.checkObjs);
+   
     if(data){
         var dataArr = [];
         for(var i=0; i<data.length;i++){
@@ -191,7 +191,6 @@ class Ticket extends TrackerReact(Component){
             verifiedInfo: dataArr,
             
         })
-        console.log('this.state.verifiedInfo',this.state.verifiedInfo);
     }
   }
   handleReportUpload(event){
@@ -311,22 +310,6 @@ class Ticket extends TrackerReact(Component){
       "allocatedToUserName" : '',
       "createdAt"           : new Date()
     }
-    if(!this.props.loading){
-      var reportLinkDetails = TempTicketReport.findOne({},{sort:{'createdAt':-1}}); 
-      if(reportLinkDetails!=undefined && reportLinkDetails!={}){
-        insertData.reportSubmited = reportLinkDetails.ReportLink;
-        insertData.fileExtension  = reportLinkDetails.fileExtension;
-      }else{
-        exeQuery = 0;
-        swal({
-          position: 'top-right',
-          type: 'error',
-          title: 'Please Select Report File To Upload',
-          showConfirmButton: false,
-          timer: 1500
-        });
-      }
-    }
     if(exeQuery == 1){
       Meteor.call('genericUpdateTicketMasterElement',this.props.ticketId,insertData,(error,result)=>{
         if(result == 1){
@@ -396,23 +379,7 @@ class Ticket extends TrackerReact(Component){
         insertData.allocatedToUserName = '';
         break;
       case 'QTMReviewRemark' :
-        if(!this.props.loading){
-            var reportLinkDetails = TempTicketReport.findOne({},{sort:{'createdAt':-1}}); 
-            if(reportLinkDetails!=undefined){
-              insertData.reportSubmited = reportLinkDetails.ReportLink;
-              insertData.fileExtension  = reportLinkDetails.fileExtension;
-            }else{
-              exeQuery = 0;
-              swal({
-                position: 'top-right',
-                type: 'error',
-                title: 'Please Select Report File To Upload',
-                showConfirmButton: false,
-                timer: 1500
-              });
-
-            }
-        }
+      case 'QTLReviewRemark' :
         insertData.allocatedToUserid   = '';
         insertData.allocatedToUserName = '';
         break;
@@ -441,6 +408,9 @@ class Ticket extends TrackerReact(Component){
         insertData.allocatedToUserid   = '';
         insertData.allocatedToUserName = '';
         break;
+      case 'ReportReGenerated' :
+        insertData.allocatedToUserid   = '';
+        insertData.allocatedToUserName = '';
       default :
         insertData.allocatedToUserid   = '';
         insertData.allocatedToUserName = '';
@@ -731,13 +701,13 @@ class Ticket extends TrackerReact(Component){
           return(
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
               <h5> {title} </h5>
-              <span className="uploadreportTitle">Review Remark: </span>
-              <div className="col-lg-7 col-lg-offset-1 col-md-10 col-md-offset-1 col-xm-12 col-xs-12">
-                <div className="col-lg-9 col-lg-offset-1">
-                <textarea rows="3" cols="160" className="col-lg-8 col-lg-offset-0" id="TMReviewRemark"/>
+              <span className="uploadreportTitle col-lg-2 col-md-2 col-sm-12 col-xs-12">Review Remark: </span>
+              <div className="col-lg-10 col-md-10 col-xs-12 col-sm-12">
+                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <textarea rows="3" className="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="TMReviewRemark"/>
                 </div>
-                <div className="col-lg-7">
-                    <button type="button" className="fesubmitbtn col-lg-5 col-lg-offset-2" data-roleStatus="TMReviewRemark" data-msg="Team Member Review Remark Submitted" onClick={this.approveButton.bind(this)}>Submit</button>
+                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outerButton">
+                    <button type="button" className="fesubmitbtn col-lg-3 col-lg-offset-9 col-md-3 col-md-offset-9  " data-roleStatus="TMReviewRemark" data-msg="Team Member Review Remark Submitted" onClick={this.approveButton.bind(this)}>Submit</button>
                 </div>
               </div>
             </div>
@@ -750,7 +720,7 @@ class Ticket extends TrackerReact(Component){
           return(
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
               <h5> {title} </h5>
-              <span>Is the Information submitted appropriate ?</span>
+              <span className="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">Is the Information submitted appropriate ?</span>
               <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1 col-xs-12 acceptrejectwrap">
                 <button className="btn btn-danger approvebtn col-lg-3 col-md-3 col-sm-4 col-xs-5" id="QTMRejectTicket" data-roleStatus="QAFail" data-msg="Rejected Ticket and returned back to " onClick={this.showRejectBoxState.bind(this)}>
                   Reject
@@ -769,13 +739,13 @@ class Ticket extends TrackerReact(Component){
           return(
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
               <h5> {title} </h5>
-              <span className="uploadreportTitle">Review Remark: </span>
-              <div className="col-lg-7 col-lg-offset-1 col-md-10 col-md-offset-1 col-xm-12 col-xs-12">
-                <div className="col-lg-9 col-lg-offset-1">
-                <textarea rows="3" cols="160" className="col-lg-8 col-lg-offset-0" id="QTMReviewRemark"/>
+              <span className="uploadreportTitle col-lg-2 col-md-2 col-sm-2 col-xs-2">Review Remark: </span>
+              <div className="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <textarea rows="3" className="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="QTMReviewRemark"/>
                 </div>
-                <div className="col-lg-7">
-                    <button type="button" className="fesubmitbtn col-lg-5 col-lg-offset-2" data-roleStatus="QTMReviewRemark" data-msg="Quality Team Member Review Remark Submitted" onClick={this.approveButton.bind(this)}>Submit</button>
+                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outerButton">
+                    <button type="button" className="fesubmitbtn col-lg-3 col-lg-offset-9 col-md-3 col-md-offset-9" data-roleStatus="QTMReviewRemark" data-msg="Quality Team Member Review Remark Submitted" onClick={this.approveButton.bind(this)}>Submit</button>
                 </div>
               </div>
             </div>
@@ -788,16 +758,9 @@ class Ticket extends TrackerReact(Component){
           return(
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
               <h5> {title} </h5>
-              <span className="uploadreportTitle">Upload Report : </span>
               <div className="col-lg-7 col-lg-offset-1 col-md-10 col-md-offset-1 col-xm-12 col-xs-12">
-                <div className="col-lg-6 col-md-12 col-sm-12 col-xs-12 hideProgressBar" id="uploadReportShowprogress">
-                    {this.getUploadReportPercentage()}
-                </div>
-                <div className="col-lg-9 col-lg-offset-1">
-                    <input type="file" ref="uploadReportFile" id="uploadReport" name="uploadReport" className="col-lg-7 reporttitle noLRPad" onChange={this.handleReportUpload.bind(this)} multiple/>
-                </div>
                 <div className="col-lg-7">
-                    <button type="button" className="fesubmitbtn col-lg-5 col-lg-offset-2" data-roleStatus="ReportSubmitted" data-msg="Generated The Ticket" onClick={this.approveButton.bind(this)}>Submit</button>
+                    <button type="button" className="fesubmitbtn col-lg-6 col-lg-offset-2" data-roleStatus="ReportGenerated" data-msg="Generated The Ticket" onClick={this.approveButton.bind(this)}>Generate Report</button>
                 </div>
               </div>
             </div>       
@@ -885,13 +848,13 @@ class Ticket extends TrackerReact(Component){
           return(
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
               <h5> {title} </h5>
-              <span className="uploadreportTitle">Review Remark: </span>
-              <div className="col-lg-7 col-lg-offset-1 col-md-10 col-md-offset-1 col-xm-12 col-xs-12">
-                <div className="col-lg-9 col-lg-offset-1">
-                <textarea rows="3" cols="160" className="col-lg-8 col-lg-offset-0" id="QTLReviewRemark"/>
+              <span className="uploadreportTitle col-lg-2 col-md-2 col-sm-2 col-xs-2">Review Remark: </span>
+              <div className="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <textarea rows="3"  className="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="QTLReviewRemark"/>
                 </div>
-                <div className="col-lg-7">
-                    <button type="button" className="fesubmitbtn col-lg-5 col-lg-offset-2" data-roleStatus="QTLReviewRemark" data-msg="Quality Team Leader Review Remark Submitted" onClick={this.approveButton.bind(this)}>Submit</button>
+                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outerButton">
+                    <button type="button" className="fesubmitbtn col-lg-3 col-lg-offset-9 col-md-3 col-md-offset-9" data-roleStatus="QTLReviewRemark" data-msg="Quality Team Leader Review Remark Submitted" onClick={this.approveButton.bind(this)}>Submit</button>
                 </div>
               </div>
             </div>
@@ -906,14 +869,9 @@ class Ticket extends TrackerReact(Component){
               <h5> {title} </h5>
               <span className="uploadreportTitle">Upload Updated Report : </span>
               <div className="col-lg-7 col-lg-offset-1 col-md-10 col-md-offset-1 col-xm-12 col-xs-12">
-                <div className="col-lg-6 col-md-12 col-sm-12 col-xs-12 hideProgressBar" id="uploadReportShowprogress">
-                    {this.getUploadReportPercentage()}
-                </div>
-                <div className="col-lg-9 col-lg-offset-1">
-                    <input type="file" ref="uploadReportFile" id="uploadReport" name="uploadReport" className="col-lg-7 reporttitle noLRPad" onChange={this.handleReportUpload.bind(this)} multiple/>
-                </div>
+                
                 <div className="col-lg-7">
-                    <button type="button" className="fesubmitbtn col-lg-5 col-lg-offset-2" data-roleStatus="ReportReGenerated" data-msg="Regenerated The Report" onClick={this.reportReSubmit.bind(this)}>Submit</button>
+                    <button type="button" className="fesubmitbtn col-lg-6 col-lg-offset-2" data-roleStatus="ReportReGenerated" data-msg="Regenerated The Report" onClick={this.approveButton.bind(this)}>Re-generate Report</button>
                 </div>
               </div>
             </div>        
@@ -928,7 +886,7 @@ class Ticket extends TrackerReact(Component){
               <h5> {title} </h5>
               <div className="col-lg-7 col-lg-offset-1 col-md-10 col-md-offset-1 col-xm-12 col-xs-12">
                 <div className="col-lg-7">
-                    <button type="button" className="fesubmitbtn col-lg-5 col-lg-offset-2" data-roleStatus="TicketClosed" data-msg="Closed the Ticket" onClick={this.approveButton.bind(this)}>Close Ticket</button>
+                    <button type="button" className="btn btn-success approvebtn col-lg-5 col-lg-offset-2" data-roleStatus="TicketClosed" data-msg="Closed the Ticket" onClick={this.approveButton.bind(this)}>Close Ticket</button>
                 </div>
               </div>
             </div>        
@@ -1089,7 +1047,7 @@ class Ticket extends TrackerReact(Component){
                           </div>
 
                           <div id="displayReporta">
-                            {this.props.getTicket.reportSubmited && this.props.getTicket.reportSubmited.documents?
+                            {this.props.getTicket.reportGenerated?
                               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outeReportBlock">
                                   <h6 className="dataDetails col-lg-1 col-md-1 col-sm-1 col-xs-1">Report:</h6> 
@@ -1100,16 +1058,10 @@ class Ticket extends TrackerReact(Component){
                                       ""
                                   }
                                     <div className="docdownload col-lg-1 col-lg-offset-1" title="Download Report">
-                                        <a href={this.props.getTicket.reportSubmited.documents} download>
+                                        <a href={this.props.getTicket.reportGenerated.url}>
                                           {
-                                            this.props.getTicket.reportSubmited.fileExtension ?
-                                            this.props.getTicket.reportSubmited.fileExtension == "pdf" || this.props.getTicket.reportSubmited.fileExtension == "ods" ?
-                                               <i className="fa fa-file-text-o" aria-hidden="true"></i>
-                                            :
-                                            this.props.getTicket.reportSubmited.fileExtension == "jpg" || this.props.getTicket.reportSubmited.fileExtension == "jpeg" || this.props.getTicket.reportSubmited.fileExtension == "png" || this.props.getTicket.reportSubmited.fileExtension == "gif" ?
-                                            <i className="fa fa-file-image-o" aria-hidden="true"></i>
-                                            :
-                                            ""
+                                            this.props.getTicket.reportGenerated ?
+                                              <i className="fa fa-file-text-o" aria-hidden="true"></i>
                                             :
                                             null
                                           }
@@ -1122,21 +1074,15 @@ class Ticket extends TrackerReact(Component){
                               null
                             }
                             {
-                              this.props.showHideBtn && this.props.getTicket.reportSubmited ?
+                              this.props.showHideBtn && this.props.getTicket.reportGenerated ?
                               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                   <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outeReportBlock">
                                     <h6 className="dataDetails col-lg-1 col-md-1 col-sm-1 col-xs-1">Report:</h6> 
                                         <div  id="showReport" className="col-lg-12 col-md-12 col-sm-12 col-xs-12 fesubmitbtn tickStatWrapper">
-                                        <span className="uploadreportTitle">Upload Report : </span>
+                                        <span className="uploadreportTitle">Re-generate Report </span>
                                           <div className="col-lg-7 col-lg-offset-1 col-md-10 col-md-offset-1 col-xm-12 col-xs-12">
-                                            <div className="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-                                                {this.getUploadReportPercentage()}
-                                            </div>
-                                            <div className="col-lg-9 col-lg-offset-1">
-                                                <input type="file" ref="uploadReportFile" id="uploadReport" name="uploadReport" className="col-lg-7 reporttitle noLRPad" onChange={this.handleReportUpload.bind(this)} multiple/>
-                                            </div>
                                             <div className="col-lg-7">
-                                                <button type="button" className="fesubmitbtn col-lg-5 col-lg-offset-2" data-roleStatus="ReportReSubmitted" data-msg="Submitted Verification Information" onClick={this.reportReSubmit.bind(this)}>Submit</button>
+                                                <button type="button" className="fesubmitbtn col-lg-6 col-lg-offset-2" data-roleStatus="ReportReGenerated" data-msg="Report Re-generate" onClick={this.reportReSubmit.bind(this)}>Re-generate Report</button>
                                             </div>
                                           </div>
                                         </div>
@@ -1153,14 +1099,14 @@ class Ticket extends TrackerReact(Component){
                                   <h6 className="dataDetails col-lg-2 col-md-2 col-sm-1 col-xs-1">Review Remark:</h6> 
                                     {this.props.getTicket.reviewRemark.map((review,i)=>{
                                       return(
-                                        <div key={i} className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
-                                          <h5> {review.role} </h5>
+                                        <div key={i} className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapperForReview">
+                                          <h5><b> {review.role} </b> </h5>
 
-                                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outerReviewsBlock">
                                             <b>Name   : </b>{review.userName}
                                           </div>
-                                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                            <i className="fa fa-edit tempImageDelete col-lg-4 pull-right" title="Edit Review" id={this.props.params.id} onClick={this.deleteReport.bind(this)}></i><br/>
+                                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outerReviewsBlock">
+                                           {/*<i className="fa fa-edit tempImageDelete col-lg-4 pull-right" title="Edit Review" id={this.props.params.id} onClick={this.deleteReport.bind(this)}></i><br/>*/}
                                             <b>Review Remark : </b>{review.remark}
                                           </div>
                                         </div>
@@ -1189,7 +1135,7 @@ class Ticket extends TrackerReact(Component){
                                         
                                           {
                                             element.remark ?
-                                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
+                                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad outerReviewsBlock">
                                                 <span>Remark &nbsp;:</span><span>{element.remark}</span>
                                               </div>
                                             :
@@ -1197,8 +1143,8 @@ class Ticket extends TrackerReact(Component){
                                           }
                                           {
                                             element.reviewRemark ?
-                                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
-                                                <span>Review Remark &nbsp;:</span><span>{element.reviewRemark}</span>
+                                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad outerReviewsBlock">
+                                                <span><b>Review Remark</b> &nbsp;:</span><span>&nbsp;{element.reviewRemark}</span>
                                               </div>
                                             :
                                             ""
@@ -1275,12 +1221,27 @@ export default UserDetailsContainer = withTracker(props => {
       var checkListFrom = "Skills And CertificationInformation";
       }
       var checkListObjs = ChecklistFieldExpert.find({"checkListFor" : checkListFrom}).fetch();
-      console.log('checkListObjs tickets',checkListObjs);
       var checkObjs = [];
       var textObjs = [];
       if (checkListObjs) {
           for (var i = 0; i < checkListObjs.length; i++) {
               if(checkListObjs[i].checkListFrom == 'Database'){
+                  if(checkListFrom = "Address Information"){
+                      if(verificationType == "permanentAddress"){
+                          for(j = 0 ; j < checkListObjs[i].relatedFields.length; j++){
+                              checkListObjs[i].relatedFields[j].value = getTicket.verificationData[checkListObjs[i].relatedFields[j].dbField];   
+                          }
+                      }else{
+                          for(j = 0 ; j < checkListObjs[i].relatedFields.length; j++){
+                              var tempVar = 'temp'+checkListObjs[i].relatedFields[j].dbField;
+                              checkListObjs[i].relatedFields[j].value = getTicket.verificationData[tempVar];   
+                          }
+                      }
+                  }else{
+                      for(j = 0 ; j < checkListObjs[i].relatedFields.length; j++){
+                          checkListObjs[i].relatedFields[j].value = checkListObjs[i].relatedFields[j].dbField + ':'+getTicket.verificationData[checkListObjs[i].relatedFields[j].dbField];   
+                      }
+                  }
                   checkObjs.push(checkListObjs[i]); 
               }else{
                   textObjs.push(checkListObjs[i]); 
