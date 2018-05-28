@@ -89,12 +89,12 @@ class ViewTicketFormInfo extends React.Component {
      //    }
      // }// EOF checkbox dynamic fields
 
-     if( this.props.tickets.submitedDoc.documents.textLists && this.props.tickets.submitedDoc.documents.textLists.length>0){
-        var txtListLen = this.props.tickets.submitedDoc.documents.textLists.length;
+     if( nextProps.tickets && nextProps.tickets.submitedDoc && nextProps.tickets.submitedDoc.documents && nextProps.tickets.submitedDoc.documents.textLists && nextProps.tickets.submitedDoc.documents.textLists.length>0){
+        var txtListLen = nextProps.tickets.submitedDoc.documents.textLists.length;
         // console.log('txtListLen: ',txtListLen);
         for(var txtCount = 0 ; txtCount < txtListLen ; txtCount++){
         this.setState({
-                        [txtCount+'-txt']  : this.props.tickets.submitedDoc.documents.textLists[txtCount].value,
+                        [txtCount+'-txt']  : nextProps.tickets.submitedDoc.documents.textLists[txtCount].value,
                     });
         }
      }// EOF checkbox dynamic fields
@@ -195,7 +195,7 @@ class ViewTicketFormInfo extends React.Component {
     var videos      = this.state.videos;
 
 
-    if(this.props.tickets.submitedDoc){
+    if(this.props.tickets.submitedDoc && this.props.tickets.submitedDoc.documents){
 
       //Get values for all the check box
       var chkListCount = this.state.checkObjs;
@@ -363,7 +363,7 @@ class ViewTicketFormInfo extends React.Component {
   displayAttachments =()=>{
     var data = [];
     var verificationDocuments = this.props.imgData;
-    if(verificationDocuments){
+    if(verificationDocuments && verificationDocuments.length>0){
        verificationDocuments.map((item, index)=>{
         var fileName = item.imgs;
         // console.log('fileName:',fileName);
@@ -676,7 +676,7 @@ class ViewTicketFormInfo extends React.Component {
                                     <Text>{index+1}. {checkListDefault.task}</Text>
                                   </View>
 
-                                { checkListDefault.relatedFields ? checkListDefault.relatedFields.map((data,ind)=>{
+                                { checkListDefault.relatedFields && checkListDefault.relatedFields.length > 0 ? checkListDefault.relatedFields.map((data,ind)=>{
                                     return(
                                       <View style={{flex:1}} key={ind}>
                                         <Text>{data.value}</Text>
@@ -936,6 +936,7 @@ ViewTicketForm = createContainer( (props) => {
     const loading3    = !postHandle3.ready();
     let checkObjs     = [];
     var textObjs      = [];
+    var checkListObjs = [];
     var checkListFrom = '';
 
     if (ticket) {
@@ -960,73 +961,76 @@ ViewTicketForm = createContainer( (props) => {
       
        // console.log('checkListFrom: ',checkListFrom);
 
-       if(tickets.submitedDoc){
-          checkObjs = tickets.submitedDoc.documents.checkLists;
+       if(tickets.submitedDoc && tickets.submitedDoc.documents){
+          
 /*          for(var chk = 0 ; chk < checkObjs.length ; chk++){
             checkObjs[chk].task = checkObjs[chk].statement;
             checkObjs[chk].id   = chk;
           }*/
 
-          if (checkObjs) {
-              for (var i = 0; i < checkObjs.length; i++) {
-                  checkObjs[i].id = i;
-                  checkObjs[i].task = checkObjs[i].titleVal;
-                  checkObjs[i].relatedFields = checkObjs[i].textVal;
-                 
+          if(tickets.submitedDoc.documents.checkLists && tickets.submitedDoc.documents.checkLists.length > 0){
+            checkObjs = tickets.submitedDoc.documents.checkLists;
+            if (checkObjs.length > 0) {
+                for (var i = 0; i < checkObjs.length; i++) {
+                    checkObjs[i].id = i;
+                    checkObjs[i].task = checkObjs[i].titleVal;
+                    checkObjs[i].relatedFields = checkObjs[i].textVal;
+                   
+                }
+            }
+          }
+
+          if(tickets.submitedDoc.documents.textLists && tickets.submitedDoc.documents.textLists.length > 0){
+            textObjs  = tickets.submitedDoc.documents.textLists;
+            if (textObjs.length > 0) {
+              for(var txt = 0 ; txt < textObjs.length ; txt++){
+                textObjs[txt].task = textObjs[txt].task;
+                textObjs[txt].id   = txt+'-txt';
               }
+            }
           }
 
-          textObjs  = tickets.submitedDoc.documents.textLists;
-          for(var txt = 0 ; txt < textObjs.length ; txt++){
-            textObjs[txt].task = textObjs[txt].task;
-            textObjs[txt].id   = txt+'-txt';
+          if(imgData && tickets.submitedDoc.documents.images){
+            imgData.concat(tickets.submitedDoc.documents.images);
           }
-
-          imgData.concat(tickets.submitedDoc.documents.images);
+          
 
           // console.log('checkObjs: ',checkObjs);
           // console.log('textObjs: ',textObjs);
           // console.log('imgData: ',imgData);
           console.log('checkObjs 0: ',checkObjs);
        }else{
-         var checkListObjs = Meteor.collection("checklistFieldExpert").find({"checkListFor" : checkListFrom}) || [];
+          checkListObjs = Meteor.collection("checklistFieldExpert").find({"checkListFor" : checkListFrom}) || [];
           if (checkListObjs && checkListObjs.length > 0) {
 
-             // console.log('checkListObjs: ',checkListObjs);
-             // for (let i = 0; i < checkListObjs.length; i++) {
-             //    if(checkListObjs[i].checkListFrom == 'Database'){
-             //        checkObjs.push({'id':checkListObjs[i]._id,'task':checkListObjs[i].task, "relatedFields":checkListObjs[i].relatedFields}); 
-             //    }else{
-             //        textObjs.push({'id':checkListObjs[i]._id,'task':checkListObjs[i].task, "relatedFields":checkListObjs[i].relatedFields}); 
-             //    }
-             // }
-
-              if (checkListObjs) {
                   for (var i = 0; i < checkListObjs.length; i++) {
-                      checkListObjs[i].id = checkListObjs[i]._id;
-                      if(checkListObjs[i].checkListFrom == 'Database'){
-                          if(checkListFrom = "Address Information"){
-                              if(verificationType == "permanentAddress"){
-                                  for(j = 0 ; j < checkListObjs[i].relatedFields.length; j++){
-                                      checkListObjs[i].relatedFields[j].value = tickets.verificationData[checkListObjs[i].relatedFields[j].dbField];   
-                                  }
-                              }else{
-                                  for(j = 0 ; j < checkListObjs[i].relatedFields.length; j++){
-                                      var tempVar = 'temp'+checkListObjs[i].relatedFields[j].dbField;
-                                      checkListObjs[i].relatedFields[j].value = tickets.verificationData[tempVar];   
-                                  }
-                              }
-                          }else{
-                              for(j = 0 ; j < checkListObjs[i].relatedFields.length; j++){
-                                  checkListObjs[i].relatedFields[j].value = checkListObjs[i].relatedFields[j].dbField + ':'+tickets.verificationData[checkListObjs[i].relatedFields[j].dbField];   
-                              }
-                          }
-                          checkObjs.push(checkListObjs[i]); 
-                      }else{
-                          textObjs.push(checkListObjs[i]); 
+
+                      if(checkListObjs[i] && checkListObjs[i].relatedFields && checkListObjs[i].relatedFields.length > 0){
+                        checkListObjs[i].id = checkListObjs[i]._id;
+                        if(checkListObjs[i].checkListFrom == 'Database'){
+                            if(checkListFrom = "Address Information"){
+                                if(verificationType == "permanentAddress"){
+                                    for(j = 0 ; j < checkListObjs[i].relatedFields.length; j++){
+                                        checkListObjs[i].relatedFields[j].value = tickets.verificationData[checkListObjs[i].relatedFields[j].dbField];   
+                                    }
+                                }else{
+                                    for(j = 0 ; j < checkListObjs[i].relatedFields.length; j++){
+                                        var tempVar = 'temp'+checkListObjs[i].relatedFields[j].dbField;
+                                        checkListObjs[i].relatedFields[j].value = tickets.verificationData[tempVar];   
+                                    }
+                                }
+                            }else{
+                                for(j = 0 ; j < checkListObjs[i].relatedFields.length; j++){
+                                    checkListObjs[i].relatedFields[j].value = checkListObjs[i].relatedFields[j].dbField + ':'+tickets.verificationData[checkListObjs[i].relatedFields[j].dbField];   
+                                }
+                            }
+                            checkObjs.push(checkListObjs[i]); 
+                        }else{
+                            textObjs.push(checkListObjs[i]); 
+                        }
                       }
-                  }
-              }
+
+                  }//EOF i loop
 
             
           }

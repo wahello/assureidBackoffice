@@ -518,13 +518,13 @@ class ViewTicket extends React.Component {
                   </View>
                   <View style={{flex:1,flexDirection:'row',paddingVertical:10}}>
                     <View style={{ flex:.5,marginLeft:15}}>
-                     {this.props.viewTicketData &&  this.props.viewTicketData.userProfile
+                     {this.props.viewTicketData &&  this.props.viewTicketData.userProfileLink
                       ?
                         <Avatar
                           width={80}
                           height={80}
                           rounded
-                          source={{ uri : this.props.viewTicketData.userProfile }}
+                          source={{ uri : this.props.viewTicketData.userProfileLink }}
                           avatarStyle={{borderWidth:1,borderColor:'#000'}}
                           containerStyle={{marginBottom:5}}
                         />
@@ -548,7 +548,7 @@ class ViewTicket extends React.Component {
                         <View style= {{flex:1,flexDirection:'row'}}>
                           <Icon size={18} name='gender-male-female' type='material-community' color='#ccc' />
                           <Text style= {{flex:.4,flexDirection:'row',paddingHorizontal:5}}>{viewTicketData.gender}, </Text>
-                          {viewTicketData.age <= 0 ? <Text></Text> : <Text style= {{flex:.5,flexDirection:'row'}}>{viewTicketData.age} Years</Text>}
+                          {viewTicketData.age <= 0  || viewTicketData.age == NaN ? <Text></Text> : <Text style= {{flex:.5,flexDirection:'row'}}>{viewTicketData.age} Years</Text>}
                         </View>
                         <View style= {{flex:1,flexDirection:'row'}}>
                           <Icon size={18} name='map-pin' type='feather' color='#ccc' />
@@ -655,7 +655,12 @@ export default createContainer((props) => {
     viewTicketData.gender      = viewTicketUserData.gender;
     viewTicketData.dateOfBirth = viewTicketUserData.dateOfBirth;
     // viewTicketData.userProfile = "https://s3.ap-south-1.amazonaws.com/assureidportal/UserImage/"+viewTicketUserData.userProfile.split('original/')[1]+'.'+viewTicketUserData.userFileExt;
-    viewTicketData.userProfile = "https://s3.ap-south-1.amazonaws.com/assureidportal/UserImage/"+viewTicketUserData.userProfile.split('original/')[1]+'.'+viewTicketUserData.userFileExt;
+    
+    if(viewTicketUserData.userProfile){
+      viewTicketData.userProfileLink = "https://s3.ap-south-1.amazonaws.com/assureidportal/UserImage/"+viewTicketUserData.userProfile.split('original/')[1]+'.'+viewTicketUserData.userFileExt;
+    }else{
+      viewTicketData.userProfileLink = "https://s3.ap-south-1.amazonaws.com/assureidportal/UserImage/C4pFJMNtZfJ79nmtR.png";
+    }
     // console.log('viewTicketData.userProfile: ',viewTicketData.userProfile);
     var ticketElements    = viewTicketData.ticketElement;
     var FEDetails         = ticketElements.find((obj)=> { return obj.roleStatus == 'FEAllocated' });
