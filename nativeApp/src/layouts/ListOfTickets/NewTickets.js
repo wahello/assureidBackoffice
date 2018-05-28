@@ -202,6 +202,55 @@ class NewTickets extends React.Component {
         </Text>
       </View>
     );
+    // return(
+      
+  
+    //   this.props.NewTicketList.length>0 ?
+    //   this.props.NewTicketList.map((item,i)=>
+    //     <TouchableOpacity key={i} onPress={()=>this.props.navigation.navigate('ViewTicket',{ticketid:item._id})}>
+    //       <Card containerStyle={[styles.newCard]}>
+    //         <View style={[styles.cardHeader,{backgroundColor:item.bgClassName}]}>
+    //           <View style={{flexDirection:'row',flex:1,paddingHorizontal:10,paddingVertical:5}}>
+    //             <View style={{flex:.5}}>
+    //               <Text>Tickets#</Text>
+    //             </View>
+    //             <View style={{flex:.5}}>
+    //               <Text>{item.ticketNumber}</Text>
+    //             </View>
+    //           </View>
+    //           <View style={{flexDirection:'row',flex:1,paddingHorizontal:10,paddingVertical:5}}>
+    //             <View style={{flex:.5}}>
+    //               <Text>Service Name</Text>
+    //             </View>
+    //             <View style={{ flex:.5}}>
+    //               <Text>{item.serviceName}</Text>
+    //             </View>
+    //           </View>
+    //           <View style={{flexDirection:'row',flex:1,paddingHorizontal:10,paddingVertical:5}}>
+    //             <View style={{flex:.5}}>
+    //               <Text>TAT (Date)</Text>
+    //             </View>
+    //             <View style={{flex:.5}}>
+    //               <Text>{item.tatDate}</Text>
+    //             </View>
+    //           </View>
+    //         </View>
+    //         <View style={{ backgroundColor: "#ccc",paddingVertical: 10,alignItems: "center",justifyContent:'center'}}>
+    //             <Text style={{color:"#000"}}>
+    //               {item.userName}
+                
+    //             </Text>
+    //         </View>
+    //       </Card>
+    //     </TouchableOpacity>       
+    //   )
+    //   :
+    //   <View>
+    //     <Text>
+    //        Oops!!!! There Are No Tickets To Display
+    //     </Text>
+    //   </View>
+    // );
 
 
   }

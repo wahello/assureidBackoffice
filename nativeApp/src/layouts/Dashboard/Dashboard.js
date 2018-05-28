@@ -159,8 +159,90 @@ export default class Dashboard extends React.Component {
                         <Text style={{flexDirection:'row',padding:3,borderWidth:2,borderColor:'#ccc',height:25,borderRadius:5,fontWeight:'bold',fontSize:15,textAlign:'center',marginRight:3,paddingTop:1,backgroundColor:'#f2f2f2'}}>2</Text>
                         <Text style={{flexDirection:'row',padding:3,borderWidth:2,borderColor:'#ccc',height:25,borderRadius:5,fontWeight:'bold',fontSize:15,textAlign:'center',paddingTop:1,backgroundColor:'#f2f2f2'}}>1</Text>
                       </View>
-                      <View style={{flex:1}}>
-                        <Text style={[(robotoWeights.regular),{fontSize:10,color:'#333333',textAlign:'center'}]}>DATE</Text>
+
+{/*                      <View style={{flex:1}}>
+                        <Text style={[(robotoWeights.regular),{fontSize:10,color:'#333333',textAlign:'center'}]}>DATE</Text>*/}
+
+                        }
+                    />
+                    {/* <Header
+                        centerComponent={{ text: "Dashboard", style:{ fontSize:17, color: '#fff',alignSelf:'center'} }}
+                        outerContainerStyles={{borderColor:'transparent', backgroundColor: '#3c8dbc',height:50,padding:10,margin:0}}
+                        innerContainerStyles={{marginTop:0,paddingTop:0}}
+                      />
+*/}
+{/*                      <View style={styles.imgWrapper}>
+                        <Image style={styles.imgDisplay} resizeMode="stretch"
+                              source={require('../../images/coming-soon.png')}/>
+                      </View>*/}
+                     <View  style={{backgroundColor:'#fff',height:185,marginBottom:18,borderBottomWidth:1,borderColor:'#f2f2f2', shadowOffset: {
+                        width: 0,
+                        height: 3
+                      },
+                      elevation:3,
+                      shadowRadius: 5,
+                      shadowOpacity: 2.0}}>
+                        <View style={{flex:1,flexDirection:'row',padding:10,marginTop:10}}>
+                           <View style={{flex:0.5}}>
+                              { this.state.userData.userProfile ?
+                                <Avatar
+                                 width={90}
+                                 height={90}
+                                 rounded
+                                 source={{uri:this.state.userData.userProfile}}
+                                 activeOpacity={0.7}
+                                /> 
+                              : 
+                                <Avatar
+                                 width={90}
+                                 height={90}
+                                 rounded
+                                 source={require("../../images/Vinod.png")}
+                                 activeOpacity={0.7}
+                                /> 
+                            }
+                           </View> 
+                           <View style={{flex:0.5,flexDirection:'row',justifyContent:'flex-end',paddingHorizontal:15,}}>
+                              
+                           </View>
+                        </View>
+                        <View style={{padding:10,marginBottom:10}}>
+                           <Text style={[(robotoWeights.bold),{fontSize:18,color:'#3c8dbc',textAlign:'left',paddingVertical:2}]}>Hello {this.state.userData ? this.state.userData.firstname : 'User'} {this.state.userData ? this.state.userData.lastname : null},</Text>
+                           <Text style={[(robotoWeights.regular),{fontSize:15,color:'#666666',textAlign:'left',}]}>You have 20 Tickets Pending</Text>
+                        </View>
+                     </View>
+                     <View style={{flexDirection:'row', flex:1}}>
+
+                        <View style={{flex:.5}}>
+                        <TouchableOpacity onPress={()=>this.props.navigation.navigate('NewTickets')}>
+                        <View style={{flex:.5,paddingHorizontal:10,paddingVertical:10}}>   
+                          <View style={{flex:1, backgroundColor:'#33b5e5',}}>
+                            <Text style={[(robotoWeights.bold),{fontSize:15,color:'#333333',textAlign:'center',paddingVertical:15}]}>New</Text>
+                              <Image
+                                style={{ width: 50, height: 50, marginVertical: 2,alignSelf:"center" }}
+                                source={require("../../images/New_40px_X_40px.png")}
+                              />
+                            <Text style={[(robotoWeights.bold),{fontSize:15,color:'#fff',textAlign:'center',paddingVertical:15}]}>10 Since 21 April 18</Text>
+                          </View>
+                        </View>
+                        </TouchableOpacity>
+                        </View>
+
+                        <View style={{flex:.5}}>
+                        <TouchableOpacity onPress={()=>this.props.navigation.navigate('AllocatedTickets')}>
+                          <View style={{flex:.5,paddingHorizontal:10,paddingVertical:10}}>
+                            <View style={{flex:1, backgroundColor:'#00c851',}}>
+                              <Text style={[(robotoWeights.bold),{fontSize:15,color:'#333333',textAlign:'center',paddingVertical:15}]}>Allocated</Text>
+                                 <Image
+                                style={{ width: 50, height: 50, marginVertical: 2,alignSelf:"center" }}
+                                source={require("../../images/Allocated_40px_X_40px.png")}
+                              />
+                              <Text style={[(robotoWeights.bold),{fontSize:15,color:'#fff',textAlign:'center',paddingVertical:15}]}>10 Since 21 April 18</Text>
+                            </View>
+                          </View>
+                        </TouchableOpacity>
+                        </View>
+
                       </View>
                     </View>
                     <View style={{flex:.3}}>
@@ -265,4 +347,3 @@ export default class Dashboard extends React.Component {
     );
   }
 }
-
