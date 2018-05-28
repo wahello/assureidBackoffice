@@ -164,7 +164,9 @@ class MyProfile extends React.Component {
                 </View>   
                 <View style={{flex:.6,alignItems:'center',paddingTop:50}}>
                   <View style={{borderWidth:2,borderColor:'#fff',borderRadius:100,padding:5}}>
+
                   {userData.profile.userProfile ? 
+
                     <Avatar
                       width={90}
                       height={90}
@@ -172,6 +174,7 @@ class MyProfile extends React.Component {
                       source={require('../../images/Vinod.png')}
                       activeOpacity={0.7}
                     />
+
                     :
                     <Avatar
                       width={90}
@@ -181,6 +184,7 @@ class MyProfile extends React.Component {
                       activeOpacity={0.7}
                     />
                   }
+
                   </View>
                 </View>
               </ImageBackground>

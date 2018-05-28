@@ -1,11 +1,9 @@
 import React, { Component } from "react";
 import Meteor, { Accounts, createContainer } from "react-native-meteor";
-
 import { StyleSheet,Text,View,TextInput,BackHandler,TouchableOpacity, ScrollView, DrawerLayoutAndroid, Image} from "react-native";
 import { Header, Button, Icon,Avatar} from "react-native-elements";
 import { NavigationActions } from "react-navigation";
 import { robotoWeights } from 'react-native-typography';
-
 import SideMenu from 'react-native-side-menu';
 import PropTypes from "prop-types";
 
@@ -243,12 +241,59 @@ export default class Dashboard extends React.Component {
                         </TouchableOpacity>
                         </View>
 
+
                       </View>
                     </View>
                     <View style={{flex:.3}}>
                       <View style={{flex:1,flexDirection:'row',alignSelf:'center'}}>
                         <Text style={{flexDirection:'row',borderWidth:2,padding:3,borderColor:'#ccc',height:25,borderRadius:5,fontWeight:'bold',fontSize:15,textAlign:'center',marginRight:3,paddingTop:1,backgroundColor:'#f2f2f2'}}>0</Text>
                         <Text style={{flexDirection:'row',borderWidth:2,padding:3,borderColor:'#ccc',height:25,borderRadius:5,fontWeight:'bold',fontSize:15,textAlign:'center',paddingTop:1,backgroundColor:'#f2f2f2'}}>5</Text>
+
+                      {/*<View style={{flexDirection:'row', flex:1}}>
+                        <View style={{flex:.5}}>
+                        <TouchableOpacity onPress={()=>this.props.navigation.navigate('CompletedRejectedTickets')}>
+                          <View style={{flex:1,paddingHorizontal:10,paddingVertical:10}}>
+                            <View style={{flex:1, backgroundColor:'#ff4444',paddingHorizontal:10,}}>
+                              <Text style={[(robotoWeights.bold),{fontSize:15,color:'#333333',textAlign:'center',paddingVertical:15}]}>Esclated</Text>
+                                 <Image
+                                style={{ width: 50, height: 50, marginVertical: 2,alignSelf:"center"}}
+                                source={require("../../images/Esclated_40px_X_40px.png")}
+                              />
+                               <Text style={[(robotoWeights.bold),{fontSize:15,color:'#fff',textAlign:'center',paddingVertical:15}]}>10 Since 21 April 18</Text>
+                            </View>
+                          </View>
+                        </TouchableOpacity>
+                      </View>
+
+                        <View style={{flex:.5}}>
+                        <TouchableOpacity onPress={()=>this.props.navigation.navigate('ReopenedTickets')}>
+                          <View style={{flex:1,paddingHorizontal:10,paddingVertical:10}}>
+                            <View style={{flex:1, backgroundColor:'#33b5e5',paddingHorizontal:10,}}>
+                              <Text style={[(robotoWeights.bold),{fontSize:15,color:'#333333',textAlign:'center',paddingVertical:15}]}>Re-Open</Text>
+                                 <Image
+                                style={{ width:50, height: 50, marginVertical:2,alignSelf:"center"}}
+                                source={require("../../images/Re-Open_40px_X_40px.png")}
+                              />
+                              <Text style={[(robotoWeights.bold),{fontSize:15,color:'#fff',textAlign:'center',paddingVertical:15}]}>10 Since 21 April 18</Text>
+                            </View>
+                          </View>
+                        </TouchableOpacity>
+                        </View>
+                          </View>
+                           <View
+                            style={{
+                              alignItems: "center",
+                              marginTop: 0,
+                              paddingVertical:20
+                            }}
+                          >
+                            <Button
+                              onPress={this.handleSignIn}
+                              buttonStyle={styles.buttonLarge}
+                              title="Completed Tickets (20)"
+                              titleStyle={{fontWeight: "800"}}
+                            />*/}
+
                       </View>
                       <View style={{flex:1}}>
                         <Text style={[(robotoWeights.regular),{fontSize:10,color:'#333333',textAlign:'center'}]}>MONTH</Text>
