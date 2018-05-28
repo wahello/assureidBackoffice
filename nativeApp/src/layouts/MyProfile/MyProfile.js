@@ -171,7 +171,8 @@ class MyProfile extends React.Component {
                       width={90}
                       height={90}
                       rounded
-                      source={require('../../images/Vinod.png')}
+                      source={{uri: userData.profile.userProfile }}
+                      // source={require('../../images/Vinod.png')}
                       activeOpacity={0.7}
                     />
 
