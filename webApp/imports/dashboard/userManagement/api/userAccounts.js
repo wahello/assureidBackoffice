@@ -405,7 +405,7 @@ Meteor.methods({
 
   }, //end of blockuser function
 
-    activeSelectedUser: function(checkedUsersList){
+  activeSelectedUser: function(checkedUsersList){
     // console.log('Serverside-Checked checkboxes:'+ array);
     for (var i=0; i<checkedUsersList.length; i++) {
         // console.log('value: ' + checkedUsersList[i]);

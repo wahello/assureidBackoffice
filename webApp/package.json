@@ -29,5 +29,6 @@
     "react-validation": "^3.0.7",
     "validator": "^9.4.1",
     "youtube-embed-video": "^1.1.0"
-  }
+  },
+  "devDependencies": {}
 }
