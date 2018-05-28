@@ -420,6 +420,10 @@ class Ticket extends TrackerReact(Component){
     
     if(exeQuery == 1){
       Meteor.call('genericUpdateTicketMasterElement',this.props.ticketId,insertData);
+      if(this.props.getTicket.ticketElement[elementLength-1].roleStatus == 'QTMReviewRemark'){
+        var path = '/reportgeneration/'+this.props.ticketId;
+        window.open(path);
+      }
     }
   }
   targetReport(){
@@ -1227,14 +1231,22 @@ export default UserDetailsContainer = withTracker(props => {
       if (checkListObjs) {
           for (var i = 0; i < checkListObjs.length; i++) {
               if(checkListObjs[i].checkListFrom == 'Database'){
-                  if(checkListFrom = "Address Information"){
+                  if(checkListObjs[i].checkListFor = "Address Information"){
                       if(verificationType == "permanentAddress"){
                           for(j = 0 ; j < checkListObjs[i].relatedFields.length; j++){
                               checkListObjs[i].relatedFields[j].value = getTicket.verificationData[checkListObjs[i].relatedFields[j].dbField];   
                           }
                       }else{
                           for(j = 0 ; j < checkListObjs[i].relatedFields.length; j++){
-                              var tempVar = 'temp'+checkListObjs[i].relatedFields[j].dbField;
+                              var str = checkListObjs[i].relatedFields[j].dbField;
+                              if(str == 'residingFrom' || str == 'residingTo'){
+
+                              }else{
+                                str = str.toLowerCase().replace(/\b[a-z]/g, function(letter) {
+                                    return letter.toUpperCase();
+                                });
+                              }
+                              var tempVar = 'temp'+str;
                               checkListObjs[i].relatedFields[j].value = getTicket.verificationData[tempVar];   
                           }
                       }
@@ -1244,6 +1256,7 @@ export default UserDetailsContainer = withTracker(props => {
                       }
                   }
                   checkObjs.push(checkListObjs[i]); 
+                  console.log('checkObjs ',checkObjs);
               }else{
                   textObjs.push(checkListObjs[i]); 
               }

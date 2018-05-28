@@ -4,7 +4,9 @@ import { TempTicketImages } from "../../../dashboard/ticketManagement/api/TempUp
 import { TempTicketVideo } from "../../../dashboard/ticketManagement/api/TempUpload.js";
 import { TempTicketReport } from "../../../dashboard/ticketManagement/api/TempUpload.js";
 import {CompanySettings} from '/imports/dashboard/companySetting/api/CompanySettingMaster.js';
+import {ReportGeneration} from '/imports/dashboard/generation/components/ReportGeneration.jsx';
 import {Order} from './Order.js';
+import { browserHistory } from 'react-router';
 
 export const TicketMaster = new Mongo.Collection("ticketMaster");
 export const TicketBucket = new Mongo.Collection("ticketbucket");

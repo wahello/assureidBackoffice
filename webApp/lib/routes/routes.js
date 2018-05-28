@@ -280,7 +280,7 @@ export const routes = (
       
       
     </Route>
-    <Route path="/reportgeneration" component={ReportGeneration}/>
+    <Route path="/reportgeneration/:id" component={ReportGeneration}/>
 
     <Route component={DispatchTeamDashApp} >
       <Route path="/backoffice/dispactteamdashboard" component={Content}/>
