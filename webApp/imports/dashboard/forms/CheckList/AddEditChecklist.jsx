@@ -223,19 +223,24 @@ class AddEditChecklist extends TrackerReact(Component) {
 
                 */}
                 <select className="w300" multiple="multiple" id="fieldSelect" ref="checkListForField">
-                  <option value="Employer Name">Employer Name </option>
-                  <option value="Company Address">Company Address </option>
-                  <option value="Company contact number">Company contact number  </option>
-                  <option value="Employee ID / Employee code">Employee ID / Employee code </option>
-                  <option value="Employee designation">Employee designation </option>
-                  <option value="Employee department">Employee department </option>
-                  <option value="Employee period from">Employee period from </option>
-                  <option value="Employee period to">Employee period to </option>
-                  <option value="Type of Employment">Type of Employment</option>
-                  <option value="Detail of Agency">Detail of Agency</option>
-                  <option value="Reporting manager name">Reporting manager name</option>
-                  <option value="Reporting manager designation">Reporting manager designation</option>
-                  <option value="Reporting manager contact number">Reporting manager contact number</option>
+                  <option value="nameOfEmployer">Employer Name </option>
+                  <option value="employerAddress">Company Address </option>
+                  <option value="employerCity">Company Address City </option>
+                  <option value="employerState">Company Address State</option>
+                  <option value="contactNo">Company contact number  </option>
+                  <option value="employeeCode">Employee ID / Employee code </option>
+                  <option value="designation">Employee designation </option>
+                  <option value="department">Employee department </option>
+                  <option value="employmentFrom">Employee period from </option>
+                  <option value="employmentTo">Employee period to </option>
+                  <option value="lastSalaryDrawn">Last Salary Drawn </option>
+                  <option value="typeOfEmployement">Type of Employment</option>
+                  <option value="detailOfAgency">Detail of Agency</option>
+                  <option value="reasonOfLeaving">Reason of Leaving</option>
+                  <option value="dutiesAndResponsibilites">Duties And Responsibilites</option>
+                  <option value="reportingManagerNm">Reporting manager name</option>
+                  <option value="prevDesignation">Reporting manager designation</option>
+                  <option value="contactDetails">Reporting manager contact number</option>
                 </select>
 
                 </span>

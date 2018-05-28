@@ -161,8 +161,8 @@ class Ticket extends TrackerReact(Component){
             // for(var k=0;k<relatedField.length;k++){
             //     strngVal = strngVal + relatedField[k].dbField + ", ";
             // }
-            console.log("this.props.getTicket.submitedDoc.checkLists");
-            console.log(this.props.getTicket.submitedDoc.checkLists);
+            // console.log("this.props.getTicket.submitedDoc.checkLists");
+            // console.log(this.props.getTicket.submitedDoc.checkLists);
             // if(this.props.getTicket.submitedDoc.checkLists.length > 0 ){
             //   var obj = {
             //     titleVal : data[i].task,
@@ -420,7 +420,7 @@ class Ticket extends TrackerReact(Component){
     
     if(exeQuery == 1){
       Meteor.call('genericUpdateTicketMasterElement',this.props.ticketId,insertData);
-      if(this.props.getTicket.ticketElement[elementLength-1].roleStatus == 'QTMReviewRemark'){
+      if(this.props.getTicket.ticketElement[elementLength-1].roleStatus == 'QTMReviewRemark' || this.props.getTicket.ticketElement[elementLength-1].roleStatus == 'QTLReviewRemark'){
         var path = '/reportgeneration/'+this.props.ticketId;
         window.open(path);
       }
@@ -1063,7 +1063,7 @@ class Ticket extends TrackerReact(Component){
                                       ""
                                   }
                                     <div className="docdownload col-lg-1 col-lg-offset-1" title="Download Report">
-                                        <a href={this.props.getTicket.reportGenerated.url}>
+                                        <a href={this.props.getTicket.reportGenerated.url} target="_blank">
                                           {
                                             this.props.getTicket.reportGenerated ?
                                               <i className="fa fa-file-text-o" aria-hidden="true"></i>
@@ -1226,12 +1226,13 @@ export default UserDetailsContainer = withTracker(props => {
       var checkListFrom = "Skills And CertificationInformation";
       }
       var checkListObjs = ChecklistFieldExpert.find({"checkListFor" : checkListFrom}).fetch();
+
       var checkObjs = [];
       var textObjs = [];
       if (checkListObjs) {
           for (var i = 0; i < checkListObjs.length; i++) {
               if(checkListObjs[i].checkListFrom == 'Database'){
-                  if(checkListObjs[i].checkListFor = "Address Information"){
+                  if(checkListObjs[i].checkListFor == "Address Information"){
                       if(verificationType == "permanentAddress"){
                           for(j = 0 ; j < checkListObjs[i].relatedFields.length; j++){
                               checkListObjs[i].relatedFields[j].value = getTicket.verificationData[checkListObjs[i].relatedFields[j].dbField];   
@@ -1252,11 +1253,11 @@ export default UserDetailsContainer = withTracker(props => {
                       }
                   }else{
                       for(j = 0 ; j < checkListObjs[i].relatedFields.length; j++){
-                          checkListObjs[i].relatedFields[j].value = checkListObjs[i].relatedFields[j].dbField + ':'+getTicket.verificationData[checkListObjs[i].relatedFields[j].dbField];   
+                          checkListObjs[i].relatedFields[j].value = getTicket.verificationData[checkListObjs[i].relatedFields[j].dbField]; 
+                          // console.log('getTicket.verificationData[checkListObjs[i].relatedFields[j].dbField]' , getTicket.verificationData[checkListObjs[i].relatedFields[j].dbField]);  
                       }
                   }
                   checkObjs.push(checkListObjs[i]); 
-                  console.log('checkObjs ',checkObjs);
               }else{
                   textObjs.push(checkListObjs[i]); 
               }

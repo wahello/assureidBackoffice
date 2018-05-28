@@ -115,7 +115,7 @@ export default ReportGenerationContainer = withTracker(props => {
     console.log("handleSinTick");
     console.log(handleSinTick);
     var loading = !handleSinTick.ready();
-    var getTicket = TicketMaster.findOne({"_id":"Gr6avMhJvcn3DXfTn"});
+    var getTicket = TicketMaster.findOne({"_id":url});
     if(getTicket){
 
     console.log('getTicket ',getTicket);

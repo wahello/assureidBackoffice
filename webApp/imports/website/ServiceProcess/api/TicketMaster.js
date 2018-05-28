@@ -247,7 +247,7 @@ if(Meteor.isServer){
 							'reportGenerated.createdAt'    : insertData.createdAt,
 							'reportGenerated.documents'    : ticketDetails.submitedDoc,
 							'reportGenerated.reviewRemark' : ticketDetails.reviewRemark,
-							'reportGenerated.url'          : '',
+							'reportGenerated.url'          : '/reportgeneration/'+ticketid,
 						}
 					});
 				}
@@ -355,7 +355,7 @@ if(Meteor.isServer){
 							'reportGenerated.createdAt'    : insertData.createdAt,
 							'reportGenerated.documents'    : ticketDetails.submitedDoc,
 							'reportGenerated.reviewRemark' : ticketDetails.reviewRemark,
-							'reportGenerated.url'          : '',
+							'reportGenerated.url'          : '/reportgeneration/'+ticketid,
 						}
 					});
 				}
