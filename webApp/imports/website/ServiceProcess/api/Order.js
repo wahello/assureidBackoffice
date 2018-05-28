@@ -93,21 +93,38 @@ if(Meteor.isServer){
           if(ticketDetails){
             Meteor.call('actulStatuofVerificationType',ticketDetails.userId,ticketDetails.verificationType,ticketDetails.verificationId,status);
           }
-          var ticketList = orderDetails.ticket
-          if(ticketList.length == 1){
+          var ticketList = orderDetails.ticket;
+          var orderStatus = 'Completed';
+          for(i = 0 ; i < orderDetails.ticket.length ; i++){
+            if(!orderDetails.ticket[i].report){
+              orderStatus = 'In Process';
+              break;
+            }
+          }         
+          if(orderStatus == 'Completed'){
             Order.update(
               {"_id":orderId},
               {
                 $set:{
-                    "orderStatus" : status,
+                    "orderStatus" : 'Completed - Generating Report',
                     "completedDate" : new Date(),
                 }
               }
-            );  
-          }else{
-            var reportLinkStatus = ticketList.find(function(obj){return obj.report ? true : false});
-            console.log('reportLinkStatus ',reportLinkStatus);
-          }
+            );      
+            //Allocate the order to the dispatch team
+            var memberDetails = Meteor.users.find({"roles":"dispatch team","profile.status":"Active"},{sort: {"count":1},limit:1}).fetch();
+            if(memberDetails){
+              Order.update(
+                {"_id":orderId},
+                {
+                  $set : {
+                    "allocatedToUserid"   : memberDetails[0]._id,
+                    "allocatedToUserName" : memberDetails[0].profile.firstname + ' ' + memberDetails[0].profile.lastname,
+                  }
+                }
+              );
+            } 
+          } 
         }
      },
      'changeStatusofOrder':function(userId, remark,verificationId,verificationType){

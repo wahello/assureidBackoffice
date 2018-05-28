@@ -27,7 +27,7 @@ class VerificationDataSubmit extends TrackerReact(Component){
                 "remark"           : this.props.EditValue.remark,
                 "documents"        : this.props.EditValue.documents,
                 "status"           : this.props.EditValue.status,
-                "subStatus"        : this.props.EditValue.subStatus,
+                // "subStatus"        : this.props.EditValue.subStatus,
                 "data"             : [],
                 "verifiedInfo"      :[],
                 "chekFieldList"     : [],
@@ -44,7 +44,7 @@ class VerificationDataSubmit extends TrackerReact(Component){
                 "remark"       : '',
                 "documents"    : [],
                 "status"       : '',
-                "subStatus"    : '',
+                // "subStatus"    : '',
                 "buttonstatus" : 'Incorrect',
                 "chekFieldList"     : [],
                 "finalListArray" : [],
@@ -290,45 +290,67 @@ class VerificationDataSubmit extends TrackerReact(Component){
             dataChk.value  = $(this).val();
             textLists.push(dataChk);
         });
-        if(this.props.EditValue){
-            var status      = this.refs.documentStatus.value;
-            
-            var subStatus   = this.refs.documentSubStatus.value;
-            var images      = this.state.images.concat(this.props.ticketImages);
-            var videos      = this.state.videos;
-            var roleStatus  = "ProofResubmitted";
-            var msg         = "Resubmitted Verification Information";
-            var remark      = this.refs.remark.value;
-            // var docRemark      = this.refs.textarea#.value;
-            
+        var status      = this.refs.documentStatus.value;
+        var actualStatus = status.split('-');
+        if(actualStatus[0] == 'Completed'){
+            if(this.props.EditValue){
+                var status      = this.refs.documentStatus.value;
+                
+                // var subStatus   = this.refs.documentSubStatus.value;
+                var images      = this.state.images.concat(this.props.ticketImages);
+                var videos      = this.state.videos;
+                var roleStatus  = "ProofResubmitted";
+                var msg         = "Resubmitted Verification Information";
+                var remark      = this.refs.remark.value;
+                // var docRemark      = this.refs.textarea#.value;
+                
+            }else{
+                var status      = this.refs.documentStatus.value;
+                // var status      = buttoValue;            
+                // var subStatus   = this.refs.documentSubStatus.value;
+                var images      = this.props.ticketImages;
+                var videos      = this.props.ticketVideo;
+                var roleStatus  = "ProofSubmit";
+                var msg         = "Submitted Verification Information";
+                var remark      = this.refs.remark.value;
+                // var docRemark   = this.refs.textarea#.value;
+            }
         }else{
-            var status      = this.refs.documentStatus.value;
-            // var status      = buttoValue;            
-            var subStatus   = this.refs.documentSubStatus.value;
-            var images      = this.props.ticketImages;
-            var videos      = this.props.ticketVideo;
-            var roleStatus  = "ProofSubmit";
-            var msg         = "Submitted Verification Information";
-            var remark      = this.refs.remark.value;
-            // var docRemark   = this.refs.textarea#.value;
-            
-        }  
-
-       
+            if(this.props.EditValue){
+                var status      = this.refs.documentStatus.value;
+                
+                // var subStatus   = this.refs.documentSubStatus.value;
+                var images      = this.state.images.concat(this.props.ticketImages);
+                var videos      = this.state.videos;
+                var roleStatus  = "ProofResubmitted-Pending";
+                var msg         = "Resubmitted Verification Information";
+                var remark      = this.refs.remark.value;
+                // var docRemark      = this.refs.textarea#.value;
+                
+            }else{
+                var status      = this.refs.documentStatus.value;
+                // var status      = buttoValue;            
+                // var subStatus   = this.refs.documentSubStatus.value;
+                var images      = this.props.ticketImages;
+                var videos      = this.props.ticketVideo;
+                var roleStatus  = "ProofSubmit-Pending";
+                var msg         = "Submitted Verification Information";
+                var remark      = this.refs.remark.value;
+                // var docRemark   = this.refs.textarea#.value;
+                
+            } 
+        }
         var documents ={
             checkLists : this.state.chekFieldList,
             textLists  : textLists,
             status     : status,
-            subStatus  : subStatus,
+            // subStatus  : subStatus,
             images     : images,
             videos     : videos,
             remark     : remark,
             
         }
-        
-        
-       
-        if(documents.status != "Select" && documents.images.length >0 && documents.subStatus != "Select"){
+        if(documents.status != "Select" && documents.images.length >0){
             if (this.props.tickets) {
                 if (this.props.tickets.ticketElement) {
                     if (this.props.tickets.ticketElement.length > 0) {
@@ -608,7 +630,6 @@ class VerificationDataSubmit extends TrackerReact(Component){
                                     {chekFieldList ?
                                         chekFieldList.map((checkObjsDefault,index)=>{
                                         return(
-                                            
                                             <div className="col-lg-12 col-md-12 col-sm-6 col-xs-6" key={index}>  
                                                 <div className="col-lg-4 col-md-6 col-sm-6 col-xs-6 noLRPad">
                                                     <label className = "col-lg-12" name ="checkObjs">{checkObjsDefault.titleVal}</label>
@@ -617,7 +638,7 @@ class VerificationDataSubmit extends TrackerReact(Component){
                                                             checkObjsDefault.textVal ?
                                                                checkObjsDefault.textVal.map((checkObjsRelatedField,index)=>{
                                                                     return(
-                                                                        <span key={index}>{checkObjsRelatedField.dbField},&nbsp;</span>
+                                                                        <span key={index}>{checkObjsRelatedField.value},&nbsp;</span>
                                                                     );
                                                                 })
                                                             :
@@ -848,12 +869,18 @@ class VerificationDataSubmit extends TrackerReact(Component){
                                             <option value="WIP">WIP ( Work in Progress)</option>
                                             <option value="Insufficiency">Insufficiency</option> 
                                             <option value="Insufficiency Cleared">Insufficiency Cleared</option> 
-                                            <option value="Completed">Completed</option> 
+                                            <option value="Completed-Clear">Completed - Clear</option> 
+                                            <option value="Completed-Minor Discrepancy">Completed - Minor Discrepancy</option> 
+                                            <option value="Completed-Major Discrepancy">Completed - Major Discrepancy</option> 
+                                            <option value="Completed-Inaccessible">Completed - Inaccessible</option> 
+                                            <option value="Completed-Unable to Verify">Completed - Unable to Verify</option> 
+                                            <option value="Completed-Cancelled">Completed - Cancelled</option> 
+                                            <option value="Completed-Case Drop">Completed - Case Drop</option> 
                                         </select>
                                     </div>
                                 </div>{/* Status Block */}
                                 {/* Sub Status Block */}
-                                <div className="imgtitile col-lg-6 col-md-6 col-sm-12 col-xs-12 noLRPad">
+                                {/*<div className="imgtitile col-lg-6 col-md-6 col-sm-12 col-xs-12 noLRPad">
                                     <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3  Selectimg statusTitle"> Sub-status:<span className="starcolor">*</span></div>
                                     <div className="col-lg-8 col-md-8 col-sm-9 col-xs-9">
                                         <select className="form-control inputText documentSubStatus" ref="documentSubStatus" id="documentSubStatus" defaultValue={this.state.subStatus ? this.state.subStatus : ''} name="documentSubStatus" onChange={this.handleChange}>
@@ -867,7 +894,7 @@ class VerificationDataSubmit extends TrackerReact(Component){
                                             <option value="Case Drop">Case Drop</option>
                                         </select>
                                     </div>
-                                </div>{/* Sub Status Block */}
+                                </div> Sub Status Block */}
                             </div>{/* End Status and Sub Status */}
                             {/* Remark Block */}
                             <div className="col-lg-12 wholeborder">
@@ -892,9 +919,6 @@ VerificationDataSubmitContainer = withTracker(props => {
     const ticketId     = props.ticketId;
     var chekFieldList  = props.chekFieldList;
     console.log('vds chekFieldList: ', chekFieldList);
-
-    
-    
     
     const postHandle   = Meteor.subscribe('allTicketImages');
     const postHandle1  = Meteor.subscribe('allTicketVideo');
@@ -929,16 +953,32 @@ VerificationDataSubmitContainer = withTracker(props => {
             var checkObjs = [];
             var textObjs = [];
             if (checkListObjs) {
-
-                console.log('checkListObjs: ',checkListObjs);
                 for (var i = 0; i < checkListObjs.length; i++) {
                     if(checkListObjs[i].checkListFrom == 'Database'){
+                        if(checkListFrom = "Address Information"){
+                            if(verificationType == "permanentAddress"){
+                                for(j = 0 ; j < checkListObjs[i].relatedFields.length; j++){
+                                    checkListObjs[i].relatedFields[j].value = tickets.verificationData[checkListObjs[i].relatedFields[j].dbField];   
+                                }
+                            }else{
+                                for(j = 0 ; j < checkListObjs[i].relatedFields.length; j++){
+                                    var tempVar = 'temp'+checkListObjs[i].relatedFields[j].dbField;
+                                    checkListObjs[i].relatedFields[j].value = tickets.verificationData[tempVar];   
+                                }
+                            }
+                        }else{
+                            for(j = 0 ; j < checkListObjs[i].relatedFields.length; j++){
+                                checkListObjs[i].relatedFields[j].value = checkListObjs[i].relatedFields[j].dbField + ':'+tickets.verificationData[checkListObjs[i].relatedFields[j].dbField];   
+                            }
+                        }
                         checkObjs.push(checkListObjs[i]); 
                     }else{
                         textObjs.push(checkListObjs[i]); 
                     }
                 }
+                console.log('checkObjs ', checkObjs);
             }
+
         }
     }
   
