@@ -54,7 +54,7 @@ class ViewTicketFormInfo extends React.Component {
       "fontSize"        : 14,
       "userUpload"      : {},
       "status"          : '',
-      "subStatus"       : '',
+      // "subStatus"       : '',
       "remark"          : '',
       "images"          : [],
       "videos"          : [],
@@ -67,25 +67,27 @@ class ViewTicketFormInfo extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log('nextProps: ',nextProps.checkObjs);
     if(this.props.tickets.submitedDoc){    
      this.setState({
-          remark        : this.props.tickets.submitedDoc.documents.remark,
-          status        : this.props.tickets.submitedDoc.documents.status,
-          subStatus     : this.props.tickets.submitedDoc.documents.subStatus,
+          remark        : nextProps.tickets.submitedDoc.documents.remark,
+          status        : nextProps.tickets.submitedDoc.documents.status,
+          checkObjs     : nextProps.checkObjs,
+          // subStatus     : this.props.tickets.submitedDoc.documents.subStatus,
       });
 
-     if( this.props.tickets.submitedDoc.documents.checkLists && this.props.tickets.submitedDoc.documents.checkLists.length>0){
-        var chkListLen = this.props.tickets.submitedDoc.documents.checkLists.length;
-        // console.log('chkListLen: ',chkListLen);
-        for(var chkCount = 0 ; chkCount < chkListLen ; chkCount++){
-          chkStatus = this.props.tickets.submitedDoc.documents.checkLists[chkCount].status;
+     // if( this.props.tickets.submitedDoc.documents.checkLists && this.props.tickets.submitedDoc.documents.checkLists.length>0){
+     //    var chkListLen = this.props.tickets.submitedDoc.documents.checkLists.length;
+     //    // console.log('chkListLen: ',chkListLen);
+     //    for(var chkCount = 0 ; chkCount < chkListLen ; chkCount++){
+     //      chkStatus = this.props.tickets.submitedDoc.documents.checkLists[chkCount].status;
           
-          var result = ( chkStatus === 'true' || chkStatus === true ) ;
-          this.setState({
-                          [chkCount]  : result,
-                      });
-        }
-     }// EOF checkbox dynamic fields
+     //      var result = ( chkStatus === 'true' || chkStatus === true ) ;
+     //      this.setState({
+     //                      [chkCount]  : result,
+     //                  });
+     //    }
+     // }// EOF checkbox dynamic fields
 
      if( this.props.tickets.submitedDoc.documents.textLists && this.props.tickets.submitedDoc.documents.textLists.length>0){
         var txtListLen = this.props.tickets.submitedDoc.documents.textLists.length;
@@ -98,6 +100,12 @@ class ViewTicketFormInfo extends React.Component {
      }// EOF checkbox dynamic fields
 
      // console.log('this.state: ',this.state);
+    }else{
+
+      this.setState({
+          checkObjs  : nextProps.checkObjs, 
+      });
+
     }
 
   }
@@ -171,8 +179,10 @@ class ViewTicketFormInfo extends React.Component {
     //Get Values for all the text field
     var textLists = [];
 
-    var status      = this.state.status;
-    var subStatus   = this.state.subStatus;
+    var status       = this.state.status;
+    var actualStatus = status.split('-');
+
+    // var subStatus   = this.state.subStatus;
     for(var i=0; i<this.props.imgData.length;i++){
       images.push({
                     'userId'    : Meteor.userId(),
@@ -188,15 +198,25 @@ class ViewTicketFormInfo extends React.Component {
     if(this.props.tickets.submitedDoc){
 
       //Get values for all the check box
-      for(var i=0; i<this.props.tickets.submitedDoc.documents.checkLists.length;i++){
-        var dataChk ={};
-        dataChk.statement = this.props.tickets.submitedDoc.documents.checkLists[i].statement;
-        if(this.state[i] === true){
-            dataChk.status = true;
+      var chkListCount = this.state.checkObjs;
+      for(var i=0; i<chkListCount.length;i++){
+        var chkListElement = this.state.checkObjs[i];
+
+        if(this.state[chkListElement.id+'-Toggle']){
+          var toggleVal = this.state[chkListElement.id+'-Toggle'];
         }else{
-            dataChk.status = false;
+          var toggleVal = this.props.tickets.submitedDoc.documents.checkLists[i].correctVal;
         }
-        checkLists.push(dataChk);
+
+        if(this.state[chkListElement.id+'-Remark']){
+          var remkVal = this.state[chkListElement.id+'-Remark'];
+        }else{
+          var remkVal = this.props.tickets.submitedDoc.documents.checkLists[i].remarkVal;
+        }
+
+        chkListElement.correctVal = toggleVal;
+        chkListElement.remarkVal  = remkVal;
+        checkLists[i] = chkListElement;
 
       } // EOF i loop
 
@@ -211,13 +231,20 @@ class ViewTicketFormInfo extends React.Component {
         textLists.push(dataChk);
       } // EOF j loop 
 
-      var roleStatus  = "ProofResubmitted";
-      var msg         = "Resubmitted Verification Information";
+      if(actualStatus[0] == 'Completed'){    
+        var roleStatus  = "ProofResubmitted";
+        var msg         = "Resubmitted Verification Information";
+      }else{
+        var roleStatus  = "ProofResubmitted-Pending";
+        var msg         = "Resubmitted Verification Information";
+      }
+      // var roleStatus  = "ProofResubmitted";
+      // var msg         = "Resubmitted Verification Information";
     }else{
 
       //Get values for all the check box
       for(var i=0; i<this.props.checkObjs.length;i++){
-        console.log('this.state[this.props.checkObjs[i].id+"-Toggle"]: ',this.state[this.props.checkObjs[i].id+"-Toggle"]);
+        // console.log('this.state[this.props.checkObjs[i].id+"-Toggle"]: ',this.state[this.props.checkObjs[i].id+"-Toggle"]);
         if(this.state[this.props.checkObjs[i].id+"-Toggle"] == 'Correct'){
           var chkBoxToggleVal = this.state[this.props.checkObjs[i].id+"-Toggle"];
         }else{
@@ -241,7 +268,7 @@ class ViewTicketFormInfo extends React.Component {
 
       } // EOF i loop
 
-      console.log('checkLists: ',checkLists);
+      // console.log('checkLists: ',checkLists);
       for(var j=0; j<this.props.textObjs.length;j++){
         var dataChk    = {};
         dataChk.task   = this.props.textObjs[j].task;
@@ -253,9 +280,17 @@ class ViewTicketFormInfo extends React.Component {
         textLists.push(dataChk);
       } // EOF j loop 
 
-      var roleStatus  = "ProofSubmit";
-      var msg         = "Submitted Verification Information";     
-    }
+      if(actualStatus[0] == 'Completed'){    
+        var roleStatus  = "ProofSubmit";
+        var msg         = "Submitted Verification Information";
+      }else{
+        var roleStatus  = "ProofSubmit-Pending";
+        var msg         = "Submitted Verification Information";
+      }
+
+      // var roleStatus  = "ProofSubmit";
+      // var msg         = "Submitted Verification Information";     
+    }//EOF else
 
     var remark      = this.state.remark;
 
@@ -264,7 +299,7 @@ class ViewTicketFormInfo extends React.Component {
         checkLists : checkLists,
         textLists  : textLists,
         status     : status,
-        subStatus  : subStatus,
+        // subStatus  : subStatus,
         images     : images,
         videos     : videos,
         remark     : remark,
@@ -465,23 +500,35 @@ class ViewTicketFormInfo extends React.Component {
     }, {
       value: 'Insufficiency Cleared',
     }, {
-      value: 'Completed',
+      value: 'Completed-Clear',
+    },{
+      value: 'Completed-Minor Discrepancy',
+    },{
+      value: 'Completed-Major Discrepancy',
+    },{
+      value: 'Completed-Inaccessible',
+    },{
+      value: 'Completed-Unable to Verify',
+    },{
+      value: 'Completed-Cancelled',
+    },{
+      value: 'Completed-Case Drop',
     }];
-    let subStatus = [{
-      value: '-- Select --',
-    }, {
-      value: 'Clear',
-    }, {
-      value: 'Minor Discrepancy',
-    }, {
-      value: 'Major Discrepancy',
-    }, {
-      value: 'Unable to Verify',
-    }, {
-      value: 'Cancelled',
-    }, {
-      value: 'Case Drop',
-    }];
+    // let subStatus = [{
+    //   value: '-- Select --',
+    // }, {
+    //   value: 'Clear',
+    // }, {
+    //   value: 'Minor Discrepancy',
+    // }, {
+    //   value: 'Major Discrepancy',
+    // }, {
+    //   value: 'Unable to Verify',
+    // }, {
+    //   value: 'Cancelled',
+    // }, {
+    //   value: 'Case Drop',
+    // }];
 
     const menu = <Menu navigate={navigate} userName={this.props.userName} />;
     var navigationView = (
@@ -556,7 +603,7 @@ class ViewTicketFormInfo extends React.Component {
           >
             <ScrollView
               createContainerStyle={{
-                marginBottom: 25,
+                marginBottom: 90,
                 borderWidth: 0,
                 margin: 0
               }}
@@ -619,8 +666,8 @@ class ViewTicketFormInfo extends React.Component {
 
                   
                   <View style={{width:'100%',padding:10}}>
-                  {this.props.checkObjs ?
-                    this.props.checkObjs.map((checkListDefault,index)=>{
+                  { this.state.checkObjs ?
+                    this.state.checkObjs.map((checkListDefault,index)=>{
                       return(
                               <View key={index} style={{flex:1, flexDirection: 'row', borderBottomColor: '#ddd'}}>
 
@@ -629,15 +676,15 @@ class ViewTicketFormInfo extends React.Component {
                                     <Text>{index+1}. {checkListDefault.task}</Text>
                                   </View>
 
-                                  { checkListDefault.relatedFields ? checkListDefault.relatedFields.map((data,ind)=>{
+                                { checkListDefault.relatedFields ? checkListDefault.relatedFields.map((data,ind)=>{
                                     return(
                                       <View style={{flex:1}} key={ind}>
-                                        <Text>{data.dbField}</Text>
+                                        <Text>{data.value}</Text>
                                       </View>
                                     );
                                  })
                                   :
-                                  <Text>Null</Text>
+                                  <Text></Text>
                                 }
                                 </View>
 
@@ -818,7 +865,7 @@ class ViewTicketFormInfo extends React.Component {
                   </View>
 
                   <View style = {styles.lineStyle} >
-                    <View style={styles.formInputViews}>
+                    <View style={[styles.formInputViews]}>
                       <Dropdown
                         label                 = 'Status'
                         data                  = {status}
@@ -832,7 +879,7 @@ class ViewTicketFormInfo extends React.Component {
                     </View>
                   </View>
 
-                  <View style = {styles.lineStyle} >
+{/*                  <View style = {styles.lineStyle} >
                     <View style={styles.formInputViews}>
                       <Dropdown
                         label                 = 'Sub-status'
@@ -845,15 +892,16 @@ class ViewTicketFormInfo extends React.Component {
                         onChangeText          = {(subStatus) => this.setState({subStatus})}
                       /> 
                     </View>
-                  </View>
+                  </View>*/}
 
-              <View style={{ alignItems: "center",marginTop:4}}>
+              <View style={{ alignItems: "center",marginTop:40}}>
                 <Button
                   buttonStyle={styles.buttonLarge}
                   title="SAVE"
                   onPress={this.submit.bind(this)}
                 />
               </View>
+
               </View>
 
             </ScrollView>
@@ -914,10 +962,20 @@ ViewTicketForm = createContainer( (props) => {
 
        if(tickets.submitedDoc){
           checkObjs = tickets.submitedDoc.documents.checkLists;
-          for(var chk = 0 ; chk < checkObjs.length ; chk++){
+/*          for(var chk = 0 ; chk < checkObjs.length ; chk++){
             checkObjs[chk].task = checkObjs[chk].statement;
             checkObjs[chk].id   = chk;
+          }*/
+
+          if (checkObjs) {
+              for (var i = 0; i < checkObjs.length; i++) {
+                  checkObjs[i].id = i;
+                  checkObjs[i].task = checkObjs[i].titleVal;
+                  checkObjs[i].relatedFields = checkObjs[i].textVal;
+                 
+              }
           }
+
           textObjs  = tickets.submitedDoc.documents.textLists;
           for(var txt = 0 ; txt < textObjs.length ; txt++){
             textObjs[txt].task = textObjs[txt].task;
@@ -929,27 +987,56 @@ ViewTicketForm = createContainer( (props) => {
           // console.log('checkObjs: ',checkObjs);
           // console.log('textObjs: ',textObjs);
           // console.log('imgData: ',imgData);
+          console.log('checkObjs 0: ',checkObjs);
        }else{
          var checkListObjs = Meteor.collection("checklistFieldExpert").find({"checkListFor" : checkListFrom}) || [];
           if (checkListObjs && checkListObjs.length > 0) {
 
              // console.log('checkListObjs: ',checkListObjs);
-             for (let i = 0; i < checkListObjs.length; i++) {
-                if(checkListObjs[i].checkListFrom == 'Database'){
-                    checkObjs.push({'id':checkListObjs[i]._id,'task':checkListObjs[i].task, "relatedFields":checkListObjs[i].relatedFields}); 
-                }else{
-                    textObjs.push({'id':checkListObjs[i]._id,'task':checkListObjs[i].task, "relatedFields":checkListObjs[i].relatedFields}); 
-                }
-             }
+             // for (let i = 0; i < checkListObjs.length; i++) {
+             //    if(checkListObjs[i].checkListFrom == 'Database'){
+             //        checkObjs.push({'id':checkListObjs[i]._id,'task':checkListObjs[i].task, "relatedFields":checkListObjs[i].relatedFields}); 
+             //    }else{
+             //        textObjs.push({'id':checkListObjs[i]._id,'task':checkListObjs[i].task, "relatedFields":checkListObjs[i].relatedFields}); 
+             //    }
+             // }
 
-             // console.log('checkObjs: ',checkObjs);
+              if (checkListObjs) {
+                  for (var i = 0; i < checkListObjs.length; i++) {
+                      checkListObjs[i].id = checkListObjs[i]._id;
+                      if(checkListObjs[i].checkListFrom == 'Database'){
+                          if(checkListFrom = "Address Information"){
+                              if(verificationType == "permanentAddress"){
+                                  for(j = 0 ; j < checkListObjs[i].relatedFields.length; j++){
+                                      checkListObjs[i].relatedFields[j].value = tickets.verificationData[checkListObjs[i].relatedFields[j].dbField];   
+                                  }
+                              }else{
+                                  for(j = 0 ; j < checkListObjs[i].relatedFields.length; j++){
+                                      var tempVar = 'temp'+checkListObjs[i].relatedFields[j].dbField;
+                                      checkListObjs[i].relatedFields[j].value = tickets.verificationData[tempVar];   
+                                  }
+                              }
+                          }else{
+                              for(j = 0 ; j < checkListObjs[i].relatedFields.length; j++){
+                                  checkListObjs[i].relatedFields[j].value = checkListObjs[i].relatedFields[j].dbField + ':'+tickets.verificationData[checkListObjs[i].relatedFields[j].dbField];   
+                              }
+                          }
+                          checkObjs.push(checkListObjs[i]); 
+                      }else{
+                          textObjs.push(checkListObjs[i]); 
+                      }
+                  }
+              }
+
+            
           }
+          console.log('checkObjs 1: ',checkObjs);
        }
 
       } // end of ticket object
         
     }
-   
+       
       
       // console.log("textObjs",textObjs);
 

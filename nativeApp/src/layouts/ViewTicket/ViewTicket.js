@@ -626,7 +626,7 @@ class ViewTicket extends React.Component {
 
 export default createContainer((props) => {
 
-  var ticketId  = '';
+  var ticketId       = '';
   var assignedByName = '';
   var viewTicketUserData, handle1, loadingUser,verificationDocument = '';
 
@@ -659,11 +659,14 @@ export default createContainer((props) => {
     // console.log('viewTicketData.userProfile: ',viewTicketData.userProfile);
     var ticketElements    = viewTicketData.ticketElement;
     var FEDetails         = ticketElements.find((obj)=> { return obj.roleStatus == 'FEAllocated' });
-    var handle2           = Meteor.subscribe('userData',FEDetails.userId);
-    var assignedBy        = Meteor.collection('users').findOne({'_id': FEDetails.userId});
-    
-    if(assignedBy){
-      assignedByName = assignedBy.profile.firstname+' '+assignedBy.profile.lastname
+
+    if(FEDetails){
+      var handle2           = Meteor.subscribe('userData',FEDetails.userId);
+      var assignedBy        = Meteor.collection('users').findOne({'_id': FEDetails.userId});
+      
+      if(assignedBy){
+        assignedByName = assignedBy.profile.firstname+' '+assignedBy.profile.lastname
+      }
     }
     // console.log('FEDetails: ',FEDetails);
     var _id = Meteor.userId();

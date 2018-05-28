@@ -158,23 +158,35 @@ class ViewSubmittedTicket extends React.Component {
     }, {
       value: 'Insufficiency Cleared',
     }, {
-      value: 'Completed',
+      value: 'Completed-Clear',
+    },{
+      value: 'Completed-Minor Discrepancy',
+    },{
+      value: 'Completed-Major Discrepancy',
+    },{
+      value: 'Completed-Inaccessible',
+    },{
+      value: 'Completed-Unable to Verify',
+    },{
+      value: 'Completed-Cancelled',
+    },{
+      value: 'Completed-Case Drop',
     }];
-    let subStatus = [{
-      value: '-- Select --',
-    }, {
-      value: 'Clear',
-    }, {
-      value: 'Minor Discrepancy',
-    }, {
-      value: 'Major Discrepancy',
-    }, {
-      value: 'Unable to Verify',
-    }, {
-      value: 'Cancelled',
-    }, {
-      value: 'Case Drop',
-    }];
+    // let subStatus = [{
+    //   value: '-- Select --',
+    // }, {
+    //   value: 'Clear',
+    // }, {
+    //   value: 'Minor Discrepancy',
+    // }, {
+    //   value: 'Major Discrepancy',
+    // }, {
+    //   value: 'Unable to Verify',
+    // }, {
+    //   value: 'Cancelled',
+    // }, {
+    //   value: 'Case Drop',
+    // }];
     const menu = <Menu navigate={navigate} userName={this.props.userName} />;
     var navigationView = (
       <ScrollView
@@ -329,8 +341,8 @@ class ViewSubmittedTicket extends React.Component {
 
 
                   <View style={{width:'100%',padding:10}}>
-                  {this.props.selectFEData ?
-                    this.props.selectFEData.documents.checkLists.map((checkListDefault,index)=>{
+                  {this.props.checkObjs ?
+                    this.props.checkObjs.map((checkListDefault,index)=>{
                       return(
                               <View key={index} style={{flex:1, flexDirection: 'row', borderBottomColor: '#ddd'}}>
 
@@ -342,12 +354,12 @@ class ViewSubmittedTicket extends React.Component {
                                   { checkListDefault.textVal ? checkListDefault.textVal.map((data,ind)=>{
                                     return(
                                       <View style={{flex:1}} key={ind}>
-                                        <Text>{data.dbField}</Text>
+                                        <Text>{data.value}</Text>
                                       </View>
                                     );
                                  })
                                   :
-                                  <Text>Null</Text>
+                                  <Text></Text>
                                 }
                                 </View>
 
@@ -490,7 +502,7 @@ class ViewSubmittedTicket extends React.Component {
                     </View>
                   </View>
 
-                  <View style = {styles.lineStyle} >
+{/*                  <View style = {styles.lineStyle} >
                     <View style={styles.formInputView}>
                       <View>
                         <Text style={{fontWeight: 'bold'}}>Sub-status</Text>
@@ -500,7 +512,7 @@ class ViewSubmittedTicket extends React.Component {
                       <Text>{this.props.selectFEData.documents.subStatus}</Text>
 
                     </View>
-                  </View>
+                  </View>*/}
 
               </View>
 
@@ -518,7 +530,7 @@ ViewSubmittedTicketContainer = createContainer( (props) => {
     const ticket       = props.navigation.state.params.ticket;
     const postHandle   = Meteor.subscribe('allTicketImages');
     const postHandle1  = Meteor.subscribe('allTicketVideo');
-    const postHandle2  = Meteor.subscribe('checklistFieldExpert');
+    // const postHandle2  = Meteor.subscribe('checklistFieldExpert');
     const postHandle3  = Meteor.subscribe('singleTicket',ticket);
 
     const ticketImages = Meteor.collection("tempTicketImages").find({}) || []; 
@@ -561,8 +573,19 @@ ViewSubmittedTicketContainer = createContainer( (props) => {
 
       // console.log('selectFEData: ',selectFEData);
 
+      if(selectFEData && selectFEData.documents){
+        checkObjs = selectFEData.documents.checkLists;
+        if (checkObjs) {
+            for (var i = 0; i < checkObjs.length; i++) {
+                checkObjs[i].id = i;
+                checkObjs[i].task = checkObjs[i].titleVal;
+                checkObjs[i].relatedFields = checkObjs[i].textVal;
+            }
+        }
+      }
+
        // console.log('checkListFrom: ',checkListFrom);
-       var checkListObjs = Meteor.collection("checklistFieldExpert").find({"checkListFor" : checkListFrom}) || [];
+/*       var checkListObjs = Meteor.collection("checklistFieldExpert").find({"checkListFor" : checkListFrom}) || [];
         if (checkListObjs && checkListObjs.length > 0) {
            // console.log('checkListObjs: ',checkListObjs);
            for (var i = 0; i < checkListObjs.length; i++) {
@@ -572,11 +595,11 @@ ViewSubmittedTicketContainer = createContainer( (props) => {
                   textObjs.push({'id':checkListObjs[i]._id,'task':checkListObjs[i].task, "relatedFields":checkListObjs[i].relatedFields}); 
               }
            }
-        }
+        } */
         
-    }
+    }// if ticket id
    
-      // console.log("checkObjs",checkObjs);
+      console.log("checkObjs",checkObjs);
       // console.log("textObjs",textObjs);
 
       const postHandle4     = Meteor.subscribe('projectSettingsPublish');
