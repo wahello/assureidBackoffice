@@ -102,41 +102,33 @@ class ReportGeneration extends TrackerReact(Component){
     }
 }
 export default ReportGenerationContainer = withTracker(props => {
-  //Get the ticket id from the url
-  var currentLocation = browserHistory.getCurrentLocation();
-  if(currentLocation){
-    var splitUrl = currentLocation.pathname.split('/');
-    var url = splitUrl[2]; 
-    console.log('url ',url);
-  // var handleSinTick = Meteor.subscribe("singleTicket",props.params.id);
-    var idValue= url;
-    var handleSinTick = Meteor.subscribe("singleTicket",idValue);
-
-    console.log("handleSinTick");
-    console.log(handleSinTick);
-    var loading = !handleSinTick.ready();
-    var getTicket = TicketMaster.findOne({"_id":url});
-    if(getTicket){
-
-    console.log('getTicket ',getTicket);
-    console.log(getTicket.reportGenerated.documents.documents.checkLists);
-
+  //Get id from the props
+  var idValue = props.ticketId;
+  if(!idValue){
+    //Get the ticket id from the url
+    var currentLocation = browserHistory.getCurrentLocation();
+    if(currentLocation){
+      var splitUrl = currentLocation.pathname.split('/');
+      var url = splitUrl[2]; 
+      console.log('url ',url);
+      idValue= url;
     }
   }
+  console.log('idValue ',idValue);
+  var handleSinTick = Meteor.subscribe("singleTicket",idValue);
 
-  console.log("this.props.getTicket.reportGenerated.documents.documents.checkLists");
-  // console.log(getTicket.reportGenerated);
-  // if(url){
-  //   var handleSinTick = Meteor.subscribe("singleTicket",url);
-  //   var loading = !handleSinTick.ready();
-  //   var getTicket = TicketMaster.findOne({"_id":url}) ;
-  //   // if(getTicket){
-  //   //   console.log('getTicket ',getTicket);
-  //   //   
-  //   // }
-  // }
-  return{
-    // loading,
-    getTicket
+  console.log("handleSinTick");
+  console.log(handleSinTick);
+  var loading = !handleSinTick.ready();
+  var getTicket = TicketMaster.findOne({"_id":idValue});
+  if(getTicket){
+
+  console.log('getTicket ',getTicket);
+  console.log(getTicket.reportGenerated.documents.documents.checkLists);
+
   }
+
+return{
+  getTicket
+}
 })(ReportGeneration);

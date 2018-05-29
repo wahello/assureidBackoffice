@@ -51,7 +51,7 @@ class AllOrders extends TrackerReact(Component){
                                                   <td><Link to={"/admin/orderdetails/"+data._id}>{moment(data.createdAt).format('DD-MM-YYYY')}</Link></td>
                                                   <td><Link to={"/admin/orderdetails/"+data._id}>{moment(data.tatDate).format('DD-MM-YYYY')}</Link></td> 
                                                   <td><Link to={"/admin/orderdetails/"+data._id}>{Math.round(Math.abs((new Date().getTime() - data.createdAt.getTime())/(24*60*60*1000)))}</Link></td>
-                                                  <td className={data.bgClassName}><Link to={"/admin/ticket/"+data._id} className="statuswcolor">{data.orderStatus}</Link></td>       
+                                                  <td className={data.bgClassName}><Link to={"/admin/orderdetails/"+data._id} className="statuswcolor">{data.orderStatus}</Link></td>       
                                               </tr>
                                           );
                                         })
@@ -84,12 +84,13 @@ AllOrderContainer = withTracker(props => {
     var handleAllOrdersList = Meteor.subscribe("allOrders");
     var loading = !handleAllOrdersList.ready();
     var _id  = Meteor.userId();
-    var allOrderList = Order.find({},{sort:{createdAt: -1}}).fetch() || [];
+    var allOrderList = Order.find({"allocatedToUserid":Meteor.userId()},{sort:{createdAt: 1}}).fetch() || [];
 
     if(allOrderList){
         for(i=0;i< allOrderList.length; i++){
-          if(allOrderList[i].orderStatus == 'In Process') {
-            allOrderList[i].bgClassName = 'btn-primary';
+          if(allOrderList[i].orderStatus == 'Completed - Generating Report') {
+            allOrderList[i].orderStatus = 'New';
+            allOrderList[i].bgClassName = 'btn-warning';
           } 
         } 
     }
