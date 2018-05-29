@@ -152,6 +152,8 @@ class Ticket extends TrackerReact(Component){
     $('#AddImagesVideo').css({"display" : "block"});
     $(event.currentTarget).css({"display" : "none"});
     var data = this.props.checkObjs;
+    console.log('data: ', data);
+
    
     if(data){
         var dataArr = [];
@@ -188,10 +190,13 @@ class Ticket extends TrackerReact(Component){
             console.log('obj: ', obj);
         }
         console.log('verifiedInfo: ', dataArr);
+       
         this.setState({
             verifiedInfo: dataArr,
             
         })
+        
+        
     }
   }
   handleReportUpload(event){
@@ -1228,6 +1233,7 @@ export default UserDetailsContainer = withTracker(props => {
       var checkListFrom = "Skills And CertificationInformation";
       }
       var checkListObjs = ChecklistFieldExpert.find({"checkListFor" : checkListFrom}).fetch();
+      console.log(' inside render checkListObjs: ', checkListObjs);
 
       var checkObjs = [];
       var textObjs = [];

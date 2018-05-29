@@ -282,8 +282,10 @@ class VerificationDataSubmit extends TrackerReact(Component){
 			var dataChk    = {};
 			dataChk.task   = $(this).attr('id');
             dataChk.value  = $(this).val();
+            
             textLists.push(dataChk);
         });
+
         var status      = this.refs.documentStatus.value;
         var actualStatus = status.split('-');
         if(actualStatus[0] == 'Completed'){
@@ -680,9 +682,9 @@ class VerificationDataSubmit extends TrackerReact(Component){
                                     this.props.textObjs.map((textObjsUsrUpload, index)=>{
                                         return(
                                         <div className="imgtitile col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad" key={index}>
-                                            <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3  Selectimg">{textObjsUsrUpload}:</div>
+                                            <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3  Selectimg">{textObjsUsrUpload.task}:</div>
                                             <div className="col-lg-9 col-md-9 col-sm-9 col-xs-7">
-                                                <textarea className="form-control textObjs" id={textObjsUsrUpload} name="textObjs" ref="textObjs" rows="1" onChange={this.handleChange} required>
+                                                <textarea className="form-control textObjs" id={textObjsUsrUpload.task} name="textObjs" ref="textObjs" rows="1" onChange={this.handleChange} required>
                                                 </textarea>
                                             </div>
                                         </div>
@@ -912,7 +914,7 @@ class VerificationDataSubmit extends TrackerReact(Component){
 VerificationDataSubmitContainer = withTracker(props => { 
     const ticketId     = props.ticketId;
     var chekFieldList  = props.chekFieldList;
-    console.log('chekFieldList: ', chekFieldList);
+    
 
     
     
@@ -971,9 +973,10 @@ VerificationDataSubmitContainer = withTracker(props => {
                         checkObjs.push(checkListObjs[i]); 
                     }else{
                         textObjs.push(checkListObjs[i]); 
+                        
                     }
                 }
-                console.log('checkObjs ', checkObjs);
+                
             }
 
         }

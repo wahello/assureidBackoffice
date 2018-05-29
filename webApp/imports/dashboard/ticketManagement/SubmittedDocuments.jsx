@@ -23,7 +23,7 @@ export default class SubmittedDocuments extends TrackerReact(Component){
   showSubmitted(event){
   	event.preventDefault();
     var idVal= $(event.target).attr('data-target');
-    // console.log("idVal",idVal);
+    // 
     $('#'+idVal).modal('show');
 	} 
 	
@@ -36,7 +36,7 @@ export default class SubmittedDocuments extends TrackerReact(Component){
 	}
 	EditDocument(event){
 		event.preventDefault();
-		console.log("Inside editDocument");
+		
     $('#AddImagesVideo1').css({"display" : "block"});
     $('#submitedDocWrap').css({"display" : "none"});
 	}
@@ -56,7 +56,7 @@ export default class SubmittedDocuments extends TrackerReact(Component){
 		      }
 	    	}
 	    }
-	    //console.log('showEditButton ',showEditButton);
+	    //
 	    return showEditButton;
 	}
 	yesReason(event){
@@ -208,7 +208,8 @@ export default class SubmittedDocuments extends TrackerReact(Component){
 			           	 	 	);
 			           	 })
 			           	 :
-			           	 ""
+										""
+										
 			           }
 	            </div>
 			      </div>
