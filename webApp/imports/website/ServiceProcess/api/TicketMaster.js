@@ -57,6 +57,8 @@ if(Meteor.isServer){
 		//Update TicketElement
 		//Write code for split
 	
+		console.log('ticketid: ',ticketid);
+		console.log('insertData: ',insertData);
 		var memberValue = insertData.allocatedToUserName;
 		var a = memberValue.indexOf("(");
 		if(a !== -1){
@@ -73,8 +75,10 @@ if(Meteor.isServer){
 			}
 		);	
 
+		console.log('insertData.roleStatus: ',insertData.roleStatus);
 		switch(insertData.roleStatus){
 			case 'ScreenApproved' 	:
+			console.log('ScreenApproved');
 				var newCount = Meteor.user().count;
 				if(newCount){
 					Meteor.call('updateCommitteeUserCount',newCount-1,insertData.userId);
@@ -121,6 +125,7 @@ if(Meteor.isServer){
 				);
 				break;
 			case 'ScreenRejected' 	: 
+			console.log('ScreenRejected');
 				var newCount = Meteor.user().count;
 				if(newCount){
 					Meteor.call('updateCommitteeUserCount',newCount-1,insertData.userId);
@@ -138,6 +143,7 @@ if(Meteor.isServer){
 				}
 				break;
 			case 'AssignAccept' :
+			console.log('AssignAccept');
 				TicketMaster.update(
 					{'_id':ticketid},
 					{
@@ -148,6 +154,7 @@ if(Meteor.isServer){
 				);	
 				break;
 			case 'AssignReject':
+			console.log('AssignReject');
 				var teamMember = Meteor.users.findOne({"_id":insertData.userId});
 				if(teamMember && teamMember.count){
 					var newCount = teamMember.count - 1;
@@ -157,6 +164,7 @@ if(Meteor.isServer){
 				Meteor.call('updateCommitteeUserCount',newCount,teamMember._id);
 				break;
 			case 'ProofSubmit-Pending' :
+				console.log('ProofSubmit-Pending');
 				TicketMaster.update({"_id": ticketid},{
 					$set: {
 						'submitedDoc.createdAt' : insertData.createdAt,
@@ -167,6 +175,7 @@ if(Meteor.isServer){
 				TempTicketVideo.remove({});
 				break;
 			case 'ProofSubmit'      :
+			console.log('ProofSubmit');
 				TicketMaster.update({"_id": ticketid},{
 					$set: {
 						'submitedDoc.createdAt' : insertData.createdAt,
@@ -203,6 +212,7 @@ if(Meteor.isServer){
 				}
 				break;
 			case 'ProofResubmitted' :
+			console.log('ProofResubmitted');
 					TicketMaster.update({"_id": ticketid},{
 						$set: {
 							'submitedDoc.createdAt' : insertData.createdAt,

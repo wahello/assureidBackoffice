@@ -31,76 +31,73 @@ export default class RenderVideo extends React.Component {
   }
 
   render() {
-              return(
-                    <View style={{paddingHorizontal:10,paddingVertical:10}}>
-                   {/* <Text>{this.props.videoData.videoLink}</Text>*/}
-                      <TouchableHighlight
-                        onPress={() => {
-                          this.setModalVisible(true);
-                      }}>
-                      <Image
-                        onPress={() => {this.setModalVisible(true);}}
-                        style={{ width: 50, height: 50, borderRadius: 15}}
-                        resizeMode="stretch"
-                        source={require("../../images/file-video-icon.png")}
-                      />
-                      </TouchableHighlight>
+    return(
+          <View style={{paddingHorizontal:10,paddingVertical:10}}>
 
-                      <Text>Remove</Text>
+            <TouchableHighlight
+              onPress={() => {
+                this.setModalVisible(true);
+            }}>
+              <Image
+                onPress={() => {this.setModalVisible(true);}}
+                style={{ width: 50, height: 50, borderRadius: 15}}
+                resizeMode="stretch"
+                source={require("../../images/file-video-icon.png")}
+              />
+            </TouchableHighlight>
 
-                      <Modal
-                      animationType="slide"
-                      transparent={false}
-                      visible={this.state.modalVisible}
-                      onRequestClose={() => {
-                        Alert.alert('Modal has been closed.');
-                      }}>
+            <Modal
+            animationType="slide"
+            transparent={false}
+            visible={this.state.modalVisible}
+            onRequestClose={() => {
+              Alert.alert('Modal has been closed.');
+            }}>
 
-                      <View style={{width: window.width}}>
+            <View style={{width: window.width}}>
+              <View style={{zIndex : 1, position : 'absolute',backgroundColor:'rgba(52, 52, 52, 0.6)'}}>
+                <TouchableOpacity>
+                <Button
+                    large
+                    title="Close"
+                    onPress={() => {
+                      this.setModalVisible(!this.state.modalVisible);
+                    }}
+                    buttonStyle={{ width : window.width, backgroundColor : 'transparent'}}
+                  />  
+                </TouchableOpacity>  
+              </View>
 
-                        <View style={{zIndex : 1, position : 'absolute',backgroundColor:'rgba(52, 52, 52, 0.6)'}}>
-                          <TouchableOpacity>
-                          <Button
-                            large
-                            title="Close"
-                            onPress={() => {
-                              this.setModalVisible(!this.state.modalVisible);
-                            }}
-                            buttonStyle={{ width : window.width, backgroundColor : 'transparent'}}
-                            />  
-                          </TouchableOpacity>  
-                        </View>
+              <View style={{height: window.height, width: window.width}}>
+                <Video
+                  repeat={true}
+                  muted={this.state.muted}
+                  // muted={true}
+                  // paused={true}
+                  playInBackground={false}
+                  resizeMode='cover'
+                  // onFullscreenPlayerWillPresent={this.fullScreenPlayerWillPresent}
+                  source={require('../../videos/videoplayback.mp4')}
+                  // source={{ uri: this.props.videoData.videoLink, type: this.props.videoData.ext }}
+                  style={[ styles.backgroundVideo, {height: window.height/2, width: window.width}  ]}
+                />
+              </View>
+            </View>
 
-                        <View style={{height: window.height, width: window.width}}>
-                        <Video
-                          repeat={true}
-                          muted={this.state.muted}
-                          // muted={true}
-                          // paused={true}
-                          playInBackground={false}
-                          resizeMode='cover'
-                          // onFullscreenPlayerWillPresent={this.fullScreenPlayerWillPresent}
-                          source={require('../../videos/videoplayback.mp4')}
-                          // source={{ uri: this.props.videoData.videoLink, type: this.props.videoData.ext }}
-                          style={[ styles.backgroundVideo, {height: window.height/2, width: window.width}  ]}
-                        />
-                        </View>
-                      </View>
+            <View style={{flex:1, backgroundColor:'#000' }}>
+                <TouchableOpacity>
+                  <Button
+                    large
+                    title="Mute"
+                    onPress={() => {
+                      this.muteFunction.bind(this);
+                    }}
+                    />  
+                </TouchableOpacity>
+            </View>
 
-                      <View style={{flex:1, backgroundColor:'#000' }}>
-                          <TouchableOpacity>
-                          <Button
-                            large
-                            title="Mute"
-                            onPress={() => {
-                              this.muteFunction.bind(this);
-                            }}
-                            />  
-                          </TouchableOpacity>
-                      </View>
-
-                      </Modal>
-                  </View>
-              );
+            </Modal>
+        </View>
+    );
   }
 }

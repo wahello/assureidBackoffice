@@ -336,7 +336,7 @@ class ViewTicketFormInfo extends React.Component {
                   if (error) {
                     console.log(error.reason);
                   }else{
-                    // console.log("Inserted Successfully!");
+                    console.log("Inserted Successfully!");
                     this.props.navigation.navigate('ViewSubmittedTicket', { ticket: this.props.tickets._id });
                   }
               });
@@ -360,7 +360,7 @@ class ViewTicketFormInfo extends React.Component {
     });
   }
 
-  displayAttachments =()=>{
+  displayAttachments(){
     var data = [];
     var verificationDocuments = this.props.imgData;
     if(verificationDocuments && verificationDocuments.length>0){
@@ -379,7 +379,7 @@ class ViewTicketFormInfo extends React.Component {
                     </View>
                     
                   </View>
-                  )
+                  );
         })       
     }
 
@@ -455,28 +455,7 @@ class ViewTicketFormInfo extends React.Component {
                               }));                              
                             }
 
-                            // console.log(this.state.videos);
 
-                            // Meteor.call("insertEmpTempProofDocs",userId,fileDetails,prooftype,proofSubtype,(error,result) =>{
-                            //   if(error){
-                            //     console.log(error.reason);
-                            //     Alert.alert(
-                            //       'Error',
-                            //     )
-                            //   }else{
-                            //     console.log("File details saved.");
-                            //   }
-                            // });
-                            /**
-                             * {
-                             *   postResponse: {
-                             *     bucket: "your-bucket",
-                             *     etag : "9f620878e06d28774406017480a59fd4",
-                             *     key: "uploads/image.png",
-                             *     location: "https://your-bucket.s3.amazonaws.com/uploads%2Fimage.png"
-                             *   }
-                             * }
-                             */
                           }).catch((error) => console.log("Handled Exceptions image ",error));
 
                           });    
@@ -514,21 +493,7 @@ class ViewTicketFormInfo extends React.Component {
     },{
       value: 'Completed-Case Drop',
     }];
-    // let subStatus = [{
-    //   value: '-- Select --',
-    // }, {
-    //   value: 'Clear',
-    // }, {
-    //   value: 'Minor Discrepancy',
-    // }, {
-    //   value: 'Major Discrepancy',
-    // }, {
-    //   value: 'Unable to Verify',
-    // }, {
-    //   value: 'Cancelled',
-    // }, {
-    //   value: 'Case Drop',
-    // }];
+
 
     const menu = <Menu navigate={navigate} userName={this.props.userName} />;
     var navigationView = (
@@ -608,6 +573,8 @@ class ViewTicketFormInfo extends React.Component {
                 margin: 0
               }}
             >
+
+
               <Header
                 centerComponent={{ text: "ASSUREID", style: { color: "#fff",fontWeight:'bold' } }}
                 leftComponent={
@@ -676,23 +643,29 @@ class ViewTicketFormInfo extends React.Component {
                                     <Text>{index+1}. {checkListDefault.task}</Text>
                                   </View>
 
-                                { checkListDefault.relatedFields && checkListDefault.relatedFields.length > 0 ? checkListDefault.relatedFields.map((data,ind)=>{
+                                <View>
+                                { checkListDefault.relatedFields && 
+                                  checkListDefault.relatedFields.length > 0 ? 
+
+                                  checkListDefault.relatedFields.map((data, ind)=>{
                                     return(
                                       <View style={{flex:1}} key={ind}>
                                         <Text>{data.value}</Text>
                                       </View>
                                     );
                                  })
+
+
                                   :
-                                  <Text></Text>
+                                  <View><Text></Text></View>
                                 }
+                                </View>
+
                                 </View>
 
                                 <View style={{flex:1}}>
                                   <View style={{flex:1}}>
                                     <Text>Incorrect/Correct</Text>
-                                 { /*</View>
-                                  <View style={{flex:1}}>*/}
                                     <ToggleSwitch
                                         isOn={false}
                                         onColor='#33b5e5'
@@ -715,41 +688,43 @@ class ViewTicketFormInfo extends React.Component {
                                                   }
                                     />
                                   </View>
-                                <TextField
-                                  label                 = {'Remark'}
-                                  lineWidth             = {0}
-                                  tintColor             = {this.state.inputFocusColor}
-                                  inputContainerPadding = {4}
-                                  labelHeight           = {16}
-                                  keyboardType          = 'default'
-                                  inputContainerStyle   = {{height:60}}
-                                  style                 = {styles.inputTextNew}
-                                  labelTextStyle        = {styles.labelTextNew}
-                                  activeLineWidth       = {0}
-                                  fontSize              = {this.state.fontSize}
-                                  labelFontSize         = {this.state.fontSize}
-                                  ref                   = {checkListDefault.id+'-Remark'}
-                                  value                 = {this.state[checkListDefault.id+'-Remark']}
-                                  onChangeText          = {(value) => { 
-                                                                        this.setState({ [checkListDefault.id+'-Remark'] : value }, () => {
-                                                                          // console.log('this.state : ', this.state);
-                                                                        });
-                                                                      }
-                                                          }
-                                />
+                                  <TextField
+                                    label                 = {'Remark'}
+                                    lineWidth             = {0}
+                                    tintColor             = {this.state.inputFocusColor}
+                                    inputContainerPadding = {4}
+                                    labelHeight           = {16}
+                                    keyboardType          = 'default'
+                                    inputContainerStyle   = {{height:60}}
+                                    style                 = {styles.inputTextNew}
+                                    labelTextStyle        = {styles.labelTextNew}
+                                    activeLineWidth       = {0}
+                                    fontSize              = {this.state.fontSize}
+                                    labelFontSize         = {this.state.fontSize}
+                                    ref                   = {checkListDefault.id+'-Remark'}
+                                    value                 = {this.state[checkListDefault.id+'-Remark']}
+                                    onChangeText          = {(value) => { 
+                                                                          this.setState({ [checkListDefault.id+'-Remark'] : value }, () => {
+                                                                            // console.log('this.state : ', this.state);
+                                                                          });
+                                                                        }
+                                                            }
+                                  />
                                 </View>
                               </View>
                       );
                     })
+
                   :
-                  null
+                   <View><Text></Text></View>
                   }
                   </View>
 
 
                 <View style={{width:'100%',padding:10}}>
                 {this.props.textObjs ?
-                  this.props.textObjs.map((textListDefault,index)=>{
+                  <View>
+                  { this.props.textObjs.map((textListDefault,index)=>{
                     return(
                             <View style={styles.inputWrapper} key={index}>
                               <View style={styles.formInputView1}>
@@ -777,8 +752,10 @@ class ViewTicketFormInfo extends React.Component {
                             </View>
                           );
                         })
+                      }
+                      </View>
                         :
-                       ""
+                        <View><Text></Text></View>
                 }
                 </View>
 
@@ -805,7 +782,6 @@ class ViewTicketFormInfo extends React.Component {
                   </View>
 
                   <View style = {styles.lineStyle} >
-
                   <View style={styles.formInputView}>
                     <View>
                       <Text style={[(robotoWeights.bold),{fontSize:15,color:'#333333'}]}>Upload Videos</Text>
@@ -817,14 +793,17 @@ class ViewTicketFormInfo extends React.Component {
                         <View style={{flexDirection:'row',bottom:50}}>
                           <View style={{flex:0.2}}>
                           <Icon name="videocam" type="MaterialIcons" size={65} color="#aaa" onPress = {this.uploadVideo.bind(this)} />
-
-                          { this.state.videos.length > 0 ?
-                            this.state.videos.map((videoData,index)=>{
-                              return(<RenderVideo key={index} videoData={videoData}/>);
-                            })
-                            :
-                            null
-                          }
+                          <View>
+                            { this.state.videos.length > 0 ?
+                              <View>
+                              {this.state.videos.map((videoData,index)=>{
+                                return(<RenderVideo key={index} videoData={videoData}/>);
+                              }) }
+                              </View>
+                              :
+                              <View><Text></Text></View>
+                            }
+                          </View>
                           </View>
                         </View>
                       </View>
@@ -879,20 +858,6 @@ class ViewTicketFormInfo extends React.Component {
                     </View>
                   </View>
 
-{/*                  <View style = {styles.lineStyle} >
-                    <View style={styles.formInputViews}>
-                      <Dropdown
-                        label                 = 'Sub-status'
-                        data                  = {subStatus}
-                        inputContainerStyle   = {styles.dropdownStyle}
-                        inputContainerPadding = {0}
-                        labelHeight           = {16}
-                        ref                   = 'subStatus'
-                        value                 = {this.state.subStatus}
-                        onChangeText          = {(subStatus) => this.setState({subStatus})}
-                      /> 
-                    </View>
-                  </View>*/}
 
               <View style={{ alignItems: "center",marginTop:40}}>
                 <Button
@@ -903,6 +868,8 @@ class ViewTicketFormInfo extends React.Component {
               </View>
 
               </View>
+
+
 
             </ScrollView>
           </View>
@@ -921,7 +888,7 @@ ViewTicketForm = createContainer( (props) => {
     const postHandle6  = Meteor.subscribe('tempFEImgData' ,ticket, 'image');
     const loading6     = !postHandle6.ready();
     const imgData      = Meteor.collection('tempFEUploadData').find({ "ticketId"  : ticket, "type" : "image" }) || [];
-
+    console.log('imgData: ',imgData);
     const postHandle   = Meteor.subscribe('allTicketImages');
     const postHandle1  = Meteor.subscribe('allTicketVideo');
     const postHandle2  = Meteor.subscribe('checklistFieldExpert');
@@ -959,14 +926,8 @@ ViewTicketForm = createContainer( (props) => {
                 checkListFrom = "Skills And CertificationInformation";
          }
       
-       // console.log('checkListFrom: ',checkListFrom);
 
        if(tickets.submitedDoc && tickets.submitedDoc.documents){
-          
-/*          for(var chk = 0 ; chk < checkObjs.length ; chk++){
-            checkObjs[chk].task = checkObjs[chk].statement;
-            checkObjs[chk].id   = chk;
-          }*/
 
           if(tickets.submitedDoc.documents.checkLists && tickets.submitedDoc.documents.checkLists.length > 0){
             checkObjs = tickets.submitedDoc.documents.checkLists;
@@ -975,7 +936,6 @@ ViewTicketForm = createContainer( (props) => {
                     checkObjs[i].id = i;
                     checkObjs[i].task = checkObjs[i].titleVal;
                     checkObjs[i].relatedFields = checkObjs[i].textVal;
-                   
                 }
             }
           }
@@ -995,9 +955,10 @@ ViewTicketForm = createContainer( (props) => {
           }
           
 
-          // console.log('checkObjs: ',checkObjs);
-          // console.log('textObjs: ',textObjs);
-          // console.log('imgData: ',imgData);
+          console.log('checkObjs: ',checkObjs);
+          console.log('textObjs: ',textObjs);
+          console.log('imgData: ',imgData);
+
           console.log('checkObjs 0: ',checkObjs);
        }else{
           checkListObjs = Meteor.collection("checklistFieldExpert").find({"checkListFor" : checkListFrom}) || [];
@@ -1045,10 +1006,10 @@ ViewTicketForm = createContainer( (props) => {
       // console.log("textObjs",textObjs);
 
       const postHandle4     = Meteor.subscribe('projectSettingsPublish');
-      const s3Data          = Meteor.collection('projectSettings').findOne({"_id":"1"}) || {};
+      const s3Data          = Meteor.collection('projectSettings').findOne({"_id":  "1"}) || {};
 
       const postHandle5     = Meteor.subscribe('currentUserfunction');
-      const userData        = Meteor.collection('users').findOne({"_id":Meteor.userId()}) || {};
+      const userData        = Meteor.collection('users').findOne({ "_id": Meteor.userId() }) || {};
 
       // console.log('imgData: ',imgData);
       var result =  {
@@ -1064,7 +1025,6 @@ ViewTicketForm = createContainer( (props) => {
           userData     : userData,
           imgData      : imgData,
           loading6     : loading6,
-          s3Data       : s3Data,
       };
 
       // console.log("result",result);

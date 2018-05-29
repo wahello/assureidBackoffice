@@ -114,25 +114,28 @@ class ViewSubmittedTicket extends React.Component {
 
   displayAttachments =()=>{
     var data = [];
-    var verificationDocuments = this.props.selectFEData.documents.images;
-    if(verificationDocuments){
-       verificationDocuments.map((item, index)=>{
-        var fileName = item.imageLink;
-        // console.log('fileName:',fileName);
-        data.push(
-                  <View key={index} style={{ flex:0.3 }}>
-                    <View style={{ flex:0.2, alignItems:'center', justifyContent:'center' }}>
-                      <Image  
-                      style      = {{ width:50, height:50}}                    
-                      resizeMode = "stretch"             
-                      // source     = {{ uri : item.imageLink }} 
-                      source     = {require("../../images/pdf-icon.png")}             
-                      />
+
+    if(this.props.selectFEData && this.props.selectFEData.documents){
+      var verificationDocuments = this.props.selectFEData.documents.images;
+      if(verificationDocuments && verificationDocuments.length>0){
+         verificationDocuments.map((item, index)=>{
+          var fileName = item.imageLink;
+          // console.log('fileName:',fileName);
+          data.push(
+                    <View key={index} style={{ flex:0.3 }}>
+                      <View style={{ flex:0.2, alignItems:'center', justifyContent:'center' }}>
+                        <Image  
+                        style      = {{ width:50, height:50}}                    
+                        resizeMode = "stretch"             
+                        // source     = {{ uri : item.imageLink }} 
+                        source     = {require("../../images/pdf-icon.png")}             
+                        />
+                      </View>
+                      
                     </View>
-                    
-                  </View>
-                  )
-        })       
+                    )
+          })       
+      }
     }
 
     return data;    
@@ -406,7 +409,10 @@ class ViewSubmittedTicket extends React.Component {
 
 
                 <View style={[styles.lineStyle, {width:'100%',padding:10}]}>
-                {this.props.selectFEData ?
+                { this.props.selectFEData && 
+                  this.props.selectFEData.documents && 
+                  this.props.selectFEData.documents.textLists &&
+                  this.props.selectFEData.documents.textLists.length > 0 ?
                   this.props.selectFEData.documents.textLists.map((textListDefault,index)=>{
                     return(
                             <View style={styles.lineStyle} key={index}>
@@ -464,7 +470,10 @@ class ViewSubmittedTicket extends React.Component {
                       <View style={{flexDirection:'row'}}>
                         <Icon name="videocam" type="MaterialIcons" size={50} color="#aaa"/>
 
-                        { this.props.selectFEData.documents.videos.length > 0 ?
+                        { this.props.selectFEData && 
+                          this.props.selectFEData.documents && 
+                          this.props.selectFEData.documents.videos && 
+                          this.props.selectFEData.documents.videos.length > 0 ?
                           this.props.selectFEData.documents.videos.map((videoData,index)=>{
                             return(<RenderVideo key={index} videoData={videoData}/>);
                           })
@@ -485,7 +494,10 @@ class ViewSubmittedTicket extends React.Component {
                       </View>
                     </View>
                     <View style={styles.formInputViews}>
-                      <Text>{this.props.selectFEData.documents.remark}</Text>
+                      <Text>{ this.props.selectFEData &&  
+                              this.props.selectFEData.documents &&
+                              this.props.selectFEData.documents.remark ? 
+                              this.props.selectFEData.documents.remark : '' }</Text>
 
                     </View>
                   </View>
@@ -497,7 +509,10 @@ class ViewSubmittedTicket extends React.Component {
                       </View>
                     </View>
                     <View style={styles.formInputViews}>
-                    <Text>{this.props.selectFEData.documents.status}</Text>
+                    <Text>{ this.props.selectFEData && 
+                            this.props.selectFEData.documents && 
+                            this.props.selectFEData.documents.status ? 
+                            this.props.selectFEData.documents.status : '' }</Text>
  
                     </View>
                   </View>
@@ -573,9 +588,9 @@ ViewSubmittedTicketContainer = createContainer( (props) => {
 
       // console.log('selectFEData: ',selectFEData);
 
-      if(selectFEData && selectFEData.documents){
+      if(selectFEData && selectFEData.documents && selectFEData.documents.checkLists){
         checkObjs = selectFEData.documents.checkLists;
-        if (checkObjs) {
+        if (checkObjs.length > 0) {
             for (var i = 0; i < checkObjs.length; i++) {
                 checkObjs[i].id = i;
                 checkObjs[i].task = checkObjs[i].titleVal;
