@@ -189,9 +189,9 @@ class AddEditChecklist extends TrackerReact(Component) {
                             {/*this.state.checkListFor == "Address Information" ?*/}
                                {/*<select className="w300" multiple="multiple" id="fieldSelect" ref="checkListForField">
                                 <option value="line1">Address Line 1 </option>
-                                <option value="line2 ">Address Line 2 </option>
-                                <option value="line3 ">Address Line 3 </option>
-                                <option value="landmark ">Landmark </option>
+                                <option value="line2">Address Line 2 </option>
+                                <option value="line3">Address Line 3 </option>
+                                <option value="landmark">Landmark </option>
                                 <option value="city">City </option>
                                 <option value="state">State </option>
                                 <option value="country">Country </option>

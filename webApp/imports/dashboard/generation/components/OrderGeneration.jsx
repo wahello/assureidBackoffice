@@ -4,8 +4,13 @@ import { Meteor } from 'meteor/meteor';
 import TrackerReact from 'meteor/ultimatejs:tracker-react';
 import { withTracker } from 'meteor/react-meteor-data';
 import {Router, Route, browserHistory} from 'react-router';
+import { TicketMaster } from '/imports/website/ServiceProcess/api/TicketMaster.js';
+import { Order} from '/imports/website/ServiceProcess/api/Order.js';
+import OrderSummary from '/imports/dashboard/generation/components/OrderSummary.jsx';
+import ReportGeneration from '/imports/dashboard/generation/components/ReportGeneration.jsx';
 
-export default class OrderGeneration extends TrackerReact(Component){
+
+class OrderGeneration extends TrackerReact(Component){
   constructor(props){
     super(props);
     this.state ={ 
@@ -18,7 +23,7 @@ export default class OrderGeneration extends TrackerReact(Component){
 
   render(){
     return (
-      <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <div className="col-lg-10 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 orderGenerationwrap">
         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noProfilePadding generationHeader"> 
           <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 pull-left">
             <img src="../images/assureid/Assure-ID-logo-Grey.png" className="generationImg" />
@@ -31,15 +36,15 @@ export default class OrderGeneration extends TrackerReact(Component){
           <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
             <div>
               <p className="col-lg-4 col-md-4 col-sm-4 col-xs-4">Name :</p>
-              <p className="col-lg-8 col-md-8 col-sm-8 col-xs-8">Nagesh Siddheshwar Kurle</p>
+              <p className="col-lg-8 col-md-8 col-sm-8 col-xs-8">{this.props.getOrder ? this.props.getOrder.userName : "-"}</p>
             </div>
             <div>
               <p className="col-lg-4 col-md-4 col-sm-4 col-xs-4">Order Reference :</p>
-              <p className="col-lg-8 col-md-8 col-sm-8 col-xs-8">S001-50260-VS-2018</p>
+              <p className="col-lg-8 col-md-8 col-sm-8 col-xs-8">{this.props.getOrder ? this.props.getOrder.orderNo : "-"}</p>
             </div>
             <div>
               <p className="col-lg-4 col-md-4 col-sm-4 col-xs-4">Order Date :</p>
-              <p className="col-lg-8 col-md-8 col-sm-8 col-xs-8">9 January 2018</p>
+              <p className="col-lg-8 col-md-8 col-sm-8 col-xs-8">{this.props.getOrder ? moment(this.props.getOrder.createdAt).format('DD-MM-YYYY') : "-"}</p>
             </div>
             <div>
               <p className="col-lg-4 col-md-4 col-sm-4 col-xs-4">Report Level :</p>
@@ -49,45 +54,83 @@ export default class OrderGeneration extends TrackerReact(Component){
           <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
             <div>
               <p className="col-lg-4 col-md-4 col-sm-4 col-xs-4">Account :</p>
-              <p className="col-lg-8 col-md-8 col-sm-8 col-xs-8">SLK Group</p>
+              <p className="col-lg-8 col-md-8 col-sm-8 col-xs-8">-</p>
             </div>
             <div>
               <p className="col-lg-4 col-md-4 col-sm-4 col-xs-4">Client Reference :</p>
-              <p className="col-lg-8 col-md-8 col-sm-8 col-xs-8">110988</p>
+              <p className="col-lg-8 col-md-8 col-sm-8 col-xs-8">-</p>
             </div>
             <div>
               <p className="col-lg-4 col-md-4 col-sm-4 col-xs-4">Report Date :</p>
-              <p className="col-lg-8 col-md-8 col-sm-8 col-xs-8">17 January 2018</p>
+              <p className="col-lg-8 col-md-8 col-sm-8 col-xs-8">{this.props.getOrder ? moment(this.props.getOrder.completedDate).format('DD-MM-YYYY') : "-"} </p>
             </div>
             <div>
               <p className="col-lg-4 col-md-4 col-sm-4 col-xs-4">Result :</p>
-              <p className="col-lg-8 col-md-8 col-sm-8 col-xs-8">INACCESSIBLE</p>
+              <p className="col-lg-8 col-md-8 col-sm-8 col-xs-8">{this.props.getOrder ? this.props.getOrder.orderStatus : "-"}</p>
             </div>
           </div>
         </div>
         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noProfilePadding">
           <h3>EXECUTIVE SUMMARY</h3>
-          <table className="table table-bordered generationTable">
-            <thead>
-              <tr>
-                <th colSpan='3'>Employment Verification</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Wipro Limited, Pune</td>
-                <td>Verified</td>
-                <td>Clear</td>
-              </tr>
-              <tr>
-                <td>Segreto Technologies Pvt. Ltd, Pune</td>
-                <td>Verified</td>
-                <td>Inaccessible for Verification</td>
-              </tr>
-            </tbody>
-          </table>
+          { 
+            this.props.getOrder ?
+             this.props.getOrder.ticket.map((ticketData,index)=>{
+                // ticketData.report !="" ?
+                return(
+                  <div key={index}>
+                    <OrderSummary ticketId={ticketData.ticketId}/>
+                  </div>
+                )
+                // :
+                // null
+              
+             })
+             :
+             null
+          }
+        </div>
+        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noProfilePadding">
+          
+          { 
+            this.props.getOrder ?
+             this.props.getOrder.ticket.map((ticketData,index)=>{
+                // ticketData.report !="" ?
+                return(
+                  <div key={index}>
+                    <ReportGeneration ticketId={ticketData.ticketId}/>
+                  </div>
+                )
+                // :
+                // null
+              
+             })
+             :
+             null
+          }
         </div>
       </div>
     );
   }
+}export default OrderGenerationContainer = withTracker(props => {
+  //Get id from the props
+  var idValue = props.ticketId;
+  if(!idValue){
+    //Get the ticket id from the url
+    var currentLocation = browserHistory.getCurrentLocation();
+    if(currentLocation){
+      var splitUrl = currentLocation.pathname.split('/');
+      var url = splitUrl[2]; 
+      
+      idValue= url;
+    }
+  }
+  var handleSinTick = Meteor.subscribe("singleOrder",idValue);
+  var loading = !handleSinTick.ready();
+  var getOrder = Order.findOne({"_id":idValue});
+  if(getOrder){
+  }
+
+return{
+  getOrder
 }
+})(OrderGeneration);

@@ -299,8 +299,10 @@ export const routes = (
 
     {/* <Route path="/" component={CMainLayout} /> */}
     <Route path="/" component={LogIn} />
-    <Route path="/orderGeneration" component={OrderGeneration} />
+    
     <Route path="/reportHeader/:id" component={ReportHeader} />
+    <Route path="/orderGeneration/:orderid" component={OrderGeneration} />
+
     {/* <Route component={Website}>
       <Route path="/Clients"  component={Clients}/>
       <Route path="/contactus"  component={ContactUs}/>

@@ -594,6 +594,7 @@ class Ticket extends TrackerReact(Component){
                           <select className="form-control" id="selectMember" aria-describedby="basic-addon1" ref="allocateToFEName">
                               {
                                 this.showBAFEList('field expert').map((data,i)=>{
+                                  
                                   return(
                                     <option key={i} value={data._id}>
                                       {data.profile.firstname + ' ' + data.profile.lastname}&nbsp;
@@ -749,8 +750,8 @@ class Ticket extends TrackerReact(Component){
                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <textarea rows="3" className="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="QTMReviewRemark"/>
                 </div>
-                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outerButton">
-                    <button type="button" className="fesubmitbtn col-lg-3 col-lg-offset-9 col-md-3 col-md-offset-9" data-roleStatus="QTMReviewRemark" data-msg="Quality Team Member Review Remark Submitted" onClick={this.approveButton.bind(this)}>Submit</button>
+                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outerButton acceptrejectwrap">
+                    <button type="button" className="fesubmitbtn col-lg-3 col-lg-offset-5 col-md-3 col-md-offset-9" data-roleStatus="QTMReviewRemark" data-msg="Quality Team Member Review Remark Submitted" onClick={this.approveButton.bind(this)}>Submit</button>
                 </div>
               </div>
             </div>
@@ -858,8 +859,8 @@ class Ticket extends TrackerReact(Component){
                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <textarea rows="3"  className="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="QTLReviewRemark"/>
                 </div>
-                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outerButton">
-                    <button type="button" className="fesubmitbtn col-lg-3 col-lg-offset-9 col-md-3 col-md-offset-9" data-roleStatus="QTLReviewRemark" data-msg="Quality Team Leader Review Remark Submitted" onClick={this.approveButton.bind(this)}>Submit</button>
+                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outerButton acceptrejectwrap">
+                    <button type="button" className="fesubmitbtn col-lg-3 col-lg-offset-5 col-md-3 col-md-offset-9" data-roleStatus="QTLReviewRemark" data-msg="Quality Team Leader Review Remark Submitted" onClick={this.approveButton.bind(this)}>Submit</button>
                 </div>
               </div>
             </div>

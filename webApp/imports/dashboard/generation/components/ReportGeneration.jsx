@@ -117,11 +117,7 @@ export default ReportGenerationContainer = withTracker(props => {
       idValue= url;
     }
   }
-  // console.log('idValue ',idValue);
   var handleSinTick = Meteor.subscribe("singleTicket",idValue);
-
-  // console.log("handleSinTick");
-  // console.log(handleSinTick);
   var loading = !handleSinTick.ready();
   var getTicket = TicketMaster.findOne({"_id":idValue});
   if(getTicket){
