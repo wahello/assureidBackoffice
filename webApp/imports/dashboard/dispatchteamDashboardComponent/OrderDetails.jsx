@@ -52,7 +52,7 @@ class OrderDetails extends TrackerReact(Component){
   }
   generateOrder(event){
     event.preventDefault();
-    console.log('generateOrder orderid');
+    // console.log('generateOrder orderid');
     var path = '/orderGeneration';
         window.open(path);
   }
@@ -176,8 +176,8 @@ class OrderDetails extends TrackerReact(Component){
                               }
                           </div>
 
-                          <div className="col-lg-6 col-lg-offset-3">
-                             <button type="button" className="fesubmitbtn col-lg-5 col-lg-offset-2" onClick="{this.generateOrder.bind(this)}">Generate Order</button>
+                          <div className="col-lg-6 col-lg-offset-3 outerGenrateOrder">
+                             <button type="button" className="btn btn-success col-lg-4 col-lg-offset-4" onClick={this.generateOrder.bind(this)}>Generate Order</button>
                           </div>
                          </div>
                          </div>

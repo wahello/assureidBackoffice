@@ -6677,3 +6677,24 @@ border-top: 2px solid #aaa;
 .uploaduserPic{
   margin-top: 2%;
 }
+.contentForReport{
+  padding: 15px;
+  margin-right: auto;
+  margin-left: auto;
+  padding-left: 15px;
+  padding-right: 15px;
+  color: gray;
+  margin-bottom: 35px;
+  height: auto;
+}
+.outerGenrateOrder{
+  padding-top: 1%;
+  padding-bottom: 2%;
+}
+.outerListOfUsersTable{
+   height: 650px;
+    overflow: hidden;
+}
+.outerListOfUsersTable:hover{
+    overflow-y: auto;
+}

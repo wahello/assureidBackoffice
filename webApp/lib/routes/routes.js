@@ -90,6 +90,10 @@ import ReportGeneration from '/imports/dashboard/generation/components/ReportGen
 import DispatchTeamSidebar from '/imports/dashboard/components/DispatchTeamSidebar.js';
 import AllOrders from '/imports/dashboard/dispatchteamDashboardComponent/AllOrders.jsx';
 import OrderDetails from '/imports/dashboard/dispatchteamDashboardComponent/OrderDetails.jsx';
+import OrderAllocatedToDispatchTeam from '/imports/dashboard/dispatchteamDashboardComponent/OrderAllocatedToDispatchTeam.jsx';
+import OpenOrdersForDispatchTeam from '/imports/dashboard/dispatchteamDashboardComponent/OpenOrdersForDispatchTeam.jsx';
+import CompletedOrdersForDispatchTeam from '/imports/dashboard/dispatchteamDashboardComponent/CompletedOrdersForDispatchTeam.jsx';
+import EscalatedOrdersForDispatchTeam from '/imports/dashboard/dispatchteamDashboardComponent/EscalatedOrdersForDispatchTeam.jsx';
 // import ReportGeneration from '/imports/dashboard/ReportGeneration.jsx';
 // import ReportGeneration from '/imports/dashboard/ReportGeneration.jsx';
 const unauthenticatedPages = ['/', '/signup', '/forgotpassword', '/signup', '/resetpassword/:token','/login'];
@@ -286,7 +290,10 @@ export const routes = (
       <Route path="/backoffice/dispactteamdashboard" component={Content}/>
       <Route path="/admin/allorders" component={AllOrders}/>
       <Route path="/admin/orderdetails/:id" component={OrderDetails}/>
-     
+      <Route path="/admin/orderAllocatedToDispatchTeam" component={OrderAllocatedToDispatchTeam}/> 
+      <Route path="/admin/openOrdersForDispatchTeam" component={OpenOrdersForDispatchTeam}/>  
+      <Route path="/admin/completedOrdersForDispatchTeam" component={CompletedOrdersForDispatchTeam}/>
+      <Route path="/admin/escalatedOrdersForDispatchTeam" component={EscalatedOrdersForDispatchTeam}/> 
     </Route>
 
     {/* <Route path="/" component={CMainLayout} /> */}

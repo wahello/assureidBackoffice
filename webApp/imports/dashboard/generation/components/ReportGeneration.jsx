@@ -18,7 +18,7 @@ class ReportGeneration extends TrackerReact(Component){
       return(            
         <div>
           {/* <div className="content-wrapper"> */}
-            <section className="content">
+            <section className="contentForReport">
             <div className="reportgenerationwrap">
             {/* <h2 className="reportHead">Final Report</h2>  */}
             <div className="outerWrap">

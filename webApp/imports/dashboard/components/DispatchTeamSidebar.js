@@ -105,7 +105,7 @@ class DispatchTeamSidebar extends TrackerReact(Component){
                 <li className="">
                   <Link to="backoffice/dispactteamdashboard" activeClassName="active">
                     <i className="fa fa-dashboard" />
-                      <span>Dashboard</span>
+                      <span>Dashboard</span> 
                   </Link>
                 </li>
                 <li className="">
@@ -113,28 +113,28 @@ class DispatchTeamSidebar extends TrackerReact(Component){
                     <i className="fa fa-ticket" />
                       <span>All Orders({this.props.allOrderCount})</span>
                   </Link>
-                </li>
+                </li> 
                 <li className="">
-                  <Link to="/admin/assignedtickets" activeClassName="active">
+                  <Link to="/admin/orderAllocatedToDispatchTeam" activeClassName="active">
                   <i className="fa fa-ticket" />
                       <span>Orders Allocted To Me({this.props.allocateOrderCount ? this.props.allocateOrderCount : 0 })</span>
                   </Link>
                 </li>
                 <li className="">
-                  <Link to="/admin/opentickets" activeClassName="active">
+                  <Link to="/admin/openOrdersForDispatchTeam" activeClassName="active">
                   <i className="fa fa-ticket" />
                       <span>My Open Orders({this.props.openOrderCount ? this.props.openOrderCount : 0})</span>
                   </Link>
                 </li>
               
                 <li className="">
-                  <Link to="/admin/approvedtickets" activeClassName="active">
+                  <Link to="/admin/completedOrdersForDispatchTeam" activeClassName="active">
                   <i className="fa fa-ticket" />
                       <span>My Completed Orders({this.props.completedOrderCount ? this.props.completedOrderCount : 0 })</span>
                   </Link>
                 </li>
                 <li className="">
-                  <Link to="/admin/escalatedtickets" activeClassName="active">
+                  <Link to="/admin/escalatedOrdersForDispatchTeam" activeClassName="active">
                   <i className="fa fa-ticket" />
                       <span>My Escalated Orders({this.props.escalatedOrderCount ? this.props.escalatedOrderCount : 0 })</span>
                   </Link>
