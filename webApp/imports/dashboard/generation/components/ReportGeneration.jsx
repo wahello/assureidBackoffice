@@ -17,18 +17,16 @@ class ReportGeneration extends TrackerReact(Component){
    render(){
       return(            
         <div>
-          {/* <div className="content-wrapper"> */}
             <section className="contentForReport">
             <div className="reportgenerationwrap">
-            {/* <h2 className="reportHead">Final Report</h2>  */}
             <div className="outerWrap">
              {<label className="col-lg-12 reporttableHead">{this.props.getTicket ? this.props.getTicket.serviceName : 'Comming Soon'}</label>}
               <table className="table table-bordered reportGenTable">
                 <tbody>
                   <tr style={{backgroundColor: '#'+'b9bed2'}}>
-                    <td colSpan="2">Parameter</td>
-                    <td colSpan="2">Information Provided</td>
-                    <td colSpan="2" >Information Verified</td>
+                    <td className="col-lg-3" >Parameter</td>
+                    <td className="col-lg-4" >Information Provided</td>
+                    <td className="col-lg-4" >Information Verified</td>
                   </tr>
                   {/*{
                     this.props.getTicket.reportGenerated.documents.documents.checkLists
@@ -42,7 +40,8 @@ class ReportGeneration extends TrackerReact(Component){
                         return(
 
                           <tr key={i}>
-                          <td colSpan="2">{data.titleVal}</td>
+                          <td className="col-lg-3">{data.titleVal}</td>
+                          <td className="col-lg-4">
                           {
                             data.textVal.map((checkObjsRelatedField,index)=>{
                               return(
@@ -50,7 +49,11 @@ class ReportGeneration extends TrackerReact(Component){
                               );
                             })
                           }
-                          <td colSpan="2">{data.remarkVal ? data.remarkVal : 'NA' }</td>
+                          </td>
+                          <td className="col-lg-4" >
+                           <i className={data.correctVal == "Correct" ? "fa fa-check-circle fa-lg text-success" : data.correctVal == "Incorrect"  ? "fa fa-times-circle fa-lg text-danger" : "" }></i>
+                          {data.remarkVal ? data.remarkVal : '' }
+                          </td>
                           </tr>
                         )
                          
@@ -62,8 +65,8 @@ class ReportGeneration extends TrackerReact(Component){
                         
                     }
                   <tr>
-                    <td colSpan="2">Remarks</td>
-                    <td colSpan="3"> 
+                    <td>Remarks</td>
+                    <td className="text-left" colSpan="3"> 
                        {
                           this.props.getTicket ?
 
@@ -114,17 +117,17 @@ export default ReportGenerationContainer = withTracker(props => {
       idValue= url;
     }
   }
-  console.log('idValue ',idValue);
+  // console.log('idValue ',idValue);
   var handleSinTick = Meteor.subscribe("singleTicket",idValue);
 
-  console.log("handleSinTick");
-  console.log(handleSinTick);
+  // console.log("handleSinTick");
+  // console.log(handleSinTick);
   var loading = !handleSinTick.ready();
   var getTicket = TicketMaster.findOne({"_id":idValue});
   if(getTicket){
 
-  console.log('getTicket ',getTicket);
-  console.log(getTicket.reportGenerated.documents.documents.checkLists);
+  // console.log('getTicket ',getTicket);
+  // console.log(getTicket.reportGenerated.documents.documents.checkLists);
 
   }
 

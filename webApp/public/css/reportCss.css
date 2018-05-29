@@ -72,3 +72,12 @@ input-group .input-group-addon {
     font-weight: bold;
     color: #000;
 }
+.outerUserData{
+    padding: 2%;
+}
+.reportUserImage{
+  height: 180px;
+  width: 100%;
+  border: 1px solid #000;
+  border-radius: 6px;
+}

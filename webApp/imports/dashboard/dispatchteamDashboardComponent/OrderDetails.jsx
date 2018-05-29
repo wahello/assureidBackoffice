@@ -52,7 +52,13 @@ class OrderDetails extends TrackerReact(Component){
   }
   generateOrder(event){
     event.preventDefault();
-    // console.log('generateOrder orderid');
+    Meteor.call("orderCompleted",this.props.orderId);
+    var path = '/orderGeneration';
+        window.open(path);
+  }
+  showOrderReport(event){
+    event.preventDefault();
+    // var path = '/orderGeneration/'+this.props.orderId;
     var path = '/orderGeneration';
         window.open(path);
   }
@@ -175,10 +181,15 @@ class OrderDetails extends TrackerReact(Component){
                                 null
                               }
                           </div>
-
-                          <div className="col-lg-6 col-lg-offset-3 outerGenrateOrder">
-                             <button type="button" className="btn btn-success col-lg-4 col-lg-offset-4" onClick={this.generateOrder.bind(this)}>Generate Order</button>
-                          </div>
+                          {this.props.orderDetails.orderStatus == 'Completed' ?
+                              <div className="col-lg-6 col-lg-offset-3 outerGenrateOrder">
+                                 <button type="button" className="btn btn-success col-lg-4 col-lg-offset-4" onClick={this.showOrderReport.bind(this)}>Generate Order</button>
+                              </div>  
+                          :
+                            <div className="col-lg-6 col-lg-offset-3 outerGenrateOrder">
+                               <button type="button" className="btn btn-success col-lg-4 col-lg-offset-4" onClick={this.generateOrder.bind(this)}>Generate Order</button>
+                            </div>
+                          }
                          </div>
                          </div>
                          </div>

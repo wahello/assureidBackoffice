@@ -421,7 +421,7 @@ class Ticket extends TrackerReact(Component){
     if(exeQuery == 1){
       Meteor.call('genericUpdateTicketMasterElement',this.props.ticketId,insertData);
       if(this.props.getTicket.ticketElement[elementLength-1].roleStatus == 'QTMReviewRemark' || this.props.getTicket.ticketElement[elementLength-1].roleStatus == 'QTLReviewRemark'){
-        var path = '/reportgeneration/'+this.props.ticketId;
+        var path = '/reportHeader/'+this.props.ticketId;
         window.open(path);
       }
     }
@@ -1190,6 +1190,7 @@ export default UserDetailsContainer = withTracker(props => {
   var ticketId = props.params.id;
   var loading = !handleSinTick.ready() && !handleUseFunc.ready() && !handleUserProfile.ready() && !handleReport.ready() && !postHandle2.ready();
   var getTicket = TicketMaster.findOne({"_id":ticketId}) ;
+  // console.log("getTicket",getTicket);
   if(getTicket){
     var user = Meteor.users.findOne({"_id": getTicket.userId}) || {};
     if(user){
@@ -1267,7 +1268,7 @@ export default UserDetailsContainer = withTracker(props => {
   }   
   console.log("checkObjs",checkObjs);
   console.log("textObjs",textObjs);
-  if(getTicket && getTicket.reportSubmited && getTicket.reportSubmited.documents){
+  if(getTicket && getTicket.reportGenerated && getTicket.reportGenerated.documents){
     var showHideBtn = false;
   }else{
     var showHideBtn = true;

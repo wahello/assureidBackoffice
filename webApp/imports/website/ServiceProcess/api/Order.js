@@ -182,6 +182,16 @@ if(Meteor.isServer){
               }
             });
         }
+     },
+
+     'orderCompleted':function(orderId){
+        Order.update({"_id":orderId},
+            {
+              $set:{
+                "orderStatus":"Completed",
+                "completedDate": new Date(),
+              }
+            });
      }
    });
 

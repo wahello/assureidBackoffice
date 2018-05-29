@@ -86,6 +86,7 @@ import Reports from '/imports/dashboard/reports/Reports.jsx';
 import SCTicketDistribution from '/imports/dashboard/ticketDistribution/SCTicketDistribution.jsx';
 
 import OrderGeneration from '/imports/dashboard/generation/components/OrderGeneration.jsx';
+import ReportHeader from '/imports/dashboard/generation/components/ReportHeader.jsx';
 import ReportGeneration from '/imports/dashboard/generation/components/ReportGeneration.jsx';
 import DispatchTeamSidebar from '/imports/dashboard/components/DispatchTeamSidebar.js';
 import AllOrders from '/imports/dashboard/dispatchteamDashboardComponent/AllOrders.jsx';
@@ -299,7 +300,7 @@ export const routes = (
     {/* <Route path="/" component={CMainLayout} /> */}
     <Route path="/" component={LogIn} />
     <Route path="/orderGeneration" component={OrderGeneration} />
-
+    <Route path="/reportHeader/:id" component={ReportHeader} />
     {/* <Route component={Website}>
       <Route path="/Clients"  component={Clients}/>
       <Route path="/contactus"  component={ContactUs}/>
