@@ -67,7 +67,7 @@ class ViewTicketFormInfo extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('nextProps: ',nextProps.checkObjs);
+    // console.log('nextProps: ',nextProps.checkObjs);
     if(this.props.tickets.submitedDoc){    
      this.setState({
           remark        : nextProps.tickets.submitedDoc.documents.remark,
@@ -888,7 +888,7 @@ ViewTicketForm = createContainer( (props) => {
     const postHandle6  = Meteor.subscribe('tempFEImgData' ,ticket, 'image');
     const loading6     = !postHandle6.ready();
     const imgData      = Meteor.collection('tempFEUploadData').find({ "ticketId"  : ticket, "type" : "image" }) || [];
-    console.log('imgData: ',imgData);
+    // console.log('imgData: ',imgData);
     const postHandle   = Meteor.subscribe('allTicketImages');
     const postHandle1  = Meteor.subscribe('allTicketVideo');
     const postHandle2  = Meteor.subscribe('checklistFieldExpert');
@@ -955,11 +955,11 @@ ViewTicketForm = createContainer( (props) => {
           }
           
 
-          console.log('checkObjs: ',checkObjs);
-          console.log('textObjs: ',textObjs);
-          console.log('imgData: ',imgData);
+          // console.log('checkObjs: ',checkObjs);
+          // console.log('textObjs: ',textObjs);
+          // console.log('imgData: ',imgData);
 
-          console.log('checkObjs 0: ',checkObjs);
+          // console.log('checkObjs 0: ',checkObjs);
        }else{
           checkListObjs = Meteor.collection("checklistFieldExpert").find({"checkListFor" : checkListFrom}) || [];
           if (checkListObjs && checkListObjs.length > 0) {
@@ -995,7 +995,7 @@ ViewTicketForm = createContainer( (props) => {
 
             
           }
-          console.log('checkObjs 1: ',checkObjs);
+          // console.log('checkObjs 1: ',checkObjs);
        }
 
       } // end of ticket object

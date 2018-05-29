@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Meteor,{ createContainer } from "react-native-meteor";
 
-import { Platform, ScrollView, StyleSheet, Text, TouchableOpacity, TextInput, View, BackHandler, Image, Alert, BackAndroid, findNodeHandle, DrawerLayoutAndroid } from "react-native";
+import { Platform, ScrollView, StyleSheet, Text, TouchableOpacity, TextInput, View, BackHandler, Image, Alert, BackAndroid, findNodeHandle, DrawerLayoutAndroid , TouchableHighlight, Modal} from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Header, Card, Button, Avatar, Icon, SearchBar, CheckBox } from "react-native-elements";
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from "react-native-table-component";
@@ -12,7 +12,7 @@ import { CameraKitCameraScreen, CameraKitCamera } from 'react-native-camera-kit'
 import PropTypes from "prop-types";
 import RadioButton from "radio-button-react-native";
 import ToggleSwitch from 'toggle-switch-react-native';
-import Modal from "react-native-modal";
+// import Modal from "react-native-modal";
 import SideMenu from "react-native-side-menu";
 import RNExitApp from "react-native-exit-app";
 
@@ -48,6 +48,7 @@ class SubmitedInformation extends React.Component {
       "remark"          : '',
       "images"          : [],
       "videos"          : [],
+      modalVisible      : false,
       
     };
     this.openDrawer = this.openDrawer.bind(this);
@@ -111,6 +112,10 @@ class SubmitedInformation extends React.Component {
     this.setState({ value });
   }
 
+  setModalVisible(visible) {
+    this.setState({modalVisible: visible});
+  }
+
   displayAttachments =()=>{
     var data = [];
 
@@ -122,15 +127,54 @@ class SubmitedInformation extends React.Component {
           // console.log('fileName:',fileName);
           data.push(
                     <View key={index} style={{ flex:0.3 }}>
+                      <TouchableHighlight
+                        onPress={() => {
+                          this.setModalVisible(true);
+                      }}>
                       <View style={{ flex:0.2, alignItems:'center', justifyContent:'center' }}>
                         <Image  
                         style      = {{ width:50, height:50}}                    
                         resizeMode = "stretch"             
-                        // source     = {{ uri : item.imageLink }} 
-                        source     = {require("../../images/pdf-icon.png")}             
+                        source     = {{ uri : item.imageLink }} 
+                        // source     = {require("../../images/imgIcon.png")}             
                         />
                       </View>
-                      
+                       </TouchableHighlight>
+
+{/*                    <Modal
+                      animationType="slide"
+                      transparent={false}
+                      visible={this.state.modalVisible}
+                      onRequestClose={() => {
+                        Alert.alert('Modal has been closed.');
+                      }}>
+                      <View>
+                        <View style={{flex:1}}>
+                        <View style={{zIndex : 1, position : 'absolute',backgroundColor:'rgba(52, 52, 52, 0.6)'}}>
+                          <TouchableOpacity>
+                          <Button
+                            large
+                            title="Close"
+                            onPress={() => {
+                              this.setModalVisible(!this.state.modalVisible);
+                            }}
+                            buttonStyle={{ width : window.width, backgroundColor : 'transparent'}}
+                            />  
+                          </TouchableOpacity>  
+                        </View>
+                          <View style={{flex:1, height: window.height, width: window.width }}>
+                            <Text>{item.imageLink}</Text>
+                            <Image
+                              onPress={() => {this.setModalVisible(true);}}
+                              style={{ height: window.height, width: window.width}}
+                              resizeMode="stretch"
+                              source={{uri:"https://s3.ap-south-1.amazonaws.com/assureidportal/uploads/1523879666811.jpeg"}}
+                            />
+                          </View>
+                        </View>
+                      </View>
+                    </Modal>*/}
+
                     </View>
                     );
           })       

@@ -128,7 +128,7 @@ class ViewSubmittedTicket extends React.Component {
                         style      = {{ width:50, height:50}}                    
                         resizeMode = "stretch"             
                         // source     = {{ uri : item.imageLink }} 
-                        source     = {require("../../images/pdf-icon.png")}             
+                        source     = {require("../../images/imgIcon.png")}             
                         />
                       </View>
                       
@@ -321,27 +321,6 @@ class ViewSubmittedTicket extends React.Component {
                     </View>
                   </View>
 
-                  
-{/*                  {this.props.selectFEData ?
-                    this.props.selectFEData.documents.checkLists.map((checkListDefault,index)=>{
-                      return(
-                              <View style={styles.container} key={index}>
-                                <CheckBox
-                                  center
-                                  containerStyle={{ backgroundColor: "transparent", borderWidth: 0 }}
-                                  checkedColor="green"
-                                  checked={checkListDefault.status}
-                                  textStyle={{ color: "#aaa" }}
-                                  title={checkListDefault.statement}
-                                  value={checkListDefault.statement}
-                                />     
-                              </View>
-                            );
-                          })
-                          :
-                         ""
-                  }*/}
-
 
                   <View style={{width:'100%',padding:10}}>
                   {this.props.checkObjs ?
@@ -403,7 +382,7 @@ class ViewSubmittedTicket extends React.Component {
                       );
                     })
                   :
-                  null
+                  <View><Text></Text></View>
                   }
                   </View>
 
@@ -428,7 +407,7 @@ class ViewSubmittedTicket extends React.Component {
                           );
                         })
                         :
-                       ""
+                       <View><Text></Text></View>
                 }
                 </View>
 
@@ -478,7 +457,7 @@ class ViewSubmittedTicket extends React.Component {
                             return(<RenderVideo key={index} videoData={videoData}/>);
                           })
                           :
-                          null
+                          <View><Text></Text></View>
                         }
                       </View>
                     </View>
@@ -516,18 +495,6 @@ class ViewSubmittedTicket extends React.Component {
  
                     </View>
                   </View>
-
-{/*                  <View style = {styles.lineStyle} >
-                    <View style={styles.formInputView}>
-                      <View>
-                        <Text style={{fontWeight: 'bold'}}>Sub-status</Text>
-                      </View>
-                    </View>
-                    <View style={styles.formInputViews}>
-                      <Text>{this.props.selectFEData.documents.subStatus}</Text>
-
-                    </View>
-                  </View>*/}
 
               </View>
 
@@ -614,7 +581,7 @@ ViewSubmittedTicketContainer = createContainer( (props) => {
         
     }// if ticket id
    
-      console.log("checkObjs",checkObjs);
+      // console.log("checkObjs",checkObjs);
       // console.log("textObjs",textObjs);
 
       const postHandle4     = Meteor.subscribe('projectSettingsPublish');
