@@ -438,7 +438,7 @@ class VerificationDataSubmit extends TrackerReact(Component){
             }
     
             return (
-              <div className="progress"  style= {styleCBar}>
+              <div className="progress"  style={styleCBar}>
                 <div className="progress-bar progress-bar-striped active" role="progressbar"
                 aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style= {styleC}>
                   {percentVal} %
@@ -517,53 +517,53 @@ class VerificationDataSubmit extends TrackerReact(Component){
       }
 
     noReason(event){
-    event.preventDefault();
+     event.preventDefault();
 
-    var currentIndex = $(event.currentTarget).attr("data-indexVal");
-    var data = this.state.chekFieldList.length>0 ? this.state.chekFieldList : this.props.chekFieldList;
-    var newArr = [];
-    for(i=0;i<data.length;i++){
-        if(i==currentIndex){
-            data[i].correctVal = "Incorrect";
-            newArr.push(data[i]);
-        }else{
-            newArr.push(data[i]);
-        }
-    }
-    this.setState({
-        chekFieldList:data,
-    })
-  
-        $(event.target).css({'backgroundColor':'#00b8ff','color':'#fff'});
-        $(event.target).siblings().css({'backgroundColor':'#fff','color':'#00b8ff'});
-    }
-
-    removechecked = (index)=>{
-        // event.preventDefault();
-        
-        
-        var currentData = this.state.checkLists;
+        var currentIndex = $(event.currentTarget).attr("data-indexVal");
+        var data = this.state.chekFieldList.length>0 ? this.state.chekFieldList : this.props.chekFieldList;
         var newArr = [];
-        for(i=0;i<currentData.length;i++){
-            if(i==index){
-                var newObj = {
-                    statement:currentData[i].statement,
-                    status:!currentData[i].status,
-                    value:!currentData[i].status,
-                }
-                
-                newArr.push(newObj);
-                
+        for(i=0;i<data.length;i++){
+            if(i==currentIndex){
+                data[i].correctVal = "Incorrect";
+                newArr.push(data[i]);
             }else{
-                newArr.push(currentData[i]);
+                newArr.push(data[i]);
             }
         }
-        
-        
         this.setState({
-            checkLists: newArr,
+            chekFieldList:data,
         })
-        
+      
+            $(event.target).css({'backgroundColor':'#00b8ff','color':'#fff'});
+            $(event.target).siblings().css({'backgroundColor':'#fff','color':'#00b8ff'});
+        }
+
+        removechecked = (index)=>{
+            // event.preventDefault();
+            
+            
+            var currentData = this.state.checkLists;
+            var newArr = [];
+            for(i=0;i<currentData.length;i++){
+                if(i==index){
+                    var newObj = {
+                        statement:currentData[i].statement,
+                        status:!currentData[i].status,
+                        value:!currentData[i].status,
+                    }
+                    
+                    newArr.push(newObj);
+                    
+                }else{
+                    newArr.push(currentData[i]);
+                }
+            }
+            
+            
+            this.setState({
+                checkLists: newArr,
+            })
+            
 		// $('#checkObjs').prop('checked',false);
 
     }
@@ -624,7 +624,7 @@ class VerificationDataSubmit extends TrackerReact(Component){
                                     {chekFieldList ?
                                         chekFieldList.map((checkObjsDefault,index)=>{
                                         return(
-                                            <div className="col-lg-12 col-md-12 col-sm-6 col-xs-6 innerChecklisttoteamM" key={index}>  
+                                            <div className="col-lg-12 col-md-12 col-sm-6 col-xs-6 innerChecklisttoteamM noLRPad" key={index}>  
                                                 <div className="col-lg-4 col-md-6 col-sm-6 col-xs-6 noLRPad">
                                                     <label className = "col-lg-12" name ="checkObjs">{checkObjsDefault.titleVal}</label>
                                                     <div className="col-lg-8 col-lg-offset-0">

@@ -242,11 +242,10 @@ class AddEditChecklist extends TrackerReact(Component) {
                   <option value="prevDesignation">Reporting manager designation</option>
                   <option value="contactDetails">Reporting manager contact number</option>
                 </select>
-
-                </span>
+                 </span>
                 </div>
                 <div className="form-group col-lg-12 col-md-12 col-xs-12 col-sm-12 ">
-                <button className="col-lg-3 col-md-4 col-xs-12 col-sm-12 col-xs-12 btn btn-primary pull-right" type="submit" value="" onClick={this.handleSubmit.bind(this)}>{this.state.button}</button>
+                 <button className="col-lg-3 col-md-4 col-xs-12 col-sm-12 col-xs-12 btn btn-primary pull-right" type="submit" value="" onClick={this.handleSubmit.bind(this)}>{this.state.button}</button>
                 </div>
                 </form>
               </div>

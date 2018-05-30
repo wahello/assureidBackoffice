@@ -17,7 +17,7 @@ class EditUserProfile extends TrackerReact(Component){
 			  this.state = {
 			    firstname     : this.props.post.profile.firstname,
 			    lastname      : this.props.post.profile.lastname,
-			    username      : this.props.post.username,
+			    username      : this.props.post.username, 
 			    mobNumber     : this.props.post.profile.mobNumber,
 			    email         : this.props.post.email,
 			    userProfile   : this.props.post.profile.userProfile,
@@ -199,6 +199,66 @@ class EditUserProfile extends TrackerReact(Component){
 																</span>
 																								
 															</div> 
+														{/*	<div className="form-group col-lg-4 col-md-4 col-xs-12 col-sm-12 inputContent">
+												   			<span className="blocking-span">
+												   			  <label className="floating-label">Assign Service</label>
+				                              <select className="form-control allProductSubCategories" aria-describedby="basic-addon1" ref="servicesRef">
+
+				                                  { this.state.service.length>0 ?
+				                                    this.state.service.map( (data, index)=>{
+				                                      return (
+				                                          <option key={index}>{data.serviceName}</option>
+				                                      );
+				                                  })
+				                                  :
+				                                  ""
+				                                  }
+				                              </select>
+														  	</span>
+													    </div>
+				                      <div className="form-group col-lg-4 col-md-4 col-xs-12 col-sm-12 inputContent">
+												   			<span className="blocking-span">
+												   			  <label className="floating-label">Assign Role</label>
+				                           <select className="form-control allProductSubCategories" aria-describedby="basic-addon1" ref="roleRef">
+				                                  { 
+				                                   
+				                                    this.props.roleList.length > 0 ?
+				                                    this.props.roleList.map( (data, index)=>{
+				                                      return (
+				                                          <option key={index}>{data}</option>
+				                                      );
+				                                  })
+				                                  :
+				                                  ""				                              
+				                                  }
+				                           </select>
+															</span>
+													    </div>
+				                      <div className="form-group col-lg-4 col-md-4 col-xs-12 col-sm-12 inputContent">
+												   			<span className="blocking-span">
+												   			  <label className="floating-label">Reporting To</label>
+				                           
+				                              <select className="form-control allProductSubCategories" aria-describedby="basic-addon1" ref="reportToRef">
+				                                  { 
+				                                    
+				                                    this.props.userUniqueData.length>0 ?
+				                                    this.props.userUniqueData.map( (data, index)=>{
+				                                      return (
+				                                          <option key={index}>
+				                                            
+				                                            {data}
+				                                          </option>
+				                                      );
+				                                    })
+				                                    : 
+				                                    ""
+				                                  
+
+				                                  }
+				                              </select>
+														  	</span>
+													    </div>*/}
+
 															
 														</div>
 

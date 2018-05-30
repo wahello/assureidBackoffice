@@ -24,7 +24,7 @@ class CreateUser extends TrackerReact(Component) {
           var splitValue   =  reportrefValue.split("(");
           var reportToRole = splitValue[0];
           var reportToName = splitValue[1].slice(0, -1);
-        }else{
+        }else{ 
           var reportToName = '';
           var reportToRole = '';
         }

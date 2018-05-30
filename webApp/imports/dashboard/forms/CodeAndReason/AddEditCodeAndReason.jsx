@@ -51,7 +51,7 @@ class AddEditCodeAndReason extends TrackerReact(Component) {
   handleSubmit(e){
     e.preventDefault();
    if($("#codereasonValid").valid()){ 
-      var code            = this.refs.code.value;
+      var code            = parseInt(this.refs.code.value);
       var reason          = this.refs.reason.value;
       var id              = this.props.params.id;
       if(id){ 

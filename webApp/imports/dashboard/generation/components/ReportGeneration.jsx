@@ -36,7 +36,7 @@ class ReportGeneration extends TrackerReact(Component){
                     {
                       this.props.getTicket ?
 
-                      this.props.getTicket.reportGenerated.documents.documents.checkLists.map((data,i)=>{
+                      this.props.getTicket.reportGenerated.documents.checkLists.map((data,i)=>{
                         return(
 
                           <tr key={i}>
@@ -58,11 +58,26 @@ class ReportGeneration extends TrackerReact(Component){
                         )
                          
                       })
-
                       :
                       null
 
                         
+                    }
+                    {this.props.getTicket ?
+                      this.props.getTicket.reportGenerated.documents.textLists ?
+                         this.props.getTicket.reportGenerated.documents.textLists.map((data,i)=>{
+                           return(
+                              <tr key={i}>
+                                <td>{data.task}</td>
+                                <td className="text-left" colSpan="3">{data.value}</td>
+                              </tr>
+                            );
+                         })
+                       :
+                       null
+                      :
+                      null
+
                     }
                   <tr>
                     <td>Remarks</td>
@@ -96,6 +111,28 @@ class ReportGeneration extends TrackerReact(Component){
                   
                 </tbody>
               </table>
+
+            </div>
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
+               {this.props.getTicket ?
+                  this.props.getTicket.reportGenerated.documents.images ?
+                    this.props.getTicket.reportGenerated.documents.images.length > 0 ?
+                    this.props.getTicket.reportGenerated.documents.images.map((data,i)=>{
+                      return(
+                          <div className="col-lg-2 col-md-2 col-sm-12 col-xs-12 outerReportImage" key={i}>
+                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                              <img src={data.imageLink} className="img img-responsive imagesOnReport" />
+                            </div> 
+                          </div>
+                        );
+                    })
+                    :
+                    null
+                  :
+                  null
+                :
+                null
+               }
             </div>
             </div>
             </section>

@@ -248,6 +248,16 @@ if(Meteor.isServer){
 						}
 					}
 					break;
+			case 'VerificationPass-CompanyInfo' :
+					TicketMaster.update(
+						{'_id':ticketid},
+						{
+							$set:{
+								'companyDetails' : insertData.companyDetails,
+							}
+						}
+					);
+				break;
 			case 'ReportSubmitted' 	:
 			case 'ReportGenerated' :
 				var ticketDetails = TicketMaster.findOne({"_id":ticketid});
@@ -255,9 +265,9 @@ if(Meteor.isServer){
 					TicketMaster.update({"_id": ticketid},{
 						$set: {
 							'reportGenerated.createdAt'    : insertData.createdAt,
-							'reportGenerated.documents'    : ticketDetails.submitedDoc,
+							'reportGenerated.documents'    : ticketDetails.submitedDoc.documents,
 							'reportGenerated.reviewRemark' : ticketDetails.reviewRemark,
-							'reportGenerated.url'          : '/reportgeneration/'+ticketid,
+							'reportGenerated.url'          : '/reportHeader/'+ticketid,
 						}
 					});
 				}
@@ -367,7 +377,7 @@ if(Meteor.isServer){
 							'reportGenerated.reviewRemark' : ticketDetails.reviewRemark,
 							'reportGenerated.url'          : '/reportgeneration/'+ticketid,
 						}
-					});
+					}); 
 				}
 				break;
 			case 'QAFail' :
@@ -978,6 +988,15 @@ if(Meteor.isServer){
 		}
 		)
 
-	}
+	},
+	// edit ReviewRemark Method
+	updateReviewRemark(ticketId,userId,remark){
+    TicketMaster.update({"_id":ticketId, "reviewRemark.userId" : userId},
+    {
+    	$set: {
+    		"reviewRemark.$.remark" : remark
+    	}
+    })
+	},
 	});
 }

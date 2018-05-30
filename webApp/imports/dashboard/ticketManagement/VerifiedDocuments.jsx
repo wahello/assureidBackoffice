@@ -50,7 +50,7 @@ class VerifiedDocuments extends TrackerReact(Component){
     switch(verificationType){
       case 'permanentAddress' :
         return(
-          <div className="col-lg-12 col-md-12 showAddrWrap">
+          <div className="col-lg-6 col-md-6 showAddrWrap">
             <h5 className ="documentHead">Permanent Address</h5>
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
               {verificationData.line1 ? verificationData.line1 : ''},
@@ -76,7 +76,7 @@ class VerifiedDocuments extends TrackerReact(Component){
         break;
       case 'currentAddress' :
         return(
-          <div className="col-lg-12 col-md-12 showAddrWrap">
+          <div className="col-lg-6 col-md-6 showAddrWrap">
             <h5 className ="documentHead">Current Address</h5>
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
               {verificationData.tempLine1 ? verificationData.tempLine1 : ''},
@@ -102,7 +102,7 @@ class VerifiedDocuments extends TrackerReact(Component){
         break;
       case 'employement' :
         return(
-          <div className="col-lg-12 col-md-12 showAddrWrap">
+          <div className="col-lg-6 col-md-6 showAddrWrap">
             <h5 className ="documentHead">Employment</h5>
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
               <label><b>Employer :</b> </label>{verificationData.nameOfEmployer ? verificationData.nameOfEmployer : "-"},<br />
@@ -127,7 +127,7 @@ class VerifiedDocuments extends TrackerReact(Component){
         break;
       case 'certificates' :
         return(
-          <div className="col-lg-12 col-md-12 showAddrWrap">
+          <div className="col-lg-6 col-md-6 showAddrWrap">
             <h5 className ="documentHead">Certificates</h5>
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
               {this.props.verificationData[index].certificateName ? this.props.verificationData[index].certificateName : " "},<br />
@@ -142,7 +142,7 @@ class VerifiedDocuments extends TrackerReact(Component){
         break;
       case 'professionalEducation' :
         return(
-          <div className="col-lg-12 col-md-12 showAddrWrap">
+          <div className="col-lg-6 col-md-6 showAddrWrap">
             <h5 className ="documentHead">professional Education</h5>
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
               {verificationData.professionalQualification ? verificationData.professionalQualification : ""},<br />
@@ -159,7 +159,7 @@ class VerifiedDocuments extends TrackerReact(Component){
         break;
       case 'education' :
         return(
-          <div className="col-lg-12 col-md-12 showAddrWrap">
+          <div className="col-lg-6 col-md-6 showAddrWrap">
             <h5 className ="documentHead">Education</h5>
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
               {verificationData.educationLevel ? verificationData.educationLevel : ""},<br />
@@ -272,17 +272,18 @@ class VerifiedDocuments extends TrackerReact(Component){
                             </div>
                           </div>
                           <div className="modal fade" id={"showProofOfDocumentModal-"+index} role="dialog">
-                            <div className="modal-dialog">
+                            <div className="modal-dialog modal-lg">
                               <div className="modal-content">
                                 <div className="modal-body">
                                   <button type="button" className="close documentClose" data-dismiss="modal">&times;</button>
                                   <div className="row">
                                     <div className="col-lg-12 col-md-12  col-sm-12 col-sm-12">
                                         {this.showData(this.props.getTicket.verificationType,this.props.getTicket.verificationData)}
+                                        <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
+                                          <img src={verificationDocument.proofOfDocument}  className="col-lg-12 img-responsive addressImageModal showAddrImgWrap col-lg-12 col-md-12 col-sm-12 col-xs-12"/>
+                                        </div>
                                     </div>
-                                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
-                                      <img src={verificationDocument.proofOfDocument}  className="col-lg-12 img-responsive addressImageModal showAddrImgWrap col-lg-12 col-md-12 col-sm-12 col-xs-12"/>
-                                    </div>
+                                    
                                     {this.props.docApproveRejectDiv == true ?
                                       <div className="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12 col-xs-12 otherInfoForm">
                                           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">

@@ -1,4 +1,3 @@
-
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import React, { Component } from 'react';
@@ -24,7 +23,8 @@ import { UserProfile } from '../../website/forms/api/userProfile.js';
 import SubmittedDocuments from './SubmittedDocuments.jsx';
 import UploadReport from './UploadReport.jsx';
 import { ChecklistFieldExpert } from '/imports/dashboard/reactCMS/api/Services.js';
-
+import { CodeAndReason } from '/imports/dashboard/forms/api/CodeAndReason.js';
+import EmployementCompanyDetails from './EmployementCompanyDetails.jsx';
 
 class Ticket extends TrackerReact(Component){
   constructor(props){
@@ -37,7 +37,11 @@ class Ticket extends TrackerReact(Component){
       "showRadiobtn": 'N',
       // "showHideBtn":true,
       "verifiedInfo":[],
+       "subscription"     : {
+        "codeAndReason" : Meteor.subscribe('codeAndReason')
+                }
     }   
+    this.handleChangeForArray  = this.handleChangeForArray.bind(this);
   }
   componentWillReceiveProps(nextProps){
     if(!nextProps.loading){
@@ -53,6 +57,19 @@ class Ticket extends TrackerReact(Component){
   }
   getRole(role) {
     return role != "backofficestaff";
+  }
+  handleChangeForArray(event){
+      event.preventDefault();
+      const target = event.target;
+      const name   = target.name;
+      var index = $(event.currentTarget).attr('data-index');
+
+     
+      this.props.getTicket.reviewRemark[index].remark = event.target.value;
+
+      this.setState({
+       [name]: event.target.value,
+      });
   }
   showRejectBoxState(){
     this.setState({"showRejectBox" : 'Y','showRadiobtn': "N"});
@@ -130,6 +147,60 @@ class Ticket extends TrackerReact(Component){
     // console.log('insertData ',insertData);
     Meteor.call('genericUpdateTicketMasterElement',this.props.ticketId,insertData);
     this.setState({"showRejectBox" : 'N'});
+  }
+  // get review by code event
+  getReviewByCode(event){
+    event.preventDefault();
+    var ipvalue = parseInt($(event.currentTarget).val());
+      var codeReview = CodeAndReason.findOne({"code" : ipvalue});
+      if (codeReview) {
+        var Review = codeReview.reason;
+        $('#TMReviewRemark').val(Review);
+      }
+  } 
+  getReviewByCodeToQTM(event){
+    event.preventDefault();
+    var ipvalue = parseInt($(event.currentTarget).val());
+      var codeReview = CodeAndReason.findOne({"code" : ipvalue});
+      if (codeReview) {
+        var Review = codeReview.reason;
+        $('#QTMReviewRemark').val(Review);
+      }
+  }
+  getReviewByCodeToQTL(event){
+    event.preventDefault();
+    var ipvalue = parseInt($(event.currentTarget).val());
+      var codeReview = CodeAndReason.findOne({"code" : ipvalue});
+      if (codeReview) {
+        var Review = codeReview.reason;
+        $('#QTLReviewRemark').val(Review);
+      }
+  }
+  // edit review
+  editReview(event){
+    event.preventDefault();
+    var id = $(event.currentTarget).attr('id');
+    $('#remarkWrapper-'+id).css({"display" : "none"});
+     $('#textbox-'+id).css({"display" : "block"});
+  }
+  submitEditedReview(event){
+    event.preventDefault();
+    var ticketId = this.props.ticketId;
+    // console.log("ticketId",ticketId);
+    var userId = $(event.currentTarget).attr('id');
+    // console.log("userId",userId);
+    var index  = parseInt($(event.currentTarget).attr('data-index'));
+    var remark = this.props.getTicket.reviewRemark[index].remark;
+    // console.log("remark",remark);
+    Meteor.call('updateReviewRemark',ticketId,userId,remark,function(error,result){
+      if (error) {
+        console.log(error.reason);
+      }else{
+        console.log("updated successfully");
+        $('#remarkWrapper-'+userId).css({"display" : "block"});
+        $('#textbox-'+userId).css({"display" : "none"});
+      }
+    });
   }
   /*Get radio value and display dropdown and textbox*/
   getRadioValue(event){
@@ -371,6 +442,7 @@ class Ticket extends TrackerReact(Component){
         }
         break;
       case 'VerificationPass' :
+      case 'VerificationPass-CompanyInfo' :
         insertData.reviewRemark = $('#TMReviewRemark').val();
         insertData.allocatedToUserid   = '';
         insertData.allocatedToUserName = '';
@@ -707,20 +779,52 @@ class Ticket extends TrackerReact(Component){
         }
         break;
       case 'VerificationPass' :
+      case 'VerificationPass-CompanyInfo' :
         if(Meteor.user().roles.find(this.getRole) == 'team member' && this.props.getTicket.ticketElement[n-1].userId == Meteor.userId()){
           var title = "Team Member"; 
           return(
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
               <h5> {title} </h5>
-              <span className="uploadreportTitle col-lg-2 col-md-2 col-sm-12 col-xs-12">Review Remark: </span>
-              <div className="col-lg-10 col-md-10 col-xs-12 col-sm-12">
-                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <textarea rows="3" className="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="TMReviewRemark"/>
+              {this.props.getTicket.verificationType == 'employement' ?
+                   !this.props.getTicket.companyDetails ?
+                    <EmployementCompanyDetails ticketId = {this.props.ticketId}/>
+                   : 
+                   <div>
+                    <span className="uploadreportTitle col-lg-2 col-md-2 col-sm-12 col-xs-12">Code: </span>
+                    <div className="col-lg-10 col-md-10 col-xs-12 col-sm-12 outercodeInput">
+                      <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                      <input type="text" name="code" ref="code" className="col-lg-12 col-md-12 col-sm-12 col-xs-12 codeInput" onBlur={this.getReviewByCode.bind(this)}/>
+                      </div>
+                    </div>
+                    <span className="uploadreportTitle col-lg-2 col-md-2 col-sm-12 col-xs-12">Review Remark: </span>
+                    <div className="col-lg-10 col-md-10 col-xs-12 col-sm-12">
+                      <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                      <textarea rows="3" className="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="TMReviewRemark"/>
+                      </div>
+                      <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outerButton acceptrejectwrap">
+                          <button type="button" className="fesubmitbtn col-lg-3 col-lg-offset-5 col-md-3 col-md-offset-9 " data-roleStatus="TMReviewRemark" data-msg="Team Member Review Remark Submitted" onClick={this.approveButton.bind(this)}>Submit</button>
+                      </div>
+                    </div>
+                  </div>
+                :
+                <div>
+                  <span className="uploadreportTitle col-lg-2 col-md-2 col-sm-12 col-xs-12">Code: </span>
+                  <div className="col-lg-10 col-md-10 col-xs-12 col-sm-12 outercodeInput">
+                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <input type="text" name="code" ref="code" className="col-lg-12 col-md-12 col-sm-12 col-xs-12 codeInput" onBlur={this.getReviewByCode.bind(this)}/>
+                    </div>
+                  </div>
+                  <span className="uploadreportTitle col-lg-2 col-md-2 col-sm-12 col-xs-12">Review Remark: </span>
+                  <div className="col-lg-10 col-md-10 col-xs-12 col-sm-12">
+                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <textarea rows="3" className="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="TMReviewRemark"/>
+                    </div>
+                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outerButton acceptrejectwrap">
+                        <button type="button" className="fesubmitbtn col-lg-3 col-lg-offset-5 col-md-3 col-md-offset-9  " data-roleStatus="TMReviewRemark" data-msg="Team Member Review Remark Submitted" onClick={this.approveButton.bind(this)}>Submit</button>
+                    </div>
+                  </div>
                 </div>
-                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outerButton acceptrejectwrap">
-                    <button type="button" className="fesubmitbtn col-lg-3 col-lg-offset-5 col-md-3 col-md-offset-9  " data-roleStatus="TMReviewRemark" data-msg="Team Member Review Remark Submitted" onClick={this.approveButton.bind(this)}>Submit</button>
-                </div>
-              </div>
+              }
             </div>
           )
         }
@@ -750,6 +854,12 @@ class Ticket extends TrackerReact(Component){
           return(
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
               <h5> {title} </h5>
+              <span className="uploadreportTitle col-lg-2 col-md-2 col-sm-12 col-xs-12">Code: </span>
+              <div className="col-lg-10 col-md-10 col-xs-12 col-sm-12 outercodeInput">
+                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <input type="text" name="qtmcode" ref="qtmcode" className="col-lg-12 col-md-12 col-sm-12 col-xs-12 codeInput" onBlur={this.getReviewByCodeToQTM.bind(this)}/>
+                </div>
+              </div>
               <span className="uploadreportTitle col-lg-2 col-md-2 col-sm-2 col-xs-2">Review Remark: </span>
               <div className="col-lg-10 col-md-10 col-sm-10 col-xs-10">
                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -859,6 +969,12 @@ class Ticket extends TrackerReact(Component){
           return(
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
               <h5> {title} </h5>
+              <span className="uploadreportTitle col-lg-2 col-md-2 col-sm-12 col-xs-12">Code: </span>
+              <div className="col-lg-10 col-md-10 col-xs-12 col-sm-12 outercodeInput">
+                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <input type="text" name="qtlcode" ref="qtlcode" className="col-lg-12 col-md-12 col-sm-12 col-xs-12 codeInput" onBlur={this.getReviewByCodeToQTL.bind(this)}/>
+                </div>
+              </div>
               <span className="uploadreportTitle col-lg-2 col-md-2 col-sm-2 col-xs-2">Review Remark: </span>
               <div className="col-lg-10 col-md-10 col-sm-10 col-xs-10">
                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -1107,7 +1223,7 @@ class Ticket extends TrackerReact(Component){
                             {this.props.getTicket.reviewRemark ?
                               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outeReportBlock">
-                                  <h6 className="dataDetails col-lg-2 col-md-2 col-sm-1 col-xs-1">Review Remark:</h6> 
+                                  <h6 className="dataDetails col-lg-12 col-md-12 col-sm-12 col-xs-12">Review Remark:</h6> 
                                     {this.props.getTicket.reviewRemark.map((review,i)=>{
                                       return(
                                         <div key={i} className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapperForReview">
@@ -1115,14 +1231,18 @@ class Ticket extends TrackerReact(Component){
 
                                           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outerReviewsBlock">
                                             <b>Name   : </b>{review.userName}
+                                            <i className="fa fa-edit tempImageDelete col-lg-1 text-right pull-right" title="Edit Review" id={review.userId} onClick={this.editReview.bind(this)}></i><br/>
                                           </div>
-                                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outerReviewsBlock">
-                                           {/*<i className="fa fa-edit tempImageDelete col-lg-4 pull-right" title="Edit Review" id={this.props.params.id} onClick={this.deleteReport.bind(this)}></i><br/>*/}
+                                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outerReviewsBlock" id={"remarkWrapper-"+review.userId} >
                                             <b>Review Remark : </b>{review.remark}
+                                          </div>
+                                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outerReviewsBlock" style={{"display" : "none"}} id={"textbox-"+review.userId}  data-index={i}  onChange={this.handleChangeForArray}>
+                                            <textarea rows="3" className="col-lg-12 col-md-12 col-sm-12 col-xs-12" ref="reviewsRemark" name="reviewsRemark" data-index={i} id={review.userId} value={review.remark}  onBlur={this.submitEditedReview.bind(this)}/>
                                           </div>
                                         </div>
                                       )
-                                    })}
+                                    })
+                                  }
                                     
                                 </div>   
                               </div>                       
@@ -1130,7 +1250,7 @@ class Ticket extends TrackerReact(Component){
                               null
                             }
                           </div>
-                           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outerShadow">
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 activityDetails">                           
                                     <h3> Activity Log</h3>
@@ -1168,7 +1288,8 @@ class Ticket extends TrackerReact(Component){
                                   }
                                 </div>
                               </div>
-                            </div>
+                          </div>
+
                          </div>
                          </div>
                          </div>

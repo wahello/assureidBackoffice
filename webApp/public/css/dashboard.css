@@ -6698,3 +6698,16 @@ border-top: 2px solid #aaa;
 .outerListOfUsersTable:hover{
     overflow-y: auto;
 }
+.outercodeInput{
+  margin-bottom: 2%;
+}
+.codeInput{
+  height: 30px;
+}
+.outerReportImage{
+  margin-bottom: 3%;
+}
+.imagesOnReport{
+  height: 100px;
+  width: 100%;
+}

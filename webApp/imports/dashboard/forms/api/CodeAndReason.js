@@ -7,7 +7,7 @@ if(Meteor.isServer){
    Meteor.publish('codeAndReason',()=>{
        return CodeAndReason.find({});
    });
-   Meteor.publish('singleCodeAndReason',(id)=>{
+   Meteor.publish('singleCodeAndReason',(id)=>{ 
        return CodeAndReason.find({"_id":id});
    });   
 
