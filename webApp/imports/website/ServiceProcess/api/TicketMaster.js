@@ -271,6 +271,13 @@ if(Meteor.isServer){
 						}
 					});
 				}
+				if(ticketDetails.companyDetails){
+					TicketMaster.update({"_id": ticketid},{
+						$set: {
+							'reportGenerated.companyDetails'    : ticketDetails.companyDetails,
+						}
+					});	
+				}
 				var role = "quality team leader";
 				var roleStatus = "QAPassQTLAllocated";
 				var newMember = Meteor.call('autoAllocateMember',role,ticketDetails.serviceName);
@@ -373,12 +380,20 @@ if(Meteor.isServer){
 					TicketMaster.update({"_id": ticketid},{
 						$set: {
 							'reportGenerated.createdAt'    : insertData.createdAt,
-							'reportGenerated.documents'    : ticketDetails.submitedDoc,
+							'reportGenerated.documents'    : ticketDetails.submitedDoc.documents,
 							'reportGenerated.reviewRemark' : ticketDetails.reviewRemark,
-							'reportGenerated.url'          : '/reportgeneration/'+ticketid,
+							'reportGenerated.url'          : '/reportHeader/'+ticketid,
 						}
 					}); 
 				}
+				if(ticketDetails.companyDetails){
+					TicketMaster.update({"_id": ticketid},{
+						$set: {
+							'reportGenerated.companyDetails'    : ticketDetails.companyDetails,
+						}
+					}); 
+				}
+
 				break;
 			case 'QAFail' :
 					break;

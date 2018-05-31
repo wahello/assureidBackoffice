@@ -6708,6 +6708,6 @@ border-top: 2px solid #aaa;
   margin-bottom: 3%;
 }
 .imagesOnReport{
-  height: 100px;
+  height: auto;
   width: 100%;
 }

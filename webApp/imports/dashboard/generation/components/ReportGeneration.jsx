@@ -31,8 +31,6 @@ class ReportGeneration extends TrackerReact(Component){
                   {/*{
                     this.props.getTicket.reportGenerated.documents.documents.checkLists
                   }*/}
-
-                 
                     {
                       this.props.getTicket ?
 
@@ -52,7 +50,7 @@ class ReportGeneration extends TrackerReact(Component){
                           </td>
                           <td className="col-lg-4" >
                            <i className={data.correctVal == "Correct" ? "fa fa-check-circle fa-lg text-success" : data.correctVal == "Incorrect"  ? "fa fa-times-circle fa-lg text-danger" : "" }></i>
-                          {data.remarkVal ? data.remarkVal : '' }
+                          &nbsp;{data.remarkVal ? data.remarkVal : '' }
                           </td>
                           </tr>
                         )
@@ -119,7 +117,7 @@ class ReportGeneration extends TrackerReact(Component){
                     this.props.getTicket.reportGenerated.documents.images.length > 0 ?
                     this.props.getTicket.reportGenerated.documents.images.map((data,i)=>{
                       return(
-                          <div className="col-lg-2 col-md-2 col-sm-12 col-xs-12 outerReportImage" key={i}>
+                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outerReportImage" key={i}>
                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                               <img src={data.imageLink} className="img img-responsive imagesOnReport" />
                             </div> 

@@ -41,7 +41,7 @@ export default class EmployementCompanyDetails extends TrackerReact(Component){
   submitCompanyDetails(event){
     event.preventDefault()
     var companyDetails = {
-      ' typeOfOwnersip' : this.refs.typeOfOwnersip.value,
+       'typeOfOwnersip' : this.refs.typeOfOwnersip.value,
        'cinNo'          : this.refs.cinNo.value,
        'registeringIn'  : this.refs.registeringIn.value,
        'siteVisit'      : this.refs.siteVisit.value,

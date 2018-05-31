@@ -23,10 +23,8 @@ class AddEditChecklist extends TrackerReact(Component) {
     // this.handleChangeForSelect = this.handleChangeForSelect.bind(this);
   }
   componentDidMount(){
-  
-    $('#fieldSelect').multipleSelect();
-  
-    }
+   $('#fieldSelect').multipleSelect();
+  }
   componentWillReceiveProps(nextProps) {
     if(!nextProps.loading){
       if(nextProps.checkList){
@@ -40,9 +38,9 @@ class AddEditChecklist extends TrackerReact(Component) {
       }
     }else{
       this.setState({
-        checkListFrom : '',
-        task : '',
-        checkListFor : '',
+        checkListFrom   : '',
+        task            : '',
+        checkListFor    : '',
         id              : '',
         button          : '',
       });
@@ -223,6 +221,16 @@ class AddEditChecklist extends TrackerReact(Component) {
 
                 */}
                 <select className="w300" multiple="multiple" id="fieldSelect" ref="checkListForField">
+                  <option value="line1">Address Line 1 </option>
+                  <option value="line2">Address Line 2 </option>
+                  <option value="line3">Address Line 3 </option>
+                  <option value="landmark">Landmark </option>
+                  <option value="city">City </option>
+                  <option value="state">State </option>
+                  <option value="country">Country </option>
+                  <option value="pincode">Pincode </option>
+                  <option value="residingFrom">residingFrom</option>
+                  <option value="residingTo">residingTo</option>
                   <option value="nameOfEmployer">Employer Name </option>
                   <option value="employerAddress">Company Address </option>
                   <option value="employerCity">Company Address City </option>
@@ -241,6 +249,19 @@ class AddEditChecklist extends TrackerReact(Component) {
                   <option value="reportingManagerNm">Reporting manager name</option>
                   <option value="prevDesignation">Reporting manager designation</option>
                   <option value="contactDetails">Reporting manager contact number</option>
+                  <option value="educationLevel">Qualification Level</option>
+                  <option value="educationQualification">Qualification</option>
+                  <option value="specialization">Specialization</option>
+                  <option value="grades">Grades/Percentage</option>
+                  <option value="dateAttendedFrom">Date attended from</option>
+                  <option value="dateAttendedTo">Date attended to</option>
+                  <option value="university">University</option>
+                  <option value="collegeName">College/Institute</option>
+                  <option value="collegeAddress">College Address</option>
+                  <option value="city">College City</option>
+                  <option value="state">College State</option>
+                  <option value="rollNo">Roll No./Registratation No.</option>
+                  <option value="proofType">Education Proof Type</option>
                 </select>
                  </span>
                 </div>
