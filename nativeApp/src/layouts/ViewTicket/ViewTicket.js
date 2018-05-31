@@ -589,10 +589,9 @@ class ViewTicket extends React.Component {
                     this.props.buttonVal == "Back" ? 
                     <SubmitedInformationContainer  ticket={this.props.navigation.state.params.ticketid}/>
                     :
-                    null
+                    <View></View>
                   }
                   </View>
-                {/* <View style = {styles.lineStyle} /> */}
               </View>
              
               {

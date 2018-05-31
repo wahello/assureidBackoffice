@@ -106,7 +106,7 @@ class AllocatedTickets extends React.Component {
         ticketData[i].ticketHolderImg  = "https://s3.ap-south-1.amazonaws.com/assureidportal/UserImage/"+userTicketHolder.profile.userProfile.split('original/')[1]+'.'+userTicketHolder.profile.userFileExt;
         ticketData[i].ticketHolderName = userTicketHolder.profile.firstname+' '+userTicketHolder.profile.lastname;
 
-        ticketData[i].serviceImageShow = "https://s3.ap-south-1.amazonaws.com/assureidportal/ServiceImage/"+ticketData[i].serviceImage.split('original/')[1];
+        ticketData[i].serviceImageShow = "https://assureidportal.s3.amazonaws.com/ServiceImage/"+ticketData[i].serviceImage.split('original/')[1]+'.'+ticketData[i].serviceImgFileExt;
 
           var ticketElementsData = ticketData[i].ticketElement;
           switch(role){

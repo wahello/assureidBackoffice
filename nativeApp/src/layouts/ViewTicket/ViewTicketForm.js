@@ -111,12 +111,14 @@ class ViewTicketFormInfo extends React.Component {
   }
 
   componentDidMount() {
+    console.log('componentDidMount ViewTicketFormInfo');
     BackHandler.addEventListener(
       "hardwareBackPress",
       this.androidBackHandler.bind(this)
     );
   }
   componentWillUnmount() {
+    console.log('componentDidMount componentWillUnmount');
     BackHandler.removeEventListener(
       "hardwareBackPress",
       this.androidBackHandler.bind(this)

@@ -3,8 +3,6 @@ import Meteor,{ createContainer } from "react-native-meteor";
 import { CameraKitCamera, CameraKitCameraScreen, CameraKitGalleryView } from 'react-native-camera-kit';
 import { Alert,View, ScrollView } from "react-native";
 
-
-
 class CameraChild extends React.Component{
 
   constructor(props) {
@@ -12,6 +10,7 @@ class CameraChild extends React.Component{
     this.state = {
       componenentVisible : true,
     };
+    this.onBottomButtonPressed = this.onBottomButtonPressed.bind(this);
   }
 
   componentWillMount (){
@@ -34,27 +33,9 @@ class CameraChild extends React.Component{
   componentWillReceiveProps(nextProps) {
     // console.log('nextProps: ',nextProps);
   }
-  
-
-
-  // removeCameraView(){
-  //   console.log('inside removeCameraView');
-  //   if (!cameraViews.isEmpty()) {
-  //       cameraViews.pop();
-  //   }
-  //   if (!cameraViews.isEmpty()) {
-  //       connectHolder();
-  //   } else if (camera != null) {
-  //       releaseCamera();
-  //       camera = null;
-  //   }
-  //   if (cameraViews.isEmpty()) {
-  //       clearOrientationListener();
-  //   }
-  // }
 
   onBottomButtonPressed(event) {
-    // console.log('in onBottomButtonPressed');
+    console.log('in onBottomButtonPressed');
     // console.log('this.camera');
     // console.log(this.camera);
     // console.log("this.refs: ",this.refs);
@@ -67,14 +48,15 @@ class CameraChild extends React.Component{
     // this.setState({
     //                     "imagesSelected" : captureImagesStack1,
     //              });
-    // console.log('captureImagesStack1: ',captureImagesStack1);
+    console.log('captureImagesStack1: ',captureImagesStack1);
     var recentImg = "file://"+captureImagesStack1[0].uri;
-    // console.log('recentImg: ',recentImg);
+    console.log('recentImg: ',recentImg);
     // var x = this.props.navigator.pop();
     // console.log('x: ',x);
+
     this.props.navigation.navigate('CameraView', { photoUri: recentImg, ticket: this.props.ticket });
-    this.setState({ componenentVisible : false });
-    // console.log('unmount done');
+    // this.setState({ componenentVisible : false });
+    console.log('unmount done after camera componenentVisible false');
 
     // event.captureImages = [];
 
@@ -87,22 +69,15 @@ class CameraChild extends React.Component{
     // console.log('-------------------------------------');
     // console.log(this.props.ele);
 
-    if(this.state.componenentVisible){
+    if(this.state.componenentVisible === true){
       return (
         <CameraKitCameraScreen
           ref         = {(cam) => {
                                       this.camera = cam; 
-                                      // takePicture(cam);
-                                      // this.takePicture();
-                                      // const success = await this.camera.changeCamera();
-                                      // console.log("cam:",cam);
-                                      // console.log("this.camera:",this.camera);
-                                      // console.log("cam:",cam);
                                     }
                         }
           actions     = {{ rightButtonText: 'Done', leftButtonText: 'Cancel' }}
           onBottomButtonPressed = {this.onBottomButtonPressed.bind(this)}
-          // onBottomButtonPressed = {(event) => this.takePicture()}
           flashImages = {{
             on   : require('../../images/flashOn.png'),
             off  : require('../../images/flashOff.png'),
@@ -122,25 +97,10 @@ class CameraChild extends React.Component{
       );
 
     }else{
-      return null;
+      return (<View><Text></Text></View>);
     }
 
   }
-
-
-
-  async onCheckCameraAuthoPressed() {
-    const success = await CameraKitCamera.checkDeviceCameraAuthorizationStatus();
-    if (success) {
-      Alert.alert('You have permission 🤗')
-    }
-    else {
-      Alert.alert('No permission 😳')
-    }
-  }
-
-
-    
 
 }
 
@@ -151,7 +111,7 @@ export default Camera = createContainer( (props) => {
   // console.log('ticket : ',props.navigation.state.params.ticket);
   var result =  {
       "ticket" : props.navigation.state.params.ticket,
-      "ele"    : props,
+      // "ele"    : props,
   };
 
   return result;

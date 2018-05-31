@@ -27,8 +27,8 @@ class NewTickets extends React.Component {
     if (this.props.userName) name = "Welcome " + this.props.userName;
     this.state = {
       name              : name,
-      isOpen: false,
-      selectedItem: "About",
+      isOpen            : false,
+      selectedItem      : "About",
       inputFocusColor   : '#f7ac57',
     };
     this.openDrawer   = this.openDrawer.bind(this);
@@ -99,7 +99,7 @@ class NewTickets extends React.Component {
       //find last status of the Tickets
       
       for(i=0;i< ticketData.length; i++){
-        ticketData[i].serviceImageShow = "https://assureidportal.s3.amazonaws.com/ServiceImage/"+ticketData[i].serviceImage.split('original/')[1];
+        ticketData[i].serviceImageShow = "https://assureidportal.s3.amazonaws.com/ServiceImage/"+ticketData[i].serviceImage.split('original/')[1]+'.'+ticketData[i].serviceImgFileExt;
         // ticketData[i].serviceImageShow = "https://s3.ap-south-1.amazonaws.com/assureidportal/ServiceImage/"+ticketData[i].serviceImage.split('original/')[1];
         var ticketElementsData = ticketData[i].ticketElement;
         console.log(i,' = ',ticketData[i].serviceImageShow);
