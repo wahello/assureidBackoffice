@@ -53,13 +53,15 @@ class OrderDetails extends TrackerReact(Component){
   generateOrder(event){
     event.preventDefault();
     Meteor.call("orderCompleted",this.props.orderId);
-    var path = '/orderGeneration';
+    var path = '/orderGeneration/'+this.props.orderId;
         window.open(path);
   }
   showOrderReport(event){
     event.preventDefault();
-    // var path = '/orderGeneration/'+this.props.orderId;
-    var path = '/orderGeneration';
+    var path = '/orderGeneration/'+this.props.orderId;
+    console.log('path: ', path);
+    
+    // var path = '/orderGeneration';
         window.open(path);
   }
   render(){
