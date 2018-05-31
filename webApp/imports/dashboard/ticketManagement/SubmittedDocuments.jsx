@@ -122,6 +122,7 @@ export default class SubmittedDocuments extends TrackerReact(Component){
 													<div className="col-lg-8 col-lg-offset-0">
 														{
 															submittedChecklist.textVal.map((submittedCheckDbFields,index)=>{
+																
 																return(
 																		<span key={index}>{submittedCheckDbFields.value},&nbsp;</span>
 																);
@@ -134,10 +135,16 @@ export default class SubmittedDocuments extends TrackerReact(Component){
 													{/* <button type="button" className= {submittedChecklist.correctVal == "Correct" ? "btn btn-info noDataButton bgSelect": "btn btn-info noDataButton bgNotSelect"}>Correct</button>
 													<button type="button" className= "btn btn-info noDataButton" onClick={this.noReason.bind(this)}>Incorrect</button> */}
 												</div>
-												<div className="col-lg-5 col-md-5 col-sm-6 col-xs-6">
-													<span>Remark &nbsp;:</span><span>&nbsp;{submittedChecklist.remarkVal}</span>
-													{/* <textarea rows="3" cols="60" className="col-lg-8 col-lg-offset-0" id=""/> */}
-												</div>												
+												{ 
+													submittedChecklist.remarkVal != '' ?
+														<div className="col-lg-5 col-md-5 col-sm-6 col-xs-6">
+															<span>Remark &nbsp;:</span><span>&nbsp;{submittedChecklist.remarkVal}</span>
+															{/* <textarea rows="3" cols="60" className="col-lg-8 col-lg-offset-0" id=""/> */}
+														</div>
+													:
+													null
+												}
+																								
                     </div>
                   );
                 })

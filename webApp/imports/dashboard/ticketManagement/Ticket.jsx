@@ -11,6 +11,7 @@ import { browserHistory } from 'react-router';
 import { Link } from 'react-router';
 import UserInformation from './UserInformation.jsx';
 import { TicketMaster } from '../../website/ServiceProcess/api/TicketMaster.js';
+import { CodeAndReason } from '/imports/dashboard/forms/api/CodeAndReason.js';
 import { TempTicketReport } from "/imports/dashboard/ticketManagement/api/TempUpload.js";
 import  ServiceInformation from './ServiceInformation.jsx';
 import VerifiedDocuments from './VerifiedDocuments.jsx';
@@ -18,6 +19,9 @@ import ScreeningCommittee from '/imports/dashboard/ticketManagement/ScreeningCom
 import TicketDocumentDetails from '/imports/dashboard/ticketManagement/TicketDocumentDetail.jsx';
 import DocumentStatus from './DocumentStatus.jsx';
 import VerificationDataSubmit from './VerificationDataSubmit.jsx';
+
+// import VerificationDataSubmit from './VerificationDataSubmit.jsx';
+
 import VerifyDetailsDocument from './VerifyDetailsDocument.jsx';
 import { UserProfile } from '../../website/forms/api/userProfile.js';
 import SubmittedDocuments from './SubmittedDocuments.jsx';
