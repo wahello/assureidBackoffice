@@ -40,7 +40,6 @@ import '../imports/dashboard/forms/api/PoliceStation.js';
 import '../imports/dashboard/forms/api/ManageLocation.js';
 import '../imports/dashboard/ticketManagement/api/TempUpload.js';
 
-
 import '../imports/website/ServiceProcess/api/TicketMaster.js';
 // import { CategoryImage } from '../imports/dashboard/product/addNewProduct/api/CategoryImage.js';
 // Meteor.publish('categoryImagePublish', function() {
@@ -58,7 +57,6 @@ Meteor.startup(() => {
 
 });
 
-if(plivoData){
   // console.log("plivoData: ",plivoData);
   Meteor.methods({
   'SEND_SMS': function (toNumber, smsBody) {
@@ -125,6 +123,6 @@ if(plivoData){
     });
   },
 });  
-}
+
 
 

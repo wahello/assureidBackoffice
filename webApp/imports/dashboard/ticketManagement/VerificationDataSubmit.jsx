@@ -63,7 +63,7 @@ class VerificationDataSubmit extends TrackerReact(Component){
     getRole(role) {
         return role != "backofficestaff";
     }
-     handleChangeChecklist(event){
+    handleChangeChecklist(event){
         // event.preventDefault();
 
         const target = event.target;
@@ -898,7 +898,7 @@ class VerificationDataSubmit extends TrackerReact(Component){
                                     <div className="col-lg-12 noLRPad Selectimg">Remark:<span className="starcolor1">*</span></div>
                                 </div>
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12  ">
-                                    <textarea className="form-control col-lg-12 col-sm-12 col-md-12 col-xs-12" name="remark" ref="remark" id="remark" onChange={this.handleChange} value={this.state.remark} rows="5" id="remark" pattern="[a-zA-Z0-9\s]+" required ></textarea>          
+                                    <textarea className="form-control col-lg-12 col-sm-12 col-md-12 col-xs-12" name="remark" ref="remark" id="remark" onChange={this.handleChange} value={this.state.remark} rows="5" id="remark" required ></textarea>          
                                 </div>
                             </div>
                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12  wholeborder text-center">

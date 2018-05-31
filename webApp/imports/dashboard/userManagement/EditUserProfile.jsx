@@ -21,6 +21,9 @@ class EditUserProfile extends TrackerReact(Component){
 			    mobNumber     : this.props.post.profile.mobNumber,
 			    email         : this.props.post.email,
 			    userProfile   : this.props.post.profile.userProfile,
+			    'servicesName': this.props.post.profile.servicesRef,
+          'reportToRole': this.props.post.profile.reportToRole,
+          'reportToName': this.props.post.profile.reportToName,
 			    subscription  : {
 									"parkDataSlots" : Meteor.subscribe('parkDataSlots',userId),
 									"userAddrData"  : Meteor.subscribe('userAddrData',userId),
@@ -38,6 +41,9 @@ class EditUserProfile extends TrackerReact(Component){
 		    mobNumber     : '',
 		    email         : '',
 		    userProfile   : '',
+		    servicesName  : '',
+        reportToRole  : '',
+        reportToName  : '',
 		  };	  	
 	  }
 	    this.handleChange = this.handleChange.bind(this);
@@ -48,6 +54,8 @@ class EditUserProfile extends TrackerReact(Component){
   	if(!nextProps.loading){	
     	if(nextProps.post){	
 	    	if(nextProps.post.profile){	
+	    		console.log("this.props.post.profile",nextProps.post.profile);
+
 	            this.setState({
 	                firstname  : nextProps.post.profile.firstname,
 	                lastname   : nextProps.post.profile.lastname,
@@ -55,6 +63,9 @@ class EditUserProfile extends TrackerReact(Component){
 	                username   : nextProps.post.username,
 	                mobNumber  : nextProps.post.profile.mobNumber,
 	                email      : nextProps.post.emails[0].address,
+	                servicesName : nextProps.post.profile.servicesRef,
+                  reportToRole : nextProps.post.profile.reportToRole,
+                  reportToName: nextProps.post.profile.reportToName,
 	            })
 	        }
         }
@@ -123,10 +134,10 @@ class EditUserProfile extends TrackerReact(Component){
     //   document.head.append(dashboardCss);
     // }
   }
-   componentWillUnmount(){  
+  componentWillUnmount(){  
      $("script[src='/js/adminLte.js']").remove(); 
      // $("link[href='/css/dashboard.css']").remove(); 
-   }
+  }
 
   onInput(event){
 	  this.setState({firstname: event.target.value})
@@ -303,6 +314,7 @@ EditUserContainer = withTracker(({params})=>{
     }
     const postHandle = Meteor.subscribe('userData',id);
     const post       = Meteor.users.findOne({ '_id': id })||{};
+
     if(post){
     	 const loading = !postHandle.ready();
 	    return {

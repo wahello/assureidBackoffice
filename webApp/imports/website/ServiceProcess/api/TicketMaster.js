@@ -53,7 +53,27 @@ if(Meteor.isServer){
 		});
 	},
 	'genericUpdateTicketMasterElement': function(ticketid,insertData){
-
+    var adminData   = Meteor.users.findOne({'roles' : "admin"});
+    var ticket      = TicketMaster.findOne({"_id" : ticketid});
+    if (ticket) {
+    	var usersid   = ticket.userId;
+    	var serviceNameOfticket = ticket.serviceName;
+    	var userData  = Meteor.users.findOne({"_id" : usersid});
+    	 if (userData) {
+        var newID = userData._id;
+        if (userData.profile) {
+          var firstLastNm = userData.profile.firstname+' '+userData.profile.lastname;
+          var mobNumber   = userData.profile.mobNumber;
+        }
+      }
+    }
+      // console.log(userData);
+      // console.log('order',order);
+      // console.log('adminData: ',adminData);
+      if (adminData) {
+        var adminId  = adminData._id;
+      }
+      
 		//Update TicketElement
 		//Write code for split
 	
@@ -169,6 +189,37 @@ if(Meteor.isServer){
 				TempTicketImages.remove({});
 				TempTicketVideo.remove({});
 				//notification to be implemented  - Field person was not able to complete the verification.
+				 var newDate     = new Date();
+		      var msgvariable = {                       
+		                        '[username]' : firstLastNm,
+		                        '[date]'     : moment(newDate).format("DD/MM/YYYY"),
+		                       };
+		      // Format for send Email //
+		      var inputObj = {
+		          from         : adminId,
+		          to           : newID,
+		          templateName : 'ProofSubmit-Pending',
+		          variables    : msgvariable,
+		      }
+		      sendMailNotification(inputObj);
+		      
+		      // Format for sending SMS //
+		      var smsObj = {
+		          to           : newID,
+		          templateName : 'ProofSubmit-Pending',
+		          number       : mobNumber,
+		          variables    : msgvariable,
+		      }
+		      // console.log("smsObj",smsObj);
+		      sendSMS(smsObj);
+
+		      // Format for sending notification //
+		      var notifictaionObj = {
+		        to           : newID,
+		        templateName : 'ProofSubmit-Pending',
+		        variables    : msgvariable,
+		      }
+		      sendInAppNotification(notifictaionObj);
 				break;
 			case 'ProofSubmit'      :
 				TicketMaster.update({"_id": ticketid},{
@@ -436,7 +487,39 @@ if(Meteor.isServer){
 						}
 					}
 				);
-				//notification 
+	  		//notification 
+				 var newDate     = new Date();
+		      var msgvariable = {                       
+		                        '[username]' : firstLastNm,
+		                        '[servicename]'  : serviceNameOfticket,
+		                        '[date]'     : moment(newDate).format("DD/MM/YYYY"),
+		                       };
+		      // Format for send Email //
+		      var inputObj = {
+		          from         : adminId,
+		          to           : newID,
+		          templateName : 'EFBESelfAllocated',
+		          variables    : msgvariable,
+		      }
+		      sendMailNotification(inputObj);
+		      
+		      // Format for sending SMS //
+		      var smsObj = {
+		          to           : newID,
+		          templateName : 'EFBESelfAllocated',
+		          number       : mobNumber,
+		          variables    : msgvariable,
+		      }
+		      // console.log("smsObj",smsObj);
+		      sendSMS(smsObj);
+
+		      // Format for sending notification //
+		      var notifictaionObj = {
+		        to           : newID,
+		        templateName : 'EFBESelfAllocated',
+		        variables    : msgvariable,
+		      }
+		      sendInAppNotification(notifictaionObj);
 				break;
 			case 'SelfAllocated':
 				TicketMaster.update(
@@ -448,6 +531,38 @@ if(Meteor.isServer){
 					}
 				);
 				//notification - Ticket for Address verification is initiated. Field person will be visting you soon
+			  var newDate     = new Date();
+		      var msgvariable = {                       
+		                        '[username]' : firstLastNm,
+		                        '[servicename]'  : serviceNameOfticket,
+		                        '[date]'     : moment(newDate).format("DD/MM/YYYY"),
+		                       };
+		      // Format for send Email //
+		      var inputObj = {
+		          from         : adminId,
+		          to           : newID,
+		          templateName : 'EFBESelfAllocated',
+		          variables    : msgvariable,
+		      }
+		      sendMailNotification(inputObj);
+		      
+		      // Format for sending SMS //
+		      var smsObj = {
+		          to           : newID,
+		          templateName : 'EFBESelfAllocated',
+		          number       : mobNumber,
+		          variables    : msgvariable,
+		      }
+		      // console.log("smsObj",smsObj);
+		      sendSMS(smsObj);
+
+		      // Format for sending notification //
+		      var notifictaionObj = {
+		        to           : newID,
+		        templateName : 'EFBESelfAllocated',
+		        variables    : msgvariable,
+		      }
+		      sendInAppNotification(notifictaionObj);
 			break;
 		}
 		return updateStatus;

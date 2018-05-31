@@ -26,7 +26,7 @@ class CreateUser extends TrackerReact(Component) {
           var reportToName = splitValue[1].slice(0, -1);
         }else{ 
           var reportToName = '';
-          var reportToRole = '';
+          var reportToRole = ''; 
         }
         console.log("reportrefValue :"+reportrefValue);
         
@@ -291,7 +291,8 @@ class CreateUser extends TrackerReact(Component) {
     }
 
 	} 
-}export default CreateUserContainer = withTracker(props => {
+}
+export default CreateUserContainer = withTracker(props => {
   var handle = Meteor.subscribe("services");
   var userSubscribehandle = Meteor.subscribe('userfunction');
   var rolehandle = Meteor.subscribe("rolefunction");
