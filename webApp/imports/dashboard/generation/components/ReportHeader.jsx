@@ -89,6 +89,9 @@ class ReportHeader extends TrackerReact(Component){
                 
                 </div>
            </div>
+           <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 outerUserData" >
+             Status  : {this.props.getTicket.reportGenerated.documents.status}
+           </div>
            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12"> 
           <ReportGeneration ticketId={this.props.ticketId} />
           </div>
@@ -105,20 +108,21 @@ export default ReportHeaderContainer = withTracker(({params}) => {
   var handleSinTick = Meteor.subscribe("singleTicket",params.id);
   var handleUseFunc = Meteor.subscribe('userfunction');
   var handleUserProfile = Meteor.subscribe("userProfileData");
-  // var handleReport    = Meteor.subscribe("allTicketReport");
-  // const postHandle2  = Meteor.subscribe('checklistFieldExpert');
   var ticketId = params.id;
-  // console.log("ticketId",ticketId);
   var loading = !handleSinTick.ready() && !handleUseFunc.ready() && !handleUserProfile.ready();
   var getTicket = TicketMaster.findOne({"_id":ticketId});
-  // console.log("getTicket",getTicket);
   if(getTicket){
+    var statusTicketArr = getTicket.reportGenerated.documents.status.split('-');
+    if(statusTicketArr[1]){
+      var statusTicket = statusTicketArr[1];
+    }else{
+      var statusTicket = getTicket.reportGenerated.documents.status;
+    }
+    getTicket.reportGenerated.documents.status = statusTicket;
     var user = Meteor.users.findOne({"_id": getTicket.userId}) || {};
-      // console.log("user",user);
 
     if(user){
       var userProfile = UserProfile.findOne({"userId": getTicket.userId}) || {};
-      // console.log("userProfile",userProfile);
       if(userProfile.dateOfBirth){
         var today = new Date();
         var birthDate = new Date(userProfile.dateOfBirth);

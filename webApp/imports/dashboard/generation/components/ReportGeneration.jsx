@@ -111,7 +111,9 @@ class ReportGeneration extends TrackerReact(Component){
               </table>
 
             </div>
+
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
+               <span><b> Proofs collected :</b></span>
                {this.props.getTicket ?
                   this.props.getTicket.reportGenerated.documents.images ?
                     this.props.getTicket.reportGenerated.documents.images.length > 0 ?

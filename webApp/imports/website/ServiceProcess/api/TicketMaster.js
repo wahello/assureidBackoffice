@@ -78,7 +78,6 @@ if(Meteor.isServer){
 		console.log('insertData.roleStatus: ',insertData.roleStatus);
 		switch(insertData.roleStatus){
 			case 'ScreenApproved' 	:
-			console.log('ScreenApproved');
 				var newCount = Meteor.user().count;
 				if(newCount){
 					Meteor.call('updateCommitteeUserCount',newCount-1,insertData.userId);
@@ -125,7 +124,6 @@ if(Meteor.isServer){
 				);
 				break;
 			case 'ScreenRejected' 	: 
-			console.log('ScreenRejected');
 				var newCount = Meteor.user().count;
 				if(newCount){
 					Meteor.call('updateCommitteeUserCount',newCount-1,insertData.userId);
@@ -143,7 +141,6 @@ if(Meteor.isServer){
 				}
 				break;
 			case 'AssignAccept' :
-			console.log('AssignAccept');
 				TicketMaster.update(
 					{'_id':ticketid},
 					{
@@ -154,7 +151,6 @@ if(Meteor.isServer){
 				);	
 				break;
 			case 'AssignReject':
-			console.log('AssignReject');
 				var teamMember = Meteor.users.findOne({"_id":insertData.userId});
 				if(teamMember && teamMember.count){
 					var newCount = teamMember.count - 1;
@@ -164,7 +160,6 @@ if(Meteor.isServer){
 				Meteor.call('updateCommitteeUserCount',newCount,teamMember._id);
 				break;
 			case 'ProofSubmit-Pending' :
-				console.log('ProofSubmit-Pending');
 				TicketMaster.update({"_id": ticketid},{
 					$set: {
 						'submitedDoc.createdAt' : insertData.createdAt,
@@ -173,9 +168,9 @@ if(Meteor.isServer){
 				});
 				TempTicketImages.remove({});
 				TempTicketVideo.remove({});
+				//notification to be implemented  - Field person was not able to complete the verification.
 				break;
 			case 'ProofSubmit'      :
-			console.log('ProofSubmit');
 				TicketMaster.update({"_id": ticketid},{
 					$set: {
 						'submitedDoc.createdAt' : insertData.createdAt,
@@ -210,9 +205,9 @@ if(Meteor.isServer){
 						);	
 					}
 				}
+				//notification to be implemented - Field Expert has collected the infomration.
 				break;
 			case 'ProofResubmitted' :
-			console.log('ProofResubmitted');
 					TicketMaster.update({"_id": ticketid},{
 						$set: {
 							'submitedDoc.createdAt' : insertData.createdAt,
@@ -247,6 +242,7 @@ if(Meteor.isServer){
 							);	
 						}
 					}
+					//notification to be implemented
 					break;
 			case 'VerificationPass-CompanyInfo' :
 					TicketMaster.update(
@@ -257,7 +253,7 @@ if(Meteor.isServer){
 							}
 						}
 					);
-				break;
+					break;
 			case 'ReportSubmitted' 	:
 			case 'ReportGenerated' :
 				var ticketDetails = TicketMaster.findOne({"_id":ticketid});
@@ -440,6 +436,7 @@ if(Meteor.isServer){
 						}
 					}
 				);
+				//notification 
 				break;
 			case 'SelfAllocated':
 				TicketMaster.update(
@@ -450,6 +447,7 @@ if(Meteor.isServer){
 						}
 					}
 				);
+				//notification - Ticket for Address verification is initiated. Field person will be visting you soon
 			break;
 		}
 		return updateStatus;
