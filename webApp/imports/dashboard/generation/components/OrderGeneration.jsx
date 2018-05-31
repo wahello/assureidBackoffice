@@ -90,6 +90,12 @@ class OrderGeneration extends TrackerReact(Component){
           }
         </div>
         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noProfilePadding">
+          <h3>SUMMARY OF FINDINGS</h3>
+          <ul>
+            <li></li>
+          </ul>
+        </div>
+        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noProfilePadding">
           
           { 
             this.props.getOrder ?

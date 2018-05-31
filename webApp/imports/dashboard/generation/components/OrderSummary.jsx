@@ -31,7 +31,7 @@ class OrderSummary extends TrackerReact(Component){
             </thead>
             <tbody>
               <tr>
-                <td>
+                <td className="col-lg-8">
                     {
                         this.props.getTicket && this.props.getTicket.verificationType =="permanentAddress" ?
                             <div>
@@ -44,8 +44,6 @@ class OrderSummary extends TrackerReact(Component){
                             <span>{this.props.getTicket.verificationData.state}</span>, &nbsp;
                             <span>{this.props.getTicket.verificationData.country}</span>, &nbsp;
                             <span>{this.props.getTicket.verificationData.pincode}</span>, &nbsp;
-                            <span>{this.props.getTicket.verificationData.residingFrom}</span>, &nbsp;
-                            <span>{this.props.getTicket.verificationData.residingTo}</span>, &nbsp;
                             
                             </div>
                         :
@@ -61,8 +59,6 @@ class OrderSummary extends TrackerReact(Component){
                                 <span>{this.props.getTicket.verificationData.tempState}</span>, &nbsp;
                                 <span>{this.props.getTicket.verificationData.tempCountry}</span>, &nbsp;
                                 <span>{this.props.getTicket.verificationData.tempPincode}</span>, &nbsp;
-                                <span>{this.props.getTicket.verificationData.tempresidingFrom}</span>, &nbsp;
-                                <span>{this.props.getTicket.verificationData.tempresidingTo}</span>, &nbsp;
                         
                             </div>
 
@@ -78,16 +74,12 @@ class OrderSummary extends TrackerReact(Component){
                         
                     }
                 </td>
-                <td>Verified</td>
-                <td>{this.props.getTicket ? this.props.finalStatus: "-"}</td>
+                <td className="col-lg-2">Verified</td>
+                <td className="col-lg-2">{this.props.getTicket ? this.props.finalStatus: "-"}</td>
               </tr>
-              {/* <tr>
-                <td>Segreto Technologies Pvt. Ltd, Pune</td>
-                <td>Verified</td>
-                <td>Inaccessible for Verification</td>
-              </tr> */}
             </tbody>
           </table>
+          
         </div>
       </div>
     );
@@ -102,7 +94,7 @@ class OrderSummary extends TrackerReact(Component){
      var getTicket = TicketMaster.findOne({"_id":ticketId});
      console.log('getTicket: ', getTicket);
      if(getTicket){
-     var statusName  =  getTicket.reportGenerated.documents.documents.status;
+     var statusName  =  getTicket.reportGenerated.documents.status;
      var splitName   =  statusName.split('-');
      var finalStatus =  splitName[1]; 
         
