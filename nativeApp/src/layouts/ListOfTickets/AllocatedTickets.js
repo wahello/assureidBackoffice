@@ -382,7 +382,8 @@ export default createContainer((props) => {
 
   var _id          = Meteor.userId();
   const user       = Meteor.collection('users').findOne({"_id":_id});
-  var alltickets   =  Meteor.collection('ticketMaster').find({});
+  // var alltickets   =  Meteor.collection('ticketMaster').find({});
+  var alltickets   =  Meteor.collection('ticketMaster').find({ticketElement: { $elemMatch: { "roleStatus" : "FEAllocated", "allocatedToUserid" : _id }}});
 
   var result = {
     ticketData : alltickets ,

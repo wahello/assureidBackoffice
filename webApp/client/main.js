@@ -153,8 +153,9 @@ addServicesImgsToS3Function = function(file,self) {
 
     uploadInstance.on('uploaded',  (error, fileObj) => {
         if(fileObj){
-            // console.log("fileObj._id: ",fileObj._id);
-            Meteor.call("addNewTemporaryServiceImage",fileObj._id,(error, result)=>{
+            console.log("fileObj._id: ",fileObj);
+            console.log("fileObj._id: ",fileObj._id);
+            Meteor.call("addNewTemporaryServiceImage",fileObj._id, (error, result)=>{
                 // swal({
                 //     position: 'top-right',
                 //     type: 'success',

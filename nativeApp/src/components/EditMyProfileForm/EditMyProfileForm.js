@@ -148,7 +148,7 @@ class EditMyProfileForm extends ValidationComponent {
     }
   };
 
-  editProfileImage = () =>{
+  editProfileImage = (event) =>{
 
     var userId = Meteor.userId();
     var s3Data = this.props.s3Data;

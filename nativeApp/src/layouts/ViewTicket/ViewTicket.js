@@ -538,7 +538,7 @@ class ViewTicket extends React.Component {
                           />  
                       }
                     </View>
-                    {this.props.viewTicketData?
+                    { this.props.viewTicketData?
                       <View style= {{flex:.5,marginRight:15}}>
                         <View style= {{flex:1,flexDirection:'row'}}>
                           <Icon size={18} name='user-o' type='font-awesome' color='#ccc' />

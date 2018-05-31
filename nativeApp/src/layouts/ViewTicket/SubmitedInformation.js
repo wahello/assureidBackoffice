@@ -193,31 +193,9 @@ class SubmitedInformation extends React.Component {
         </View>
 <View style={styles.formInputView}>
               <View>
-                <Text style={{fontWeight: 'bold'}}>Checklist</Text>
+                <Text style={{fontWeight: 'bold'}}>Verified Information</Text>
               </View>
             </View>
-
-                  
-{/*            {
-              this.props.selectFEData ?
-              this.props.selectFEData.documents.checkLists.map((checkListDefault,index)=>{
-                return(
-                        <View style={styles.container} key={index}>
-                          <CheckBox
-                            center
-                            containerStyle={{ backgroundColor: "transparent", borderWidth: 0 }}
-                            checkedColor="green"
-                            checked={checkListDefault.status}
-                            textStyle={{ color: "#aaa" }}
-                            title={checkListDefault.statement}
-                            value={checkListDefault.statement}
-                          />     
-                        </View>
-                      );
-                    })
-                    :
-                    ""
-            }*/}
 
 
                   <View style={{width:'100%',padding:10}}>
@@ -234,7 +212,7 @@ class SubmitedInformation extends React.Component {
                                   { checkListDefault.textVal ? checkListDefault.textVal.map((data,ind)=>{
                                     return(
                                       <View style={{flex:1}} key={ind}>
-                                        <Text>{data.dbField}</Text>
+                                        <Text>{data.value}</Text>
                                       </View>
                                     );
                                  })
@@ -280,7 +258,7 @@ class SubmitedInformation extends React.Component {
                       );
                     })
                   :
-                  null
+                  <View><Text></Text></View>
                   }
                   </View>
                 <View style={[styles.lineStyle, {width:'100%',padding:10}]}>
@@ -300,7 +278,7 @@ class SubmitedInformation extends React.Component {
                           );
                         })
                         :
-                       ""
+                       <View><Text></Text></View>
                 }
                 </View>
 
@@ -336,37 +314,19 @@ class SubmitedInformation extends React.Component {
                     </View>
                   </View>
 
-{/*                  <View style = {styles.formInputView}> 
-                    <View style={{flex:1}}>
-                      <View style={{flexDirection:'row'}}>
-                        <Icon name="videocam" type="MaterialIcons" size={50} color="#aaa"  />
-
-                        <View style={{paddingHorizontal:10,paddingVertical:10}}>
-                          <View style={styles.closeBtn}>
-                            <Icon name="close" type="MaterialIcons" size={20} color="#aaa"  />
-                          </View>
-                          <Image
-                            style={{ width: 50, height: 50, borderRadius: 15,}}
-                            resizeMode="stretch"
-                            source={require("../../images/pdf-icon.png")}
-                          />
-                        </View>
-
-                      </View>
-                    </View>
-                  </View>*/}
-
                   <View style = {styles.formInputView}> 
                     <View style={{flex:1}}>
                       <View style={{flexDirection:'row'}}>
                         <Icon name="videocam" type="MaterialIcons" size={50} color="#aaa"/>
 
-                        { this.props.selectFEData && this.props.selectFEData.documents && this.props.selectFEData.documents.videos.length > 0 ?
+                        { this.props.selectFEData && 
+                          this.props.selectFEData.documents && 
+                          this.props.selectFEData.documents.videos.length > 0 ?
                           this.props.selectFEData.documents.videos.map((videoData,index)=>{
                             return(<RenderVideo key={index} videoData={videoData}/>);
                           })
                           :
-                          null
+                          <View><Text></Text></View>
                         }
                       </View>
                     </View>
@@ -394,18 +354,6 @@ class SubmitedInformation extends React.Component {
                     <View style={styles.formInputViews}>
                     <Text>{this.props.selectFEData && this.props.selectFEData.documents ? this.props.selectFEData.documents.status : ''}</Text>
  
-                    </View>
-                  </View>
-
-                  <View style = {styles.lineStyle} >
-                    <View style={styles.formInputView}>
-                      <View>
-                        <Text style={{fontWeight: 'bold'}}>Sub-status</Text>
-                      </View>
-                    </View>
-                    <View style={styles.formInputViews}>
-                      <Text>{ this.props.selectFEData && this.props.selectFEData.documents ? this.props.selectFEData.documents.subStatus : ''}</Text>
-
                     </View>
                   </View>
 
@@ -465,17 +413,28 @@ SubmitedInformationContainer = createContainer( (props) => {
       // console.log('selectFEData: ',selectFEData);
 
        // console.log('checkListFrom: ',checkListFrom);
-       var checkListObjs = Meteor.collection("checklistFieldExpert").find({"checkListFor" : checkListFrom}) || [];
-        if (checkListObjs && checkListObjs.length > 0) {
-           // console.log('checkListObjs: ',checkListObjs);
-           for (var i = 0; i < checkListObjs.length; i++) {
-              if(checkListObjs[i].checkListFrom == 'Database'){
-                  checkObjs.push({'id':checkListObjs[i]._id,'task':checkListObjs[i].task}); 
-              }else{
-                  textObjs.push({'id':checkListObjs[i]._id,'task':checkListObjs[i].task}); 
-              }
-           }
+       // var checkListObjs = Meteor.collection("checklistFieldExpert").find({"checkListFor" : checkListFrom}) || [];
+       //  if (checkListObjs && checkListObjs.length > 0) {
+       //     // console.log('checkListObjs: ',checkListObjs);
+       //     for (var i = 0; i < checkListObjs.length; i++) {
+       //        if(checkListObjs[i].checkListFrom == 'Database'){
+       //            checkObjs.push({'id':checkListObjs[i]._id,'task':checkListObjs[i].task}); 
+       //        }else{
+       //            textObjs.push({'id':checkListObjs[i]._id,'task':checkListObjs[i].task}); 
+       //        }
+       //     }
+       //  }
+
+      if(selectFEData && selectFEData.documents && selectFEData.documents.checkLists){
+        checkObjs = selectFEData.documents.checkLists;
+        if (checkObjs.length > 0) {
+            for (var i = 0; i < checkObjs.length; i++) {
+                checkObjs[i].id = i;
+                checkObjs[i].task = checkObjs[i].titleVal;
+                checkObjs[i].relatedFields = checkObjs[i].textVal;
+            }
         }
+      }
         
     }
    

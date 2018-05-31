@@ -99,9 +99,10 @@ class NewTickets extends React.Component {
       //find last status of the Tickets
       
       for(i=0;i< ticketData.length; i++){
-        ticketData[i].serviceImageShow = "https://s3.ap-south-1.amazonaws.com/assureidportal/ServiceImage/"+ticketData[i].serviceImage.split('original/')[1];
+        ticketData[i].serviceImageShow = "https://assureidportal.s3.amazonaws.com/ServiceImage/"+ticketData[i].serviceImage.split('original/')[1];
+        // ticketData[i].serviceImageShow = "https://s3.ap-south-1.amazonaws.com/assureidportal/ServiceImage/"+ticketData[i].serviceImage.split('original/')[1];
         var ticketElementsData = ticketData[i].ticketElement;
-        // console.log(i,' = ',ticketElementsData);
+        console.log(i,' = ',ticketData[i].serviceImageShow);
         // console.log('----------------------');
         switch(role){
           case 'field expert' : 

@@ -48,19 +48,25 @@ import { ServiceImage } from "../UploadToServer/UploadServiceImgsServer.js";
           TempServiceImages.insert({
           "userId": Meteor.userId(),
           "imageLink":imageLink,
+          "fileName": data.name,
+          "fileExt": data.ext,
           "createdAt":new Date(),
           },(error, result)=>{
 
         });
-      }, 
+      },
   
       //add service method
       'createService':function(ProfileForms,StatutoryForm,AddressForm,EducationForm,WorkForm,SkillsCertificate,OtherInfoForm,serviceName,serviceRate,serviceDuration,servicesDescription,userId,lastModified,serviceFor,serviceDayNumbers){
         var getImage              = TempServiceImages.findOne({}, {sort: {createdAt: -1, limit: 1}});
         if(getImage){
           var image               = getImage.imageLink;
+          var fileName            = getImage.fileName;
+          var fileExt             = getImage.fileExt;
         }else{
           var image               = "/images/assureid/noImage.png";
+          var fileName            = 'noImage';
+          var fileExt             = 'png';
         }
 
         Services.insert({
@@ -77,6 +83,8 @@ import { ServiceImage } from "../UploadToServer/UploadServiceImgsServer.js";
           'serviceDuration'       : serviceDuration,
           'servicesDescription'   : servicesDescription,
           'image'                 : image,
+          'fileName'              : fileName,
+          'fileExt'               : fileExt,
           'createdAt'     : new Date(),
           'authorUserId'  : userId,
           'lastModified'  : lastModified,

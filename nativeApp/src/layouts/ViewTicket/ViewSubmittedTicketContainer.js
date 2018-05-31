@@ -341,7 +341,7 @@ class ViewSubmittedTicket extends React.Component {
                                     );
                                  })
                                   :
-                                  <Text></Text>
+                                  <View><Text></Text></View>
                                 }
                                 </View>
 
