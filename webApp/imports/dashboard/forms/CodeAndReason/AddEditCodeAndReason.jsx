@@ -97,7 +97,7 @@ class AddEditCodeAndReason extends TrackerReact(Component) {
              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                <div className="box box-primary">
                   <div className="box-header with-border">
-                   <h2 className="box-title">Code And Reason</h2>  
+                   <h2 className="box-title">Code And Reason</h2>   
                   </div>
                   <div className="box-body">
                     <div className="col-lg-12 col-sm-12 col-xs-12 col-md-12">
@@ -105,13 +105,13 @@ class AddEditCodeAndReason extends TrackerReact(Component) {
                       <div className="form-group col-lg-12 col-md-12 col-xs-12 col-sm-12 ">
                         <span className="blocking-span">
                             <label className="floating-label">Code</label>
-                            <input type="text" className="form-control inputText code" ref="code" id="code" name="code" value={this.state.code} onChange={this.handleChange}/>
+                            <input type="text" className="form-control inputText code" ref="code" id="code" name="code" value={this.state.code} onChange={this.handleChange} required/>
                         </span> 
                       </div>
                       <div className="form-group col-lg-12 col-md-12 col-xs-12 col-sm-12 ">
                         <span className="blocking-span">
                             <label className="floating-label">Reason</label>
-                            <textarea rows="6" className="form-control inputText code" ref="reason" id="reason" name="reason" value={this.state.reason} onChange={this.handleChange}></textarea>
+                            <textarea rows="6" className="form-control inputText code" ref="reason" id="reason" name="reason" value={this.state.reason} onChange={this.handleChange} required></textarea>
                         </span> 
                       </div>
                        <div className="form-group col-lg-12 col-md-12 col-xs-12 col-sm-12 ">

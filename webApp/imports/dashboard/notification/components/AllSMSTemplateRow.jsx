@@ -24,11 +24,10 @@ export default class AllSMSTemplateRow extends TrackerReact(Component){
 					if(error){
 						console.log(error);
 					}else{
-					   swal('Deleted Successfully !!');
+					  swal('Deleted Successfully !!');
 					}
 				});
      });
-		
 	}
 
 	render() {

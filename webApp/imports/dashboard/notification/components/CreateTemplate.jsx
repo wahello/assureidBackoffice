@@ -7,8 +7,7 @@ import {browserHistory} from 'react-router';
 
 
 class CreateTemplate extends TrackerReact(Component) {
-   
-
+  
 	componentDidMount(){
 		// renderFunction();
     $("html,body").scrollTop(0);
@@ -85,7 +84,7 @@ class CreateTemplate extends TrackerReact(Component) {
           templateType     : nextProps.post.templateType,
           templateName     : nextProps.post.templateName,
           subject      	   : nextProps.post.subject,
-          content   		   : nextProps.post.content,     
+          content   	   : nextProps.post.content,     
       })
 
       this.handleChange = this.handleChange.bind(this);
@@ -108,36 +107,32 @@ class CreateTemplate extends TrackerReact(Component) {
 				swal("Please fill in all the required fields");
 			}else{
 				Meteor.call('insertTemplate',templateType,templateName,emailContent,function(error,result){
-		        	if(error){
-		        		console.log(error.reason);
-		        	}else{
-		        		swal("Successfully Inserted..!!");
-		        	}
-		        });	
+        	if(error){
+        		console.log(error.reason);
+        	}else{
+        		swal("Successfully Inserted..!!");
+        	}
+        });	
 			}
-
-	        this.refs.templateName.value  = '';
-	        this.refs.content.value  = '';
-
+      this.refs.templateName.value  = '';
+      this.refs.content.value  = '';
 	        // $('#messageContent').summernote('code','');
 		}else{
 			if(templateName.length == 0 || subject.length == 0){
 				swal("Please fill in all the required fields");
 			}else{
 				Meteor.call('insertNewTemplate',templateType,templateName,subject,emailContent,function(error,result){
-		        	if(error){
-		        		console.log(error.reason);
-		        	}else{
-		        		swal("Successfully Inserted..!!");
-		        	}
-		        });	
+	      	if(error){
+	      		console.log(error.reason);
+	      	}else{
+	      		swal("Successfully Inserted..!!");
+	      	}
+	      });	
 			}
-
-	        this.refs.templateName.value  = '';
-	        this.refs.subject.value       = '';
-	        this.refs.content.value  = '';
-
-	        // $('#messageContent').summernote('code','');
+      this.refs.templateName.value  = '';
+      this.refs.subject.value       = '';
+      this.refs.content.value  = '';
+	    // $('#messageContent').summernote('code','');
 		}
 
         
@@ -220,13 +215,12 @@ class CreateTemplate extends TrackerReact(Component) {
 								<div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 									<div className="form-group">
 									 <label className="col-lg-6 label-category">Template Type<span className="astrick">*</span>:</label>     						
-								        <select className="form-control templateType" name="templateType" ref="templateType" onChange={this.selectType.bind(this)} value={this.state.templateType}>
+								      <select className="form-control templateType" name="templateType" ref="templateType" onChange={this.selectType.bind(this)} value={this.state.templateType}>
 								      	<option> -- Select --</option>
-													<option> Email </option>
-													<option> Notification </option>
-													<option> SMS </option>
-								       </select> 
-    						
+										<option> Email </option>
+										<option> Notification </option>
+										<option> SMS </option>
+								      </select> 
 									</div>	
 								</div>
 							</div>
@@ -234,7 +228,27 @@ class CreateTemplate extends TrackerReact(Component) {
 								<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 									<div className="form-group">
 									 <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12 label-category">Template Name<span className="astrick">*</span>:</label>     						
-								        <input type="text" ref="templateName" name="templateName" value={this.state.templateName} onChange={this.handleChange} className="templateName col-lg-12 col-md-12 col-sm-12 col-xs-12 inputValid " required />
+{/*								      <input type="text" ref="templateName" name="templateName" value={this.state.templateName} onChange={this.handleChange} className="templateName col-lg-12 col-md-12 col-sm-12 col-xs-12 inputValid " required />
+*/}								      
+                         <select ref="templateName" name="templateName" value={this.state.templateName} onChange={this.handleChange} className="templateName col-lg-12 col-md-12 col-sm-12 col-xs-12 inputValid " required>
+											  <option value="New Registration">New Registration</option>
+											  <option value="Forgot Password">Forgot Password</option>
+											  <option value="Reset Password">Reset Password</option>
+											  <option value="Order Placed">Order Placed</option>
+											  <option value="Payment Complete">Payment Complete</option>
+											  <option value="Payment Incomplete">Payment Incomplete</option>
+											  <option value="Document Reject by screening committee">Document Reject by screening committee</option>
+											  <option value="Viewed By User">Viewed By User</option>
+											  <option value="EFBESelfAllocated">EFBESelfAllocated</option>
+											  <option value="ProofSubmit">Proof Submit</option>
+											  <option value="ProofResubmitted">Proof Resubmitted</option>
+											  <option value="ProofSubmit-Pending">ProofSubmit-Pending</option>
+											  {/*<option value="Space provider rating">Space Provider Rating</option>
+											  <option value="Checkout for space provider">Checkout For Space Provider</option>
+											  <option value="Checkout for user">Checkout For User</option>
+											  <option value="Checkin for user">Checkin For User</option>
+											  <option value="Checkin for space provider">Checkin For Space Provider</option>*/}
+											</select>
 									</div>	
 								</div>
 							</div>

@@ -19,7 +19,7 @@ sendMailNotification = function(inputObj) {
 
 	// console.log("from: "+fromId);
 	// console.log("to: "+to);
-	// console.log("subject: "+subject);
+	// console.log("subject: "+subject); 
 	// console.log("body: "+body);
 
 	Meteor.call('sendEmailnNotification',to, fromId, subject, body,function(error,result){

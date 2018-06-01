@@ -9,7 +9,7 @@ export default class EmailTemplateRow extends TrackerReact(Component){
 	deleteEmailTemplate(event){
 		event.preventDefault();
 		var tempId = $(event.target).attr('id');
-		 swal({
+		swal({
         title: "Are you sure?",
         text: "You want to delete this!",
         type: "warning",

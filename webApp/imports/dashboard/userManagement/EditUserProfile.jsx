@@ -4,13 +4,14 @@ import { withTracker } from 'meteor/react-meteor-data';
 import { render } from 'react-dom';
 // import {PropTypes} from 'prop-types';
 import TrackerReact from 'meteor/ultimatejs:tracker-react';
+import {Services} from '/imports/dashboard/reactCMS/api/Services.js';
 // import { ParkingSlots } from '../../../addressVerification/api/verificationAddress.js';
 // import { UserAddress } from '../../../addressVerification/api/verificationAddress.js';
 import {browserHistory} from 'react-router';
 class EditUserProfile extends TrackerReact(Component){
 
 	constructor(props) {
-	  super(props);
+	  super(props); 
 	  var userId       =  this.props.post._id;
 	  if(this.props.post){
 		  if(this.props.post.profile){
@@ -21,7 +22,7 @@ class EditUserProfile extends TrackerReact(Component){
 			    mobNumber     : this.props.post.profile.mobNumber,
 			    email         : this.props.post.email,
 			    userProfile   : this.props.post.profile.userProfile,
-			    'servicesName': this.props.post.profile.servicesRef,
+			    'servicesName': this.props.post.profile.servicesName,
           'reportToRole': this.props.post.profile.reportToRole,
           'reportToName': this.props.post.profile.reportToName,
 			    subscription  : {
@@ -32,6 +33,11 @@ class EditUserProfile extends TrackerReact(Component){
 								},
 			  };
 			}
+			if (this.props.post.roles) {
+				this.state = {
+      	  role : this.props.post.roles[1],
+      	};
+      }
 	  }else{
 		  this.state = {
 		    data          : '',
@@ -41,9 +47,10 @@ class EditUserProfile extends TrackerReact(Component){
 		    mobNumber     : '',
 		    email         : '',
 		    userProfile   : '',
-		    servicesName  : '',
+		    servicesName  : [],
         reportToRole  : '',
         reportToName  : '',
+        role          : '',
 		  };	  	
 	  }
 	    this.handleChange = this.handleChange.bind(this);
@@ -63,10 +70,15 @@ class EditUserProfile extends TrackerReact(Component){
 	                username   : nextProps.post.username,
 	                mobNumber  : nextProps.post.profile.mobNumber,
 	                email      : nextProps.post.emails[0].address,
-	                servicesName : nextProps.post.profile.servicesRef,
+	                servicesName : nextProps.post.profile.servicesName,
                   reportToRole : nextProps.post.profile.reportToRole,
                   reportToName: nextProps.post.profile.reportToName,
 	            })
+	        }
+	        if (nextProps.post.roles) {
+	        	 this.setState({
+	        	  role : nextProps.post.roles[1],
+	        	    })
 	        }
         }
       }
@@ -85,23 +97,38 @@ class EditUserProfile extends TrackerReact(Component){
 	    }else{
 	    	var id            = Meteor.userId();
 	    }
-
+      var reportrefValue = this.refs.reportToRef.value;      
+      if(reportrefValue!=""){
+        var splitValue   =  reportrefValue.split("(");
+        var reportToRole = splitValue[0];
+        var reportToName = splitValue[1].slice(0, -1);
+      }else{ 
+        var reportToName = '';
+        var reportToRole = ''; 
+      }
+      console.log("reportrefValue :"+reportrefValue);
+      
 
 	    var formValues = {
                 firstname  : this.refs.editFirstName.value,
                 lastname   : this.refs.editLastName.value,
                 mobNumber  : this.refs.editContactNum.value,
+                servicesName     : this.refs.servicesRef.value,
+                reportToRole     : reportToRole,
+                reportToName     : reportToName,
 	    }
+     var assignedrole = this.refs.roleRef.value; 
+      // var defaultRoleWith = ["backofficestaff"];
+      // defaultRoleWith.push(assignedrole);
+        
 
-
-	    Meteor.call('editMyProfileData',formValues, id, function(error,result){
+	    Meteor.call('editMyProfileData',formValues, id,assignedrole, function(error,result){
 	    	if(error){
 	    		console.log("error"+error);
 	    	}else{
-	    		swal('Profile updated Successfully!');
-	    		var path = "/admin/UMListOfUsers";
-          browserHistory.replace(path);
-	    		 
+	    		 swal('Profile updated Successfully!');
+		    		var path = "/admin/UMListOfUsers";
+	          browserHistory.replace(path);
 	    	}
 	    });
 	}
@@ -210,13 +237,13 @@ class EditUserProfile extends TrackerReact(Component){
 																</span>
 																								
 															</div> 
-														{/*	<div className="form-group col-lg-4 col-md-4 col-xs-12 col-sm-12 inputContent">
+															<div className="form-group col-lg-4 col-md-4 col-xs-12 col-sm-12 inputContent">
 												   			<span className="blocking-span">
 												   			  <label className="floating-label">Assign Service</label>
-				                              <select className="form-control allProductSubCategories" aria-describedby="basic-addon1" ref="servicesRef">
+				                              <select className="form-control allProductSubCategories" aria-describedby="basic-addon1" name="servicesName" onChange={this.handleChange.bind(this)} ref="servicesRef" value={this.state.servicesName}>
 
-				                                  { this.state.service.length>0 ?
-				                                    this.state.service.map( (data, index)=>{
+				                                  { this.props.services.length>0 ?
+				                                    this.props.services.map( (data, index)=>{
 				                                      return (
 				                                          <option key={index}>{data.serviceName}</option>
 				                                      );
@@ -230,7 +257,7 @@ class EditUserProfile extends TrackerReact(Component){
 				                      <div className="form-group col-lg-4 col-md-4 col-xs-12 col-sm-12 inputContent">
 												   			<span className="blocking-span">
 												   			  <label className="floating-label">Assign Role</label>
-				                           <select className="form-control allProductSubCategories" aria-describedby="basic-addon1" ref="roleRef">
+				                           <select className="form-control allProductSubCategories" aria-describedby="basic-addon1" name="role" onChange={this.handleChange.bind(this)} ref="roleRef" value={this.state.role}>
 				                                  { 
 				                                   
 				                                    this.props.roleList.length > 0 ?
@@ -268,7 +295,7 @@ class EditUserProfile extends TrackerReact(Component){
 				                                  }
 				                              </select>
 														  	</span>
-													    </div>*/}
+													    </div>
 
 															
 														</div>
@@ -313,15 +340,71 @@ EditUserContainer = withTracker(({params})=>{
     	var id       = Meteor.userId();
     }
     const postHandle = Meteor.subscribe('userData',id);
+    var handle       = Meteor.subscribe("services");
+	  var rolehandle   = Meteor.subscribe("rolefunction");
+	  var userSubscribehandle = Meteor.subscribe('userfunction');
     const post       = Meteor.users.findOne({ '_id': id })||{};
+    
+    var services     = Services.find({}).fetch(); 
+    var allusers     = Meteor.users.find({"roles":{$nin:["user","superAdmin","admin"]}}).fetch();
+    // console.log("allusers",allusers);
+	  var allRoles     = Meteor.roles.find({}).fetch();         
+  	
+		  if(allusers.length >0){
+		    var newArr = [];
+		    // console.log("allusers: ",allusers);
+		    for(var i=0;i<allusers.length;i++){
+		      
+		      var currentText = allusers[i].profile.firstname +" "+ allusers[i].profile.lastname;
+		      var reportName  = allusers[i].profile.firstname +" "+ allusers[i].profile.lastname;
+		      var userLen = allusers[i].roles;
+		      if(userLen.length){
+		        for(k=0;k<userLen.length;k++){
+		          if(userLen[k]!="backofficestaff"){
+		            currentText = userLen[k] +"("+currentText+")" ;
+		          }
+		        }
+		      }
+		     
+		      newArr.push(currentText);
+		  }
+		    var roleArray = [];
+		    
+		  } else{
+		    var roleArray = [];
+		    newArr = [];
+		  }
 
+		 if(allRoles.length >0){
+		    for(var j=0;j<allRoles.length;j++){
+		      if((allRoles[j].name!="superAdmin") && (allRoles[j].name!= "admin") && (allRoles[j].name!= "user"))  {
+
+		        var rolevalue = allRoles[j].name;
+		        roleArray.push(rolevalue);
+
+		      }
+		    }
+		  }
+		    
+    var roles =  allRoles;
+    var userUniqueData=newArr;
+    roleList = roleArray;
+    var reporttoName = reportName;
+
+    // console.log("userUniqueData",userUniqueData);
     if(post){
-    	 const loading = !postHandle.ready();
+    	 const loading = !postHandle.ready() && !handle.ready()  && !rolehandle.ready() && !userSubscribehandle.ready();
 	    return {
-	        loading, 
+	        loading,
+	        services, 
 	        post,
+	        roles,
+			    newArr,
+			    userUniqueData,
+			    roleList,
+			    reporttoName
 	    };   	
-    }
+    } 
   
 })(EditUserProfile);
 

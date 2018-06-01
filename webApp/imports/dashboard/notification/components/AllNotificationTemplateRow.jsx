@@ -21,14 +21,13 @@ export default class AllNotificationTemplateRow extends TrackerReact(Component){
         html: false
       }, function(){
 				Meteor.call('removeTemplate',tempId,function(error,result){
-						if(error){
-							console.log(error);
-						}else{
-						   swal('Deleted Successfully !!');
-						}
-					});
+					if(error){
+						console.log(error);
+					}else{
+					   swal('Deleted Successfully !!');
+					}
+				});
      });
-		
 	}
 
 	render() {

@@ -133,13 +133,16 @@
 }
 .sidertemplatebar{
     height: auto;
-    min-height: 295px;
+    height: 295px;
     border-right: 5px solid #3c8dbc;
     padding-top: 1%;
     padding-bottom: 0px;
     padding-left: 0px;
     padding-right: 0px;
-    overflow-x: hidden;
+    /*overflow-x: hidden;*/
+   overflow: hidden;
+}
+.sidertemplatebar:hover{
     overflow-y: auto;
 }
 .saveTemplateWrapper{
@@ -289,7 +292,7 @@
     display: block;
   }*/
 
-  .sidertemplatebar {
+  /*.sidertemplatebar {
     height: auto;
     min-height: 0px !important; 
     border-right: 0px solid #3c8dbc; 
@@ -299,7 +302,7 @@
     padding-right: 0px;
     overflow-x: hidden;
     overflow-y: auto;
- }
+ }*/
   #emailTemplates {
     margin-top: 5%;
     height: auto;

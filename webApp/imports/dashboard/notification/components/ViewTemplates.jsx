@@ -92,114 +92,114 @@ export default class ViewTemplates extends TrackerReact(Component) {
 	            <div className="box-header with-border">
 	            <h3 className="box-title">ALL TEMPLATES</h3>
 	            </div>
-								<div className="box-body">
-									<div className="notifTabs col-lg-8 col-lg-offset-4 col-md-8 col-md-offset-4 col-sm-12 col-xs-12">
-									  	 <ul className="nav nav-pills">
-										    <li className="active notifTab col-lg-2 col-md-2 col-sm-4 col-xs-4">
-										    	<a data-toggle="pill" href="#emailTemplates" > Email 
-										    	</a>
-										    </li>
-										    <li className="col-lg-3 col-md-3 col-sm-4 col-xs-4 notifTab">
-										    	<a data-toggle="pill" href="#notificationTemplates">
-										    		Notification
-										    	</a>
-										    </li>
-										    <li className="col-lg-2 col-md-2 col-sm-3 col-xs-3 notifTab">
-										    	<a data-toggle="pill" href="#smsTemplates">
-										    		SMS
-										    	</a>
-										    </li>
-										</ul>
-									</div>
-									<div className="tab-content tabContentStyle">
-										<div id="emailTemplates" className="tab-pane fade in active">
-										  <div className="">
-										  	<div className="sidertemplatebar col-lg-3 col-md-3 col-xs-12 col-sm-12">
-										  		<div className="row">
-												<ul className="templateLibrary">
-												    <div className="templateLibraryHeader">Template Library</div>
-												    <div className="showTemplate">
-													{ this.AllTemplates().map( (templateData)=>{
-														return (<TemplateRow key={templateData._id} templateValues={templateData}/>);
-													  }) 
-													}
-													</div>	
+					<div className="box-body">
+						<div className="notifTabs col-lg-8 col-lg-offset-4 col-md-8 col-md-offset-4 col-sm-12 col-xs-12">
+						  	 <ul className="nav nav-pills">
+							    <li className="active notifTab col-lg-2 col-md-2 col-sm-4 col-xs-4">
+							    	<a data-toggle="pill" href="#emailTemplates" > Email 
+							    	</a>
+							    </li>
+							    <li className="col-lg-3 col-md-3 col-sm-4 col-xs-4 notifTab">
+							    	<a data-toggle="pill" href="#notificationTemplates">
+							    		Notification
+							    	</a>
+							    </li>
+							    <li className="col-lg-2 col-md-2 col-sm-3 col-xs-3 notifTab">
+							    	<a data-toggle="pill" href="#smsTemplates">
+							    		SMS
+							    	</a>
+							    </li>
+							</ul>
+						</div>
+						<div className="tab-content tabContentStyle">
+							<div id="emailTemplates" className="tab-pane fade in active">
+							  <div className="">
+							  	<div className="sidertemplatebar col-lg-3 col-md-3 col-xs-12 col-sm-12">
+							  		<div className="row">
+									<ul className="templateLibrary">
+									    <div className="templateLibraryHeader">Template Library</div>
+									    <div className="showTemplate">
+										{ this.AllTemplates().map( (templateData)=>{
+											return (<TemplateRow key={templateData._id} templateValues={templateData}/>);
+										  }) 
+										}
+										</div>	
 
-												</ul>
-												</div>
-											</div>
-											<div className="saveTemplateWrapper col-lg-9 col-md-9 col-xs-12 col-sm-12">
-												<div className="defaultMsg">
-													<h1>Please Select The Template</h1>
-													<i className="fa fa-hand-o-left" aria-hidden="true"></i>
-												</div>
-												{ this.AllEmailTemplates().map( (emailtemplateData)=>{
-													return <EmailTemplateRow key={emailtemplateData._id} emailtemplateValues={emailtemplateData}/>
-												  }) 
-												}
-											</div> 
-										  </div>
-										</div>
-										<div id="notificationTemplates" className="tab-pane fade">
-										  <div className="">
-										  	<div className="sidertemplatebar col-lg-3 col-md-3 col-xs-12 col-sm-12">
-										  		<div className="row">
-												<ul className="templateLibrary">
-												    <div className="templateLibraryHeader">Template Library</div>
-												    <div className="showTemplate">
-													{ this.notificationTemplates().map( (templateData)=>{
-														return <NotificationTemplateRow key={templateData._id} templateValues={templateData}/>
-													  }) 
-													}	
-													</div>
-												</ul>
-												</div>
-											</div>
-											<div className="saveTemplateWrapper col-lg-9 col-md-9 col-xs-12 col-sm-12">
-												<div className="defaultMsg">
-													<h1>Please Select The Template</h1>
-													<i className="fa fa-hand-o-left" aria-hidden="true"></i>
-												</div>
-												{ this.AllNotificationTemplates().map( (notificationtemplateData)=>{
-													return <AllNotificationTemplateRow key={notificationtemplateData._id} notificationtemplateValues={notificationtemplateData}/>
-												  }) 
-												}
-											</div>
-										  </div>
-										</div>
-										<div id="smsTemplates" className="tab-pane fade">
-										    <div className="">
-										  	<div className="sidertemplatebar col-lg-3 col-md-3 col-xs-12 col-sm-12">
-										  		<div className="row">
-												<ul className="templateLibrary">
-												    <div className="templateLibraryHeader">Template Library</div>
-												    <div className="showTemplate">
-
-													{ this.smsTemplates().map( (smstemplateData)=>{
-														return <SMSTemplateRow key={smstemplateData._id} smstemplateValues={smstemplateData}/>
-													  }) 
-													}
-
-													</div>	
-
-												</ul>
-												</div>
-											</div>
-											<div className="saveTemplateWrapper col-lg-9 col-md-9 col-xs-12 col-sm-12">
-												<div className="defaultMsg">
-													<h1>Please Select The Template</h1>
-													<i className="fa fa-hand-o-left" aria-hidden="true"></i>
-												</div>
-												{ this.AllsmsTemplates().map( (smstemplateData)=>{
-													return <AllSMSTemplateRow key={smstemplateData._id} smstemplateValues={smstemplateData}/>
-												  }) 
-												}
-											</div>
-										  </div>
-										</div>
-										
+									</ul>
 									</div>
 								</div>
+								<div className="saveTemplateWrapper col-lg-9 col-md-9 col-xs-12 col-sm-12">
+									<div className="defaultMsg">
+										<h1>Please Select The Template</h1>
+										<i className="fa fa-hand-o-left" aria-hidden="true"></i>
+									</div>
+									{ this.AllEmailTemplates().map( (emailtemplateData)=>{
+										return <EmailTemplateRow key={emailtemplateData._id} emailtemplateValues={emailtemplateData}/>
+									  }) 
+									}
+								</div> 
+							  </div>
+							</div>
+							<div id="notificationTemplates" className="tab-pane fade">
+							  <div className="">
+							  	<div className="sidertemplatebar col-lg-3 col-md-3 col-xs-12 col-sm-12">
+							  		<div className="row">
+									<ul className="templateLibrary">
+									    <div className="templateLibraryHeader">Template Library</div>
+									    <div className="showTemplate">
+										{ this.notificationTemplates().map( (templateData)=>{
+											return <NotificationTemplateRow key={templateData._id} templateValues={templateData}/>
+										  }) 
+										}	
+										</div>
+									</ul>
+									</div>
+								</div>
+								<div className="saveTemplateWrapper col-lg-9 col-md-9 col-xs-12 col-sm-12">
+									<div className="defaultMsg">
+										<h1>Please Select The Template</h1>
+										<i className="fa fa-hand-o-left" aria-hidden="true"></i>
+									</div>
+									{ this.AllNotificationTemplates().map( (notificationtemplateData)=>{
+										return <AllNotificationTemplateRow key={notificationtemplateData._id} notificationtemplateValues={notificationtemplateData}/>
+									  }) 
+									}
+								</div>
+							  </div>
+							</div>
+							<div id="smsTemplates" className="tab-pane fade">
+							    <div className="">
+							  	<div className="sidertemplatebar col-lg-3 col-md-3 col-xs-12 col-sm-12">
+							  		<div className="row">
+									<ul className="templateLibrary">
+									    <div className="templateLibraryHeader">Template Library</div>
+									    <div className="showTemplate">
+
+										{ this.smsTemplates().map( (smstemplateData)=>{
+											return <SMSTemplateRow key={smstemplateData._id} smstemplateValues={smstemplateData}/>
+										  }) 
+										}
+
+										</div>	
+
+									</ul>
+									</div>
+								</div>
+								<div className="saveTemplateWrapper col-lg-9 col-md-9 col-xs-12 col-sm-12">
+									<div className="defaultMsg">
+										<h1>Please Select The Template</h1>
+										<i className="fa fa-hand-o-left" aria-hidden="true"></i>
+									</div>
+									{ this.AllsmsTemplates().map( (smstemplateData)=>{
+										return <AllSMSTemplateRow key={smstemplateData._id} smstemplateValues={smstemplateData}/>
+									  }) 
+									}
+								</div>
+							  </div>
+							</div>
+							
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

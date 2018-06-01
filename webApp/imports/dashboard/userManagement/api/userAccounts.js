@@ -108,7 +108,7 @@ Meteor.methods({
     
     return newUserId;
   },
-  'editMyProfileData':function(formValues, id) {
+  'editMyProfileData':function(formValues, id,assignedrole) {
      Meteor.users.update(
       {'_id': id },
       {
@@ -116,6 +116,10 @@ Meteor.methods({
           "profile.firstname" :  formValues.firstname,
           "profile.lastname"  :  formValues.lastname,
           "profile.mobNumber" : formValues.mobNumber,
+          "profile.servicesName" : formValues.servicesName,
+          "profile.reportToRole" : formValues.reportToRole,
+          "profile.reportToName" : formValues.reportToName,
+          "roles.1" : assignedrole,
         } //End of set
       }
     );

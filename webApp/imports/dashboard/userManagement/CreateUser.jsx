@@ -10,7 +10,7 @@ class CreateUser extends TrackerReact(Component) {
   constructor(props){
     super(props);
     this.state={
-      "roleList" :[],
+      "roleList" :[], 
       "service" :[],
       "userList" :[],
       "userUniqueData":[],
@@ -64,7 +64,7 @@ class CreateUser extends TrackerReact(Component) {
               if(error){
                 swal(error);
               }else{              	
-				swal('Congratulations!! Account Created...');
+				          swal('Congratulations!! Account Created...');
               }
             }); // add role
 		            
