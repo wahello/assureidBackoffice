@@ -22,7 +22,7 @@ class ReportHeader extends TrackerReact(Component){
   render(){
     if (!this.props.loading) {
       return (
-        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div className="col-lg-10 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12">
           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noProfilePadding generationHeader"> 
             <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 pull-left">
               <img src="../images/assureid/Assure-ID-logo-Grey.png" className="generationImg" />

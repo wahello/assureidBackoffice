@@ -1234,10 +1234,10 @@ class Ticket extends TrackerReact(Component){
 
                                           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outerReviewsBlock">
                                             <b>Name   : </b>{review.userName}
-                                            <i className="fa fa-edit tempImageDelete col-lg-1 text-right pull-right" title="Edit Review" id={review.userId} onClick={this.editReview.bind(this)}></i><br/>
+                                            {/*<i className="fa fa-edit tempImageDelete col-lg-1 text-right pull-right" title="Edit Review" id={review.userId} onClick={this.editReview.bind(this)}></i><br/>*/}
                                           </div>
                                           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outerReviewsBlock" id={"remarkWrapper-"+review.userId} >
-                                            <b>Review Remark : </b>{review.remark}
+                                            <b>Review Remark : </b>{review.remark != '' ? review.remark : 'Not Provided'}
                                           </div>
                                           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outerReviewsBlock" style={{"display" : "none"}} id={"textbox-"+review.userId}  data-index={i}  onChange={this.handleChangeForArray}>
                                             <textarea rows="3" className="col-lg-12 col-md-12 col-sm-12 col-xs-12" ref="reviewsRemark" name="reviewsRemark" data-index={i} id={review.userId} value={review.remark}  onBlur={this.submitEditedReview.bind(this)}/>

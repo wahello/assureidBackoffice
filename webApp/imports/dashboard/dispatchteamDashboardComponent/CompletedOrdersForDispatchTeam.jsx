@@ -85,14 +85,24 @@ AllOrderContainer = withTracker(props => {
     var handleAllOrdersList = Meteor.subscribe("allOrders");
     var loading = !handleAllOrdersList.ready();
     var _id  = Meteor.userId();
-    var allOrderList = Order.find({"allocatedToUserid":Meteor.userId(),"orderStatus":"Completed"},{sort:{createdAt: 1}}).fetch() || [];
+    var allOrderList = Order.find({"allocatedToUserid":Meteor.userId(),"orderStatus":"Order Completed - Report Completed"},{sort:{createdAt: 1}}).fetch() || [];
 
     if(allOrderList){
         for(i=0;i< allOrderList.length; i++){
-          if(allOrderList[i].orderStatus == 'Completed - Generating Report') {
-            allOrderList[i].orderStatus = 'New';
-            allOrderList[i].bgClassName = 'btn-primary';
-          } 
+          switch(allOrderList[i].orderStatus){
+            case 'Order Completed - Generating Report' :
+              allOrderList[i].orderStatus = 'New';
+              allOrderList[i].bgClassName = 'btn-primary';
+              break;
+            case 'Order Completed - Report Completed' :
+              allOrderList[i].orderStatus = 'Completed';
+              allOrderList[i].bgClassName = 'btn-success';
+              break;
+            default :
+              allOrderList[i].orderStatus = 'Work In Progrss';
+              allOrderList[i].bgClassName = 'btn-warning';
+              break;
+          }
         } 
     }
 

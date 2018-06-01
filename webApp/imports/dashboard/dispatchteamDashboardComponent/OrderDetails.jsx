@@ -53,11 +53,13 @@ class OrderDetails extends TrackerReact(Component){
   generateOrder(event){
     event.preventDefault();
     Meteor.call("orderCompleted",this.props.orderId);
+    console.log('order completed');
     var path = '/orderGeneration/'+this.props.orderId;
         window.open(path);
   }
   showOrderReport(event){
     event.preventDefault();
+
     var path = '/orderGeneration/'+this.props.orderId;
     console.log('path: ', path);
     
@@ -183,9 +185,9 @@ class OrderDetails extends TrackerReact(Component){
                                 null
                               }
                           </div>
-                          {this.props.orderDetails.orderStatus == 'Completed' ?
+                          {this.props.buttonStatus == 'Order Completed - Report Completed' ?
                               <div className="col-lg-6 col-lg-offset-3 outerGenrateOrder">
-                                 <button type="button" className="btn btn-success col-lg-4 col-lg-offset-4" onClick={this.showOrderReport.bind(this)}>Generate Order</button>
+                                 <button type="button" className="btn btn-success col-lg-4 col-lg-offset-4" onClick={this.showOrderReport.bind(this)}>Show Order</button>
                               </div>  
                           :
                             <div className="col-lg-6 col-lg-offset-3 outerGenrateOrder">
@@ -213,12 +215,9 @@ export default UserDetailsContainer = withTracker(props => {
   var handleSinTick = Meteor.subscribe("singleOrder",props.params.id);
   var handleUseFunc = Meteor.subscribe('userfunction');
   var handleUserProfile = Meteor.subscribe("userProfileData");
-  // var handleReport    = Meteor.subscribe("allTicketReport");
   var orderId = props.params.id;
-  console.log('orderId: ', orderId);
   var loading = !handleSinTick.ready() && !handleUseFunc.ready() && !handleUserProfile.ready();
   var orderDetails = Order.findOne({"_id":orderId}) ;
-  console.log('orderDetails: ', orderDetails);
   if(orderDetails){
     var user = Meteor.users.findOne({"_id": orderDetails.userId}) || {};
     if(user){
@@ -237,14 +236,15 @@ export default UserDetailsContainer = withTracker(props => {
         userProfile.dateOfBirth='-';
       }
     }
+    var buttonStatus = orderDetails.orderStatus;
+  console.log('orderDetails.orderStatus ',buttonStatus);
   }   
-  var ticketMasterID = 'CZyMpqbZRvFbywEXa';
   return {
     loading,
     orderDetails,
     user,
     userProfile,
     orderId,
-    ticketMasterID,
+    buttonStatus
   };
 })(OrderDetails);

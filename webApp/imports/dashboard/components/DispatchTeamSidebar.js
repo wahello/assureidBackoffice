@@ -154,10 +154,10 @@ export default dispatchTeamSidebarContainer = withTracker(props => {
   const userHandle  = Meteor.subscribe('userData',_id);
   const user        = Meteor.users.findOne({"_id" : _id});
   const loading1    = !userHandle.ready();
-  var allOrderCount = allOrder.length;
-  var allocateOrderCount = 0;
-  var openOrderCount= 0;
-  var completedOrderCount= 0;
+  var allOrderCount = Order.find({}).count() || [];
+  var allocateOrderCount = Order.find({"allocatedToUserid":Meteor.userId()}).count();
+  var openOrderCount= Order.find({"allocatedToUserid":Meteor.userId(),"orderStatus":"Order Completed - Generating Report"},{sort:{createdAt: 1}}).count();
+  var completedOrderCount= Order.find({"allocatedToUserid":Meteor.userId(),"orderStatus":"Order Completed - Report Completed"},{sort:{createdAt: 1}}).count();
   var escalatedOrderCount= 0;
   
 

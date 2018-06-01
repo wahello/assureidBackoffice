@@ -76,13 +76,14 @@ if(Meteor.isServer){
        TempOrder.remove({});
       return id;
    	 },
-     'changeTicketStatusInOrder':function(orderId,ticketId,status,reportLink){
+     'changeTicketStatusInOrder':function(orderId,ticketId,status,reportLink,summeryFinding){
         Order.update(
             {"_id":orderId,"ticket.ticketId":ticketId},
             {
               $set:{
                   "ticket.$.status"        : status,
                   "ticket.$.report"        : reportLink,
+                  "ticket.$.summeryFinding": summeryFinding,
                   "ticket.$.completedDate" : new Date(),
               }
             }
@@ -91,7 +92,12 @@ if(Meteor.isServer){
         if(orderDetails){
           var ticketDetails = TicketMaster.findOne({"_id":ticketId});
           if(ticketDetails){
-            Meteor.call('actulStatuofVerificationType',ticketDetails.userId,ticketDetails.verificationType,ticketDetails.verificationId,status);
+            if(status == 'Clear' || status == 'Minor Discrepancy'){
+              var ticketStatus = 'Approved';
+            }else{
+              var ticketStatus = 'Reject';
+            }
+            Meteor.call('actulStatuofVerificationType',ticketDetails.userId,ticketDetails.verificationType,ticketDetails.verificationId,ticketStatus);
           }
           var ticketList = orderDetails.ticket;
           var orderStatus = 'Completed';
@@ -106,7 +112,7 @@ if(Meteor.isServer){
               {"_id":orderId},
               {
                 $set:{
-                    "orderStatus" : 'Completed - Generating Report',
+                    "orderStatus" : 'Order Completed - Generating Report',
                     "completedDate" : new Date(),
                 }
               }
@@ -188,7 +194,7 @@ if(Meteor.isServer){
         Order.update({"_id":orderId},
             {
               $set:{
-                "orderStatus":"Completed",
+                "orderStatus":"Order Completed - Report Completed",
                 "completedDate": new Date(),
               }
             });

@@ -7,7 +7,7 @@ import { withTracker } from 'meteor/react-meteor-data';
 import {Link} from 'react-router';
 import { Order } from '/imports/website/ServiceProcess/api/Order.js';
 
-export default class OrderAllocatedToDispatchTeam extends TrackerReact(Component){
+class OrderAllocatedToDispatchTeam extends TrackerReact(Component){
 	constructor(props){
         super(props);
         this.state = {
@@ -81,25 +81,35 @@ export default class OrderAllocatedToDispatchTeam extends TrackerReact(Component
       );
     }
 }
-// AllOrderContainer = withTracker(props => { 
-//     var handleAllOrdersList = Meteor.subscribe("allOrders");
-//     var loading = !handleAllOrdersList.ready();
-//     var _id  = Meteor.userId();
-//     var allOrderList = Order.find({"allocatedToUserid":Meteor.userId()},{sort:{createdAt: 1}}).fetch() || [];
+OrderAllocatedToDispatchTeamContainer = withTracker(props => { 
+    var handleAllOrdersList = Meteor.subscribe("allOrders");
+    var loading = !handleAllOrdersList.ready();
+    var _id  = Meteor.userId();
+    var allOrderList = Order.find({"allocatedToUserid":Meteor.userId()},{sort:{createdAt: 1}}).fetch() || [];
 
-//     if(allOrderList){
-//         for(i=0;i< allOrderList.length; i++){
-//           if(allOrderList[i].orderStatus == 'Completed - Generating Report') {
-//             allOrderList[i].orderStatus = 'New';
-//             allOrderList[i].bgClassName = 'btn-warning';
-//           } 
-//         } 
-//     }
+    if(allOrderList){
+        for(i=0;i< allOrderList.length; i++){
+          switch(allOrderList[i].orderStatus){
+            case 'Order Completed - Generating Report' :
+              allOrderList[i].orderStatus = 'New';
+              allOrderList[i].bgClassName = 'btn-primary';
+              break;
+            case 'Order Completed - Report Completed' :
+              allOrderList[i].orderStatus = 'Completed';
+              allOrderList[i].bgClassName = 'btn-success';
+              break;
+            default :
+              allOrderList[i].orderStatus = 'Work In Progrss';
+              allOrderList[i].bgClassName = 'btn-warning';
+              break;
+          }
+        } 
+    }
 
-//     return {
-//         loading,
-//         allOrderList
-//     };
+    return {
+        loading,
+        allOrderList
+    };
    
-// })(AllOrders);
-// export default AllOrderContainer;
+})(OrderAllocatedToDispatchTeam);
+export default OrderAllocatedToDispatchTeamContainer;

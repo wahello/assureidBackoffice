@@ -34,7 +34,6 @@ if(Meteor.isServer){
 
 	Meteor.methods({
    	'testAPI':function(){
-   		console.log('testAPI');
    	},
 	//Find User with minium tickets for specific role and serviceName
 	'autoAllocateMember':function(role,serviceName){
@@ -53,32 +52,27 @@ if(Meteor.isServer){
 		});
 	},
 	'genericUpdateTicketMasterElement': function(ticketid,insertData){
-    var adminData   = Meteor.users.findOne({'roles' : "admin"});
-    var ticket      = TicketMaster.findOne({"_id" : ticketid});
-    if (ticket) {
-    	var usersid   = ticket.userId;
-    	var serviceNameOfticket = ticket.serviceName;
-    	var userData  = Meteor.users.findOne({"_id" : usersid});
-    	 if (userData) {
-        var newID = userData._id;
-        if (userData.profile) {
-          var firstLastNm = userData.profile.firstname+' '+userData.profile.lastname;
-          var mobNumber   = userData.profile.mobNumber;
-        }
-      }
-    }
-      // console.log(userData);
-      // console.log('order',order);
-      // console.log('adminData: ',adminData);
-      if (adminData) {
-        var adminId  = adminData._id;
-      }
+	    var adminData   = Meteor.users.findOne({'roles' : "admin"});
+	    var ticket      = TicketMaster.findOne({"_id" : ticketid});
+	    if (ticket) {
+	    	var usersid   = ticket.userId;
+	    	var serviceNameOfticket = ticket.serviceName;
+	    	var userData  = Meteor.users.findOne({"_id" : usersid});
+	    	 if (userData) {
+	        var newID = userData._id;
+	        if (userData.profile) {
+	          var firstLastNm = userData.profile.firstname+' '+userData.profile.lastname;
+	          var mobNumber   = userData.profile.mobNumber;
+	        }
+	      }
+	    }
+      	if (adminData) {
+        	var adminId  = adminData._id;
+      	}
       
 		//Update TicketElement
 		//Write code for split
 	
-		console.log('ticketid: ',ticketid);
-		console.log('insertData: ',insertData);
 		var memberValue = insertData.allocatedToUserName;
 		var a = memberValue.indexOf("(");
 		if(a !== -1){
@@ -95,7 +89,6 @@ if(Meteor.isServer){
 			}
 		);	
 
-		console.log('insertData.roleStatus: ',insertData.roleStatus);
 		switch(insertData.roleStatus){
 			case 'ScreenApproved' 	:
 				var newCount = Meteor.user().count;
@@ -169,6 +162,8 @@ if(Meteor.isServer){
 						}
 					}
 				);	
+		        // 'actulStatuofVerificationType':function(userId,verificationType,verificationId,remark){
+		        Meteor.call('statuofVerificationType',usersid,ticket.verificationType,ticket.verificationId,'Initiated');
 				break;
 			case 'AssignReject':
 				var teamMember = Meteor.users.findOne({"_id":insertData.userId});
@@ -188,38 +183,39 @@ if(Meteor.isServer){
 				});
 				TempTicketImages.remove({});
 				TempTicketVideo.remove({});
+				Meteor.call('statuofVerificationType',usersid,ticket.verificationType,ticket.verificationId,'Attempt Failed - Will contact one more time');
 				//notification to be implemented  - Field person was not able to complete the verification.
-				 var newDate     = new Date();
-		      var msgvariable = {                       
+				var newDate     = new Date();
+		      	var msgvariable = {                       
 		                        '[username]' : firstLastNm,
 		                        '[date]'     : moment(newDate).format("DD/MM/YYYY"),
 		                       };
-		      // Format for send Email //
-		      var inputObj = {
+		      	// Format for send Email //
+		      	var inputObj = {
 		          from         : adminId,
 		          to           : newID,
 		          templateName : 'ProofSubmit-Pending',
 		          variables    : msgvariable,
-		      }
-		      sendMailNotification(inputObj);
+		      	}
+		      	sendMailNotification(inputObj);
 		      
-		      // Format for sending SMS //
-		      var smsObj = {
+		      	// Format for sending SMS //
+		      	var smsObj = {
 		          to           : newID,
 		          templateName : 'ProofSubmit-Pending',
 		          number       : mobNumber,
 		          variables    : msgvariable,
-		      }
-		      // console.log("smsObj",smsObj);
-		      sendSMS(smsObj);
+		      	}
+		      	// console.log("smsObj",smsObj);
+		      	sendSMS(smsObj);
 
-		      // Format for sending notification //
-		      var notifictaionObj = {
-		        to           : newID,
-		        templateName : 'ProofSubmit-Pending',
-		        variables    : msgvariable,
-		      }
-		      sendInAppNotification(notifictaionObj);
+		      	// Format for sending notification //
+		      	var notifictaionObj = {
+			        to           : newID,
+			        templateName : 'ProofSubmit-Pending',
+			        variables    : msgvariable,
+			    }
+		      	sendInAppNotification(notifictaionObj);
 				break;
 			case 'ProofSubmit'      :
 				TicketMaster.update({"_id": ticketid},{
@@ -256,6 +252,7 @@ if(Meteor.isServer){
 						);	
 					}
 				}
+				Meteor.call('statuofVerificationType',usersid,ticket.verificationType,ticket.verificationId,'Verification Document Collected');
 				//notification to be implemented - Field Expert has collected the infomration.
 				break;
 			case 'ProofResubmitted' :
@@ -440,7 +437,7 @@ if(Meteor.isServer){
 						}
 					}); 
 				}
-
+				Meteor.call('statuofVerificationType',usersid,ticket.verificationType,ticket.verificationId,'Verification Completed - working on Report');
 				break;
 			case 'QAFail' :
 					break;
@@ -452,12 +449,12 @@ if(Meteor.isServer){
 				});
 				var ticketDetails = TicketMaster.findOne({"_id":ticketid});
 				if(ticketDetails){ 
-					console.log('ticketDetails.submitedDoc.status ',ticketDetails.submitedDoc.documents.status);
-					console.log('ticketDetails.submitedDoc.subStatus ',ticketDetails.submitedDoc.documents.subStatus);
-					var ticketStatus = ticketDetails.submitedDoc.documents.status + '-' + ticketDetails.submitedDoc.documents.subStatus;
-					Meteor.call('changeTicketStatusInOrder',ticketDetails.orderId,ticketid,ticketStatus,ticketDetails.reportGenerated.url)
+					var summeryFinding = ticketDetails.reportGenerated.reviewRemark.find(function (obj) { return obj.role == 'Quality Team Leader' });
+					var ticketStatus = ticketDetails.submitedDoc.documents.status.split('-');
+					if(ticketStatus){
+						Meteor.call('changeTicketStatusInOrder',ticketDetails.orderId,ticketid,ticketStatus[1],ticketDetails.reportGenerated.url,summeryFinding.remark);
+					}
 				}
-
 				break;
 			case 'QTLReviewRemark' :
 				var reviewRemark = {
@@ -483,87 +480,89 @@ if(Meteor.isServer){
 					{'_id':ticketid},
 					{
 						$set:{
-							'ticketStatus' : 'WIP',
+							'ticketStatus' : 'Work In Progress',
 						}
 					}
 				);
-	  		//notification 
-				 var newDate     = new Date();
-		      var msgvariable = {                       
+				Meteor.call('statuofVerificationType',usersid,ticket.verificationType,ticket.verificationId,'Field Person will contact soon for verification');
+	  			//notification 
+				var newDate     = new Date();
+		      	var msgvariable = {                       
 		                        '[username]' : firstLastNm,
 		                        '[servicename]'  : serviceNameOfticket,
 		                        '[date]'     : moment(newDate).format("DD/MM/YYYY"),
 		                       };
-		      // Format for send Email //
-		      var inputObj = {
+		      	// Format for send Email //
+		      	var inputObj = {
 		          from         : adminId,
 		          to           : newID,
 		          templateName : 'EFBESelfAllocated',
 		          variables    : msgvariable,
-		      }
-		      sendMailNotification(inputObj);
+		      	}
+		      	sendMailNotification(inputObj);
 		      
-		      // Format for sending SMS //
-		      var smsObj = {
+		      	// Format for sending SMS //
+		      	var smsObj = {
 		          to           : newID,
 		          templateName : 'EFBESelfAllocated',
 		          number       : mobNumber,
 		          variables    : msgvariable,
-		      }
-		      // console.log("smsObj",smsObj);
-		      sendSMS(smsObj);
+		      	}
+		      	// console.log("smsObj",smsObj);
+		      	sendSMS(smsObj);
 
-		      // Format for sending notification //
-		      var notifictaionObj = {
-		        to           : newID,
-		        templateName : 'EFBESelfAllocated',
-		        variables    : msgvariable,
-		      }
-		      sendInAppNotification(notifictaionObj);
+		      	// Format for sending notification //
+		      	var notifictaionObj = {
+			        to           : newID,
+			        templateName : 'EFBESelfAllocated',
+			        variables    : msgvariable,
+			    }
+		      	sendInAppNotification(notifictaionObj);
 				break;
 			case 'SelfAllocated':
 				TicketMaster.update(
 					{'_id':ticketid},
 					{
 						$set:{
-							'ticketStatus' : 'WIP',
+							'ticketStatus' : 'Work In Progress',
 						}
 					}
 				);
+				Meteor.call('statuofVerificationType',usersid,ticket.verificationType,ticket.verificationId,'Work In Progress');
 				//notification - Ticket for Address verification is initiated. Field person will be visting you soon
-			  var newDate     = new Date();
-		      var msgvariable = {                       
+			  	var newDate     = new Date();
+		      	var msgvariable = {                       
 		                        '[username]' : firstLastNm,
 		                        '[servicename]'  : serviceNameOfticket,
 		                        '[date]'     : moment(newDate).format("DD/MM/YYYY"),
 		                       };
-		      // Format for send Email //
-		      var inputObj = {
+		      	// Format for send Email //
+		      	var inputObj = {
 		          from         : adminId,
 		          to           : newID,
 		          templateName : 'EFBESelfAllocated',
 		          variables    : msgvariable,
-		      }
-		      sendMailNotification(inputObj);
+		      	}
+		      	sendMailNotification(inputObj);
 		      
-		      // Format for sending SMS //
-		      var smsObj = {
+		      	// Format for sending SMS //
+		      	var smsObj = {
 		          to           : newID,
 		          templateName : 'EFBESelfAllocated',
 		          number       : mobNumber,
 		          variables    : msgvariable,
-		      }
-		      // console.log("smsObj",smsObj);
-		      sendSMS(smsObj);
+		      	}
+		      	// console.log("smsObj",smsObj);
+		      	sendSMS(smsObj);
 
-		      // Format for sending notification //
-		      var notifictaionObj = {
-		        to           : newID,
-		        templateName : 'EFBESelfAllocated',
-		        variables    : msgvariable,
-		      }
-		      sendInAppNotification(notifictaionObj);
-			break;
+		      	// Format for sending notification //
+		      	var notifictaionObj = {
+			        to           : newID,
+			        templateName : 'EFBESelfAllocated',
+			        variables    : msgvariable,
+			    }
+		      	sendInAppNotification(notifictaionObj);
+				break;
 		}
 		return updateStatus;
 	},
@@ -752,28 +751,25 @@ if(Meteor.isServer){
 
 		/*=====================Update status in ticket Bucket For Role team leader */
 		
-			var status = "Allocated";
-			var role   = "team leader";
-			Meteor.call('genericUpdateTicketBucket',ticketId,status,role,(error,result)=>{
-				
-				if(result == 1){
-					/*==================Insert New document  for team member in ticket bucket============= */
-					var ticket ={
-						'ticketid':ticketId,
-						'empID'  : teamMemberDetails._id,
-						'role'   : "team member",
-						'status' : "New"
-					}
-					
-					Meteor.call('insertTicketBucket',ticket);
+		var status = "Allocated";
+		var role   = "team leader";
+		Meteor.call('genericUpdateTicketBucket',ticketId,status,role,(error,result)=>{
+			
+			if(result == 1){
+				/*==================Insert New document  for team member in ticket bucket============= */
+				var ticket ={
+					'ticketid':ticketId,
+					'empID'  : teamMemberDetails._id,
+					'role'   : "team member",
+					'status' : "New"
 				}
-			});
-		
-		
+				
+				Meteor.call('insertTicketBucket',ticket);
+			}
+		});
 	},
 
 	'updateTMStatus':function(ticketId,status){
-		
 		var insertDataDetails = TicketMaster.findOne({'_id':ticketId});
 		if(insertDataDetails){
 			var length = insertDataDetails.ticketElement.length;

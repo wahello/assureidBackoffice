@@ -66,7 +66,7 @@ class OrderGeneration extends TrackerReact(Component){
             </div>
             <div>
               <p className="col-lg-4 col-md-4 col-sm-4 col-xs-4">Result :</p>
-              <p className="col-lg-8 col-md-8 col-sm-8 col-xs-8">{this.props.getOrder ? this.props.getOrder.orderStatus : "-"}</p>
+              <p className="col-lg-8 col-md-8 col-sm-8 col-xs-8" className={this.props.textColor}>{this.props.getOrder ? this.props.getOrder.orderStatus : "-"}</p>
             </div>
           </div>
         </div>
@@ -92,7 +92,16 @@ class OrderGeneration extends TrackerReact(Component){
         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noProfilePadding">
           <h3>SUMMARY OF FINDINGS</h3>
           <ul>
-            <li></li>
+          {
+            this.props.getOrder ?
+              this.props.getOrder.ticket.map((summary,index)=>{
+                return(
+                  <li key={index}>{summary.summeryFinding}</li>
+                )
+              })
+            :
+            null
+          }
           </ul>
         </div>
         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noProfilePadding">
@@ -134,9 +143,50 @@ class OrderGeneration extends TrackerReact(Component){
   var loading = !handleSinTick.ready();
   var getOrder = Order.findOne({"_id":idValue});
   if(getOrder){
+    var tempStatus = '' ; 
+    // for(i= 0 ; i < getOrder.ticket.length ; i++){
+    //   if(getOrder.ticket[i].status == 'Inaccessible'){
+    //     var orderStatus = 'INACCESSIBLE';
+    //     break;
+    //   }else if(getOrder.ticket[i].status == 'Major Discrepancy'){
+    //     var orderStatus = 'INACCESSIBLE';
+    //     break;
+    //   }
+    // }
+    var allTicketStatus = getOrder.ticket;
+    var orderStatus = allTicketStatus.find(function (obj) { return obj.status == 'Inaccessible' });
+    if(!orderStatus){
+      orderStatus = allTicketStatus.find(function (obj) { return obj.status == 'Major Discrepancy' });
+      if(!orderStatus){
+        orderStatus = allTicketStatus.find(function (obj) { return obj.status == 'Minor Discrepancy' });
+        if(!orderStatus){
+          orderStatus = allTicketStatus.find(function (obj) { return obj.status == 'Clear' });
+          if(!orderStatus){
+            getOrder.orderStatus = 'Not Verified';
+            var textColor = 'text-danger';  
+          }else{
+            getOrder.orderStatus = 'Clear';    
+            var textColor = 'text-success';
+          }
+        }else{
+          getOrder.orderStatus = 'Minor Discrepancy';  
+          var textColor = 'text-success';
+        }
+      }else{
+        getOrder.orderStatus = 'Major Discrepancy';
+        var textColor = 'text-warning';
+        // var textColor = {
+        //   background
+        // };
+      }
+    }else{
+      getOrder.orderStatus = 'Inaccessible';
+      var textColor = 'text-warning';
+    }
   }
 
 return{
-  getOrder
+  getOrder,
+  textColor
 }
 })(OrderGeneration);

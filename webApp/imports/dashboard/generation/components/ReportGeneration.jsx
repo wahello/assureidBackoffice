@@ -86,8 +86,8 @@ class ReportGeneration extends TrackerReact(Component){
                           this.props.getTicket.reportGenerated.reviewRemark.map((reviewData,i)=>{
 
                             return(
-                                
-                                  <span key={i}>{reviewData.remark}<br/><br/></span>
+                                  
+                                  <span key={i}>{reviewData.remark != '' ? reviewData.remark : null}<br/><br/></span>
                             )
                           })
                           :

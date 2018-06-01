@@ -7,7 +7,7 @@ import { withTracker } from 'meteor/react-meteor-data';
 import {Link} from 'react-router';
 import { Order } from '/imports/website/ServiceProcess/api/Order.js';
 
-export default class OpenOrdersForDispatchTeam extends TrackerReact(Component){
+class OpenOrdersForDispatchTeam extends TrackerReact(Component){
 	constructor(props){
         super(props);
         this.state = {
@@ -28,7 +28,7 @@ export default class OpenOrdersForDispatchTeam extends TrackerReact(Component){
                         <div className="ticketWrapper col-lg-12 col-md-12 col-sm-12 col-xs-12">
                           {/* {this.props.ticketBucketData[0].orderId} */}
                             <div>
-                              {/*<div className="reports-table-main">
+                              <div className="reports-table-main">
                                 <table id="subscriber-list-outerTable" className="newOrderwrap subscriber-list-outerTable table table-bordered table-hover table-striped table-striped table-responsive table-condensed table-bordered">
                                   <thead className="table-head umtblhdr">
                                     <tr className="hrTableHeader UML-TableTr">
@@ -68,7 +68,7 @@ export default class OpenOrdersForDispatchTeam extends TrackerReact(Component){
                                     }
                                   </tbody>
                                 </table>
-                              </div>*/}
+                              </div>
                             </div>
                         </div>
                       </div>
@@ -81,25 +81,35 @@ export default class OpenOrdersForDispatchTeam extends TrackerReact(Component){
       );
     }
 }
-// AllOrderContainer = withTracker(props => { 
-//     var handleAllOrdersList = Meteor.subscribe("allOrders");
-//     var loading = !handleAllOrdersList.ready();
-//     var _id  = Meteor.userId();
-//     var allOrderList = Order.find({"allocatedToUserid":Meteor.userId()},{sort:{createdAt: 1}}).fetch() || [];
+OpenOrdersForDispatchTeamContainer = withTracker(props => { 
+    var handleAllOrdersList = Meteor.subscribe("allOrders");
+    var loading = !handleAllOrdersList.ready();
+    var _id  = Meteor.userId();
+    var allOrderList = Order.find({"allocatedToUserid":Meteor.userId(),"orderStatus":"Order Completed - Generating Report"},{sort:{createdAt: 1}}).fetch() || [];
 
-//     if(allOrderList){
-//         for(i=0;i< allOrderList.length; i++){
-//           if(allOrderList[i].orderStatus == 'Completed - Generating Report') {
-//             allOrderList[i].orderStatus = 'New';
-//             allOrderList[i].bgClassName = 'btn-warning';
-//           } 
-//         } 
-//     }
+    if(allOrderList){
+        for(i=0;i< allOrderList.length; i++){
+          switch(allOrderList[i].orderStatus){
+            case 'Order Completed - Generating Report' :
+              allOrderList[i].orderStatus = 'New';
+              allOrderList[i].bgClassName = 'btn-primary';
+              break;
+            case 'Order Completed - Report Completed' :
+              allOrderList[i].orderStatus = 'Completed';
+              allOrderList[i].bgClassName = 'btn-success';
+              break;
+            default :
+              allOrderList[i].orderStatus = 'Work In Progrss';
+              allOrderList[i].bgClassName = 'btn-warning';
+              break;
+          }
+        } 
+    }
 
-//     return {
-//         loading,
-//         allOrderList
-//     };
+    return {
+        loading,
+        allOrderList
+    };
    
-// })(AllOrders);
-// export default AllOrderContainer;
+})(OpenOrdersForDispatchTeam);
+export default OpenOrdersForDispatchTeamContainer;
