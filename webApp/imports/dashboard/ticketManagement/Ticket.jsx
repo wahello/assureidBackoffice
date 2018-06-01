@@ -227,53 +227,49 @@ class Ticket extends TrackerReact(Component){
     $('#AddImagesVideo').css({"display" : "block"});
     $(event.currentTarget).css({"display" : "none"});
     var data = this.props.checkObjs;
-    
-
-   
     if(data){
         var dataArr = [];
         for(var i=0; i<data.length;i++){
             var relatedField = data[i].relatedFields;
             var strngVal = "";
-            // for(var k=0;k<relatedField.length;k++){
-            //     strngVal = strngVal + relatedField[k].dbField + ", ";
-            // }
-            // 
-            // 
-            // if(this.props.getTicket.submitedDoc.checkLists.length > 0 ){
-            //   var obj = {
-            //     titleVal : data[i].task,
-            //     textVal :  this.props.getTicket.submitedDoc.checkLists.textVal,
-            //     // textVal : [],
-            //     correctVal : this.props.getTicket.submitedDoc.checkLists.correctVal,
-            //     remarkVal : this.props.getTicket.submitedDoc.checkLists.remarkVal,
-            //   }
-
-            // }else{
-
+            
+            for(var k=0;k<relatedField.length;k++){
+                strngVal = strngVal + relatedField[k].dbField + ", ";
+            }
+            
+        if(this.props.getTicket.submitedDoc){ 
+            if(this.props.getTicket.submitedDoc.checkLists.length > 0 ){
+              var obj = {
+                titleVal : data[i].task,
+                textVal :  this.props.getTicket.submitedDoc.checkLists.textVal,
+                // textVal : [],
+                correctVal : this.props.getTicket.submitedDoc.checkLists.correctVal,
+                remarkVal : this.props.getTicket.submitedDoc.checkLists.remarkVal,
+              }
+              dataArr.push(obj);
+        }}else{
+              
               var obj = {
                 titleVal : data[i].task,
                 textVal : relatedField,
                 // textVal : [],
                 correctVal : false,
                 remarkVal : "",
-              }
-
-            // }
-            
+              }    
+              
             dataArr.push(obj);
-            
-        }
+          }
+        
         
        
         this.setState({
             verifiedInfo: dataArr,
             
         })
-        
-        
+      }  
     }
   }
+
   handleReportUpload(event){
     event.preventDefault();
     let self = this;
@@ -1424,6 +1420,7 @@ export default UserDetailsContainer = withTracker(props => {
       }
     //------------------------------------------------------------------------------
   }   
+  
   
   
   if(getTicket && getTicket.reportGenerated && getTicket.reportGenerated.documents){

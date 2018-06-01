@@ -84,7 +84,7 @@ AllTicketsContainer = withTracker(props => {
                         switch (ticketElements[ticketElements.length - 1].roleStatus) {
                         case 'NewScrAllocated':
                             allTicketList[i].status = 'New' ;  
-                            allTicketList[i].bgClassName = 'btn-warning';    
+                            allTicketList[i].bgClassName = 'btn-primary';    
                             break;
                         case 'ScreenApproved' :
                             allTicketList[i].status = 'Approved' ; 
@@ -99,8 +99,8 @@ AllTicketsContainer = withTracker(props => {
                             allTicketList[i].bgClassName = 'btn-success';
                             break;
                         default:
-                            allTicketList[i].status = 'In Process' ;
-                            allTicketList[i].bgClassName = 'btn-primary';
+                            allTicketList[i].status = 'Work In Process' ;
+                            allTicketList[i].bgClassName = 'btn-success';
                             break;
                         }
                         break;
@@ -108,7 +108,7 @@ AllTicketsContainer = withTracker(props => {
                         switch (ticketElements[ticketElements.length - 1].roleStatus) {
                         case 'screenTLAllocated':
                             allTicketList[i].status = 'New' ;      
-                            allTicketList[i].bgClassName = 'btn-warning';
+                            allTicketList[i].bgClassName = 'btn-primary';
                             break;
                         case 'AssignAccept' :
                             allTicketList[i].status = 'Allocated' ; 
@@ -123,8 +123,8 @@ AllTicketsContainer = withTracker(props => {
                             allTicketList[i].bgClassName = 'btn-success';
                             break;
                         default:
-                            allTicketList[i].status = 'In Process' ;
-                            allTicketList[i].bgClassName = 'btn-primary';
+                            allTicketList[i].status = 'Work In Process' ;
+                            allTicketList[i].bgClassName = 'btn-success';
                             break;
                         }
                         break;
@@ -132,11 +132,11 @@ AllTicketsContainer = withTracker(props => {
                         switch (ticketElements[ticketElements.length - 1].roleStatus) {
                         case 'Assign':
                             allTicketList[i].status = 'New' ;      
-                            allTicketList[i].bgClassName = 'btn-warning';
+                            allTicketList[i].bgClassName = 'btn-primary';
                             break;
                         case 'QAFail':
                             allTicketList[i].status = 'New' ;      
-                            allTicketList[i].bgClassName = 'btn-warning';
+                            allTicketList[i].bgClassName = 'btn-primary';
                             break;
                         case 'AssignAccept' :
                             allTicketList[i].status = 'Accepted' ; 
@@ -151,8 +151,8 @@ AllTicketsContainer = withTracker(props => {
                             allTicketList[i].bgClassName = 'btn-success';
                             break;
                         default:
-                            allTicketList[i].status = 'In Process' ;
-                            allTicketList[i].bgClassName = 'btn-primary';
+                            allTicketList[i].status = 'Work In Process' ;
+                            allTicketList[i].bgClassName = 'btn-success';
                             break;
                         }
                         break;
@@ -160,11 +160,11 @@ AllTicketsContainer = withTracker(props => {
                         switch (ticketElements[ticketElements.length - 1].roleStatus) {
                         case 'VerificationPassQTMAllocated':
                             allTicketList[i].status = 'New' ;      
-                            allTicketList[i].bgClassName = 'btn-warning';
+                            allTicketList[i].bgClassName = 'btn-primary';
                             break;
                         case 'ReviewFail':
                             allTicketList[i].status = 'New' ;      
-                            allTicketList[i].bgClassName = 'btn-warning';
+                            allTicketList[i].bgClassName = 'btn-primary';
                             break;
                         case 'QAPass' :
                             allTicketList[i].status = 'Approved' ; 
@@ -179,8 +179,8 @@ AllTicketsContainer = withTracker(props => {
                             allTicketList[i].bgClassName = 'btn-success';
                             break;
                         default:
-                            allTicketList[i].status = 'In Process' ;
-                            allTicketList[i].bgClassName = 'btn-primary';
+                            allTicketList[i].status = 'Work In Process' ;
+                            allTicketList[i].bgClassName = 'btn-success';
                             break;
                         }
                         break;
@@ -189,7 +189,7 @@ AllTicketsContainer = withTracker(props => {
                         switch (ticketElements[ticketElements.length - 1].roleStatus) {
                             case 'QAPassQTLAllocated':
                                 allTicketList[i].status = 'New' ;      
-                                allTicketList[i].bgClassName = 'btn-warning';
+                                allTicketList[i].bgClassName = 'btn-primary';
                                 break;
                             case 'ReviewPass' :
                                 allTicketList[i].status = 'Approved' ; 
@@ -204,8 +204,8 @@ AllTicketsContainer = withTracker(props => {
                                 allTicketList[i].bgClassName = 'btn-success';
                                 break;
                             default:
-                                allTicketList[i].status = 'In Process' ;
-                                allTicketList[i].bgClassName = 'btn-primary';
+                                allTicketList[i].status = 'Work In Process' ;
+                                allTicketList[i].bgClassName = 'btn-success';
                                 break;
                             }
                             break;

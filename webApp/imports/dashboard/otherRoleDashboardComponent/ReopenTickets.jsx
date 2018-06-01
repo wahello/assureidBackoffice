@@ -89,7 +89,7 @@ ReopenTicketsContainer = withTracker(props => {
                             switch (ticketElements[ticketElements.length - 1].roleStatus) {
                                 case 'NewScrAllocated':
                                     assignToMeTicketList[i].status = 'New' ;  
-                                    assignToMeTicketList[i].bgClassName = 'btn-warning';    
+                                    assignToMeTicketList[i].bgClassName = 'btn-primary';    
                                     break;
                                 case 'ScreenApproved' :
                                     assignToMeTicketList[i].status = 'Approved' ; 
@@ -104,8 +104,8 @@ ReopenTicketsContainer = withTracker(props => {
                                     assignToMeTicketList[i].bgClassName = 'btn-success';
                                     break;
                                 default:
-                                    assignToMeTicketList[i].status = 'In Process' ;
-                                    assignToMeTicketList[i].bgClassName = 'btn-primary';
+                                    assignToMeTicketList[i].status = 'Work In Process' ;
+                                    assignToMeTicketList[i].bgClassName = 'btn-success';
                                     break;
                             }
                             listR.push(assignToMeTicketList[i]);                            
@@ -119,7 +119,7 @@ ReopenTicketsContainer = withTracker(props => {
                             switch (ticketElements[ticketElements.length - 1].roleStatus) {
                             case 'screenTLAllocated':
                                 assignToMeTicketList[i].status = 'New' ;      
-                                assignToMeTicketList[i].bgClassName = 'btn-warning';
+                                assignToMeTicketList[i].bgClassName = 'btn-primary';
                                 break;
                             case 'AssignAccept' :
                                 assignToMeTicketList[i].status = 'Allocated' ; 
@@ -134,8 +134,8 @@ ReopenTicketsContainer = withTracker(props => {
                                 assignToMeTicketList[i].bgClassName = 'btn-success';
                                 break;
                             default:
-                                assignToMeTicketList[i].status = 'In Process' ;
-                                assignToMeTicketList[i].bgClassName = 'btn-primary';
+                                assignToMeTicketList[i].status = 'Work In Process' ;
+                                assignToMeTicketList[i].bgClassName = 'btn-success';
                                 break;
                             }
                             listR.push(assignToMeTicketList[i]);                                                        
@@ -147,11 +147,11 @@ ReopenTicketsContainer = withTracker(props => {
                         switch (ticketElements[ticketElements.length - 1].roleStatus) {
                             case 'Assign':
                                 assignToMeTicketList[i].status = 'New' ;      
-                                assignToMeTicketList[i].bgClassName = 'btn-warning';
+                                assignToMeTicketList[i].bgClassName = 'btn-primary';
                                 break;
                             case 'QAFail':
                                 assignToMeTicketList[i].status = 'New' ;      
-                                assignToMeTicketList[i].bgClassName = 'btn-warning';
+                                assignToMeTicketList[i].bgClassName = 'btn-primary';
                                 break;
                             case 'AssignAccept' :
                                 assignToMeTicketList[i].status = 'Accepted' ; 
@@ -166,8 +166,8 @@ ReopenTicketsContainer = withTracker(props => {
                                 assignToMeTicketList[i].bgClassName = 'btn-success';
                                 break;
                             default:
-                                assignToMeTicketList[i].status = 'In Process' ;
-                                assignToMeTicketList[i].bgClassName = 'btn-primary';
+                                assignToMeTicketList[i].status = 'Work In Process' ;
+                                assignToMeTicketList[i].bgClassName = 'btn-success';
                                 break;
                         }
                             listR.push(assignToMeTicketList[i]);                                                        
@@ -179,11 +179,11 @@ ReopenTicketsContainer = withTracker(props => {
                             switch (ticketElements[ticketElements.length - 1].roleStatus) {
                             case 'VerificationPassQTMAllocated':
                                 assignToMeTicketList[i].status = 'New' ;      
-                                assignToMeTicketList[i].bgClassName = 'btn-warning';
+                                assignToMeTicketList[i].bgClassName = 'btn-primary';
                                 break;
                             case 'ReviewFail':
                                 assignToMeTicketList[i].status = 'New' ;      
-                                assignToMeTicketList[i].bgClassName = 'btn-warning';
+                                assignToMeTicketList[i].bgClassName = 'btn-primary';
                                 break;
                             case 'QAPass' :
                                 assignToMeTicketList[i].status = 'Approved' ; 
@@ -198,8 +198,8 @@ ReopenTicketsContainer = withTracker(props => {
                                 assignToMeTicketList[i].bgClassName = 'btn-success';
                                 break;
                             default:
-                                assignToMeTicketList[i].status = 'In Process' ;
-                                assignToMeTicketList[i].bgClassName = 'btn-primary';
+                                assignToMeTicketList[i].status = 'Work In Process' ;
+                                assignToMeTicketList[i].bgClassName = 'btn-success';
                                 break;
                             }
                             listR.push(assignToMeTicketList[i]);                                                        
@@ -211,7 +211,7 @@ ReopenTicketsContainer = withTracker(props => {
                             switch (ticketElements[ticketElements.length - 1].roleStatus) {
                             case 'QAPassQTLAllocated':
                                 assignToMeTicketList[i].status = 'New' ;      
-                                assignToMeTicketList[i].bgClassName = 'btn-warning';
+                                assignToMeTicketList[i].bgClassName = 'btn-primary';
                                 break;
                             case 'ReviewPass' :
                                 assignToMeTicketList[i].status = 'Approved' ; 
@@ -226,8 +226,8 @@ ReopenTicketsContainer = withTracker(props => {
                                 assignToMeTicketList[i].bgClassName = 'btn-success';
                                 break;
                             default:
-                                assignToMeTicketList[i].status = 'In Process' ;
-                                assignToMeTicketList[i].bgClassName = 'btn-primary';
+                                assignToMeTicketList[i].status = 'Work In Process' ;
+                                assignToMeTicketList[i].bgClassName = 'btn-success';
                                 break;
                             }
                             listR.push(assignToMeTicketList[i]);                                                        
@@ -235,7 +235,7 @@ ReopenTicketsContainer = withTracker(props => {
                             break;
                         default : 
                             assignToMeTicketList[i].status = 'In Process' ;
-                            assignToMeTicketList[i].bgClassName = 'btn-primary';
+                            assignToMeTicketList[i].bgClassName = 'btn-success';
                             break;
                     }
                 // assignToMeTicketList[i].status = ticketElements[ticketElements.length - 1].roleStatus ;

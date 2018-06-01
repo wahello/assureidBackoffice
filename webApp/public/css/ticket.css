@@ -188,7 +188,7 @@
 	padding-left: 4%;
 }
 .tdStatus{
-	padding: 2% 13%;
+	padding: 2% 10%;
     text-align: center;
     display: block;
 }
@@ -250,3 +250,11 @@
 /* .info{
 	background-color: #00b8ff!important;
 } */
+
+
+.transparentbg{
+	background: transparent!important;
+	border: 1px solid #00acd6!important;
+	color: #000;
+
+}

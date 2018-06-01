@@ -19,6 +19,7 @@ class VerificationDataSubmit extends TrackerReact(Component){
         super(props); 
         if(this.props.EditValue){
             
+            
             this.state = { 
                 "checkLists"       : this.props.EditValue.checkLists,
                 "textLists"        : this.props.EditValue.textLists,
@@ -494,7 +495,11 @@ class VerificationDataSubmit extends TrackerReact(Component){
     yesReason(event){
         event.preventDefault();
         var currentIndex = $(event.currentTarget).attr("data-indexVal");
-        var data = this.state.chekFieldList.length>0 ? this.state.chekFieldList : this.props.chekFieldList;
+        if(this.props.EditValue){     
+            var data = this.props.EditValue.checkLists;
+        }else{
+            var data = this.state.chekFieldList.length>0 ? this.state.chekFieldList : this.props.chekFieldList;        
+        }
         var newArr = [];
         for(i=0;i<data.length;i++){
             if(i==currentIndex){
@@ -520,7 +525,11 @@ class VerificationDataSubmit extends TrackerReact(Component){
      event.preventDefault();
 
         var currentIndex = $(event.currentTarget).attr("data-indexVal");
-        var data = this.state.chekFieldList.length>0 ? this.state.chekFieldList : this.props.chekFieldList;
+        if(this.props.EditValue){     
+            var data = this.props.EditValue.checkLists;
+        }else{
+            var data = this.state.chekFieldList.length>0 ? this.state.chekFieldList : this.props.chekFieldList;        
+        }
         var newArr = [];
         for(i=0;i<data.length;i++){
             if(i==currentIndex){
@@ -591,6 +600,7 @@ class VerificationDataSubmit extends TrackerReact(Component){
     render(){
         var chekFieldList  = this.state.chekFieldList.length>0 ? this.state.chekFieldList :  this.props.chekFieldList;
         
+        
         return(
             <div>
                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 choosefilebox">
@@ -604,20 +614,39 @@ class VerificationDataSubmit extends TrackerReact(Component){
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outerChecklisttoteamM">
                                     {this.state.checkLists ?
                                         this.state.checkLists.map((checkObjsDefault,index)=>{
-                                        return(
-                                            <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6" key={index}>  
-                                              <input type="checkbox" ref="checkObjs" id="checkObjs" data-index={index} name="checkObjs" 
-                                              className={"checkObjs-"+index}  data-value = {checkObjsDefault.statement}
-                                              onChange={this.handleChangeChecklist} checked={checkObjsDefault.status== true? "checked" : ""}
-                                              />&nbsp;{checkObjsDefault.statement}
-                                            </div>
-                                          );
+                                            return(
+                                                <div className="col-lg-12 col-md-12 col-sm-6 col-xs-6 innerChecklisttoteamM noLRPad" key={index}>  
+                                                    <div className="col-lg-4 col-md-6 col-sm-6 col-xs-6 noLRPad">
+                                                        <label className = "col-lg-12" name ="checkObjs">{checkObjsDefault.titleVal}</label>
+                                                        <div className="col-lg-8 col-lg-offset-0">
+                                                            {
+                                                                checkObjsDefault.textVal ?
+                                                                   checkObjsDefault.textVal.map((checkObjsRelatedField,index)=>{
+                                                                        return(
+                                                                            <span key={index}>{checkObjsRelatedField.value},&nbsp;</span>
+                                                                        );
+                                                                    })
+                                                                :
+                                                                 null
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                    <div className="col-lg-4 col-md-4 col-sm-6 col-xs-6 noLRPad correctBtn">
+                                                        <button type="button" className= {checkObjsDefault.correctVal =="Correct" ? "btn btn-info noDataButton active":"btn noDataButton Correctborder transparentbg"}  data-indexVal={index} data-value= "Correct" onClick={this.yesReason.bind(this)}>Correct</button>
+                                                        <button type="button" className= {checkObjsDefault.correctVal == "Incorrect" ? "btn btn-info noDataButton active": "btn noDataButton Correctborder transparentbg"} data-indexVal={index} data-value = "Incorrect" onClick={this.noReason.bind(this)}>Incorrect</button>
+                                                    </div>
+                                                    <div className="col-lg-4 col-md-6 col-sm-6 col-xs-6">
+                                                        <span className="col-lg-12 noLRPad">Remark &nbsp;</span>
+                                                        <textarea rows="3" cols="60" className="col-lg-12"  value={checkObjsDefault.remarkVal} data-indexVal={index} onChange={this.getRemark.bind(this)}/>
+                                                    </div>	
+                                                 </div>
+                                                
+                                              );
                                         })
                                     : 
                                         ""
                                     }
                                 </div>
-                            
                                :
 
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outerChecklisttoteamM">
@@ -914,11 +943,6 @@ class VerificationDataSubmit extends TrackerReact(Component){
 VerificationDataSubmitContainer = withTracker(props => { 
     const ticketId     = props.ticketId;
     var chekFieldList  = props.chekFieldList;
-    
-
-    
-    
-    
     const postHandle   = Meteor.subscribe('allTicketImages');
     const postHandle1  = Meteor.subscribe('allTicketVideo');
     const postHandle2  = Meteor.subscribe('checklistFieldExpert');
