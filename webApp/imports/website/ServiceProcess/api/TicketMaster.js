@@ -254,6 +254,37 @@ if(Meteor.isServer){
 				}
 				Meteor.call('statuofVerificationType',usersid,ticket.verificationType,ticket.verificationId,'Verification Document Collected');
 				//notification to be implemented - Field Expert has collected the infomration.
+         var newDate     = new Date();
+		      var msgvariable = {                       
+		                        '[username]' : firstLastNm,
+		                        '[date]'     : moment(newDate).format("DD/MM/YYYY"),
+		                       };
+		      // Format for send Email //
+		      var inputObj = {
+		          from         : adminId,
+		          to           : newID,
+		          templateName : 'ProofSubmit',
+		          variables    : msgvariable,
+		      }
+		      sendMailNotification(inputObj);
+		      
+		      // Format for sending SMS //
+		      var smsObj = {
+		          to           : newID,
+		          templateName : 'ProofSubmit',
+		          number       : mobNumber,
+		          variables    : msgvariable,
+		      }
+		      // console.log("smsObj",smsObj);
+		      sendSMS(smsObj);
+
+		      // Format for sending notification //
+		      var notifictaionObj = {
+		        to           : newID,
+		        templateName : 'ProofSubmit',
+		        variables    : msgvariable,
+		      }
+		      sendInAppNotification(notifictaionObj);
 				break;
 			case 'ProofResubmitted' :
 					TicketMaster.update({"_id": ticketid},{
@@ -291,6 +322,37 @@ if(Meteor.isServer){
 						}
 					}
 					//notification to be implemented
+					var newDate     = new Date();
+		      var msgvariable = {                       
+		                        '[username]' : firstLastNm,
+		                        '[date]'     : moment(newDate).format("DD/MM/YYYY"),
+		                       };
+		      // Format for send Email //
+		      var inputObj = {
+		          from         : adminId,
+		          to           : newID,
+		          templateName : 'ProofResubmitted',
+		          variables    : msgvariable,
+		      }
+		      sendMailNotification(inputObj);
+		      
+		      // Format for sending SMS //
+		      var smsObj = {
+		          to           : newID,
+		          templateName : 'ProofResubmitted',
+		          number       : mobNumber,
+		          variables    : msgvariable,
+		      }
+		      // console.log("smsObj",smsObj);
+		      sendSMS(smsObj);
+
+		      // Format for sending notification //
+		      var notifictaionObj = {
+		        to           : newID,
+		        templateName : 'ProofResubmitted',
+		        variables    : msgvariable,
+		      }
+		      sendInAppNotification(notifictaionObj);
 					break;
 			case 'VerificationPass-CompanyInfo' :
 					TicketMaster.update(
