@@ -109,9 +109,12 @@ export default ReportHeaderContainer = withTracker(({params}) => {
   var handleUseFunc = Meteor.subscribe('userfunction');
   var handleUserProfile = Meteor.subscribe("userProfileData");
   var ticketId = params.id;
+  console.log('ticketId: ', ticketId);
   var loading = !handleSinTick.ready() && !handleUseFunc.ready() && !handleUserProfile.ready();
   var getTicket = TicketMaster.findOne({"_id":ticketId});
+  
   if(getTicket){
+    console.log('getTicket: ', getTicket);
     var statusTicketArr = getTicket.reportGenerated.documents.status.split('-');
     if(statusTicketArr[1]){
       var statusTicket = statusTicketArr[1];
@@ -123,6 +126,7 @@ export default ReportHeaderContainer = withTracker(({params}) => {
 
     if(user){
       var userProfile = UserProfile.findOne({"userId": getTicket.userId}) || {};
+      console.log('userProfile: ', userProfile);
       if(userProfile.dateOfBirth){
         var today = new Date();
         var birthDate = new Date(userProfile.dateOfBirth);

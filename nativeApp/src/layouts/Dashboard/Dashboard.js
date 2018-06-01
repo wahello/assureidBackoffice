@@ -362,7 +362,7 @@ class Dashboard extends React.Component {
                 reopenCount++;
                 var reopenSinceDate = moment(allNewTickets[0].createdAt).format('MMM Do YY');
                }
-               if(ticketElements[ticketElements.length-1].roleStatus == "ReviewPass"){
+               if(ticketElements[ticketElements.length-1].roleStatus == "TicketClosed"){
                 completedCount++;
                }
                

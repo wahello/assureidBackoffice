@@ -19,6 +19,7 @@ import ScreeningCommittee from '/imports/dashboard/ticketManagement/ScreeningCom
 import TicketDocumentDetails from '/imports/dashboard/ticketManagement/TicketDocumentDetail.jsx';
 import DocumentStatus from './DocumentStatus.jsx';
 import VerificationDataSubmit from './VerificationDataSubmit.jsx';
+import ReportHeader from '/imports/dashboard/generation/components/ReportHeader.jsx';
 
 // import VerificationDataSubmit from './VerificationDataSubmit.jsx';
 
@@ -1092,7 +1093,13 @@ class Ticket extends TrackerReact(Component){
                               <h3 className="ticketheadStyle col-lg-12">{this.props.getTicket.serviceName}/{this.props.getTicket.ticketNumber}</h3>
                             </div>
                             <div className="ticketPills col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                              <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 noLRPad">
+                              
+
+                           {
+                             this.props.role !="quality team leader" ?
+
+                                <div className="col-lg-12 noLRPad">
+                                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 noLRPad">
                                 <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                   { this.props.userProfile.userProfile ?
                                     <img src={this.props.userProfile.userProfile } className="ticketUserImage" /> :
@@ -1159,100 +1166,109 @@ class Ticket extends TrackerReact(Component){
                                 {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right viewProfileLink noPadLeftRight">
                                   <Link>View profile</Link>
                                 </div> */}
-                           </div>
-                           <div className="col-lg-6">
-                             <ServiceInformation ticketId={this.props.params.id}/>
-                           </div>
-                          </div>
-                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <VerifyDetailsDocument ticketId={this.props.params.id}/>
-                          </div>
-                            <VerifiedDocuments ticketId={this.props.params.id}/>
-                          <div id="SubmittedDocuments" >
-                            {this.props.getTicket.submitedDoc ?
-                              <SubmittedDocuments submittedDocuments={this.props.getTicket.submitedDoc} ticketId={this.props.params.id} />
-                              :
-                              ""
-                            }
-                          </div>
-
-                          <div id="displayReporta">
-                            {this.props.getTicket.reportGenerated?
-                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outeReportBlock">
-                                  <h6 className="dataDetails col-lg-1 col-md-1 col-sm-1 col-xs-1">Report:</h6> 
-                                  {
-                                    Roles.userIsInRole(Meteor.userId(),['quality team member','quality team leader'])?
-                                      <i className="fa fa-times tempImageDelete" title="Delete Report" id={this.props.params.id} onClick={this.deleteReport.bind(this)}></i>                                
-                                    :
+                              </div>
+                                 
+                                  <div className="col-lg-6">
+                                    <ServiceInformation ticketId={this.props.params.id}/>
+                                  </div>
+                                  
+                                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <VerifyDetailsDocument ticketId={this.props.params.id}/>
+                                  </div>
+                                    <VerifiedDocuments ticketId={this.props.params.id}/>
+                                  
+                                  
+                                  <div id="SubmittedDocuments" >
+                                    {this.props.getTicket.submitedDoc ?
+                                      <SubmittedDocuments submittedDocuments={this.props.getTicket.submitedDoc} ticketId={this.props.params.id} />
+                                      :
                                       ""
-                                  }
-                                    <div className="docdownload col-lg-1 col-lg-offset-1" title="Download Report">
-                                        <a href={this.props.getTicket.reportGenerated.url} target="_blank">
-                                          {
-                                            this.props.getTicket.reportGenerated ?
-                                              <i className="fa fa-file-text-o" aria-hidden="true"></i>
-                                            :
-                                            null
-                                          }
-                                        </a>
-                                    </div>
-                                  <lable className=" col-lg-11 col-md-11 col-sm-12 col-xs-12 downloadLable">Download Report</lable>
-                                </div>   
-                              </div>                       
-                              :
-                              null
-                            }
-                            {
-                              this.props.showHideBtn && this.props.getTicket.reportGenerated ?
-                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outeReportBlock">
-                                    <h6 className="dataDetails col-lg-1 col-md-1 col-sm-1 col-xs-1">Report:</h6> 
-                                        <div  id="showReport" className="col-lg-12 col-md-12 col-sm-12 col-xs-12 fesubmitbtn tickStatWrapper">
-                                        <span className="uploadreportTitle">Re-generate Report </span>
-                                          <div className="col-lg-7 col-lg-offset-1 col-md-10 col-md-offset-1 col-xm-12 col-xs-12">
-                                            <div className="col-lg-7">
-                                                <button type="button" className="fesubmitbtn col-lg-6 col-lg-offset-2" data-roleStatus="ReportReGenerated" data-msg="Report Re-generate" onClick={this.reportReSubmit.bind(this)}>Re-generate Report</button>
-                                            </div>
-                                          </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                :
-                                null
-                            }
-                          </div>
-                          <div id="displayReporta">
-                            {this.props.getTicket.reviewRemark ?
-                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outeReportBlock">
-                                  <h6 className="dataDetails col-lg-12 col-md-12 col-sm-12 col-xs-12">Review Remark:</h6> 
-                                    {this.props.getTicket.reviewRemark.map((review,i)=>{
-                                      return(
-                                        <div key={i} className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapperForReview">
-                                          <h5><b> {review.role} </b> </h5>
+                                    }
+                                  </div>
 
-                                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outerReviewsBlock">
-                                            <b>Name   : </b>{review.userName}
-                                            {/*<i className="fa fa-edit tempImageDelete col-lg-1 text-right pull-right" title="Edit Review" id={review.userId} onClick={this.editReview.bind(this)}></i><br/>*/}
-                                          </div>
-                                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outerReviewsBlock" id={"remarkWrapper-"+review.userId} >
-                                            <b>Review Remark : </b>{review.remark != '' ? review.remark : 'Not Provided'}
-                                          </div>
-                                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outerReviewsBlock" style={{"display" : "none"}} id={"textbox-"+review.userId}  data-index={i}  onChange={this.handleChangeForArray}>
-                                            <textarea rows="3" className="col-lg-12 col-md-12 col-sm-12 col-xs-12" ref="reviewsRemark" name="reviewsRemark" data-index={i} id={review.userId} value={review.remark}  onBlur={this.submitEditedReview.bind(this)}/>
-                                          </div>
+                                  <div id="displayReporta">
+                                    {this.props.getTicket.reportGenerated?
+                                      <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outeReportBlock">
+                                          <h6 className="dataDetails col-lg-1 col-md-1 col-sm-1 col-xs-1">Report:</h6> 
+                                          {
+                                            Roles.userIsInRole(Meteor.userId(),['quality team member','quality team leader'])?
+                                              <i className="fa fa-times tempImageDelete" title="Delete Report" id={this.props.params.id} onClick={this.deleteReport.bind(this)}></i>                                
+                                            :
+                                              ""
+                                          }
+                                            <div className="docdownload col-lg-1 col-lg-offset-1" title="Download Report">
+                                                <a href={this.props.getTicket.reportGenerated.url} target="_blank">
+                                                  {
+                                                    this.props.getTicket.reportGenerated ?
+                                                      <i className="fa fa-file-text-o" aria-hidden="true"></i>
+                                                    :
+                                                    null
+                                                  }
+                                                </a>
+                                            </div>
+                                          <lable className=" col-lg-11 col-md-11 col-sm-12 col-xs-12 downloadLable">Download Report</lable>
+                                        </div>   
+                                      </div>                       
+                                      :
+                                      null
+                                    }
+                                    {
+                                      this.props.showHideBtn && this.props.getTicket.reportGenerated ?
+                                      <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                          <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outeReportBlock">
+                                            <h6 className="dataDetails col-lg-1 col-md-1 col-sm-1 col-xs-1">Report:</h6> 
+                                                <div  id="showReport" className="col-lg-12 col-md-12 col-sm-12 col-xs-12 fesubmitbtn tickStatWrapper">
+                                                <span className="uploadreportTitle">Re-generate Report </span>
+                                                  <div className="col-lg-7 col-lg-offset-1 col-md-10 col-md-offset-1 col-xm-12 col-xs-12">
+                                                    <div className="col-lg-7">
+                                                        <button type="button" className="fesubmitbtn col-lg-6 col-lg-offset-2" data-roleStatus="ReportReGenerated" data-msg="Report Re-generate" onClick={this.reportReSubmit.bind(this)}>Re-generate Report</button>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                      )
-                                    })
-                                  }
-                                    
-                                </div>   
-                              </div>                       
+                                        :
+                                        null
+                                    }
+                                  </div>
+                                  
+                                  <div id="displayReporta">
+                                    {this.props.getTicket.reviewRemark ?
+                                      <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outeReportBlock">
+                                          <h6 className="dataDetails col-lg-12 col-md-12 col-sm-12 col-xs-12">Review Remark:</h6> 
+                                            {this.props.getTicket.reviewRemark.map((review,i)=>{
+                                              return(
+                                                <div key={i} className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapperForReview">
+                                                  <h5><b> {review.role} </b> </h5>
+
+                                                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outerReviewsBlock">
+                                                    <b>Name   : </b>{review.userName}
+                                                    <i className="fa fa-edit tempImageDelete col-lg-1 text-right pull-right" title="Edit Review" id={review.userId} onClick={this.editReview.bind(this)}></i><br/>
+                                                  </div>
+                                                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outerReviewsBlock" id={"remarkWrapper-"+review.userId} >
+                                                    <b>Review Remark : </b>{review.remark}
+                                                  </div>
+                                                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outerReviewsBlock" style={{"display" : "none"}} id={"textbox-"+review.userId}  data-index={i}  onChange={this.handleChangeForArray}>
+                                                    <textarea rows="3" className="col-lg-12 col-md-12 col-sm-12 col-xs-12" ref="reviewsRemark" name="reviewsRemark" data-index={i} id={review.userId} value={review.remark}  onBlur={this.submitEditedReview.bind(this)}/>
+                                                  </div>
+                                                </div>
+                                              )
+                                            })
+                                          }
+                                            
+                                        </div>   
+                                      </div>                       
+                                      :
+                                      null
+                                    }
+                                  </div>
+                                </div>
                               :
-                              null
-                            }
-                          </div>
+                                <ReportHeader id={this.props.ticketId} />
+                           }
+                           </div>
                           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outerShadow">
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 activityDetails">                           
@@ -1320,11 +1336,22 @@ export default UserDetailsContainer = withTracker(props => {
   var ticketId = props.params.id;
   var loading = !handleSinTick.ready() && !handleUseFunc.ready() && !handleUserProfile.ready() && !handleReport.ready() && !postHandle2.ready();
   var getTicket = TicketMaster.findOne({"_id":ticketId}) ;
-  // console.log("getTicket",getTicket);
+  var loginUserID = Meteor.userId();
+  var loggedInUser = Meteor.users.findOne({"_id":loginUserID});
+  console.log("getTicket",getTicket);
   if(getTicket){
     var user = Meteor.users.findOne({"_id": getTicket.userId}) || {};
+    console.log('user: ', user);
+
     if(user){
       var userProfile = UserProfile.findOne({"userId": getTicket.userId}) || {};
+      var roleArr = loggedInUser.roles;
+      
+
+      if(roleArr){
+      var role = roleArr.find(function (obj) { return obj != 'backofficestaff' });
+      console.log('inside role: ', role);
+      }
       if(userProfile.dateOfBirth){
         var today = new Date();
         var birthDate = new Date(userProfile.dateOfBirth);
@@ -1412,5 +1439,6 @@ export default UserDetailsContainer = withTracker(props => {
     ticketId,
     checkObjs,
     showHideBtn,
+    role,
   };
 })(Ticket);
