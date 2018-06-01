@@ -148,7 +148,7 @@ class Ticket extends TrackerReact(Component){
       "remark"              : $('#rejectReason').val(),
       "createdAt"           : new Date()
     }
-    // console.log('insertData ',insertData);
+    // 
     Meteor.call('genericUpdateTicketMasterElement',this.props.ticketId,insertData);
     this.setState({"showRejectBox" : 'N'});
   }
@@ -190,17 +190,17 @@ class Ticket extends TrackerReact(Component){
   submitEditedReview(event){
     event.preventDefault();
     var ticketId = this.props.ticketId;
-    // console.log("ticketId",ticketId);
+    // 
     var userId = $(event.currentTarget).attr('id');
-    // console.log("userId",userId);
+    // 
     var index  = parseInt($(event.currentTarget).attr('data-index'));
     var remark = this.props.getTicket.reviewRemark[index].remark;
-    // console.log("remark",remark);
+    // 
     Meteor.call('updateReviewRemark',ticketId,userId,remark,function(error,result){
       if (error) {
-        console.log(error.reason);
+        
       }else{
-        console.log("updated successfully");
+        
         $('#remarkWrapper-'+userId).css({"display" : "block"});
         $('#textbox-'+userId).css({"display" : "none"});
       }
@@ -227,7 +227,7 @@ class Ticket extends TrackerReact(Component){
     $('#AddImagesVideo').css({"display" : "block"});
     $(event.currentTarget).css({"display" : "none"});
     var data = this.props.checkObjs;
-    console.log('data: ', data);
+    
 
    
     if(data){
@@ -238,8 +238,8 @@ class Ticket extends TrackerReact(Component){
             // for(var k=0;k<relatedField.length;k++){
             //     strngVal = strngVal + relatedField[k].dbField + ", ";
             // }
-            // console.log("this.props.getTicket.submitedDoc.checkLists");
-            // console.log(this.props.getTicket.submitedDoc.checkLists);
+            // 
+            // 
             // if(this.props.getTicket.submitedDoc.checkLists.length > 0 ){
             //   var obj = {
             //     titleVal : data[i].task,
@@ -262,9 +262,9 @@ class Ticket extends TrackerReact(Component){
             // }
             
             dataArr.push(obj);
-            console.log('obj: ', obj);
+            
         }
-        console.log('verifiedInfo: ', dataArr);
+        
        
         this.setState({
             verifiedInfo: dataArr,
@@ -518,7 +518,7 @@ class Ticket extends TrackerReact(Component){
       var id = $(event.currentTarget).attr('id');
       Meteor.call('deleteReport',id,function (error,result) {
         if (error) {
-          console.log(error.reason);
+          
         }else{
         // $('#showReport').css('display','block');
         }
@@ -1266,7 +1266,7 @@ class Ticket extends TrackerReact(Component){
                                   </div>
                                 </div>
                               :
-                                <ReportHeader id={this.props.ticketId} />
+                                <ReportHeader />
                            }
                            </div>
                           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -1338,10 +1338,10 @@ export default UserDetailsContainer = withTracker(props => {
   var getTicket = TicketMaster.findOne({"_id":ticketId}) ;
   var loginUserID = Meteor.userId();
   var loggedInUser = Meteor.users.findOne({"_id":loginUserID});
-  console.log("getTicket",getTicket);
+  
   if(getTicket){
     var user = Meteor.users.findOne({"_id": getTicket.userId}) || {};
-    console.log('user: ', user);
+    
 
     if(user){
       var userProfile = UserProfile.findOne({"userId": getTicket.userId}) || {};
@@ -1350,7 +1350,7 @@ export default UserDetailsContainer = withTracker(props => {
 
       if(roleArr){
       var role = roleArr.find(function (obj) { return obj != 'backofficestaff' });
-      console.log('inside role: ', role);
+      
       }
       if(userProfile.dateOfBirth){
         var today = new Date();
@@ -1384,7 +1384,7 @@ export default UserDetailsContainer = withTracker(props => {
       var checkListFrom = "Skills And CertificationInformation";
       }
       var checkListObjs = ChecklistFieldExpert.find({"checkListFor" : checkListFrom}).fetch();
-      console.log(' inside render checkListObjs: ', checkListObjs);
+      
 
       var checkObjs = [];
       var textObjs = [];
@@ -1413,7 +1413,7 @@ export default UserDetailsContainer = withTracker(props => {
                   }else{
                       for(j = 0 ; j < checkListObjs[i].relatedFields.length; j++){
                           checkListObjs[i].relatedFields[j].value = getTicket.verificationData[checkListObjs[i].relatedFields[j].dbField]; 
-                          // console.log('getTicket.verificationData[checkListObjs[i].relatedFields[j].dbField]' , getTicket.verificationData[checkListObjs[i].relatedFields[j].dbField]);  
+                          //   
                       }
                   }
                   checkObjs.push(checkListObjs[i]); 
@@ -1424,8 +1424,8 @@ export default UserDetailsContainer = withTracker(props => {
       }
     //------------------------------------------------------------------------------
   }   
-  console.log("checkObjs",checkObjs);
-  console.log("textObjs",textObjs);
+  
+  
   if(getTicket && getTicket.reportGenerated && getTicket.reportGenerated.documents){
     var showHideBtn = false;
   }else{

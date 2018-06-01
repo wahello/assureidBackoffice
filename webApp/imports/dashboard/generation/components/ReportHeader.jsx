@@ -105,16 +105,15 @@ class ReportHeader extends TrackerReact(Component){
   }
 }
 export default ReportHeaderContainer = withTracker(({params}) => {
-  var handleSinTick = Meteor.subscribe("singleTicket",params.id);
+  var curUrl = location.pathname;
+  var id = curUrl.split('/').pop();
+  var handleSinTick = Meteor.subscribe("singleTicket",id);
   var handleUseFunc = Meteor.subscribe('userfunction');
   var handleUserProfile = Meteor.subscribe("userProfileData");
-  var ticketId = params.id;
-  console.log('ticketId: ', ticketId);
+  var ticketId =id;
   var loading = !handleSinTick.ready() && !handleUseFunc.ready() && !handleUserProfile.ready();
   var getTicket = TicketMaster.findOne({"_id":ticketId});
-  
   if(getTicket){
-    console.log('getTicket: ', getTicket);
     var statusTicketArr = getTicket.reportGenerated.documents.status.split('-');
     if(statusTicketArr[1]){
       var statusTicket = statusTicketArr[1];
@@ -126,7 +125,7 @@ export default ReportHeaderContainer = withTracker(({params}) => {
 
     if(user){
       var userProfile = UserProfile.findOne({"userId": getTicket.userId}) || {};
-      console.log('userProfile: ', userProfile);
+      
       if(userProfile.dateOfBirth){
         var today = new Date();
         var birthDate = new Date(userProfile.dateOfBirth);
@@ -147,7 +146,7 @@ export default ReportHeaderContainer = withTracker(({params}) => {
   var currentLocation = browserHistory.getCurrentLocation();
   var splitUrl = currentLocation.pathname.split('/');
   var url = splitUrl[1];
-  // console.log(url); 
+  //  
 
   return {
     loading,
