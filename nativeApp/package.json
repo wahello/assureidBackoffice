@@ -20,6 +20,7 @@
     "react-native": "0.50.4",
     "react-native-android-location-services-dialog-box": "^2.4.4",
     "react-native-aws3": "0.0.8",
+    "react-native-cached-image": "^1.4.3",
     "react-native-camera-kit": "^5.3.26",
     "react-native-check-box": "^2.0.2",
     "react-native-checkbox": "^2.0.0",

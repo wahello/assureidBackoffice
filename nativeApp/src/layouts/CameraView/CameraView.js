@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Meteor,{ createContainer } from "react-native-meteor";
-import { CameraKitCamera, CameraKitCameraScreen } from 'react-native-camera-kit';
+// import { CameraKitCamera, CameraKitCameraScreen } from 'react-native-camera-kit';
 import { ScrollView, Text, TouchableOpacity, Image, View, Dimensions} from "react-native";
 import { Icon, Button } from "react-native-elements";
 import { RNS3 } from 'react-native-aws3';
@@ -15,34 +15,34 @@ class CameraViewChild extends React.Component{
   backToCamera(event){
     event.preventDefault();
     
-    const file = this.props.navigation.state.params.photoUri;
-    console.log('file14: ',file);
+    // const file = this.props.navigation.state.params.photoUri;
+    // console.log('file14: ',file);
 
-    const dirPicutures = `${RNFS.ExternalStorageDirectoryPath}/Pictures`;
-    var filename       = file.split('Pictures/')[1];
-    const filePath     = `${dirPicutures}/${filename}`;
-    console.log('filePath: ',filePath);
+    // const dirPicutures = `${RNFS.ExternalStorageDirectoryPath}/Pictures`;
+    // var filename       = file.split('Pictures/')[1];
+    // const filePath     = `${dirPicutures}/${filename}`;
+    // console.log('filePath: ',filePath);
 
-    RNFS.exists(filePath)
-    .then( (result) => {
-        console.log("file exists: ", result);
+    // RNFS.exists(filePath)
+    // .then( (result) => {
+    //     console.log("file exists: ", result);
 
-        if(result){
-          return RNFS.unlink(filePath)
-            .then(() => {
-              console.log('FILE DELETED');
-              this.props.navigation.navigate('Camera', { path: "xyz" });
-            })
-            // `unlink` will throw an error, if the item to unlink does not exist
-            .catch((err) => {
-              console.log('file del error: ',err.message);
-            });
-        }
+    //     if(result){
+    //       return RNFS.unlink(filePath)
+    //         .then(() => {
+    //           console.log('FILE DELETED');
+    //           this.props.navigation.navigate('Camera', { path: "xyz" });
+    //         })
+    //         // `unlink` will throw an error, if the item to unlink does not exist
+    //         .catch((err) => {
+    //           console.log('file del error: ',err.message);
+    //         });
+    //     }
 
-      })
-      .catch((err) => {
-        console.log("file does not exist: ",err.message);
-      });
+    //   })
+    //   .catch((err) => {
+    //     console.log("file does not exist: ",err.message);
+    //   });
   }
 
   continueToForm(event){
@@ -125,12 +125,12 @@ class CameraViewChild extends React.Component{
                 />  
               </TouchableOpacity>  
             </View>
-              
+            <Text>{this.props.navigation.state.params.photoUri}</Text>
             <View>
                 <Image
-                      key = { this.props.navigation.state.params.photoUri }
-                      style = {{ height: window.height, width: window.width, alignSelf: "center" }}
-                      source = {{ uri: this.props.navigation.state.params.photoUri }}
+                      key        = { this.props.navigation.state.params.photoUri }
+                      style      = {{ height: window.height, width: window.width, alignSelf: "center" }}
+                      source     = {{ uri: this.props.navigation.state.params.photoUri }}
                       resizeMode = "stretch"
                     />
             </View>
@@ -156,7 +156,7 @@ class CameraViewChild extends React.Component{
 
 CameraView = createContainer( (props) => {
 
-  console.log('CameraView props: ',props);
+  console.log('navigation.state.params: ',navigation.state.params);
   console.log(props.navigation.state.params.ticket);
   const postHandle      = Meteor.subscribe('projectSettingsPublish');
   const s3Data          = Meteor.collection('projectSettings').findOne({"_id":"1"}) || {};
@@ -165,6 +165,8 @@ CameraView = createContainer( (props) => {
           "s3Data"     : s3Data,
           "ticket"     : props.navigation.state.params.ticket,
       };
+
+      console.log('result: ',result);
 
       return result;
 

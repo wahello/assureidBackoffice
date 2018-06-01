@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Meteor,{ createContainer } from "react-native-meteor";
-import { CameraKitCamera, CameraKitCameraScreen, CameraKitGalleryView } from 'react-native-camera-kit';
-import { Alert,View, ScrollView } from "react-native";
+import { CameraKitCamera, CameraKitCameraScreen } from 'react-native-camera-kit';
+import { Alert, View, ScrollView, Text } from "react-native";
 
 class CameraChild extends React.Component{
 
@@ -44,21 +44,24 @@ class CameraChild extends React.Component{
     // console.log("s3Data = ",s3Data);
 
     const captureImagesStack1 = event.captureImages;
+    if(captureImagesStack1 && captureImagesStack1.length > 0){
 
-    // this.setState({
-    //                     "imagesSelected" : captureImagesStack1,
-    //              });
-    console.log('captureImagesStack1: ',captureImagesStack1);
-    var recentImg = "file://"+captureImagesStack1[0].uri;
-    console.log('recentImg: ',recentImg);
-    // var x = this.props.navigator.pop();
-    // console.log('x: ',x);
+      // this.setState({
+      //                     "imagesSelected" : captureImagesStack1,
+      //              });
+      console.log('captureImagesStack1: ',captureImagesStack1);
+      var recentImg = "file://"+captureImagesStack1[0].uri;
+      console.log('recentImg: ',recentImg);
+      // var x = this.props.navigator.pop();
+      // console.log('x: ',x);
 
-    this.props.navigation.navigate('CameraView', { photoUri: recentImg, ticket: this.props.ticket });
-    // this.setState({ componenentVisible : false });
-    console.log('unmount done after camera componenentVisible false');
+      this.props.navigation.navigate('CameraView', { photoUri: recentImg, ticket: this.props.ticket });
+      this.setState({ componenentVisible : false });
+      console.log('unmount done after camera componenentVisible false');
 
-    // event.captureImages = [];
+      // event.captureImages = [];      
+    }
+
 
   }
 
@@ -77,7 +80,7 @@ class CameraChild extends React.Component{
                                     }
                         }
           actions     = {{ rightButtonText: 'Done', leftButtonText: 'Cancel' }}
-          onBottomButtonPressed = {this.onBottomButtonPressed.bind(this)}
+          onBottomButtonPressed={(event) => this.onBottomButtonPressed(event)}
           flashImages = {{
             on   : require('../../images/flashOn.png'),
             off  : require('../../images/flashOff.png'),

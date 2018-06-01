@@ -30,6 +30,10 @@ import HeaderDy from "../../components/HeaderDy/HeaderDy.js";
 import ViewCustomerTable from "../../components/tableComponent/ViewCustomerTable.js";
 import ViewCustomerModal from "../../components/modalComponent/ViewCustomerModal.js";
 
+import {
+    CachedImage,
+    ImageCacheProvider
+} from 'react-native-cached-image';
 
 
 class ViewTicketFormInfo extends React.Component {
@@ -58,11 +62,12 @@ class ViewTicketFormInfo extends React.Component {
       "remark"          : '',
       "images"          : [],
       "videos"          : [],
+      "imgData"         : [],
       
     };
-    this.openDrawer = this.openDrawer.bind(this);
+    this.openDrawer  = this.openDrawer.bind(this);
     this.closeDrawer = this.closeDrawer.bind(this);
-    this.toggle = this.toggle.bind(this);
+    this.toggle      = this.toggle.bind(this);
     // this.handleEdit = this.handleEdit.bind(this);
   }
 
@@ -73,6 +78,7 @@ class ViewTicketFormInfo extends React.Component {
           remark        : nextProps.tickets.submitedDoc.documents.remark,
           status        : nextProps.tickets.submitedDoc.documents.status,
           checkObjs     : nextProps.checkObjs,
+          imgData       : nextProps.imgData,
           // subStatus     : this.props.tickets.submitedDoc.documents.subStatus,
       });
 
@@ -104,6 +110,7 @@ class ViewTicketFormInfo extends React.Component {
 
       this.setState({
           checkObjs  : nextProps.checkObjs, 
+          imgData    : nextProps.imgData,
       });
 
     }
@@ -357,23 +364,24 @@ class ViewTicketFormInfo extends React.Component {
       if(error){
         Alert.alert(error.reason);
       }else{
-        Alert.alert('success');
+        Alert.alert('Successfully deleted Image.');
       }
     });
   }
 
   displayAttachments(){
     var data = [];
-    var verificationDocuments = this.props.imgData;
+    var verificationDocuments = this.state.imgData;
     if(verificationDocuments && verificationDocuments.length>0){
        verificationDocuments.map((item, index)=>{
         var fileName = item.imgs;
         // console.log('fileName:',fileName);
         data.push(
-                  <View key={index} style={{ flex:0.3 }}>
-                    <View style={{ flex:0.2, alignItems:'center', justifyContent:'center' }}>
+                  <View key={index} style={{ flex:0.3 }} removeClippedSubviews={true}>
+                    <View key={'viewWrapper-'+index} style={{ flex:0.2, alignItems:'center', justifyContent:'center' }}>
                       <Image  
-                      style      = {{ width:40, height:40}}                    
+                      key        = {'imgRemote-'+index}
+                      style      = {{ width:40, height:40, resizeMode: 'stretch' }}                    
                       resizeMode = "stretch"
                       source     = {{ uri : fileName }}              
                       />
@@ -388,6 +396,45 @@ class ViewTicketFormInfo extends React.Component {
     return data;    
   }
 
+  displayAttachmentsTest(){
+    var data = [];
+    var imgs = [];
+    var verificationDocuments = this.state.imgData;
+    if(verificationDocuments && verificationDocuments.length>0){
+       verificationDocuments.map((item, index)=>{
+          var fileName = item.imgs;
+          imgs.push(fileName);
+          data.push(
+                  <View key={index} style={{ flex:0.3 }} removeClippedSubviews={true}>
+                    <View key={'viewWrapper-'+index} style={{ flex:0.2, alignItems:'center', justifyContent:'center' }}>
+                      <CachedImage key={index} source={{uri: fileName}} style={{width: 40, height: 40}}/>
+                      <TouchableOpacity onPress={(e) =>this.delImg(e, item._id)}><Text>Remove</Text></TouchableOpacity>
+                    </View>
+                  </View>
+            
+            );
+        })  
+
+       // console.log('imgs: ',imgs);
+        return(
+
+            <ImageCacheProvider
+                urlsToPreload={imgs}
+                onPreloadComplete={() => console.log('hey there')}>
+                <View style={{ flex:1, flexDirection:'row'}}>
+                {data}
+                </View>
+            </ImageCacheProvider>
+          );   
+
+    }   
+        
+
+    
+
+
+    // return data;    
+  }
 
   goToCamera =(event)=>{
     // console.log('in goToCamera');
@@ -503,6 +550,7 @@ class ViewTicketFormInfo extends React.Component {
         style={{ backgroundColor: "#fbae16" }}
         createContainerstyle={{ flex: 1, backgroundColor: "#fbae16" }}
         keyboardShouldPersistTaps="always"
+        removeClippedSubviews={true}
       >
         <View
           style={{ borderBottomWidth: 1, padding: 10, borderColor: "#fff" }}
@@ -776,7 +824,8 @@ class ViewTicketFormInfo extends React.Component {
                                 <Icon name="camera-enhance" type="MaterialIcons" size={55} color="#aaa"   />
                               </TouchableOpacity>
                              </View>
-                             {this.displayAttachments()}
+                             {/*this.displayAttachments()*/}
+                             {this.displayAttachmentsTest()}
                           </View>
                         </View>
                       </View>

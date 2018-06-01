@@ -77,8 +77,8 @@ export default class RenderVideo extends React.Component {
                   playInBackground={false}
                   resizeMode='cover'
                   // onFullscreenPlayerWillPresent={this.fullScreenPlayerWillPresent}
-                  source={require('../../videos/videoplayback.mp4')}
-                  // source={{ uri: this.props.videoData.videoLink, type: this.props.videoData.ext }}
+                  // source={require('../../videos/videoplayback.mp4')}
+                  source={{ uri: this.props.videoData.videoLink, type: this.props.videoData.ext }}
                   style={[ styles.backgroundVideo, {height: window.height/2, width: window.width}  ]}
                 />
               </View>
