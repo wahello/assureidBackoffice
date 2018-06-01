@@ -89,7 +89,7 @@ class ReportHeader extends TrackerReact(Component){
                 
                 </div>
            </div>
-           <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 outerUserData reportGeneratedStatus">
+           <div className={"col-lg-6 col-md-6 col-sm-12 col-xs-12 outerUserData reportGeneratedStatus "+this.props.textColor}>
               <h3>Status  : {this.props.getTicket.reportGenerated.documents.status}</h3>
            </div>
            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12"> 
@@ -121,6 +121,17 @@ export default ReportHeaderContainer = withTracker(({params}) => {
       var statusTicket = getTicket.reportGenerated.documents.status;
     }
     getTicket.reportGenerated.documents.status = statusTicket;
+    if (statusTicket == 'Not Verified' || statusTicket == 'Unable to Verify' || statusTicket == 'Not Verified' ) {
+      var textColor = 'text-danger';
+    }else if (statusTicket == "Clear" || statusTicket == "Minor Discrepancy") {
+      var textColor = 'text-success';
+    }else if (statusTicket == "Major Discrepancy" || statusTicket == "Inaccessible" ) {
+        var textColor = 'text-warning';
+    }else if (statusTicket == "Initiated" || statusTicket == "WIP") {
+      var textColor = 'text-primary';
+    }else{
+      var textColor = 'text-primary';
+    }
     var user = Meteor.users.findOne({"_id": getTicket.userId}) || {};
 
     if(user){
@@ -138,7 +149,7 @@ export default ReportHeaderContainer = withTracker(({params}) => {
         userProfile.dateOfBirth=age;
       }else{
         userProfile.dateOfBirth='-';
-      }
+      } 
     }  
     //------------------------------------------------------------------------------
   }   
@@ -154,6 +165,8 @@ export default ReportHeaderContainer = withTracker(({params}) => {
     user,
     userProfile,
     ticketId,
+    statusTicket,
+    textColor,
     url
   };
 })(ReportHeader);

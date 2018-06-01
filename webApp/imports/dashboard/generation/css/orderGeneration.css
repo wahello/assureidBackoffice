@@ -6,4 +6,8 @@
 .generationTable tbody tr td{border: 1px solid;}
 .orderGenerationwrap{ box-shadow : 0px 0px 5px #aaa;}
 .reportHeaderBoxShadow{margin-top: 60px;margin-bottom: 30px;padding-top: 20px;box-shadow: 1px 1px 15px #000;}
-.reportGeneratedStatus{text-align: center;padding-top: 96px;}
+.reportGeneratedStatus{text-align: center;padding-top: 80px;}
+.reportGeneratedStatus h3{font-size: 40px;font-weight: bold;}
+.orderinfodiv{
+	padding-bottom: 2%;
+}

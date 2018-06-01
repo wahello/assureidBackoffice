@@ -34,39 +34,39 @@ class OrderGeneration extends TrackerReact(Component){
         </div>
         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 generationInfo">
           <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-            <div>
-              <p className="col-lg-4 col-md-4 col-sm-4 col-xs-4">Name :</p>
-              <p className="col-lg-8 col-md-8 col-sm-8 col-xs-8">{this.props.getOrder ? this.props.getOrder.userName : "-"}</p>
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noProfilePadding orderinfodiv">
+              <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">Name <span className="pull-right">:</span></div>
+              <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8">{this.props.getOrder ? this.props.getOrder.userName : "-"}</div>
             </div>
-            <div>
-              <p className="col-lg-4 col-md-4 col-sm-4 col-xs-4">Order Reference :</p>
-              <p className="col-lg-8 col-md-8 col-sm-8 col-xs-8">{this.props.getOrder ? this.props.getOrder.orderNo : "-"}</p>
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noProfilePadding orderinfodiv">
+              <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">Order Reference <span className="pull-right">:</span></div>
+              <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8">{this.props.getOrder ? this.props.getOrder.orderNo : "-"}</div>
             </div>
-            <div>
-              <p className="col-lg-4 col-md-4 col-sm-4 col-xs-4">Order Date :</p>
-              <p className="col-lg-8 col-md-8 col-sm-8 col-xs-8">{this.props.getOrder ? moment(this.props.getOrder.createdAt).format('DD-MM-YYYY') : "-"}</p>
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noProfilePadding orderinfodiv">
+              <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">Order Date <span className="pull-right">:</span></div>
+              <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8">{this.props.getOrder ? moment(this.props.getOrder.createdAt).format('DD-MM-YYYY') : "-"}</div>
             </div>
-            <div>
-              <p className="col-lg-4 col-md-4 col-sm-4 col-xs-4">Report Level :</p>
-              <p className="col-lg-8 col-md-8 col-sm-8 col-xs-8">Standard</p>
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noProfilePadding orderinfodiv">
+              <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">Report Level <span className="pull-right">:</span></div>
+              <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8">Standard</div>
             </div>
           </div>
           <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-            <div>
-              <p className="col-lg-4 col-md-4 col-sm-4 col-xs-4">Account :</p>
-              <p className="col-lg-8 col-md-8 col-sm-8 col-xs-8">-</p>
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noProfilePadding orderinfodiv">
+              <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">Account <span className="pull-right">:</span></div>
+              <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8">-</div>
             </div>
-            <div>
-              <p className="col-lg-4 col-md-4 col-sm-4 col-xs-4">Client Reference :</p>
-              <p className="col-lg-8 col-md-8 col-sm-8 col-xs-8">-</p>
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noProfilePadding orderinfodiv">
+              <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">Client Reference <span className="pull-right">:</span></div>
+              <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8">-</div>
             </div>
-            <div>
-              <p className="col-lg-4 col-md-4 col-sm-4 col-xs-4">Report Date :</p>
-              <p className="col-lg-8 col-md-8 col-sm-8 col-xs-8">{this.props.getOrder ? moment(this.props.getOrder.completedDate).format('DD-MM-YYYY') : "-"} </p>
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noProfilePadding orderinfodiv">
+              <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">Report Date <span className="pull-right">:</span></div>
+              <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8">{this.props.getOrder ? moment(this.props.getOrder.completedDate).format('DD-MM-YYYY') : "-"} </div>
             </div>
-            <div>
-              <p className="col-lg-4 col-md-4 col-sm-4 col-xs-4">Result :</p>
-              <p className="col-lg-8 col-md-8 col-sm-8 col-xs-8" className={this.props.textColor}>{this.props.getOrder ? this.props.getOrder.orderStatus : "-"}</p>
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noProfilePadding orderinfodiv">
+              <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">Result <span className="pull-right">:</span></div>
+              <div className={"col-lg-8 col-md-8 col-sm-8 col-xs-8 "+this.props.textColor}><b>{this.props.getOrder ? this.props.getOrder.orderStatus : "-"}</b></div>
             </div>
           </div>
         </div>
@@ -153,7 +153,7 @@ class OrderGeneration extends TrackerReact(Component){
     //     break;
     //   }
     // }
-    var allTicketStatus = getOrder.ticket;
+    var allTicketStatus = getOrder.ticket; 
     var orderStatus = allTicketStatus.find(function (obj) { return obj.status == 'Inaccessible' });
     if(!orderStatus){
       orderStatus = allTicketStatus.find(function (obj) { return obj.status == 'Major Discrepancy' });
@@ -184,7 +184,8 @@ class OrderGeneration extends TrackerReact(Component){
       var textColor = 'text-warning';
     }
   }
-
+  // console.log("")
+  // console.log("textColor",textColor);
 return{
   getOrder,
   textColor
