@@ -25,6 +25,10 @@ import ViewCustomerModal from "../../components/modalComponent/ViewCustomerModal
 import { Dropdown } from 'react-native-material-dropdown';
 import RenderVideo from './RenderVideo.js';
 
+import {
+    CachedImage,
+    ImageCacheProvider
+} from 'react-native-cached-image';
 
 class ViewSubmittedTicket extends React.Component {
   constructor(props) {
@@ -112,34 +116,71 @@ class ViewSubmittedTicket extends React.Component {
     this.setState({ value });
   }
 
+  // displayAttachments =()=>{
+  //   var data = [];
+
+  //   if(this.props.selectFEData && this.props.selectFEData.documents){
+  //     var verificationDocuments = this.props.selectFEData.documents.images;
+  //     if(verificationDocuments && verificationDocuments.length>0){
+  //        verificationDocuments.map((item, index)=>{
+  //         var fileName = item.imageLink;
+  //         // console.log('fileName:',fileName);
+  //         data.push(
+  //                   <View key={index} style={{ flex:0.3 }}>
+  //                     <View style={{ flex:0.2, alignItems:'center', justifyContent:'center' }}>
+  //                       <Image  
+  //                       style      = {{ width:50, height:50}}                    
+  //                       resizeMode = "stretch"             
+  //                       // source     = {{ uri : item.imageLink }} 
+  //                       source     = {require("../../images/imgIcon.png")}             
+  //                       />
+  //                     </View>
+                      
+  //                   </View>
+  //                   )
+  //         })       
+  //     }
+  //   }
+
+  //   return data;    
+  // }
+
+
   displayAttachments =()=>{
     var data = [];
-
+    var imgs = [];
     if(this.props.selectFEData && this.props.selectFEData.documents){
       var verificationDocuments = this.props.selectFEData.documents.images;
       if(verificationDocuments && verificationDocuments.length>0){
-         verificationDocuments.map((item, index)=>{
+       verificationDocuments.map((item, index)=>{
           var fileName = item.imageLink;
-          // console.log('fileName:',fileName);
+          imgs.push(fileName);
           data.push(
-                    <View key={index} style={{ flex:0.3 }}>
-                      <View style={{ flex:0.2, alignItems:'center', justifyContent:'center' }}>
-                        <Image  
-                        style      = {{ width:50, height:50}}                    
-                        resizeMode = "stretch"             
-                        // source     = {{ uri : item.imageLink }} 
-                        source     = {require("../../images/imgIcon.png")}             
-                        />
-                      </View>
-                      
+                  <View key={index} style={{ flex:0.3 }} removeClippedSubviews={true}>
+                    <View key={'viewWrapper-'+index} style={{ flex:0.2, alignItems:'center', justifyContent:'center' }}>
+                      <CachedImage key={'cache-'+index} source={{uri: fileName}} style={{width: 40, height: 40}}/>
                     </View>
-                    )
-          })       
-      }
-    }
+                  </View>
+            
+            );
+        })  
 
-    return data;    
-  }
+       console.log('ViewSubmittedTicket imgs: ',imgs);
+        return(
+
+            <ImageCacheProvider
+                urlsToPreload={imgs}
+                onPreloadComplete={() => console.log('hey there ViewSubmittedTicket')}>
+                <View style={{ flex:1, flexDirection:'row'}}>
+                {data}
+                </View>
+            </ImageCacheProvider>
+          );  
+
+      } 
+    } 
+
+    } 
 
   render() {
     
@@ -515,8 +556,11 @@ ViewSubmittedTicketContainer = createContainer( (props) => {
     // const postHandle2  = Meteor.subscribe('checklistFieldExpert');
     const postHandle3  = Meteor.subscribe('singleTicket',ticket);
 
-    const ticketImages = Meteor.collection("tempTicketImages").find({}) || []; 
-    const ticketVideo  = Meteor.collection("tempTicketVideo").find({}) || [];  
+    let ticketImages = []; 
+    let ticketVideo  = [];  
+
+
+
     // console.log("ticketImages",ticketImages);    
     // console.log("ticketVideo",ticketVideo);
     const loading     = !postHandle.ready();
@@ -552,6 +596,13 @@ ViewSubmittedTicketContainer = createContainer( (props) => {
       // });
 
       var selectFEData = tickets.submitedDoc;
+      if(selectFEData && selectFEData.documents && selectFEData.documents.images){
+         ticketImages = selectFEData.documents.images;          
+      }
+
+      if(selectFEData && selectFEData.documents && selectFEData.documents.videos){
+         ticketVideo  = selectFEData.documents.videos || [];          
+      }
 
       // console.log('selectFEData: ',selectFEData);
 

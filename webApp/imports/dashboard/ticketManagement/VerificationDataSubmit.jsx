@@ -978,7 +978,7 @@ VerificationDataSubmitContainer = withTracker(props => {
             if (checkListObjs) {
                 for (var i = 0; i < checkListObjs.length; i++) {
                     if(checkListObjs[i].checkListFrom == 'Database'){
-                        if(checkListFrom = "Address Information"){
+                        if(checkListFrom == "Address Information"){
                             if(verificationType == "permanentAddress"){
                                 for(j = 0 ; j < checkListObjs[i].relatedFields.length; j++){
                                     checkListObjs[i].relatedFields[j].value = tickets.verificationData[checkListObjs[i].relatedFields[j].dbField];   

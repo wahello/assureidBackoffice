@@ -407,7 +407,7 @@ class ViewTicketFormInfo extends React.Component {
           data.push(
                   <View key={index} style={{ flex:0.3 }} removeClippedSubviews={true}>
                     <View key={'viewWrapper-'+index} style={{ flex:0.2, alignItems:'center', justifyContent:'center' }}>
-                      <CachedImage key={index} source={{uri: fileName}} style={{width: 40, height: 40}}/>
+                      <CachedImage key={'cache-'+index} source={{uri: fileName}} style={{width: 40, height: 40}}/>
                       <TouchableOpacity onPress={(e) =>this.delImg(e, item._id)}><Text>Remove</Text></TouchableOpacity>
                     </View>
                   </View>
@@ -415,7 +415,7 @@ class ViewTicketFormInfo extends React.Component {
             );
         })  
 
-       // console.log('imgs: ',imgs);
+       console.log('imgs: ',imgs);
         return(
 
             <ImageCacheProvider
@@ -1013,6 +1013,7 @@ ViewTicketForm = createContainer( (props) => {
           // console.log('checkObjs 0: ',checkObjs);
        }else{
           checkListObjs = Meteor.collection("checklistFieldExpert").find({"checkListFor" : checkListFrom}) || [];
+
           if (checkListObjs && checkListObjs.length > 0) {
 
                   for (var i = 0; i < checkListObjs.length; i++) {
@@ -1020,7 +1021,7 @@ ViewTicketForm = createContainer( (props) => {
                       if(checkListObjs[i] && checkListObjs[i].relatedFields && checkListObjs[i].relatedFields.length > 0){
                         checkListObjs[i].id = checkListObjs[i]._id;
                         if(checkListObjs[i].checkListFrom == 'Database'){
-                            if(checkListFrom = "Address Information"){
+                            if(checkListFrom == "Address Information"){
                                 if(verificationType == "permanentAddress"){
                                     for(j = 0 ; j < checkListObjs[i].relatedFields.length; j++){
                                         checkListObjs[i].relatedFields[j].value = tickets.verificationData[checkListObjs[i].relatedFields[j].dbField];   
@@ -1032,8 +1033,11 @@ ViewTicketForm = createContainer( (props) => {
                                     }
                                 }
                             }else{
+                              
                                 for(j = 0 ; j < checkListObjs[i].relatedFields.length; j++){
                                     checkListObjs[i].relatedFields[j].value = checkListObjs[i].relatedFields[j].dbField + ':'+tickets.verificationData[checkListObjs[i].relatedFields[j].dbField];   
+                                    
+
                                 }
                             }
                             checkObjs.push(checkListObjs[i]); 
@@ -1046,7 +1050,7 @@ ViewTicketForm = createContainer( (props) => {
 
             
           }
-          // console.log('checkObjs 1: ',checkObjs);
+          console.log('checkObjs 1: ',checkObjs);
        }
 
       } // end of ticket object
@@ -1078,9 +1082,25 @@ ViewTicketForm = createContainer( (props) => {
           loading6     : loading6,
       };
 
+
+
+    // getCache();
+
       // console.log("result",result);
       // console.log("userData",userData);
       return result;
 
 }, ViewTicketFormInfo);
 export default ViewTicketForm;
+
+// async getCache(){
+//     try{
+//         console.log('set key');
+//         await AsyncStorage.setItem('@MySuperStore:key', 'I like to save it.');
+//     }
+//     catch(e){
+//         console.log('caught error', e);
+//         // Handle exceptions
+//     }
+
+// }

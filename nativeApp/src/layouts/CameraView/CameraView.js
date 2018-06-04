@@ -1,12 +1,26 @@
 import React, { Component } from "react";
 import Meteor,{ createContainer } from "react-native-meteor";
 // import { CameraKitCamera, CameraKitCameraScreen } from 'react-native-camera-kit';
-import { ScrollView, Text, TouchableOpacity, Image, View, Dimensions} from "react-native";
+import { ScrollView, Text, TouchableOpacity, Image, View, Dimensions } from "react-native";
 import { Icon, Button } from "react-native-elements";
 import { RNS3 } from 'react-native-aws3';
-const window = Dimensions.get('window');
+let window = Dimensions.get('window');
 
 class CameraViewChild extends React.Component{
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      photoUri  : this.props.navigation.state.params.photoUri,  
+    };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log('nextProps.photoUri: ',nextProps.photoUri);
+     this.setState({
+          photoUri : nextProps.photoUri,
+      });
+  }
 
   componentWillUnmount() {
       console.log('#####################CameraViewChild Component WILL UNMOUNT!@@@@@@@@@@@@@@@@@@@@@');
@@ -14,7 +28,8 @@ class CameraViewChild extends React.Component{
 
   backToCamera(event){
     event.preventDefault();
-    
+    console.log(this.props.ticket);
+    console.log(this.props);
     // const file = this.props.navigation.state.params.photoUri;
     // console.log('file14: ',file);
 
@@ -31,7 +46,7 @@ class CameraViewChild extends React.Component{
     //       return RNFS.unlink(filePath)
     //         .then(() => {
     //           console.log('FILE DELETED');
-    //           this.props.navigation.navigate('Camera', { path: "xyz" });
+              // this.props.navigation.navigate('Camera', { ticket: this.props.ticket });
     //         })
     //         // `unlink` will throw an error, if the item to unlink does not exist
     //         .catch((err) => {
@@ -48,12 +63,12 @@ class CameraViewChild extends React.Component{
   continueToForm(event){
     event.preventDefault();
 
-    var s3Data = this.props.s3Data;
+    var s3Data    = this.props.s3Data;
     var recentImg = this.props.navigation.state.params.photoUri;
-    var ext = recentImg.split('.')[1];
-    if(ext == 'jpg') {
-      ext = 'jpeg';
-    }
+    var ext       = recentImg.split('.')[1];
+    // if(ext == 'jpg') {
+    //   ext = 'jpeg';
+    // }
     var file = {
       uri   : recentImg,
       name  : new Date().getTime()+'.'+ext,
@@ -91,7 +106,7 @@ class CameraViewChild extends React.Component{
           }
       });
 
-      this.props.navigation.navigate('ViewTicketForm', { photoUri: recentImg, ticket: this.props.ticket });
+      this.props.navigation.navigate('ViewTicketForm', { ticket: this.props.ticket, photoUri: recentImg  });
       /**
        * {
        *   postResponse: {
@@ -125,15 +140,23 @@ class CameraViewChild extends React.Component{
                 />  
               </TouchableOpacity>  
             </View>
-            <Text>{this.props.navigation.state.params.photoUri}</Text>
-            <View>
+            {/*<Text>{this.props.navigation.state.params.photoUri}</Text>*/}
+            { this.state.photoUri ? 
+            
                 <Image
                       key        = { this.props.navigation.state.params.photoUri }
-                      style      = {{ height: window.height, width: window.width, alignSelf: "center" }}
+                      // style      = {{ height: window.height, width: window.width, alignSelf: "center", resizeMode: 'stretch' }}
+                      style      = {{ flex: 1, width: null, height: null }}
+                      // style      = {{ height: window.height, width: window.width}}
+                      // source     = {{ uri: this.state.photoUri }}
                       source     = {{ uri: this.props.navigation.state.params.photoUri }}
+                      // source     = {require('../../images/Background.png')}
                       resizeMode = "stretch"
                     />
-            </View>
+            
+            :
+            <View><Text>No img</Text></View>
+            }
 
             <View style={{zIndex : 1, position : 'absolute',backgroundColor:'rgba(52, 52, 52, 0.6)', bottom: 0}}>
               <TouchableOpacity>
@@ -156,7 +179,7 @@ class CameraViewChild extends React.Component{
 
 CameraView = createContainer( (props) => {
 
-  console.log('navigation.state.params: ',navigation.state.params);
+  console.log('navigation.state.params: ',props.navigation.state.params);
   console.log(props.navigation.state.params.ticket);
   const postHandle      = Meteor.subscribe('projectSettingsPublish');
   const s3Data          = Meteor.collection('projectSettings').findOne({"_id":"1"}) || {};
@@ -164,6 +187,7 @@ CameraView = createContainer( (props) => {
       var result =  {
           "s3Data"     : s3Data,
           "ticket"     : props.navigation.state.params.ticket,
+          "photoUri"   : props.navigation.state.params.photoUri,
       };
 
       console.log('result: ',result);

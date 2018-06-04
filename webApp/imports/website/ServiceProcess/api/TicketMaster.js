@@ -39,7 +39,7 @@ if(Meteor.isServer){
 	'autoAllocateMember':function(role,serviceName){
 		//Get the Member with minium count for the role specified
 		
-		var memberDetails = Meteor.users.find({"roles":role,"profile.status":"Active","profile.servicesName":serviceName},{sort: {"count":1},limit:1}).fetch();
+		var memberDetails = Meteor.users.find({"roles":role,"profile.status":"Active"},{sort: {"count":1},limit:1}).fetch();
 		
 		if(memberDetails){
 			return memberDetails;
@@ -104,7 +104,7 @@ if(Meteor.isServer){
 					
 					var roleSentence = Meteor.call('toTitleCase',role);
 					
-					if(roleSentence){
+					if(roleSentence && newMember && newMember.length > 0){
 						var insertData = {
 							"userId"              : '',
 							"userName"            : '',
