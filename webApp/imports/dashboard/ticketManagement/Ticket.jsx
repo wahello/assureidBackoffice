@@ -785,6 +785,7 @@ class Ticket extends TrackerReact(Component){
           return(
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
               <h5> {title} </h5>
+<<<<<<< Updated upstream
               {this.props.getTicket.verificationType == 'employement' ?
                    !this.props.getTicket.companyDetails ?
                     <EmployementCompanyDetails ticketId = {this.props.ticketId}/>
@@ -817,7 +818,7 @@ class Ticket extends TrackerReact(Component){
                   <span className="uploadreportTitle col-lg-2 col-md-2 col-sm-12 col-xs-12">Review Remark: </span>
                   <div className="col-lg-10 col-md-10 col-xs-12 col-sm-12">
                     <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <textarea rows="3" className="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="TMReviewRemark"/>
+                      <textarea rows="3" className="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="TMReviewRemark"/>
                     </div>
                     <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outerButton acceptrejectwrap">
                         <button type="button" className="fesubmitbtn col-lg-3 col-lg-offset-5 col-md-3 col-md-offset-9  " data-roleStatus="TMReviewRemark" data-msg="Team Member Review Remark Submitted" onClick={this.approveButton.bind(this)}>Submit</button>
