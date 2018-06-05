@@ -228,6 +228,7 @@ export default AllocatedTicketsContainer = withTracker(props => {
         } 
         }
     }
+   
     return {
         loading,
         allocatedTicketList,

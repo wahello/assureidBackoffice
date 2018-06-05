@@ -241,6 +241,7 @@ AssignToMeTicketsContainer = withTracker(props => {
             } 
         }
     }
+
     return {
         loading,
         // assignToMeTicketList,

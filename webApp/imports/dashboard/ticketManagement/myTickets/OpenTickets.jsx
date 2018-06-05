@@ -120,7 +120,7 @@ export default OpenTicketsContainer = withTracker(props => {
               switch (ticketElements[ticketElements.length - 1].roleStatus) {
                 case 'NewScrAllocated':
                   openTicketDetails[i].status = 'New' ;  
-                  openTicketDetails[i].bgClassName = 'btn-warning';    
+                  openTicketDetails[i].bgClassName = 'btn-primary';    
                   break;
                 case 'ScreenApproved' :
                   openTicketDetails[i].status = 'Approved' ; 
@@ -135,8 +135,8 @@ export default OpenTicketsContainer = withTracker(props => {
                   openTicketDetails[i].bgClassName = 'btn-success';
                   break;
                 default:
-                  openTicketDetails[i].status = 'In Process' ;
-                  openTicketDetails[i].bgClassName = 'btn-primary';
+                  openTicketDetails[i].status = 'Work In Process' ;
+                  openTicketDetails[i].bgClassName = 'btn-success';
                   break;
               }
               break;
@@ -144,7 +144,7 @@ export default OpenTicketsContainer = withTracker(props => {
               switch (ticketElements[ticketElements.length - 1].roleStatus) {
                 case 'screenTLAllocated':
                   openTicketDetails[i].status = 'New' ;      
-                  openTicketDetails[i].bgClassName = 'btn-warning';
+                  openTicketDetails[i].bgClassName = 'btn-primary';
                   break;
                 case 'AssignAccept' :
                   openTicketDetails[i].status = 'Allocated' ; 
@@ -159,8 +159,8 @@ export default OpenTicketsContainer = withTracker(props => {
                   openTicketDetails[i].bgClassName = 'btn-success';
                   break;
                 default:
-                  openTicketDetails[i].status = 'In Process' ;
-                  openTicketDetails[i].bgClassName = 'btn-primary';
+                  openTicketDetails[i].status = 'Work In Process' ;
+                  openTicketDetails[i].bgClassName = 'btn-success';
                   break;
               }
               break;
@@ -168,7 +168,7 @@ export default OpenTicketsContainer = withTracker(props => {
               switch (ticketElements[ticketElements.length - 1].roleStatus) {
                 case 'Assign':
                   openTicketDetails[i].status = 'New' ;      
-                  openTicketDetails[i].bgClassName = 'btn-warning';
+                  openTicketDetails[i].bgClassName = 'btn-primary';
                   break;
                 case 'QAFail':
                   openTicketDetails[i].status = 'Quality Rejected' ;      
@@ -207,8 +207,8 @@ export default OpenTicketsContainer = withTracker(props => {
                   openTicketDetails[i].bgClassName = 'btn-success';
                   break;
                 default:
-                  openTicketDetails[i].status = 'In Process' ;
-                  openTicketDetails[i].bgClassName = 'btn-primary';
+                  openTicketDetails[i].status = 'Work In Process' ;
+                  openTicketDetails[i].bgClassName = 'btn-success';
                   break;
               }
               break;
@@ -216,7 +216,7 @@ export default OpenTicketsContainer = withTracker(props => {
               switch (ticketElements[ticketElements.length - 1].roleStatus) {
                 case 'VerificationPassQTMAllocated':
                   openTicketDetails[i].status = 'New' ;      
-                  openTicketDetails[i].bgClassName = 'btn-warning';
+                  openTicketDetails[i].bgClassName = 'btn-primary';
                   break;
                 case 'ReviewFail':
                   openTicketDetails[i].status = 'Review Fail' ;      
@@ -235,8 +235,8 @@ export default OpenTicketsContainer = withTracker(props => {
                   openTicketDetails[i].bgClassName = 'btn-success';
                   break;
                 default:
-                  openTicketDetails[i].status = 'In Process' ;
-                  openTicketDetails[i].bgClassName = 'btn-primary';
+                  openTicketDetails[i].status = 'Work In Process' ;
+                  openTicketDetails[i].bgClassName = 'btn-success';
                   break;
               }
               break;
@@ -244,7 +244,7 @@ export default OpenTicketsContainer = withTracker(props => {
               switch (ticketElements[ticketElements.length - 1].roleStatus) {
                 case 'QAPassQTLAllocated':
                   openTicketDetails[i].status = 'New' ;      
-                  openTicketDetails[i].bgClassName = 'btn-warning';
+                  openTicketDetails[i].bgClassName = 'btn-primary';
                   break;
                 case 'ReviewPass' :
                   openTicketDetails[i].status = 'Approved' ; 
@@ -259,14 +259,14 @@ export default OpenTicketsContainer = withTracker(props => {
                   openTicketDetails[i].bgClassName = 'btn-success';
                   break;
                 default:
-                  openTicketDetails[i].status = 'In Process' ;
-                  openTicketDetails[i].bgClassName = 'btn-primary';
+                  openTicketDetails[i].status = 'Work In Process' ;
+                  openTicketDetails[i].bgClassName = 'btn-success';
                   break;
               }
               break;
             default : 
-              openTicketDetails[i].status = 'In Process' ;
-              openTicketDetails[i].bgClassName = 'btn-primary';
+              openTicketDetails[i].status = 'Work In Process' ;
+              openTicketDetails[i].bgClassName = 'btn-success';
               break;
           }
           openTicketList.push(openTicketDetails[i]);
@@ -303,7 +303,7 @@ export default OpenTicketsContainer = withTracker(props => {
               rejectedTickets.push(openTicketList[i]);
             }else if(openTicketList[i].status == 'Completed'){
               completedTickets.push(openTicketList[i]);
-            }else if(openTicketList[i].status == 'In Process'){
+            }else if(openTicketList[i].status == 'Work In Process'){
               inProcessTickets.push(openTicketList[i]);
             }
           }
@@ -328,7 +328,7 @@ export default OpenTicketsContainer = withTracker(props => {
               reAllocateTickets.push(openTicketList[i]);
             }else if(openTicketList[i].status == 'Completed'){
               completedTickets.push(openTicketList[i]);
-            }else if(openTicketList[i].status == 'In Process'){
+            }else if(openTicketList[i].status == 'Work In Process'){
               inProcessTickets.push(openTicketList[i]);
             }
           }
@@ -365,7 +365,7 @@ export default OpenTicketsContainer = withTracker(props => {
               rejectedTickets.push(openTicketList[i]);
             }else if(openTicketList[i].status == 'Completed'){
               completedTickets.push(openTicketList[i]);
-            }else if(openTicketList[i].status == 'In Process'){
+            }else if(openTicketList[i].status == 'Work In Process'){
               inProcessTickets.push(openTicketList[i]);
             }
           }
@@ -404,7 +404,7 @@ export default OpenTicketsContainer = withTracker(props => {
               rejectedTickets.push(openTicketList[i]);
             }else if(openTicketList[i].status == 'Completed'){
               completedTickets.push(openTicketList[i]);
-            }else if(openTicketList[i].status == 'In Process'){
+            }else if(openTicketList[i].status == 'Work In Process'){
               inProcessTickets.push(openTicketList[i]);
             }
           }
@@ -434,7 +434,7 @@ export default OpenTicketsContainer = withTracker(props => {
               rejectedTickets.push(openTicketList[i]);
             }else if(openTicketList[i].status == 'Completed'){
               completedTickets.push(openTicketList[i]);
-            }else if(openTicketList[i].status == 'In Process'){
+            }else if(openTicketList[i].status == 'Work In Process'){
               inProcessTickets.push(openTicketList[i]);
             }
           }

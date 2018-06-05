@@ -140,7 +140,7 @@ export default RejectedTicketsContainer = withTracker(props => {
               switch (ticketElements[ticketElements.length - 1].roleStatus) {
                 case 'NewScrAllocated':
                   rejectedTicketDetails[i].status = 'New' ;  
-                  rejectedTicketDetails[i].bgClassName = 'btn-warning';    
+                  rejectedTicketDetails[i].bgClassName = 'btn-primary';    
                   break;
                 case 'ScreenApproved' :
                   rejectedTicketDetails[i].status = 'Approved' ; 
@@ -155,8 +155,8 @@ export default RejectedTicketsContainer = withTracker(props => {
                   rejectedTicketDetails[i].bgClassName = 'btn-success';
                   break;
                 default:
-                  rejectedTicketDetails[i].status = 'In Process' ;
-                  rejectedTicketDetails[i].bgClassName = 'btn-primary';
+                  rejectedTicketDetails[i].status = 'Work In Process' ;
+                  rejectedTicketDetails[i].bgClassName = 'btn-success';
                   break;
               }
               break;
@@ -165,7 +165,7 @@ export default RejectedTicketsContainer = withTracker(props => {
               switch (ticketElements[ticketElements.length - 1].roleStatus) {
                 case 'screenTLAllocated':
                   rejectedTicketDetails[i].status = 'New' ;      
-                  rejectedTicketDetails[i].bgClassName = 'btn-warning';
+                  rejectedTicketDetails[i].bgClassName = 'btn-primary';
                   break;
                 case 'AssignAccept' :
                   rejectedTicketDetails[i].status = 'Allocated' ; 
@@ -180,8 +180,8 @@ export default RejectedTicketsContainer = withTracker(props => {
                   rejectedTicketDetails[i].bgClassName = 'btn-success';
                   break;
                 default:
-                  rejectedTicketDetails[i].status = 'In Process' ;
-                  rejectedTicketDetails[i].bgClassName = 'btn-primary';
+                  rejectedTicketDetails[i].status = 'Work In Process' ;
+                  rejectedTicketDetails[i].bgClassName = 'btn-success';
                   break;
               }
               break;
@@ -190,11 +190,11 @@ export default RejectedTicketsContainer = withTracker(props => {
               switch (ticketElements[ticketElements.length - 1].roleStatus) {
                 case 'Assign':
                   rejectedTicketDetails[i].status = 'New' ;      
-                  rejectedTicketDetails[i].bgClassName = 'btn-warning';
+                  rejectedTicketDetails[i].bgClassName = 'btn-primary';
                   break;
                 case 'QAFail':
                   rejectedTicketDetails[i].status = 'New' ;      
-                  rejectedTicketDetails[i].bgClassName = 'btn-warning';
+                  rejectedTicketDetails[i].bgClassName = 'btn-primary';
                   break;
                 case 'AssignAccept' :
                   rejectedTicketDetails[i].status = 'Accepted' ; 
@@ -209,8 +209,8 @@ export default RejectedTicketsContainer = withTracker(props => {
                   rejectedTicketDetails[i].bgClassName = 'btn-success';
                   break;
                 default:
-                  rejectedTicketDetails[i].status = 'In Process' ;
-                  rejectedTicketDetails[i].bgClassName = 'btn-primary';
+                  rejectedTicketDetails[i].status = 'Work In Process' ;
+                  rejectedTicketDetails[i].bgClassName = 'btn-success';
                   break;
               }
               break;
@@ -219,11 +219,11 @@ export default RejectedTicketsContainer = withTracker(props => {
               switch (ticketElements[ticketElements.length - 1].roleStatus) {
                 case 'VerificationPassQTMAllocated':
                   rejectedTicketDetails[i].status = 'New' ;      
-                  rejectedTicketDetails[i].bgClassName = 'btn-warning';
+                  rejectedTicketDetails[i].bgClassName = 'btn-primary';
                   break;
                 case 'ReviewFail':
                   rejectedTicketDetails[i].status = 'New' ;      
-                  rejectedTicketDetails[i].bgClassName = 'btn-warning';
+                  rejectedTicketDetails[i].bgClassName = 'btn-primary';
                   break;
                 case 'QAPass' :
                   rejectedTicketDetails[i].status = 'Approved' ; 
@@ -238,8 +238,8 @@ export default RejectedTicketsContainer = withTracker(props => {
                   rejectedTicketDetails[i].bgClassName = 'btn-success';
                   break;
                 default:
-                  rejectedTicketDetails[i].status = 'In Process' ;
-                  rejectedTicketDetails[i].bgClassName = 'btn-primary';
+                  rejectedTicketDetails[i].status = 'Work In Process' ;
+                  rejectedTicketDetails[i].bgClassName = 'btn-success';
                   break;
               }
               break;
@@ -248,7 +248,7 @@ export default RejectedTicketsContainer = withTracker(props => {
               switch (ticketElements[ticketElements.length - 1].roleStatus) {
                 case 'QAPassQTLAllocated':
                   rejectedTicketDetails[i].status = 'New' ;      
-                  rejectedTicketDetails[i].bgClassName = 'btn-warning';
+                  rejectedTicketDetails[i].bgClassName = 'btn-primary';
                   break;
                 case 'ReiewFail' :
                   rejectedTicketDetails[i].status = 'Rejected' ;
@@ -259,14 +259,14 @@ export default RejectedTicketsContainer = withTracker(props => {
                   rejectedTicketDetails[i].bgClassName = 'btn-success';
                   break;
                 default:
-                  rejectedTicketDetails[i].status = 'In Process' ;
-                  rejectedTicketDetails[i].bgClassName = 'btn-primary';
+                  rejectedTicketDetails[i].status = 'Work In Process' ;
+                  rejectedTicketDetails[i].bgClassName = 'btn-success';
                   break;
               }
               break;
             default : 
-              rejectedTicketDetails[i].status = 'In Process' ;
-              rejectedTicketDetails[i].bgClassName = 'btn-primary';
+              rejectedTicketDetails[i].status = 'Work In Process' ;
+              rejectedTicketDetails[i].bgClassName = 'btn-success';
               break;
           }
           rejectedTicketList.push(rejectedTicketDetails[i]);

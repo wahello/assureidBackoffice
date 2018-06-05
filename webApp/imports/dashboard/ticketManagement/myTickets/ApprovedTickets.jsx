@@ -140,7 +140,7 @@ export default ApprovedTicketsContainer = withTracker(props => {
             switch (ticketElements[ticketElements.length - 1].roleStatus) {
               case 'NewScrAllocated':
                 approvedTicketList[i].status = 'New' ;  
-                approvedTicketList[i].bgClassName = 'btn-warning';    
+                approvedTicketList[i].bgClassName = 'btn-primary';    
                 break;
               case 'ScreenApproved' :
                 approvedTicketList[i].status = 'Approved' ; 
@@ -155,8 +155,8 @@ export default ApprovedTicketsContainer = withTracker(props => {
                 approvedTicketList[i].bgClassName = 'btn-success';
                 break;
               default:
-                approvedTicketList[i].status = 'In Process' ;
-                approvedTicketList[i].bgClassName = 'btn-primary';
+                approvedTicketList[i].status = 'Work In Process' ;
+                approvedTicketList[i].bgClassName = 'btn-success';
                 break;
             }
             break;
@@ -165,7 +165,7 @@ export default ApprovedTicketsContainer = withTracker(props => {
             switch (ticketElements[ticketElements.length - 1].roleStatus) {
               case 'screenTLAllocated':
                 approvedTicketList[i].status = 'New' ;      
-                approvedTicketList[i].bgClassName = 'btn-warning';
+                approvedTicketList[i].bgClassName = 'btn-primary';
                 break;
               case 'AssignAccept' :
                 approvedTicketList[i].status = 'Allocated' ; 
@@ -180,8 +180,8 @@ export default ApprovedTicketsContainer = withTracker(props => {
                 approvedTicketList[i].bgClassName = 'btn-success';
                 break;
               default:
-                approvedTicketList[i].status = 'In Process' ;
-                approvedTicketList[i].bgClassName = 'btn-primary';
+                approvedTicketList[i].status = 'Work In Process' ;
+                approvedTicketList[i].bgClassName = 'btn-success';
                 break;
             }
             break;
@@ -190,11 +190,11 @@ export default ApprovedTicketsContainer = withTracker(props => {
             switch (ticketElements[ticketElements.length - 1].roleStatus) {
               case 'Assign':
                 approvedTicketList[i].status = 'New' ;      
-                approvedTicketList[i].bgClassName = 'btn-warning';
+                approvedTicketList[i].bgClassName = 'btn-primary';
                 break;
               case 'QAFail':
                 approvedTicketList[i].status = 'New' ;      
-                approvedTicketList[i].bgClassName = 'btn-warning';
+                approvedTicketList[i].bgClassName = 'btn-primary';
                 break;
               case 'AssignAccept' :
                 approvedTicketList[i].status = 'Accepted' ; 
@@ -209,8 +209,8 @@ export default ApprovedTicketsContainer = withTracker(props => {
                 approvedTicketList[i].bgClassName = 'btn-success';
                 break;
               default:
-                approvedTicketList[i].status = 'In Process' ;
-                approvedTicketList[i].bgClassName = 'btn-primary';
+                approvedTicketList[i].status = 'Work In Process' ;
+                approvedTicketList[i].bgClassName = 'btn-success';
                 break;
             }
             break;
@@ -219,11 +219,11 @@ export default ApprovedTicketsContainer = withTracker(props => {
             switch (ticketElements[ticketElements.length - 1].roleStatus) {
               case 'VerificationPassQTMAllocated':
                 approvedTicketList[i].status = 'New' ;      
-                approvedTicketList[i].bgClassName = 'btn-warning';
+                approvedTicketList[i].bgClassName = 'btn-primary';
                 break;
               case 'ReviewFail':
                 approvedTicketList[i].status = 'New' ;      
-                approvedTicketList[i].bgClassName = 'btn-warning';
+                approvedTicketList[i].bgClassName = 'btn-primary';
                 break;
               case 'QAPass' :
                 approvedTicketList[i].status = 'Approved' ; 
@@ -238,8 +238,8 @@ export default ApprovedTicketsContainer = withTracker(props => {
                 approvedTicketList[i].bgClassName = 'btn-success';
                 break;
               default:
-                approvedTicketList[i].status = 'In Process' ;
-                approvedTicketList[i].bgClassName = 'btn-primary';
+                approvedTicketList[i].status = 'Work In Process' ;
+                approvedTicketList[i].bgClassName = 'btn-success';
                 break;
             }
             break;
@@ -248,7 +248,7 @@ export default ApprovedTicketsContainer = withTracker(props => {
             switch (ticketElements[ticketElements.length - 1].roleStatus) {
               case 'QAPassQTLAllocated':
                 approvedTicketList[i].status = 'New' ;      
-                approvedTicketList[i].bgClassName = 'btn-warning';
+                approvedTicketList[i].bgClassName = 'btn-primary';
                 break;
               case 'ReiewFail' :
                 approvedTicketList[i].status = 'Rejected' ;
@@ -259,14 +259,14 @@ export default ApprovedTicketsContainer = withTracker(props => {
                 approvedTicketList[i].bgClassName = 'btn-success';
                 break;
               default:
-                approvedTicketList[i].status = 'In Process' ;
-                approvedTicketList[i].bgClassName = 'btn-primary';
+                approvedTicketList[i].status = 'Work In Process' ;
+                approvedTicketList[i].bgClassName = 'btn-success';
                 break;
             }
             break;
           default : 
-            approvedTicketList[i].status = 'In Process' ;
-            approvedTicketList[i].bgClassName = 'btn-primary';
+            approvedTicketList[i].status = 'Work In Process' ;
+            approvedTicketList[i].bgClassName = 'btn-success';
             break;
         }
         // assignedTicketList[i].status = ticketElements[ticketElements.length - 1].roleStatus ;

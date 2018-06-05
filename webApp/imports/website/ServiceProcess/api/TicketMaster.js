@@ -8,6 +8,12 @@ import {ReportGeneration} from '/imports/dashboard/generation/components/ReportG
 import {Order} from './Order.js';
 import { browserHistory } from 'react-router';
 
+
+
+
+
+
+
 export const TicketMaster = new Mongo.Collection("ticketMaster");
 export const TicketBucket = new Mongo.Collection("ticketbucket");
 export const BADetails = new Mongo.Collection("badetails");
@@ -91,6 +97,9 @@ if(Meteor.isServer){
 
 		switch(insertData.roleStatus){
 			case 'ScreenApproved' 	:
+				console.log("Inside ScreenApproved")
+				console.log("insertdata");
+				console.log(insertData);
 				var newCount = Meteor.user().count;
 				if(newCount){
 					Meteor.call('updateCommitteeUserCount',newCount-1,insertData.userId);
@@ -148,13 +157,23 @@ if(Meteor.isServer){
 				}
 				break;
 			case 'Assign':
+		
 				count = parseInt(countValueSplit)+1;	
 				if(count){
+					//count for Team Member
 					Meteor.call('updateCommitteeUserCount',count,insertData.allocatedToUserid);
+
+					//count for Team Leader
+					var tlDetails = Meteor.users.findOne({"_id":insertData.userId});
+					Meteor.call('updateCommitteeUserCount',tlDetails.count-1,insertData.userId);
 				}
 				break;
 			case 'AssignAccept' :
-				TicketMaster.update(
+			// var newCount = Meteor.user().count;
+			// if(newCount){
+			// 	Meteor.call('updateCommitteeUserCount',newCount-1,insertData.userId);
+			// }
+			TicketMaster.update(
 					{'_id':ticketid},
 					{
 						$set:{
@@ -166,13 +185,24 @@ if(Meteor.isServer){
 		        Meteor.call('statuofVerificationType',usersid,ticket.verificationType,ticket.verificationId,'Initiated');
 				break;
 			case 'AssignReject':
+				console.log("insertData");
+				console.log(insertData);
 				var teamMember = Meteor.users.findOne({"_id":insertData.userId});
-				if(teamMember && teamMember.count){
-					var newCount = teamMember.count - 1;
-				} else{
-					var newCount = 0;
-				}			
+				if(teamMember){
+					var newCount = teamMember.count-1;
+				} 		
 				Meteor.call('updateCommitteeUserCount',newCount,teamMember._id);
+				console.log("newCount :"+newCount);
+				var teamLeader = Meteor.users.findOne({"_id":insertData.allocatedToUserid});
+				console.log('teamLeader: ', teamLeader);
+				if(teamLeader){
+					console.log("Inside if");
+					var newCount = teamLeader.count+1;
+				} 		
+				console.log("newCount 1 :"+newCount);
+				
+				Meteor.call('updateCommitteeUserCount',newCount,teamLeader._id);
+
 				break;
 			case 'ProofSubmit-Pending' :
 				TicketMaster.update({"_id": ticketid},{
@@ -254,19 +284,19 @@ if(Meteor.isServer){
 				}
 				Meteor.call('statuofVerificationType',usersid,ticket.verificationType,ticket.verificationId,'Verification Document Collected');
 				//notification to be implemented - Field Expert has collected the infomration.
-         var newDate     = new Date();
-		      var msgvariable = {                       
+      		    var newDate     = new Date();
+		        var msgvariable = {                       
 		                        '[username]' : firstLastNm,
 		                        '[date]'     : moment(newDate).format("DD/MM/YYYY"),
 		                       };
-		      // Format for send Email //
-		      var inputObj = {
-		          from         : adminId,
-		          to           : newID,
-		          templateName : 'ProofSubmit',
-		          variables    : msgvariable,
-		      }
-		      sendMailNotification(inputObj);
+				// Format for send Email //
+				var inputObj = {
+					from         : adminId,
+					to           : newID,
+					templateName : 'ProofSubmit',
+					variables    : msgvariable,
+				}
+				sendMailNotification(inputObj);
 		      
 		      // Format for sending SMS //
 		      var smsObj = {
@@ -364,8 +394,14 @@ if(Meteor.isServer){
 						}
 					);
 					break;
-			case 'ReportSubmitted' 	:
+			case 'ReportSubmitted' :
 			case 'ReportGenerated' :
+				console.log("Inside reportgeneration");
+				console.log(insertData);
+				var qtmDetails = Meteor.users.findOne({"_id":insertData.userId});
+				if(qtmDetails){
+					Meteor.call('updateCommitteeUserCount',qtmDetails.count-1,insertData.userId);							
+				}
 				var ticketDetails = TicketMaster.findOne({"_id":ticketid});
 				if(ticketDetails){
 					TicketMaster.update({"_id": ticketid},{
@@ -399,7 +435,7 @@ if(Meteor.isServer){
 						"allocatedToUserName" : newMember[0].profile.firstname + ' ' + newMember[0].profile.lastname,
 						"createdAt"           : new Date()
 					}
-					//Update TicketElement - System Action
+					// Update TicketElement - System Action
 					TicketMaster.update(
 						{'_id':ticketid},
 						{
@@ -413,9 +449,16 @@ if(Meteor.isServer){
 				
 				break;
 			case 'TMReviewRemark':
+				console.log("Inside TMReviewRemark");
+				console.log("insertData");
+				console.log(insertData);
+				var tmDetails = Meteor.users.findOne({"_id":insertData.userId});
+				if(tmDetails){
+					Meteor.call('updateCommitteeUserCount',tmDetails.count-1,insertData.userId);							
+				}
 				var reviewRemark = {
 					'createdAt' : insertData.createdAt,
-					'remark' 	 : insertData.reviewRemark,
+					'remark'    : insertData.reviewRemark,
 					'role'      : 'Team Member',
 					'userName'  : insertData.userName,
 					'userId'    : insertData.userId,
@@ -428,6 +471,7 @@ if(Meteor.isServer){
 				var role = "quality team member";
 				var roleStatus = "VerificationPassQTMAllocated";
 				var ticketDetails = TicketMaster.findOne({"_id":ticketid});
+				console.log('ticketDetails: ', ticketDetails);
 				if(ticketDetails){
 					var newMember = Meteor.call('autoAllocateMember',role,ticketDetails.serviceName);
 					var roleSentence = Meteor.call('toTitleCase',role);
@@ -451,8 +495,8 @@ if(Meteor.isServer){
 								}
 							}
 						);	
-					
-						Meteor.call('updateCommitteeUserCount',newMember[0].count-1,newMember[0]._id);
+					    
+						Meteor.call('updateCommitteeUserCount',newMember[0].count+1,newMember[0]._id);
 					}
 				}
 				break;
@@ -504,11 +548,17 @@ if(Meteor.isServer){
 			case 'QAFail' :
 					break;
 			case 'TicketClosed' :
+				var qtlDetails = Meteor.users.findOne({"_id":insertData.userId});
+				if(qtlDetails){
+					Meteor.call('updateCommitteeUserCount',qtlDetails.count-1,insertData.userId);
+				}
+
 				TicketMaster.update({"_id": ticketid},{
 					$set: {
 						'ticketStatus' : 'TicketClosed',
 					}
 				});
+
 				var ticketDetails = TicketMaster.findOne({"_id":ticketid});
 				if(ticketDetails){ 
 					var summeryFinding = ticketDetails.reportGenerated.reviewRemark.find(function (obj) { return obj.role == 'Quality Team Leader' });

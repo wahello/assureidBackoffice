@@ -111,7 +111,7 @@ export default AllTicketContainer = withTracker(props => {
             switch (ticketElements[ticketElements.length - 1].roleStatus) {
               case 'NewScrAllocated':
                 assignedTicketList[i].status = 'New' ;  
-                assignedTicketList[i].bgClassName = 'btn-warning';    
+                assignedTicketList[i].bgClassName = 'btn-primary';    
                 break;
               case 'ScreenApproved' :
                 assignedTicketList[i].status = 'Approved' ; 
@@ -126,8 +126,8 @@ export default AllTicketContainer = withTracker(props => {
                 assignedTicketList[i].bgClassName = 'btn-success';
                 break;
               default:
-                assignedTicketList[i].status = 'In Process' ;
-                assignedTicketList[i].bgClassName = 'btn-primary';
+                assignedTicketList[i].status = 'Work In Process' ;
+                assignedTicketList[i].bgClassName = 'btn-success';
                 break;
             }
             break;
@@ -135,7 +135,7 @@ export default AllTicketContainer = withTracker(props => {
             switch (ticketElements[ticketElements.length - 1].roleStatus) {
               case 'screenTLAllocated':
                 assignedTicketList[i].status = 'New' ;      
-                assignedTicketList[i].bgClassName = 'btn-warning';
+                assignedTicketList[i].bgClassName = 'btn-primary';
                 break;
               case 'AssignAccept' :
                 assignedTicketList[i].status = 'Allocated' ; 
@@ -150,8 +150,8 @@ export default AllTicketContainer = withTracker(props => {
                 assignedTicketList[i].bgClassName = 'btn-success';
                 break;
               default:
-                assignedTicketList[i].status = 'In Process' ;
-                assignedTicketList[i].bgClassName = 'btn-primary';
+                assignedTicketList[i].status = 'Work In Process' ;
+                assignedTicketList[i].bgClassName = 'btn-success';
                 break;
             }
             break;
@@ -159,7 +159,7 @@ export default AllTicketContainer = withTracker(props => {
             switch (ticketElements[ticketElements.length - 1].roleStatus) {
               case 'Assign':
                 assignedTicketList[i].status = 'New' ;      
-                assignedTicketList[i].bgClassName = 'btn-warning';
+                assignedTicketList[i].bgClassName = 'btn-primary';
                 break;
               case 'QAFail':
                 assignedTicketList[i].status = 'Quality Rejected' ;      
@@ -198,8 +198,8 @@ export default AllTicketContainer = withTracker(props => {
                 assignedTicketList[i].bgClassName = 'btn-success';
                 break;
               default:
-                assignedTicketList[i].status = 'In Process' ;
-                assignedTicketList[i].bgClassName = 'btn-primary';
+                assignedTicketList[i].status = 'Work In Process' ;
+                assignedTicketList[i].bgClassName = 'btn-success';
                 break;
             }
             break;
@@ -207,7 +207,7 @@ export default AllTicketContainer = withTracker(props => {
             switch (ticketElements[ticketElements.length - 1].roleStatus) {
               case 'VerificationPassQTMAllocated':
                 assignedTicketList[i].status = 'New' ;      
-                assignedTicketList[i].bgClassName = 'btn-warning';
+                assignedTicketList[i].bgClassName = 'btn-primary';
                 break;
               case 'ReviewFail':
                 assignedTicketList[i].status = 'Review Fail' ;      
@@ -226,8 +226,8 @@ export default AllTicketContainer = withTracker(props => {
                 assignedTicketList[i].bgClassName = 'btn-success';
                 break;
               default:
-                assignedTicketList[i].status = 'In Process' ;
-                assignedTicketList[i].bgClassName = 'btn-primary';
+                assignedTicketList[i].status = 'Work In Process' ;
+                assignedTicketList[i].bgClassName = 'btn-success';
                 break;
             }
             break;
@@ -235,7 +235,7 @@ export default AllTicketContainer = withTracker(props => {
             switch (ticketElements[ticketElements.length - 1].roleStatus) {
               case 'QAPassQTLAllocated':
                 assignedTicketList[i].status = 'New' ;      
-                assignedTicketList[i].bgClassName = 'btn-warning';
+                assignedTicketList[i].bgClassName = 'btn-primary';
                 break;
               case 'ReiewFail' :
                 assignedTicketList[i].status = 'Rejected' ;
@@ -246,14 +246,14 @@ export default AllTicketContainer = withTracker(props => {
                 assignedTicketList[i].bgClassName = 'btn-success';
                 break;
               default:
-                assignedTicketList[i].status = 'In Process' ;
-                assignedTicketList[i].bgClassName = 'btn-primary';
+                assignedTicketList[i].status = 'Work In Process' ;
+                assignedTicketList[i].bgClassName = 'btn-success';
                 break;
             }
             break;
           default : 
-            assignedTicketList[i].status = 'In Process' ;
-            assignedTicketList[i].bgClassName = 'btn-primary';
+            assignedTicketList[i].status = 'Work In Process' ;
+            assignedTicketList[i].bgClassName = 'btn-success';
             break;
         }
         // assignedTicketList[i].status = ticketElements[ticketElements.length - 1].roleStatus ;
@@ -289,7 +289,7 @@ export default AllTicketContainer = withTracker(props => {
               rejectedTickets.push(assignedTicketList[i]);
             }else if(assignedTicketList[i].status == 'Completed'){
               completedTickets.push(assignedTicketList[i]);
-            }else if(assignedTicketList[i].status == 'In Process'){
+            }else if(assignedTicketList[i].status == 'Work In Process'){
               inProcessTickets.push(assignedTicketList[i]);
             }
           }
@@ -314,7 +314,7 @@ export default AllTicketContainer = withTracker(props => {
               reAllocateTickets.push(assignedTicketList[i]);
             }else if(assignedTicketList[i].status == 'Completed'){
               completedTickets.push(assignedTicketList[i]);
-            }else if(assignedTicketList[i].status == 'In Process'){
+            }else if(assignedTicketList[i].status == 'Work In Process'){
               inProcessTickets.push(assignedTicketList[i]);
             }
           }
@@ -351,7 +351,7 @@ export default AllTicketContainer = withTracker(props => {
               rejectedTickets.push(assignedTicketList[i]);
             }else if(assignedTicketList[i].status == 'Completed'){
               completedTickets.push(assignedTicketList[i]);
-            }else if(assignedTicketList[i].status == 'In Process'){
+            }else if(assignedTicketList[i].status == 'Work In Process'){
               inProcessTickets.push(assignedTicketList[i]);
             }
           }
@@ -390,7 +390,7 @@ export default AllTicketContainer = withTracker(props => {
               rejectedTickets.push(assignedTicketList[i]);
             }else if(assignedTicketList[i].status == 'Completed'){
               completedTickets.push(assignedTicketList[i]);
-            }else if(assignedTicketList[i].status == 'In Process'){
+            }else if(assignedTicketList[i].status == 'Work In Process'){
               inProcessTickets.push(assignedTicketList[i]);
             }
           }
@@ -420,7 +420,7 @@ export default AllTicketContainer = withTracker(props => {
               rejectedTickets.push(assignedTicketList[i]);
             }else if(assignedTicketList[i].status == 'Completed'){
               completedTickets.push(assignedTicketList[i]);
-            }else if(assignedTicketList[i].status == 'In Process'){
+            }else if(assignedTicketList[i].status == 'Work In Process'){
               inProcessTickets.push(assignedTicketList[i]);
             }
           }
@@ -438,6 +438,8 @@ export default AllTicketContainer = withTracker(props => {
       }
     }
   }
+
+  
   return {
     loading,
     assignedTicketList

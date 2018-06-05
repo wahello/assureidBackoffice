@@ -234,7 +234,7 @@ ReopenTicketsContainer = withTracker(props => {
                         }   
                             break;
                         default : 
-                            assignToMeTicketList[i].status = 'In Process' ;
+                            assignToMeTicketList[i].status = 'Work In Process' ;
                             assignToMeTicketList[i].bgClassName = 'btn-success';
                             break;
                     }
