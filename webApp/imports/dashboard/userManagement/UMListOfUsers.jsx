@@ -246,7 +246,8 @@ export default class UMListOfUsers extends TrackerReact(Component) {
 											<tr className="umtableheader info">
 
 												<th className="umHeader col-lg-1 col-md-1 col-sm-1 col-xs-1 "> <input type="checkbox" className="allSelector" name="allSelector" onChange={this.checkAll.bind(this)}/> </th>
-												<th className="umHeader col-lg-4 col-md-4 col-sm-6 col-xs-6"> Username </th>
+												<th className="umHeader col-lg-3 col-md-4 col-sm-6 col-xs-6"> Username </th>
+												<th className="umHeader col-lg-1 col-md-1 col-sm-1 col-xs-1"> Service </th>
 												<th className="umHeader col-lg-2 col-md-2 hidden-xs hidden-sm"> Status </th>
 												<th className="umHeader col-lg-2 col-md-2 col-sm-2 col-xs-2"> Roles </th>
 												<th className="umHeader col-lg-1 col-md-1 hidden-xs hidden-sm"> Member for </th>

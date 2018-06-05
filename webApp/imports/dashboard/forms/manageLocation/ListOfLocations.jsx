@@ -24,7 +24,7 @@ export default class ListOfLocations extends TrackerReact(Component) {
     }
     this.manageLocationTracker = Tracker.autorun( ()=> {
       Meteor.subscribe("location");
-      const location = Location.find().fetch();
+      const location = Location.find({},{sort:{createdAt : -1}}).fetch();
       this.setState({location: location});
     }); 
    }

@@ -8,8 +8,6 @@ import { TicketMaster } from '/imports/website/ServiceProcess/api/TicketMaster.j
 import { Order} from '/imports/website/ServiceProcess/api/Order.js';
 import OrderSummary from '/imports/dashboard/generation/components/OrderSummary.jsx';
 import ReportGeneration from '/imports/dashboard/generation/components/ReportGeneration.jsx';
-
-
 class OrderGeneration extends TrackerReact(Component){
   constructor(props){
     super(props);
@@ -18,18 +16,49 @@ class OrderGeneration extends TrackerReact(Component){
       } 
     };
   }
+  downloadOrderaspdf(event){
+    event.preventDefault();
+    var doc = new jsPDF();
+    // console.log("doc",doc);          
+    var elementHandler = {
+      '#orderGenerationwrap': function (element, renderer) {
+        return true;
+      }
+    };
+    // console.log("elementHandler",elementHandler);          
+
+    doc.fromHTML($('#orderGenerationwrap').html(), 15, 15, {
+              'width': 170,
+            'elementHandlers': elementHandler
+    });
+    doc.save('Order.pdf');
+    // html2canvas($("#outerInvoiceBlock"), {
+    //     onrendered: function(canvas) {
+    //         document.body.appendChild(canvas);
+    //         var imgData = canvas.toDataURL("image/png");
+    //         var doc     = new jsPDF('p', 'mm');
+    //         doc.addImage = (imgData,'JPEG',20,20);
+    //         doc.save('Invoice.pdf');
+    //     }
+    // });
+  }
   componentDidMount(){      
   }
 
   render(){
     return (
-      <div className="col-lg-10 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 orderGenerationwrap">
+      <div className="col-lg-10 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 orderGenerationwrap" id="orderGenerationwrap">
         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noProfilePadding generationHeader"> 
           <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 pull-left">
             <img src="../images/assureid/Assure-ID-logo-Grey.png" className="generationImg" />
           </div>
           <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-            <h1 className="pull-right">FINAL SCREENING REPORT</h1>
+           <div className="col-lg-11 col-md-11 col-sm-12 col-xs-12">
+             <h1 className="pull-right">FINAL SCREENING REPORT</h1>
+           </div>
+           <div className="col-lg-1 col-md-1 col-sm-12 col-xs-12 outerpdficonatorder">
+              <i className="fa fa-file-pdf-o pull-right fa-2x pdf-icon" title="Download as pdf" onClick={this.downloadOrderaspdf.bind(this)}></i>
+            </div>
           </div>
         </div>
         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 generationInfo">

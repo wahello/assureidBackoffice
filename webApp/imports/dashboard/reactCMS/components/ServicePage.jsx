@@ -239,9 +239,7 @@ export default class ServicePage extends TrackerReact (Component){
         if(parseInt(percentVal)==100){
             setTimeout(()=>{ 
                 Session.set("uploadServiceImgProgressPercent",0); 
-            }, 3000);
-            
-             
+            }, 5000);
         }
 
         return (
@@ -371,16 +369,17 @@ export default class ServicePage extends TrackerReact (Component){
                                         <input type="file" ref="serviceImageFile" id="s3file" name="serviceImageFile"  onChange={this.handleUpload.bind(this)}  className="subject uploadServiceImage col-lg-12 col-md-12 col-sm-12 col-xs-12 inputValid"  required/>     
                                       </div> 
                                   </div>
-                                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                    
-                                    {this.getUploadImagePercentage()}
-                                  </div>
-
+                                  
                                   <div className="col-lg-6 uploadedImageFromLocl2">    
                                       <div className="uploadedImageFromLocl3">       
                                           <img src="" alt="" className="img-responsive uploadedImageFromLocl"/>   
                                       </div>
                                   </div>
+                                  <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    
+                                    {this.getUploadImagePercentage()}
+                                  </div>
+
                                
                                 </div>
                               </div>

@@ -241,7 +241,7 @@ class EditUserProfile extends TrackerReact(Component){
 												   			<span className="blocking-span">
 												   			  <label className="floating-label">Assign Service</label>
 				                              <select className="form-control allProductSubCategories" aria-describedby="basic-addon1" name="servicesName" onChange={this.handleChange.bind(this)} ref="servicesRef" value={this.state.servicesName}>
-
+                                          <option>-- Select --</option>
 				                                  { this.props.services.length>0 ?
 				                                    this.props.services.map( (data, index)=>{
 				                                      return (
@@ -251,6 +251,11 @@ class EditUserProfile extends TrackerReact(Component){
 				                                  :
 				                                  ""
 				                                  }
+				                                   { this.props.services.length > 0 ?
+					                                      <option value="All Services">All Services</option>
+					                                    :
+					                                      ""
+					                                  }
 				                              </select>
 														  	</span>
 													    </div>
@@ -258,8 +263,8 @@ class EditUserProfile extends TrackerReact(Component){
 												   			<span className="blocking-span">
 												   			  <label className="floating-label">Assign Role</label>
 				                           <select className="form-control allProductSubCategories" aria-describedby="basic-addon1" name="role" onChange={this.handleChange.bind(this)} ref="roleRef" value={this.state.role}>
+                                          <option>-- Select --</option>
 				                                  { 
-				                                   
 				                                    this.props.roleList.length > 0 ?
 				                                    this.props.roleList.map( (data, index)=>{
 				                                      return (
@@ -277,8 +282,8 @@ class EditUserProfile extends TrackerReact(Component){
 												   			  <label className="floating-label">Reporting To</label>
 				                           
 				                              <select className="form-control allProductSubCategories" aria-describedby="basic-addon1" ref="reportToRef">
+                                          <option>-- Select --</option>
 				                                  { 
-				                                    
 				                                    this.props.userUniqueData.length>0 ?
 				                                    this.props.userUniqueData.map( (data, index)=>{
 				                                      return (
@@ -290,8 +295,7 @@ class EditUserProfile extends TrackerReact(Component){
 				                                    })
 				                                    : 
 				                                    ""
-				                                  
-
+				                                 
 				                                  }
 				                              </select>
 														  	</span>

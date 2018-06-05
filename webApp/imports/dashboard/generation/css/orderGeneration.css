@@ -11,3 +11,13 @@
 .orderinfodiv{
 	padding-bottom: 2%;
 }
+.pdf-icon{
+	cursor: pointer;
+	color: rgb(0, 184, 255);
+}
+.outerpdficon{
+	padding-top: 2%;
+}
+.outerpdficonatorder{
+	padding-top: 4%;
+}

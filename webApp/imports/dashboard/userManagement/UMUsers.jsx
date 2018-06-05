@@ -51,12 +51,13 @@ export default class UMUsers extends TrackerReact(Component) {
 				<tr className="">
 					<td className="col-lg-1 col-md-1 col-sm-1 col-xs-1"> <input type="checkbox" ref="userCheckbox" name="userCheckbox" className="userCheckbox" value={this.props.usersDataValues._id} /> </td>		
 							
-					<td className="col-lg-4 col-md-4 col-sm-6 col-xs-6"> 
+					<td className="col-lg-3 col-md-4 col-sm-6 col-xs-6"> 
 						<div className="um-username"> 
 							<div className="col-sm-1 col-xs-1">{this.onlineStatus()}</div>
 							<div className="col-sm-9 col-xs-9 userEmailIds noLRPad">{this.props.usersDataValues.username}</div>						
 						</div>
-					</td>		
+					</td>	
+					<td className="col-lg-1 col-md-1 col-sm-1 col-xs-1"> {this.props.usersDataValues.profile.servicesName} </td>		
 					<td className="col-lg-2 col-md-2 hidden-xs hidden-sm"> {this.props.usersDataValues.profile.status} </td>		
 					<td className="col-lg-2 col-md-2 col-sm-2 col-xs-2"> 
 						

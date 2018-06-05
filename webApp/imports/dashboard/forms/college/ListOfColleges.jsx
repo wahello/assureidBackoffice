@@ -25,7 +25,7 @@ export default class ListOfColleges extends TrackerReact(Component) {
     }
     this.collegeTracker = Tracker.autorun( ()=> {
       Meteor.subscribe("college");
-      const college = College.find().fetch();
+      const college = College.find({},{sort :{createdAt : -1}}).fetch();
       this.setState({college: college});
     });
     

@@ -25,7 +25,7 @@ export default class ListOfPoliceStation extends TrackerReact(Component) {
     }
     this.PoliceStationTracker = Tracker.autorun( ()=> {
       Meteor.subscribe("policeStation");
-      const policeStation = PoliceStation.find().fetch();
+      const policeStation = PoliceStation.find({},{sort :{createdAt :-1}}).fetch();
       this.setState({policeStation: policeStation});
     });
     

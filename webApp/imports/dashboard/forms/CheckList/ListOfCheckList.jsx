@@ -111,7 +111,7 @@ LisstOfCheckListContainer = withTracker(({props}) => {
     const postHandle = Meteor.subscribe('checklistFieldExpert');
     // var editServices   = this.props.params.id;
     // console.log("Param" +editServices);
-    const checkList  = ChecklistFieldExpert.find({}).fetch() || [];
+    const checkList  = ChecklistFieldExpert.find({},{sort : {createdAt: -1 }}).fetch() || [];
     const loading    = !postHandle.ready();
     
       return {

@@ -107,7 +107,7 @@ ListOfHolidaysContainer = withTracker(({props}) => {
     const postHandle = Meteor.subscribe('holidaysList');
     // var editServices   = this.props.params.id;
     // console.log("Param" +editServices);
-    const holidaysList  = HolidaysList.find({}).fetch() || [];
+    const holidaysList  = HolidaysList.find({},{sort :{createdAt : -1}}).fetch() || [];
     const loading    = !postHandle.ready();
     
       return {

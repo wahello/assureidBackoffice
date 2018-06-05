@@ -26,7 +26,7 @@ export default class ListOfQualificationLevel extends TrackerReact(Component) {
     }
     this.qualificationLevelTracker = Tracker.autorun( ()=> {
       Meteor.subscribe("qualificationLevel");
-      const qualificationLevel = QualificationLevel.find().fetch();
+      const qualificationLevel = QualificationLevel.find({},{sort :{createdAt :-1}}).fetch();
       this.setState({qualificationLevel: qualificationLevel});
     });
     
@@ -49,7 +49,6 @@ export default class ListOfQualificationLevel extends TrackerReact(Component) {
   }
   renderTableRow(){
     return this.state.qualificationLevel.map((qualificationLevel,index) =>{
-
       return <tr key={index}>
               <td> {qualificationLevel.QualificationLevelTitle} </td>
               <td>

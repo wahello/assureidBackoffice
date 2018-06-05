@@ -29,7 +29,8 @@ import { ServiceImage } from "../UploadToServer/UploadServiceImgsServer.js";
           "checkListFor": checkListFor,
           "task"        : task,
           "checkListFrom": checkListFrom,
-          "relatedFields": relatedFieldArr
+          "relatedFields": relatedFieldArr,
+          "createdAt"    : new Date(),
         });
       },
       //delete task from ChecklistFieldExpert

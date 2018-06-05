@@ -214,7 +214,7 @@ class CreateUser extends TrackerReact(Component) {
 								   			  <label className="floating-label">Assign Service</label>
                            {/* <span className="input-group-addon" id="basic-addon1"><i className="fa fa-gg" aria-hidden="true"></i></span> */}
                               <select className="form-control allProductSubCategories" aria-describedby="basic-addon1" ref="servicesRef">
-
+                                  <option>-- Select --</option>
                                   { this.state.service.length>0 ?
                                     this.state.service.map( (data, index)=>{
                                       return (
@@ -224,6 +224,11 @@ class CreateUser extends TrackerReact(Component) {
                                   :
                                   ""
                                   }
+                                  { this.state.service.length > 0 ?
+                                      <option value="All Services">All Services</option>
+                                    :
+                                      ""
+                                  }
                               </select>
 										  	</span>
 									    </div>
@@ -231,19 +236,20 @@ class CreateUser extends TrackerReact(Component) {
 								   			<span className="blocking-span">
 								   			  <label className="floating-label">Assign Role</label>
                            <select className="form-control allProductSubCategories" aria-describedby="basic-addon1" ref="roleRef">
-                                  { 
-                                    // !this.props.loading ?
-                                    this.props.roleList.length > 0 ?
-                                    this.props.roleList.map( (data, index)=>{
-                                      return (
-                                          <option key={index}>{data}</option>
-                                      );
-                                  })
-                                  :
-                                  ""
-                                  // :
-                                  // ""
-                                  }
+                              <option>-- Select --</option>
+                              { 
+                                // !this.props.loading ?
+                                this.props.roleList.length > 0 ?
+                                this.props.roleList.map( (data, index)=>{
+                                  return (
+                                      <option key={index}>{data}</option>
+                                  );
+                              })
+                              :
+                              ""
+                              // :
+                              // ""
+                              }
                            </select>
 											</span>
 									    </div>
@@ -253,6 +259,7 @@ class CreateUser extends TrackerReact(Component) {
                            {/* <span className="input-group-addon" id="basic-addon1"><i className="fa fa-gg" aria-hidden="true"></i></span> */}
                            
                               <select className="form-control allProductSubCategories" aria-describedby="basic-addon1" ref="reportToRef">
+                                  <option>-- Select --</option>
                                   { 
                                     
                                     this.props.userUniqueData.length>0 ?
@@ -344,7 +351,7 @@ export default CreateUserContainer = withTracker(props => {
     var userUniqueData=newArr;
     roleList = roleArray;
     var reporttoName = reportName;
-
+    // console.log("userUniqueData",userUniqueData);
   return{
     loading,
     roles,
