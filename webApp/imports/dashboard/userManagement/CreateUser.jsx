@@ -351,7 +351,7 @@ export default CreateUserContainer = withTracker(props => {
     var userUniqueData=newArr;
     roleList = roleArray;
     var reporttoName = reportName;
-    // console.log("userUniqueData",userUniqueData);
+    console.log("userUniqueData",userUniqueData);
   return{
     loading,
     roles,

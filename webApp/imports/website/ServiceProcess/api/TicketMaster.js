@@ -75,7 +75,7 @@ if(Meteor.isServer){
 	
 		var memberValue = insertData.allocatedToUserName;
 		var a = memberValue.indexOf("(");
-		if(a !== -1){
+		if(a !== -1){ 
 			var splitDropdownValue = memberValue.split('(');
 			insertData.allocatedToUserName = splitDropdownValue[0];
 			var countValueSplit = splitDropdownValue[1].split(')');
@@ -548,38 +548,70 @@ if(Meteor.isServer){
 				);
 				Meteor.call('statuofVerificationType',usersid,ticket.verificationType,ticket.verificationId,'Field Person will contact soon for verification');
 	  			//notification 
+	  		var allocateduserData  = Meteor.users.findOne({"_id" : insertData.allocatedToUserid});
+	    	 if (allocateduserData) {
+	        var allocatednewID = allocateduserData._id;
+	        if (allocateduserData.profile) {
+	          var allocatedfirstLastNm = allocateduserData.profile.firstname+' '+allocateduserData.profile.lastname;
+	          var allocatedmobNumber   = allocateduserData.profile.mobNumber;
+	        }
+	      }
 				var newDate     = new Date();
 		      	var msgvariable = {                       
 		                        '[username]' : firstLastNm,
 		                        '[servicename]'  : serviceNameOfticket,
 		                        '[date]'     : moment(newDate).format("DD/MM/YYYY"),
 		                       };
+		        var allocatedmsgvariable = {                       
+		                        '[username]' : allocatedfirstLastNm,
+		                        '[date]'     : moment(newDate).format("DD/MM/YYYY"),
+		                       };            
 		      	// Format for send Email //
 		      	var inputObj = {
 		          from         : adminId,
 		          to           : newID,
-		          templateName : 'EFBESelfAllocated',
+		          templateName : 'EFBESelfAllocatedToUser',
 		          variables    : msgvariable,
 		      	}
+		      	var allcatedinputObj = {
+		          from         : adminId,
+		          to           : allocatednewID,
+		          templateName : 'EFBESelfAllocated',
+		          variables    : allocatedmsgvariable,
+		      	}
 		      	sendMailNotification(inputObj);
+            sendMailNotification(allcatedinputObj)
 		      
 		      	// Format for sending SMS //
 		      	var smsObj = {
 		          to           : newID,
-		          templateName : 'EFBESelfAllocated',
+		          templateName : 'EFBESelfAllocatedToUser',
 		          number       : mobNumber,
 		          variables    : msgvariable,
 		      	}
+		      	var allocatedsmsObj = {
+		          to           : allocatednewID,
+		          templateName : 'EFBESelfAllocated',
+		          number       : allocatedmobNumber,
+		          variables    : allocatedmsgvariable,
+		      	}
 		      	// console.log("smsObj",smsObj);
 		      	sendSMS(smsObj);
+		      	sendSMS(allocatedsmsObj);
 
 		      	// Format for sending notification //
 		      	var notifictaionObj = {
 			        to           : newID,
-			        templateName : 'EFBESelfAllocated',
+			        templateName : 'EFBESelfAllocatedToUser',
 			        variables    : msgvariable,
-			    }
+			      }
+			       var allocatednotifictaionObj = {
+			        to           : allocatednewID,
+			        templateName : 'EFBESelfAllocated',
+			        variables    : allocatedmsgvariable,
+			      }
 		      	sendInAppNotification(notifictaionObj);
+		      	sendInAppNotification(allocatednotifictaionObj);
 				break;
 			case 'SelfAllocated':
 				TicketMaster.update(

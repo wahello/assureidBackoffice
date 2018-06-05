@@ -23,7 +23,7 @@ class EditUserProfile extends TrackerReact(Component){
 			    email         : this.props.post.email,
 			    userProfile   : this.props.post.profile.userProfile,
 			    'servicesName': this.props.post.profile.servicesName,
-          'reportToRole': this.props.post.profile.reportToRole,
+          'reportToRole': this.props.post.profile.reportToRole+"("+this.props.post.profile.reportToName+")",
           'reportToName': this.props.post.profile.reportToName,
 			    subscription  : {
 									"parkDataSlots" : Meteor.subscribe('parkDataSlots',userId),
@@ -71,7 +71,7 @@ class EditUserProfile extends TrackerReact(Component){
 	                mobNumber  : nextProps.post.profile.mobNumber,
 	                email      : nextProps.post.emails[0].address,
 	                servicesName : nextProps.post.profile.servicesName,
-                  reportToRole : nextProps.post.profile.reportToRole,
+                  reportToRole : nextProps.post.profile.reportToRole+"("+nextProps.post.profile.reportToName+")",
                   reportToName: nextProps.post.profile.reportToName,
 	            })
 	        }
@@ -240,8 +240,8 @@ class EditUserProfile extends TrackerReact(Component){
 															<div className="form-group col-lg-4 col-md-4 col-xs-12 col-sm-12 inputContent">
 												   			<span className="blocking-span">
 												   			  <label className="floating-label">Assign Service</label>
-				                              <select className="form-control allProductSubCategories" aria-describedby="basic-addon1" name="servicesName" onChange={this.handleChange.bind(this)} ref="servicesRef" value={this.state.servicesName}>
-                                          <option>-- Select --</option>
+				                              <select className="form-control allProductSubCategories" aria-describedby="basic-addon1" name="servicesName" onChange={this.handleChange.bind(this)} ref="servicesRef" value={this.state.servicesName != "" ? this.state.servicesName : "-- Select --" }>
+                                          <option disabled="disabled">-- Select --</option>
 				                                  { this.props.services.length>0 ?
 				                                    this.props.services.map( (data, index)=>{
 				                                      return (
@@ -262,8 +262,8 @@ class EditUserProfile extends TrackerReact(Component){
 				                      <div className="form-group col-lg-4 col-md-4 col-xs-12 col-sm-12 inputContent">
 												   			<span className="blocking-span">
 												   			  <label className="floating-label">Assign Role</label>
-				                           <select className="form-control allProductSubCategories" aria-describedby="basic-addon1" name="role" onChange={this.handleChange.bind(this)} ref="roleRef" value={this.state.role}>
-                                          <option>-- Select --</option>
+				                           <select className="form-control allProductSubCategories" aria-describedby="basic-addon1" name="role" onChange={this.handleChange.bind(this)} ref="roleRef" value={this.state.role != "" ? this.state.role : "-- Select --" }>
+                                          <option disabled="disabled">-- Select --</option>
 				                                  { 
 				                                    this.props.roleList.length > 0 ?
 				                                    this.props.roleList.map( (data, index)=>{
@@ -281,7 +281,7 @@ class EditUserProfile extends TrackerReact(Component){
 												   			<span className="blocking-span">
 												   			  <label className="floating-label">Reporting To</label>
 				                           
-				                              <select className="form-control allProductSubCategories" aria-describedby="basic-addon1" ref="reportToRef">
+				                              <select className="form-control allProductSubCategories" aria-describedby="basic-addon1" name="reportToRole" ref="reportToRef" onChange={this.handleChange} value={this.state.reportToRole}>
                                           <option>-- Select --</option>
 				                                  { 
 				                                    this.props.userUniqueData.length>0 ?
