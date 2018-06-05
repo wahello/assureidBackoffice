@@ -31,7 +31,7 @@ export default class Footer extends React.Component{
       <footer className="main-footer">
         <div className="pull-right hidden-xs">
         </div>
-        <strong>Copyright © 2018 <Link to="https://iassureit.com">iAssure International Technologies Pvt. Ltd.</Link></strong> All rights
+        <strong>Copyright © 2018 <a href="http://iassureit.com" target="_blank">iAssure International Technologies Pvt. Ltd.</a></strong> All rights
         reserved.
       </footer>
     );

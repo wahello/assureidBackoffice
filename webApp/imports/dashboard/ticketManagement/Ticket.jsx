@@ -785,7 +785,6 @@ class Ticket extends TrackerReact(Component){
           return(
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
               <h5> {title} </h5>
-<<<<<<< Updated upstream
               {this.props.getTicket.verificationType == 'employement' ?
                    !this.props.getTicket.companyDetails ?
                     <EmployementCompanyDetails ticketId = {this.props.ticketId}/>
