@@ -41,10 +41,6 @@ class ViewTicketFormInfo extends React.Component {
     super(props);
     let name = "";
     if (this.props.userName) name = "Welcome " + this.props.userName;
-    // let lineName ="";
-    // if(this.props.navigation.state.params.lineName)
-    //   lineName = this.props.navigation.state.params.lineName;
-    // console.log("line constructor ", lineName);
     this.state = {
       name              : name,
       isOpen            : false,
@@ -58,7 +54,6 @@ class ViewTicketFormInfo extends React.Component {
       "fontSize"        : 14,
       "userUpload"      : {},
       "status"          : '',
-      // "subStatus"       : '',
       "remark"          : '',
       "images"          : [],
       "videos"          : [],
@@ -72,14 +67,13 @@ class ViewTicketFormInfo extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    // console.log('nextProps: ',nextProps.checkObjs);
+
     if(this.props.tickets.submitedDoc){    
      this.setState({
           remark        : nextProps.tickets.submitedDoc.documents.remark,
           status        : nextProps.tickets.submitedDoc.documents.status,
           checkObjs     : nextProps.checkObjs,
           imgData       : nextProps.imgData,
-          // subStatus     : this.props.tickets.submitedDoc.documents.subStatus,
       });
 
      // if( this.props.tickets.submitedDoc.documents.checkLists && this.props.tickets.submitedDoc.documents.checkLists.length>0){
@@ -105,13 +99,47 @@ class ViewTicketFormInfo extends React.Component {
         }
      }// EOF checkbox dynamic fields
 
-     // console.log('this.state: ',this.state);
+      // if(nextProps.FETempData && nextProps.checkObjs.length > 0){
+      //   for(var k=0;k<nextProps.checkObjs.length;k++){
+      //     var getToggleVal = nextProps.checkObjs[k].correctValTemp == 'Correct' ? true : false;
+      //     var getRemarkVal = nextProps.checkObjs[k].remarkValTemp;
+      //     this.setState({
+      //         [nextProps.checkObjs[k].id+'-Toggle']    : getToggleVal,
+      //         [nextProps.checkObjs[k].id+'-Remark']    : getRemarkVal,
+      //     },()=>{
+      //             console.log('this.state: ',this.state);
+      //           });          
+      //   } // EOF k loop
+      // } // temp data
+
+
     }else{
 
       this.setState({
           checkObjs  : nextProps.checkObjs, 
           imgData    : nextProps.imgData,
       });
+
+      if(nextProps.FETempData && nextProps.checkObjs.length > 0){
+        for(var k=0;k<nextProps.checkObjs.length;k++){
+          var getToggleVal = nextProps.checkObjs[k].correctValTemp == 'Correct' ? true : false;
+          var getRemarkVal = nextProps.checkObjs[k].remarkValTemp;
+          this.setState({
+              [nextProps.checkObjs[k].id+'-Toggle']    : getToggleVal,
+              [nextProps.checkObjs[k].id+'-Remark']    : getRemarkVal,
+          },()=>{
+                  // console.log('this.state: ',this.state);
+                });          
+        } // EOF k loop
+      } // temp data
+
+      if(nextProps.FETempData){
+        this.setState({
+            remark    : nextProps.FETempData.remark, 
+            status    : nextProps.FETempData.status,
+        });        
+      }
+
 
     }
 
@@ -189,8 +217,11 @@ class ViewTicketFormInfo extends React.Component {
     var textLists = [];
 
     var status       = this.state.status;
-    var actualStatus = status.split('-');
-
+    var actualStatus = '';
+    if(actualStatus){
+       actualStatus = status.split('-');
+    }
+  
     // var subStatus   = this.state.subStatus;
     for(var i=0; i<this.props.imgData.length;i++){
       images.push({
@@ -225,7 +256,7 @@ class ViewTicketFormInfo extends React.Component {
 
         chkListElement.correctVal = toggleVal;
         chkListElement.remarkVal  = remkVal;
-        checkLists[i] = chkListElement;
+        checkLists[i]             = chkListElement;
 
       } // EOF i loop
 
@@ -240,15 +271,14 @@ class ViewTicketFormInfo extends React.Component {
         textLists.push(dataChk);
       } // EOF j loop 
 
-      if(actualStatus[0] == 'Completed'){    
+      if(actualStatus && actualStatus[0] == 'Completed'){    
         var roleStatus  = "ProofResubmitted";
         var msg         = "Resubmitted Verification Information";
       }else{
         var roleStatus  = "ProofResubmitted-Pending";
         var msg         = "Resubmitted Verification Information";
       }
-      // var roleStatus  = "ProofResubmitted";
-      // var msg         = "Resubmitted Verification Information";
+
     }else{
 
       //Get values for all the check box
@@ -296,9 +326,7 @@ class ViewTicketFormInfo extends React.Component {
         var roleStatus  = "ProofSubmit-Pending";
         var msg         = "Submitted Verification Information";
       }
-
-      // var roleStatus  = "ProofSubmit";
-      // var msg         = "Submitted Verification Information";     
+    
     }//EOF else
 
     var remark      = this.state.remark;
@@ -415,7 +443,7 @@ class ViewTicketFormInfo extends React.Component {
             );
         })  
 
-       console.log('imgs: ',imgs);
+       // console.log('imgs: ',imgs);
         return(
 
             <ImageCacheProvider
@@ -437,7 +465,97 @@ class ViewTicketFormInfo extends React.Component {
   }
 
   goToCamera =(event)=>{
-    // console.log('in goToCamera');
+
+    let checkLists     = [];
+    var textLists      = [];
+    if(this.props.tickets.submitedDoc && this.props.tickets.submitedDoc.documents){
+
+      //Get values for all the check box
+      var chkListCount = this.state.checkObjs;
+      for(var i=0; i<chkListCount.length;i++){
+        var chkListElement = this.state.checkObjs[i];
+
+        if(this.state[chkListElement.id+'-Toggle']){
+          var toggleVal = this.state[chkListElement.id+'-Toggle'];
+        }else{
+          var toggleVal = this.props.tickets.submitedDoc.documents.checkLists[i].correctVal;
+        }
+
+        if(this.state[chkListElement.id+'-Remark']){
+          var remkVal = this.state[chkListElement.id+'-Remark'];
+        }else{
+          var remkVal = this.props.tickets.submitedDoc.documents.checkLists[i].remarkVal;
+        }
+
+        chkListElement.correctVal = toggleVal;
+        chkListElement.remarkVal  = remkVal;
+        checkLists[i]             = chkListElement;
+
+      } // EOF i loop
+
+      for(var j=0; j<this.props.tickets.submitedDoc.documents.textLists.length;j++){
+        var dataChk    = {};
+        dataChk.task   = this.props.textObjs[j].task;
+        if(this.refs[this.props.textObjs[j].id].value()){
+          dataChk.value  = this.refs[this.props.textObjs[j].id].value();
+        }else{
+          dataChk.value  = '';
+        }
+        textLists.push(dataChk);
+      } // EOF j loop 
+    }else{
+
+      //Get values for all the check box
+      for(var i=0; i<this.props.checkObjs.length;i++){
+
+        if(this.state[this.props.checkObjs[i].id+"-Toggle"] == 'Correct'){
+          var chkBoxToggleVal = this.state[this.props.checkObjs[i].id+"-Toggle"];
+        }else{
+          var chkBoxToggleVal = 'Incorrect';
+        }
+
+        if(this.state[this.props.checkObjs[i].id+"-Remark"]){
+          var chkBoxRemarkVal = this.state[this.props.checkObjs[i].id+"-Remark"];
+        }else{
+          var chkBoxRemarkVal = '';
+        }
+
+        var dataChk = {
+                    "titleVal"   : this.props.checkObjs[i].task,
+                    "correctVal" : chkBoxToggleVal,
+                    "remarkVal"  : chkBoxRemarkVal,
+                };
+
+        checkLists.push(dataChk);
+
+      } // EOF i loop
+
+      for(var j=0; j<this.props.textObjs.length;j++){
+        var dataChk    = {};
+        dataChk.task   = this.props.textObjs[j].task;
+        if(this.refs[this.props.textObjs[j].id].value()){
+          dataChk.value  = this.refs[this.props.textObjs[j].id].value();
+        }else{
+          dataChk.value  = '';
+        }
+        textLists.push(dataChk);
+      } // EOF j loop    
+    }//EOF else
+
+    // console.log('textLists: ',textLists);
+    // console.log('checkLists: ',checkLists);
+    var formValues = {
+                        ticketId   : this.props.ticket,
+                        textLists  : textLists,
+                        checkLists : checkLists,
+                        status     : this.state.status ? this.state.status : '',
+                        remark     : this.state.remark ? this.state.remark : '',
+                      }
+    Meteor.call('saveFEDataTemp', formValues, (err, res)=>{
+
+    });
+
+
     this.props.navigation.navigate('Camera',{ ticket : this.props.ticket });
   }
 
@@ -717,7 +835,7 @@ class ViewTicketFormInfo extends React.Component {
                                   <View style={{flex:1}}>
                                     <Text>Incorrect/Correct</Text>
                                     <ToggleSwitch
-                                        isOn={false}
+                                        isOn={ this.state[checkListDefault.id+'-Toggle'] ? true : false }
                                         onColor='#33b5e5'
                                         offColor='#ddd'
                                         label=''
@@ -938,19 +1056,22 @@ ViewTicketForm = createContainer( (props) => {
 
     const postHandle6  = Meteor.subscribe('tempFEImgData' ,ticket, 'image');
     const loading6     = !postHandle6.ready();
-    const imgData      = Meteor.collection('tempFEUploadData').find({ "ticketId"  : ticket, "type" : "image" }) || [];
-    // console.log('imgData: ',imgData);
-    const postHandle   = Meteor.subscribe('allTicketImages');
-    const postHandle1  = Meteor.subscribe('allTicketVideo');
+    const imgData      = Meteor.collection('tempFEUploadData').find({ "ticketId"  : ticket, "type" : "image" })   || [];
+    const FETempData   = Meteor.collection('tempFEUploadData').findOne({ "ticketId"  : ticket, "type" : "data" }) || {};
+    console.log('FETempData: ',FETempData);
+    // const postHandle   = Meteor.subscribe('allTicketImages');
+    // const postHandle1  = Meteor.subscribe('allTicketVideo');
     const postHandle2  = Meteor.subscribe('checklistFieldExpert');
     const postHandle3  = Meteor.subscribe('singleTicket',ticket);
 
-    const ticketImages = Meteor.collection("tempTicketImages").find({}) || []; 
-    const ticketVideo  = Meteor.collection("tempTicketVideo").find({}) || [];  
+    // const ticketImages = Meteor.collection("tempTicketImages").find({}) || []; 
+    // const ticketVideo  = Meteor.collection("tempTicketVideo").find({}) || []; 
+    const ticketImages = []; 
+    const ticketVideo  = [];  
     // console.log("ticketImages",ticketImages);    
     // console.log("ticketVideo",ticketVideo);
-    const loading     = !postHandle.ready();
-    const loading1    = !postHandle1.ready();
+    // const loading     = !postHandle.ready();
+    // const loading1    = !postHandle1.ready();
     const loading3    = !postHandle3.ready();
     let checkObjs     = [];
     var textObjs      = [];
@@ -1018,6 +1139,11 @@ ViewTicketForm = createContainer( (props) => {
 
                   for (var i = 0; i < checkListObjs.length; i++) {
 
+                      if(FETempData && FETempData.checkLists && FETempData.checkLists.length > 0){
+                        checkListObjs[i].correctValTemp = FETempData.checkLists[i].correctVal;
+                        checkListObjs[i].remarkValTemp  = FETempData.checkLists[i].remarkVal;
+                      }
+
                       if(checkListObjs[i] && checkListObjs[i].relatedFields && checkListObjs[i].relatedFields.length > 0){
                         checkListObjs[i].id = checkListObjs[i]._id;
                         if(checkListObjs[i].checkListFrom == 'Database'){
@@ -1068,8 +1194,8 @@ ViewTicketForm = createContainer( (props) => {
 
       // console.log('imgData: ',imgData);
       var result =  {
-          loading      : loading,
-          loading1     : loading1,
+          // loading      : loading,
+          FETempData   : FETempData,
           ticketImages : ticketImages,
           ticketVideo  : ticketVideo,
           ticket       : ticket,

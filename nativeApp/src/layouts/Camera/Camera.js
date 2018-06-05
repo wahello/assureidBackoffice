@@ -35,7 +35,7 @@ class CameraChild extends React.Component{
   }
 
   onBottomButtonPressed(event) {
-    console.log('in onBottomButtonPressed');
+    // console.log('in onBottomButtonPressed');
     // console.log('this.camera');
     // console.log(this.camera);
     // console.log("this.refs: ",this.refs);
@@ -49,15 +49,15 @@ class CameraChild extends React.Component{
       // this.setState({
       //                     "imagesSelected" : captureImagesStack1,
       //              });
-      console.log('captureImagesStack1: ',captureImagesStack1);
+      // console.log('captureImagesStack1: ',captureImagesStack1);
       var recentImg = "file://"+captureImagesStack1[0].uri;
-      console.log('recentImg: ',recentImg);
+      // console.log('recentImg: ',recentImg);
       // var x = this.props.navigator.pop();
       // console.log('x: ',x);
 
       this.props.navigation.navigate('CameraView', { photoUri: recentImg, ticket: this.props.ticket });
       this.setState({ componenentVisible : false });
-      console.log('unmount done after camera componenentVisible false');
+      // console.log('unmount done after camera componenentVisible false');
 
       // event.captureImages = [];      
     }
@@ -79,8 +79,13 @@ class CameraChild extends React.Component{
                                       this.camera = cam; 
                                     }
                         }
-          actions     = {{ rightButtonText: 'Done', leftButtonText: 'Cancel' }}
-          onBottomButtonPressed={(event) => this.onBottomButtonPressed(event)}
+          actions     = {{ rightButtonText: 'Home', leftButtonText: 'Back' }}
+          onBottomButtonPressed={(event:any) => {if(event.type == "left"){
+                                                    this.props.navigation.navigate('ViewTicketForm', { ticket: this.props.ticket });
+                                                  }else{
+                                                    this.onBottomButtonPressed(event);
+                                                  }}
+                                }
           flashImages = {{
             on   : require('../../images/flashOn.png'),
             off  : require('../../images/flashOff.png'),
@@ -96,6 +101,7 @@ class CameraChild extends React.Component{
           // selectedImages = {this.state.imagesSelected}
           cameraFlipImage    = {require('../../images/cameraFlipIcon.png')}
           captureButtonImage = {require('../../images/cameraButton.png')}
+          // hideControls       = {false}
         />
       );
 

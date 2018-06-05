@@ -28,8 +28,8 @@ class CameraViewChild extends React.Component{
 
   backToCamera(event){
     event.preventDefault();
-    console.log(this.props.ticket);
-    console.log(this.props);
+    // console.log(this.props.ticket);
+    // console.log(this.props);
     // const file = this.props.navigation.state.params.photoUri;
     // console.log('file14: ',file);
 
@@ -46,7 +46,7 @@ class CameraViewChild extends React.Component{
     //       return RNFS.unlink(filePath)
     //         .then(() => {
     //           console.log('FILE DELETED');
-              // this.props.navigation.navigate('Camera', { ticket: this.props.ticket });
+              this.props.navigation.navigate('Camera', { ticket: this.props.ticket });
     //         })
     //         // `unlink` will throw an error, if the item to unlink does not exist
     //         .catch((err) => {
@@ -134,8 +134,8 @@ class CameraViewChild extends React.Component{
               <Button
                 large
                 icon = {{name: 'arrow-long-left', type: 'entypo' }}
-                // onPress = {this.backToCamera.bind(this)}
-                onPress={()=>navigate('Camera')}
+                onPress = {this.backToCamera.bind(this)}
+                // onPress={()=>navigate('Camera')}
                 buttonStyle={{ width : window.width, backgroundColor : 'transparent'}}
                 />  
               </TouchableOpacity>  
