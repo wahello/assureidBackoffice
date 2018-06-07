@@ -97,6 +97,12 @@ AllOrderContainer = withTracker(props => {
               allOrderList[i].orderStatus = 'Completed';
               allOrderList[i].bgClassName = 'btn-success';
               break;
+            
+            case 'In Process' :
+            allOrderList[i].orderStatus = 'Work In Progress Back-Officeside';
+            allOrderList[i].bgClassName = 'btn-warning';
+            break;
+
             default :
               allOrderList[i].orderStatus = 'Work In Progrss';
               allOrderList[i].bgClassName = 'btn-warning';

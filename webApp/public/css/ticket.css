@@ -21,14 +21,14 @@
 	/* margin-top: 1%; */
 }
 .tmListWrap{
-	padding: 1%;
+  padding: 1%;
   text-align: center;
 }
 .approvebtn{
 	margin-right: 2%;
 }
 .editdoc{
-	font-size: 15px;
+  font-size: 15px;
   padding: 6%;
   cursor: pointer;
   border: 1px solid #999;
@@ -48,6 +48,7 @@
 }
 .acceptrejectwrap{
 	margin-top:2%;
+	margin-bottom: 2%;
 }
 /* .fesubmitbtn {
 	padding: 4%;
@@ -59,9 +60,7 @@
 .selfsubmit{
 	padding: 1%;
 }
-.acceptrejectwrap{
-	margin-bottom: 2%;
-}
+
 .feSubmitbtn{
 	margin-top:12%;
 	padding: 3%;
@@ -260,4 +259,11 @@
 }
 .checkMargin{
 	padding-right: 4%;
+}
+.orderMsg{
+	text-align: center;
+    margin-bottom: 2%;
+    color: #000;
+    margin-top: 2%;
+    font-size: 20px;
 }

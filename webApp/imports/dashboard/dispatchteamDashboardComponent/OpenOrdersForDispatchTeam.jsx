@@ -85,7 +85,9 @@ OpenOrdersForDispatchTeamContainer = withTracker(props => {
     var handleAllOrdersList = Meteor.subscribe("allOrders");
     var loading = !handleAllOrdersList.ready();
     var _id  = Meteor.userId();
+    
     var allOrderList = Order.find({"allocatedToUserid":Meteor.userId(),"orderStatus":"Order Completed - Generating Report"},{sort:{createdAt: 1}}).fetch() || [];
+
 
     if(allOrderList){
         for(i=0;i< allOrderList.length; i++){
@@ -99,7 +101,7 @@ OpenOrdersForDispatchTeamContainer = withTracker(props => {
               allOrderList[i].bgClassName = 'btn-success';
               break;
             default :
-              allOrderList[i].orderStatus = 'Work In Progrss';
+              allOrderList[i].orderStatus = 'Work In Progress';
               allOrderList[i].bgClassName = 'btn-warning';
               break;
           }

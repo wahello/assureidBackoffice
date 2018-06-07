@@ -116,7 +116,7 @@ class DispatchTeamSidebar extends TrackerReact(Component){
                 </li> 
                 <li className="">
                   <Link to="/admin/orderAllocatedToDispatchTeam" activeClassName="active">
-                  <i className="fa fa-ticket" />
+                  <i className="fa fa-ticket"/>
                       <span>Orders Allocted To Me({this.props.allocateOrderCount ? this.props.allocateOrderCount : 0 })</span>
                   </Link>
                 </li>
@@ -159,7 +159,12 @@ export default dispatchTeamSidebarContainer = withTracker(props => {
   var openOrderCount= Order.find({"allocatedToUserid":Meteor.userId(),"orderStatus":"Order Completed - Generating Report"},{sort:{createdAt: 1}}).count();
   var completedOrderCount= Order.find({"allocatedToUserid":Meteor.userId(),"orderStatus":"Order Completed - Report Completed"},{sort:{createdAt: 1}}).count();
   var escalatedOrderCount= 0;
-  
+  if(user){
+    var roleArr = user.roles;
+    if(roleArr){
+      var role = roleArr.find(function (obj) { return obj != 'backofficestaff' });
+    }
+  }
 
   return {
       loading,
@@ -169,7 +174,8 @@ export default dispatchTeamSidebarContainer = withTracker(props => {
       openOrderCount,
       completedOrderCount,
       escalatedOrderCount,
-      user
+      user,
+      role
   };
   
 })(DispatchTeamSidebar);

@@ -8,12 +8,6 @@ import {ReportGeneration} from '/imports/dashboard/generation/components/ReportG
 import {Order} from './Order.js';
 import { browserHistory } from 'react-router';
 
-
-
-
-
-
-
 export const TicketMaster = new Mongo.Collection("ticketMaster");
 export const TicketBucket = new Mongo.Collection("ticketbucket");
 export const BADetails = new Mongo.Collection("badetails");
@@ -24,7 +18,7 @@ if(Meteor.isServer){
         return TicketMaster.find({});
 	});
 	Meteor.publish('singleTicket',(_id)=>{
-		// console.log('ticket id : ',_id);
+		// 
         return TicketMaster.find({"_id" : _id}); 
 	});
 
@@ -97,9 +91,9 @@ if(Meteor.isServer){
 
 		switch(insertData.roleStatus){
 			case 'ScreenApproved' 	:
-				console.log("Inside ScreenApproved")
-				console.log("insertdata");
-				console.log(insertData);
+				
+				
+				
 				var newCount = Meteor.user().count;
 				if(newCount){
 					Meteor.call('updateCommitteeUserCount',newCount-1,insertData.userId);
@@ -152,7 +146,7 @@ if(Meteor.isServer){
 				}
 				var ticketDetails = TicketMaster.findOne({"_id":ticketid});
 				if(ticketDetails){
-					// console.log('ticketmaster ',ticketid,ticketDetails.userId,insertData.remark,ticketDetails.verificationType,ticketDetails.verificationId);
+					// 
 					Meteor.call('changeStatusMethod',ticketid,ticketDetails.userId,insertData.remark,ticketDetails.verificationType,ticketDetails.verificationId);
 				}
 				break;
@@ -185,22 +179,18 @@ if(Meteor.isServer){
 		        Meteor.call('statuofVerificationType',usersid,ticket.verificationType,ticket.verificationId,'Initiated');
 				break;
 			case 'AssignReject':
-				console.log("insertData");
-				console.log(insertData);
+				
+				
 				var teamMember = Meteor.users.findOne({"_id":insertData.userId});
 				if(teamMember){
 					var newCount = teamMember.count-1;
 				} 		
 				Meteor.call('updateCommitteeUserCount',newCount,teamMember._id);
-				console.log("newCount :"+newCount);
 				var teamLeader = Meteor.users.findOne({"_id":insertData.allocatedToUserid});
-				console.log('teamLeader: ', teamLeader);
 				if(teamLeader){
-					console.log("Inside if");
+					
 					var newCount = teamLeader.count+1;
 				} 		
-				console.log("newCount 1 :"+newCount);
-				
 				Meteor.call('updateCommitteeUserCount',newCount,teamLeader._id);
 
 				break;
@@ -236,7 +226,7 @@ if(Meteor.isServer){
 		          number       : mobNumber,
 		          variables    : msgvariable,
 		      	}
-		      	// console.log("smsObj",smsObj);
+		      	// 
 		      	sendSMS(smsObj);
 
 		      	// Format for sending notification //
@@ -305,7 +295,7 @@ if(Meteor.isServer){
 		          number       : mobNumber,
 		          variables    : msgvariable,
 		      }
-		      // console.log("smsObj",smsObj);
+		      // 
 		      sendSMS(smsObj);
 
 		      // Format for sending notification //
@@ -373,7 +363,7 @@ if(Meteor.isServer){
 		          number       : mobNumber,
 		          variables    : msgvariable,
 		      }
-		      // console.log("smsObj",smsObj);
+		      // 
 		      sendSMS(smsObj);
 
 		      // Format for sending notification //
@@ -396,8 +386,8 @@ if(Meteor.isServer){
 					break;
 			case 'ReportSubmitted' :
 			case 'ReportGenerated' :
-				console.log("Inside reportgeneration");
-				console.log(insertData);
+				
+				
 				var qtmDetails = Meteor.users.findOne({"_id":insertData.userId});
 				if(qtmDetails){
 					Meteor.call('updateCommitteeUserCount',qtmDetails.count-1,insertData.userId);							
@@ -449,9 +439,9 @@ if(Meteor.isServer){
 				
 				break;
 			case 'TMReviewRemark':
-				console.log("Inside TMReviewRemark");
-				console.log("insertData");
-				console.log(insertData);
+				
+				
+				
 				var tmDetails = Meteor.users.findOne({"_id":insertData.userId});
 				if(tmDetails){
 					Meteor.call('updateCommitteeUserCount',tmDetails.count-1,insertData.userId);							
@@ -471,7 +461,7 @@ if(Meteor.isServer){
 				var role = "quality team member";
 				var roleStatus = "VerificationPassQTMAllocated";
 				var ticketDetails = TicketMaster.findOne({"_id":ticketid});
-				console.log('ticketDetails: ', ticketDetails);
+				
 				if(ticketDetails){
 					var newMember = Meteor.call('autoAllocateMember',role,ticketDetails.serviceName);
 					var roleSentence = Meteor.call('toTitleCase',role);
@@ -546,6 +536,30 @@ if(Meteor.isServer){
 				Meteor.call('statuofVerificationType',usersid,ticket.verificationType,ticket.verificationId,'Verification Completed - working on Report');
 				break;
 			case 'QAFail' :
+					
+					var qtmDetails = Meteor.users.findOne({"_id":insertData.userId});
+					if(qtmDetails){
+						Meteor.call('updateCommitteeUserCount',qtmDetails.count-1,insertData.userId);
+					}
+
+					var teamMember = Meteor.users.findOne({"_id":insertData.allocatedToUserid});
+					if(teamMember){
+						var newCount = teamMember.count+1;
+					} 		
+					Meteor.call('updateCommitteeUserCount',newCount,teamMember._id);
+					break;
+			case 'ReviewFail':
+					var qtlDetails = Meteor.users.findOne({"_id":insertData.userId});
+					if(qtlDetails){
+						Meteor.call('updateCommitteeUserCount',qtlDetails.count-1,insertData.userId);
+					}
+
+					var qualityteamMember = Meteor.users.findOne({"_id":insertData.allocatedToUserid});
+					if(qualityteamMember){
+						var newCount = qualityteamMember.count+1;
+					} 		
+					Meteor.call('updateCommitteeUserCount',newCount,qualityteamMember._id);
+					break;
 					break;
 			case 'TicketClosed' :
 				var qtlDetails = Meteor.users.findOne({"_id":insertData.userId});
@@ -630,7 +644,7 @@ if(Meteor.isServer){
 		          variables    : allocatedmsgvariable,
 		      	}
 		      	sendMailNotification(inputObj);
-            sendMailNotification(allcatedinputObj)
+            	sendMailNotification(allcatedinputObj)
 		      
 		      	// Format for sending SMS //
 		      	var smsObj = {
@@ -645,7 +659,7 @@ if(Meteor.isServer){
 		          number       : allocatedmobNumber,
 		          variables    : allocatedmsgvariable,
 		      	}
-		      	// console.log("smsObj",smsObj);
+		      	// 
 		      	sendSMS(smsObj);
 		      	sendSMS(allocatedsmsObj);
 
@@ -696,7 +710,7 @@ if(Meteor.isServer){
 		          number       : mobNumber,
 		          variables    : msgvariable,
 		      	}
-		      	// console.log("smsObj",smsObj);
+		      	// 
 		      	sendSMS(smsObj);
 
 		      	// Format for sending notification //
@@ -1036,10 +1050,10 @@ if(Meteor.isServer){
 			},
 			(error,result)=>{
 				if(error){
-					console.log(error);
+					
 					
 				}else{
-					console.log("result: ",result);
+					
 
 
 				}
@@ -1210,7 +1224,7 @@ if(Meteor.isServer){
 	},
 
 	addQTM(ticketId,empID,role,status){
-		// console.log("ticketId,empID,role :"+ticketId,empID,role,status);
+		// 
 		TicketMaster.update(
 			{'_id':ticketId},
 			{   $push:{
@@ -1234,11 +1248,11 @@ if(Meteor.isServer){
 			var ticketDetails = TicketMaster.findOne({"_id":id});
 			if(ticketDetails){
 				var images = ticketDetails.submitedDoc.documents.images;
-			// console.log('before images list ', images);
+			// 
 			if (dataIndex > -1) {
 			    images.splice(dataIndex, 1);
 			}
-			// console.log('after images list ', images);
+			// 
 			TicketMaster.update({"_id":id},
 					{$set:{ 'submitedDoc.documents.images' : images}}
 				);	

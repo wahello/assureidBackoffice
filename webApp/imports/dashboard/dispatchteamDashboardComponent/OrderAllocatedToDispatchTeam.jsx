@@ -22,13 +22,13 @@ class OrderAllocatedToDispatchTeam extends TrackerReact(Component){
                 <div className="col-md-12">
                   <div className="box">
                     <div className="box-header with-border">
-                      <h2 className="box-title"> Order Allocated To Me</h2> 
+                      <h2 className="box-title"> Orders Allocated To Me</h2> 
                     </div>
                       <div className="box-body">
                         <div className="ticketWrapper col-lg-12 col-md-12 col-sm-12 col-xs-12">
                           {/* {this.props.ticketBucketData[0].orderId} */}
                             <div>
-                              {/*<div className="reports-table-main">
+                              <div className="reports-table-main">
                                 <table id="subscriber-list-outerTable" className="newOrderwrap subscriber-list-outerTable table table-bordered table-hover table-striped table-striped table-responsive table-condensed table-bordered">
                                   <thead className="table-head umtblhdr">
                                     <tr className="hrTableHeader UML-TableTr">
@@ -68,7 +68,7 @@ class OrderAllocatedToDispatchTeam extends TrackerReact(Component){
                                     }
                                   </tbody>
                                 </table>
-                              </div>*/}
+                              </div>
                             </div>
                         </div>
                       </div>
@@ -86,6 +86,7 @@ OrderAllocatedToDispatchTeamContainer = withTracker(props => {
     var loading = !handleAllOrdersList.ready();
     var _id  = Meteor.userId();
     var allOrderList = Order.find({"allocatedToUserid":Meteor.userId()},{sort:{createdAt: 1}}).fetch() || [];
+    console.log('allOrderList: ', allOrderList);
 
     if(allOrderList){
         for(i=0;i< allOrderList.length; i++){

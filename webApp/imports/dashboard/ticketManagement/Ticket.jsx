@@ -1028,16 +1028,16 @@ class Ticket extends TrackerReact(Component){
               <h5> {title} </h5>
              
               <div className="col-lg-10 col-md-10 col-md-offset-0 col-xm-12 col-xs-12">
-                <h6>Submitted Report</h6>
-                <div className="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                {/* <h6>Submitted Report</h6> */}
+                {/* <div className="col-lg-5 col-md-5 col-sm-12 col-xs-12">
                   <div className="docdownload col-lg-3 col-lg-offset-1" title="Download Report">
-                      <a href={this.props.getTicket.reportSubmited.documents} download>
+                      <a href={this.props.getTicket.reportGenerated.url} download>
                         <i className="fa fa-file-text-o" aria-hidden="true"></i>
                       </a>
                   </div>
                   <lable className=" col-lg-9 col-md-9 col-sm-12 col-xs-12 downloadLable">Download Report</lable>
-                </div>
-                <span>Is the Report appropriate ? </span>
+                </div> */}
+                <span className="col-lg-12 col-md-12 col-sm-12 col-xs-12 acceptrejectwrap">Is the Report appropriate ? </span>
                 <div className="col-lg-6 col-lg-offset-0 col-md-6 col-md-offset-0 col-sm-10 col-sm-offset-1 col-xs-12">
                   <button className="btn btn-danger col-lg-3 col-md-3 col-sm-4 col-xs-5 approvebtn" id="QTMReRejectTicket" data-roleStatus="QAFail" data-msg="Rejected Verification Report For Quality Issue" onClick={this.showRejectBoxState.bind(this)} >
                     Reject
@@ -1268,7 +1268,10 @@ class Ticket extends TrackerReact(Component){
                                   </div>
                                 </div>
                               :
+                               this.props.getTicket.reportGenerated ?
                                 <ReportHeader />
+                              :
+                              null
                            }
                            </div>
                           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
