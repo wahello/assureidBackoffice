@@ -170,15 +170,45 @@ class OrderDetails extends TrackerReact(Component){
                              {this.props.orderDetails.ticket ?
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                   <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outeReportBlock">
-                                    <h6 className="dataDetails col-lg-3 col-md-3 col-sm-1 col-xs-1">Details of Tickets</h6> 
-                                      {this.props.orderDetails.ticket.map((ticketReport,i)=>{
-                                        return(
-                                          <div key={i} className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
-                                            <ReportGeneration ticketId={ticketReport.ticketId}/>            
-                                          </div>
-                                        )
-                                      })}
-                                      
+                                    <h6 className="dataDetails col-lg-3 col-md-3 col-sm-1 col-xs-1">Order Process Summary</h6> 
+                                      <table id="subscriber-list-outerTable" className="newOrderwrap subscriber-list-outerTable table table-bordered table-hover table-striped table-striped table-responsive table-condensed table-bordered">
+                                        <thead className="table-head umtblhdr">
+                                          <tr className="hrTableHeader UML-TableTr">
+                                            <th className=""> Ticket No.</th>
+                                            <th className=""> Verification</th>
+                                            <th className=""> Order Date </th>
+                                            <th className=""> Completion Date </th>
+                                            <th className=""> Final Status </th>
+                                            <th className=""> Download </th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          {
+                                            !this.props.loading ?
+                                              this.props.orderDetails.ticket.map((ticketReport,i)=>{
+                                                return(
+                                                    <tr key={i}>
+                                                        <td>{ticketReport.ticketNo}</td>
+                                                        <td>{ticketReport.verificationType}</td>
+                                                        <td>{moment(ticketReport.createdAt).format('DD-MM-YYYY')}</td>
+                                                        <td>{moment(ticketReport.completedDate).format('DD-MM-YYYY')}</td> 
+                                                        <td>{ticketReport.status}</td>
+                                                        <td><Link to={ticketReport.report}><i className="fa fa-file-pdf"></i></Link></td>       
+                                                    </tr>
+                                                );
+                                              })
+                                            :
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td className ="nodata">Nothing To Dispaly</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                          }
+                                        </tbody>
+                                      </table>  
                                   </div>   
                                 </div>                       
                                 :
@@ -215,10 +245,12 @@ export default UserDetailsContainer = withTracker(props => {
   var handleSinTick = Meteor.subscribe("singleOrder",props.params.id);
   var handleUseFunc = Meteor.subscribe('userfunction');
   var handleUserProfile = Meteor.subscribe("userProfileData");
+  var handleTicket = Meteor.subscribe("");
   var orderId = props.params.id;
-  var loading = !handleSinTick.ready() && !handleUseFunc.ready() && !handleUserProfile.ready();
+  var loading = !handleSinTick.ready() && !handleUseFunc.ready() && !handleUserProfile.ready() && !handleTicket.ready();
   var orderDetails = Order.findOne({"_id":orderId}) ;
   if(orderDetails){
+    //user Details
     var user = Meteor.users.findOne({"_id": orderDetails.userId}) || {};
     if(user){
       var userProfile = UserProfile.findOne({"userId": orderDetails.userId}) || {};
@@ -236,8 +268,14 @@ export default UserDetailsContainer = withTracker(props => {
         userProfile.dateOfBirth='-';
       }
     }
+    //Ticket Details
+    for(j = 0 ; j < orderDetails.ticket.length; j++){
+      orderDetails.ticket[j].ticketNo = 'AAAOOO1';
+      orderDetails.ticket[j].verificationType = 'Address Verification';
+      orderDetails.ticket[j].createdAt = orderDetails.createdAt;
+
+    }
     var buttonStatus = orderDetails.orderStatus;
-  console.log('orderDetails.orderStatus ',buttonStatus);
   }   
   return {
     loading,
