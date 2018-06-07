@@ -48,7 +48,7 @@ export default class SubmittedDocuments extends TrackerReact(Component){
 		      var ticketElement = getTicket.ticketElement;
 		      if(ticketElement){
 		        var docApproveRejectData = ticketElement.find(function(obj){return (obj.userId == userId && obj.roleStatus == 'SelfAllocated' ) ? obj : false});
-		        if(docApproveRejectData){
+		        if(docApproveRejectData && getTicket.ticketStatus != 'TicketClosed'){
 		          var showEditButton = true;
 		        }else{
 		          var showEditButton = false;

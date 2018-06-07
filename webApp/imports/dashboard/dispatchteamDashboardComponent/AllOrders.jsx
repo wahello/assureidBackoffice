@@ -32,11 +32,11 @@ class AllOrders extends TrackerReact(Component){
                                   <thead className="table-head umtblhdr">
                                     <tr className="hrTableHeader UML-TableTr">
                                       <th className=""> Order No.</th>
-                                      <th className=""> Service Name </th>
-                                      <th className=""> Receive Date </th>
-                                      <th className=""> Due Date </th>
-                                      <th className=""> Aging &nbsp;( In Days ) </th>                                      
-                                      <th className=""> Status </th>                          
+                                      <th className=""> User Name</th>
+                                      <th className=""> Service Purchased </th>
+                                      <th className=""> Order Date </th>
+                                      <th className=""> Completion Date </th>
+                                      <th className=""> Final Status </th>                          
                                     </tr>
                                   </thead>
                                   <tbody>
@@ -45,13 +45,14 @@ class AllOrders extends TrackerReact(Component){
                                         this.props.allOrderList.map((data, index)=>{
                                           return(
                                               <tr key={index}>
-                                                  
                                                   <td><Link to={"/admin/orderdetails/"+data._id}>{data.orderNo}</Link></td>
+                                                  <td><Link to={"/admin/orderdetails/"+data._id}>{data.userName}</Link></td>
                                                   <td><Link to={"/admin/orderdetails/"+data._id}>{data.serviceName}</Link></td>
                                                   <td><Link to={"/admin/orderdetails/"+data._id}>{moment(data.createdAt).format('DD-MM-YYYY')}</Link></td>
-                                                  <td><Link to={"/admin/orderdetails/"+data._id}>{moment(data.tatDate).format('DD-MM-YYYY')}</Link></td> 
-                                                  <td><Link to={"/admin/orderdetails/"+data._id}>{Math.round(Math.abs((new Date().getTime() - data.createdAt.getTime())/(24*60*60*1000)))}</Link></td>
-                                                  <td className={data.bgClassName}><Link to={"/admin/orderdetails/"+data._id} className="statuswcolor">{data.orderStatus}</Link></td>       
+                                                  <td><Link to={"/admin/orderdetails/"+data._id}>{moment(data.completedDate).format('DD-MM-YYYY')}</Link></td> 
+                                                  <td> <div className={'col-lg-9 ' + data.bgClassName}> <Link to={"/admin/orderdetails/"+data._id} className="statuswcolor">{data.orderStatus}</Link> </div> 
+                                                       <i className="fa fa-caret-right"> </i> 
+                                                  </td>       
                                               </tr>
                                           );
                                         })

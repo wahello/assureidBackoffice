@@ -269,7 +269,6 @@ class Ticket extends TrackerReact(Component){
       }  
     }
   }
-
   handleReportUpload(event){
     event.preventDefault();
     let self = this;
@@ -314,20 +313,19 @@ class Ticket extends TrackerReact(Component){
   }
   showTicketDataRadiobtn(){
     return(
-    <div className="col-lg-9 col-lg-offset-3 col-md-11 col-sm-12 col-xs-12 finalstatuswrap">
-      <label className="radio-inline">
-        <input type="radio" name="ticketDataApproveReject" value ="Approved"/>Ticket Information Approve
-      </label>
-      <label className="radio-inline">
-        <input type="radio" name="ticketDataApproveReject" value ="Reject"/>Ticket Information Reject
-      </label>
-      <div className="col-lg-8 col-lg-offset-4 finaldatasubmit">
-        <button className="col-lg-5 rejectSubmit" data-roleStatus="ReviewPass" data-msg="Approved And Delivered Verification Report" onClick={this.approveButton.bind(this)}>Submit </button>
+      <div className="col-lg-9 col-lg-offset-3 col-md-11 col-sm-12 col-xs-12 finalstatuswrap">
+        <label className="radio-inline">
+          <input type="radio" name="ticketDataApproveReject" value ="Approved"/>Ticket Information Approve
+        </label>
+        <label className="radio-inline">
+          <input type="radio" name="ticketDataApproveReject" value ="Reject"/>Ticket Information Reject
+        </label>
+        <div className="col-lg-8 col-lg-offset-4 finaldatasubmit">
+          <button className="col-lg-5 rejectSubmit" data-roleStatus="ReviewPass" data-msg="Approved And Delivered Verification Report" onClick={this.approveButton.bind(this)}>Submit </button>
+        </div>
       </div>
-    </div>
     )
   }
-
   /*=========== Report Progressbar =============*/
   getUploadReportPercentage(){
     var uploadProgressPercent = Session.get("uploadReportProgressPercent");
@@ -1188,7 +1186,8 @@ class Ticket extends TrackerReact(Component){
                                         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outeReportBlock">
                                           <h6 className="dataDetails col-lg-1 col-md-1 col-sm-1 col-xs-1">Report:</h6> 
                                           {
-                                            Roles.userIsInRole(Meteor.userId(),['quality team member','quality team leader'])?
+                                            //Roles.userIsInRole(Meteor.userId(),['quality team member','quality team leader']) ?
+                                            this.props.getTicket.ticketStatus != 'TicketClosed' && (this.props.qtmUserAccess || this.props.qtlUserAccess) ?
                                               <i className="fa fa-times tempImageDelete" title="Delete Report" id={this.props.params.id} onClick={this.deleteReport.bind(this)}></i>                                
                                             :
                                               ""
@@ -1233,7 +1232,7 @@ class Ticket extends TrackerReact(Component){
                                     {this.props.getTicket.reviewRemark ?
                                       <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outeReportBlock">
-                                          <h6 className="dataDetails col-lg-12 col-md-12 col-sm-12 col-xs-12">Review Remark:</h6> 
+                                          <h6 className="dataDetails col-lg-12 col-md-12 col-sm-12 col-xs-12">Ticket Review:</h6> 
                                             {this.props.getTicket.reviewRemark.map((review,i)=>{
                                               return(
                                                 <div key={i} className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapperForReview">
@@ -1242,7 +1241,7 @@ class Ticket extends TrackerReact(Component){
                                                   <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outerReviewsBlock">
                                                     <b>Name   : </b>{review.userName}
                                                     {
-                                                      review.userId == Meteor.userId() ?
+                                                      review.userId == Meteor.userId() && this.props.getTicket.ticketStatus != 'TicketClosed'?
                                                         <i className="fa fa-edit tempImageDelete col-lg-1 text-right pull-right" title="Edit Review" id={review.userId} onClick={this.editReview.bind(this)}></i>
                                                       :
                                                         null
@@ -1250,7 +1249,7 @@ class Ticket extends TrackerReact(Component){
                                                     <br/>
                                                   </div>
                                                   <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outerReviewsBlock" id={"remarkWrapper-"+review.userId} >
-                                                    <b>Review Remark : </b>{review.remark}
+                                                    <b>Remark : </b>{review.remark}
                                                   </div>
                                                   <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outerReviewsBlock" style={{"display" : "none"}} id={"textbox-"+review.userId}  data-index={i}  onChange={this.handleChangeForArray}>
                                                     <textarea rows="3" className="col-lg-12 col-md-12 col-sm-12 col-xs-12" ref="reviewsRemark" name="reviewsRemark" data-index={i} id={review.userId} value={review.remark}  onBlur={this.submitEditedReview.bind(this)}/>
@@ -1431,8 +1430,10 @@ export default UserDetailsContainer = withTracker(props => {
   }   
   
   
-  
   if(getTicket && getTicket.reportGenerated && getTicket.reportGenerated.documents){
+    var ticketElement = getTicket.ticketElement;
+    var qtmUserAccess = ticketElement.find(function (obj) { return obj.role == 'quality team member' && obj.userId == Meteor.userId()});
+    var qtlUserAccess = ticketElement.find(function (obj) { return obj.role == 'quality team leader' && obj.userId == Meteor.userId()});
     var showHideBtn = false;
   }else{
     var showHideBtn = true;
@@ -1446,5 +1447,7 @@ export default UserDetailsContainer = withTracker(props => {
     checkObjs,
     showHideBtn,
     role,
+    qtmUserAccess,
+    qtlUserAccess,
   };
 })(Ticket);
