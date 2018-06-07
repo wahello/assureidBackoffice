@@ -253,7 +253,7 @@ class Ticket extends TrackerReact(Component){
                 titleVal : data[i].task,
                 textVal : relatedField,
                 // textVal : [],
-                correctVal : false,
+                correctVal : 'Incorrect',
                 remarkVal : "",
               }    
               
@@ -1241,7 +1241,13 @@ class Ticket extends TrackerReact(Component){
 
                                                   <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outerReviewsBlock">
                                                     <b>Name   : </b>{review.userName}
-                                                    <i className="fa fa-edit tempImageDelete col-lg-1 text-right pull-right" title="Edit Review" id={review.userId} onClick={this.editReview.bind(this)}></i><br/>
+                                                    {
+                                                      review.userId == Meteor.userId() ?
+                                                        <i className="fa fa-edit tempImageDelete col-lg-1 text-right pull-right" title="Edit Review" id={review.userId} onClick={this.editReview.bind(this)}></i>
+                                                      :
+                                                        null
+                                                    }
+                                                    <br/>
                                                   </div>
                                                   <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outerReviewsBlock" id={"remarkWrapper-"+review.userId} >
                                                     <b>Review Remark : </b>{review.remark}

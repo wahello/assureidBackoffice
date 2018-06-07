@@ -114,36 +114,32 @@ export default class SubmittedDocuments extends TrackerReact(Component){
              {this.props.submittedDocuments.documents ?
                 this.props.submittedDocuments.documents.checkLists.map((submittedChecklist,index)=>{
                   return(
-                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12  checkListDiv noLRPad" key={index}>  
-												{/* <input type="checkbox" className="tickchkbox" ref="submittedChecklist" name="submittedChecklist" value={submittedChecklist.status} checked={submittedChecklist.status== true? "checked" : ""}/><span className="checkBoxtitle">{submittedChecklist.statement}</span>*/}
-												<div className="col-lg-4 col-md-6 col-sm-6 col-xs-6 noLRPad">
+                    <div className="col-lg-6 col-md-12 col-sm-12 col-xs-12  checkListDiv noLRPad" key={index}>  
+						{/* <input type="checkbox" className="tickchkbox" ref="submittedChecklist" name="submittedChecklist" value={submittedChecklist.status} checked={submittedChecklist.status== true? "checked" : ""}/><span className="checkBoxtitle">{submittedChecklist.statement}</span>*/}
+						<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
 
-													<label className = "col-lg-12">{submittedChecklist.titleVal}</label>
-													<div className="col-lg-8 col-lg-offset-0">
-														{
-															submittedChecklist.textVal.map((submittedCheckDbFields,index)=>{
-																
-																return(
-																		<span key={index}>{submittedCheckDbFields.value},&nbsp;</span>
-																);
-															})
-														}
-													</div>
-												</div>
-												<div className="col-lg-3 col-md-3 col-sm-6 col-xs-6 noLRPad">
-													<label>Information Status :&nbsp;{submittedChecklist.correctVal}</label>
-													{/* <button type="button" className= {submittedChecklist.correctVal == "Correct" ? "btn btn-info noDataButton bgSelect": "btn btn-info noDataButton bgNotSelect"}>Correct</button>
-													<button type="button" className= "btn btn-info noDataButton" onClick={this.noReason.bind(this)}>Incorrect</button> */}
-												</div>
-												{ 
-													submittedChecklist.remarkVal != '' ?
-														<div className="col-lg-5 col-md-5 col-sm-6 col-xs-6">
-															<span>Remark &nbsp;:</span><span>&nbsp;{submittedChecklist.remarkVal}</span>
-															{/* <textarea rows="3" cols="60" className="col-lg-8 col-lg-offset-0" id=""/> */}
-														</div>
-													:
-													null
-												}
+							<label className = "col-lg-12">{submittedChecklist.titleVal}</label>
+							<div className="col-lg-12">
+								<i className={submittedChecklist.correctVal == "Correct" ? "fa fa-check-circle fa-lg text-success checkMargin" : "fa fa-times-circle fa-lg text-danger checkMargin" }></i>
+								{
+									submittedChecklist.textVal.map((submittedCheckDbFields,index)=>{
+										
+										return(
+												<span key={index}>{submittedCheckDbFields.value},&nbsp;</span>
+										);
+									})
+								}
+								{
+									submittedChecklist.remarkVal != '' ?
+										<span className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
+											<span>Remark :&nbsp; {submittedChecklist.remarkVal}</span>
+										</span>
+									:
+									null
+								}
+							</div>
+						</div>
+						
 																								
                     </div>
                   );

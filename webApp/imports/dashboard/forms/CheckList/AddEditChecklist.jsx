@@ -253,6 +253,7 @@ class AddEditChecklist extends TrackerReact(Component) {
                   <option value="educationQualification">Qualification</option>
                   <option value="specialization">Specialization</option>
                   <option value="grades">Grades/Percentage</option>
+                  <option value="educationMode">Mode of Eduction</option>
                   <option value="dateAttendedFrom">Date attended from</option>
                   <option value="dateAttendedTo">Date attended to</option>
                   <option value="university">University</option>

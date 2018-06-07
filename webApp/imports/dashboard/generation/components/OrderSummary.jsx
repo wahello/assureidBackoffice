@@ -26,7 +26,7 @@ class OrderSummary extends TrackerReact(Component){
           <table className="table table-bordered generationTable">
             <thead>
               <tr>
-                <th colSpan='3'>{this.props.getTicket ? this.props.getTicket.serviceName : " - "}</th>
+                <th colSpan='3'>{this.props.getTicket ? this.props.getTicket.service : " - "}</th>
               </tr>
             </thead>
             <tbody>
@@ -66,12 +66,16 @@ class OrderSummary extends TrackerReact(Component){
                         this.props.getTicket && this.props.getTicket.verificationType == "employement" ?
                             <div>
                                 <span>{this.props.getTicket.verificationData.nameOfEmployer}</span>
-                                <span>Pune</span>
+                                <span>{this.props.getTicket.verificationData.employerCity}</span>
+                            </div>
+                        :
+                        this.props.getTicket && this.props.getTicket.verificationType == "education" ?
+                            <div>
+                                <span>{this.props.getTicket.verificationData.educationQualification}</span>
                             </div>
                         :
 
                         null
-                        
                     }
                 </td>
                 <td className="col-lg-2">Verified</td>
@@ -92,19 +96,27 @@ class OrderSummary extends TrackerReact(Component){
   
   if(ticketId){
      var getTicket = TicketMaster.findOne({"_id":ticketId});
-     console.log('getTicket: ', getTicket);
      if(getTicket){
-     var statusName  =  getTicket.reportGenerated.documents.status;
-     var splitName   =  statusName.split('-');
-     var finalStatus =  splitName[1]; 
-        
+        var statusName  =  getTicket.reportGenerated.documents.status;
+        var splitName   =  statusName.split('-');
+        var finalStatus =  splitName[1]; 
+        var verificationType = getTicket.verificationType;
+        if (verificationType == "professionalEducation") {
+          var checkListFrom = "Academic Verification";
+        }else if (verificationType == "permanentAddress") {
+          var checkListFrom = "Address Verification";
+        }else if (verificationType == "currentAddress") {
+          var checkListFrom = "Address Verification";
+        }else if (verificationType == "employement") {
+          var checkListFrom = "Employment Verification";
+        }else if (verificationType == "education") {
+          var checkListFrom = "Academic Verification";
+        }else  if (verificationType == "certificates") {
+          var checkListFrom = "Skills And Certification Verification";
+        }
+        // getTicket.verificationType = checkListFrom;
+        getTicket.service = checkListFrom;
      }
-    //  if(ticketId.serviceName == "Address Verification"){
-    //      if(ticketId.verificationType == "permanentAddress"){
-
-    //      }
-    //  }
-    
   }
 
     return{

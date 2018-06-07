@@ -162,19 +162,19 @@ class VerifiedDocuments extends TrackerReact(Component){
           <div className="col-lg-6 col-md-6 showAddrWrap">
             <h5 className ="documentHead">Education</h5>
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-              {verificationData.educationLevel ? verificationData.educationLevel : ""},<br />
-              {verificationData.educationQualification ? verificationData.educationQualification:""}<br />
+              <label><b>EducationLevel :</b>&nbsp; </label>{verificationData.educationLevel ? verificationData.educationLevel : ""},<br />
+              <label><b>Qualification :</b>&nbsp; </label>{verificationData.educationQualification ? verificationData.educationQualification:""}<br />
             </div>
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-              {verificationData.specialization ? verificationData.specialization: ""},<br />
-              {verificationData.grades ? verificationData.grades: ""}<br />
+              <label><b>specialization :</b>&nbsp; </label>{verificationData.specialization ? verificationData.specialization: ""},<br />
+              <label><b>Grades :</b>&nbsp; </label>{verificationData.grades ? verificationData.grades: ""}<br />
             </div>
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-              {verificationData.educationMode}{ verificationData.educationMode ? "," : ""}<br />
-              {verificationData.dateAttendedTo}{ verificationData.dateAttendedTo ? "," : ""}<br />
+              <label><b>Mode of Education :</b>&nbsp; </label>{verificationData.educationMode}{ verificationData.educationMode ? "," : ""}<br />
+              <label><b>Duration :</b>&nbsp; </label>{verificationData.dateAttendedTo}{ verificationData.dateAttendedTo ? "-" : ""}
               {verificationData.collegeName}{ verificationData.collegeName ? "," : ""}<br />
-              {verificationData.university}{ verificationData.university ? "," : ""}<br />
-              {verificationData.collegeAddress} {verificationData.rollNo}<br />
+              <label><b>University :</b>&nbsp; </label>{verificationData.university}{ verificationData.university ? "," : ""}<br />
+              <label><b>College Address :</b>&nbsp; </label>{verificationData.collegeAddress} {verificationData.rollNo}<br />
             </div>
           </div>
         );

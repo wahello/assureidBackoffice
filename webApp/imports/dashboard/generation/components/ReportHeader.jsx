@@ -49,7 +49,7 @@ class ReportHeader extends TrackerReact(Component){
     if (!this.props.loading) {
       return (
         <div >
-          <div className={this.props.url == 'reportHeader' ? "col-lg-10 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 reportHeaderBoxShadow" : "col-lg-12 col-md-12 col-sm-12 col-xs-12 reportHeaderBoxShadow"} id="outerReport">
+          <div className={this.props.url == 'reportHeader' ? "col-lg-10 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 reportHeaderBoxShadow" : "col-lg-12 col-md-12 col-sm-12 col-xs-12 reportHeaderBoxShadowQTL"} id="outerReport">
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noProfilePadding generationHeader"> 
               <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 pull-left">
                 <img src="../images/assureid/Assure-ID-logo-Grey.png" className="generationImg" onClick={this.downloadReportaspdf.bind(this)} />
@@ -124,6 +124,15 @@ class ReportHeader extends TrackerReact(Component){
             <ReportGeneration ticketId={this.props.ticketId} />
             </div>
           </div>
+          {
+            this.props.url == 'reportHeader' ?
+              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 reportEndFooter">
+                <span className="col-lg-2 col-lg-offset-5 endReportFooter">End of Report</span>
+              </div>
+            :
+                null
+          }
+          
         </div>
       );
     }else{
@@ -186,8 +195,6 @@ export default ReportHeaderContainer = withTracker(({params}) => {
   var currentLocation = browserHistory.getCurrentLocation();
   var splitUrl = currentLocation.pathname.split('/');
   var url = splitUrl[1];
-  //  
-
   return {
     loading,
     getTicket,

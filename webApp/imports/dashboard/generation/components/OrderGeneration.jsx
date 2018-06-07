@@ -44,7 +44,6 @@ class OrderGeneration extends TrackerReact(Component){
   }
   componentDidMount(){      
   }
-
   render(){
     return (
       <div className="col-lg-10 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 orderGenerationwrap" id="orderGenerationwrap">
@@ -81,14 +80,7 @@ class OrderGeneration extends TrackerReact(Component){
             </div>
           </div>
           <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noProfilePadding orderinfodiv">
-              <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">Account <span className="pull-right">:</span></div>
-              <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8">-</div>
-            </div>
-            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noProfilePadding orderinfodiv">
-              <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">Client Reference <span className="pull-right">:</span></div>
-              <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8">-</div>
-            </div>
+            
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noProfilePadding orderinfodiv">
               <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">Report Date <span className="pull-right">:</span></div>
               <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8">{this.props.getOrder ? moment(this.props.getOrder.completedDate).format('DD-MM-YYYY') : "-"} </div>
@@ -104,32 +96,30 @@ class OrderGeneration extends TrackerReact(Component){
           { 
             this.props.getOrder ?
              this.props.getOrder.ticket.map((ticketData,index)=>{
-                // ticketData.report !="" ?
                 return(
                   <div key={index}>
                     <OrderSummary ticketId={ticketData.ticketId}/>
                   </div>
                 )
-                // :
-                // null
-              
              })
              :
              null
           }
         </div>
-        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noProfilePadding">
-          <h3>SUMMARY OF FINDINGS</h3>
-          <ul>
+        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <h3 className="orderHeadStyle">SUMMARY OF FINDINGS</h3>
+          <ul className="col-lg-4 orderHeadStyle">
           {
             this.props.getOrder ?
               this.props.getOrder.ticket.map((summary,index)=>{
-                return(
-                  <li key={index}>{summary.summeryFinding}</li>
-                )
+                return summary.summeryFinding != undefined ? 
+                  <li className= "showLi" key={index}>{summary.summeryFinding}</li>
+                :
+                null
+              
               })
             :
-            null
+            <div></div>
           }
           </ul>
         </div>
@@ -138,15 +128,11 @@ class OrderGeneration extends TrackerReact(Component){
           { 
             this.props.getOrder ?
              this.props.getOrder.ticket.map((ticketData,index)=>{
-                // ticketData.report !="" ?
                 return(
                   <div key={index}>
                     <ReportGeneration ticketId={ticketData.ticketId}/>
                   </div>
                 )
-                // :
-                // null
-              
              })
              :
              null
@@ -164,7 +150,6 @@ class OrderGeneration extends TrackerReact(Component){
     if(currentLocation){
       var splitUrl = currentLocation.pathname.split('/');
       var url = splitUrl[2]; 
-      
       idValue= url;
     }
   }
@@ -173,15 +158,6 @@ class OrderGeneration extends TrackerReact(Component){
   var getOrder = Order.findOne({"_id":idValue});
   if(getOrder){
     var tempStatus = '' ; 
-    // for(i= 0 ; i < getOrder.ticket.length ; i++){
-    //   if(getOrder.ticket[i].status == 'Inaccessible'){
-    //     var orderStatus = 'INACCESSIBLE';
-    //     break;
-    //   }else if(getOrder.ticket[i].status == 'Major Discrepancy'){
-    //     var orderStatus = 'INACCESSIBLE';
-    //     break;
-    //   }
-    // }
     var allTicketStatus = getOrder.ticket; 
     var orderStatus = allTicketStatus.find(function (obj) { return obj.status == 'Inaccessible' });
     if(!orderStatus){
@@ -204,17 +180,12 @@ class OrderGeneration extends TrackerReact(Component){
       }else{
         getOrder.orderStatus = 'Major Discrepancy';
         var textColor = 'text-warning';
-        // var textColor = {
-        //   background
-        // };
       }
     }else{
       getOrder.orderStatus = 'Inaccessible';
       var textColor = 'text-warning';
     }
   }
-  // console.log("")
-  // console.log("textColor",textColor);
 return{
   getOrder,
   textColor

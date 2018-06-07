@@ -1259,12 +1259,19 @@ if(Meteor.isServer){
 	},
 	// edit ReviewRemark Method
 	updateReviewRemark(ticketId,userId,remark){
-    TicketMaster.update({"_id":ticketId, "reviewRemark.userId" : userId},
-    {
-    	$set: {
-    		"reviewRemark.$.remark" : remark
-    	}
-    })
+	    TicketMaster.update({"_id":ticketId, "reviewRemark.userId" : userId},
+	    {
+	    	$set: {
+	    		"reviewRemark.$.remark" : remark,
+	    	}
+	    });
+	    TicketMaster.update({"_id":ticketId, "reportGenerated.reviewRemark.userId" : userId },
+	    {
+	    	$set: {
+	    		"reportGenerated.reviewRemark.$.remark" : remark,
+	    	}
+	    });
+
 	},
 	});
 }
