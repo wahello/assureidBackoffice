@@ -166,7 +166,7 @@ class OrderDetails extends TrackerReact(Component){
                            </div>
                            {/*Show all the tickets*/}
                           </div>
-                           <div id="SubmittedDocuments" >
+                          <div id="SubmittedDocuments" >
                              {this.props.orderDetails.ticket ?
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                   <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outeReportBlock">
@@ -193,7 +193,7 @@ class OrderDetails extends TrackerReact(Component){
                                                         <td>{moment(ticketReport.createdAt).format('DD-MM-YYYY')}</td>
                                                         <td>{moment(ticketReport.completedDate).format('DD-MM-YYYY')}</td> 
                                                         <td>{ticketReport.status}</td>
-                                                        <td><Link to={ticketReport.report}><i className="fa fa-file-pdf"></i></Link></td>       
+                                                        <td><Link to={ticketReport.report}><i className="fa fa-file-pdf-o"></i></Link></td>       
                                                     </tr>
                                                 );
                                               })
@@ -215,15 +215,26 @@ class OrderDetails extends TrackerReact(Component){
                                 null
                               }
                           </div>
-                          {this.props.buttonStatus == 'Order Completed - Report Completed' ?
-                              <div className="col-lg-6 col-lg-offset-3 outerGenrateOrder">
-                                 <button type="button" className="btn btn-success col-lg-4 col-lg-offset-4" onClick={this.showOrderReport.bind(this)}>Show Final Report</button>
-                              </div>  
-                          :
-                            <div className="col-lg-6 col-lg-offset-3 outerGenrateOrder">
-                               <button type="button" className="btn btn-success col-lg-4 col-lg-offset-4" onClick={this.generateOrder.bind(this)}>Generate Final Report</button>
-                            </div>
-                          }
+                            {
+                              this.props.buttonStatus == 'Order Completed - Report Completed' ?
+                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                  <div className="col-lg-6 col-lg-offset-3 outerGenrateOrder">
+                                    <i className="fa fa-file-pdf-o ticketIcons" title="PDF"></i>
+                                  </div>
+                                  <div className="col-lg-6 col-lg-offset-3 outerGenrateOrder">
+                                    <span>View</span>
+                                    <span>View</span>
+                                  </div>
+                                </div>  
+                              :
+                                <div className="col-lg-6 col-lg-offset-3 outerGenrateOrder">
+                                  <button type="button" className="btn btn-success col-lg-4 col-lg-offset-4" onClick={this.generateOrder.bind(this)}>Generate Consolidated Report</button>
+                                  <div>
+                                    {/*Progress bar*/}
+                                  </div>
+                                </div>
+                                
+                            }
                          </div>
                          </div>
                          </div>
