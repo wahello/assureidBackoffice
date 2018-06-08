@@ -24,6 +24,7 @@ import ViewCustomerTable from "../../components/tableComponent/ViewCustomerTable
 import ViewCustomerModal from "../../components/modalComponent/ViewCustomerModal.js";
 import { Dropdown } from 'react-native-material-dropdown';
 import RenderVideo from './RenderVideo.js';
+import ShowNotification from '../NotificationLayout/ShowNotification.js';
 
 import {
     CachedImage,
@@ -267,7 +268,7 @@ class ViewSubmittedTicket extends React.Component {
           </View>
         </View>
         <View>
-          <Text
+{/*          <Text
             style={{
               textAlign  : "center",
               fontWeight : "bold",
@@ -276,7 +277,8 @@ class ViewSubmittedTicket extends React.Component {
             }}
           >
             Newly Added
-          </Text>
+          </Text>*/}
+          <ShowNotification />
         </View>
       </ScrollView>
     );

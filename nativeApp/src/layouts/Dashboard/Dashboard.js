@@ -10,6 +10,7 @@ import PropTypes from "prop-types";
 import styles from "./styles.js";
 import Menu from '../../components/Menu/Menu.js';
 import Moment from 'react-moment';
+import ShowNotification from '../NotificationLayout/ShowNotification.js';
 var moment = require('moment');
 
 
@@ -101,7 +102,7 @@ class Dashboard extends React.Component {
           </View>
         </View>
         <View>
-          <Text style={{textAlign:'center',fontWeight:'bold', fontSize: 20,paddingTop: 10}}>Newly Added</Text>
+          <ShowNotification />
         </View>
       </ScrollView>
     );

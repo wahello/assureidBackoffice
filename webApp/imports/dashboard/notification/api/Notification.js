@@ -17,6 +17,10 @@ if(Meteor.isServer){
    Meteor.publish('sms',function sms(){
       return SMS.find({});
   });
+
+  Meteor.publish('userNotification',function userNotification(){
+    return Notification.find({"toUserId": Meteor.userId(),  "event": { $exists: true, $ne: null } });
+  });
   
 }
 

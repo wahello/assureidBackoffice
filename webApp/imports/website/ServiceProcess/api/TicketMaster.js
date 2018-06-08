@@ -33,8 +33,6 @@ if(Meteor.isServer){
 	});
 
 	Meteor.methods({
-   	'testAPI':function(){
-   	},
 	//Find User with minium tickets for specific role and serviceName
 	'autoAllocateMember':function(role,serviceName){
 		//Get the Member with minium count for the role specified
@@ -612,70 +610,74 @@ if(Meteor.isServer){
 				);
 				Meteor.call('statuofVerificationType',usersid,ticket.verificationType,ticket.verificationId,'Field Person will contact soon for verification');
 	  			//notification 
-	  		var allocateduserData  = Meteor.users.findOne({"_id" : insertData.allocatedToUserid});
-	    	 if (allocateduserData) {
-	        var allocatednewID = allocateduserData._id;
-	        if (allocateduserData.profile) {
-	          var allocatedfirstLastNm = allocateduserData.profile.firstname+' '+allocateduserData.profile.lastname;
-	          var allocatedmobNumber   = allocateduserData.profile.mobNumber;
-	        }
-	      }
-				var newDate     = new Date();
-		      	var msgvariable = {                       
-		                        '[username]' : firstLastNm,
-		                        '[servicename]'  : serviceNameOfticket,
-		                        '[date]'     : moment(newDate).format("DD/MM/YYYY"),
-		                       };
-		        var allocatedmsgvariable = {                       
-		                        '[username]' : allocatedfirstLastNm,
-		                        '[date]'     : moment(newDate).format("DD/MM/YYYY"),
-		                       };            
-		      	// Format for send Email //
-		      	var inputObj = {
-		          from         : adminId,
-		          to           : newID,
-		          templateName : 'EFBESelfAllocatedToUser',
-		          variables    : msgvariable,
-		      	}
-		      	var allcatedinputObj = {
-		          from         : adminId,
-		          to           : allocatednewID,
-		          templateName : 'EFBESelfAllocated',
-		          variables    : allocatedmsgvariable,
-		      	}
-		      	sendMailNotification(inputObj);
-            	sendMailNotification(allcatedinputObj)
-		      
-		      	// Format for sending SMS //
-		      	var smsObj = {
-		          to           : newID,
-		          templateName : 'EFBESelfAllocatedToUser',
-		          number       : mobNumber,
-		          variables    : msgvariable,
-		      	}
-		      	var allocatedsmsObj = {
-		          to           : allocatednewID,
-		          templateName : 'EFBESelfAllocated',
-		          number       : allocatedmobNumber,
-		          variables    : allocatedmsgvariable,
-		      	}
-		      	// 
-		      	sendSMS(smsObj);
-		      	sendSMS(allocatedsmsObj);
 
-		      	// Format for sending notification //
-		      	var notifictaionObj = {
-			        to           : newID,
-			        templateName : 'EFBESelfAllocatedToUser',
-			        variables    : msgvariable,
-			      }
-			       var allocatednotifictaionObj = {
-			        to           : allocatednewID,
-			        templateName : 'EFBESelfAllocated',
-			        variables    : allocatedmsgvariable,
-			      }
-		      	sendInAppNotification(notifictaionObj);
-		      	sendInAppNotification(allocatednotifictaionObj);
+	  			var allocateduserData  = Meteor.users.findOne({"_id" : insertData.allocatedToUserid});
+	    		if (allocateduserData && ticket) {
+		        	var allocatednewID = allocateduserData._id;
+		        	if (allocateduserData.profile) {
+			        	var allocatedfirstLastNm = allocateduserData.profile.firstname+' '+allocateduserData.profile.lastname;
+			        	var allocatedmobNumber   = allocateduserData.profile.mobNumber;
+		        	}
+	      		
+					var newDate     = new Date();
+			      	var msgvariable = {                       
+			                        '[username]' : firstLastNm,
+			                        '[servicename]'  : serviceNameOfticket,
+			                        '[date]'     : moment(newDate).format("DD/MM/YYYY"),
+			                       };
+			        var allocatedmsgvariable = {                       
+			                        '[username]' : allocatedfirstLastNm,
+			                        '[date]'     : moment(newDate).format("DD/MM/YYYY"),
+			                        '[ticketNumber]' : ticket.ticketNumber,
+			                       };            
+			      	// Format for send Email //
+			      	var inputObj = {
+			          from         : adminId,
+			          to           : newID,
+			          templateName : 'FEBESelfAllocatedToUser',
+			          variables    : msgvariable,
+			      	}
+			      	var allcatedinputObj = {
+			          from         : adminId,
+			          to           : allocatednewID,
+			          templateName : 'FEBESelfAllocated',
+			          variables    : allocatedmsgvariable,
+			      	}
+			      	sendMailNotification(inputObj);
+	            	sendMailNotification(allcatedinputObj)
+			      
+			      	// Format for sending SMS //
+			      	var smsObj = {
+			          to           : newID,
+			          templateName : 'FEBESelfAllocatedToUser',
+			          number       : mobNumber,
+			          variables    : msgvariable,
+			      	}
+			      	var allocatedsmsObj = {
+			          to           : allocatednewID,
+			          templateName : 'FEBESelfAllocated',
+			          number       : allocatedmobNumber,
+			          variables    : allocatedmsgvariable,
+			      	}
+			      	// console.log("smsObj",smsObj);
+			      	sendSMS(smsObj);
+			      	sendSMS(allocatedsmsObj);
+
+
+			      	// Format for sending notification //
+			      	var notifictaionObj = {
+				        to           : newID,
+				        templateName : 'FEBESelfAllocatedToUser',
+				        variables    : msgvariable,
+				      }
+				       var allocatednotifictaionObj = {
+				        to           : allocatednewID,
+				        templateName : 'FEBESelfAllocated',
+				        variables    : allocatedmsgvariable,
+				      }
+			      	sendInAppNotification(notifictaionObj);
+			      	sendInAppNotification(allocatednotifictaionObj);
+		      	}
 				break;
 			case 'SelfAllocated':
 				TicketMaster.update(
@@ -698,7 +700,7 @@ if(Meteor.isServer){
 		      	var inputObj = {
 		          from         : adminId,
 		          to           : newID,
-		          templateName : 'EFBESelfAllocated',
+		          templateName : 'FEBESelfAllocatedToUser',
 		          variables    : msgvariable,
 		      	}
 		      	sendMailNotification(inputObj);
@@ -706,7 +708,7 @@ if(Meteor.isServer){
 		      	// Format for sending SMS //
 		      	var smsObj = {
 		          to           : newID,
-		          templateName : 'EFBESelfAllocated',
+		          templateName : 'FEBESelfAllocatedToUser',
 		          number       : mobNumber,
 		          variables    : msgvariable,
 		      	}
@@ -716,7 +718,7 @@ if(Meteor.isServer){
 		      	// Format for sending notification //
 		      	var notifictaionObj = {
 			        to           : newID,
-			        templateName : 'EFBESelfAllocated',
+			        templateName : 'FEBESelfAllocatedToUser',
 			        variables    : msgvariable,
 			    }
 		      	sendInAppNotification(notifictaionObj);

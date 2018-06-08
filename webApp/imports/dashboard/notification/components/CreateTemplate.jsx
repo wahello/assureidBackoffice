@@ -239,8 +239,8 @@ class CreateTemplate extends TrackerReact(Component) {
 											  <option value="Payment Incomplete">Payment Incomplete</option>
 											  <option value="Document Reject by screening committee">Document Reject by screening committee</option>
 											  <option value="Viewed By User">Viewed By User</option>
-											  <option value="EFBESelfAllocated">EFBESelfAllocated</option>
-											  <option value="EFBESelfAllocatedToUser">EFBESelfAllocated To User</option>
+											  <option value="FEBESelfAllocated">FEBESelfAllocated</option>
+											  <option value="FEBESelfAllocatedToUser">FEBESelfAllocated To User</option>
 											  <option value="ProofSubmit">Proof Submit</option>
 											  <option value="ProofResubmitted">Proof Resubmitted</option>
 											  <option value="ProofSubmit-Pending">ProofSubmit-Pending</option>
