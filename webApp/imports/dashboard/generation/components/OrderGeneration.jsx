@@ -154,9 +154,11 @@ class OrderGeneration extends TrackerReact(Component){
     }
   }
   var handleSinTick = Meteor.subscribe("singleOrder",idValue);
+  var handleTick = Meteor.subscribe("listTickets");
   var loading = !handleSinTick.ready();
   var getOrder = Order.findOne({"_id":idValue});
   if(getOrder){
+    //status of order
     var tempStatus = '' ; 
     var allTicketStatus = getOrder.ticket; 
     var orderStatus = allTicketStatus.find(function (obj) { return obj.status == 'Inaccessible' });
@@ -185,6 +187,27 @@ class OrderGeneration extends TrackerReact(Component){
       getOrder.orderStatus = 'Inaccessible';
       var textColor = 'text-warning';
     }
+
+    //Summary Findings of all the tickets
+    var caseDrop = [];
+    var cancelled = [];
+    var unableToVerify = [];
+    var inaccessible = [];
+    var majorDiscrepancy = [];
+    var minorDiscrepancy = [];
+    var clear = [];
+
+    // for( i = 0 ; i < getOrder.ticket.length ; i++){
+    //   var ticketDetails = TicketMaster.findOne("_id":getOrder.ticket[i].ticketId);
+    //   if(ticketDetails){
+    //     var details = {
+    //       ticketNumber : ticketDetails.ticketNumber,
+    //       status       : ticketDetails.reportGenerated.documents.status,
+
+    //     }
+    //   }
+    // }
+
   }
 return{
   getOrder,

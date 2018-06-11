@@ -29,7 +29,7 @@ if(Meteor.isServer){
         return BADetails.find({});
 	});
 	Meteor.publish('listTickets',()=>{
-		return TicketMaster.find({},{fields:{ticketNumber:1,orderNo:1,serviceName:1,createdAt:1,tatDate:1,'ticketElement.userId':1,'ticketElement.allocatedUsrId':1,'ticketElement.role':1,'ticketElement.roleStatus':1,'ticketElement.createdAt':1}});
+		return TicketMaster.find({},{fields:{ticketNumber:1,orderNo:1,verificationType:1,serviceName:1,createdAt:1,tatDate:1,'ticketElement.userId':1,'ticketElement.allocatedUsrId':1,'ticketElement.role':1,'ticketElement.roleStatus':1,'ticketElement.createdAt':1}});
 	});
 
 	Meteor.methods({

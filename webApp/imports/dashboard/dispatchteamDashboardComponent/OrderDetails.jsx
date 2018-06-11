@@ -53,7 +53,6 @@ class OrderDetails extends TrackerReact(Component){
   generateOrder(event){
     event.preventDefault();
     Meteor.call("orderCompleted",this.props.orderId);
-    console.log('order completed');
     var path = '/orderGeneration/'+this.props.orderId;
         window.open(path);
   }
@@ -65,6 +64,73 @@ class OrderDetails extends TrackerReact(Component){
     
     // var path = '/orderGeneration';
         window.open(path);
+  }
+  orderUpdate(event){
+    event.preventDefault();
+    var orderId             = this.props.orderId;
+    var genratedReport      = '/orderGeneration/'+this.props.orderId;
+    var genratedReportDate  = new Date();
+    // console.log("genratedReport",genratedReport);
+    Meteor.call("updateOrderGenrationlink",orderId,genratedReport,genratedReportDate,function(error,result) {
+      if (error) {
+        console.log(error.reason);
+      }else{
+        console.log("updated successfully");
+        var adminData   = Meteor.users.findOne({'roles' : "admin"});
+        if (adminData) {
+          var adminId  = adminData._id;
+        }
+        var order      = Order.findOne({"_id" : orderId});
+        if (order) {
+          var userid   = order.userId;
+          var userData = Meteor.users.findOne({"_id" : userid});
+           if (userData) {
+            var newID = userData._id;
+            if (userData.profile) {
+              var firstLastNm = userData.profile.firstname+' '+userData.profile.lastname;
+              var mobNumber   = userData.profile.mobNumber;
+            }
+          }
+         //  var currentPath = browserHistory.getCurrentLocation();
+         // console.log(currentPath);
+           var orderNo     = order.orderNo;
+           var newDate     = new Date();
+           var msgvariable = {                       
+                            '[username]' : firstLastNm,
+                            '[orderNo]'  : orderNo,
+                            '[date]'     : moment(newDate).format("DD/MM/YYYY"),
+                           };
+            // Format for send Email //
+            var inputObj = {
+              from         : adminId,
+              to           : newID,
+              templateName : 'OrderCompleted',
+              variables    : msgvariable,
+            }
+            sendMailNotification(inputObj);
+          
+            // Format for sending SMS //
+            var smsObj = {
+              to           : newID,
+              templateName : 'OrderCompleted',
+              number       : mobNumber,
+              variables    : msgvariable,
+            }
+            // 
+            sendSMS(smsObj);
+
+            // Format for sending notification //
+            var notifictaionObj = {
+              to           : newID,
+              templateName : 'OrderCompleted',
+              variables    : msgvariable,
+          }
+            sendInAppNotification(notifictaionObj);
+
+        }
+       
+      }
+    });
   }
   render(){
       if(!this.props.loading){
@@ -217,20 +283,21 @@ class OrderDetails extends TrackerReact(Component){
                           </div>
                             {
                               this.props.buttonStatus == 'Order Completed - Report Completed' ?
-                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                  <div className="col-lg-6 col-lg-offset-3 outerGenrateOrder">
-                                    <i className="fa fa-file-pdf-o ticketIcons" title="PDF"></i>
+                                <div className="col-lg-8 col-lg-offset-2 col-md-12 col-sm-12 col-xs-12 outerViewPublish">
+                                  <div className="col-lg-5 outerGenrateOrder text-right">
+                                    <i className="fa fa-file-pdf-o orderprocessIcons" title="PDF"></i>
                                   </div>
-                                  <div className="col-lg-6 col-lg-offset-3 outerGenrateOrder">
-                                    <span>View</span>
-                                    <span>View</span>
+                                  <div className="col-lg-7 outerGenrateOrder">
+                                    <span className="col-lg-12 col-md-12 col-sm-12 col-xs-12 viewTitle">View</span>
+                                    <button className="btn btn-success publishTitle" onClick={this.orderUpdate.bind(this)}>Publish to user</button>
                                   </div>
                                 </div>  
                               :
                                 <div className="col-lg-6 col-lg-offset-3 outerGenrateOrder">
-                                  <button type="button" className="btn btn-success col-lg-4 col-lg-offset-4" onClick={this.generateOrder.bind(this)}>Generate Consolidated Report</button>
-                                  <div>
-                                    {/*Progress bar*/}
+                                  <button type="button" className="btn btn-success col-lg-6 col-lg-offset-3" onClick={this.generateOrder.bind(this)}>Generate Consolidated Report</button>
+                                  <div className="progress col-lg-12">                      
+                                    <div className="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style={{width:100+'%'}}>                      
+                                    </div>                    
                                   </div>
                                 </div>
                                 
@@ -256,7 +323,7 @@ export default UserDetailsContainer = withTracker(props => {
   var handleSinTick = Meteor.subscribe("singleOrder",props.params.id);
   var handleUseFunc = Meteor.subscribe('userfunction');
   var handleUserProfile = Meteor.subscribe("userProfileData");
-  var handleTicket = Meteor.subscribe("");
+  var handleTicket = Meteor.subscribe("listTickets");
   var orderId = props.params.id;
   var loading = !handleSinTick.ready() && !handleUseFunc.ready() && !handleUserProfile.ready() && !handleTicket.ready();
   var orderDetails = Order.findOne({"_id":orderId}) ;
@@ -281,9 +348,26 @@ export default UserDetailsContainer = withTracker(props => {
     }
     //Ticket Details
     for(j = 0 ; j < orderDetails.ticket.length; j++){
-      orderDetails.ticket[j].ticketNo = 'AAAOOO1';
-      orderDetails.ticket[j].verificationType = 'Address Verification';
-      orderDetails.ticket[j].createdAt = orderDetails.createdAt;
+      var ticketDetail = TicketMaster.findOne({"_id":orderDetails.ticket[j].ticketId});
+      if(ticketDetail){
+        orderDetails.ticket[j].ticketNo         = ticketDetail.ticketNumber;
+        var verificationType = ticketDetail.verificationType;
+        if (verificationType == "professionalEducation") {
+          var vt = "Academic Verification";
+        }else if (verificationType == "permanentAddress") {
+          var vt = "Address Verification";
+        }else if (verificationType == "currentAddress") {
+          var vt = "Address Verification";
+        }else if (verificationType == "employement") {
+          var vt = "Employment Verification";
+        }else if (verificationType == "education") {
+          var vt = "Academic Verification";
+        }else  if (verificationType == "certificates") {
+          var vt = "Skills And Certification Verification";
+        }
+        orderDetails.ticket[j].verificationType = vt;
+        orderDetails.ticket[j].createdAt        = ticketDetail.createdAt;
+      }
 
     }
     var buttonStatus = orderDetails.orderStatus;

@@ -244,6 +244,7 @@ class CreateTemplate extends TrackerReact(Component) {
 											  <option value="ProofSubmit">Proof Submit</option>
 											  <option value="ProofResubmitted">Proof Resubmitted</option>
 											  <option value="ProofSubmit-Pending">ProofSubmit-Pending</option>
+											  <option value="OrderCompleted">Order Completed</option>
 											  {/*<option value="Space provider rating">Space Provider Rating</option>
 											  <option value="Checkout for space provider">Checkout For Space Provider</option>
 											  <option value="Checkout for user">Checkout For User</option>

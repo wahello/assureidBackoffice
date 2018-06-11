@@ -2,7 +2,7 @@ import {Mongo} from 'meteor/mongo';
 import {Meteor} from 'meteor/meteor';
 import { UserProfile } from '/imports/website/forms/api/userProfile.js';
 import { TicketMaster } from '/imports/website/ServiceProcess/api/TicketMaster.js';
-
+import { browserHistory } from 'react-router';
 export const Order = new Mongo.Collection("order");
 export const TempOrder = new Mongo.Collection("tempOrder");
 
@@ -198,6 +198,16 @@ if(Meteor.isServer){
                 "completedDate": new Date(),
               }
             });
+     },
+     'updateOrderGenrationlink' :function(orderId,genratedReport,genratedReportDate){ 
+       
+        Order.update({"_id": orderId},{
+          $set:{
+            "genratedReport"      : genratedReport,
+            "genratedReportDate"  : genratedReportDate,
+          }
+        });
+        
      }
    });
 
