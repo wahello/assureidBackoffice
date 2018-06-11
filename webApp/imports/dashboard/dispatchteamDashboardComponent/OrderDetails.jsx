@@ -285,11 +285,16 @@ class OrderDetails extends TrackerReact(Component){
                               this.props.buttonStatus == 'Order Completed - Report Completed' ?
                                 <div className="col-lg-8 col-lg-offset-2 col-md-12 col-sm-12 col-xs-12 outerViewPublish">
                                   <div className="col-lg-5 outerGenrateOrder text-right">
-                                    <i className="fa fa-file-pdf-o orderprocessIcons" title="PDF"></i>
+                                    <i className="fa fa-file-pdf-o orderprocessIcons" title="Download PDF" onClick={this.showOrderReport.bind(this)}></i>
                                   </div>
                                   <div className="col-lg-7 outerGenrateOrder">
-                                    <span className="col-lg-12 col-md-12 col-sm-12 col-xs-12 viewTitle">View</span>
-                                    <button className="btn btn-success publishTitle" onClick={this.orderUpdate.bind(this)}>Publish to user</button>
+                                    <span className="col-lg-12 col-md-12 col-sm-12 col-xs-12 viewTitle" onClick={this.showOrderReport.bind(this)}>View</span>
+                                    {
+                                      this.props.orderDetails.genratedReport ?
+                                        <span className="btn-success publishTitle" >Published on {moment(this.props.orderDetails.genratedReportDate).format('DD-MM-YYYY')}</span>  
+                                      :
+                                        <button className="btn btn-success publishTitle" onClick={this.orderUpdate.bind(this)}>Publish to user</button>
+                                    }
                                   </div>
                                 </div>  
                               :
@@ -323,7 +328,7 @@ export default UserDetailsContainer = withTracker(props => {
   var handleSinTick = Meteor.subscribe("singleOrder",props.params.id);
   var handleUseFunc = Meteor.subscribe('userfunction');
   var handleUserProfile = Meteor.subscribe("userProfileData");
-  var handleTicket = Meteor.subscribe("listTickets");
+  var handleTicket = Meteor.subscribe("allTickets");
   var orderId = props.params.id;
   var loading = !handleSinTick.ready() && !handleUseFunc.ready() && !handleUserProfile.ready() && !handleTicket.ready();
   var orderDetails = Order.findOne({"_id":orderId}) ;

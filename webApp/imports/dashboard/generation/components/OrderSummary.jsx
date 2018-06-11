@@ -71,7 +71,7 @@ class OrderSummary extends TrackerReact(Component){
                         :
                         this.props.getTicket && this.props.getTicket.verificationType == "education" ?
                             <div>
-                                <span>{this.props.getTicket.verificationData.educationQualification}</span>
+                                <span>{this.props.getTicket.verificationData.collegeName}</span>
                             </div>
                         :
 
@@ -92,33 +92,38 @@ class OrderSummary extends TrackerReact(Component){
   //Get id from the props
   var ticketId = props.ticketId;
   var handleSinTick = Meteor.subscribe("singleTicket",ticketId);
+  // var handleSinTick = Meteor.subscribe("allTickets");
   var loading = !handleSinTick.ready();
   
   if(ticketId){
      var getTicket = TicketMaster.findOne({"_id":ticketId});
+
      if(getTicket){
-        var statusName  =  getTicket.reportGenerated.documents.status;
-        var splitName   =  statusName.split('-');
-        var finalStatus =  splitName[1]; 
-        var verificationType = getTicket.verificationType;
-        if (verificationType == "professionalEducation") {
-          var checkListFrom = "Academic Verification";
-        }else if (verificationType == "permanentAddress") {
-          var checkListFrom = "Address Verification";
-        }else if (verificationType == "currentAddress") {
-          var checkListFrom = "Address Verification";
-        }else if (verificationType == "employement") {
-          var checkListFrom = "Employment Verification";
-        }else if (verificationType == "education") {
-          var checkListFrom = "Academic Verification";
-        }else  if (verificationType == "certificates") {
-          var checkListFrom = "Skills And Certification Verification";
+        if(getTicket.reportGenerated){
+          var statusName  =  getTicket.reportGenerated.documents.status;
+          if(statusName){
+            var splitName   =  statusName.split('-');
+            var finalStatus =  splitName[1]; 
+            var verificationType = getTicket.verificationType;
+            if (verificationType == "professionalEducation") {
+              var checkListFrom = "Academic Verification";
+            }else if (verificationType == "permanentAddress") {
+              var checkListFrom = "Address Verification";
+            }else if (verificationType == "currentAddress") {
+              var checkListFrom = "Address Verification";
+            }else if (verificationType == "employement") {
+              var checkListFrom = "Employment Verification";
+            }else if (verificationType == "education") {
+              var checkListFrom = "Academic Verification";
+            }else  if (verificationType == "certificates") {
+              var checkListFrom = "Skills And Certification Verification";
+            }
+            // getTicket.verificationType = checkListFrom;
+            getTicket.service = checkListFrom;
+          }
         }
-        // getTicket.verificationType = checkListFrom;
-        getTicket.service = checkListFrom;
      }
   }
-
     return{
     getTicket,
     finalStatus

@@ -108,18 +108,17 @@ class OrderGeneration extends TrackerReact(Component){
         </div>
         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
           <h3 className="orderHeadStyle">SUMMARY OF FINDINGS</h3>
-          <ul className="col-lg-4 orderHeadStyle">
+          <ul className="col-lg-12 orderHeadStyle">
           {
-            this.props.getOrder ?
-              this.props.getOrder.ticket.map((summary,index)=>{
-                return summary.summeryFinding != undefined ? 
-                  <li className= "showLi" key={index}>{summary.summeryFinding}</li>
-                :
-                null
-              
+            this.props.summaryFinding ?
+              this.props.summaryFinding.map((summary,index)=>{
+                  return summary.text != undefined ? 
+                    <li className= "showLi" key={index}>{summary.text}</li>
+                  :
+                    <div>hello</div>
               })
             :
-            <div></div>
+            <div>hi</div>
           }
           </ul>
         </div>
@@ -154,7 +153,7 @@ class OrderGeneration extends TrackerReact(Component){
     }
   }
   var handleSinTick = Meteor.subscribe("singleOrder",idValue);
-  var handleTick = Meteor.subscribe("listTickets");
+  var handleTick = Meteor.subscribe("allTickets");
   var loading = !handleSinTick.ready();
   var getOrder = Order.findOne({"_id":idValue});
   if(getOrder){
@@ -197,20 +196,186 @@ class OrderGeneration extends TrackerReact(Component){
     var minorDiscrepancy = [];
     var clear = [];
 
-    // for( i = 0 ; i < getOrder.ticket.length ; i++){
-    //   var ticketDetails = TicketMaster.findOne("_id":getOrder.ticket[i].ticketId);
-    //   if(ticketDetails){
-    //     var details = {
-    //       ticketNumber : ticketDetails.ticketNumber,
-    //       status       : ticketDetails.reportGenerated.documents.status,
+    for(i = 0 ; i < getOrder.ticket.length; i++ ){
+      var ticketDetails = TicketMaster.findOne({"_id":getOrder.ticket[i].ticketId});
+      if(ticketDetails){
+        var data = {
+          ticketNumber : ticketDetails.ticketNumber,
+          ticketStatus : '-',
+        };
+        if(ticketDetails.verificationType == 'employement'){
+          data.ticketInfo = ticketDetails.verificationData.nameOfEmployer;
+          data.ticketVerification = 'Employement Verification';
+        }else if(ticketDetails.verificationType == 'permanentAddress'){
+          data.ticketInfo = ticketDetails.verificationData.line1 + ' , ' +ticketDetails.verificationData.line2 + ', ' + ticketDetails.verificationData.line3 + ' , ' + ticketDetails.verificationData.landmark + ' , ' + ticketDetails.verificationData.city + ' , ' + ticketDetails.verificationData.state + ' , ' + ticketDetails.verificationData.pincode;
+          data.ticketVerification = 'Address Verification';
+        }else if(ticketDetails.verificationType == 'currentAddress'){
+          data.ticketInfo = ticketDetails.verificationData.templine1 + ' , ' +ticketDetails.verificationData.templine2 + ', ' + ticketDetails.verificationData.templine3 + ' , ' + ticketDetails.verificationData.templandmark + ' , ' + ticketDetails.verificationData.tempcity + ' , ' + ticketDetails.verificationData.tempstate + ' , ' + ticketDetails.verificationData.temppincode;
+          data.ticketVerification = 'Address Verification';
+        }else if(ticketDetails.verificationType == 'education'){
+          data.ticketInfo = ticketDetails.verificationData.collegeName + ' - ' + ticketDetails.verificationData.university;
+          data.ticketVerification = 'Education Verification';
+        }
 
-    //     }
-    //   }
-    // }
+        var ticketStatus = ticketDetails.reportGenerated.documents.status.split('-');
+        if(ticketStatus){
+          data.ticketStatus = ticketStatus[1];
+          switch(ticketStatus[1]){
+            case 'Case Drop':
+              caseDrop.push(data);
+              break;
+            case 'Cancelled' :
+              cancelled.push(data);
+              break;
+            case 'Unable to Verify' : 
+              unableToVerify.push(data);
+              break;
+            case 'Inaccessible' :
+              inaccessible.push(data);
+              break;
+            case 'Major Discrepancy' :
+              majorDiscrepancy.push(data);
+              break;
+            case 'Minor Discrepancy' :
+              minorDiscrepancy.push(data);
+              break;
+            case 'Clear' :
+              clear.push(data);
+              break;
+          }  //EOF switch 
+
+          console.log('caseDrop ',caseDrop);
+          var caseDropSummaryFinding = 'are dropped';
+          var cancelledSummaryFinding = 'are cancelled';
+          var unableToVerifiySummaryFinding = 'were unable to verify';
+          var inaccessibleSummaryFinding = 'seems to be wrong. Either we could not find this address or the address was inaccessible to us.';
+          var clearSummaryFinding = 'are clear and looking good to us.';
+          var minorDiscrepancySummaryFinding = 'are clear with minor Discrepany.';
+          var majorDiscrepancySummaryFinding = 'Were not cleared due to manjor discrepancy.';
+
+          var summaryFinding = [];
+          if(caseDrop.length != 0){
+            console.log('caseDrop 0',caseDrop);
+            if(caseDrop.length == 1){
+              var text = caseDrop[0].ticketInfo + ' , ' + caseDrop[0].ticketVerification + caseDropSummaryFinding;
+            }else{
+              var text = '';
+              for(j = 0 ; j < caseDrop.length; j++){
+                var text = text + caseDrop[j].ticketInfo + ' , ' + caseDrop[j].ticketVerification + ' , '
+              }
+              text = text + caseDropSummaryFinding;
+            }
+            var summary = {
+              text : text,
+            }
+            summaryFinding.push(summary);
+          }//EOF Case Drop
+
+          if(cancelled.length != 0){
+            if(cancelled.length == 1){
+              var text = cancelled[0].ticketInfo + ' , ' + cancelled[0].ticketVerification + cancelledSummaryFinding;
+            }else{
+              var text = '';
+              for(j = 0 ; j < cancelled.length; j++){
+                var text = text + cancelled[j].ticketInfo + ' , ' + cancelled[j].ticketVerification + ' , '
+              }
+              text = text + cancelledSummaryFinding;
+            }
+            var summary = {
+              text : text,
+            }
+            summaryFinding.push(summary);
+          }//EOF Cancelled
+
+          if(unableToVerify.length != 0){
+            if(unableToVerify.length == 1){
+              var text = unableToVerify[0].ticketInfo + ' , ' + unableToVerify[0].ticketVerification + unableToVerifiySummaryFinding;
+            }else{
+              var text = '';
+              for(j = 0 ; j < unableToVerify.length; j++){
+                var text = text + unableToVerify[j].ticketInfo + ' , ' + unableToVerify[j].ticketVerification + ' , '
+              }
+              text = text + unableToVerifiySummaryFinding;
+            }
+            var summary = {
+              text : text,
+            }
+            summaryFinding.push(summary);
+          }//EOF Unable to verifiy
+
+          if(inaccessible.length != 0){
+            if(inaccessible.length == 1){
+              var text = inaccessible[0].ticketInfo + ' , ' + inaccessible[0].ticketVerification + inaccessibleSummaryFinding;
+            }else{
+              var text = '';
+              for(j = 0 ; j < inaccessible.length; j++){
+                var text = text + inaccessible[j].ticketInfo + ' , ' + inaccessible[j].ticketVerification + ' , '
+              }
+              text = text + inaccessibleSummaryFinding;
+            }
+            var summary = {
+              text : text,
+            }
+            summaryFinding.push(summary);
+          }//EOF Inaccessible
+
+          if(minorDiscrepancy.length != 0){
+            if(minorDiscrepancy.length == 1){
+              var text = minorDiscrepancy[0].ticketInfo + ' , ' + minorDiscrepancy[0].ticketVerification + minorDiscrepancySummaryFinding;
+            }else{
+              var text = '';
+              for(j = 0 ; j < minorDiscrepancy.length; j++){
+                var text = text + minorDiscrepancy[j].ticketInfo + ' , ' + minorDiscrepancy[j].ticketVerification + ' , '
+              }
+              text = text + minorDiscrepancySummaryFinding;
+            }
+            var summary = {
+              text : text,
+            }
+            summaryFinding.push(summary);
+          }//EOF minor Discrepancy
+
+          if(majorDiscrepancy.length != 0){
+            if(majorDiscrepancy.length == 1){
+              var text = majorDiscrepancy[0].ticketInfo + ' , ' + majorDiscrepancy[0].ticketVerification + majorDiscrepancySummaryFinding;
+            }else{
+              var text = '';
+              for(j = 0 ; j < majorDiscrepancy.length; j++){
+                var text = text + majorDiscrepancy[j].ticketInfo + ' , ' + majorDiscrepancy[j].ticketVerification + ' , '
+              }
+              text = text + majorDiscrepancySummaryFinding;
+            }
+            var summary = {
+              text : text,
+            }
+            summaryFinding.push(summary);
+          }//EOF minor Discrepancy
+
+          if(clear.length != 0){
+            if(clear.length == 1){
+              var text = clear[0].ticketInfo + ' , ' + clear[0].ticketVerification + clearSummaryFinding;
+            }else{
+              var text = '';
+              for(j = 0 ; j < clear.length; j++){
+                var text = text + clear[j].ticketInfo + ' , ' + clear[j].ticketVerification + ' , '
+              }
+              text = text + clearSummaryFinding;
+            }
+            var summary = {
+              text : text,
+            }
+            summaryFinding.push(summary);
+          }//EOF of clear
+
+        }//EOF ticketStatus
+      } 
+    }
+    getOrder.summaryFinding = summaryFinding;
 
   }
 return{
   getOrder,
-  textColor
+  textColor,
+  summaryFinding,
 }
 })(OrderGeneration);
