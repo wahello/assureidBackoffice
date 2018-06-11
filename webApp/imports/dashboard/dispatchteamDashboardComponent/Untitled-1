@@ -1,0 +1,41 @@
+     
+
+      Role                    RoleStatus
+
+       SC                      NewScrAllocated
+                               ScreenApproved
+                               ScreenRejected
+      
+        TL                     screenTLAllocated
+                               Assign
+                               Reassign
+
+        TM                     AssignAccept
+                               AssignReject
+                               SelfAllocated
+                               ProofSubmit
+                               VerificationPass
+                               TMReviewRemark
+            
+        FE/                    FEAllocated
+        BA                     BAAllocated
+                               ProofSubmit
+       
+        QTM                    VerificationPassQTMAllocated
+                               QAPass
+                               QTMReviewRemark
+                               ReportGenerated
+        
+        QTL                    QAPassQTLAllocated
+                               ReviewPass
+                               QTLReviewRemark
+                               ReportReGenerated
+
+
+                               TicketClosed
+
+
+
+
+
+       

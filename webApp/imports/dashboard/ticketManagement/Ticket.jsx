@@ -896,10 +896,7 @@ class Ticket extends TrackerReact(Component){
               <span>Select  appropriate action ? </span>
 
               <div className="col-lg-10 col-lg-offset-2 col-md-12 col-sm-12 col-xs-12 fesubmitbtn">
-                   <button type="button" className="btn reportcommonbtn btn-info" onClick = {this.targetReport.bind(this)}>Edit Report</button>
-              
-
-               
+                   {/* <button type="button" className="btn reportcommonbtn btn-info" onClick = {this.targetReport.bind(this)}>Edit Report</button> */}               
                 {
                   this.props.getTicket.ticketElement.find(function (obj) { return obj.roleStatus == 'SelfAllocated' })?
                     

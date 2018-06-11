@@ -103,7 +103,7 @@ class DispatchTeamSidebar extends TrackerReact(Component){
               <ul className="sidebar-menu otherRoleSidebarMenu" data-widget="tree">
                 <li className="header">MAIN NAVIGATION</li>
                 <li className="">
-                  <Link to="backoffice/dispactteamdashboard" activeClassName="active">
+                  <Link to="/backoffice/dispactteamdashboard" activeClassName="active">
                     <i className="fa fa-dashboard" />
                       <span>Dashboard</span> 
                   </Link>

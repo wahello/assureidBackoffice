@@ -98,7 +98,30 @@ import EscalatedOrdersForDispatchTeam from '/imports/dashboard/dispatchteamDashb
 // import ReportGeneration from '/imports/dashboard/ReportGeneration.jsx';
 // import ReportGeneration from '/imports/dashboard/ReportGeneration.jsx';
 const unauthenticatedPages = ['/', '/signup', '/forgotpassword', '/signup', '/resetpassword/:token','/login'];
-const authenticatedPages = ['/admin/dashboard','/admin/managebasicpage','/admin/manageportfolio','/admin/manageaboutuspage','/admin/manageblockspage','/admin/managecareerpage','/admin/manageeventpage','/admin/managefaq','/admin/managejobpage','/admin/managecontact','/admin/managephotogallery','/admin/managevideolibrary','admin/manageproduct','/admin/manageservice','/admin/manageblogpage', 'admin/company-info', '/dashboard','/admin/UMRolesList','/admin/createUser','/admin/addPackages','/admin/addVerification','/admin/NewsFeed','/admin/UMListOfUsers','/admin/ListOfNewsFeed','/backoffice/dashboard','/admin/reports','/admin/ticketdistribution'];
+const authenticatedPages = ['/admin/dashboard','/admin/managebasicpage','/admin/manageportfolio',
+                            '/backoffice/dashboard','/admin/manageaboutuspage','/admin/manageblockspage',
+                            '/admin/managecareerpage','/admin/manageeventpage','/admin/managefaq',
+                            '/admin/managejobpage','/admin/managecontact','/admin/managephotogallery',
+                            '/admin/managevideolibrary','admin/manageproduct',
+                            '/admin/manageservice','/admin/manageblogpage',
+                            'admin/company-info', '/dashboard','/admin/UMRolesList',
+                            '/admin/createUser','/admin/addPackages',
+                            '/admin/addVerification','/admin/NewsFeed',
+                            '/admin/UMListOfUsers','/admin/ListOfNewsFeed',
+                            '/admin/reports','/admin/ticketdistribution',
+                            '/admin/alltickets','/admin/assignedtickets',
+                            '/admin/opentickets','/admin/approvedtickets',
+                            '/admin/rejectedtickets','/admin/escalatedtickets',
+                            '/backofficeadmin/company-info','/admin/ticket/:id',
+                            '/admin/viewProfile/:id',
+                            '/backoffice/dispactteamdashboard',
+                            '/admin/allorders',
+                            '/admin/orderdetails/:id',
+                            '/admin/orderAllocatedToDispatchTeam',
+                            '/admin/openOrdersForDispatchTeam',
+                            '/admin/completedOrdersForDispatchTeam',
+                            '/admin/escalatedOrdersForDispatchTeam'
+                          ];
 
 export const onAuthChange = (isAuthenticated) => {
   const pathname = browserHistory.getCurrentLocation().pathname;
@@ -115,6 +138,90 @@ export const onAuthChange = (isAuthenticated) => {
     browserHistory.replace('/');
   }
 };
+
+
+
+const onEnterAdminPage = (nextState, replace, callback) => { 
+   // If no user, redirect to login 
+    if (!Meteor.loggingIn() && !Meteor.userId()) {
+      console.log('I was here!');  
+      replace({
+        pathname: '/', 
+        state: { nextPathname: nextState.location.pathname},
+    });
+  }
+
+
+  // If user is admin, redirect to /admin
+    Meteor.subscribe("currentUserData", {
+      onReady: function () {
+        if (!Roles.userIsInRole(Meteor.userId(), ['Admin','superAdmin'])) {
+          replace({
+            // pathname: '/forbidden',
+            // state: { nextPathname: nextState.location.pathname },
+          });
+        };
+        callback();
+      },
+      onError: function () {
+        console.log("error");
+      }
+    });
+}
+
+const onEnterOtherRolePage = (nextState, replace, callback) => { 
+  // If no user, redirect to login 
+  if (!Meteor.loggingIn() && !Meteor.userId()) {
+     console.log('I was here!');  
+     replace({     pathname: '/', 
+     state: { nextPathname: nextState.location.pathname },
+   });
+  }
+  // If user is admin, redirect to /admin
+  Meteor.subscribe("currentUserData", {
+    onReady: function () {
+      if (!Roles.userIsInRole(Meteor.userId(), ['screening committee','team leader','team member','field expert','quality team member','quality team leader'])) {
+        replace({
+          // pathname: '/forbidden',
+          // state: { nextPathname: nextState.location.pathname },
+        });
+      };
+      callback();
+    },
+    onError: function () {
+      console.log("error");
+    }
+  });
+}
+
+const onEnterDispatchTeamPage = (nextState, replace, callback) => { 
+  // If no user, redirect to login 
+  if (!Meteor.loggingIn() && !Meteor.userId()) {
+     console.log('I was here!');  
+     replace({     pathname: '/', 
+     state: { nextPathname: nextState.location.pathname },
+   });
+  }
+  // If user is admin, redirect to /admin
+  Meteor.subscribe("currentUserData", {
+    onReady: function () {
+      if (!Roles.userIsInRole(Meteor.userId(),['dispatch team'])) {
+        replace({
+          // pathname: '/forbidden',
+          // state: { nextPathname: nextState.location.pathname },
+        });
+      };
+      callback();
+    },
+    onError: function () {
+      console.log("error");
+    }
+  });
+}
+
+
+
+
 
 class DashApp extends React.Component {
 
@@ -196,105 +303,103 @@ export const routes = (
      <Route path="/dashboard" component={UserDashboard}/>
 
      <Route component={DashApp} >
-       <Route path="/admin/dashboard" component={Content}/>
-       <Route path="/admin/managebasicpage" component={CreateBasicPage}/>
-       <Route path="/admin/manageaboutuspage" component={AboutUs}/>
-       <Route path="/admin/manageblockspage" component={BlocksPage}/>
-       <Route path="/admin/managecareerpage" component={CareerPage}/>
-       <Route path="/admin/manageblogpage" component={CreateBlogPage}/>
-       <Route path="/admin/ListOfBlogs" component={ListOfBlogs}/>       
-       <Route path="/admin/manageeventpage" component={EventPage}/>
-       <Route path="/admin/managejobpage" component={JobAppPage}/>
-       <Route path="/admin/managecontact" component={ManageContact}/>
-       <Route path="/admin/managephotogallery" component={ManagePhotoGallery}/>
-       <Route path="/admin/managevideolibrary" component={ManageVideoLibrary}/>
-       <Route path="/admin/manageportfolio" component={PortfolioPage}/>
-       <Route path="/admin/manageproduct" component={ProductPage}/>
-       <Route path="/admin/manageservice" component={ServicePage}/>
-       <Route path="/admin/managefaq" component={FAQPage}/>
-       <Route path="/admin/managebasicpage/:id" component={CreateBasicPage}/>
-       <Route path="/admin/manageaboutuspage/:id" component={AboutUs}/>
-       <Route path="/admin/manageblockspage/:id" component={BlocksPage}/>
-       <Route path="/admin/managecareerpage/:id" component={CareerPage}/>
-       <Route path="/admin/EditBlog/:id" component={EditBlog}/>
-       <Route path="/admin/manageeventpage/:id" component={EventPage}/>
-       <Route path="/admin/managejobpage/:id" component={JobAppPage}/>
-       <Route path="/admin/managecontact/:id" component={ManageContact}/>
-       <Route path="/admin/managephotogallery/:id" component={ManagePhotoGallery}/>
-       <Route path="/admin/managevideolibrary/:id" component={ManageVideoLibrary}/>
-       <Route path="/admin/manageportfolio/:id" component={PortfolioPage}/>
-       <Route path="/admin/manageproduct/:id" component={ProductPage}/>
-       <Route path="/admin/EditService/:id" component={EditService}/>
-       <Route path="/admin/EditNewsFeed/:id" component={EditNewsFeed}/>
-       <Route path="/admin/managefaq/:id" component={FAQPage}/>
-       <Route path="/admin/company-info" component={CompanySettingTabs}/>
-       <Route path="/admin/products/AddNewProduct" component={AddNewProduct}/>
-       <Route path="/admin/products/AddNewProduct/:id" component={AddNewProduct}/>
-       <Route path="/admin/products/AddNewProductImages/:id" component={AddNewProductImages}/>
-       <Route path="/admin/products/ProductList" component={ProductList}/>
-       <Route path="/admin/products/BulkProductUpload" component={AddNewBulkProduct}/>
-       <Route path="/admin/createUser" component={CreateUser}/>
-       <Route path="/admin/addPackages" component={AddPackages}/>
-       <Route path="/admin/NewsFeed" component={NewsFeed}/>
-       <Route path="/admin/addVerification" component={AddVerification}/>
-       <Route path="/admin/UMRolesList" component={UMRolesList}/>
-       <Route path="/admin/UMListOfUsers" component={UMListOfUsers}/>
-       <Route path="/admin/editProfile/:id" component={EditUserProfile}/>
-       <Route path="/ComingSoon" component={ComingSoon}/>
-       <Route path="/admin/ListOfNewsFeed" component={ListOfNewsFeed}/>
-       <Route path="/admin/ListOfServices" component={ListOfServices}/>
-       <Route path="/admin/CreateTemplate" component={CreateTemplate}/>
-       <Route path="/admin/CreateTemplate/:id" component={CreateTemplate}/>
-       <Route path="/admin/ViewTemplates" component={ViewTemplates}/>     
-       <Route path="/admin/Qualification" component={AddQualificationLevel}/>
-       <Route path="/admin/Qualification/:id" component={AddQualificationLevel}/>
-       <Route path="/admin/ManageLocation" component={ManageLocation}/>
-       <Route path="/admin/ManageLocation/:id" component={ManageLocation}/>
-       <Route path="/admin/University" component={AddEditUniversity}/>
-       <Route path="/admin/University/:id" component={AddEditUniversity}/>
-       <Route path="/admin/College" component={AddEditCollege}/>
-       <Route path="/admin/College/:id" component={AddEditCollege}/>
-       <Route path="/admin/PoliceStation" component={AddEditPoliceData}/>
-       <Route path="/admin/PoliceStation/:id" component={AddEditPoliceData}/>
-       <Route path="/admin/mytickets" component={MyTickets}/>
-       <Route path="/admin/maxnoofticketallocate" component={MaxNoOfTicketAllocate}/>
-       {/*<Route path="/admin/ticket/:id" component={Ticket}/>*/}
-       <Route path="/admin/Checklist" component={AddEditChecklist} />
-       <Route path="/admin/Checklist/:id" component={AddEditChecklist} />       
-       <Route path="/admin/reports" component={Reports} />       
-       <Route path="/admin/ticketdistribution" component={SCTicketDistribution} /> 
-      <Route path="/mainadmin/ticket/:id" component={Ticket}/>  
-      <Route path="/admin/CodeAndReason" component={AddEditCodeAndReason}/>     
-      <Route path="/admin/CodeAndReason/:id" component={AddEditCodeAndReason}/>  
-      <Route path="/admin/HolidayList/:id" component={AddEditHolidays}/>  
-      <Route path="/admin/HolidayList" component={AddEditHolidays}/>  
+       <Route path="/admin/dashboard" component={Content} onEnter={onEnterAdminPage}/>
+       <Route path="/admin/managebasicpage" component={CreateBasicPage} onEnter={onEnterAdminPage}/>
+       <Route path="/admin/manageaboutuspage" component={AboutUs} onEnter={onEnterAdminPage}/>
+       <Route path="/admin/manageblockspage" component={BlocksPage} onEnter={onEnterAdminPage}/>
+       <Route path="/admin/managecareerpage" component={CareerPage} onEnter={onEnterAdminPage}/>
+       <Route path="/admin/manageblogpage" component={CreateBlogPage} onEnter={onEnterAdminPage}/>
+       <Route path="/admin/ListOfBlogs" component={ListOfBlogs} onEnter={onEnterAdminPage}/>       
+       <Route path="/admin/manageeventpage" component={EventPage} onEnter={onEnterAdminPage}/>
+       <Route path="/admin/managejobpage" component={JobAppPage} onEnter={onEnterAdminPage}/>
+       <Route path="/admin/managecontact" component={ManageContact} onEnter={onEnterAdminPage}/>
+       <Route path="/admin/managephotogallery" component={ManagePhotoGallery} onEnter={onEnterAdminPage}/>
+       <Route path="/admin/managevideolibrary" component={ManageVideoLibrary} onEnter={onEnterAdminPage}/>
+       <Route path="/admin/manageportfolio" component={PortfolioPage} onEnter={onEnterAdminPage}/>
+       <Route path="/admin/manageproduct" component={ProductPage} onEnter={onEnterAdminPage}/>
+       <Route path="/admin/manageservice" component={ServicePage} onEnter={onEnterAdminPage}/>
+       <Route path="/admin/managefaq" component={FAQPage} onEnter={onEnterAdminPage}/>
+       <Route path="/admin/managebasicpage/:id" component={CreateBasicPage} onEnter={onEnterAdminPage}/>
+       <Route path="/admin/manageaboutuspage/:id" component={AboutUs} onEnter={onEnterAdminPage}/>
+       <Route path="/admin/manageblockspage/:id" component={BlocksPage} onEnter={onEnterAdminPage}/>
+       <Route path="/admin/managecareerpage/:id" component={CareerPage} onEnter={onEnterAdminPage}/>
+       <Route path="/admin/EditBlog/:id" component={EditBlog} onEnter={onEnterAdminPage}/>
+       <Route path="/admin/manageeventpage/:id" component={EventPage} onEnter={onEnterAdminPage}/>
+       <Route path="/admin/managejobpage/:id" component={JobAppPage} onEnter={onEnterAdminPage}/>
+       <Route path="/admin/managecontact/:id" component={ManageContact} onEnter={onEnterAdminPage}/>
+       <Route path="/admin/managephotogallery/:id" component={ManagePhotoGallery} onEnter={onEnterAdminPage}/>
+       <Route path="/admin/managevideolibrary/:id" component={ManageVideoLibrary} onEnter={onEnterAdminPage}/>
+       <Route path="/admin/manageportfolio/:id" component={PortfolioPage} onEnter={onEnterAdminPage}/>
+       <Route path="/admin/manageproduct/:id" component={ProductPage} onEnter={onEnterAdminPage}/>
+       <Route path="/admin/EditService/:id" component={EditService} onEnter={onEnterAdminPage}/>
+       <Route path="/admin/EditNewsFeed/:id" component={EditNewsFeed} onEnter={onEnterAdminPage}/>
+       <Route path="/admin/managefaq/:id" component={FAQPage} onEnter={onEnterAdminPage}/>
+       <Route path="/admin/company-info" component={CompanySettingTabs} onEnter={onEnterAdminPage}/>
+       <Route path="/admin/products/AddNewProduct" component={AddNewProduct} onEnter={onEnterAdminPage}/>
+       <Route path="/admin/products/AddNewProduct/:id" component={AddNewProduct} onEnter={onEnterAdminPage}/>
+       <Route path="/admin/products/AddNewProductImages/:id" component={AddNewProductImages} onEnter={onEnterAdminPage}/>
+       <Route path="/admin/products/ProductList" component={ProductList} onEnter={onEnterAdminPage}/>
+       <Route path="/admin/products/BulkProductUpload" component={AddNewBulkProduct} onEnter={onEnterAdminPage}/>
+       <Route path="/admin/createUser" component={CreateUser} onEnter={onEnterAdminPage}/>
+       <Route path="/admin/addPackages" component={AddPackages} onEnter={onEnterAdminPage}/>
+       <Route path="/admin/NewsFeed" component={NewsFeed} onEnter={onEnterAdminPage}/>
+       <Route path="/admin/addVerification" component={AddVerification} onEnter={onEnterAdminPage}/>
+       <Route path="/admin/UMRolesList" component={UMRolesList} onEnter={onEnterAdminPage}/>
+       <Route path="/admin/UMListOfUsers" component={UMListOfUsers} onEnter={onEnterAdminPage}/>
+       <Route path="/admin/editProfile/:id" component={EditUserProfile} onEnter={onEnterAdminPage}/>
+       <Route path="/ComingSoon" component={ComingSoon} onEnter={onEnterAdminPage}/>
+       <Route path="/admin/ListOfNewsFeed" component={ListOfNewsFeed} onEnter={onEnterAdminPage}/>
+       <Route path="/admin/ListOfServices" component={ListOfServices} onEnter={onEnterAdminPage}/>
+       <Route path="/admin/CreateTemplate" component={CreateTemplate} onEnter={onEnterAdminPage}/>
+       <Route path="/admin/CreateTemplate/:id" component={CreateTemplate} onEnter={onEnterAdminPage}/>
+       <Route path="/admin/ViewTemplates" component={ViewTemplates} onEnter={onEnterAdminPage}/>     
+       <Route path="/admin/Qualification" component={AddQualificationLevel} onEnter={onEnterAdminPage}/>
+       <Route path="/admin/Qualification/:id" component={AddQualificationLevel} onEnter={onEnterAdminPage}/>
+       <Route path="/admin/ManageLocation" component={ManageLocation} onEnter={onEnterAdminPage}/>
+       <Route path="/admin/ManageLocation/:id" component={ManageLocation} onEnter={onEnterAdminPage}/>
+       <Route path="/admin/University" component={AddEditUniversity} onEnter={onEnterAdminPage}/>
+       <Route path="/admin/University/:id" component={AddEditUniversity} onEnter={onEnterAdminPage}/>
+       <Route path="/admin/College" component={AddEditCollege} onEnter={onEnterAdminPage}/>
+       <Route path="/admin/College/:id" component={AddEditCollege} onEnter={onEnterAdminPage}/>
+       <Route path="/admin/PoliceStation" component={AddEditPoliceData} onEnter={onEnterAdminPage}/>
+       <Route path="/admin/PoliceStation/:id" component={AddEditPoliceData} onEnter={onEnterAdminPage}/>
+       <Route path="/admin/mytickets" component={MyTickets} onEnter={onEnterAdminPage}/>
+       <Route path="/admin/maxnoofticketallocate" component={MaxNoOfTicketAllocate} onEnter={onEnterAdminPage}/>
+       {/*<Route path="/admin/ticket/:id" component={Ticket} onEnter={onEnterAdminPage}/>*/}
+       <Route path="/admin/Checklist" component={AddEditChecklist}  onEnter={onEnterAdminPage}/>
+       <Route path="/admin/Checklist/:id" component={AddEditChecklist}  onEnter={onEnterAdminPage}/>       
+       <Route path="/admin/reports" component={Reports}  onEnter={onEnterAdminPage}/>       
+       <Route path="/admin/ticketdistribution" component={SCTicketDistribution}  onEnter={onEnterAdminPage}/> 
+      <Route path="/mainadmin/ticket/:id" component={Ticket} onEnter={onEnterAdminPage}/>  
+      <Route path="/admin/CodeAndReason" component={AddEditCodeAndReason} onEnter={onEnterAdminPage}/>     
+      <Route path="/admin/CodeAndReason/:id" component={AddEditCodeAndReason} onEnter={onEnterAdminPage}/>  
+      <Route path="/admin/HolidayList/:id" component={AddEditHolidays} onEnter={onEnterAdminPage}/>  
+      <Route path="/admin/HolidayList" component={AddEditHolidays} onEnter={onEnterAdminPage}/>  
        {/* <Route path="/admin/ticketdocumentdetails" component={TicketDocumentDetail}/> */}
     </Route>
 
     <Route component={BackofficeDashApp} >
-      <Route path="/backoffice/dashboard" component={Content}/>
-      <Route path="/admin/alltickets" component={AllTickets}/>
-       <Route path="/admin/assignedtickets" component={AssignedTickets}/>
-       <Route path="/admin/opentickets" component={OpenTickets}/>
-       <Route path="/admin/approvedtickets" component={ApprovedTickets}/>
-       <Route path="/admin/rejectedtickets" component={RejectedTickets}/>
-       <Route path="/admin/escalatedtickets" component={EscalatedTickets}/>
-       <Route path="/backofficeadmin/company-info" component={CompanySettingTabs}/>
-      <Route path="/admin/ticket/:id" component={Ticket}/>       
-      <Route path="/admin/viewProfile/:id" component={ProfileView}/>
-      
-      
+      <Route path="/backoffice/dashboard" component={Content} onEnter={onEnterOtherRolePage}/>
+      <Route path="/admin/alltickets" component={AllTickets}  onEnter={onEnterOtherRolePage}/>
+       <Route path="/admin/assignedtickets" component={AssignedTickets} onEnter={onEnterOtherRolePage}/>
+       <Route path="/admin/opentickets" component={OpenTickets} onEnter={onEnterOtherRolePage}/>
+       <Route path="/admin/approvedtickets" component={ApprovedTickets} onEnter={onEnterOtherRolePage}/>
+       <Route path="/admin/rejectedtickets" component={RejectedTickets} onEnter={onEnterOtherRolePage}/>
+       <Route path="/admin/escalatedtickets" component={EscalatedTickets} onEnter={onEnterOtherRolePage}/>
+       <Route path="/backofficeadmin/company-info" component={CompanySettingTabs} onEnter={onEnterOtherRolePage}/>
+      <Route path="/admin/ticket/:id" component={Ticket} onEnter={onEnterOtherRolePage}/>       
+      <Route path="/admin/viewProfile/:id" component={ProfileView} onEnter={onEnterOtherRolePage}/> 
     </Route>
     <Route path="/reportgeneration/:id" component={ReportGeneration}/>
 
     <Route component={DispatchTeamDashApp} >
-      <Route path="/backoffice/dispactteamdashboard" component={Content}/>
-      <Route path="/admin/allorders" component={AllOrders}/>
-      <Route path="/admin/orderdetails/:id" component={OrderDetails}/>
-      <Route path="/admin/orderAllocatedToDispatchTeam" component={OrderAllocatedToDispatchTeam}/> 
-      <Route path="/admin/openOrdersForDispatchTeam" component={OpenOrdersForDispatchTeam}/>  
-      <Route path="/admin/completedOrdersForDispatchTeam" component={CompletedOrdersForDispatchTeam}/>
-      <Route path="/admin/escalatedOrdersForDispatchTeam" component={EscalatedOrdersForDispatchTeam}/> 
+      <Route path="/backoffice/dispactteamdashboard" component={Content} onEnter={onEnterDispatchTeamPage}/>
+      <Route path="/admin/allorders" component={AllOrders} onEnter={onEnterDispatchTeamPage}/>
+      <Route path="/admin/orderdetails/:id" component={OrderDetails} onEnter={onEnterDispatchTeamPage}/>
+      <Route path="/admin/orderAllocatedToDispatchTeam" component={OrderAllocatedToDispatchTeam} onEnter={onEnterDispatchTeamPage}/> 
+      <Route path="/admin/openOrdersForDispatchTeam" component={OpenOrdersForDispatchTeam} onEnter={onEnterDispatchTeamPage}/>  
+      <Route path="/admin/completedOrdersForDispatchTeam" component={CompletedOrdersForDispatchTeam} onEnter={onEnterDispatchTeamPage}/>
+      <Route path="/admin/escalatedOrdersForDispatchTeam" component={EscalatedOrdersForDispatchTeam} onEnter={onEnterDispatchTeamPage}/> 
     </Route>
 
     {/* <Route path="/" component={CMainLayout} /> */}
