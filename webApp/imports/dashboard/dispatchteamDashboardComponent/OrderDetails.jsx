@@ -301,8 +301,8 @@ class OrderDetails extends TrackerReact(Component){
                                 <div className="col-lg-6 col-lg-offset-3 outerGenrateOrder">
                                   <button type="button" className="btn btn-success col-lg-6 col-lg-offset-3" onClick={this.generateOrder.bind(this)}>Generate Consolidated Report</button>
                                   <div className="progress col-lg-12">                      
-                                    <div className="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style={{width:100+'%'}}>                      
-                                    </div>                    
+                                    {/*<div className="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style={{width:100+'%'}}>                      
+                                    </div>*/}                    
                                   </div>
                                 </div>
                                 
