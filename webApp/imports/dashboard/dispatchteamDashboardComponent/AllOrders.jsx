@@ -16,9 +16,7 @@ class AllOrders extends TrackerReact(Component){
 
 
     allTicketListDetails(ticketId){
-       /**================== Ticket Information=================**/
-
-       
+      /**================== Ticket Information=================**/
       var sc  = ['NewScrAllocated','ScreenApproved','ScreenRejected'];
       var tl  = ['screenTLAllocated','Assign','Reassign'];
       var tm  = ['AssignAccept','AssignReject','SelfAllocated','ProofSubmit','VerificationPass','TMReviewRemark'];
@@ -143,36 +141,16 @@ class AllOrders extends TrackerReact(Component){
             tlObj.color = 'btn-success';            
           }
       }
-          
-          // if(j == ticketLength-1){
-            // if(scObj == ""){
-            //   scObj = {
-            //     'role' : 'SC',
-            //     'color': 'btn-default'
-            //   }
-            // }
-            // blockDetails.push(scObj);
-            // blockDetails.push(tlObj);
-            // blockDetails.push(tmObj);
-            // blockDetails.push(feObj);
-            // blockDetails.push(qtmObj);
-            // blockDetails.push(qtlObj);
-            // blockDetails.push(closeObj);
-            
-          // }
-          
           blockDetails =[scObj,tlObj,tmObj,feObj,qtmObj,qtlObj,closeObj];
         }// EOF j loop
-
+        tickteObj={
+          'ticketNumber' : allTicketList.ticketNumber,
+          'status'       : blockDetails
+        }
       }//EOF allTicketList
       // blockDetails.ticketNumber = allTicketList.ticketNumber;
       
-      tickteObj={
-        'ticketNumber' : allTicketList.ticketNumber,
-        'status'       : blockDetails
-      }
-      
-      console.log(tickteObj);
+     
       return tickteObj;
     }
     render(){
@@ -193,14 +171,14 @@ class AllOrders extends TrackerReact(Component){
                               <div className="reports-table-main">
                                 <table id="subscriber-list-outerTable" className="newOrderwrap subscriber-list-outerTable table table-bordered table-hover table-striped table-striped table-responsive table-condensed table-bordered">
                                   <thead className="table-head umtblhdr">
-                                    {/* <tr className="hrTableHeader UML-TableTr">
-                                      <th className=""> Order No.</th>
-                                      <th className=""> User Name</th>
-                                      <th className=""> Service Purchased </th>
-                                      <th className=""> Order Date </th>
-                                      <th className=""> Completion Date </th>
-                                      <th className=""> Final Status </th>                          
-                                    </tr> */}
+                                    <tr className="hrTableHeader UML-TableTr col-lg-12">
+                                      <th className="col-lg-1"> Order No.</th>
+                                      <th className="col-lg-2"> User Name</th>
+                                      <th className="col-lg-2"> Service Purchased </th>
+                                      <th className="col-lg-2"> Order Date </th>
+                                      <th className="col-lg-1"> Completion Date </th>
+                                      <th className="col-lg-1"> Final Status </th>                          
+                                    </tr>
                                   </thead>
                                   <tbody>
                                     {
@@ -342,38 +320,10 @@ AllOrderContainer = withTracker(props => {
               allOrderList[i].bgClassName = 'btn-warning';
               break;
           }
-        
-          // /**================== Ticket Information=================**/
-
-          // var allTicketList = TicketMaster.find({"orderId":allOrderList[i]._id}).fetch();
-          //  if(allTicketList.length>0){
-          //     for(var k=0;k<allTicketList.length;k++){
-          //       for(var j=0;j<allTicketList[k].ticketElement.length;j++){
-          //         switch(allTicketList[k].ticketElement[j].roleStatus){
-          //           case 'NewScrAllocated':
-          //               allTicketList[k].userRole = 'SC';
-          //               allTicketList[k].bgClassName = 'btn-danger';
-          //           break;
-
-          //           case 'ScreenApproved':
-          //               allTicketList[k].userRole = 'SC';
-          //               allTicketList[k].bgClassName = 'btn-success';
-          //           break;
-
-          //         }
-          //       }//EOF j
-          //       allTicketListDetails.push(allTicketList[k]);
-          //       
-          //     }//EOF k
-             
-          // }//EOF allTicketList.length
         }//EOF i 
         
     }
-    // 
-    // 
-    // 
-    // 
+
     
 
     return {

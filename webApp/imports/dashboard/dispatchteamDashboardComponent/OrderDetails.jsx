@@ -91,11 +91,9 @@ class OrderDetails extends TrackerReact(Component){
               var mobNumber   = userData.profile.mobNumber;
             }
           }
-         //  var currentPath = browserHistory.getCurrentLocation();
-         // console.log(currentPath);
-           var orderNo     = order.orderNo;
-           var newDate     = new Date();
-           var msgvariable = {                       
+          var orderNo     = order.orderNo;
+          var newDate     = new Date();
+          var msgvariable = {                       
                             '[username]' : firstLastNm,
                             '[orderNo]'  : orderNo,
                             '[date]'     : moment(newDate).format("DD/MM/YYYY"),
