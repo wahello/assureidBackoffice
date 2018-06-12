@@ -129,7 +129,7 @@ class OrderDetails extends TrackerReact(Component){
        
       }
     });
-  }
+  } 
   render(){
       if(!this.props.loading){
         return(           
@@ -254,8 +254,8 @@ class OrderDetails extends TrackerReact(Component){
                                                     <tr key={i}>
                                                         <td>{ticketReport.ticketNo}</td>
                                                         <td>{ticketReport.verificationType}</td>
-                                                        <td>{moment(ticketReport.createdAt).format('DD-MM-YYYY')}</td>
-                                                        <td>{moment(ticketReport.completedDate).format('DD-MM-YYYY')}</td> 
+                                                        <td>{moment(ticketReport.createdAt).format('DD MMM YYYY')}</td>
+                                                        <td>{moment(ticketReport.completedDate).format('DD MMM YYYY')}</td> 
                                                         <td>{ticketReport.status}</td>
                                                         <td><Link to={ticketReport.report}><i className="fa fa-file-pdf-o"></i></Link></td>       
                                                     </tr>

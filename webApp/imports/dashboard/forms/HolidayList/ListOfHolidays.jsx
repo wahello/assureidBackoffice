@@ -40,7 +40,7 @@ class ListOfHolidays extends TrackerReact(Component) {
     return this.props.holidaysList.map((holidaysDetails,index) =>{
 
       return <tr key={index}>
-              <td> {moment(holidaysDetails.holidayDate).format("DD-MM-YYYY")} </td>
+              <td> {moment(holidaysDetails.holidayDate).format("DD MMM YYYY")} </td>
               <td> {holidaysDetails.holidayReason} </td>
               <td>
                 <Link to={'/admin/HolidayList/'+holidaysDetails._id} className="editButton" title="Edit">

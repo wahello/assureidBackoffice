@@ -158,6 +158,7 @@ class ReportGeneration extends TrackerReact(Component){
                           return(
                               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outerReportImage" key={i}>
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                  <p><b>{this.props.getTicket.verificationType} Evedence {i+1} :</b></p>
                                   <img src={data.imageLink} className="img img-responsive imagesOnReport" />
                                 </div> 
                               </div>

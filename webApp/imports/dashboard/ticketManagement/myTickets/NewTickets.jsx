@@ -114,18 +114,18 @@ export default class NewTickets extends TrackerReact(Component){
                       </thead>
                             <tbody>
 
-                            {  this.state.tableListData.map((data, index)=>{
+                            { this.state.tableListData.map((data, index)=>{
                                 return(
                                     <tr key={index}>
                                         <td><Link to={"/admin/ticket/"+data._id}>{data.ticketNumber}</Link></td>
                                         <td>{data.orderNo}</td>
                                         <td>{data.serviceName}</td>
-                                        <td>{moment(data.ticketStatus[0].createdAt).format('L')}</td>
+                                        <td>{moment(data.ticketStatus[0].createdAt).format('DD MMM YYYY')}</td>
                                         <td> {this.state.tatDate}</td>
                                         <td><button type="button" data-id={data._id} onClick={this.changeStatus.bind(this)} className=" newOrderbtn btn btn-primary">New</button></td>                                    
                                     </tr>
                                 );
-                            })
+                              })
                             }
 
                             </tbody>

@@ -618,12 +618,12 @@ class VerificationDataSubmit extends TrackerReact(Component){
                                                 <div className="col-lg-12 col-md-12 col-sm-6 col-xs-6 innerChecklisttoteamM noLRPad" key={index}>  
                                                     <div className="col-lg-4 col-md-6 col-sm-6 col-xs-6 noLRPad">
                                                         <label className = "col-lg-12" name ="checkObjs">{checkObjsDefault.titleVal}</label>
-                                                        <div className="col-lg-8 col-lg-offset-0">
+                                                        <div className="col-lg-12 col-lg-offset-0 outerInfo">
                                                             {
                                                                 checkObjsDefault.textVal ?
                                                                    checkObjsDefault.textVal.map((checkObjsRelatedField,index)=>{
                                                                         return(
-                                                                            <span key={index}>{checkObjsRelatedField.value},&nbsp;</span>
+                                                                            <span key={index} className="">{checkObjsRelatedField.value},&nbsp;</span>
                                                                         );
                                                                     })
                                                                 :
@@ -656,12 +656,12 @@ class VerificationDataSubmit extends TrackerReact(Component){
                                             <div className="col-lg-12 col-md-12 col-sm-6 col-xs-6 innerChecklisttoteamM noLRPad" key={index}>  
                                                 <div className="col-lg-4 col-md-6 col-sm-6 col-xs-6 noLRPad">
                                                     <label className = "col-lg-12" name ="checkObjs">{checkObjsDefault.titleVal}</label>
-                                                    <div className="col-lg-8 col-lg-offset-0">
+                                                    <div className="col-lg-12 col-lg-offset-0 outerInfo">
                                                         {
                                                             checkObjsDefault.textVal ?
                                                                checkObjsDefault.textVal.map((checkObjsRelatedField,index)=>{
                                                                     return(
-                                                                        <span key={index}>{checkObjsRelatedField.value},&nbsp;</span>
+                                                                        <span key={index} className="">{checkObjsRelatedField.value},&nbsp;</span>
                                                                     );
                                                                 })
                                                             :
@@ -900,7 +900,9 @@ class VerificationDataSubmit extends TrackerReact(Component){
                                             <option value="Completed-Inaccessible">Completed - Inaccessible</option> 
                                             <option value="Completed-Unable to Verify">Completed - Unable to Verify</option> 
                                             <option value="Completed-Cancelled">Completed - Cancelled</option> 
-                                            <option value="Completed-Case Drop">Completed - Case Drop</option> 
+                                            {/*<option value="Completed-Case Drop">Completed - Case Drop</option>*/}
+                                            <option value="Completed-Stop Checked">Completed - Stop Checked</option>
+                                            
                                         </select>
                                     </div>
                                 </div>{/* Status Block */}

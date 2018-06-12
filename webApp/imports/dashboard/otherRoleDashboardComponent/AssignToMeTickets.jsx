@@ -39,7 +39,7 @@ class AssignToMeTickets extends TrackerReact(Component){
                                         <tr key={index}>                  
                                             <td><Link to={"/admin/ticket/"+data._id}>{data.ticketNumber}</Link></td>
                                             <td>{data.serviceName}</td>
-                                            <td>{moment(data.createdAt).format('l')}</td>
+                                            <td>{moment(data.createdAt).format('DD MMM YYYY')}</td>
                                             <td><lable className={ data.bgClassName ? data.bgClassName+ " tdStatus" : "bg-blue" }> {data.status} </lable> </td>       
                                         </tr>
                                     );

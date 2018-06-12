@@ -49,7 +49,7 @@ class OrderGeneration extends TrackerReact(Component){
       <div className="col-lg-10 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 orderGenerationwrap" id="orderGenerationwrap">
         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noProfilePadding generationHeader"> 
           <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 pull-left">
-            <img src="../images/assureid/Assure-ID-logo-Grey.png" className="generationImg" />
+            <img src="/images/assureid/Assure-ID-logo-Grey.png" className="generationImg" />
           </div>
           <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8">
            <div className="col-lg-11 col-md-11 col-sm-12 col-xs-12">
@@ -108,7 +108,7 @@ class OrderGeneration extends TrackerReact(Component){
         </div>
         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
           <h3 className="orderHeadStyle">SUMMARY OF FINDINGS</h3>
-          <ul className="col-lg-12 orderHeadStyle">
+          <ul className="col-lg-12 col-md-12 col-sm-12 col-xs-12 orderHeadStyle">
           {
             this.props.summaryFinding ?
               this.props.summaryFinding.map((summary,index)=>{
@@ -123,7 +123,6 @@ class OrderGeneration extends TrackerReact(Component){
           </ul>
         </div>
         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noProfilePadding">
-          
           { 
             this.props.getOrder ?
              this.props.getOrder.ticket.map((ticketData,index)=>{

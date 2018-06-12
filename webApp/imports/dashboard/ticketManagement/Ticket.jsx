@@ -487,6 +487,7 @@ class Ticket extends TrackerReact(Component){
       case 'ReportReGenerated' :
         insertData.allocatedToUserid   = '';
         insertData.allocatedToUserName = '';
+        $('#closeTicketModal').modal('hide');
       default :
         insertData.allocatedToUserid   = '';
         insertData.allocatedToUserName = '';
@@ -1008,7 +1009,24 @@ class Ticket extends TrackerReact(Component){
               <h5> {title} </h5>
               <div className="col-lg-7 col-lg-offset-1 col-md-10 col-md-offset-1 col-xm-12 col-xs-12">
                 <div className="col-lg-7">
-                    <button type="button" className="btn btn-success approvebtn col-lg-5 col-lg-offset-2" data-roleStatus="TicketClosed" data-msg="Closed the Ticket" onClick={this.approveButton.bind(this)}>Close Ticket</button>
+                    <button type="button" className="btn btn-success approvebtn col-lg-5 col-lg-offset-2" data-toggle="modal" data-target="#closeTicketModal">Close Ticket</button>
+                </div>
+              </div>
+              <div className="modal fade" id="closeTicketModal" role="dialog">
+                <div className="modal-dialog modal-sm">
+                  <div className="modal-content">
+                    <div className="modal-header">
+                      <button type="button" className="close" data-dismiss="modal">&times;</button>
+                      {/*<h4 class="modal-title">Modal Header</h4>*/}
+                    </div>
+                    <div className="modal-body">
+                      <p><b>Do you want to close ticket?</b></p>
+                    </div>
+                    <div className="modal-footer">
+                    <button type="button" className="btn btn-success approvebtn" data-roleStatus="TicketClosed" data-msg="Closed the Ticket" onClick={this.approveButton.bind(this)}>Confirm</button>
+                      <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>        
@@ -1282,7 +1300,7 @@ class Ticket extends TrackerReact(Component){
                                       <div key={i} className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
                                         <h5> {element.role} </h5>
                                         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                        <b>{element.userName}</b> {element.msg} <b>{element.allocatedToUserName}</b> on {moment(element.createdAt).format("DD/MM/YYYY hh:mm A")}.
+                                        <b>{element.userName}</b> {element.msg} <b>{element.allocatedToUserName}</b> on {moment(element.createdAt).format("DD MMM YYYY hh:mm A")}.
                                         
                                           {
                                             element.remark ?

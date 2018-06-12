@@ -190,8 +190,8 @@ class AllOrders extends TrackerReact(Component){
                                                   <td className="col-lg-1"><Link to={"/admin/orderdetails/"+data._id}>{data.orderNo}</Link></td>
                                                   <td className="col-lg-2"><Link to={"/admin/orderdetails/"+data._id}>{data.userName}</Link></td>
                                                   <td className="col-lg-2"><Link to={"/admin/orderdetails/"+data._id}>{data.serviceName}</Link></td>
-                                                  <td className="col-lg-2"><Link to={"/admin/orderdetails/"+data._id}>{moment(data.createdAt).format('DD-MM-YYYY')}</Link></td>
-                                                  <td className="col-lg-1"><Link to={"/admin/orderdetails/"+data._id}>{moment(data.completedDate).format('DD-MM-YYYY')}</Link></td> 
+                                                  <td className="col-lg-2"><Link to={"/admin/orderdetails/"+data._id}>{moment(data.createdAt).format('DD MMM YYYY')}</Link></td>
+                                                  <td className="col-lg-1"><Link to={"/admin/orderdetails/"+data._id}>{moment(data.completedDate).format('DD MMM YYYY')}</Link></td> 
                                                   <td className="col-lg-1"> 
                                                       <div className={'noLRPad col-lg-9 ' + data.bgClassName}> 
                                                       <Link to={"/admin/orderdetails/"+data._id} className="statuswcolor">{data.orderStatus}</Link> </div> 
@@ -216,7 +216,7 @@ class AllOrders extends TrackerReact(Component){
                                                                       <div key = {index} className="col-lg-2">
                                                                         <div className={"col-lg-12 noLRPad dispatchtldiv "+ statusData.color}>
                                                                           <span className="col-lg-12 noLRPad orderRoleName">{statusData.role!='' ? statusData.role : ""}</span>
-                                                                          <span className="col-lg-12 noLRPad">{statusData.date!='' ? moment(statusData.date).format('DD-MM-YYYY'):""}</span>
+                                                                          <span className="col-lg-12 noLRPad">{statusData.date!='' ? moment(statusData.date).format('DD MMM YYYY'):""}</span>
                                                                         </div>
                                                                       </div>
                                                                    
@@ -262,7 +262,6 @@ class AllOrders extends TrackerReact(Component){
                                                 </div>
                                              </tr> 
                                              </tr>
-                                                
                                           );
                                         })
                                       :

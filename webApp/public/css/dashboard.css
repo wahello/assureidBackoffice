@@ -6711,3 +6711,6 @@ border-top: 2px solid #aaa;
   height: auto;
   width: 100%;
 }
+.outerInfo{
+  word-wrap: break-word;
+}

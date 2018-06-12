@@ -61,7 +61,7 @@ class EscalatedTickets extends TrackerReact(Component){
                                                            {/* <td><Link to={"/admin/ticket/"+data.ticketid}>{data.ticketNumber}</Link></td>
                                                            <td>{data.orderNo}</td>
                                                            <td>{data.serviceName}</td>
-                                                           <td>{moment(data.createdAt).format('l')}</td>
+                                                           <td>{moment(data.createdAt).format('DD MMM YYYY')}</td>
                                                            <td>{data.tatDate}</td> 
                                                            <td>{data.status}</td> */}
                                                         </tr>

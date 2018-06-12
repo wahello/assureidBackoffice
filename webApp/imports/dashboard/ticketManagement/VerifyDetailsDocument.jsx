@@ -39,7 +39,7 @@ class VerifyDetailsDocument extends TrackerReact(Component){
                                 Employee Code - &nbsp;{this.props.getTicket.verificationData.employeeCode ? this.props.getTicket.verificationData.employeeCode : " - "}<br/>
                                 Deignation - &nbsp;{this.props.getTicket.verificationData.designation ? this.props.getTicket.verificationData.designation : " - "}<br/>
                                 Department - &nbsp;{this.props.getTicket.verificationData.department ? this.props.getTicket.verificationData.department : " - "}.<br/>
-                                Employment Duration - &nbsp;{this.props.getTicket.verificationData.employmentFrom ? this.props.getTicket.verificationData.employmentFrom : "-"} - &nbsp; {this.props.getTicket.verificationData.employmentTo ? this.props.getTicket.verificationData.employmentTo : "-"}<br/>
+                                Employment Duration - &nbsp;{this.props.getTicket.verificationData.employmentFrom ? moment(this.props.getTicket.verificationData.employmentFrom).format("DD MMM YYYY") : "-"} - &nbsp; {this.props.getTicket.verificationData.employmentTo ? this.props.getTicket.verificationData.employmentTo == "Present" ? "Present" : moment(this.props.getTicket.verificationData.employmentTo).format("DD MMM YYYY") : "-"}<br/>
                                 Employment Type - &nbsp;{this.props.getTicket.verificationData.typeOfEmployement ? this.props.getTicket.verificationData.typeOfEmployement : " - "} <br/>
                                 Responsibilities - &nbsp;{this.props.getTicket.verificationData.dutiesAndResponsibilites ? this.props.getTicket.verificationData.dutiesAndResponsibilites : "-"}
                                 </div>
@@ -61,7 +61,7 @@ class VerifyDetailsDocument extends TrackerReact(Component){
                                         {this.props.getTicket.verificationData.line3}{this.props.getTicket.verificationData.line3 ? "," : ""}<br/>
                                         {this.props.getTicket.verificationData.landmark}.{this.props.getTicket.verificationData.landmark ? "," : ""}<br/>
                                         {this.props.getTicket.verificationData.city} {this.props.getTicket.verificationData.city ? "," : ""} - {this.props.getTicket.verificationData.pincode}{this.props.getTicket.verificationData.pincode ? "," : ""} &nbsp;{this.props.getTicket.verificationData.state},&nbsp;{this.props.getTicket.verificationData.country},<br/>
-                                        Residing From -&nbsp;{this.props.getTicket.verificationData.residingFrom}<br/> Residing Till-&nbsp;{this.props.getTicket.verificationData.residingTo}
+                                        Residing From -&nbsp;{moment(this.props.getTicket.verificationData.residingFrom).format("DD MMM YYYY")}<br/> Residing Till-&nbsp;{this.props.getTicket.verificationData.residingTo == "Present" ? "Present" : moment(this.props.getTicket.verificationData.residingTo).format("DD MMM YYYY")}
                                         </div>
                                     </div>       
                                 </div>
@@ -83,7 +83,7 @@ class VerifyDetailsDocument extends TrackerReact(Component){
                                                 {this.props.getTicket.verificationData.tempLine3},<br/>
                                                 {this.props.getTicket.verificationData.tempLandmark}.<br/>
                                                 {this.props.getTicket.verificationData.tempCity}-&nbsp; {this.props.getTicket.verificationData.tempPincode},&nbsp;{this.props.getTicket.verificationData.tempState},{this.props.getTicket.verificationData.tempCountry},<br/>
-                                                Residing From - &nbsp;{this.props.getTicket.verificationData.tempresidingFrom} <br/>Residing Till - {this.props.getTicket.verificationData.tempresidingTo}
+                                                Residing From - &nbsp;{moment(this.props.getTicket.verificationData.tempresidingFrom).format("DD MMM YYYY")} <br/>Residing Till - {this.props.getTicket.verificationData.tempresidingTo == "Present" ? "Present" : moment(this.props.getTicket.verificationData.tempresidingTo).format("DD MMM YYYY") }
                                                 </div>
                                             </div>                
                                         </div>

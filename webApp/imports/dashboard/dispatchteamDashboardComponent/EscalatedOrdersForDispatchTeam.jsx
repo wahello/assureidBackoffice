@@ -49,8 +49,8 @@ export default class EscalatedOrdersForDispatchTeam extends TrackerReact(Compone
                                                   
                                                   <td><Link to={"/admin/orderdetails/"+data._id}>{data.orderNo}</Link></td>
                                                   <td><Link to={"/admin/orderdetails/"+data._id}>{data.serviceName}</Link></td>
-                                                  <td><Link to={"/admin/orderdetails/"+data._id}>{moment(data.createdAt).format('DD-MM-YYYY')}</Link></td>
-                                                  <td><Link to={"/admin/orderdetails/"+data._id}>{moment(data.tatDate).format('DD-MM-YYYY')}</Link></td> 
+                                                  <td><Link to={"/admin/orderdetails/"+data._id}>{moment(data.createdAt).format('DD MMM YYYY')}</Link></td>
+                                                  <td><Link to={"/admin/orderdetails/"+data._id}>{moment(data.tatDate).format('DD MMM YYYY')}</Link></td> 
                                                   <td><Link to={"/admin/orderdetails/"+data._id}>{Math.round(Math.abs((new Date().getTime() - data.createdAt.getTime())/(24*60*60*1000)))}</Link></td>
                                                   <td className={data.bgClassName}><Link to={"/admin/orderdetails/"+data._id} className="statuswcolor">{data.orderStatus}</Link></td>       
                                               </tr>

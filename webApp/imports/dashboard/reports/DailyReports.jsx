@@ -111,7 +111,7 @@ class DailyReports extends TrackerReact(Component){
 					<tr key={reportData[i]._id}>
                         <td>{reportData[i].orderNo}</td>
 						<td>{reportData[i].serviceName}</td>   
-						<td>{moment(reportData[i].createdAt).format('DD-MM-YYYY')}</td>
+						<td>{moment(reportData[i].createdAt).format('DD MMM YYYY')}</td>
 						{/* <td>{reportData[i].paymentMethod}</td> */}
 						{/* <td>{reportData[i].productLength}</td> */}
 						{/* <td>{reportData[i].totalQuantity}</td> */}

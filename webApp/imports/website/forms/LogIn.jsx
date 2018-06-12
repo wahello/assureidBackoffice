@@ -36,7 +36,7 @@ export default class LogIn extends TrackerReact(React.Component) {
         Meteor.call('checkBlockedUser', email, function(error,data){
           
           if (data == "Active"){
-            console.log("email,password:"+email,passwordVar);
+            // console.log("email,password:"+email,passwordVar);
             Meteor.loginWithPassword(email, passwordVar, function(error) {
               if (error) {
                 

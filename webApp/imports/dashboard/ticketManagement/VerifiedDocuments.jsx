@@ -69,7 +69,7 @@ class VerifiedDocuments extends TrackerReact(Component){
               {verificationData.state ? verificationData.state+',' : ''}&nbsp;
               {verificationData.Country ? verificationData.Country+',' : ''}&nbsp;
               {verificationData.pincode ? verificationData.pincode+',' : ''},<br />
-              <label><b>Residing From :</b> </label>{verificationData.residingFrom} <label><b>Residing Till :</b> </label>{verificationData.residingTo}
+              <label><b>Residing From :</b> </label>{moment(verificationData.residingFrom).format("DD MMM YYYY")} <label><b>Residing Till :</b> </label>{verificationData.residingTo == "Present" ? "Present" :moment(verificationData.residingTo).format("DD MMM YYYY")}
             </div>
           </div>
         );
@@ -95,7 +95,7 @@ class VerifiedDocuments extends TrackerReact(Component){
               {verificationData.tempState ? verificationData.tempState+',' : ''}&nbsp;
               {verificationData.tempCountry ? verificationData.tempCountry+',' : ''}&nbsp;
               {verificationData.tempPincode ? verificationData.tempPincode+',' : ''},<br />
-              <label><b>Residing From :</b> </label>{verificationData.tempresidingFrom} <label><b>Residing Till :</b> </label>{verificationData.tempresidingTo}
+              <label><b>Residing From :</b> </label>{moment(verificationData.tempresidingFrom).format("DD MMM YYYY")} <label><b>Residing Till :</b> </label>{verificationData.tempresidingTo == "Present" ? "Present" : moment(verificationData.tempresidingTo).format("DD MMM YYYY")}
             </div>
           </div>
         );
@@ -115,8 +115,8 @@ class VerifiedDocuments extends TrackerReact(Component){
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
               <label><b>Designation :</b>&nbsp; </label>{verificationData.designation ? verificationData.designation :"-"},<br />
               <label><b>Department :</b> &nbsp;</label>{verificationData.department ? verificationData.department :"-"},<br />
-              <label><b>Employment From :</b> &nbsp;</label>{verificationData.employmentFrom ? verificationData.employmentFrom: "-"},<br />
-              <label><b>Employment To :</b> &nbsp;</label>{verificationData.employmentTo ? verificationData.employmentTo : "-"},<br />
+              <label><b>Employment From :</b> &nbsp;</label>{moment(verificationData.employmentFrom).format("DD MMM YYYY") ? moment(verificationData.employmentFrom).format("DD MMM YYYY"): "-"},<br />
+              <label><b>Employment To :</b> &nbsp;</label>{verificationData.employmentTo == "Present" ? "Present" :moment(verificationData.employmentTo).format("DD MMM YYYY") ? moment(verificationData.employmentTo).format("DD MMM YYYY") : "-"},<br />
               <label><b>Type Of Employement :</b> &nbsp;</label>{verificationData.typeOfEmployement? verificationData.typeOfEmployement : "-"},<br /> 
               <label><b>Duties And Responsibilites :</b> &nbsp;</label>{verificationData.dutiesAndResponsibilites? verificationData.dutiesAndResponsibilites :" - "}<br/>
               <label><b>Reporting Manager :</b> &nbsp;</label>{verificationData.reportingManagerNm ? verificationData.reportingManagerNm : " - "},<br />

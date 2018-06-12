@@ -229,8 +229,8 @@ class CreateTemplate extends TrackerReact(Component) {
 									<div className="form-group">
 									 <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12 label-category">Template Name<span className="astrick">*</span>:</label>     						
 {/*								      <input type="text" ref="templateName" name="templateName" value={this.state.templateName} onChange={this.handleChange} className="templateName col-lg-12 col-md-12 col-sm-12 col-xs-12 inputValid " required />
-*/}								      
-                         <select ref="templateName" name="templateName" value={this.state.templateName} onChange={this.handleChange} className="templateName col-lg-12 col-md-12 col-sm-12 col-xs-12 inputValid " required>
+*/}							 	      
+                        <select ref="templateName" name="templateName" value={this.state.templateName} onChange={this.handleChange} className="templateName col-lg-12 col-md-12 col-sm-12 col-xs-12 inputValid " required>
 											  <option value="New Registration">New Registration</option>
 											  <option value="Forgot Password">Forgot Password</option>
 											  <option value="Reset Password">Reset Password</option>
@@ -245,6 +245,8 @@ class CreateTemplate extends TrackerReact(Component) {
 											  <option value="ProofResubmitted">Proof Resubmitted</option>
 											  <option value="ProofSubmit-Pending">ProofSubmit-Pending</option>
 											  <option value="OrderCompleted">Order Completed</option>
+											  <option value="Company AssureID Users">Company AssureID Users</option>
+											  <option value="Company Non-AssureID Users">Company Non-AssureID Users</option>
 											  {/*<option value="Space provider rating">Space Provider Rating</option>
 											  <option value="Checkout for space provider">Checkout For Space Provider</option>
 											  <option value="Checkout for user">Checkout For User</option>

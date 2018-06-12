@@ -207,6 +207,55 @@ if(Meteor.isServer){
             "genratedReportDate"  : genratedReportDate,
           }
         });
+        var adminData   = Meteor.users.findOne({'roles' : "admin"});
+        if (adminData) {
+          var adminId  = adminData._id;
+        }
+        var order      = Order.findOne({"_id" : orderId});
+        if (order) {
+          var userid   = order.userId;
+          var userData = Meteor.users.findOne({"_id" : userid});
+           if (userData) {
+            var newID = userData._id;
+            if (userData.profile) {
+              var firstLastNm = userData.profile.firstname+' '+userData.profile.lastname;
+              var mobNumber   = userData.profile.mobNumber;
+            }
+          }
+         //  var currentPath = browserHistory.getCurrentLocation();
+         // console.log(currentPath);
+           var orderNo     = order.orderNo;
+           var newDate     = new Date();
+           var msgvariable = {                       
+                            '[username]' : firstLastNm,
+                            '[orderNo]'  : orderNo,
+                            '[date]'     : moment(newDate).format("DD/MM/YYYY"),
+                           };
+            // Format for send Email //
+            var inputObj = {
+              from         : adminId,
+              to           : newID,
+              templateName : 'OrderCompleted',
+              variables    : msgvariable,
+            }
+            sendMailNotification(inputObj);
+            // Format for sending SMS //
+            var smsObj = {
+              to           : newID,
+              templateName : 'OrderCompleted',
+              number       : mobNumber,
+              variables    : msgvariable,
+            }
+            // 
+            sendSMS(smsObj);
+            // Format for sending notification //
+            var notifictaionObj = {
+              to           : newID,
+              templateName : 'OrderCompleted',
+              variables    : msgvariable,
+           }
+            sendInAppNotification(notifictaionObj);
+        }
         
      }
    });

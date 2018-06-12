@@ -107,7 +107,7 @@ class ServiceInformation extends TrackerReact(Component){
                  Created Date<span className="pull-right">:</span>
                 </div>  
                 <div className="col-lg-7 col-md-8 col-sm-8 col-xs-8 text-left userValue">
-                  <p>{moment(this.props.getTicket.createdAt).format("DD-MM-YYYY")}</p> 
+                  <p>{moment(this.props.getTicket.createdAt).format("DD MMM YYYY")}</p> 
                 
                 </div>  
               </div>
@@ -116,7 +116,7 @@ class ServiceInformation extends TrackerReact(Component){
                  Turn Around Time<span className="pull-right">:</span>
                 </div>  
                 <div className="col-lg-7 col-md-8 col-sm-8 col-xs-8 text-left userValue">
-                  <p>{this.props.getTicket.tatDate}</p> 
+                  <p>{moment(this.props.getTicket.tatDate).format("DD MMM YYYY")}</p> 
                 
                 </div>  
               </div>

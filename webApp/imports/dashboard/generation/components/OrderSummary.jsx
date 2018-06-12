@@ -19,6 +19,7 @@ class OrderSummary extends TrackerReact(Component){
 
 
   render(){
+    if (!this.props.loading) {
     return (
       <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noProfilePadding">
@@ -61,7 +62,6 @@ class OrderSummary extends TrackerReact(Component){
                                 <span>{this.props.getTicket.verificationData.tempPincode}</span>, &nbsp;
                         
                             </div>
-
                         :
                         this.props.getTicket && this.props.getTicket.verificationType == "employement" ?
                             <div>
@@ -87,17 +87,22 @@ class OrderSummary extends TrackerReact(Component){
         </div>
       </div>
     );
+   }else{
+    return(
+       <span>Loading</span>
+      );
+   }
   }
 }export default OrderSummaryContainer = withTracker(props => {
   //Get id from the props
   var ticketId = props.ticketId;
+  console.log("ticketId",ticketId);
   var handleSinTick = Meteor.subscribe("singleTicket",ticketId);
   // var handleSinTick = Meteor.subscribe("allTickets");
   var loading = !handleSinTick.ready();
   
   if(ticketId){
      var getTicket = TicketMaster.findOne({"_id":ticketId});
-
      if(getTicket){
         if(getTicket.reportGenerated){
           var statusName  =  getTicket.reportGenerated.documents.status;
@@ -123,8 +128,9 @@ class OrderSummary extends TrackerReact(Component){
           }
         }
      }
-  }
-    return{
+    }
+  return{
+    loading,
     getTicket,
     finalStatus
     }
