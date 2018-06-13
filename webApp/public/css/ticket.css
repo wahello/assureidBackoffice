@@ -21,7 +21,7 @@
 	/* margin-top: 1%; */
 }
 .tmListWrap{
-  padding: 1%;
+  padding: 2%;
   text-align: center;
 }
 .approvebtn{
@@ -313,4 +313,9 @@
 .orderDownArrow{
 	font-size: 20px;
     cursor: pointer;
+}
+.tmDropList{
+	margin-top: 4%;
+    margin-right: 4%;
+    margin-bottom: 4%;
 }

@@ -27,7 +27,7 @@ class ReopenTickets extends TrackerReact(Component){
                     <table className="table">
                         <thead>
                             <tr className="tableHead">
-                                <th>Ticket No.</th>
+                                <th>Case No.</th>
                                 <th>Service Name</th>
                                 <th>Arrival Date</th>
                                 <th>Status</th>
@@ -84,7 +84,7 @@ ReopenTicketsContainer = withTracker(props => {
                 var ticketElements = assignToMeTicketList[i].ticketElement;
                 switch(role){
                     case 'screening committee' : 
-                    header4 = 'Rejected Tickets';
+                    header4 = 'Rejected Cases';
                         if(ticketElements.find(function (obj) { return obj.roleStatus == 'ScreenRejected'})){
                             switch (ticketElements[ticketElements.length - 1].roleStatus) {
                                 case 'NewScrAllocated':
@@ -114,7 +114,7 @@ ReopenTicketsContainer = withTracker(props => {
                        
                         break;
                     case 'team leader' :
-                    header4 = 'Reassigned Tickets';
+                    header4 = 'Reassigned Cases';
                         if(ticketElements.find(function (obj) { return obj.roleStatus == 'AssignReject'})){                    
                             switch (ticketElements[ticketElements.length - 1].roleStatus) {
                             case 'screenTLAllocated':
@@ -142,7 +142,7 @@ ReopenTicketsContainer = withTracker(props => {
                         }
                         break;
                     case 'team member' :
-                    header4 = 'Reopen Tickets';
+                    header4 = 'Reopen Cases';
                     if(ticketElements.find(function (obj) { return obj.roleStatus == 'QAFail'})){                                        
                         switch (ticketElements[ticketElements.length - 1].roleStatus) {
                             case 'Assign':
@@ -174,7 +174,7 @@ ReopenTicketsContainer = withTracker(props => {
                         }
                         break;
                     case 'quality team member' :
-                        header4 = 'Reopen Tickets';
+                        header4 = 'Reopen Cases';
                         if(ticketElements.find(function (obj) { return obj.roleStatus == 'ReviewFail'})){                                                            
                             switch (ticketElements[ticketElements.length - 1].roleStatus) {
                             case 'VerificationPassQTMAllocated':
@@ -206,7 +206,7 @@ ReopenTicketsContainer = withTracker(props => {
                         }
                         break;
                     case 'quality team leader' :
-                        header4 = 'Reopen Tickets';
+                        header4 = 'Reopen Cases';
                         if(ticketElements.find(function (obj) { return obj.roleStatus == 'ReviewFail'})){                    
                             switch (ticketElements[ticketElements.length - 1].roleStatus) {
                             case 'QAPassQTLAllocated':

@@ -534,7 +534,7 @@ class Ticket extends TrackerReact(Component){
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
               <h5> {title} </h5>
               <div className="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-12">
-                <span className="col-lg-3 col-md-3 col-sm-4 col-xs-5"> Assign this ticket to: </span>
+                <span className="col-lg-3 col-md-3 col-sm-4 col-xs-5"> Assign this case to: </span>
                 <select className="col-lg-3 col-md-3 col-sm-4 col-xs-5 tmListWrap" id="selectTMMember" aria-describedby="basic-addon1" ref="allocateToName"> 
                 <option>--Select--</option>
                   {
@@ -587,7 +587,7 @@ class Ticket extends TrackerReact(Component){
         }
         break;
       case 'AssignReject' :
-        if(Meteor.user().roles.find(this.getRole) == 'team leader' && this.props.getTicket.ticketElement[n-1].allocatedToUserid == Meteor.userId()){
+        if(Meteor.user().roles.find(this.getRole) == 'team leader'){
           var teamMemberList=[];
           var title = "Team Leader";
           return(
@@ -1079,7 +1079,7 @@ class Ticket extends TrackerReact(Component){
                   <div className="col-md-12">
                     <div className="box">
                       <div className="box-header with-border">
-                        <h2 className="box-title">Ticket</h2>
+                        <h2 className="box-title">Case</h2>
                       </div>
                       <div className="box-body">
                          <div className="ticketWrapper col-lg-12 col-md-12 col-sm-12 col-xs-12">

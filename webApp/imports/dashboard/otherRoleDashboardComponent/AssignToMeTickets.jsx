@@ -26,7 +26,7 @@ class AssignToMeTickets extends TrackerReact(Component){
                     <table className="table">
                         <thead>
                             <tr className="tableHead">
-                                <th>Ticket No.</th>
+                                <th>Case No.</th>
                                 <th>Service Name</th>
                                 <th>Arrival Date</th>
                                 <th>Status</th>
@@ -83,7 +83,7 @@ AssignToMeTicketsContainer = withTracker(props => {
                 var ticketElements = assignToMeTicketList[i].ticketElement;
                 switch(role){
                     case 'screening committee' : 
-                    header3 = 'Approved Tickets';
+                    header3 = 'Approved Cases';
                         if(ticketElements.find(function (obj) { return obj.roleStatus == 'ScreenApproved'})){
                             switch (ticketElements[ticketElements.length - 1].roleStatus) {
                                 case 'NewScrAllocated':
@@ -113,7 +113,7 @@ AssignToMeTicketsContainer = withTracker(props => {
                        
                         break;
                     case 'team leader' :
-                    header3 = 'Assigned Tickets';
+                    header3 = 'Assigned Cases';
                         if(ticketElements.find(function (obj) { return obj.roleStatus == 'AssignAccept'})){                    
                             switch (ticketElements[ticketElements.length - 1].roleStatus) {
                             case 'screenTLAllocated':
@@ -141,7 +141,7 @@ AssignToMeTicketsContainer = withTracker(props => {
                         }
                         break;
                     case 'team member' :
-                    header3 = 'Accepted Tickets';
+                    header3 = 'Accepted Cases';
                     if(ticketElements.find(function (obj) { return obj.roleStatus == 'AssignAccept'})){                                        
                         switch (ticketElements[ticketElements.length - 1].roleStatus) {
                             case 'Assign':
@@ -173,7 +173,7 @@ AssignToMeTicketsContainer = withTracker(props => {
                         }
                         break;
                     case 'quality team member' :
-                        header3 = 'Approved Tickets';
+                        header3 = 'Approved Cases';
                         if(ticketElements.find(function (obj) { return obj.roleStatus == 'QAPass'})){                                                            
                             switch (ticketElements[ticketElements.length - 1].roleStatus) {
                             case 'VerificationPassQTMAllocated':
@@ -205,7 +205,7 @@ AssignToMeTicketsContainer = withTracker(props => {
                         }
                         break;
                     case 'quality team leader' :
-                    header3 = 'Approved Tickets';
+                    header3 = 'Approved Cases';
                     if(ticketElements.find(function (obj) { return obj.roleStatus == 'QAPass'})){                    
                         switch (ticketElements[ticketElements.length - 1].roleStatus) {
                         case 'QAPassQTLAllocated':

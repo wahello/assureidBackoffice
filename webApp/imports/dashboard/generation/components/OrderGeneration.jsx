@@ -220,7 +220,7 @@ class OrderGeneration extends TrackerReact(Component){
         if(ticketStatus){
           data.ticketStatus = ticketStatus[1];
           switch(ticketStatus[1]){
-            case 'Case Drop':
+            case 'Stop Checked':
               caseDrop.push(data);
               break;
             case 'Cancelled' :

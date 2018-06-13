@@ -8,6 +8,7 @@ import {ReportGeneration} from '/imports/dashboard/generation/components/ReportG
 import {Order} from './Order.js';
 import { browserHistory } from 'react-router';
 
+
 export const TicketMaster = new Mongo.Collection("ticketMaster");
 export const TicketBucket = new Mongo.Collection("ticketbucket");
 export const BADetails = new Mongo.Collection("badetails");
@@ -49,6 +50,15 @@ if(Meteor.isServer){
 			return match.toUpperCase();
 		});
 	},
+	/*========= Method for add insert data in multiple ticket=======*/
+	updateCheckBoxTM(checkedUsersList,insertData){
+		
+		for(var i=0;i<checkedUsersList.length;i++){
+			console.log(checkedUsersList[i]);
+			Meteor.call('genericUpdateTicketMasterElement',checkedUsersList[i],insertData);
+		}
+	},
+
 	'genericUpdateTicketMasterElement': function(ticketid,insertData){
 	    var adminData   = Meteor.users.findOne({'roles' : "admin"});
 	    var ticket      = TicketMaster.findOne({"_id" : ticketid});
@@ -100,11 +110,8 @@ if(Meteor.isServer){
 				var roleStatus = "screenTLAllocated";
 				var ticketDetails = TicketMaster.findOne({"_id":ticketid});
 				if(ticketDetails){
-					
 					var newMember = Meteor.call('autoAllocateMember',role,ticketDetails.serviceName);
-					
 					var roleSentence = Meteor.call('toTitleCase',role);
-					
 					if(roleSentence && newMember && newMember.length > 0){
 						var insertData = {
 							"userId"              : '',
@@ -437,9 +444,6 @@ if(Meteor.isServer){
 				
 				break;
 			case 'TMReviewRemark':
-				
-				
-				
 				var tmDetails = Meteor.users.findOne({"_id":insertData.userId});
 				if(tmDetails){
 					Meteor.call('updateCommitteeUserCount',tmDetails.count-1,insertData.userId);							

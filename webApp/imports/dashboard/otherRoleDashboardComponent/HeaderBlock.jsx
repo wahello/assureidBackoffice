@@ -22,7 +22,7 @@ class HeaderBlock extends TrackerReact(Component){
                             </span>
                             <div className="col-lg-6 noLRPad">
                                 <div className="col-lg-12 innerboxtext">
-                                    <span className="col-lg-12"> &nbsp; &nbsp; All Tickets</span>
+                                    <span className="col-lg-12"> &nbsp; &nbsp; All Cases</span>
                                     <span className="col-lg-12">&nbsp; &nbsp; {this.props.allticketsCount ? this.props.allticketsCount : 0}</span>
                                 </div>
                                 {/* <span className="col-lg-12 innerboxtext"> &nbsp; &nbsp; Quantity</span>
@@ -37,7 +37,7 @@ class HeaderBlock extends TrackerReact(Component){
                             </span>
                             <div className="col-lg-6 noLRPad">
                                 <div className="col-lg-12 innerboxtext">
-                                    <span className="col-lg-12"> &nbsp; &nbsp; Allocated Tickets</span>
+                                    <span className="col-lg-12 noLRPad"> &nbsp; &nbsp; Allocated Cases</span>
                                     <span className="col-lg-12">&nbsp; &nbsp; {this.props.assignedTicketCount ? this.props.assignedTicketCount : 0}</span>
                                 </div>
                                 {/* <span className="col-lg-12 innerboxtext"> &nbsp; &nbsp; Quantity</span>
@@ -53,7 +53,7 @@ class HeaderBlock extends TrackerReact(Component){
                             </span>
                             <div className="col-lg-6 noLRPad">
                                 <div className="col-lg-12 innerboxtext">
-                                    <span className="col-lg-12"> &nbsp; &nbsp;{this.props.header3} </span>
+                                    <span className="col-lg-12 noLRPad"> &nbsp; &nbsp;{this.props.header3} </span>
                                     <span className="col-lg-12">&nbsp; &nbsp; {this.props.approvedTicketCount ? this.props.approvedTicketCount : 0}</span>
                                 </div>
                                 {/* <span className="col-lg-12 innerboxtext"> &nbsp; &nbsp; Quantity</span>
@@ -69,7 +69,7 @@ class HeaderBlock extends TrackerReact(Component){
                             </span>
                             <div className="col-lg-6 noLRPad">
                                 <div className="col-lg-12 innerboxtext">
-                                    <span className="col-lg-12"> &nbsp; &nbsp;{this.props.header4} </span>
+                                    <span className="col-lg-12 noLRPad"> &nbsp; &nbsp;{this.props.header4} </span>
                                     <span className="col-lg-12">&nbsp; &nbsp; {this.props.rejectTicketCount ? this.props.rejectTicketCount : 0}</span>
                                 </div>
                                 {/* <span className="col-lg-12 innerboxtext"> &nbsp; &nbsp; Quantity</span>
@@ -106,8 +106,8 @@ HeaderBlockContainer = withTracker(props => {
         var allticketsCount      = TicketMaster.find({}).count();
         switch(role){
           case 'screening committee' :
-            header3 = 'Approved Tickets';
-            header4 = 'Rejected Tickets';
+            header3 = 'Approved Cases';
+            header4 = 'Rejected Cases';
 
             var assignedTicketList = TicketMaster.find({ticketElement: { $elemMatch: { allocatedToUserid: _id }}}).fetch();
             if(assignedTicketList){
@@ -129,8 +129,8 @@ HeaderBlockContainer = withTracker(props => {
             
             break;
           case 'team leader' :
-            header3 = 'Assigned Tickets';
-            header4 = 'Reassigned Tickets';
+            header3 = 'Assigned Cases';
+            header4 = 'Reassigned Cases';
             var assignedTicketList = TicketMaster.find({ticketElement: { $elemMatch: { allocatedToUserid: _id }}}).fetch();
             if(assignedTicketList){
               var assignedTicketCount = assignedTicketList.length;
@@ -150,8 +150,8 @@ HeaderBlockContainer = withTracker(props => {
             }
             break;
           case 'team member' :
-            header3 = 'Accepted Tickets';
-            header4 = 'Reopen Tickets';
+            header3 = 'Accepted Cases';
+            header4 = 'Reopen Cases';
             var assignedTicketList = TicketMaster.find({ticketElement: { $elemMatch: { allocatedToUserid: _id }}}).fetch();
             if(assignedTicketList){
               var assignedTicketCount = assignedTicketList.length;
@@ -173,8 +173,8 @@ HeaderBlockContainer = withTracker(props => {
             break;
           
           case 'quality team member' :
-            header3 = 'Approved Tickets';
-            header4 = 'Reopen Tickets';
+            header3 = 'Approved Cases';
+            header4 = 'Reopen Cases';
 
             var assignedTicketList = TicketMaster.find({ticketElement: { $elemMatch: { allocatedToUserid: _id }}}).fetch();
             if(assignedTicketList){
@@ -198,8 +198,8 @@ HeaderBlockContainer = withTracker(props => {
             break;
 
           case 'quality team leader' :
-            header3 = 'Approved Tickets';
-            header4 = 'Reopen Tickets';
+            header3 = 'Approved Cases';
+            header4 = 'Reopen Cases';
 
             var assignedTicketList = TicketMaster.find({ticketElement: { $elemMatch: { allocatedToUserid: _id }}}).fetch();
             if(assignedTicketList){

@@ -283,7 +283,6 @@ class VerificationDataSubmit extends TrackerReact(Component){
 			var dataChk    = {};
 			dataChk.task   = $(this).attr('id');
             dataChk.value  = $(this).val();
-            
             textLists.push(dataChk);
         });
 
@@ -310,30 +309,24 @@ class VerificationDataSubmit extends TrackerReact(Component){
                 var roleStatus  = "ProofSubmit";
                 var msg         = "Submitted Verification Information";
                 var remark      = this.refs.remark.value;
-                // var docRemark   = this.refs.textarea#.value;
             }
         }else{
             if(this.props.EditValue){
                 var status      = this.refs.documentStatus.value;
-                
-                // var subStatus   = this.refs.documentSubStatus.value;
                 var images      = this.state.images.concat(this.props.ticketImages);
                 var videos      = this.state.videos;
                 var roleStatus  = "ProofResubmitted-Pending";
                 var msg         = "Resubmitted Verification Information";
                 var remark      = this.refs.remark.value;
-                // var docRemark      = this.refs.textarea#.value;
                 
             }else{
-                var status      = this.refs.documentStatus.value;
-                // var status      = buttoValue;            
-                // var subStatus   = this.refs.documentSubStatus.value;
+                var status      = this.refs.documentStatus.value;  
                 var images      = this.props.ticketImages;
                 var videos      = this.props.ticketVideo;
                 var roleStatus  = "ProofSubmit-Pending";
                 var msg         = "Submitted Verification Information";
                 var remark      = this.refs.remark.value;
-                // var docRemark   = this.refs.textarea#.value;
+             
                 
             } 
         }
@@ -341,7 +334,6 @@ class VerificationDataSubmit extends TrackerReact(Component){
             checkLists : this.state.chekFieldList,
             textLists  : textLists,
             status     : status,
-            // subStatus  : subStatus,
             images     : images,
             videos     : videos,
             remark     : remark,
@@ -353,7 +345,7 @@ class VerificationDataSubmit extends TrackerReact(Component){
                     if (this.props.tickets.ticketElement.length > 0) {
                         var ticketElements = this.props.tickets.ticketElement;
                         var teamMemberDetails = ticketElements.find(function (obj) { return obj.roleStatus == 'SelfAllocated' });
-                        // 
+                        
                     }
                 }
                 var role = Meteor.user().roles.find(this.getRole);
@@ -369,7 +361,7 @@ class VerificationDataSubmit extends TrackerReact(Component){
                         "submitedDoc"         : documents,
                         "createdAt"           : new Date(),
                     }
-                    //     
+                        
                 }
                 if($('#submitDocument').valid()){
                     Meteor.call('genericUpdateTicketMasterElement',this.props.tickets._id,insertData,function(error,result){
@@ -383,7 +375,7 @@ class VerificationDataSubmit extends TrackerReact(Component){
                         }
                     });
                 }else{
-                    // $(event.target).parent().parent().parent().find('.effect-21.error:first').focus();
+                    
                     $(event.target).parent().parent().parent().find('input.error').addClass('error');
                 }
                
@@ -512,12 +504,10 @@ class VerificationDataSubmit extends TrackerReact(Component){
         this.setState({
             chekFieldList:data,
         })
-        // $(event.target).parent().parent().siblings().slideDown();
+        
         $(event.target).css({'backgroundColor':'#00b8ff','color':'#fff'});        
         $(event.target).siblings().css({'backgroundColor':'#fff','color':'#00b8ff'});
-        // $(event.target).parent().parent().siblings().children().find('textarea').focus();
-        // $(event.target).addClass("active");  
-        // $(event.target).siblings().removeClass("active");
+ 
               
       }
 
@@ -548,9 +538,6 @@ class VerificationDataSubmit extends TrackerReact(Component){
         }
 
         removechecked = (index)=>{
-            // event.preventDefault();
-            
-            
             var currentData = this.state.checkLists;
             var newArr = [];
             for(i=0;i<currentData.length;i++){
@@ -573,7 +560,6 @@ class VerificationDataSubmit extends TrackerReact(Component){
                 checkLists: newArr,
             })
             
-		// $('#checkObjs').prop('checked',false);
 
     }
     

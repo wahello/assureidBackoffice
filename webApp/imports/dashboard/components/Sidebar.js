@@ -273,7 +273,7 @@ class Sidebar extends TrackerReact(Component){
               <li className="treeview">
                 <Link to="javascript:void(0)">
                   <i className="fa fa-archive" />
-                  <span> Ticket Management</span>
+                  <span> Case Management</span>
                   <span className="pull-right-container">
                     <i className="fa fa-angle-left pull-right" />
                   </span>
@@ -286,12 +286,12 @@ class Sidebar extends TrackerReact(Component){
                   </li> */}
                   <li>
                     <Link to="/admin/maxnoofticketallocate">
-                      <i className="fa fa-circle-o" /> Allocate Max No. of Tickets
+                      <i className="fa fa-circle-o" /> Allocate Max No. of Cases
                     </Link> 
                   </li>
                   <li>
                     <Link to="/admin/ticketdistribution">
-                      <i className="fa fa-circle-o" /> SC Ticket Distribution
+                      <i className="fa fa-circle-o" /> SC Case Distribution
                     </Link>
                   </li>
                   

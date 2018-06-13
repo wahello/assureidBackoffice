@@ -103,7 +103,7 @@ export default class NewTickets extends TrackerReact(Component){
                         <table id="subscriber-list-outerTable" className="newOrderwrap subscriber-list-outerTable table table-bordered table-hover table-striped table-striped table-responsive table-condensed table-bordered">
                         <thead className="table-head umtblhdr">
                         <tr className="hrTableHeader info UML-TableTr">
-                          <th className=""> Ticket No.</th>
+                          <th className=""> Case No.</th>
                           <th className=""> Order ID </th>
                           <th className=""> Service Name </th>
                           <th className=""> Receive Date </th>

@@ -18,6 +18,66 @@ class RejectedTickets extends TrackerReact(Component){
       "userRoleIn": Meteor.userId(),
     }
   }
+
+  showTMList(role){
+    var teammemberDetails = Meteor.users.find({"roles": {$in:[role]},}).fetch();
+    return teammemberDetails;
+  }
+  getRole(role) {
+    return role != "backofficestaff";
+  }
+  assignTicketToTM(event){
+      event.preventDefault();
+      var selectedValue = $("#selectTMMember option:selected").val();
+      var checkedUsersList     = [];      
+      var insertData = {
+        "userId"              : Meteor.userId(),
+        "userName"            : Meteor.user().profile.firstname + ' ' + Meteor.user().profile.lastname,
+        "role"                : Meteor.user().roles.find(this.getRole),
+        "roleStatus"          : $(event.currentTarget).attr('data-roleStatus'),
+        "msg"                 : $(event.currentTarget).attr('data-msg'),
+        "createdAt"           : new Date()
+      }
+ 
+      if($("#selectTMMember option:selected").val() !="--Select--"){
+        insertData.allocatedToUserid = $("#selectTMMember option:selected").val();
+        insertData.allocatedToUserName = $("#selectTMMember option:selected").text();
+      }else{
+        swal({   
+          position: 'top-right',    
+          type: 'error',   
+          title: 'Please select team member ',      
+          showConfirmButton: false,     
+          timer: 1500     
+        });  
+      }
+      
+			$('input[name=userCheckbox]:checked').each(function() {
+				checkedUsersList.push(this.value);
+      });
+      if(checkedUsersList.length>0 && selectedValue!=""){
+        Meteor.call('updateCheckBoxTM',checkedUsersList,insertData);
+      }else{
+        swal({   
+          position: 'top-right',    
+          type: 'error',   
+          title: 'Please checked checkbox or team member ',      
+          showConfirmButton: false,     
+          timer: 1500     
+        });  
+      }
+  }
+
+  checkAll(event) {
+    // event.preventDefault();
+    
+    if(event.target.checked){
+      $('.userCheckbox').prop('checked',true);
+    }else{
+      $('.userCheckbox').prop('checked',false);
+    }
+  }
+
    render(){
       return(            
         <div>
@@ -34,23 +94,65 @@ class RejectedTickets extends TrackerReact(Component){
                                 
                                 <div>
                                 <div className="reports-table-main">
+
+                                    <div className="col-lg-12">
+                                      {
+                                        this.props.role == "team leader" ? 
+                                          <div className="col-lg-4 col-md-4 col-sm-8 col-xs-8 pull-right">
+                                            <select className="col-lg-6 col-md-6 col-sm-4 col-xs-5 tmDropList tmListWrap" id="selectTMMember"ref="userListDropdown" name="userListDropdown"> 
+                                              <option>--Select--</option>
+                                                {
+                                                  this.showTMList('team member').map((data,i)=>{
+                                                    return(
+                                                    <option key={i} value={data._id} >
+                                                        {data.profile.firstname + ' ' + data.profile.lastname}&nbsp; 
+                                                        ({data.count ? data.count : 0})
+                                                      </option>
+                                                    );
+                                                  })
+                                                }
+                                            </select>
+                                            <button type="button" className="btn btn-primary tmDropList col-lg-5 col-md-5 col-sm-6 col-xs-6"  data-role="Team Leader" data-roleStatus="Assign" data-msg="Assigned Ticket To Team Member" onClick={this.assignTicketToTM.bind(this)}>Allocate</button>
+                                          </div>
+
+                                          :
+                                          null
+                                      }
+                                    </div>
                                     <table id="subscriber-list-outerTable" className="newOrderwrap subscriber-list-outerTable table table-bordered table-hover table-striped table-striped table-responsive table-condensed table-bordered">
                                     <thead className="table-head umtblhdr">
-                                    <tr className="hrTableHeader info UML-TableTr">
-                                    <th className=""> Ticket No.</th>                                    
-                                    <th className=""> Service Name </th>
-                                    <th className=""> Receive Date </th>
-                                    <th className=""> Due Date</th>
-                                    <th className=""> Aging &nbsp;( In Days ) </th>      
-                                    <th className=""> Status </th>                        
-                                    </tr>
-                                </thead>
+                                        <tr className="hrTableHeader UML-TableTr">
+                                        {
+                                          this.props.role == "team leader" ? 
+                                              <th className="umHeader col-lg-1 col-md-1 col-sm-1 col-xs-1 "> <input type="checkbox" className="allSelector" name="allSelector" onChange={this.checkAll.bind(this)}/> </th>
+                                              :
+                                              null
+                                            
+                                        }
+                                        <th className=""> Case No.</th>                                    
+                                        <th className=""> Service Name </th>
+                                        <th className=""> Receive Date </th>
+                                        <th className=""> Due Date</th>
+                                        <th className=""> Aging &nbsp;( In Days ) </th>      
+                                        <th className=""> Status </th>                        
+                                        </tr>
+                                    </thead>
                                         <tbody>
                                         {
                                                 !this.props.loading && this.props.rejectedTicketList.length>0 ?
                                                   this.props.rejectedTicketList.map((data, index)=>{
                                                     return(
                                                         <tr key={index}>
+                                                              {
+                                                                data.status == "Rejected" && this.props.role == "team leader" ? 
+                                                                <td> <input type="checkbox" ref="userCheckbox" name="userCheckbox" className="userCheckbox" value={data._id}/></td>
+                                                                :
+                                                                data.status != "Rejected" && this.props.role == "team leader" ? 
+                                                                <td></td>
+                                                                : 
+                                                                null
+                                                                
+                                                              }
                                                              <td><Link to={"/admin/ticket/"+data._id}>{data.ticketNumber}</Link></td>                                                             
                                                              <td><Link to={"/admin/ticket/"+data._id}>{data.serviceName}</Link></td>
                                                              <td><Link to={"/admin/ticket/"+data._id}>{moment(data.createdAt).format('DD MMM YYYY')}</Link></td>
@@ -92,10 +194,12 @@ class RejectedTickets extends TrackerReact(Component){
 }
 export default RejectedTicketsContainer = withTracker(props => {
   var handleRejectedTicketList = Meteor.subscribe("listTickets");
+  var handleUseFunc = Meteor.subscribe('userfunction');
+
   var _id  = Meteor.userId();
   const userHandle  = Meteor.subscribe('userData',_id);
   const user        = Meteor.users.findOne({"_id" : _id});
-  const loading    = !userHandle.ready() && !handleRejectedTicketList.ready();
+  const loading    = !userHandle.ready() && !handleRejectedTicketList.ready() && !handleUseFunc.ready();
   var header4 = '';
 
   if(user){
@@ -136,7 +240,7 @@ export default RejectedTicketsContainer = withTracker(props => {
         if(ticketElements.find(function (obj) { return obj.roleStatus == roleStatus})){
           switch(role){
             case 'screening committee' : 
-            header4 = 'Rejected Tickets';
+            header4 = 'Rejected Cases';
               switch (ticketElements[ticketElements.length - 1].roleStatus) {
                 case 'NewScrAllocated':
                   rejectedTicketDetails[i].status = 'New' ;  
@@ -161,7 +265,7 @@ export default RejectedTicketsContainer = withTracker(props => {
               }
               break;
             case 'team leader' :
-            header4 = 'Reassigned Tickets';
+            header4 = 'Reassigned Cases';
               switch (ticketElements[ticketElements.length - 1].roleStatus) {
                 case 'screenTLAllocated':
                   rejectedTicketDetails[i].status = 'New' ;      
@@ -186,7 +290,7 @@ export default RejectedTicketsContainer = withTracker(props => {
               }
               break;
             case 'team member' :
-            header4 = 'Reopen Tickets';
+            header4 = 'Reopen Cases';
               switch (ticketElements[ticketElements.length - 1].roleStatus) {
                 case 'Assign':
                   rejectedTicketDetails[i].status = 'New' ;      
@@ -215,7 +319,7 @@ export default RejectedTicketsContainer = withTracker(props => {
               }
               break;
             case 'quality team member' : 
-            header4 = 'Reopen Tickets';
+            header4 = 'Reopen Cases';
               switch (ticketElements[ticketElements.length - 1].roleStatus) {
                 case 'VerificationPassQTMAllocated':
                   rejectedTicketDetails[i].status = 'New' ;      
@@ -244,7 +348,7 @@ export default RejectedTicketsContainer = withTracker(props => {
               }
               break;
             case 'quality team leader' :
-            header4 = 'Reopen Tickets';
+            header4 = 'Reopen Cases';
               switch (ticketElements[ticketElements.length - 1].roleStatus) {
                 case 'QAPassQTLAllocated':
                   rejectedTicketDetails[i].status = 'New' ;      
@@ -278,5 +382,6 @@ export default RejectedTicketsContainer = withTracker(props => {
     loading,
     rejectedTicketList,
     header4,
+    role
   };
 })(RejectedTickets);

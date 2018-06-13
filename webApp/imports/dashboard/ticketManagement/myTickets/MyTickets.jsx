@@ -81,51 +81,15 @@ export default class MyTickets extends TrackerReact(Component){
                                     </div>
                                   </div>
                                 </div>
-                                {/* <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tllistwrap" >
-                                  <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                              
-                                      <select className="tlselect">
-                                          <option value="Anagha Madhamshetti">Anagha Madhamshetti</option>
-                                          <option value="Nilam Badadhe">Nilam Badadhe</option>
-                                          <option value="Karishma Kottarwar">Karishma`</option>
-                                          <option value="Pooja Patil">Pooja Patil</option>
-                                      </select>
-                                  </div>
-                                </div> */}
-
                                 <div className="col-lg-12">
                                   <table className="table table-bordered table-striped table-hover myTable dataTable no-footer">
-                                    {/* <thead className="table-head umtblhdr">
-                                      <tr className="hrTableHeader info UML-TableTr">
-                                        <th className=""> Sr No.</th>
-                                        <th className=""> Order ID </th>
-                                        <th className=""> Service Name </th>
-                                        <th className=""> Duration </th>
-                                        <th className=""> Amount </th>
-                                        <th className=""> Status </th>
-                                        
-                                      </tr>
-                                    </thead> */}
+                                   
                                     <tbody className="noLRPad">
-                                      {/* { this.usersListData().map( (usersData)=>{
-                                        return <UMUsers key={usersData._id} usersDataValues={usersData}/>
-                                        }) 
-                                      } */}
+                                     
                                      
                                     </tbody>
                                   </table>
                                 </div>
-{/*                               
-                                {
-                                  this.state.currentTabView == "New" ? <NewTickets /> : 
-                                  this.state.currentTabView == "Accepted" ? <AssignedTickets /> : 
-                                  this.state.currentTabView == "Approved" ? <ApprovedTickets /> : 
-                                  this.state.currentTabView == "Rejected" ? <RejectedTickets /> : 
-                                  this.state.currentTabView == "Escalation" ? <EscalationTickets /> : 
-                                  ""
-                                  // <ReportsCustomisedList />  
-                                } 
-                                 */}
                               </div>
                             </div>
                           </div>

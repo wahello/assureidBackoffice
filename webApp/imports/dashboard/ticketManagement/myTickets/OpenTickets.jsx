@@ -18,6 +18,76 @@ class OpenTickets extends TrackerReact(Component){
       "userRoleIn": Meteor.userId(),
     }
   }
+
+
+  showTMList(role){
+    var teammemberDetails = Meteor.users.find({"roles": {$in:[role]},}).fetch();
+    return teammemberDetails;
+  }
+  getRole(role) {
+    return role != "backofficestaff";
+  }
+  assignTicketToTM(event){
+
+      
+ 
+      event.preventDefault();
+      // var selectedValue        = this.refs.userListDropdown.value;
+      var selectedValue = $("#selectTMMember option:selected").val();
+      
+      var insertData = {
+        "userId"              : Meteor.userId(),
+        "userName"            : Meteor.user().profile.firstname + ' ' + Meteor.user().profile.lastname,
+        "role"                : Meteor.user().roles.find(this.getRole),
+        "roleStatus"          : $(event.currentTarget).attr('data-roleStatus'),
+        "msg"                 : $(event.currentTarget).attr('data-msg'),
+        "createdAt"           : new Date()
+      }
+      
+      // if(selectedValue !="--Select--"){
+        if($("#selectTMMember option:selected").val() !="--Select--"){
+        insertData.allocatedToUserid = $("#selectTMMember option:selected").val();
+        insertData.allocatedToUserName = $("#selectTMMember option:selected").text();
+      }else{
+        swal({   
+          position: 'top-right',    
+          type: 'error',   
+          title: 'Please select team member ',      
+          showConfirmButton: false,     
+          timer: 1500     
+        });  
+      }
+      
+      
+
+      var checkedUsersList     = [];
+      
+			$('input[name=userCheckbox]:checked').each(function() {
+				checkedUsersList.push(this.value);
+      });
+      if(checkedUsersList.length>0 && selectedValue!=""){
+        Meteor.call('updateCheckBoxTM',checkedUsersList,insertData);
+      }else{
+        swal({   
+          position: 'top-right',    
+          type: 'error',   
+          title: 'Please checked checkbox or team member ',      
+          showConfirmButton: false,     
+          timer: 1500     
+        });  
+      }
+  }
+
+  checkAll(event) {
+    // event.preventDefault();
+    
+    if(event.target.checked){
+      $('.userCheckbox').prop('checked',true);
+    }else{
+      $('.userCheckbox').prop('checked',false);
+    }
+  }
+
   render(){
     
       return(            
@@ -28,17 +98,48 @@ class OpenTickets extends TrackerReact(Component){
                 <div className="col-md-12">
                   <div className="box">
                     <div className="box-header with-border">
-                      <h2 className="box-title">My Open Tickets</h2> 
+                      <h2 className="box-title">My Open Cases</h2> 
                     </div>
                         <div className="box-body">
                             <div className="ticketWrapper col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 
                                 <div>
                                 <div className="reports-table-main">
+                                    <div className="col-lg-12">
+                                      {
+                                        this.props.role == "team leader" ? 
+                                          <div className="col-lg-4 col-md-4 col-sm-8 col-xs-8 pull-right">
+                                            <select className="col-lg-6 col-md-6 col-sm-4 col-xs-5 tmDropList tmListWrap" id="selectTMMember"ref="userListDropdown" name="userListDropdown"> 
+                                              <option>--Select--</option>
+                                                {
+                                                  this.showTMList('team member').map((data,i)=>{
+                                                    return(
+                                                    <option key={i} value={data._id} >
+                                                        {data.profile.firstname + ' ' + data.profile.lastname}&nbsp; 
+                                                        ({data.count ? data.count : 0})
+                                                      </option>
+                                                    );
+                                                  })
+                                                }
+                                            </select>
+                                            <button type="button" className="btn btn-primary tmDropList col-lg-5 col-md-5 col-sm-6 col-xs-6"  data-role="Team Leader" data-roleStatus="Assign" data-msg="Assigned Ticket To Team Member" onClick={this.assignTicketToTM.bind(this)}>Allocate</button>
+                                          </div>
+
+                                          :
+                                          null
+                                      }
+                                    </div>
                                     <table id="subscriber-list-outerTable" className="newOrderwrap subscriber-list-outerTable table table-bordered table-hover table-striped table-striped table-responsive table-condensed table-bordered">
                                     <thead className="table-head umtblhdr">
                                     <tr className="hrTableHeader UML-TableTr">
-                                    <th className=""> Ticket No.</th>                            
+                                      {
+                                        this.props.role == "team leader" ? 
+                                            <th className="umHeader col-lg-1 col-md-1 col-sm-1 col-xs-1 "> <input type="checkbox" className="allSelector" name="allSelector" onChange={this.checkAll.bind(this)}/> </th>
+                                            :
+                                            null
+                                          
+                                      }
+                                    <th className=""> Case No.</th>                            
                                     <th className=""> Service Name </th>
                                     <th className=""> Receive Date </th>
                                     <th className=""> Due Date </th>
@@ -53,6 +154,16 @@ class OpenTickets extends TrackerReact(Component){
                                               this.props.openTicketList.map((data, index)=>{
                                                 return(
                                                     <tr key={index}>
+                                                           {
+                                                            data.status == "New" && this.props.role == "team leader" ? 
+                                                            <td> <input type="checkbox" ref="userCheckbox" name="userCheckbox" className="userCheckbox" value={data._id}/></td>
+                                                            :
+                                                            data.status != "New" && this.props.role == "team leader" ? 
+                                                            <td></td>
+                                                            : 
+                                                            null
+                                                            
+                                                          }
                                                           <td><Link to={"/admin/ticket/"+data._id}>{data.ticketNumber}</Link></td>
                                                           
                                                           <td><Link to={"/admin/ticket/"+data._id}>{data.serviceName}</Link></td>
@@ -96,10 +207,11 @@ class OpenTickets extends TrackerReact(Component){
 export default OpenTicketsContainer = withTracker(props => {
   
   var handleOpenTicketList = Meteor.subscribe("listTickets");
+  var handleUseFunc = Meteor.subscribe('userfunction');
   var _id  = Meteor.userId();
   const userHandle  = Meteor.subscribe('userData',_id);
   const user        = Meteor.users.findOne({"_id" : _id});
-  const loading    = !userHandle.ready() && !handleOpenTicketList.ready();
+  const loading    = !userHandle.ready() && !handleOpenTicketList.ready() && !handleUseFunc.ready();
 
   if(user){
     var roleArr = user.roles;
@@ -454,6 +566,8 @@ export default OpenTicketsContainer = withTracker(props => {
   }
   return {
     loading,
-    openTicketList
+    openTicketList,
+    role
+
   };
 })(OpenTickets);

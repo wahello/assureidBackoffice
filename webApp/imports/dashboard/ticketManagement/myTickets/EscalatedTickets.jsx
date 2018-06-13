@@ -30,7 +30,7 @@ class EscalatedTickets extends TrackerReact(Component){
                 <div className="col-md-12">
                   <div className="box">
                     <div className="box-header with-border">
-                      <h2 className="box-title">My Esclated Tickets</h2> 
+                      <h2 className="box-title">My Esclated Cases</h2> 
                     </div>
                         <div className="box-body">
                             <div className="ticketWrapper col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -39,8 +39,8 @@ class EscalatedTickets extends TrackerReact(Component){
                                 <div className="reports-table-main">
                                     <table id="subscriber-list-outerTable" className="newOrderwrap subscriber-list-outerTable table table-bordered table-hover table-striped table-striped table-responsive table-condensed table-bordered">
                                     <thead className="table-head umtblhdr">
-                                    <tr className="hrTableHeader info UML-TableTr">
-                                    <th className=""> Ticket No.</th>
+                                    <tr className="hrTableHeader UML-TableTr">
+                                    <th className=""> Case No.</th>
                                     
                                     <th className=""> Service Name </th>
                                     <th className=""> Receive Date </th>

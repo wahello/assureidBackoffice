@@ -136,11 +136,11 @@ class MaxNoOfTicketAllocate extends TrackerReact(Component){
         return (
             <div className="content-wrapper">
               <section className="content-header">
-                <h1> Ticket Management </h1>
+                <h1> Case Management </h1>
                 <ol className="breadcrumb">
                   <li>
-                    <a href="#"><i className="fa fa-newspaper-o" />Ticket Management</a></li>
-                  <li className="active">Allocate Maximum Ticket</li>
+                    <a href="#"><i className="fa fa-newspaper-o" />Case Management</a></li>
+                  <li className="active">Allocate Maximum Cases</li>
                 </ol>
               </section>
                <section className="content">
@@ -148,7 +148,7 @@ class MaxNoOfTicketAllocate extends TrackerReact(Component){
                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                      <div className="box box-primary">
                         <div className="box-header with-border">
-                         <h2 className="box-title">Allocate Maximum Ticket</h2>  
+                         <h2 className="box-title">Allocate Maximum Case</h2>  
                         </div>
                         <div className="box-body "> 
                           <div className="col-lg-12 col-sm-12 col-xs-12 col-md-12 noofticketwrapouter">
@@ -156,7 +156,7 @@ class MaxNoOfTicketAllocate extends TrackerReact(Component){
                               <div className="noofticketwrap col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-12 col-xs-12">
                                 <div className="form-group col-lg-6 col-md-6 col-xs-12 col-sm-12 ">
                                   <span className="blocking-span">
-                                      <label className="floating-label">Enter Maximum No. Of Tickets to Allocate </label>
+                                      <label className="floating-label">Enter Maximum No. Of Cases to Allocate </label>
                                       <input type="text" className="form-control inputText numberallocated" ref="numberallocated" name="numberallocated"  required />
                                   </span>
                                 </div>
@@ -192,7 +192,7 @@ class MaxNoOfTicketAllocate extends TrackerReact(Component){
                               <table className="table table-bordered table-striped table-hover">
                                 <thead>
                                   <tr className="tableHeader">
-                                    <th> Maximum No. of Ticket Allocated </th>
+                                    <th> Maximum No. of Case Allocated </th>
                                     <th> Role </th>
                                     <th> Action </th>
                                   </tr>
@@ -212,7 +212,7 @@ class MaxNoOfTicketAllocate extends TrackerReact(Component){
                                                 <div className="modal-content">
                                                   <div className="modal-header">
                                                     <button type="button" className="close" data-dismiss="modal">&times;</button>
-                                                    <h4 className="modal-title">Delete Max Ticket Allocated Count</h4>
+                                                    <h4 className="modal-title">Delete Max Case Allocated Count</h4>
                                                   </div>
                                                   <div className="modal-body">
                                                     <p><b>Are you sure you want to continue?.</b></p>

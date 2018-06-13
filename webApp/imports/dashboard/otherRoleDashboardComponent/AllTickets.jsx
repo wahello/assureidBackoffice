@@ -16,7 +16,7 @@ class AllTickets extends TrackerReact(Component){
         return(    
             <div className="col-lg-12 col-md-3 col-sm-3 col-xs-3 noLRPad">
                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 innerblock tableinnetWrap noLRPad">
-                <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12 ticketTableLabel">All Tickets
+                <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12 ticketTableLabel">All Cases
                     <span>
                         <Link to="/admin/alltickets" title="View All">
                             <i className="fa fa-arrow-right pull-right arrowcolor" aria-hidden="true"></i>
@@ -26,7 +26,7 @@ class AllTickets extends TrackerReact(Component){
                     <table className="table">
                         <thead>
                             <tr className="tableHead">
-                                <th>Ticket No.</th>
+                                <th>Case No.</th>
                                 <th>Service Name</th>
                                 <th>Arrival Date</th>
                                 <th>Status</th>

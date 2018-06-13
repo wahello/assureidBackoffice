@@ -111,19 +111,19 @@ class OtherRoleSidebar extends TrackerReact(Component){
                 <li className="">
                   <Link to="/admin/alltickets" activeClassName="active">
                     <i className="fa fa-ticket" />
-                      <span>All Tickets({this.props.allticketsCount})</span>
+                      <span>All Cases({this.props.allticketsCount})</span>
                   </Link>
                 </li>
                 <li className="">
                   <Link to="/admin/assignedtickets" activeClassName="active">
                   <i className="fa fa-ticket" />
-                      <span>Tickets Allocted To Me({this.props.assignedTicketCount ? this.props.assignedTicketCount : 0 })</span>
+                      <span>Cases Allocted To Me({this.props.assignedTicketCount ? this.props.assignedTicketCount : 0 })</span>
                   </Link>
                 </li>
                 <li className="">
                   <Link to="/admin/opentickets" activeClassName="active">
                   <i className="fa fa-ticket" />
-                      <span>My Open Tickets({this.props.openTicketCount ? this.props.openTicketCount : 0})</span>
+                      <span>My Open Cases({this.props.openTicketCount ? this.props.openTicketCount : 0})</span>
                   </Link>
                 </li>
               
@@ -142,7 +142,7 @@ class OtherRoleSidebar extends TrackerReact(Component){
                 <li className="">
                   <Link to="/admin/escalatedtickets" activeClassName="active">
                   <i className="fa fa-ticket" />
-                      <span>My Escalated Tickets(0)</span>
+                      <span>My Escalated Cases(0)</span>
                   </Link>
                 </li>
               </ul>
@@ -176,8 +176,8 @@ export default allOtherRoleSidebarContainer = withTracker(props => {
       var allticketsCount      = TicketMaster.find({}).count();
       switch(role){
         case 'screening committee' :
-          header3 = 'Approved Tickets';
-          header4 = 'Rejected Tickets';
+          header3 = 'Approved Cases';
+          header4 = 'Rejected Cases';
 
           var assignedTicketList = TicketMaster.find({ticketElement: { $elemMatch: { allocatedToUserid: _id }}}).fetch();
           if(assignedTicketList){
@@ -198,8 +198,8 @@ export default allOtherRoleSidebarContainer = withTracker(props => {
           
           break;
         case 'team leader' :
-          header3 = 'Assigned Tickets';
-          header4 = 'Reassigned Tickets';
+          header3 = 'Assigned Cases';
+          header4 = 'Reassigned Cases';
           var assignedTicketList = TicketMaster.find({ticketElement: { $elemMatch: { allocatedToUserid: _id }}}).fetch();
           if(assignedTicketList){
             var assignedTicketCount = assignedTicketList.length;
@@ -218,8 +218,8 @@ export default allOtherRoleSidebarContainer = withTracker(props => {
           }
           break;
         case 'team member' :
-          header3 = 'Accepted Tickets';
-          header4 = 'Reopen Tickets';
+          header3 = 'Accepted Cases';
+          header4 = 'Reopen Cases';
           var assignedTicketList = TicketMaster.find({ticketElement: { $elemMatch: { allocatedToUserid: _id }}}).fetch();
           if(assignedTicketList){
             var assignedTicketCount = assignedTicketList.length;
@@ -240,8 +240,8 @@ export default allOtherRoleSidebarContainer = withTracker(props => {
           break;
         
         case 'quality team member' :
-          header3 = 'Approved Tickets';
-          header4 = 'Reopen Tickets';
+          header3 = 'Approved Cases';
+          header4 = 'Reopen Cases';
 
           var assignedTicketList = TicketMaster.find({ticketElement: { $elemMatch: { allocatedToUserid: _id }}}).fetch();
           if(assignedTicketList){
@@ -264,8 +264,8 @@ export default allOtherRoleSidebarContainer = withTracker(props => {
           break;
 
         case 'quality team leader' :
-          header3 = 'Approved Tickets';
-          header4 = 'Reopen Tickets';
+          header3 = 'Approved Cases';
+          header4 = 'Reopen Cases';
 
           var assignedTicketList = TicketMaster.find({ticketElement: { $elemMatch: { allocatedToUserid: _id }}}).fetch();
           if(assignedTicketList){
