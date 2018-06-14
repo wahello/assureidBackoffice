@@ -89,7 +89,6 @@ class OpenTickets extends TrackerReact(Component){
   }
 
   render(){
-    
       return(            
         <div>
           <div className="content-wrapper">
@@ -102,8 +101,7 @@ class OpenTickets extends TrackerReact(Component){
                     </div>
                         <div className="box-body">
                             <div className="ticketWrapper col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                
-                                <div>
+                             <div>
                                 <div className="reports-table-main">
                                     <div className="col-lg-12">
                                       {
@@ -165,7 +163,6 @@ class OpenTickets extends TrackerReact(Component){
                                                             
                                                           }
                                                           <td><Link to={"/admin/ticket/"+data._id}>{data.ticketNumber}</Link></td>
-                                                          
                                                           <td><Link to={"/admin/ticket/"+data._id}>{data.serviceName}</Link></td>
                                                           <td><Link to={"/admin/ticket/"+data._id}>{moment(data.createdAt).format('DD MMM YYYY')}</Link></td>
                                                           <td><Link to={"/admin/ticket/"+data._id}>{moment(data.tatDate).format('DD MMM YYYY')}</Link></td>         

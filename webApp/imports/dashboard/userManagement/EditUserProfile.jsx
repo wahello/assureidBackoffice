@@ -5,13 +5,13 @@ import { render } from 'react-dom';
 // import {PropTypes} from 'prop-types';
 import TrackerReact from 'meteor/ultimatejs:tracker-react';
 import {Services} from '/imports/dashboard/reactCMS/api/Services.js';
-// import { ParkingSlots } from '../../../addressVerification/api/verificationAddress.js';
+import { Location } from '/imports/dashboard/forms/api/ManageLocation.js';
 // import { UserAddress } from '../../../addressVerification/api/verificationAddress.js';
 import {browserHistory} from 'react-router';
 class EditUserProfile extends TrackerReact(Component){
 
 	constructor(props) {
-	  super(props); 
+	  super(props);  
 	  var userId       =  this.props.post._id;
 	  if(this.props.post){
 		  if(this.props.post.profile){
@@ -25,6 +25,11 @@ class EditUserProfile extends TrackerReact(Component){
 			    'servicesName': this.props.post.profile.servicesName,
           'reportToRole': this.props.post.profile.reportToRole+"("+this.props.post.profile.reportToName+")",
           'reportToName': this.props.post.profile.reportToName,
+           "state"      : this.props.post.profile.state,
+			     "country"    : this.props.post.profile.country,
+			     "area"       : this.props.post.profile.area, 
+			     "pincode"    : this.props.post.profile.pincode,
+	        searchArray   : [],
 			    subscription  : {
 									"parkDataSlots" : Meteor.subscribe('parkDataSlots',userId),
 									"userAddrData"  : Meteor.subscribe('userAddrData',userId),
@@ -51,6 +56,11 @@ class EditUserProfile extends TrackerReact(Component){
         reportToRole  : '',
         reportToName  : '',
         role          : '',
+        state         : '',
+	      country       : '',
+	      area          : '', 
+	      pincode       : '',
+	      searchArray   : [],
 		  };	  	
 	  }
 	    this.handleChange = this.handleChange.bind(this);
@@ -61,7 +71,7 @@ class EditUserProfile extends TrackerReact(Component){
   	if(!nextProps.loading){	
     	if(nextProps.post){	
 	    	if(nextProps.post.profile){	
-	    		console.log("this.props.post.profile",nextProps.post.profile);
+	    		// console.log("this.props.post.profile",nextProps.post.profile);
 
 	            this.setState({
 	                firstname  : nextProps.post.profile.firstname,
@@ -73,6 +83,12 @@ class EditUserProfile extends TrackerReact(Component){
 	                servicesName : nextProps.post.profile.servicesName,
                   reportToRole : nextProps.post.profile.reportToRole+"("+nextProps.post.profile.reportToName+")",
                   reportToName: nextProps.post.profile.reportToName,
+                  state         : nextProps.post.profile.state,
+						      country       : nextProps.post.profile.country,
+						      area          : nextProps.post.profile.area, 
+						      pincode       : nextProps.post.profile.pincode,
+						      searchArray   : [],
+
 	            })
 	        }
 	        if (nextProps.post.roles) {
@@ -107,16 +123,37 @@ class EditUserProfile extends TrackerReact(Component){
         var reportToRole = ''; 
       }
       console.log("reportrefValue :"+reportrefValue);
-      
-
-	    var formValues = {
+      if(this.state.role == "field expert" || this.state.role == "ba"){
+      	var formValues = {
                 firstname  : this.refs.editFirstName.value,
                 lastname   : this.refs.editLastName.value,
                 mobNumber  : this.refs.editContactNum.value,
                 servicesName     : this.refs.servicesRef.value,
+                area             : this.refs.area.value,
+                state            : this.refs.state.value,
+                country          : this.refs.country.value,
+                pincode          : this.refs.pincode.value,
                 reportToRole     : reportToRole,
                 reportToName     : reportToName,
-	    }
+     
+	      }
+      }else{
+      	var formValues = {
+                firstname  : this.refs.editFirstName.value,
+                lastname   : this.refs.editLastName.value,
+                mobNumber  : this.refs.editContactNum.value,
+                servicesName     : this.refs.servicesRef.value,
+                area             : '',
+                state            : '',
+                country          : '',
+                pincode          : '',
+                reportToRole     : reportToRole,
+                reportToName     : reportToName,
+
+	      }
+      }
+
+	    
      var assignedrole = this.refs.roleRef.value; 
       // var defaultRoleWith = ["backofficestaff"];
       // defaultRoleWith.push(assignedrole);
@@ -190,7 +227,47 @@ class EditUserProfile extends TrackerReact(Component){
 		event.preventDefault();
 		$('.useruploadImg').click();	
 	}
+   buildRegExp(searchText) {
+    var words = searchText.trim().split(/[ \-\:]+/);
+    var exps = _.map(words, function(word) {
+      return "(?=.*" + word + ")";
+    });
 
+    var fullExp = exps.join('') + ".+";
+    return new RegExp(fullExp, "i");
+  }
+
+  getTextValueWhenType(event){
+    var textValue= $(event.target).val();
+    if(textValue != ""){
+      var RegExpBuildValue = this.buildRegExp(textValue); 
+      var searchData = Location.find({$or:[{"area":RegExpBuildValue},{"country":RegExpBuildValue},{"state":RegExpBuildValue}]}).fetch();
+      if(searchData){
+        if($(event.target).hasClass('area')){
+          var pluckArea = _.pluck(searchData,"area");
+          var uniqueArea = _.uniq(pluckArea);
+          this.setState({"searchArray":uniqueArea});
+        }else if($(event.target).hasClass('country')){
+          var pluckCountry = _.pluck(searchData,"country");
+          var uniqueCountry = _.uniq(pluckCountry);
+          this.setState({"searchArray":uniqueCountry});
+        }else if($(event.target).hasClass('state')){
+          var pluckState = _.pluck(searchData,"state");
+          var uniqueState = _.uniq(pluckState);
+          this.setState({"searchArray":uniqueState});
+        }else{
+          this.setState({"searchArray":[]});
+          $(event.target).val('');
+        }
+      }else{
+         this.setState({"searchArray":[]});
+        $(event.target).val('');
+      }
+    }else{
+      this.setState({"searchArray":[]});
+      $(event.target).val('');
+    }
+  }
 
 	render() {
 		   if(!this.props.loading){	
@@ -300,8 +377,64 @@ class EditUserProfile extends TrackerReact(Component){
 				                              </select>
 														  	</span>
 													    </div>
+													    {this.state.role == "field expert" || this.state.role == "ba" ?
+                               <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 NOpadding ">
+					                        <div className="form-group col-lg-4 col-md-4 col-xs-12 col-sm-12 inputContent">
+					                          <span className="blocking-span">
+					                            <label className="floating-label">Area</label> 
+					                            <input type="text" autoComplete="off" list="autoAreaInUser" className="form-control inputText area" ref="area" name="area" value={this.state.area} onChange={this.handleChange.bind(this)}  onInput={this.getTextValueWhenType.bind(this)}/>
+					                             <datalist className="autocomplete" id="autoAreaInUser">
+					                                { 
+					                                  this.state.searchArray.map((searchDetails, index)=>{
+					                                    return(
+					                                      <option value={searchDetails} key={searchDetails + '-searchArea'} />                        
+					                                    );
+					                                  })
+					                                }
+					                              </datalist>
+					                          </span>
+					                        </div>
+					                        <div className="form-group col-lg-4 col-md-4 col-xs-12 col-sm-12 inputContent">
+					                          <span className="blocking-span">
+					                            <label className="floating-label">State</label>
+					                            <input type="text" autoComplete="off" list="autoStateInUser" className="form-control inputText state" ref="state" name="state" value={this.state.state} onChange={this.handleChange.bind(this)}  onInput={this.getTextValueWhenType.bind(this)}/>
+					                            <datalist className="autocomplete" id="autoStateInUser">
+					                              { 
+					                                this.state.searchArray.map((searchDetails, index)=>{
+					                                  return(
+					                                    <option value={searchDetails} key={searchDetails + '-searchState'} />                        
+					                                  );
+					                                })
+					                              }
+					                            </datalist>
+					                          </span>
 
-															
+					                        </div>
+					                        <div className="form-group col-lg-4 col-md-4 col-xs-12 col-sm-12 inputContent">
+					                          <span className="blocking-span">
+					                            <label className="floating-label">Country</label>
+					                            <input type="text" autoComplete="off" list="autoContactInUser" className="form-control inputText country" ref="country" name="country" value={this.state.country} onChange={this.handleChange.bind(this)}  onInput={this.getTextValueWhenType.bind(this)}/>
+					                              <datalist className="autocomplete" id="autoContactInUser">
+					                                { 
+					                                  this.state.searchArray.map((searchDetails, index)=>{
+					                                    return(
+					                                      <option value={searchDetails} key={searchDetails + '-searchState'} />                        
+					                                    );
+					                                  })
+					                                }
+					                              </datalist>
+					                          </span>
+					                        </div>
+					                        <div className="form-group col-lg-4 col-md-4 col-xs-12 col-sm-12 inputContent">
+					                          <span className="blocking-span">
+					                            <label className="floating-label">Pincode</label>
+					                            <input type="text" className="form-control inputText pincode" ref="pincode" name="pincode" value={this.state.pincode} onChange={this.handleChange.bind(this)} />
+					                          </span>
+					                        </div>
+					                      </div>
+					                      :
+															""
+														}
 														</div>
 
 														<div className="col-lg-2 col-sm-2 col-xs-2 col-md-2">

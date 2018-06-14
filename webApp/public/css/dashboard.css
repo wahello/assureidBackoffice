@@ -6714,3 +6714,15 @@ border-top: 2px solid #aaa;
 .outerInfo{
   word-wrap: break-word;
 }
+.clickHereforseemore{
+  color: #666;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.outerClickHere{
+  margin-bottom: 2%;
+}
+.outerlocationBlock{
+  display: none;
+}

@@ -16,32 +16,32 @@ class ReportHeader extends TrackerReact(Component){
       } 
     };
   } 
-  downloadReportaspdf(event){
-    event.preventDefault();
-    var doc = new jsPDF();
-    console.log("doc",doc);          
-    var elementHandler = {
-      '#outerReport': function (element, renderer) {
-        return true;
-      }
-    };
-    console.log("elementHandler",elementHandler);          
+  // downloadReportaspdf(event){
+  //   event.preventDefault();
+  //   var doc = new jsPDF();
+  //   console.log("doc",doc);          
+  //   var elementHandler = {
+  //     '#outerReport': function (element, renderer) {
+  //       return true;
+  //     }
+  //   };
+  //   console.log("elementHandler",elementHandler);          
 
-    doc.fromHTML($('#outerReport').html(), 15, 15, {
-              'width': 170,
-            'elementHandlers': elementHandler
-    });
-    doc.save('Report.pdf');
-    // html2canvas($("#outerInvoiceBlock"), {
-    //     onrendered: function(canvas) {
-    //         document.body.appendChild(canvas);
-    //         var imgData = canvas.toDataURL("image/png");
-    //         var doc     = new jsPDF('p', 'mm');
-    //         doc.addImage = (imgData,'JPEG',20,20);
-    //         doc.save('Invoice.pdf');
-    //     }
-    // });
-  }
+  //   doc.fromHTML($('#outerReport').html(), 15, 15, {
+  //             'width': 170,
+  //           'elementHandlers': elementHandler
+  //   });
+  //   doc.save('Report.pdf');
+  //   // html2canvas($("#outerInvoiceBlock"), {
+  //   //     onrendered: function(canvas) {
+  //   //         document.body.appendChild(canvas);
+  //   //         var imgData = canvas.toDataURL("image/png");
+  //   //         var doc     = new jsPDF('p', 'mm');
+  //   //         doc.addImage = (imgData,'JPEG',20,20);
+  //   //         doc.save('Invoice.pdf');
+  //   //     }
+  //   // });
+  // }
   componentDidMount(){      
   }
 
@@ -52,7 +52,7 @@ class ReportHeader extends TrackerReact(Component){
           <div className={this.props.url == 'reportHeader' ? "col-lg-10 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 reportHeaderBoxShadow" : "col-lg-12 col-md-12 col-sm-12 col-xs-12 reportHeaderBoxShadowQTL"} id="outerReport">
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noProfilePadding generationHeader"> 
               <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4 pull-left">
-                <img src="/images/assureid/Assure-ID-logo-Grey.png" className="generationImg" onClick={this.downloadReportaspdf.bind(this)} />
+                <img src="/images/assureid/Assure-ID-logo-Grey.png" className="generationImg"  />
               </div>
               <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 outerpdficon">
                 <i className="fa fa-file-pdf-o pull-right fa-2x pdf-icon" title="Download as pdf" ></i>

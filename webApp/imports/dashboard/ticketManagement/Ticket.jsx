@@ -41,6 +41,8 @@ class Ticket extends TrackerReact(Component){
       "showRadiobtn": 'N',
       // "showHideBtn":true,
       "verifiedInfo":[],
+     "searchArray"         : [],
+
        "subscription"     : {
         "codeAndReason" : Meteor.subscribe('codeAndReason')
                 }
@@ -155,7 +157,7 @@ class Ticket extends TrackerReact(Component){
   // get review by code event
   getReviewByCode(event){
     event.preventDefault();
-    var ipvalue = parseInt($(event.currentTarget).val());
+    var ipvalue = $(event.currentTarget).val();
       var codeReview = CodeAndReason.findOne({"code" : ipvalue});
       if (codeReview) {
         var Review = codeReview.reason;
@@ -164,7 +166,7 @@ class Ticket extends TrackerReact(Component){
   } 
   getReviewByCodeToQTM(event){
     event.preventDefault();
-    var ipvalue = parseInt($(event.currentTarget).val());
+    var ipvalue = $(event.currentTarget).val();
       var codeReview = CodeAndReason.findOne({"code" : ipvalue});
       if (codeReview) {
         var Review = codeReview.reason;
@@ -173,7 +175,7 @@ class Ticket extends TrackerReact(Component){
   }
   getReviewByCodeToQTL(event){
     event.preventDefault();
-    var ipvalue = parseInt($(event.currentTarget).val());
+    var ipvalue = $(event.currentTarget).val();
       var codeReview = CodeAndReason.findOne({"code" : ipvalue});
       if (codeReview) {
         var Review = codeReview.reason;
@@ -326,6 +328,15 @@ class Ticket extends TrackerReact(Component){
       </div>
     )
   }
+  buildRegExp(searchText) {
+    var words = searchText.trim().split(/[ \-\:]+/);
+    var exps = _.map(words, function(word) {
+      return "(?=.*" + word + ")";
+    });
+
+    var fullExp = exps.join('') + ".+";
+    return new RegExp(fullExp, "i");
+  }
   /*=========== Report Progressbar =============*/
   getUploadReportPercentage(){
     var uploadProgressPercent = Session.get("uploadReportProgressPercent");
@@ -371,6 +382,7 @@ class Ticket extends TrackerReact(Component){
         );
     }
   }
+  
   reportReSubmit(event){
     var exeQuery = 1;    
     event.preventDefault();
@@ -519,6 +531,39 @@ class Ticket extends TrackerReact(Component){
         }
       });
   }
+  getTextValueWhenType(event){
+    var textValue= $(event.target).val();
+    if(textValue != ""){
+      var RegExpBuildValue = this.buildRegExp(textValue); 
+      // console.log("RegExpBuildValue",RegExpBuildValue);
+      var searchData = CodeAndReason.find({'code':RegExpBuildValue}).fetch();
+      if(searchData){
+        if($(event.target).hasClass('code')){
+          var pluckCode = _.pluck(searchData,"code");
+          var uniqueCode = _.uniq(pluckCode);
+          this.setState({"searchArray":uniqueCode});
+        }else if ($(event.target).hasClass('qtmcode')){
+          var pluckqtmCode  = _.pluck(searchData,"code");
+          var uniqueqtmCode = _.uniq(pluckqtmCode);
+          this.setState({"searchArray":uniqueqtmCode});
+        }else if ($(event.target).hasClass('qtlcode')) {
+          var pluckqtlCode  = _.pluck(searchData,"code");
+          var uniqueqtlCode = _.uniq(pluckqtlCode);
+          this.setState({"searchArray":uniqueqtlCode});
+        }else{
+          this.setState({"searchArray":[]});
+           $(event.target).val('');
+        }
+      }else{
+        this.setState({"searchArray":[]});
+         $(event.target).val('');
+      }
+    }else{
+      this.setState({"searchArray":[]});
+      $(event.target).val('');
+    }
+  }
+
   actionBlock(){
     var n = this.props.getTicket.ticketElement.length;
     var reportLinkDetails = TempTicketReport.findOne({},{sort:{'createdAt':-1}}); 
@@ -792,8 +837,17 @@ class Ticket extends TrackerReact(Component){
                     <span className="uploadreportTitle col-lg-2 col-md-2 col-sm-12 col-xs-12">Code: </span>
                     <div className="col-lg-10 col-md-10 col-xs-12 col-sm-12 outercodeInput">
                       <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                      <input type="text" name="code" ref="code" className="col-lg-12 col-md-12 col-sm-12 col-xs-12 codeInput" onBlur={this.getReviewByCode.bind(this)}/>
-                      </div>
+                      <input type="text" name="code" ref="code" autoComplete="off" list="autoTempCode" className="col-lg-12 col-md-12 col-sm-12 col-xs-12 codeInput code" onBlur={this.getReviewByCode.bind(this)} onInput={this.getTextValueWhenType.bind(this)}/>
+                        <datalist className="autocomplete" id="autoTempCode">
+                          { 
+                            this.state.searchArray.map((searchDetails, index)=>{
+                              return(
+                                <option value={searchDetails} key={searchDetails + '-searchCode'} />                        
+                              );
+                            })
+                          }
+                        </datalist>
+                      </div> 
                     </div>
                     <span className="uploadreportTitle col-lg-2 col-md-2 col-sm-12 col-xs-12">Review Remark: </span>
                     <div className="col-lg-10 col-md-10 col-xs-12 col-sm-12">
@@ -810,8 +864,17 @@ class Ticket extends TrackerReact(Component){
                   <span className="uploadreportTitle col-lg-2 col-md-2 col-sm-12 col-xs-12">Code: </span>
                   <div className="col-lg-10 col-md-10 col-xs-12 col-sm-12 outercodeInput">
                     <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <input type="text" name="code" ref="code" className="col-lg-12 col-md-12 col-sm-12 col-xs-12 codeInput" onBlur={this.getReviewByCode.bind(this)}/>
-                    </div>
+                      <input type="text" name="code" ref="code" autoComplete="off" list="autoTempCode" className="col-lg-12 col-md-12 col-sm-12 col-xs-12 codeInput code" onBlur={this.getReviewByCode.bind(this)} onInput={this.getTextValueWhenType.bind(this)}/>
+                        <datalist className="autocomplete" id="autoTempCode">
+                          { 
+                            this.state.searchArray.map((searchDetails, index)=>{
+                              return(
+                                <option value={searchDetails} key={searchDetails + '-searchCode'} />                        
+                              );
+                            })
+                          }
+                        </datalist>                   
+                     </div>
                   </div>
                   <span className="uploadreportTitle col-lg-2 col-md-2 col-sm-12 col-xs-12">Review Remark: </span>
                   <div className="col-lg-10 col-md-10 col-xs-12 col-sm-12">
@@ -856,7 +919,16 @@ class Ticket extends TrackerReact(Component){
               <span className="uploadreportTitle col-lg-2 col-md-2 col-sm-12 col-xs-12">Code: </span>
               <div className="col-lg-10 col-md-10 col-xs-12 col-sm-12 outercodeInput">
                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <input type="text" name="qtmcode" ref="qtmcode" className="col-lg-12 col-md-12 col-sm-12 col-xs-12 codeInput" onBlur={this.getReviewByCodeToQTM.bind(this)}/>
+                <input type="text" name="qtmcode" ref="qtmcode" autoComplete="off" list="autoqtmCode" className="col-lg-12 col-md-12 col-sm-12 col-xs-12 codeInput qtmcode" onBlur={this.getReviewByCodeToQTM.bind(this)} onInput={this.getTextValueWhenType.bind(this)}/>
+                 <datalist className="autocomplete" id="autoqtmCode">
+                    { 
+                      this.state.searchArray.map((searchDetails, index)=>{
+                        return(
+                          <option value={searchDetails} key={searchDetails + '-searchqtmcode'} />                        
+                        );
+                      })
+                    }
+                  </datalist>    
                 </div>
               </div>
               <span className="uploadreportTitle col-lg-2 col-md-2 col-sm-2 col-xs-2">Review Remark: </span>
@@ -968,7 +1040,16 @@ class Ticket extends TrackerReact(Component){
               <span className="uploadreportTitle col-lg-2 col-md-2 col-sm-12 col-xs-12">Code: </span>
               <div className="col-lg-10 col-md-10 col-xs-12 col-sm-12 outercodeInput">
                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <input type="text" name="qtlcode" ref="qtlcode" className="col-lg-12 col-md-12 col-sm-12 col-xs-12 codeInput" onBlur={this.getReviewByCodeToQTL.bind(this)}/>
+                  <input type="text" name="qtlcode" ref="qtlcode" autoComplete="off" list="autoqtlCode" className="col-lg-12 col-md-12 col-sm-12 col-xs-12 codeInput qtlcode" onBlur={this.getReviewByCodeToQTL.bind(this)} onInput={this.getTextValueWhenType.bind(this)}/>
+                   <datalist className="autocomplete" id="autoqtlCode">
+                    { 
+                      this.state.searchArray.map((searchDetails, index)=>{
+                        return(
+                          <option value={searchDetails} key={searchDetails + '-searchqtlcode'} />                        
+                        );
+                      })
+                    }
+                  </datalist>   
                 </div>
               </div>
               <span className="uploadreportTitle col-lg-2 col-md-2 col-sm-2 col-xs-2">Review Remark: </span>
@@ -1295,7 +1376,7 @@ class Ticket extends TrackerReact(Component){
                                 </div>
                                 {this.actionBlock()}
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
-                                  {this.props.getTicket.ticketElement.slice(0).reverse().map((element,i)=>{
+                                  {this.props.getTicket.ticketElement.slice(Math.max(this.props.getTicket.ticketElement.length - 2, 1)).reverse().map((element,i)=>{
                                      return (
                                       <div key={i} className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
                                         <h5> {element.role} </h5>
@@ -1323,6 +1404,43 @@ class Ticket extends TrackerReact(Component){
                                       </div>
                                       )
                                     })
+                                  }
+                                  {this.props.getTicket.ticketElement.length > 2 ?
+                                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 outerClickHere noLRPad">
+                                     <p className="clickHereforseemore" data-toggle="collapse" data-target="#moreActivities">Click here to see more >></p>
+                                       <div id="moreActivities" className="collapse">
+                                        {this.props.getTicket.ticketElement.slice(2).reverse().map((element,i)=>{
+                                            return (
+                                              <div key={i} className="col-lg-12 col-md-12 col-sm-12 col-xs-12 tickStatWrapper">
+                                                <h5> {element.role} </h5>
+                                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <b>{element.userName}</b> {element.msg} <b>{element.allocatedToUserName}</b> on {moment(element.createdAt).format("DD MMM YYYY hh:mm A")}.                                                
+                                                  {
+                                                    element.remark ?
+                                                      <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad outerReviewsBlock">
+                                                        <span>Remark &nbsp;:</span><span>{element.remark}</span>
+                                                      </div>
+                                                    :
+                                                    ""
+                                                  }
+                                                  {
+                                                    element.reviewRemark ?
+                                                      <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad outerReviewsBlock">
+                                                        <span><b>Review Remark</b> &nbsp;:</span><span>&nbsp;{element.reviewRemark}</span>
+                                                      </div>
+                                                    :
+                                                    ""
+                                                  }
+
+                                                </div> 
+                                              </div>
+                                              )
+                                            })
+                                          }
+                                      </div>
+                                    </div>
+                                     :
+                                    ""
                                   }
                                 </div>
                               </div>

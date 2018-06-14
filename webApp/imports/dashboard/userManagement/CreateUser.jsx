@@ -3,7 +3,7 @@ import { render } from 'react-dom';
 import TrackerReact from 'meteor/ultimatejs:tracker-react';
 import {Services} from '/imports/dashboard/reactCMS/api/Services.js';
 import { withTracker } from 'meteor/react-meteor-data';
-
+import { Location } from '/imports/dashboard/forms/api/ManageLocation.js';
 
 class CreateUser extends TrackerReact(Component) {
 
@@ -14,9 +14,31 @@ class CreateUser extends TrackerReact(Component) {
       "service" :[],
       "userList" :[],
       "userUniqueData":[],
+      "searchArray" : [],
+      "state" : '',
+      "country"  : '',
+      "area"  : '', 
+      "pincode" : '',
       "userSubscribe": Meteor.subscribe('userfunction'),
+      "location": Meteor.subscribe('location'),
     }
+    this.handleChange = this.handleChange.bind(this);
   }
+  handleChange(event){
+    const target = event.target;
+    const name   = target.name;
+    this.setState({
+      [name]: event.target.value,
+    },()=>{   
+        // console.log(this.state.roleRef);
+        if (this.state.roleRef == "field expert" || this.state.roleRef == "ba") {
+           $('.outerlocationBlock').css({'display' : 'block'});
+        }else{
+           $('.outerlocationBlock').css({'display' : 'none'});
+        }
+     });
+  }
+ 
 	createUser(event){
     event.preventDefault();
     var reportrefValue = this.refs.reportToRef.value;      
@@ -37,6 +59,10 @@ class CreateUser extends TrackerReact(Component) {
                           'signupEmail'      : this.refs.signupEmail.value,
                           'mobNumber'        : this.refs.mobNumber.value,
                           'servicesName'     : this.refs.servicesRef.value,
+                          'area'             : this.refs.area.value,
+                          'state'            : this.refs.state.value,
+                          'country'          : this.refs.country.value,
+                          'pincode'          : this.refs.pincode.value,
                           'reportToRole'     : reportToRole,
                           'reportToName'     : reportToName,
                           'signupPassword'   : "user123",
@@ -56,7 +82,10 @@ class CreateUser extends TrackerReact(Component) {
             this.refs.lastname.value       = '';
             this.refs.signupEmail.value    = '';
             this.refs.mobNumber.value      = '';
-
+            this.refs.area.value           = '';
+            this.refs.state.value          = '';
+            this.refs.country.value        = '';
+            this.refs.pincode.value        = '';
 
             // ADD USER ROLE 
             var newID = result;
@@ -78,23 +107,23 @@ class CreateUser extends TrackerReact(Component) {
 	 componentDidMount() {
 	 	// $("#signUpUser").validate();
 	 	    $("html,body").scrollTop(0);
-    if (!$("#adminLte").length>0 && !$('body').hasClass('adminLte')) {
-     var adminLte = document.createElement("script");  
-     adminLte.type="text/javascript";  
-     adminLte.src = "/js/adminLte.js";  
-     $("body").append(adminLte);  
-    }
-
-    this.serviceTracker = Tracker.autorun( ()=> {
-      var handle = Meteor.subscribe("services");
-      if(handle.ready()){
-        var services = Services.find({},{field:{'serviceName':1}}).fetch();
-       
-        this.setState({
-          "service": services,
-        });
+      if (!$("#adminLte").length>0 && !$('body').hasClass('adminLte')) {
+       var adminLte = document.createElement("script");  
+       adminLte.type="text/javascript";  
+       adminLte.src = "/js/adminLte.js";  
+       $("body").append(adminLte);  
       }
-    });
+
+      this.serviceTracker = Tracker.autorun( ()=> {
+        var handle = Meteor.subscribe("services");
+        if(handle.ready()){
+          var services = Services.find({},{field:{'serviceName':1}}).fetch();
+         
+          this.setState({
+            "service": services,
+          });
+        }
+      });
 
     // this.roleTracker = Tracker.autorun( ()=> {
     //   var handle = Meteor.subscribe("rolefunction");
@@ -146,8 +175,6 @@ class CreateUser extends TrackerReact(Component) {
     //   }
    
     // });
-
-
 	 }
    componentWillMount() {
     // if (!!!$("link[href='/css/dashboard.css']").length > 0) {
@@ -158,12 +185,52 @@ class CreateUser extends TrackerReact(Component) {
     //   document.head.append(dashboardCss);
     // }
   }
-   componentWillUnmount(){  
+  componentWillUnmount(){  
      $("script[src='/js/adminLte.js']").remove(); 
      // $("link[href='/css/dashboard.css']").remove(); 
-   }
+  }
 
+  buildRegExp(searchText) {
+    var words = searchText.trim().split(/[ \-\:]+/);
+    var exps = _.map(words, function(word) {
+      return "(?=.*" + word + ")";
+    });
 
+    var fullExp = exps.join('') + ".+";
+    return new RegExp(fullExp, "i");
+  }
+
+  getTextValueWhenType(event){
+    var textValue= $(event.target).val();
+    if(textValue != ""){
+      var RegExpBuildValue = this.buildRegExp(textValue); 
+      var searchData = Location.find({$or:[{"area":RegExpBuildValue},{"country":RegExpBuildValue},{"state":RegExpBuildValue}]}).fetch();
+      if(searchData){
+        if($(event.target).hasClass('area')){
+          var pluckArea = _.pluck(searchData,"area");
+          var uniqueArea = _.uniq(pluckArea);
+          this.setState({"searchArray":uniqueArea});
+        }else if($(event.target).hasClass('country')){
+          var pluckCountry = _.pluck(searchData,"country");
+          var uniqueCountry = _.uniq(pluckCountry);
+          this.setState({"searchArray":uniqueCountry});
+        }else if($(event.target).hasClass('state')){
+          var pluckState = _.pluck(searchData,"state");
+          var uniqueState = _.uniq(pluckState);
+          this.setState({"searchArray":uniqueState});
+        }else{
+          this.setState({"searchArray":[]});
+          $(event.target).val('');
+        }
+      }else{
+         this.setState({"searchArray":[]});
+        $(event.target).val('');
+      }
+    }else{
+      this.setState({"searchArray":[]});
+      $(event.target).val('');
+    }
+  }
 	render() {
     if(!this.props.loading){      
        return (
@@ -235,9 +302,9 @@ class CreateUser extends TrackerReact(Component) {
                       <div className="form-group col-lg-4 col-md-4 col-xs-12 col-sm-12 inputContent">
 								   			<span className="blocking-span">
 								   			  <label className="floating-label">Assign Role</label>
-                           <select className="form-control allProductSubCategories" aria-describedby="basic-addon1" ref="roleRef">
+                           <select className="form-control allProductSubCategories" aria-describedby="basic-addon1" name="roleRef" ref="roleRef" onChange={this.handleChange}>
                               <option>-- Select --</option>
-                              { 
+                              {  
                                 // !this.props.loading ?
                                 this.props.roleList.length > 0 ?
                                 this.props.roleList.map( (data, index)=>{
@@ -249,9 +316,9 @@ class CreateUser extends TrackerReact(Component) {
                               ""
                               // :
                               // ""
-                              }
+                              } 
                            </select>
-											</span>
+										  	</span>
 									    </div>
                       <div className="form-group col-lg-4 col-md-4 col-xs-12 col-sm-12 inputContent">
 								   			<span className="blocking-span">
@@ -279,6 +346,61 @@ class CreateUser extends TrackerReact(Component) {
                               </select>
 										  	</span>
 									    </div>
+                      <div className="col-lg-12 col-md-12 col-xs-12 col-sm-12 NOpadding outerlocationBlock">
+                        <div className="form-group col-lg-4 col-md-4 col-xs-12 col-sm-12 inputContent">
+                          <span className="blocking-span">
+                            <label className="floating-label">Area</label> 
+                            <input type="text" autoComplete="off" list="autoAreaInUser" className="form-control inputText area" ref="area" name="area"  onInput={this.getTextValueWhenType.bind(this)}/>
+                             <datalist className="autocomplete" id="autoAreaInUser">
+                                { 
+                                  this.state.searchArray.map((searchDetails, index)=>{
+                                    return(
+                                      <option value={searchDetails} key={searchDetails + '-searchArea'} />                        
+                                    );
+                                  })
+                                }
+                              </datalist>
+                          </span>
+                        </div>
+                        <div className="form-group col-lg-4 col-md-4 col-xs-12 col-sm-12 inputContent">
+                          <span className="blocking-span">
+                            <label className="floating-label">State</label>
+                            <input type="text" autoComplete="off" list="autoStateInUser" className="form-control inputText state" ref="state" name="state" onInput={this.getTextValueWhenType.bind(this)}/>
+                            <datalist className="autocomplete" id="autoStateInUser">
+                              { 
+                                this.state.searchArray.map((searchDetails, index)=>{
+                                  return(
+                                    <option value={searchDetails} key={searchDetails + '-searchState'} />                        
+                                  );
+                                })
+                              }
+                            </datalist>
+                          </span>
+
+                        </div>
+                        <div className="form-group col-lg-4 col-md-4 col-xs-12 col-sm-12 inputContent">
+                          <span className="blocking-span">
+                            <label className="floating-label">Country</label>
+                            <input type="text" autoComplete="off" list="autoContactInUser" className="form-control inputText country" ref="country" name="country" onInput={this.getTextValueWhenType.bind(this)}/>
+                              <datalist className="autocomplete" id="autoContactInUser">
+                                { 
+                                  this.state.searchArray.map((searchDetails, index)=>{
+                                    return(
+                                      <option value={searchDetails} key={searchDetails + '-searchState'} />                        
+                                    );
+                                  })
+                                }
+                              </datalist>
+                          </span>
+                        </div>
+                        <div className="form-group col-lg-4 col-md-4 col-xs-12 col-sm-12 inputContent">
+                          <span className="blocking-span">
+                            <label className="floating-label">Pincode</label>
+                            <input type="text" className="form-control inputText pincode" ref="pincode" name="pincode"/>
+                          </span>
+                        </div>
+                      </div>
+
 
 										<div className="form-group col-lg-12 col-md-12 col-xs-12 col-sm-12 ">
 									    	<input className="col-lg-3 col-md-4 col-xs-12 col-sm-12 col-xs-12 btn btn-primary pull-right" type="submit" value="REGISTER"/>
@@ -351,7 +473,7 @@ export default CreateUserContainer = withTracker(props => {
     var userUniqueData=newArr;
     roleList = roleArray;
     var reporttoName = reportName;
-    console.log("userUniqueData",userUniqueData);
+    // console.log("userUniqueData",userUniqueData);
   return{
     loading,
     roles,
