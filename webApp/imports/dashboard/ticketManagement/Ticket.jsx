@@ -719,7 +719,7 @@ class Ticket extends TrackerReact(Component){
                                   return(
                                     <option key={i} value={data._id}>
                                       {data.profile.firstname + ' ' + data.profile.lastname}&nbsp;
-                                      ({data.count ? data.count : 0})
+                                      ({data.count ? data.count : 0}), {data.profile.area ? data.profile.area != "" ?  data.profile.area : '' : ''} {data.profile.state ? data.profile.state != "" ? ", "+data.profile.state : "" : "" } {data.profile.country ? data.profile.country != '' ? ", "+data.profile.country : "" : ""} {data.profile.pincode ? data.profile.pincode != "" ? "- "+data.profile.pincode : "" : ""}
                                       
                                     </option>
                                   );
@@ -742,7 +742,7 @@ class Ticket extends TrackerReact(Component){
                                   return(
                                     <option key={i} value={data._id}>
                                       {data.profile.firstname + ' ' + data.profile.lastname}
-                                      ({data.count ? data.count : 0})
+                                      ({data.count ? data.count : 0}), {data.profile.area ? data.profile.area != "" ? data.profile.area : '' : ''} {data.profile.state ? data.profile.state != "" ? ", "+data.profile.state : "" : "" } {data.profile.country ? data.profile.country != '' ? ", "+data.profile.country : "" : ""} {data.profile.pincode ? data.profile.pincode != "" ? "- "+data.profile.pincode : "" : ""}
                                       
                                     </option>
                                   );

@@ -118,15 +118,67 @@ class VerificationDataSubmit extends TrackerReact(Component){
          [name]: event.target.value,
         });
     }
+    // handleUpload(event){
+    //     event.preventDefault();
+    //     let self = this;
+    //      // this.setState({isUploading: true});
+    //      // 
+         
+    //      Session.set("uploadDocumentProgressbar","");
+    //     if (this.props.ticketImages.length >= 0 && this.props.ticketImages.length < 5 ) {
+    //       if (event.currentTarget.files.length <= 5) {
+    //         for (var i = 0; i < event.currentTarget.files.length; i++) {
+    //           if (event.currentTarget.files[i]) {
+    //             var dataImg = event.currentTarget.files[i]; 
+    //              if(dataImg.type == "image/jpeg" || dataImg.type == "image/png"){     
+    //                var reader = new FileReader();       
+    //                reader.onload = function (e) {         
+    //                  // $('.uploadedImageFromLocl').attr('src', e.target.result);     
+    //                };      
+    //                reader.readAsDataURL(event.currentTarget.files[i]);     
+    //                var file = event.currentTarget.files[i];     
+    //                 if (file) {        
+    //                   addImgsToS3Function(file,self);      
+    //                 }  
+    //              } 
+    //              else {
+    //               swal({   
+    //                  position: 'top-right',    
+    //                  type: 'error',   
+    //                  title: 'Please select image',      
+    //                  showConfirmButton: false,     
+    //                  timer: 1500     
+    //                });  
+    //             }
+    //           }
+    //         }
+    //        }else if (event.currentTarget.files.length > 5 ) {
+    //           swal({   
+    //              position: 'top-right',    
+    //              type: 'error',   
+    //              title: 'You can not add more than 5 images',      
+    //              showConfirmButton: false,     
+    //              timer: 3000     
+    //            }); 
+    //         }
+    //     }else if (this.props.ticketImages.length >= 5 ){
+    //        swal({   
+    //          position: 'top-right',    
+    //          type: 'error',   
+    //          title: 'You can not add more than 5 images',      
+    //          showConfirmButton: false,     
+    //          timer: 3000     
+    //        }); 
+    //     }
+    // }
     handleUpload(event){
-        event.preventDefault();
-        let self = this;
-         // this.setState({isUploading: true});
-         // 
+    event.preventDefault();
+    let self = this;
+     // this.setState({isUploading: true});
+     // 
          
          Session.set("uploadDocumentProgressbar","");
-        if (this.props.ticketImages.length >= 0 && this.props.ticketImages.length < 5 ) {
-          if (event.currentTarget.files.length <= 5) {
+
             for (var i = 0; i < event.currentTarget.files.length; i++) {
               if (event.currentTarget.files[i]) {
                 var dataImg = event.currentTarget.files[i]; 
@@ -152,24 +204,7 @@ class VerificationDataSubmit extends TrackerReact(Component){
                 }
               }
             }
-           }else if (event.currentTarget.files.length > 5 ) {
-              swal({   
-                 position: 'top-right',    
-                 type: 'error',   
-                 title: 'You can not add more than 5 images',      
-                 showConfirmButton: false,     
-                 timer: 3000     
-               }); 
-            }
-        }else if (this.props.ticketImages.length >= 5 ){
-           swal({   
-             position: 'top-right',    
-             type: 'error',   
-             title: 'You can not add more than 5 images',      
-             showConfirmButton: false,     
-             timer: 3000     
-           }); 
-        }
+           
     }
     handleVideoUpload(event){
         event.preventDefault();
@@ -720,7 +755,7 @@ class VerificationDataSubmit extends TrackerReact(Component){
                                     </div>
                                     <input type="file" ref="ticketImageFile" id="s3file" name="ticketImageFile"  onChange={this.handleUpload.bind(this)} className="col-lg-12 noLRPad" multiple/>
                                 </div>
-                                <label>(You can choose maximum 5 images)</label>
+                                {/*<label>(You can choose maximum 5 images)</label>*/}
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     
                                     {this.getUploadImagePercentage()}

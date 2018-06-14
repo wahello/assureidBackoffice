@@ -9,7 +9,6 @@ import { Location } from '/imports/dashboard/forms/api/ManageLocation.js';
 // import { UserAddress } from '../../../addressVerification/api/verificationAddress.js';
 import {browserHistory} from 'react-router';
 class EditUserProfile extends TrackerReact(Component){
-
 	constructor(props) {
 	  super(props);  
 	  var userId       =  this.props.post._id;
