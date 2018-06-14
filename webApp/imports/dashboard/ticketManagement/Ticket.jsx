@@ -499,11 +499,12 @@ class Ticket extends TrackerReact(Component){
       case 'ReportReGenerated' :
         insertData.allocatedToUserid   = '';
         insertData.allocatedToUserName = '';
-        $('#closeTicketModal').modal('hide');
       default :
         insertData.allocatedToUserid   = '';
         insertData.allocatedToUserName = '';
         break;
+     $('#closeTicketModal').modal('hide');
+      // $("[class*='modal-backdrop fade in']").remove();
     }
     
     if(exeQuery == 1){
@@ -1104,7 +1105,7 @@ class Ticket extends TrackerReact(Component){
                       <p><b>Do you want to close ticket?</b></p>
                     </div>
                     <div className="modal-footer">
-                    <button type="button" className="btn btn-success approvebtn" data-roleStatus="TicketClosed" data-msg="Closed the Ticket" onClick={this.approveButton.bind(this)}>Confirm</button>
+                      <button type="button" className="btn btn-success approvebtn" data-roleStatus="TicketClosed" data-msg="Closed the Ticket" onClick={this.approveButton.bind(this)} data-dismiss="modal">Confirm</button>
                       <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
                     </div>
                   </div>
