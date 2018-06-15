@@ -43,7 +43,7 @@ class CreateUser extends TrackerReact(Component) {
     event.preventDefault();
     var reportrefValue = this.refs.reportToRef.value;      
         if(reportrefValue!=""){
-          var splitValue   =  reportrefValue.split("(");
+          var splitValue   = reportrefValue.split("(");
           var reportToRole = splitValue[0];
           var reportToName = splitValue[1].slice(0, -1);
         }else{ 

@@ -104,23 +104,41 @@ class VerifiedDocuments extends TrackerReact(Component){
         return(
           <div className="col-lg-6 col-md-6 showAddrWrap">
             <h5 className ="documentHead">Employment</h5>
-            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-              <label><b>Employer :</b> </label>{verificationData.nameOfEmployer ? verificationData.nameOfEmployer : "-"},<br />
-              <label><b>Address :</b> </label>{verificationData.employerAddress ? verificationData.employerAddress: "-"}<br />
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding">
+              <span className="col-lg-5 col-md-5"><b>Employer <span className="pull-right">:</span></b> </span><span className="col-lg-7 col-md-7">{verificationData.nameOfEmployer ? verificationData.nameOfEmployer : "-"},</span><br />
             </div>
-            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-              <label><b>Contact No. :</b>&nbsp; </label>{verificationData.contactNo ? verificationData.contactNo : "-"}.<br />
-              <label><b>Employee Id :</b>&nbsp; </label>{verificationData.employeeCode ? verificationData.employeeCode : "-"}<br />
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding">
+              <span className="col-lg-5 col-md-5"><b>Address <span className="pull-right">:</span></b> </span><span className="col-lg-7 col-md-7">{verificationData.employerAddress ? verificationData.employerAddress: "-"}</span><br />
             </div>
-            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-              <label><b>Designation :</b>&nbsp; </label>{verificationData.designation ? verificationData.designation :"-"},<br />
-              <label><b>Department :</b> &nbsp;</label>{verificationData.department ? verificationData.department :"-"},<br />
-              <label><b>Employment From :</b> &nbsp;</label>{moment(verificationData.employmentFrom).format("DD MMM YYYY") ? moment(verificationData.employmentFrom).format("DD MMM YYYY"): "-"},<br />
-              <label><b>Employment To :</b> &nbsp;</label>{verificationData.employmentTo == "Present" ? "Present" :moment(verificationData.employmentTo).format("DD MMM YYYY") ? moment(verificationData.employmentTo).format("DD MMM YYYY") : "-"},<br />
-              <label><b>Type Of Employement :</b> &nbsp;</label>{verificationData.typeOfEmployement? verificationData.typeOfEmployement : "-"},<br /> 
-              <label><b>Duties And Responsibilites :</b> &nbsp;</label>{verificationData.dutiesAndResponsibilites? verificationData.dutiesAndResponsibilites :" - "}<br/>
-              <label><b>Reporting Manager :</b> &nbsp;</label>{verificationData.reportingManagerNm ? verificationData.reportingManagerNm : " - "},<br />
-              <label><b>Previous Designation :</b> &nbsp;</label>{verificationData.prevDesignation ? verificationData.prevDesignation : "-"}<br />
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding">
+              <span className="col-lg-5 col-md-5"><b>Contact No. <span className="pull-right">:</span></b></span><span className="col-lg-7 col-md-7">{verificationData.contactNo ? verificationData.contactNo : "-"}.</span><br />
+            </div>
+             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding">
+              <span className="col-lg-5 col-md-5"><b>Employee Id <span className="pull-right">:</span></b></span><span className="col-lg-7 col-md-7">{verificationData.employeeCode ? verificationData.employeeCode : "-"}</span><br />
+            </div>
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding">
+              <span className="col-lg-5 col-md-5"><b>Designation <span className="pull-right">:</span></b></span><span className="col-lg-7 col-md-7">{verificationData.designation ? verificationData.designation :"-"},</span><br />
+            </div>
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding">
+              <span className="col-lg-5 col-md-5"><b>Department <span className="pull-right">:</span></b></span><span className="col-lg-7 col-md-7">{verificationData.department ? verificationData.department :"-"},</span><br />
+            </div>
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding">
+              <span className="col-lg-5 col-md-5"><b>Employment From <span className="pull-right">:</span></b></span><span className="col-lg-7 col-md-7">{moment(verificationData.employmentFrom).format("DD MMM YYYY") ? moment(verificationData.employmentFrom).format("DD MMM YYYY"): "-"},</span><br />
+            </div>
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding">
+              <span className="col-lg-5 col-md-5"><b>Employment To <span className="pull-right">:</span></b></span><span className="col-lg-7 col-md-7">{verificationData.employmentTo == "Present" ? "Present" :moment(verificationData.employmentTo).format("DD MMM YYYY") ? moment(verificationData.employmentTo).format("DD MMM YYYY") : "-"},</span><br />
+            </div>
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding">
+              <span className="col-lg-5 col-md-5"><b>Type Of Employement <span className="pull-right">:</span></b></span><span className="col-lg-7 col-md-7">{verificationData.typeOfEmployement? verificationData.typeOfEmployement : "-"},</span><br /> 
+            </div>
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding">
+              <span className="col-lg-5 col-md-5"><b>Duties And Responsibilites <span className="pull-right">:</span></b></span><span className="col-lg-7 col-md-7">{verificationData.dutiesAndResponsibilites? verificationData.dutiesAndResponsibilites :" - "}</span><br/>
+            </div>
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding">
+              <span className="col-lg-5 col-md-5"><b>Reporting Manager <span className="pull-right">:</span></b></span><span className="col-lg-7 col-md-7">{verificationData.reportingManagerNm ? verificationData.reportingManagerNm : " - "},</span><br />
+            </div>
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding">
+              <span className="col-lg-5 col-md-5"><b>Previous Designation <span className="pull-right">:</span></b></span><span className="col-lg-7 col-md-7">{verificationData.prevDesignation ? verificationData.prevDesignation : "-"}</span><br />
             </div>
           </div>
         );
@@ -161,20 +179,30 @@ class VerifiedDocuments extends TrackerReact(Component){
         return(
           <div className="col-lg-6 col-md-6 showAddrWrap">
             <h5 className ="documentHead">Education</h5>
-            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-              <label><b>EducationLevel :</b>&nbsp; </label>{verificationData.educationLevel ? verificationData.educationLevel : ""},<br />
-              <label><b>Qualification :</b>&nbsp; </label>{verificationData.educationQualification ? verificationData.educationQualification:""}<br />
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding">
+              <span className="col-lg-5 col-md-5"><b>EducationLevel <span className="pull-right">:</span></b> </span><span className="col-lg-7 col-md-7">{verificationData.educationLevel ? verificationData.educationLevel : ""},</span><br />
+            </div>
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding">
+              <span className="col-lg-5 col-md-5"><b>Qualification <span className="pull-right">:</span></b></span><span className="col-lg-7 col-md-7">{verificationData.educationQualification ? verificationData.educationQualification:""}</span><br />
             </div>
             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-              <label><b>specialization :</b>&nbsp; </label>{verificationData.specialization ? verificationData.specialization: ""},<br />
-              <label><b>Grades :</b>&nbsp; </label>{verificationData.grades ? verificationData.grades: ""}<br />
+              <span className="col-lg-5 col-md-5"><b>specialization <span className="pull-right">:</span></b> </span><span className="col-lg-7 col-md-7">{verificationData.specialization ? verificationData.specialization: ""},</span><br />
             </div>
-            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-              <label><b>Mode of Education :</b>&nbsp; </label>{verificationData.educationMode}{ verificationData.educationMode ? "," : ""}<br />
-              <label><b>Duration :</b>&nbsp; </label>{verificationData.dateAttendedTo}{ verificationData.dateAttendedTo ? "-" : ""}
-              {verificationData.collegeName}{ verificationData.collegeName ? "," : ""}<br />
-              <label><b>University :</b>&nbsp; </label>{verificationData.university}{ verificationData.university ? "," : ""}<br />
-              <label><b>College Address :</b>&nbsp; </label>{verificationData.collegeAddress} {verificationData.rollNo}<br />
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding">
+              <span className="col-lg-5 col-md-5"><b>Grades <span className="pull-right">:</span></b></span><span className="col-lg-7 col-md-7">{verificationData.grades ? verificationData.grades:""}</span><br />
+            </div>
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding">
+              <span className="col-lg-5 col-md-5"><b>Mode of Education <span className="pull-right">:</span></b></span><span className="col-lg-7 col-md-7">{verificationData.educationMode ? verificationData.educationMode:""}</span><br />
+            </div>
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding">
+              <span className="col-lg-5 col-md-5"><b>Duration <span className="pull-right">:</span></b></span><span className="col-lg-7 col-md-7">{verificationData.dateAttendedTo}{ verificationData.dateAttendedTo ? "-" : ""}
+              {verificationData.collegeName}{ verificationData.collegeName ? "," : ""}</span><br />
+            </div>
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding">
+              <span className="col-lg-5 col-md-5"><b>University <span className="pull-right">:</span></b></span><span className="col-lg-7 col-md-7">{verificationData.university ? verificationData.university:""}</span><br />
+            </div>
+            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 NOpadding">
+              <span className="col-lg-5 col-md-5"><b>College Address <span className="pull-right">:</span></b></span><span className="col-lg-7 col-md-7">{verificationData.collegeAddress} {verificationData.rollNo}</span><br />
             </div>
           </div>
         );

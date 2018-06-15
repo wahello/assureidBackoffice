@@ -114,21 +114,21 @@ class TicketDocumentDetails extends TrackerReact(Component){
             
             Meteor.call('updateTicketFinalStatus',ticketId,finalStatus,function(error,result){
                 if(result){
-					var memberDetails = Meteor.users.find({"roles":"team leader"},{sort:{'count':1}}).fetch();
-					var companyObj = CompanySettings.findOne({"maxnoOfTicketAllocate.role":"team leader"});
-					for(var i=0;i<companyObj.maxnoOfTicketAllocate.length;i++){
-						if(companyObj.maxnoOfTicketAllocate[i].role == "team leader"){
-							var allocatedtickets = companyObj.maxnoOfTicketAllocate[i].maxTicketAllocate;
-						}
-					}
-					for(var k=0;k<memberDetails.length;k++){
+    				var memberDetails = Meteor.users.find({"roles":"team leader"},{sort:{'count':1}}).fetch();
+    				var companyObj = CompanySettings.findOne({"maxnoOfTicketAllocate.role":"team leader"});
+    				for(var i=0;i<companyObj.maxnoOfTicketAllocate.length;i++){
+    					if(companyObj.maxnoOfTicketAllocate[i].role == "team leader"){
+    						var allocatedtickets = companyObj.maxnoOfTicketAllocate[i].maxTicketAllocate;
+    					}
+    				}
+    				for(var k=0;k<memberDetails.length;k++){
     					
                         var newTicketAllocated = {
                             'ticketid' : ticketId,
                             'empID'    : memberDetails[k]._id,
                             'role'     : 'team leader',
                         }
-					    
+    				    
                         Meteor.call('updateTicketBucket',newTicketAllocated,function(error,result){
                             if(result){
                                 var ticketBucketDetail = TicketBucket.findOne({"ticketid":newTicketAllocated.ticketid});
@@ -152,18 +152,18 @@ class TicketDocumentDetails extends TrackerReact(Component){
                                     });
                                 } 
                             }
-						});
-							
+    					});
+    						
 
-							if(memberDetails[k].count){
-						        var newCount = memberDetails[k].count + 1;
-							} else{
-								var newCount = 1;
-							}
-							Meteor.call('updateCommitteeUserCount',newCount,memberDetails[k]._id);
-							break;
-						
-					}
+    						if(memberDetails[k].count){
+    					        var newCount = memberDetails[k].count + 1;
+    						} else{
+    							var newCount = 1;
+    						}
+    						Meteor.call('updateCommitteeUserCount',newCount,memberDetails[k]._id);
+    						break;
+    					
+    				}
                 }
             });
 
@@ -185,7 +185,7 @@ class TicketDocumentDetails extends TrackerReact(Component){
         
     }
 
-	 render(){
+  render(){
     
     return(            
       <div className ="col-lg-12 col-md-12 col-sm-12 col-xs-12">

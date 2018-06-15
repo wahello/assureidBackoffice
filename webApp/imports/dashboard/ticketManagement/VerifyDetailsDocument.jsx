@@ -30,18 +30,34 @@ class VerifyDetailsDocument extends TrackerReact(Component){
             return(
                     <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 singledocwrp">             
                         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
-                            <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12 ">
+                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
                             <h5 className="dataDetails"> {this.props.getTicket.verificationData.verificationType} Details</h5>                           
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad addressdetails">
-                                Name - &nbsp;{this.props.getTicket.verificationData.nameOfEmployer ? this.props.getTicket.verificationData.nameOfEmployer : " - " }<br/>
-                                Address - &nbsp;{this.props.getTicket.verificationData.employerAddress ? this.props.getTicket.verificationData.employerAddress :" - "}<br/>
-                                Contact No. - &nbsp;{this.props.getTicket.verificationData.contactNo ? this.props.getTicket.verificationData.contactNo : " - "}<br/>
-                                Employee Code - &nbsp;{this.props.getTicket.verificationData.employeeCode ? this.props.getTicket.verificationData.employeeCode : " - "}<br/>
-                                Deignation - &nbsp;{this.props.getTicket.verificationData.designation ? this.props.getTicket.verificationData.designation : " - "}<br/>
-                                Department - &nbsp;{this.props.getTicket.verificationData.department ? this.props.getTicket.verificationData.department : " - "}.<br/>
-                                Employment Duration - &nbsp;{this.props.getTicket.verificationData.employmentFrom ? moment(this.props.getTicket.verificationData.employmentFrom).format("DD MMM YYYY") : "-"} - &nbsp; {this.props.getTicket.verificationData.employmentTo ? this.props.getTicket.verificationData.employmentTo == "Present" ? "Present" : moment(this.props.getTicket.verificationData.employmentTo).format("DD MMM YYYY") : "-"}<br/>
-                                Employment Type - &nbsp;{this.props.getTicket.verificationData.typeOfEmployement ? this.props.getTicket.verificationData.typeOfEmployement : " - "} <br/>
-                                Responsibilities - &nbsp;{this.props.getTicket.verificationData.dutiesAndResponsibilites ? this.props.getTicket.verificationData.dutiesAndResponsibilites : "-"}
+                                  <span className="col-lg-3 col-sm-3"><b>Name <span className="pull-right">:</span></b></span><span className="col-lg-9 col-md-9"> {this.props.getTicket.verificationData.nameOfEmployer ? this.props.getTicket.verificationData.nameOfEmployer : " - " }</span><br/>
+                                </div>
+                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad addressdetails">
+                                  <span className="col-lg-3 col-sm-3"><b>Address <span className="pull-right">:</span></b></span><span className="col-lg-9 col-md-9">{this.props.getTicket.verificationData.employerAddress ? this.props.getTicket.verificationData.employerAddress :" - "}</span><br/>
+                                </div>
+                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad addressdetails">
+                                  <span className="col-lg-3 col-sm-3"><b>Contact No. <span className="pull-right">:</span></b></span><span className="col-lg-9 col-md-9">{this.props.getTicket.verificationData.contactNo ? this.props.getTicket.verificationData.contactNo : " - "}</span><br/>
+                                </div>
+                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad addressdetails">
+                                  <span className="col-lg-3 col-sm-3"><b>Employee Code <span className="pull-right">:</span></b></span><span className="col-lg-9 col-md-9">{this.props.getTicket.verificationData.employeeCode ? this.props.getTicket.verificationData.employeeCode : " - "}</span><br/>
+                                </div>
+                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad addressdetails">
+                                  <span className="col-lg-3 col-sm-3"><b>Deignation <span className="pull-right">:</span></b></span><span className="col-lg-9 col-md-9">{this.props.getTicket.verificationData.designation ? this.props.getTicket.verificationData.designation : " - "}</span><br/>
+                                </div>
+                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad addressdetails">
+                                  <span className="col-lg-3 col-sm-3"><b>Department <span className="pull-right">:</span></b></span><span className="col-lg-9 col-md-9">{this.props.getTicket.verificationData.department ? this.props.getTicket.verificationData.department : " - "}.</span><br/>
+                                </div>
+                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad addressdetails">
+                                   <span className="col-lg-3 col-sm-3"><b>Employment Duration <span className="pull-right">:</span></b></span><span className="col-lg-9 col-md-9">{this.props.getTicket.verificationData.employmentFrom ? moment(this.props.getTicket.verificationData.employmentFrom).format("DD MMM YYYY") : "-"} - &nbsp; {this.props.getTicket.verificationData.employmentTo ? this.props.getTicket.verificationData.employmentTo == "Present" ? "Present" : moment(this.props.getTicket.verificationData.employmentTo).format("DD MMM YYYY") : "-"}</span><br/>
+                                </div>
+                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad addressdetails">
+                                   <span className="col-lg-3 col-sm-3"><b>Employment Type <span className="pull-right">:</span></b></span><span className="col-lg-9 col-md-9">{this.props.getTicket.verificationData.typeOfEmployement ? this.props.getTicket.verificationData.typeOfEmployement : " - "}</span> <br/>
+                                </div>
+                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad addressdetails">
+                                   <span className="col-lg-3 col-sm-3"><b>Responsibilities <span className="pull-right">:</span></b></span><span className="col-lg-9 col-md-9">{this.props.getTicket.verificationData.dutiesAndResponsibilites ? this.props.getTicket.verificationData.dutiesAndResponsibilites : "-"}</span>
                                 </div>
                             </div>                
                         </div>
@@ -76,13 +92,12 @@ class VerifyDetailsDocument extends TrackerReact(Component){
                                         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
                                             <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12 ">
                                             <h5 className="dataDetails"> Current Address</h5>
-                                            
                                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad addressdetails">
-                                                {this.props.getTicket.verificationData.tempLine1},<br/>
-                                                {this.props.getTicket.verificationData.tempLine2},<br/>
-                                                {this.props.getTicket.verificationData.tempLine3},<br/>
-                                                {this.props.getTicket.verificationData.tempLandmark}.<br/>
-                                                {this.props.getTicket.verificationData.tempCity}-&nbsp; {this.props.getTicket.verificationData.tempPincode},&nbsp;{this.props.getTicket.verificationData.tempState},{this.props.getTicket.verificationData.tempCountry},<br/>
+                                                    {this.props.getTicket.verificationData.tempLine1},<br/>
+                                                    {this.props.getTicket.verificationData.tempLine2},<br/>
+                                                    {this.props.getTicket.verificationData.tempLine3},<br/>
+                                                    {this.props.getTicket.verificationData.tempLandmark}.<br/>
+                                                    {this.props.getTicket.verificationData.tempCity}-&nbsp; {this.props.getTicket.verificationData.tempPincode},&nbsp;{this.props.getTicket.verificationData.tempState},{this.props.getTicket.verificationData.tempCountry},<br/>
                                                 Residing From - &nbsp;{moment(this.props.getTicket.verificationData.tempresidingFrom).format("DD MMM YYYY")} <br/>Residing Till - {this.props.getTicket.verificationData.tempresidingTo == "Present" ? "Present" : moment(this.props.getTicket.verificationData.tempresidingTo).format("DD MMM YYYY") }
                                                 </div>
                                             </div>                
@@ -94,28 +109,42 @@ class VerifyDetailsDocument extends TrackerReact(Component){
                 break;
 
                 case 'education':
-                        return(
-                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 singledocwrp">                    
-                                { 
-                                    
-                                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                            <h5 className="dataDetails">{this.props.getTicket.verificationData.verificationType}</h5>
-                                            <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12">
-                                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad addressdetails">
-                                                Education Level  -&nbsp;{this.props.getTicket.verificationData.educationLevel ? this.props.getTicket.verificationData.educationLevel : " - "}<br/>
-                                                Qualification    -&nbsp;{this.props.getTicket.verificationData.educationQualification ? this.props.getTicket.verificationData.educationQualification : " - "}<br/>
-                                                Specialization   -&nbsp;{this.props.getTicket.verificationData.specialization ? this.props.getTicket.verificationData.specialization : " - "}<br/>
-                                                Grade            -&nbsp;{this.props.getTicket.verificationData.grades ? this.props.getTicket.verificationData.grades : " - "}<br/>
-                                                Mode Of Education - &nbsp;{this.props.getTicket.verificationData.educationMode ? this.props.getTicket.verificationData.educationMode : " - "},<br/>
-                                                Atended Duration -&nbsp;{this.props.getTicket.verificationData.dateAttendedFrom}-&nbsp;{this.props.getTicket.verificationData.dateAttendedFrom},<br/>
-                                                College Name - &nbsp;{this.props.getTicket.verificationData.collegeName}{this.props.getTicket.verificationData.collegeName || this.props.getTicket.verificationData.university ? "," : " "}{this.props.getTicket.verificationData.university}<br/>
-                                                College Address - &nbsp;{this.props.getTicket.verificationData.collegeAddress ? this.props.getTicket.verificationData.collegeAddress: " - "} 
-                                                </div>
-                                            </div>       
+                    return(
+                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 singledocwrp">                    
+                            { 
+                                
+                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <h5 className="dataDetails">{this.props.getTicket.verificationData.verificationType}</h5>
+                                    <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad addressdetails">
+                                          <span className="col-lg-3 col-sm-3"><b>Education Level <span className="pull-right">:</span></b></span><span className="col-lg-9 col-md-9">{this.props.getTicket.verificationData.educationLevel ? this.props.getTicket.verificationData.educationLevel : " - "}</span><br/>
                                         </div>
-                                }
-                            </div>
-                        );
+                                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad addressdetails">
+                                          <span className="col-lg-3 col-sm-3"><b>Qualification  <span className="pull-right">:</span></b></span><span className="col-lg-9 col-md-9">{this.props.getTicket.verificationData.educationQualification ? this.props.getTicket.verificationData.educationQualification : " - "}</span><br/>
+                                        </div>
+                                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad addressdetails">
+                                           <span className="col-lg-3 col-sm-3"><b>Specialization   <span className="pull-right">:</span></b></span><span className="col-lg-9 col-md-9">{this.props.getTicket.verificationData.specialization ? this.props.getTicket.verificationData.specialization : " - "}</span><br/>
+                                        </div>
+                                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad addressdetails">
+                                           <span className="col-lg-3 col-sm-3"><b>Grade  <span className="pull-right">:</span></b></span><span className="col-lg-9 col-md-9">{this.props.getTicket.verificationData.grades ? this.props.getTicket.verificationData.grades : " - "}</span><br/>
+                                        </div>
+                                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad addressdetails">
+                                           <span className="col-lg-3 col-sm-3"><b>Mode Of Education <span className="pull-right">:</span></b></span><span className="col-lg-9 col-md-9">{this.props.getTicket.verificationData.educationMode ? this.props.getTicket.verificationData.educationMode : " - "},</span><br/>
+                                        </div>
+                                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad addressdetails">
+                                           <span className="col-lg-3 col-sm-3"><b>Atended Duration<span className="pull-right">:</span></b></span><span className="col-lg-9 col-md-9">{this.props.getTicket.verificationData.dateAttendedFrom}-&nbsp;{this.props.getTicket.verificationData.dateAttendedFrom},</span><br/>
+                                        </div>
+                                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad addressdetails">
+                                           <span className="col-lg-3 col-sm-3"><b>College Name <span className="pull-right">:</span></b></span><span className="col-lg-9 col-md-9">{this.props.getTicket.verificationData.collegeName}{this.props.getTicket.verificationData.collegeName || this.props.getTicket.verificationData.university ? "," : " "}{this.props.getTicket.verificationData.university}</span><br/>
+                                        </div>
+                                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad addressdetails">
+                                           <span className="col-lg-3 col-sm-3"><b>College Address <span className="pull-right">:</span></b></span><span className="col-lg-9 col-md-9">{this.props.getTicket.verificationData.collegeAddress ? this.props.getTicket.verificationData.collegeAddress: " - "} </span>
+                                        </div>
+                                    </div>       
+                                </div>
+                            }
+                        </div>
+                    );
                 break;
 
                 // case 'skills':
