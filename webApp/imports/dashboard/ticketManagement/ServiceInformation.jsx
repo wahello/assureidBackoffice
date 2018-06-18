@@ -95,10 +95,10 @@ class ServiceInformation extends TrackerReact(Component){
               </div>
               <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadLeftRight">
                 <div className="col-lg-5 col-md-4 col-sm-4 col-xs-4 text-left noLRPad userLabel">
-                 Case #<span className="pull-right">:</span>
+                 {this.props.labelName}<span className="pull-right">:</span>
                 </div>  
                 <div className="col-lg-7 col-md-8 col-sm-8 col-xs-8 text-left userValue">
-                  <p>{this.props.getTicket.ticketNumber}</p>
+                  <p>{this.props.Id}</p>
                 </div> 
               </div>
                
@@ -158,15 +158,21 @@ serviceContainer = withTracker(props => {
     
     if (window.location.href.indexOf("orderdetails") > -1){
         var getTicket  = Order.findOne({"_id" : _id});
+        var Id         = getTicket.orderNo;
+        var labelName  = "Order Number";
     }else{
-        var getTicket  = TicketMaster.findOne({"_id" : _id}) || {};      
+        var getTicket  = TicketMaster.findOne({"_id" : _id}) || {};  
+        var Id         = getTicket.ticketNumber;  
+        var labelName  = "Case Number";                  
     }
     const serviceInfo = Services.findOne({'_id':getTicket.serviceId});
     
       return {
           loading  : loading,
           getTicket : getTicket,
-          serviceInfo : serviceInfo
+          serviceInfo : serviceInfo,
+          Id          : Id,
+          labelName   : labelName
       };
 })(ServiceInformation);
 export default serviceContainer;

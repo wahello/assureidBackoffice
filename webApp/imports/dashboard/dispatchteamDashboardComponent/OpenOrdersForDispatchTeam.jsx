@@ -174,7 +174,7 @@ class OpenOrdersForDispatchTeam extends TrackerReact(Component){
                               <div className="reports-table-main">
                                 <table id="subscriber-list-outerTable" className="newOrderwrap subscriber-list-outerTable table table-bordered table-hover table-striped table-striped table-responsive table-condensed table-bordered">
                                   <thead className="table-head umtblhdr">
-                                    <tr className="hrTableHeader UML-TableTr col-lg-12">
+                                    <tr className="hrTableHeader UML-TableTr noLRPad col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                         <th className="col-lg-1"> Order No.</th>
                                         <th className="col-lg-2"> User Name</th>
                                         <th className="col-lg-2"> Service Purchased </th>
@@ -188,8 +188,8 @@ class OpenOrdersForDispatchTeam extends TrackerReact(Component){
                                       !this.props.loading ?
                                         this.props.allOrderList.map((data, index)=>{
                                           return(
-                                              <tr className="col-lg-12 outerTrwrap" key={index}>
-                                              <tr className="ordertablerowWrap col-lg-12" data-id={data._id}>
+                                              <tr className="col-lg-12 noLRPad outerTrwrap" key={index}>
+                                              <tr className="ordertablerowWrap noLRPad col-lg-12" data-id={data._id}>
                                                   <td className="col-lg-1"><Link to={"/admin/orderdetails/"+data._id}>{data.orderNo}</Link></td>
                                                   <td className="col-lg-2"><Link to={"/admin/orderdetails/"+data._id}>{data.userName}</Link></td>
                                                   <td className="col-lg-2"><Link to={"/admin/orderdetails/"+data._id}>{data.serviceName}</Link></td>
@@ -267,14 +267,11 @@ class OpenOrdersForDispatchTeam extends TrackerReact(Component){
                                           );
                                         })
                                       :
-                                      <tr>
-                                          <td></td>
-                                          <td></td>
-                                          <td></td>
-                                          <td className ="nodata">Nothing To Dispaly</td>
-                                          <td></td>
-                                          <td></td>
-                                          <td></td>
+                                      <tr className="col-lg-12">
+                                          <div className="col-lg-12">
+                                            <label className ="nodata">Nothing To Dispaly</label>
+                                          </div>
+                                          
                                       </tr>
                                     }
                                   </tbody>

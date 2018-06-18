@@ -171,7 +171,7 @@ class AllOrders extends TrackerReact(Component){
                               <div className="reports-table-main">
                                 <table id="subscriber-list-outerTable" className="newOrderwrap subscriber-list-outerTable table table-bordered table-hover table-striped table-striped table-responsive table-condensed table-bordered">
                                   <thead className="table-head umtblhdr">
-                                    <tr className="hrTableHeader UML-TableTr col-lg-12">
+                                    <tr className="hrTableHeader UML-TableTr noLRPad col-lg-12">
                                       <th className="col-lg-1"> Order No.</th>
                                       <th className="col-lg-2"> User Name</th>
                                       <th className="col-lg-2"> Service Purchased </th>
@@ -265,13 +265,11 @@ class AllOrders extends TrackerReact(Component){
                                           );
                                         })
                                       :
-                                      <tr>
-                                          <td></td>
-                                          <td></td>
-                                          <td className ="nodata">Nothing To Dispaly</td>
-                                          <td></td>
-                                          <td></td>
-                                          <td></td>
+                                      <tr className="col-lg-12">
+                                          <div className="col-lg-12">
+                                            <label className ="nodata">Nothing To Dispaly</label>
+                                          </div>
+                                          
                                       </tr>
                                     }
                                   </tbody>

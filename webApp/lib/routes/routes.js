@@ -95,6 +95,7 @@ import OrderAllocatedToDispatchTeam from '/imports/dashboard/dispatchteamDashboa
 import OpenOrdersForDispatchTeam from '/imports/dashboard/dispatchteamDashboardComponent/OpenOrdersForDispatchTeam.jsx';
 import CompletedOrdersForDispatchTeam from '/imports/dashboard/dispatchteamDashboardComponent/CompletedOrdersForDispatchTeam.jsx';
 import EscalatedOrdersForDispatchTeam from '/imports/dashboard/dispatchteamDashboardComponent/EscalatedOrdersForDispatchTeam.jsx';
+import AdminTicketDetails from '/imports/dashboard/dashboardContent/AdminTicketDetails.jsx';
 // import ReportGeneration from '/imports/dashboard/ReportGeneration.jsx';
 // import ReportGeneration from '/imports/dashboard/ReportGeneration.jsx';
 const unauthenticatedPages = ['/', '/signup', '/forgotpassword', '/signup', '/resetpassword/:token','/login'];
@@ -303,6 +304,8 @@ export const routes = (
      <Route path="/dashboard" component={UserDashboard}/>
 
      <Route component={DashApp} >
+     
+       <Route path="/admin/adminticketdetails" component={AdminTicketDetails} onEnter={onEnterAdminPage}/>
        <Route path="/admin/dashboard" component={Content} onEnter={onEnterAdminPage}/>
        <Route path="/admin/managebasicpage" component={CreateBasicPage} onEnter={onEnterAdminPage}/>
        <Route path="/admin/manageaboutuspage" component={AboutUs} onEnter={onEnterAdminPage}/>
@@ -365,7 +368,7 @@ export const routes = (
        <Route path="/admin/PoliceStation/:id" component={AddEditPoliceData} onEnter={onEnterAdminPage}/>
        <Route path="/admin/mytickets" component={MyTickets} onEnter={onEnterAdminPage}/>
        <Route path="/admin/maxnoofticketallocate" component={MaxNoOfTicketAllocate} onEnter={onEnterAdminPage}/>
-       {/*<Route path="/admin/ticket/:id" component={Ticket} onEnter={onEnterAdminPage}/>*/}
+       <Route path="/admin/ticket/:id" component={Ticket} onEnter={onEnterAdminPage}/>
        <Route path="/admin/Checklist" component={AddEditChecklist}  onEnter={onEnterAdminPage}/>
        <Route path="/admin/Checklist/:id" component={AddEditChecklist}  onEnter={onEnterAdminPage}/>       
        <Route path="/admin/reports" component={Reports}  onEnter={onEnterAdminPage}/>       

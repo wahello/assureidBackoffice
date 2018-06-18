@@ -169,7 +169,7 @@ class Sidebar extends TrackerReact(Component){
                   </li>
                   <li>
                     <Link to="/admin/Checklist">
-                      <i className="fa fa-circle-o" /> Check List For Field Expert
+                      <i className="fa fa-circle-o" /> Check List For Verification
                     </Link>
                   </li>        
                   <li>
@@ -292,6 +292,11 @@ class Sidebar extends TrackerReact(Component){
                   <li>
                     <Link to="/admin/ticketdistribution">
                       <i className="fa fa-circle-o" /> SC Case Distribution
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/admin/adminticketdetails">
+                      <i className="fa fa-circle-o" /> All Tickets Details 
                     </Link>
                   </li>
                   

@@ -146,7 +146,7 @@ class AddEditChecklist extends TrackerReact(Component) {
           <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div className="box box-primary">
               <div className="box-header with-border">
-              <h2 className="box-title">Check List For Field Expert</h2>
+              <h2 className="box-title">Check List For Verification</h2>
               </div>
               <div className="box-body">
               <div className="col-lg-12 col-sm-12 col-xs-12 col-md-12">
@@ -183,7 +183,7 @@ class AddEditChecklist extends TrackerReact(Component) {
                       </div>
                       <div className="form-group col-lg-6 col-md-6 col-xs-12 col-sm-12 ">
                         <span className="blocking-span col-lg-12 col-md-6 col-xs-12 col-sm-12 NOleftPad">
-                            <label className="floating-label col-lg-12">Checklist For Field Value</label>
+                            <label className="floating-label col-lg-12 noLRPad">Checklist For Verification</label>
                             {/*this.state.checkListFor == "Address Information" ?*/}
                                {/*<select className="w300" multiple="multiple" id="fieldSelect" ref="checkListForField">
                                 <option value="line1">Address Line 1 </option>

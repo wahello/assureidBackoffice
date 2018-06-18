@@ -565,6 +565,7 @@ class Ticket extends TrackerReact(Component){
     }
   }
 
+
   actionBlock(){
     var n = this.props.getTicket.ticketElement.length;
     var reportLinkDetails = TempTicketReport.findOne({},{sort:{'createdAt':-1}}); 
@@ -573,7 +574,7 @@ class Ticket extends TrackerReact(Component){
     }
     switch(this.props.getTicket.ticketElement[n-1].roleStatus){
       case 'screenTLAllocated' :
-        if(Meteor.user().roles.find(this.getRole) == 'team leader' && this.props.getTicket.ticketElement[n-1].allocatedToUserid == Meteor.userId()){
+        if((Meteor.user().roles.find(this.getRole) == 'team leader' && this.props.getTicket.ticketElement[n-1].allocatedToUserid == Meteor.userId())){
           var teamMemberList=[];
           var title = "Team Leader";
           return(
