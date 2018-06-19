@@ -146,14 +146,14 @@ class ViewTicketFormInfo extends React.Component {
   }
 
   componentDidMount() {
-    console.log('componentDidMount ViewTicketFormInfo');
+    // console.log('componentDidMount ViewTicketFormInfo');
     BackHandler.addEventListener(
       "hardwareBackPress",
       this.androidBackHandler.bind(this)
     );
   }
   componentWillUnmount() {
-    console.log('componentDidMount componentWillUnmount');
+    // console.log('componentDidMount componentWillUnmount');
     BackHandler.removeEventListener(
       "hardwareBackPress",
       this.androidBackHandler.bind(this)
@@ -373,7 +373,7 @@ class ViewTicketFormInfo extends React.Component {
                   if (error) {
                     console.log(error.reason);
                   }else{
-                    console.log("Inserted Successfully!");
+                    // console.log("Inserted Successfully!");
                     this.props.navigation.navigate('ViewSubmittedTicket', { ticket: this.props.tickets._id });
                   }
               });
@@ -556,8 +556,67 @@ class ViewTicketFormInfo extends React.Component {
     });
 
 
-    this.props.navigation.navigate('Camera',{ ticket : this.props.ticket });
+    var ImagePicker = require('react-native-image-picker');
+    var options = {
+      quality       : 1,
+      mediaType     : "photo",
+      cameraType    : "back",
+      allowsEditing : true,
+      noData        : true,
+      maxWidth      : 8000, 
+      maxHeight     : 8000,
+    };
+    
+    ImagePicker.showImagePicker((response) => {
+      // response.data='';
+      // console.log('response: ', response);
+      console.log('response latitude: ', response.latitude);
+      console.log('response longitude: ', response.longitude);
+      if (response.didCancel) {
+        console.log('response.didCancel: ', response.didCancel);
+      }
+      else if (response.error) {
+        console.log('response.error: ', response.error);
+      }
+      else if (response.customButton) {
+        console.log('response.customButton: ', response.customButton);
+      }
+      else {
+        let source = response.uri;
+        this.props.navigation.navigate('MapDisplay',{ ticket : this.props.ticket, latitude : response.latitude, longitude : response.longitude, imgLink : 'file://'+response.path });
+        // console.log('source1: ', response.uri);
+        // let source = response.path;
+        // console.log('source: ', source);
+        // this.setState({
+        //   avatarSource: source,
+        //   updatedProfilePic: source,
+        //   responseS3: response,
+        // });
+      }
+    });
+    // this.props.navigation.navigate('Camera',{ ticket : this.props.ticket });
   }
+
+    // goToCamera =(event)=>{
+
+    //   var ImagePicker = require('react-native-image-picker');
+    //   var options = {
+    //     quality       : 1,
+    //     mediaType     : "photo",
+    //     cameraType    : "back",
+    //     allowsEditing : true,
+    //     noData        : true,
+    //     maxWidth      : 8000, 
+    //     maxHeight     : 8000,
+    //   };
+
+    //   // Open Image Library:
+    //   ImagePicker.launchImageLibrary(options, (response)  => {
+
+    //     console.log('response: ',response);
+    //     // Same code as in above section!
+    //   });      
+    // }
 
     uploadVideo(event){
       var userId = Meteor.userId();
@@ -1058,7 +1117,7 @@ ViewTicketForm = createContainer( (props) => {
     const loading6     = !postHandle6.ready();
     const imgData      = Meteor.collection('tempFEUploadData').find({ "ticketId"  : ticket, "type" : "image" })   || [];
     const FETempData   = Meteor.collection('tempFEUploadData').findOne({ "ticketId"  : ticket, "type" : "data" }) || {};
-    console.log('FETempData: ',FETempData);
+    // console.log('FETempData: ',FETempData);
     // const postHandle   = Meteor.subscribe('allTicketImages');
     // const postHandle1  = Meteor.subscribe('allTicketVideo');
     const postHandle2  = Meteor.subscribe('checklistFieldExpert');
@@ -1176,7 +1235,7 @@ ViewTicketForm = createContainer( (props) => {
 
             
           }
-          console.log('checkObjs 1: ',checkObjs);
+          // console.log('checkObjs 1: ',checkObjs);
        }
 
       } // end of ticket object

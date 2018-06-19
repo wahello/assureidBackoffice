@@ -10,10 +10,9 @@ import PropTypes from "prop-types";
 import styles from "./styles.js";
 import Menu from '../../components/Menu/Menu.js';
 import Moment from 'react-moment';
-import ShowNotification from '../NotificationLayout/ShowNotification.js';
+import NotificationCommon from '../NotificationLayout/NotificationCommon.js';
+
 var moment = require('moment');
-
-
 
 class Dashboard extends React.Component {
 
@@ -87,25 +86,7 @@ class Dashboard extends React.Component {
     const { navigate,goBack } = this.props.navigation;
     const menu = <Menu navigate={navigate} userName={this.props.userName}/>;
     
-    var navigationView = (
-      <ScrollView style={{backgroundColor: '#33b5e5'}} createContainerstyle={{flex: 1,backgroundColor: '#33b5e5'}}>
-        <View style={{borderBottomWidth: 1, padding:10, borderColor: '#fff'}}>
-          <View style={{maxHeight: 30, flexDirection:'row', justifyContent: 'flex-start'}} >
-            <TouchableOpacity onPress={this.closeDrawer} >
-              <View>
-                <Icon size={25} name='close' type='evilicon' color='#000' />
-              </View>
-            </TouchableOpacity>
-            <Text style={{textAlign:'center',flex: 1, lineHeight: 30, fontSize: 30, color: '#fff'}}>
-              NOTIFICATION
-            </Text>
-          </View>
-        </View>
-        <View>
-          <ShowNotification />
-        </View>
-      </ScrollView>
-    );
+    var navigationView = <NotificationCommon closeDrawer={this.closeDrawer} notificationData={this.props.notificationData} navigation={this.props.navigation}/>
 
     return(
       <DrawerLayoutAndroid
@@ -129,7 +110,7 @@ class Dashboard extends React.Component {
                   <View style={{flex:1, flexDirection:'row',alignItems:'flex-end', minHeight:20, minWidth:20}}>
                     <TouchableOpacity onPress={this.openDrawer}>
                       <Icon name="bell-outline" type="material-community" size={30}  color="#fff" style={styles.bellIcon}/>
-                      <Text style={styles.notificationText}>9</Text>
+                      <Text style={styles.notificationText}>{this.props.notificationData.length}</Text>
                     </TouchableOpacity>
                   </View>
                     }
@@ -306,7 +287,9 @@ class Dashboard extends React.Component {
       </DrawerLayoutAndroid>
     );
   }
-}export default createContainer((props) => {
+}
+
+export default createContainer((props) => {
   var _id          = Meteor.userId();
   const handle     = Meteor.subscribe('allocatedTickets', _id);
   const handle1    = Meteor.subscribe('currentUserfunction');
@@ -327,7 +310,7 @@ class Dashboard extends React.Component {
     var role = roleArr.find(function (obj) { return obj != 'backofficestaff' });
     
     }
-    console.log("newCount:"+newCount);
+    // console.log("newCount:"+newCount);
 
     /**Allocated ticket Count and date*/
 
@@ -381,25 +364,32 @@ class Dashboard extends React.Component {
       }
 
 
-    }//EOF i
-
-   
+    }//EOF i   
    
 
   }//EOF if
 
-  
+      const postHandle       = Meteor.subscribe('userNotification');
+      const notificationData = Meteor.collection('notification').find({"toUserId": Meteor.userId()}) || [];
+
+      if(notificationData){
+        for(var k=0;k<notificationData.length;k++){
+          var notificationId = notificationData[k]._id;
+        }
+      }
+
   var result = {
     ticketData : allNewTickets ,
     loading    : loading,
     user       : user,
     newCount   : newCount,
     sinceDate  : sinceDate,    
-    allAllocatedTicketCount: allAllocatedTicketCount,
-    allocatedSince : allocatedSince,
-    reopenCount :reopenCount,
-    reopenSinceDate :reopenSinceDate,
-    completedCount : completedCount
+    allAllocatedTicketCount : allAllocatedTicketCount,
+    allocatedSince  : allocatedSince,
+    reopenCount     : reopenCount,
+    reopenSinceDate : reopenSinceDate,
+    completedCount  : completedCount,
+    notificationData: notificationData,
   };
 
 

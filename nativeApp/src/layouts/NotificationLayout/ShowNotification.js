@@ -15,9 +15,9 @@ class ShowNotificationChild extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-     this.setState({
-          notificationData : nextProps.notificationData,
-      });    
+   this.setState({
+        notificationData : nextProps.notificationData,
+    });   
   }
 
   render() {
@@ -26,13 +26,15 @@ class ShowNotificationChild extends React.Component {
                   { this.state.notificationData ?
                     this.state.notificationData.map((data,index)=>{
                       return(
-                              <View key={index} style={{flex:1, flexDirection: 'column', borderBottomColor:'#000', paddingVertical:10}}>
+                              <TouchableOpacity key={index} onPress={()=>this.props.navigation.navigate('ViewTicket', { ticketid: data.ticketId} )} >
+                                <View style={{flex:1, flexDirection: 'column', borderBottomColor:'#000', paddingVertical:10}}>
                                 <View style={{flex:1}}><Text>{data.notifBody}</Text></View>
                                 <View style={{flex:1, flexDirection: 'row'}}>
                                   <View style={{flex:0.1}}><Icon size={25} name='clock' type='evilicon' color='#ddd'/></View>
                                   <View style={{flex:0.4}}><Text style={{color:'#ddd'}}>{moment(data.date).startOf('hour').fromNow()}</Text></View>
                                 </View>
-                              </View>
+                                </View>
+                              </TouchableOpacity>   
                       );
                     })
 
@@ -47,13 +49,18 @@ class ShowNotificationChild extends React.Component {
 
 ShowNotification = createContainer( (props) => {
 
-      const postHandle       = Meteor.subscribe('userNotification');
-      const notificationData = Meteor.collection('notification').find({"toUserId": Meteor.userId()}) || [];
+      const notificationData = props.notificationData || [];
+
+      if(notificationData){
+        for(var k=0;k<notificationData.length;k++){
+          var notificationId = notificationData[k]._id;
+        }
+      }
 
       var result =  {
           notificationData : notificationData,
       };
-      console.log('result:',result);
+      // console.log('result:',result);
       return result;
 
 }, ShowNotificationChild);

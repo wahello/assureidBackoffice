@@ -63,6 +63,7 @@ import ViewTicketForm from '../layouts/ViewTicket/ViewTicketForm.js';
 import ViewSubmittedTicketContainer from '../layouts/ViewTicket/ViewSubmittedTicketContainer.js';
 
 import Camera from '../layouts/Camera/Camera.js';
+import CameraImgPicker from '../layouts/Camera/CameraImgPicker.js';
 import CameraView from '../layouts/CameraView/CameraView.js';
 import CameraGallery from '../layouts/CameraGallery/CameraGallery.js';
 // import VideoRecording from '../layouts/VideoRecording/VideoRecording.js';
@@ -72,6 +73,7 @@ import MyProfile from '../layouts/MyProfile/MyProfile.js';
 import EditMyProfile from '../layouts/EditMyProfile/EditMyProfile.js';
 import ChangePassword from '../layouts/ChangePassword/ChangePassword.js';
 import GeoTagging from '../layouts/GeoTagging/GeoTagging.js';
+import MapDisplay from '../layouts/GeoTagging/MapDisplay.js';
 
 
 import NotificationLayout from '../layouts/NotificationLayout/NotificationLayout.js';
@@ -85,6 +87,32 @@ export const AuthStack = StackNavigator({
     }
   },
   
+  MapDisplay:{
+    screen:MapDisplay,
+    navigationOptions:{
+      header:null
+    }
+  },
+  
+  CameraImgPicker:{
+      screen: CameraImgPicker,
+      navigationOptions: {
+      header: null
+    }
+  },
+
+
+  
+  GeoTagging:{
+    screen:GeoTagging,
+    navigationOptions:{
+      header:null
+    }
+  },
+
+
+
+
   // VideoRecording:{
   //     screen: VideoRecording,
   //     navigationOptions: {
@@ -150,12 +178,7 @@ export const AuthStack = StackNavigator({
   },
 
 
-  GeoTagging:{
-    screen:GeoTagging,
-    navigationOptions:{
-      header:null
-    }
-  },
+
 
   ViewSubmittedTicket: {
   screen: ViewSubmittedTicketContainer,

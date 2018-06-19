@@ -14,8 +14,9 @@ import Modal from "react-native-modal";
 import styles from "./styles.js";
 import Menu from "../../components/Menu/Menu.js";
 import EditMyProfileForm from "../../components/EditMyProfileForm/EditMyProfileForm.js";
+import NotificationCommon from '../NotificationLayout/NotificationCommon.js';
 
-export default class EditMyProfile extends React.Component {
+class EditMyProfile extends React.Component {
   constructor(props) {
     super(props);
     let name = "";
@@ -122,53 +123,7 @@ export default class EditMyProfile extends React.Component {
     const { navigate,goBack } = this.props.navigation;
     
     const menu = <Menu navigate={navigate} userName={this.props.userName} />;
-    var navigationView = (
-      <ScrollView
-        style={{ backgroundColor: "#fbae16" }}
-        createContainerstyle={{ flex: 1, backgroundColor: "#fbae16" }}
-      >
-        <View
-          style={{ borderBottomWidth: 1, padding: 10, borderColor: "#fff" }}
-        >
-          <View
-            style={{
-              maxHeight: 30,
-              flexDirection: "row",
-              justifyContent: "flex-start"
-            }}
-          >
-            <TouchableOpacity onPress={this.closeDrawer}>
-              <View>
-                <Icon size={25} name="close" type="evilicon" color="#000" />
-              </View>
-            </TouchableOpacity>
-            <Text
-              style={{
-                textAlign: "center",
-                flex: 1,
-                lineHeight: 30,
-                fontSize: 30,
-                color: "#fff"
-              }}
-            >
-              NOTIFICATION
-            </Text>
-          </View>
-        </View>
-        <View>
-          <Text
-            style={{
-              textAlign: "center",
-              fontWeight: "bold",
-              fontSize: 20,
-              paddingTop: 10
-            }}
-          >
-            Newly Added
-          </Text>
-        </View>
-      </ScrollView>
-    );
+    var navigationView = <NotificationCommon closeDrawer={this.closeDrawer} notificationData={this.props.notificationData} navigation={this.props.navigation}/>
     return (
       <DrawerLayoutAndroid
         drawerWidth={300}
@@ -278,3 +233,22 @@ export default class EditMyProfile extends React.Component {
     );
   }
 }
+
+
+export default createContainer((props) => {
+
+      const postHandle       = Meteor.subscribe('userNotification');
+      const notificationData = Meteor.collection('notification').find({"toUserId": Meteor.userId()}) || [];
+
+      if(notificationData){
+        for(var k=0;k<notificationData.length;k++){
+          var notificationId = notificationData[k]._id;
+        }
+      }
+
+  var result = {
+    notificationData: notificationData,
+  };
+
+
+},EditMyProfile);

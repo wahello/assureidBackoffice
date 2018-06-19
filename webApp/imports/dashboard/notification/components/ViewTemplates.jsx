@@ -81,7 +81,6 @@ export default class ViewTemplates extends TrackerReact(Component) {
 		return NotificationTemplate.find({"_id" : id}).fetch();
 	}
 
-
 	render(){
      return(
    <div className="content-wrapper ">

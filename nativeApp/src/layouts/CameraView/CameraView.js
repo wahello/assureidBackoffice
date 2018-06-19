@@ -16,14 +16,14 @@ class CameraViewChild extends React.Component{
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('nextProps.photoUri: ',nextProps.photoUri);
+    // console.log('nextProps.photoUri: ',nextProps.photoUri);
      this.setState({
           photoUri : nextProps.photoUri,
       });
   }
 
   componentWillUnmount() {
-      console.log('#####################CameraViewChild Component WILL UNMOUNT!@@@@@@@@@@@@@@@@@@@@@');
+      // console.log('#####################CameraViewChild Component WILL UNMOUNT!@@@@@@@@@@@@@@@@@@@@@');
    }
 
   backToCamera(event){
@@ -96,13 +96,13 @@ class CameraViewChild extends React.Component{
 
 
       fileLocation.replace("%2F", "/");
-      console.log("fileLocation = ",fileLocation);
+      // console.log("fileLocation = ",fileLocation);
 
       Meteor.call('saveTicketFEImgUpload', this.props.ticket, fileLocation, 'image', (error,result)=>{
           if (error) {
             console.log(error.reason);
           }else{
-            console.log("Ticket image Inserted Successfully!");
+            // console.log("Ticket image Inserted Successfully!");
           }
       });
 
@@ -179,8 +179,8 @@ class CameraViewChild extends React.Component{
 
 CameraView = createContainer( (props) => {
 
-  console.log('navigation.state.params: ',props.navigation.state.params);
-  console.log(props.navigation.state.params.ticket);
+  // console.log('navigation.state.params: ',props.navigation.state.params);
+  // console.log(props.navigation.state.params.ticket);
   const postHandle      = Meteor.subscribe('projectSettingsPublish');
   const s3Data          = Meteor.collection('projectSettings').findOne({"_id":"1"}) || {};
 
@@ -190,7 +190,7 @@ CameraView = createContainer( (props) => {
           "photoUri"   : props.navigation.state.params.photoUri,
       };
 
-      console.log('result: ',result);
+      // console.log('result: ',result);
 
       return result;
 

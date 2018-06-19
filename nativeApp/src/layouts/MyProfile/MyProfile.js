@@ -13,6 +13,7 @@ import { robotoWeights } from 'react-native-typography';
 
 import styles from './styles.js';
 import Menu from '../../components/Menu/Menu.js';
+import NotificationCommon from '../NotificationLayout/NotificationCommon.js';
 
 class MyProfile extends React.Component {
   constructor(props){
@@ -36,16 +37,16 @@ class MyProfile extends React.Component {
     Actions.ViewCustomer();
   }
   componentDidMount(){
-    console.log("In componentDidMount..............................");
-    console.log("businessData => ",this.props.businessData);
-    console.log("loading => ",this.props.loading);
+    // console.log("In componentDidMount..............................");
+    // console.log("businessData => ",this.props.businessData);
+    // console.log("loading => ",this.props.loading);
     BackHandler.addEventListener('hardwareBackPress',this.androidBackHandler.bind(this));
   }
   componentWillUnmount() {
     BackHandler.removeEventListener('hardwareBackPress',this.androidBackHandler.bind(this));
   }
   androidBackHandler(){
-    console.log(this.props.navigation.state.routeName );
+    // console.log(this.props.navigation.state.routeName );
     if(this.props.navigation.state.routeName != 'ServiceList'){
       this.props.navigation.goBack(null);
       return true;
@@ -53,7 +54,7 @@ class MyProfile extends React.Component {
     return false;
   }
   toggle() {
-    console.log('is open ' + this.state.isOpen);
+    // console.log('is open ' + this.state.isOpen);
     let isOpen = !this.state.isOpen;
       this.setState({
         isOpen
@@ -71,43 +72,25 @@ class MyProfile extends React.Component {
   });
 
   handleLogout(){
-    console.log('Logout function!');
+    // console.log('Logout function!');
     Meteor.logout();
     Actions.LogIn();
   }
   openDrawer(){
-    console.log('opening drawer!');
+    // console.log('opening drawer!');
           this.drawer.openDrawer();
   }
   closeDrawer(){
-    console.log('opening drawer!');
+    // console.log('opening drawer!');
           this.drawer.closeDrawer();
   }
 
   render(){
-    var {userData}= this.props;
+    var { userData } = this.props;
     const {navigate, goBack}  = this.props.navigation;
     const { state }   = this.props.navigation;
     const menu = <Menu navigate={navigate} userName={this.props.userName}/>;
-    var navigationView = (
-      <ScrollView style={{backgroundColor: '#fbae16'}} createContainerstyle={{flex: 1,backgroundColor: '#fbae16'}} keyboardShouldPersistTaps="always">
-        <View style={{borderBottomWidth: 1, padding:10, borderColor: '#fff'}}>
-          <View style={{maxHeight: 30, flexDirection:'row', justifyContent: 'flex-start'}} >
-            <TouchableOpacity onPress={this.closeDrawer} >
-              <View>
-                <Icon size={25} name='close' type='evilicon' color='#000' />
-              </View>
-            </TouchableOpacity>
-            <Text style={{textAlign:'center',flex: 1, lineHeight: 30, fontSize: 30, color: '#fff'}}>
-              NOTIFICATION
-            </Text>
-          </View>
-        </View>
-        <View>
-          <Text style={{textAlign:'center',fontWeight:'bold', fontSize: 20,paddingTop: 10}}>Newly Added</Text>
-        </View>
-      </ScrollView>
-    );
+    var navigationView = <NotificationCommon closeDrawer={this.closeDrawer} notificationData={this.props.notificationData} navigation={this.props.navigation}/>
 
 
     return(
@@ -132,7 +115,7 @@ class MyProfile extends React.Component {
                 rightComponent={<View style={{flex:1, flexDirection:'row',alignItems:'flex-end', minHeight:20, minWidth:20}}>
                         <TouchableOpacity onPress={this.openDrawer}>
                             <Icon name="bell-outline" type="material-community" size={30}  color="#fff" style={styles.bellIcon}/>
-                            <Text style={styles.notificationText}>9</Text>
+                            <Text style={styles.notificationText}>{this.props.notificationData.length}</Text>
                       </TouchableOpacity>
                     </View>
                     }
@@ -283,8 +266,18 @@ class MyProfile extends React.Component {
 export default createContainer((props) => {
 
   var userData = Meteor.user();
+  const postHandle       = Meteor.subscribe('userNotification');
+  const notificationData = Meteor.collection('notification').find({"toUserId": Meteor.userId()}) || [];
 
+  if(notificationData){
+    for(var k=0;k<notificationData.length;k++){
+      var notificationId = notificationData[k]._id;
+    }
+  }
+
+  console.log('MyProfile notificationData:',notificationData);
   return{
-    userData,
+    userData : userData,
+    notificationData : notificationData,
   }
 }, MyProfile);
