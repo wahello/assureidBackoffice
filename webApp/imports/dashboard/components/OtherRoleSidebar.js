@@ -6,6 +6,7 @@ import { render } from 'react-dom';
 import { withTracker } from 'meteor/react-meteor-data';
 import {TicketMaster} from '/imports/website/ServiceProcess/api/TicketMaster.js';
 
+
 class OtherRoleSidebar extends TrackerReact(Component){
   constructor() {
    super();
@@ -142,7 +143,7 @@ class OtherRoleSidebar extends TrackerReact(Component){
                 <li className="">
                   <Link to="/admin/escalatedtickets" activeClassName="active">
                   <i className="fa fa-ticket" />
-                      <span>My Escalated Cases(0)</span>
+                      <span>My Escalated Cases({this.props.escalatedCount  ? this.props.escalatedCount : 0})</span>
                   </Link>
                 </li>
               </ul>
@@ -166,6 +167,10 @@ export default allOtherRoleSidebarContainer = withTracker(props => {
   var openTicketCount= 0;
   var approvedTicketCount= 0;
   var rejectTicketCount= 0;
+  var escalatedCount = 0 ;
+  var todaysDate = new Date();
+  var todaysTimeStamp  = todaysDate.getTime();
+
   if(user){
     var roleArr = user.roles;
     if(roleArr){
@@ -182,7 +187,6 @@ export default allOtherRoleSidebarContainer = withTracker(props => {
           var assignedTicketList = TicketMaster.find({ticketElement: { $elemMatch: { allocatedToUserid: _id }}}).fetch();
           if(assignedTicketList){
             var assignedTicketCount = assignedTicketList.length;
-            
             for(i = 0 ; i < assignedTicketList.length; i++){
               var ticketElements = assignedTicketList[i].ticketElement;
               if(ticketElements.find(function (obj) { return obj.roleStatus == 'ScreenApproved'})){
@@ -193,8 +197,24 @@ export default allOtherRoleSidebarContainer = withTracker(props => {
               if(ticketElements.find(function (obj) { return obj.roleStatus != 'ReviewPass'})){
                 openTicketCount++;
               }
+
+
+              /**========================= Nilam addlogic for escalated ticket count================ */
+
+              var ticketLastActionDate   = assignedTicketList[i].ticketElement[ticketElemLength-1].createdAt; 
+              var formatLastDate = new Date(ticketLastActionDate);       
+              var lastTimeStamp    = formatLastDate.getTime();
+              var difference = todaysTimeStamp - lastTimeStamp;
+              var hoursDifference = Math.floor(difference/1000/60/60);
+              if(hoursDifference > 48){
+                escalatedCount++;
+              }
+
+
             }
           }
+          console.log("escalatedCount");
+          console.log(escalatedCount);
           
           break;
         case 'team leader' :
@@ -302,6 +322,7 @@ export default allOtherRoleSidebarContainer = withTracker(props => {
       assignedTicketCount,
       openTicketCount,
       approvedTicketCount,
+      escalatedCount,
       rejectTicketCount,
       user,
       role,

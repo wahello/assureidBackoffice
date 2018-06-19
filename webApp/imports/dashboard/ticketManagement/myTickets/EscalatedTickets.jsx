@@ -9,7 +9,8 @@ import validator from 'validator';
 import {Tracker} from 'meteor/tracker';
 import { browserHistory } from 'react-router';
 import { Link } from 'react-router';
-import { TicketBucket } from '/imports/website/ServiceProcess/api/TicketMaster.js';
+import { TicketMaster } from '/imports/website/ServiceProcess/api/TicketMaster.js';
+
 
 
 
@@ -53,34 +54,30 @@ class EscalatedTickets extends TrackerReact(Component){
                                         <tbody>
 
                                         {
-                                                !this.props.loading ?
-                                                this.props.ticketBucketData.length>0 ?
-                                                  this.props.ticketBucketData.map((data, index)=>{
-                                                    return(
-                                                        <tr key={index}>
-                                                           {/* <td><Link to={"/admin/ticket/"+data.ticketid}>{data.ticketNumber}</Link></td>
-                                                           <td>{data.orderNo}</td>
-                                                           <td>{data.serviceName}</td>
-                                                           <td>{moment(data.createdAt).format('DD MMM YYYY')}</td>
-                                                           <td>{data.tatDate}</td> 
-                                                           <td>{data.status}</td> */}
-                                                        </tr>
-                                                    );
-                                                  })
-                                            
-                                                :
-                                                <tr>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td className ="nodata">Nothing To Dispaly</td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                </tr>
-                                                :
-                                                ""
-
-                                            }
+                                          !this.props.loading ?
+                                            this.props.TicketList.map((data, index)=>{
+                                              return(
+                                                  <tr key={index}>
+                                                      <td><Link to={"/admin/ticket/"+data._id}>{data.ticketNumber}</Link> </td>                                                  
+                                                      <td><Link to={"/admin/ticket/"+data._id}>{data.serviceName}</Link> </td>
+                                                      <td><Link to={"/admin/ticket/"+data._id}>{moment(data.createdAt).format('DD MMM YYYY')}</Link></td>
+                                                      <td><Link to={"/admin/ticket/"+data._id}>{moment(data.tatDate).format('DD MMM YYYY')}</Link></td> 
+                                                      <td> <Link to={"/admin/ticket/"+data._id}>{Math.round(Math.abs((new Date().getTime() - data.createdAt.getTime())/(24*60*60*1000)))}</Link> </td>
+                                                      <td className={data.bgClassName}><Link to={"/admin/ticket/"+data._id} className="statuswcolor">{data.status}</Link> </td>  
+                                                          
+                                                  </tr>
+                                              );
+                                            })
+                                          :
+                                          <tr>
+                                              <td></td>
+                                              <td></td>
+                                              <td className ="nodata">Nothing To Dispaly</td>
+                                              <td></td>
+                                              <td></td>
+                                              <td></td>
+                                          </tr>
+                                        }
                                         </tbody>
                                     </table>
                                 </div>
@@ -100,13 +97,94 @@ class EscalatedTickets extends TrackerReact(Component){
     }
 }
 export default EsclatedTicketsContainer = withTracker(props => {
-  var handleAllBucketTick = Meteor.subscribe("allTicketBucket");
+  var handleTicketList = Meteor.subscribe("listTickets");
+  var handleUseFunc = Meteor.subscribe('userfunction');
+
   var ticketId = props.params.id;
-  var loading = !handleAllBucketTick.ready();
-  var ticketBucketData = TicketBucket.find({"userId":Meteor.userId(),'status':"Esclated"}).fetch();
-  console.log('ticketBucketData Count ', ticketBucketData.length);    
+  var loading  = !handleTicketList.ready() && !handleUseFunc.ready();
+  var TicketList = [];
+  var duration
+  var  _id     = Meteor.userId(); 
+  const user        = Meteor.users.findOne({"_id" : _id});
+  
+  var assignedTicketList = TicketMaster.find({ticketElement: { $elemMatch: { allocatedToUserid: _id }}}).fetch();
+  
+  console.log("user");
+  console.log(user);
+  if(user){
+    var roleArr = user.roles;
+    if(roleArr){
+      var role = roleArr.find(function (obj) { return obj != 'backofficestaff' });
+    }
+    var todaysDate = new Date();
+    if(assignedTicketList){
+    for(var i=0;i<assignedTicketList.length;i++){
+        var ticketElemLength       = assignedTicketList[i].ticketElement.length ;      
+        var ticketLastActionDate   = assignedTicketList[i].ticketElement[ticketElemLength-1].createdAt; 
+        var formatLastDate = new Date(ticketLastActionDate);       
+        var lastTimeStamp    = formatLastDate.getTime();
+        var todaysTimeStamp  = todaysDate.getTime();
+        var difference = todaysTimeStamp - lastTimeStamp;
+        
+        var hoursDifference = Math.floor(difference/1000/60/60);
+        console.log('hoursDifference: ', hoursDifference);
+        assignedTicketList[i].status = "Escalated";
+        assignedTicketList[i].bgClassName = "btn-danger";
+
+      
+        switch(assignedTicketList[i].ticketElement[ticketElemLength - 1].roleStatus){
+
+          case 'NewScrAllocated':
+            console.log("Inside NewScrAllocated");
+              if(hoursDifference > 48){
+                TicketList.push(assignedTicketList[i]);
+              }
+          break;
+
+          case 'screenTLAllocated':
+            if(hoursDifference > 48){
+              TicketList.push(assignedTicketList[i]);
+            }
+          break;
+      
+          case 'AssignAccept':
+            if(hoursDifference > 48){
+              TicketList.push(assignedTicketList[i]);
+            }
+          break;
+
+          case 'SelfAllocated':
+            if(hoursDifference > 48){
+              TicketList.push(assignedTicketList[i]);
+            }
+          break;
+
+          case 'VerificationPassQTMAllocated':
+            if(hoursDifference > 48){
+              TicketList.push(assignedTicketList[i]);
+            }
+          break;
+
+          case 'QAPassQTLAllocated':
+            if(hoursDifference > 48){
+              TicketList.push(assignedTicketList[i]);
+            }
+          break;
+
+          
+
+        }
+
+      }
+  }
+}
+console.log("TicketList");
+console.log(TicketList);
+  
+  
+  
   return {
     loading,
-    ticketBucketData,
-  };
+    TicketList
+  }
 })(EscalatedTickets);

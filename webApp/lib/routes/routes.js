@@ -368,7 +368,7 @@ export const routes = (
        <Route path="/admin/PoliceStation/:id" component={AddEditPoliceData} onEnter={onEnterAdminPage}/>
        <Route path="/admin/mytickets" component={MyTickets} onEnter={onEnterAdminPage}/>
        <Route path="/admin/maxnoofticketallocate" component={MaxNoOfTicketAllocate} onEnter={onEnterAdminPage}/>
-       <Route path="/admin/ticket/:id" component={Ticket} onEnter={onEnterAdminPage}/>
+       {/* <Route path="/admin/ticket/:id" component={Ticket} onEnter={onEnterAdminPage}/> */}
        <Route path="/admin/Checklist" component={AddEditChecklist}  onEnter={onEnterAdminPage}/>
        <Route path="/admin/Checklist/:id" component={AddEditChecklist}  onEnter={onEnterAdminPage}/>       
        <Route path="/admin/reports" component={Reports}  onEnter={onEnterAdminPage}/>       
