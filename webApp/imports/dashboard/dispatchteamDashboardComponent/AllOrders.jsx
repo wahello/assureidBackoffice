@@ -182,7 +182,7 @@ class AllOrders extends TrackerReact(Component){
                                   </thead>
                                   <tbody>
                                     {
-                                      !this.props.loading ?
+                                      !this.props.loading && this.props.allOrderList.length > 0 ?
                                         this.props.allOrderList.map((data, index)=>{
                                           return(
                                               <tr className="col-lg-12 outerTrwrap" key={index}>
@@ -294,6 +294,8 @@ AllOrderContainer = withTracker(props => {
     var loading = !handleAllOrdersList.ready() && !handleAllTicketsList.ready();
     var _id  = Meteor.userId();
     var allOrderList = Order.find({},{sort:{createdAt: 1}}).fetch() || [];
+    console.log("allOrderList");
+    console.log(allOrderList);
 
     if(allOrderList){
         for(i=0;i< allOrderList.length; i++){

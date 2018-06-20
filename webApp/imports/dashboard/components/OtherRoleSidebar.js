@@ -6,7 +6,6 @@ import { render } from 'react-dom';
 import { withTracker } from 'meteor/react-meteor-data';
 import {TicketMaster} from '/imports/website/ServiceProcess/api/TicketMaster.js';
 
-
 class OtherRoleSidebar extends TrackerReact(Component){
   constructor() {
    super();
@@ -197,25 +196,23 @@ export default allOtherRoleSidebarContainer = withTracker(props => {
               if(ticketElements.find(function (obj) { return obj.roleStatus != 'ReviewPass'})){
                 openTicketCount++;
               }
-
-
-              /**========================= Nilam addlogic for escalated ticket count================ */
-
-              var ticketLastActionDate   = assignedTicketList[i].ticketElement[ticketElemLength-1].createdAt; 
-              var formatLastDate = new Date(ticketLastActionDate);       
-              var lastTimeStamp    = formatLastDate.getTime();
-              var difference = todaysTimeStamp - lastTimeStamp;
-              var hoursDifference = Math.floor(difference/1000/60/60);
-              if(hoursDifference > 48){
-                escalatedCount++;
+             
+              /**========================= Nilam addlogic for escalated ticket count================ */              
+              var ticketElemLength = assignedTicketList[i].ticketElement.length;
+              if(assignedTicketList[i].ticketElement[ticketElemLength-1].roleStatus == 'NewScrAllocated'){
+                  var ticketLastActionDate   = assignedTicketList[i].ticketElement[ticketElemLength-1].createdAt;
+                  var formatLastDate = new Date(ticketLastActionDate);       
+                  var lastTimeStamp    = formatLastDate.getTime();
+                  var difference = todaysTimeStamp - lastTimeStamp;
+                  var hoursDifference = Math.floor(difference/1000/60/60);
+                  if(hoursDifference > 48){
+                    escalatedCount++;
+                  }  
+               
               }
-
-
             }
           }
-          console.log("escalatedCount");
-          console.log(escalatedCount);
-          
+
           break;
         case 'team leader' :
           header3 = 'Assigned Cases';
@@ -225,6 +222,7 @@ export default allOtherRoleSidebarContainer = withTracker(props => {
             var assignedTicketCount = assignedTicketList.length;
             
             for(i = 0 ; i < assignedTicketList.length; i++){
+              
               var ticketElements = assignedTicketList[i].ticketElement;
               if(ticketElements.find(function (obj) { return obj.roleStatus == 'AssignAccept'})){
                 approvedTicketCount++;
@@ -233,6 +231,20 @@ export default allOtherRoleSidebarContainer = withTracker(props => {
               }
               if(ticketElements.find(function (obj) { return obj.roleStatus != 'ReviewPass'})){
                 openTicketCount++;
+              }
+
+
+              var ticketElemLength = assignedTicketList[i].ticketElement.length;
+              if(assignedTicketList[i].ticketElement[ticketElemLength-1].roleStatus == 'screenTLAllocated'){
+                  var ticketLastActionDate   = assignedTicketList[i].ticketElement[ticketElemLength-1].createdAt;
+                  var formatLastDate = new Date(ticketLastActionDate);       
+                  var lastTimeStamp    = formatLastDate.getTime();
+                  var difference = todaysTimeStamp - lastTimeStamp;
+                  var hoursDifference = Math.floor(difference/1000/60/60);
+                  if(hoursDifference > 48){
+                    escalatedCount++;
+                  }  
+               
               }
             }
           }
@@ -254,6 +266,21 @@ export default allOtherRoleSidebarContainer = withTracker(props => {
               }
               if(ticketElements.find(function (obj) { return obj.roleStatus != 'ReviewPass'})){
                 openTicketCount++;
+              }
+
+
+              /**========================= Nilam addlogic for escalated ticket count================ */              
+              var ticketElemLength = assignedTicketList[i].ticketElement.length;
+              if(assignedTicketList[i].ticketElement[ticketElemLength-1].roleStatus == 'AssignAccept'){
+                  var ticketLastActionDate   = assignedTicketList[i].ticketElement[ticketElemLength-1].createdAt;
+                  var formatLastDate = new Date(ticketLastActionDate);       
+                  var lastTimeStamp    = formatLastDate.getTime();
+                  var difference = todaysTimeStamp - lastTimeStamp;
+                  var hoursDifference = Math.floor(difference/1000/60/60);
+                  if(hoursDifference > 48){
+                    escalatedCount++;
+                  }  
+               
               }
             }
           }
@@ -279,6 +306,20 @@ export default allOtherRoleSidebarContainer = withTracker(props => {
               if(ticketElements.find(function (obj) { return obj.roleStatus != 'ReviewPass'})){
                 openTicketCount++;
               }
+
+              /**========================= Nilam addlogic for escalated ticket count================ */              
+              var ticketElemLength = assignedTicketList[i].ticketElement.length;
+              if(assignedTicketList[i].ticketElement[ticketElemLength-1].roleStatus == 'VerificationPassQTMAllocated'){
+                  var ticketLastActionDate   = assignedTicketList[i].ticketElement[ticketElemLength-1].createdAt;
+                  var formatLastDate = new Date(ticketLastActionDate);       
+                  var lastTimeStamp    = formatLastDate.getTime();
+                  var difference = todaysTimeStamp - lastTimeStamp;
+                  var hoursDifference = Math.floor(difference/1000/60/60);
+                  if(hoursDifference > 48){
+                    escalatedCount++;
+                  }  
+               
+              }
             }
           }
           break;
@@ -301,6 +342,20 @@ export default allOtherRoleSidebarContainer = withTracker(props => {
               if(ticketElements.find(function (obj) { return obj.roleStatus != 'ReviewPass'})){
                 openTicketCount++;
               }
+                /**========================= Nilam addlogic for escalated ticket count================ */              
+              var ticketElemLength = assignedTicketList[i].ticketElement.length;
+              if(assignedTicketList[i].ticketElement[ticketElemLength-1].roleStatus == 'QAPassQTLAllocated'){
+                  var ticketLastActionDate   = assignedTicketList[i].ticketElement[ticketElemLength-1].createdAt;
+                  var formatLastDate = new Date(ticketLastActionDate);       
+                  var lastTimeStamp    = formatLastDate.getTime();
+                  var difference = todaysTimeStamp - lastTimeStamp;
+                  var hoursDifference = Math.floor(difference/1000/60/60);
+                  if(hoursDifference > 48){
+                    escalatedCount++;
+                  }  
+               
+              }
+
             }
           }
           break;
