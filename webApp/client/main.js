@@ -60,6 +60,8 @@ Tracker.autorun(() => {
 
 
 Meteor.startup(() => {
+    global.Buffer = function() {}
+global.Buffer.isBuffer = () => false
   ReactDOM.render(routes, document.getElementById('app-root'));
 });
 
