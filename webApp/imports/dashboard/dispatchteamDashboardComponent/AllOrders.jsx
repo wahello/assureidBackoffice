@@ -265,6 +265,7 @@ AllOrderContainer = withTracker(props => {
     var _id  = Meteor.userId();
     var allOrderList = Order.find({},{sort:{createdAt: 1}}).fetch() || [];
 
+
     if(allOrderList){
         for(i=0;i< allOrderList.length; i++){
           switch(allOrderList[i].orderStatus){

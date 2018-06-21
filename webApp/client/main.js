@@ -14,6 +14,10 @@ import { TicketImages } from '/imports/dashboard/ticketManagement/uploadToClient
 import { TicketVideo } from '/imports/dashboard/ticketManagement/uploadToClient/uploadVideoToClient.js';
 import { TicketReport } from '/imports/dashboard/ticketManagement/uploadToClient/uploadReportToClient.js';
 
+
+var Buffer = require('buffer/').Buffer
+
+
 import '/imports/dashboard/product/addNewProduct/css/AddNewProduct.css';
 import '/imports/dashboard/product/productList/css/productList.css';
 import '/imports/dashboard/product/addNewProduct/api/ProductMaster.js';
