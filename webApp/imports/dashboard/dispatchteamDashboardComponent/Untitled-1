@@ -1,9 +1,11 @@
      
 
-      Role                    RoleStatus
+      Role                    RoleStatus                                                Admin
 
-       SC                      NewScrAllocated
-                               ScreenApproved
+      New                                                                               Verification not started
+
+       SC                      NewScrAllocated                                          
+                               ScreenApproved                                            Allocate to TL
                                ScreenRejected
       
         TL                     screenTLAllocated
@@ -36,6 +38,11 @@
 
 
 
+New
+ScreenApproved
+ProofSubmit
+ProofReSubmit
+ReportGenerated
 
 
        

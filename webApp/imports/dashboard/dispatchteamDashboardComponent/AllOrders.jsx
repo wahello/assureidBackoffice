@@ -13,8 +13,6 @@ class AllOrders extends TrackerReact(Component){
         this.state = {
         } 
     }
-
-
     allTicketListDetails(ticketId){
       /**================== Ticket Information=================**/
       var sc  = ['NewScrAllocated','ScreenApproved','ScreenRejected'];
@@ -26,7 +24,6 @@ class AllOrders extends TrackerReact(Component){
       var closeTicket = ['TicketClosed'];
       var tickteObj = {};
       var allTicketList = TicketMaster.findOne({"_id":ticketId});
-      
       if(allTicketList){
         var ticket = allTicketList;
         var scObj  = {'role':'SC',  'date':'','color':'btn-default'};
@@ -38,12 +35,9 @@ class AllOrders extends TrackerReact(Component){
         var qtlObj = {'role':'QTL', 'date':'','color':'btn-default'};
         var closeObj = {'role':'','date':'','color':'btn-default'};
         var blockDetails = [];
-
         var ticetEles = ticket.ticketElement;
         var ticketLength = ticetEles.length;
-        
         for(var j=0;j<ticetEles.length;j++){
-          
           var status = ticetEles[j].roleStatus;
           if(status != 'New'){
           var scIndex    = sc.indexOf(status);
@@ -53,8 +47,6 @@ class AllOrders extends TrackerReact(Component){
           var qtmIndex   = qtm.indexOf(status);
           var qtlIndex   = qtl.indexOf(status);
           var closeIndex = closeTicket.indexOf(status);
-          
-          
           if(tmIndex > 0 && feIndex > 0){
             var statusChk = ticetEles[j-1].roleStatus;
             if(statusChk == 'SelfAllocated'){
@@ -63,7 +55,6 @@ class AllOrders extends TrackerReact(Component){
               tmIndex = -1;
             }
           }
-
           var a = [scIndex,tlIndex,tmIndex,feIndex,qtmIndex,qtlIndex,closeIndex];
           var maxIndex = Math.max(scIndex,tlIndex,tmIndex,feIndex,qtmIndex,qtlIndex,closeIndex);
           var indexOfMaxValue = a.reduce((iMax, x, i, arr) => x > arr[iMax] ? i : iMax, 0); 
@@ -82,50 +73,40 @@ class AllOrders extends TrackerReact(Component){
               'status':status
             }
             scObj.color = 'btn-success';
-
           }else if(indexOfMaxValue == 2){
             tmObj={
               'role':'TM',
               'date': ticket.createdAt,
               'color':'btn-success',
               'status':status
-              
             }
             tlObj.color = 'btn-success';            
-           
-
           }else if(indexOfMaxValue == 3){
             feObj={
               'role':'FE',
               'date': ticket.createdAt,
               'color':'btn-success',
               'status':status
-              
             }
             tmObj.color = 'btn-success';            
-            
           }else if(indexOfMaxValue == 4){
             qtmObj={
               'role':'QTM',
               'date': ticket.createdAt,
               'color':'btn-success',
               'status':status
-              
             }
             tmObj.color = 'btn-success';            
-            
           }else if(indexOfMaxValue == 5){
             qtlObj={
               'role':'QTL',
               'date': ticket.createdAt,
               'color':'btn-success',
               'status':status
-              
             }
             scObj.color = 'btn-success';
             tmObj.color = 'btn-success';                        
             qtmObj.color = 'btn-success';            
-            
           }else if(indexOfMaxValue == 6){
             closeObj={
               'role':'Ticket Close',
@@ -133,7 +114,6 @@ class AllOrders extends TrackerReact(Component){
               'color':'btn-success',
               'status':status
             }
-
             scObj.color = 'btn-success';
             tmObj.color = 'btn-success';                        
             qtmObj.color = 'btn-success'; 
@@ -149,8 +129,6 @@ class AllOrders extends TrackerReact(Component){
         }
       }//EOF allTicketList
       // blockDetails.ticketNumber = allTicketList.ticketNumber;
-      
-     
       return tickteObj;
     }
     render(){
@@ -197,11 +175,9 @@ class AllOrders extends TrackerReact(Component){
                                                       <Link to={"/admin/orderdetails/"+data._id} className="statuswcolor">{data.orderStatus}</Link> </div> 
                                                        <i className="fa fa-caret-right orderDownArrow" data-toggle="collapse" data-target={"#collapseme"+index}> </i> 
                                                   </td> 
-                                                 
                                               </tr>  
                                                <tr className="col-lg-12 trBottom">
                                                <div className="collapse out " id={"collapseme"+index}>
-                                             
                                                {
                                                  data.ticket.map((ticketData,index)=>{
                                                   return(
@@ -241,22 +217,16 @@ class AllOrders extends TrackerReact(Component){
                                                     </div>
                                                   )
                                                  })
-                                               
                                                }
-                                           
-                                                
                                                 {
                                                   
                                                   data.orderStatus =="New" ?
-                                                  
                                                       <div className="col-lg-12">
-                                                  
                                                       <Link to={"/admin/orderdetails/"+data._id}> 
                                                         <button type="button" className="col-lg-2 generatereportbtn orderGenerateReport pull-right">Generate Report</button>
                                                         </Link>
                                                       </div>
-                                                  
-                                                    :
+                                                  :
                                                     null
                                                 } 
                                                 </div>
@@ -294,8 +264,6 @@ AllOrderContainer = withTracker(props => {
     var loading = !handleAllOrdersList.ready() && !handleAllTicketsList.ready();
     var _id  = Meteor.userId();
     var allOrderList = Order.find({},{sort:{createdAt: 1}}).fetch() || [];
-    console.log("allOrderList");
-    console.log(allOrderList);
 
     if(allOrderList){
         for(i=0;i< allOrderList.length; i++){
@@ -308,23 +276,17 @@ AllOrderContainer = withTracker(props => {
               allOrderList[i].orderStatus = 'Completed';
               allOrderList[i].bgClassName = 'btn-success';
               break;
-            
             case 'In Process' :
-            allOrderList[i].orderStatus = 'WIP';
-            allOrderList[i].bgClassName = 'btn-warning';
+              allOrderList[i].orderStatus = 'WIP';
+              allOrderList[i].bgClassName = 'btn-warning';
             break;
-
             default :
               allOrderList[i].orderStatus = 'WIP';
               allOrderList[i].bgClassName = 'btn-warning';
               break;
           }
         }//EOF i 
-        
     }
-
-    
-
     return {
         loading,
         allOrderList,
