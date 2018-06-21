@@ -16,42 +16,40 @@ import { UserProfile } from '/imports/website/forms/api/userProfile.js';
 import {CompanySettings} from '/imports/dashboard/companySetting/api/CompanySettingMaster.js';
 
 class TicketDocumentDetails extends TrackerReact(Component){
-  constructor(props){
-    super(props);
-    
-    this.state = {
-        "ticketDocDetails" : {},
-        "ticketDocDetailsBoth" : {},
-        "ticketId" :'',
-        "index"         : '',
-        "addressType":'',
-         "subscription" : {
-          "singleTicket" : Meteor.subscribe("allTickets"),  
-          "ticketBucket" : Meteor.subscribe("allTicketBucket"),
-          "userProfileSubscribe": Meteor.subscribe("userProfileData"),   
-          "companyData"  : Meteor.subscribe("companyData"),
-      } 
-    }
-  }
-  acceptpermanentTicket(event){
-    event.preventDefault();
-    $(event.target).css({'backgroundColor':'#00b8ff','color':'#fff'});
-    $(event.target).siblings().css({'backgroundColor':'#fff','color':'#00b8ff'});
-    var status = $(event.currentTarget).attr('data-status');
-    var index = $(event.currentTarget).attr('data-index');
-    var id = $(event.currentTarget).attr('data-id');
-    var addressType = $(event.currentTarget).attr('data-addresstype');
-       
-    Meteor.call("addDocument",id,index,status,addressType,function(error,result){
-        if(result){
-            console.log("add successfully");
+    constructor(props){
+        super(props);
+        
+        this.state = {
+            "ticketDocDetails" : {},
+            "ticketDocDetailsBoth" : {},
+            "ticketId" :'',
+            "index"         : '',
+            "addressType":'',
+             "subscription" : {
+              "singleTicket" : Meteor.subscribe("allTickets"),  
+              "ticketBucket" : Meteor.subscribe("allTicketBucket"),
+              "userProfileSubscribe": Meteor.subscribe("userProfileData"),   
+              "companyData"  : Meteor.subscribe("companyData"),
+          } 
         }
-    });  
-
-  }
+    }
+    acceptpermanentTicket(event){
+        event.preventDefault();
+        $(event.target).css({'backgroundColor':'#00b8ff','color':'#fff'});
+        $(event.target).siblings().css({'backgroundColor':'#fff','color':'#00b8ff'});
+        var status = $(event.currentTarget).attr('data-status');
+        var index = $(event.currentTarget).attr('data-index');
+        var id = $(event.currentTarget).attr('data-id');
+        var addressType = $(event.currentTarget).attr('data-addresstype');
+           
+        Meteor.call("addDocument",id,index,status,addressType,function(error,result){
+            if(result){
+                console.log("add successfully");
+            }
+        });  
+    }
 
     componentWillReceiveProps(nextProps){
-
         if(!nextProps.loading){
             var ticketId = this.props.ticketId;
             var ticketObj = TicketMaster.findOne({'_id':ticketId,'ticketElement.0.empid':Meteor.userId()});
@@ -175,14 +173,12 @@ class TicketDocumentDetails extends TrackerReact(Component){
         $(event.target).css({'backgroundColor':'#00b8ff','color':'#fff'});
         $(event.target).siblings().css({'backgroundColor':'#fff','color':'#00b8ff'});
         
-
     }
     rejectTicket(event){
         event.preventDefault();
         $(event.target).parent().parent().siblings('.otherInfoFormGroup').slideUp();
         $(event.target).css({'backgroundColor':'#00b8ff','color':'#fff'});
         $(event.target).siblings().css({'backgroundColor':'#fff','color':'#00b8ff'});
-        
     }
 
   render(){
@@ -197,8 +193,6 @@ class TicketDocumentDetails extends TrackerReact(Component){
                      	
                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 docwrap">
-
-                               
                                 {
                                     this.state.addressType == "Current Address" ?
                                         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 singledocwrp">

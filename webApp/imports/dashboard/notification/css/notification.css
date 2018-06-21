@@ -132,7 +132,7 @@
     margin-bottom: 5%;
 }
 .sidertemplatebar{
-    height: auto;
+    /*height: auto;*/
     height: 295px;
     border-right: 5px solid #3c8dbc;
     padding-top: 1%;

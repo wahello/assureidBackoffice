@@ -5421,15 +5421,18 @@ table.text-center th {
     margin-bottom: 5%;
 }
 .sidertemplatebar{
-    height: auto;
-    min-height: 295px;
+    /*height: auto;*/
+    height: 295px;
     border-right: 5px solid #3c8dbc;
     padding-top: 1%;
     padding-bottom: 0px;
     padding-left: 0px;
     padding-right: 0px;
-    overflow-x: hidden;
-    overflow-y: auto;
+/*    overflow-x: hidden;
+*/    overflow: hidden;
+}
+.sidertemplatebar:hover{
+  overflow-y: auto;
 }
 .saveTemplateWrapper{
     height: auto;

@@ -188,9 +188,9 @@ if(Meteor.isServer){
               }
             });
         }
-     },
+     }, 
 
-     'orderCompleted':function(orderId){
+     'orderCompleted':function(orderId,companyReference){
         Order.update({"_id":orderId},
             {
               $set:{
@@ -198,6 +198,7 @@ if(Meteor.isServer){
                 "completedDate": new Date(),
               }
             });
+        Meteor.call("updateStatusInCompanyOrder",orderId,companyReference);
      },
      'updateOrderGenrationlink' :function(orderId,genratedReport,genratedReportDate){ 
        

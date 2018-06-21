@@ -1,4 +1,3 @@
-
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import React, { Component } from 'react';
@@ -52,7 +51,7 @@ class OrderDetails extends TrackerReact(Component){
   }
   generateOrder(event){
     event.preventDefault();
-    Meteor.call("orderCompleted",this.props.orderId);
+    Meteor.call("orderCompleted",this.props.orderId,this.props.orderDetails.companyReference);
     var path = '/orderGeneration/'+this.props.orderId;
         window.open(path);
   }
@@ -374,7 +373,8 @@ export default UserDetailsContainer = withTracker(props => {
 
     }
     var buttonStatus = orderDetails.orderStatus;
-  }   
+  } 
+  // console.log("orderDetails",orderDetails);  
   return {
     loading,
     orderDetails,

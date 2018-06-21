@@ -247,8 +247,8 @@ class CreateTemplate extends TrackerReact(Component) {
 											  <option value="OrderCompleted">Order Completed</option>
 											  <option value="Company AssureID Users">Company AssureID Users</option>
 											  <option value="Company Non-AssureID Users">Company Non-AssureID Users</option>
-											  {/*<option value="Space provider rating">Space Provider Rating</option>
-											  <option value="Checkout for space provider">Checkout For Space Provider</option>
+											  <option value="CompanyOrderCompleted">Company Order Completed</option>
+											  {/*<option value="Checkout for space provider">Checkout For Space Provider</option>
 											  <option value="Checkout for user">Checkout For User</option>
 											  <option value="Checkin for user">Checkin For User</option>
 											  <option value="Checkin for space provider">Checkin For Space Provider</option>*/}

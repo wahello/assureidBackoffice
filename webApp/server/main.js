@@ -39,8 +39,10 @@ import '../imports/dashboard/forms/api/College.js';
 import '../imports/dashboard/forms/api/PoliceStation.js';
 import '../imports/dashboard/forms/api/ManageLocation.js';
 import '../imports/dashboard/ticketManagement/api/TempUpload.js';
-
 import '../imports/website/ServiceProcess/api/TicketMaster.js';
+import '/imports/dashboard/forms/api/HolidaysList.js';
+
+import '../imports/website/company/api/company.js';
 // import { CategoryImage } from '../imports/dashboard/product/addNewProduct/api/CategoryImage.js';
 // Meteor.publish('categoryImagePublish', function() {
 //     return CategoryImage.find().cursor;
@@ -58,7 +60,7 @@ Meteor.startup(() => {
 });
 
   // console.log("plivoData: ",plivoData);
-  Meteor.methods({
+Meteor.methods({
   'SEND_SMS': function (toNumber, smsBody) {
     this.unblock();
     return Meteor.http.call("GET", "http://mahasurvey.in/WebService/MahaSurveyWbSrvce.asmx/SEND_SMS?MOBNO="+toNumber+"&TEXT_MSG="+smsBody);
