@@ -264,8 +264,6 @@ AllOrderContainer = withTracker(props => {
     var loading = !handleAllOrdersList.ready() && !handleAllTicketsList.ready();
     var _id  = Meteor.userId();
     var allOrderList = Order.find({},{sort:{createdAt: 1}}).fetch() || [];
-
-
     if(allOrderList){
         for(i=0;i< allOrderList.length; i++){
           switch(allOrderList[i].orderStatus){
@@ -288,13 +286,6 @@ AllOrderContainer = withTracker(props => {
           }
         }//EOF i 
     }
-
-      console.log("allOrderList");
-    console.log(allOrderList);
-
-    
-
-
     return {
         loading,
         allOrderList,
