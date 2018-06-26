@@ -43,7 +43,7 @@ if(Meteor.isServer){
                  // }
         //       if(!currAddrVerifStatus){
         //         new Date(Math.max.apply(null, userProfile.currentAddress.map(function(e) {
-        //           console.log(new Date(e.tempresidingTo));
+        //           
         //           return new Date(e.tempresidingTo);
         //         })));
         //         // var currAddrVerifStatus = userProfile.currentAddress[i].verifiedStatus;
@@ -137,8 +137,8 @@ if(Meteor.isServer){
         //           }
         //         }
         //       }
-        //       // console.log(max);
-        //       // console.log(currAddrVerifStatus);
+        //       // 
+        //       // 
         //       // if(!currAddrVerifStatus){
         //       //   new Date(Math.max.apply(null, userProfile.currentAddress.map(function(e) {
         //       //     var currAddrVerifStatus = e.verifiedStatus;
@@ -405,7 +405,7 @@ if(Meteor.isServer){
                 }
                 Meteor.call("insertBasicData", basicformValues, function(error,result){
                   if(error){
-                    console.log(error.reason);
+                    
                   }else{
                     // Meteor.logout();
                   }
@@ -413,7 +413,7 @@ if(Meteor.isServer){
                 
                 Meteor.call('addOTP', newID , mobileotp, emailotp, function(error,result){
                   if(error){
-                    console.log(error);
+                    
                   }else{
 
                   }
@@ -422,7 +422,7 @@ if(Meteor.isServer){
                 var Role  = "user";
                 Meteor.call('addRoles', newID , Role, function(error,result){
                   if(error){
-                    console.log(error);
+                    
                   }else{                    
                   }
                 }); // add role
@@ -434,7 +434,7 @@ if(Meteor.isServer){
                   Meteor.call('SEND_SMS',mobile,smsBody,
                   function(error,result){
                     if(error){
-                      console.log(error.reason);
+                      
                     }else{
                       // swal('Successfully sent the OTP to your mobile number.');                   
                     }
@@ -446,7 +446,7 @@ if(Meteor.isServer){
                 // SEND EMAIL VERIFICATION LINK
                 Meteor.call('sendVerificationLinkToUser', newID, function(error,result){
                   if(error){
-                    console.log(error);
+                    
                   }else{  
                     // swal('Successfully sent the OTP to your email address.');                   
                   } //end else
@@ -485,7 +485,7 @@ if(Meteor.isServer){
                     number       : mobNumber,
                     variables    : msgvariable,
                 }
-                // console.log("smsObj",smsObj);
+                // 
                 sendSMS(smsObj);
 
                 // Format for sending notification //
@@ -531,7 +531,7 @@ if(Meteor.isServer){
                 number       : mobNumber,
                 variables    : msgvariable,
             }
-            // console.log("smsObj",smsObj);
+            // 
             sendSMS(smsObj);
 
             // Format for sending notification //
@@ -546,7 +546,7 @@ if(Meteor.isServer){
             var isNewAssureID = false;
           }
           var userProfileData  = UserProfile.findOne({'emailId':formValues.emailId});
-          // console.log(userProfileData);
+          // 
           if(isNewAssureID){
             if(userProfileData){
               var orderData = Order.findOne({'userId':userProfileData.userId,'serviceName':serviceName},{sort: {createdAt: -1}});
@@ -605,10 +605,10 @@ if(Meteor.isServer){
         for(l = 0 ;l < HolidaysDB.length; l++){
           holidaysList.push(HolidaysDB[l].holidayDate);
         }
-        // console.log('holidaysList ',holidaysList);
+        // 
       }
       var services = Services.findOne({"_id":serviceId}) || {};
-      // console.log(services);
+      // 
       if(services && holidaysList){
         if(services.serviceRate && holidaysList.length > 0){
           var serviceDayNumbers = services.serviceRate;
@@ -620,7 +620,7 @@ if(Meteor.isServer){
         var tatDate1 = '';
       }
       var companyProfile = CompanyProfile.findOne({'companyAssureID':assureId});
-      // console.log(companyProfile);
+      // 
       if(companyProfile){
         if(companyProfile.paymentBy){
           var paymentBy = companyProfile.paymentBy;
@@ -721,15 +721,16 @@ if(Meteor.isServer){
       })
     },
     'updateStatusInCompanyOrder':function(orderId,companyReference){
+      
+      
       if (companyReference) {
         for (var i = 0; i < companyReference.length; i++) {
           var companymatchedOrder = CompanyOrder.findOne({"_id" : companyReference[i].companyOrderId});
         }
       }
-
       CompanyOrder.update({"_id" : companymatchedOrder._id, "orderDetails.orderId" : orderId},{
         $set: {
-          ["orderDetails.$.verifStatus"] : "Completed",
+          "orderDetails.$.verifStatus" : "Completed",
         }
       });
 

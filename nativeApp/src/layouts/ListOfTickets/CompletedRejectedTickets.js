@@ -25,10 +25,10 @@ class CompletedRejectedTickets extends React.Component {
     let name = "";
     if (this.props.userName) name = "Welcome " + this.props.userName;
     this.state = {
-      name              : name,
-      isOpen: false,
-      selectedItem: "About",
-      inputFocusColor   : '#f7ac57',
+      name            : name,
+      isOpen          : false,
+      selectedItem    : "About",
+      inputFocusColor : '#f7ac57',
     };
     this.openDrawer   = this.openDrawer.bind(this);
     this.closeDrawer  = this.closeDrawer.bind(this);

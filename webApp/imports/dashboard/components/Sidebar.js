@@ -264,6 +264,11 @@ class Sidebar extends TrackerReact(Component){
                     </Link>
                   </li>
                   <li>
+                    <Link to="/admin/manageservicepackage">
+                      <i className="fa fa-circle-o" /> Add New Service Package
+                    </Link>
+                  </li>
+                  <li>
                     <Link to="/admin/ListOfServices">
                       <i className="fa fa-circle-o" /> List of Services
                     </Link>

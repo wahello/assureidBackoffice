@@ -13,7 +13,7 @@ import {TempServiceImages} from '../api/Services.js';
 // import { ChecklistFieldExpert } from '../api/Services.js';
 import {browserHistory} from 'react-router';
 
-export default class ServicePage extends TrackerReact (Component){ 
+export default class AddServicePackage extends TrackerReact (Component){ 
   constructor(props) {
   super(props);
   this.state = {

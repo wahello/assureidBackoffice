@@ -51,6 +51,8 @@ class OrderDetails extends TrackerReact(Component){
   }
   generateOrder(event){
     event.preventDefault();
+    var userId = $(event.target).attr('data-userid'); 
+   
     Meteor.call("orderCompleted",this.props.orderId,this.props.orderDetails.companyReference);
     var path = '/orderGeneration/'+this.props.orderId;
         window.open(path);
@@ -59,7 +61,7 @@ class OrderDetails extends TrackerReact(Component){
     event.preventDefault();
 
     var path = '/orderGeneration/'+this.props.orderId;
-    console.log('path: ', path);
+    
     
     // var path = '/orderGeneration';
         window.open(path);
@@ -69,12 +71,12 @@ class OrderDetails extends TrackerReact(Component){
     var orderId             = this.props.orderId;
     var genratedReport      = '/orderGeneration/'+this.props.orderId;
     var genratedReportDate  = new Date();
-    // console.log("genratedReport",genratedReport);
+    // 
     Meteor.call("updateOrderGenrationlink",orderId,genratedReport,genratedReportDate,function(error,result) {
       if (error) {
-        console.log(error.reason);
+        
       }else{
-        console.log("updated successfully");
+        
         var adminData   = Meteor.users.findOne({'roles' : "admin"});
         if (adminData) {
           var adminId  = adminData._id;
@@ -296,7 +298,7 @@ class OrderDetails extends TrackerReact(Component){
                                 </div>  
                               :
                                 <div className="col-lg-6 col-lg-offset-3 outerGenrateOrder">
-                                  <button type="button" className="btn btn-success col-lg-6 col-lg-offset-3" onClick={this.generateOrder.bind(this)}>Generate Consolidated Report</button>
+                                  <button type="button" className="btn btn-success col-lg-6 col-lg-offset-3" data-userid ={this.props.orderDetails.userId} onClick={this.generateOrder.bind(this)}>Generate Consolidated Report</button>
                                   <div className="progress col-lg-12">                      
                                     {/*<div className="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style={{width:100+'%'}}>                      
                                     </div>*/}                    
@@ -374,7 +376,7 @@ export default UserDetailsContainer = withTracker(props => {
     }
     var buttonStatus = orderDetails.orderStatus;
   } 
-  // console.log("orderDetails",orderDetails);  
+  //   
   return {
     loading,
     orderDetails,

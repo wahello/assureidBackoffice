@@ -451,7 +451,8 @@ export default createContainer((props) => {
     }//EOF i
   }//EOF if
 
-
+  console.log("NewTicketList");
+  console.log(NewTicketList);
   var result = {
     ticketData : alltickets ,
     loading    : loading,

@@ -3,6 +3,7 @@ import {Meteor} from 'meteor/meteor';
 import { UserProfile } from '/imports/website/forms/api/userProfile.js';
 import { TicketMaster } from '/imports/website/ServiceProcess/api/TicketMaster.js';
 import { browserHistory } from 'react-router';
+
 export const Order = new Mongo.Collection("order");
 export const TempOrder = new Mongo.Collection("tempOrder");
 
@@ -191,6 +192,7 @@ if(Meteor.isServer){
      }, 
 
      'orderCompleted':function(orderId,companyReference){
+       console.log("orderId,companyReference",orderId,companyReference);
         Order.update({"_id":orderId},
             {
               $set:{
@@ -200,6 +202,7 @@ if(Meteor.isServer){
             });
         Meteor.call("updateStatusInCompanyOrder",orderId,companyReference);
      },
+
      'updateOrderGenrationlink' :function(orderId,genratedReport,genratedReportDate){ 
        
         Order.update({"_id": orderId},{
@@ -258,7 +261,23 @@ if(Meteor.isServer){
             sendInAppNotification(notifictaionObj);
         }
         
-     }
+     },
+
+    //  /**=============== Update Status in Company Order Table ==================== */
+    //  updateStatusInCompanyOrder(orderId,companyReference,userId){
+
+    //   CompanyOrder.update(
+    //     {'_id':companyReference,'orderDetails.orderId' :orderId},
+    //     {
+    //       $set:{
+    //         'orderDetails.$.verifStatus':"Completed"
+    //       }
+
+
+    //     }
+    //   );
+    //  }
+
    });
 
 }

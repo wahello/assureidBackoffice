@@ -26,17 +26,25 @@ export default class TopStates extends TrackerReact(Component){
 
                     <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div className="col-lg-8 col-lg-offset-2 col-md-8 col-sm-12 col-xs-12 horizontalwrap">
-                            <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12">Maharashtra</label>                                 
-                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 statediv bg-warning"></div>
-                            <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12">Gujrat</label>                                 
-                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 statediv bg-primary"></div>
-                            <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12">Delhi</label>                                 
-                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 statediv bg-success"></div>
-                            <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12">Kerala</label>                                 
-                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 statediv bg-info"></div>
-                           {/* <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12">Kokan</label>                                 
+                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 stateHead noLRPad"><span className="pull-left">Maharashtra</span><span className="pull-right">160/200</span></div>                                 
+                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 statediv bg-blue"></div>
+                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 stateHead noLRPad"><span className="pull-left">Goa</span><span className="pull-right">152/200</span></div>                                                                                             
+                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 statediv bg-red"></div>
+                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 stateHead noLRPad"><span className="pull-left">Delhi</span><span className="pull-right">142/200</span></div>
+                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 statediv bg-green"></div>
+                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 stateHead noLRPad"><span className="pull-left">Kerla</span><span className="pull-right">130/200</span></div>                                                                                                                                                         
+                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 statediv bg-yellow"></div>
+                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 stateHead noLRPad"><span className="pull-left">Sikkim</span><span className="pull-right">100/200</span></div>                                 
+                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 statediv bg-blue"></div>
+                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 stateHead noLRPad"><span className="pull-left">Jammu and Kashmir</span><span className="pull-right">180/200</span></div>                                                                                             
+                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 statediv bg-red"></div>
+                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 stateHead noLRPad"><span className="pull-left">Puducherry</span><span className="pull-right">170/200</span></div>
+                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 statediv bg-green"></div>
+                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 stateHead noLRPad"><span className="pull-left">Punjab</span><span className="pull-right">200/200</span></div>                                                                                                                                                         
+                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 statediv bg-yellow"></div>
+                           {/* <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12 stateHead">Kokan</label>                                 
                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 statediv bg-secondary"></div>
-                            <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12">Aurangabad</label>                                 
+                            <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12">Aur stateHeadangabad</label>                                 
                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 statediv bg-warning"></div> */}
                         </div>
                     </div>

@@ -6729,3 +6729,9 @@ border-top: 2px solid #aaa;
 .outerlocationBlock{
   display: none;
 }
+.stateHead{
+  text-align: left;
+  font-size: 13px;
+  padding: 0;
+  color: #000;
+}

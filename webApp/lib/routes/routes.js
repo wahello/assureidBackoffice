@@ -29,6 +29,7 @@ import ManagePhotoGallery from '../../imports/dashboard/reactCMS/components/Mana
 import PortfolioPage from '../../imports/dashboard/reactCMS/components/PortfolioPage.jsx';
 import ProductPage from '../../imports/dashboard/reactCMS/components/PortfolioPage.jsx';
 import ServicePage from '../../imports/dashboard/reactCMS/components/ServicePage.jsx';
+import AddServicePackage from '../../imports/dashboard/reactCMS/components/AddServicePackage.jsx';
 import EditService from '../../imports/dashboard/reactCMS/components/EditService.jsx';
 import EditBlog from '../../imports/dashboard/reactCMS/components/EditBlog.jsx';
 
@@ -321,6 +322,7 @@ export const routes = (
        <Route path="/admin/manageportfolio" component={PortfolioPage} onEnter={onEnterAdminPage}/>
        <Route path="/admin/manageproduct" component={ProductPage} onEnter={onEnterAdminPage}/>
        <Route path="/admin/manageservice" component={ServicePage} onEnter={onEnterAdminPage}/>
+       <Route path="  /admin/manageservicepackage" component={AddServicePackage} onEnter={onEnterAdminPage}/>
        <Route path="/admin/managefaq" component={FAQPage} onEnter={onEnterAdminPage}/>
        <Route path="/admin/managebasicpage/:id" component={CreateBasicPage} onEnter={onEnterAdminPage}/>
        <Route path="/admin/manageaboutuspage/:id" component={AboutUs} onEnter={onEnterAdminPage}/>
