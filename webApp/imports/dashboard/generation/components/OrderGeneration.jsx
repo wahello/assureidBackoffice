@@ -16,31 +16,39 @@ class OrderGeneration extends TrackerReact(Component){
       } 
     };
   }
+  //create pdf 
+  createPDF(){
+    var orderGenerationwrap = $('#orderGenerationwrap'),
+    cache_width     = orderGenerationwrap.width(),
+    a4              =[850,  2000];  // for a4 size paper width and height
+    this.getCanvas().then(function(canvas){
+    var img = canvas.toDataURL("image/png"),
+    doc     = new jsPDF({
+            unit:'px', 
+            format:'a4'
+          }); 
+          var width = doc.internal.pageSize.width;  
+          var height = doc.internal.pageSize.height;
+          doc.addImage(img, 'JPEG',0,0,width,height);
+          doc.save('GenratedOrder.pdf');
+          orderGenerationwrap.width(cache_width);
+   });
+  }
+ 
+    // create canvas object
+  getCanvas(){
+    var orderGenerationwrap = $('#orderGenerationwrap'),
+    cache_width     = orderGenerationwrap.width(),
+    a4              = [850,  2000];  // for a4 size paper width and height
+   // orderGenerationwrap.width(cache_width).css('max-width','none');
+   return html2canvas(orderGenerationwrap,{
+       imageTimeout:2000,
+       removeContainer:true
+      }); 
+  }
   downloadOrderaspdf(event){
     event.preventDefault();
-    var doc = new jsPDF();
-    // console.log("doc",doc);          
-    var elementHandler = {
-      '#orderGenerationwrap': function (element, renderer) {
-        return true;
-      }
-    };
-    // console.log("elementHandler",elementHandler);          
-
-    doc.fromHTML($('#orderGenerationwrap').html(), 15, 15, {
-              'width': 170,
-            'elementHandlers': elementHandler
-    });
-    doc.save('Order.pdf');
-    // html2canvas($("#outerInvoiceBlock"), {
-    //     onrendered: function(canvas) {
-    //         document.body.appendChild(canvas);
-    //         var imgData = canvas.toDataURL("image/png");
-    //         var doc     = new jsPDF('p', 'mm');
-    //         doc.addImage = (imgData,'JPEG',20,20);
-    //         doc.save('Invoice.pdf');
-    //     }
-    // });
+    this.createPDF();
   }
   componentDidMount(){      
   }

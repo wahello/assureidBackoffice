@@ -97,7 +97,22 @@ class ListOfCheckList extends TrackerReact(Component) {
                         </thead>
                        
                         <tbody>
-                            {this.renderTableRow()}
+                            {this.props.checkList ? 
+                              this.props.checkList.length > 0 ? 
+                                this.renderTableRow()
+                                :
+                                <tr className="col-lg-12">
+                                    <div className="col-lg-12">
+                                      <label className ="nodata">Nothing To Dispaly</label>
+                                    </div>
+                                </tr>
+                              :
+                                <tr className="col-lg-12">
+                                    <div className="col-lg-12">
+                                      <label className ="nodata">Nothing To Dispaly</label>
+                                    </div>
+                                </tr>
+                            }
                         </tbody>
                     </table>
                   </div>

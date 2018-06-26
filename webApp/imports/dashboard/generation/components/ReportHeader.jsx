@@ -16,32 +16,40 @@ class ReportHeader extends TrackerReact(Component){
       } 
     };
   } 
-  // downloadReportaspdf(event){
-  //   event.preventDefault();
-  //   var doc = new jsPDF();
-  //   console.log("doc",doc);          
-  //   var elementHandler = {
-  //     '#outerReport': function (element, renderer) {
-  //       return true;
-  //     }
-  //   };
-  //   console.log("elementHandler",elementHandler);          
-
-  //   doc.fromHTML($('#outerReport').html(), 15, 15, {
-  //             'width': 170,
-  //           'elementHandlers': elementHandler
-  //   });
-  //   doc.save('Report.pdf');
-  //   // html2canvas($("#outerInvoiceBlock"), {
-  //   //     onrendered: function(canvas) {
-  //   //         document.body.appendChild(canvas);
-  //   //         var imgData = canvas.toDataURL("image/png");
-  //   //         var doc     = new jsPDF('p', 'mm');
-  //   //         doc.addImage = (imgData,'JPEG',20,20);
-  //   //         doc.save('Invoice.pdf');
-  //   //     }
-  //   // });
-  // }
+  //create pdf 
+  createPDF(){
+    var outerReport = $('#outerReport'),
+    cache_width     = outerReport.width(),
+    a4              =[850,  2000];  // for a4 size paper width and height
+    this.getCanvas().then(function(canvas){
+    var img = canvas.toDataURL("image/png"),
+    doc     = new jsPDF({
+            unit:'px', 
+            format:'a4'
+          }); 
+          var width = doc.internal.pageSize.width;  
+          var height = doc.internal.pageSize.height ;
+          doc.addImage(img, 'JPEG',0,0,width,height);
+          doc.save('Report.pdf');
+          outerReport.width(cache_width);
+   });
+  }
+ 
+    // create canvas object
+  getCanvas(){
+    var outerReport = $('#outerReport'),
+    cache_width     = outerReport.width(),
+    a4              = [850,  2000];  // for a4 size paper width and height
+   // outerReport.width(cache_width).css('max-width','none');
+   return html2canvas(outerReport,{
+       imageTimeout:2000,
+       removeContainer:true
+      }); 
+  }
+  downloadReportaspdf(event){
+    event.preventDefault();
+     this.createPDF();
+  }
   componentDidMount(){      
   }
 
@@ -55,7 +63,7 @@ class ReportHeader extends TrackerReact(Component){
                 <img src="/images/assureid/Assure-ID-logo-Grey.png" className="generationImg"  />
               </div>
               <div className="col-lg-8 col-md-8 col-sm-8 col-xs-8 outerpdficon">
-                <i className="fa fa-file-pdf-o pull-right fa-2x pdf-icon" title="Download as pdf" ></i>
+                <i className="fa fa-file-pdf-o pull-right fa-2x pdf-icon" title="Download as pdf" onClick={this.downloadReportaspdf.bind(this)}></i>
               </div>
             </div>
              <div className="col-lg-7 col-md-7 col-sm-12 col-xs-12 outerUserData">

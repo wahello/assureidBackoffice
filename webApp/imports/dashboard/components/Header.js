@@ -227,7 +227,7 @@ class Header extends TrackerReact(Component){
                   </ul>
                 </li>
                 {/* Control Sidebar Toggle Button */}
-                {Roles.userIsInRole(Meteor.userId(),['screening committee','team leader','team member','field expert','quality team member','quality team leader'])?
+                {Roles.userIsInRole(Meteor.userId(),['screening committee','team leader','team member','field expert','quality team member','quality team leader','dispatch team'])?
                  ""
                 :
                   <li>

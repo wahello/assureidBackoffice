@@ -239,7 +239,6 @@ class AllOrders extends TrackerReact(Component){
                                           <div className="col-lg-12">
                                             <label className ="nodata">Nothing To Dispaly</label>
                                           </div>
-                                          
                                       </tr>
                                     }
                                   </tbody>
