@@ -134,9 +134,11 @@ class SCTicketDistribution extends TrackerReact(Component){
 export default SCTicketDistributionContainer = withTracker(props => {
 
     var handleAllSCUsers = Meteor.subscribe('allUserData');
+    console.log('handleAllSCUsers: ', handleAllSCUsers);
     var allTicketHandle = Meteor.subscribe('allTickets');
     var companyData = Meteor.subscribe('companyData');
     var allUsers = Meteor.users.find({"roles":{$in:['screening committee']}}).fetch();
+    console.log('allUsers: ', allUsers);
     var scNameArr = [];
     var scCount   = [];
 
@@ -178,7 +180,8 @@ export default SCTicketDistributionContainer = withTracker(props => {
         scNameArr = [];
         scCount   = [];
     }
-
+    console.log("ticketData");
+    console.log(ticketData);
     return {
         loading,
         scNameArr,
