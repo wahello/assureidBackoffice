@@ -330,8 +330,6 @@ class AddServicePackage extends TrackerReact (Component){
                                    </div>
                                 </div>
                               </div>
-                            
-                              
                               <div className="savetemp col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <button onClick={this.handleSubmit.bind(this)} type="submit" className="col-lg-2 col-md-3 col-sm-6 col-xs-12 btn btn-primary pull-right sendtxtmsgbtn">ADD</button>
                               </div>
