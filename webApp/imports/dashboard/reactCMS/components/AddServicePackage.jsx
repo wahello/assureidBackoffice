@@ -278,6 +278,7 @@ class AddServicePackage extends TrackerReact (Component){
                                   <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                     {this.getUploadImagePercentage()}
                                   </div>
+
                                 </div>
                               </div>
                               <div className="row inputrow subjectRow">
