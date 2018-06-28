@@ -27,13 +27,7 @@ class EditService extends TrackerReact (Component){
       serviceFor          : '',
       id                  : '',
       services            : [],
-      ProfileForms        : false,
-       StatutoryForm       : false,
-       AddressForm         : false,
-       EducationForm       : false,
-       WorkForm            : false,
-       SkillsCertificate   : false,
-       OtherInfoForm       : false,
+      serviceRequired     : '',
       isUploading         : false,
       // progressValue     : "0%",
       edit                : false,
@@ -49,23 +43,15 @@ class EditService extends TrackerReact (Component){
   componentWillReceiveProps(nextProps) {
     if(!nextProps.loading){
       if(nextProps.services){
-        console.log("nextProps.services",nextProps.services);
+        // console.log("nextProps.services",nextProps.services);
          this.setState({
              // fieldChecklist      : nextProps.services.fieldChecklist,
              serviceName         : nextProps.services.serviceName,
              serviceRate         : nextProps.services.serviceRate,
-             serviceDuration     : nextProps.services.serviceDuration,
              servicesDescription : nextProps.services.servicesDescription,
              image               : nextProps.services.image,
-             ProfileForms        : nextProps.services.ProfileForms,
-             StatutoryForm       : nextProps.services.StatutoryForm,
-             AddressForm         : nextProps.services.AddressForm,
-             EducationForm       : nextProps.services.EducationForm,
-             WorkForm            : nextProps.services.WorkForm,
-             SkillsCertificate   : nextProps.services.SkillsCertificate,
-             OtherInfoForm       : nextProps.services.OtherInfoForm,
              id                  : nextProps.services._id,
-             serviceFor          : nextProps.services.serviceFor,
+             serviceRequired     : nextProps.services.serviceRequired,
              serviceDayNumbers   : nextProps.services.serviceDayNumbers,
          });
       }
@@ -74,18 +60,10 @@ class EditService extends TrackerReact (Component){
              // fieldChecklist      : '',
              serviceName         : '',
              serviceRate         : '',
-             serviceDuration     : '',
              servicesDescription : '',
-             serviceFor          : '',
+             serviceRequired     : '',
              image               : '',
              id                  : '',
-             ProfileForms        : false,
-             StatutoryForm       : false,
-             AddressForm         : false,
-             EducationForm       : false,
-             WorkForm            : false,
-             SkillsCertificate   : false,
-             OtherInfoForm       : false,
              serviceDayNumbers   : '',
       });
     }
@@ -198,36 +176,17 @@ class EditService extends TrackerReact (Component){
       let serviceName         = this.refs.serviceName.value;
       let serviceRate         = this.refs.serviceRate.value;
       var serviceDayNumbers   = this.refs.serviceDayNumbers.value;
-      let serviceDuration     = this.refs.serviceDuration.value;
       // let servicesDescription = $('#servicesDescription').summernote('code');
       let servicesDescription = this.refs.servicesDescription.value;
       let userId              = Meteor.userId();
       var id                  = this.props.params.id;
-      var serviceFor = $('input[name=serviceFor]:checked', '.newTemplateForm').val();
-      // var fieldChecklist       = [];
-      //   var checklistFieldExpert = this.props.checklistFieldExpert;
-      //   if (checklistFieldExpert) {
-      //     for (var i = 0; i < checklistFieldExpert.length; i++) {
-      //       fieldChecklist.push(checklistFieldExpert[i].task);
-      //     }
-      //   }
-      //   if (this.props.services.fieldChecklist.length > 0) {
-      //     for (var i = 0; i < this.props.services.fieldChecklist.length; i++) {
-      //       fieldChecklist.push(this.props.services.fieldChecklist[i]);
-      //     }
-      //   }
-      // console.log("fieldChecklist",fieldChecklist);
-      if(this.refs.ProfileForms.value =='true'){ var ProfileForms = true;}else{var ProfileForms = false;}
-      if(this.refs.StatutoryForm.value =='true'){ var StatutoryForm = true;}else{var StatutoryForm = false;}
-      if(this.refs.AddressForm.value =='true'){ var AddressForm = true;}else{var AddressForm = false;}
-      if(this.refs.EducationForm.value =='true'){ var EducationForm = true;}else{var EducationForm = false;}
-      if(this.refs.WorkForm.value =='true'){ var WorkForm = true;}else{var WorkForm = false;}
-      if(this.refs.SkillsCertificate.value =='true'){ var SkillsCertificate = true;}else{var SkillsCertificate = false;}
-      if(this.refs.OtherInfoForm.value =='true'){ var OtherInfoForm = true;}else{var OtherInfoForm = false;}
-       
+      // var serviceFor = $('input[name=serviceFor]:checked', '.newTemplateForm').val();
+      var serviceFor          = "user";
+      var serviceRequired     = this.state.serviceRequired;
+      // console.log("serviceRequired",serviceRequired);        
       if (id) {
         let lastModified        = new Date();
-         Meteor.call('updateService',id,ProfileForms,StatutoryForm,AddressForm,EducationForm,WorkForm,SkillsCertificate,OtherInfoForm,serviceName,serviceRate,serviceDuration,servicesDescription,userId,lastModified,serviceDayNumbers,serviceFor,(error,result)=>{
+         Meteor.call('updateService',id,serviceName,serviceRate,serviceDayNumbers,servicesDescription,serviceRequired,userId,lastModified,serviceFor,(error,result)=>{
             if(error){
                 console.log(error.reason);
             }else{               
@@ -343,18 +302,18 @@ class EditService extends TrackerReact (Component){
                   <div className="box-body">
                     <div className="row">
                       <div className="col-md-12">
-                        <div className="notifWrapper col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div className=" col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         
                           <div className="create-email-template-wrapper col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <form className="newTemplateForm">
                               <div className="row inputrow">
-                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                {/*<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                   <div className="form-group">
                                     <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12 label-category">Service For:</label>
                                     <label className="radio-inline" style={{fontSize : '13' + 'px'}}><input value="user" type="radio" name="serviceFor" ref="serviceFor" checked={this.state.serviceFor === 'user'} onChange={this.handleChange} />User</label>
                                     <label className="radio-inline" style={{fontSize : '13' + 'px', marginLeft : '30' + 'px'}}><input value="company" type="radio" name="serviceFor" checked={this.state.serviceFor === 'company'} ref="serviceFor" onChange={this.handleChange}/>Company</label>
                                   </div>
-                                </div>
+                                </div>*/}
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                   <div className="form-group">
                                    <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12 label-category">Service Name<span className="astrick">*</span>:</label>
@@ -373,17 +332,17 @@ class EditService extends TrackerReact (Component){
                                   <div className="form-group">
                                    <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12 label-category">Service Duration<span className="astrick">*</span>:</label>
 {/*                                     <input type="text" ref="serviceDuration" id="serviceDuration" name="serviceDuration" value={this.state.serviceDuration}  onChange={this.handleChange} className="templateName serviceDuration col-lg-12 col-md-12 col-sm-12 col-xs-12 inputValid" />
-*/}                                   <div className="col-lg-4 servicesDays">
-                                        <input type="number" className="templateName serviceRate col-lg-4 col-md-12 col-sm-12 col-xs-12 form-control inputValid"
+*/}                                   <div className="col-lg-12 servicesDays">
+                                        <input type="number" className="templateName serviceRate col-lg-12 col-md-12 col-sm-12 col-xs-12 form-control inputValid"
                                         ref="serviceDayNumbers" id="serviceDayNumbers" name="serviceDayNumbers" value={this.state.serviceDayNumbers}   onChange={this.handleChange}/>
                                       </div>
-                                      <div className="col-lg-8">
+                                    {/*  <div className="col-lg-8">
                                         <select className="form-control inputText serviceDuration col-lg-8 " ref="serviceDuration" value={this.state.serviceDuration} onChange={this.handleChange} id="serviceDuration" name="serviceDuration" required>
                                           <option value="Days">Days</option>
                                           <option value="Weeks">Weeks</option>
                                           <option value="Months">Months</option>
                                         </select> 
-                                      </div>      
+                                      </div>   */}   
                                   </div>
                                 </div>
                               </div>
@@ -462,48 +421,48 @@ class EditService extends TrackerReact (Component){
                                 }
                             </div>*/}
                             <div className="row inputrow subjectRow">
-                                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                  <div className="col-lg-12 uploadedImageFromLocl1">
-                                     <div className="form-group subjectDiv">
-                                       <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12 label-category">Required Information for verification<span className="astrick">*</span>:</label>
-                                      </div> 
-                                  </div>
-                                  <div className="col-lg-6">
-                                    <div className="form-group">
-                                      <input type="checkbox" name="ProfileForms"  onChange={this.handleChange} ref="ProfileForms" value={this.state.ProfileForms} checked={this.state.ProfileForms}/> Basic Information
+                              <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div className="col-lg-12 uploadedImageFromLocl1">
+                                   <div className="form-group subjectDiv">
+                                     <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12 label-category">Required Information for verification<span className="astrick">*</span>:</label>
                                     </div> 
-                                  </div>
-                                  <div className="col-lg-6">
-                                    <div className="form-group">
-                                      <input type="checkbox" name="StatutoryForm" onChange={this.handleChange} ref="StatutoryForm" value={this.state.StatutoryForm} checked={this.state.StatutoryForm}/> Identity Information
-                                    </div> 
-                                  </div>
-                                  <div className="col-lg-6">
-                                    <div className="form-group ">
-                                          <input type="checkbox" name="AddressForm" onChange={this.handleChange} ref="AddressForm" value={this.state.AddressForm} checked={this.state.AddressForm}/> Address Information
-                                    </div> 
-                                  </div>
-                                  <div className="col-lg-6">
-                                    <div className="form-group ">
-                                          <input type="checkbox" name="EducationForm" onChange={this.handleChange} ref="EducationForm" value={this.state.EducationForm} checked={this.state.EducationForm}/> Academic Information
-                                    </div> 
-                                  </div>
-                                  <div className="col-lg-6">
-                                    <div className="form-group">
-                                          <input type="checkbox" name="WorkForm" onChange={this.handleChange} ref="WorkForm" value={this.state.WorkForm} checked={this.state.WorkForm}/> Employment Information
-                                    </div> 
-                                  </div>
-                                  <div className="col-lg-6">
-                                    <div className="form-group">
-                                          <input type="checkbox" name="SkillsCertificate" onChange={this.handleChange} ref="SkillsCertificate" value={this.state.SkillsCertificate} checked={this.state.SkillsCertificate}/> Skills & Certification Information
-                                    </div> 
-                                  </div>
-                                  <div className="col-lg-6">
-                                    <div className="form-group">
-                                          <input type="checkbox" name="OtherInfoForm" onChange={this.handleChange} ref="OtherInfoForm" value={this.state.OtherInfoForm} checked={this.state.OtherInfoForm}/> Other Information
-                                    </div> 
-                                  </div>
                                 </div>
+                                <div className="col-lg-6">
+                                  <div className="form-group">
+                                    <input type="radio" name="serviceRequired"  onChange={this.handleChange} ref="serviceRequired" value="ProfileForms" checked={this.state.serviceRequired === 'ProfileForms'}/> Basic Information
+                                  </div> 
+                                </div>
+                                <div className="col-lg-6">
+                                  <div className="form-group">
+                                    <input type="radio" name="serviceRequired" onChange={this.handleChange} ref="serviceRequired" value="StatutoryForm" checked={this.state.serviceRequired === 'StatutoryForm'}/> Identity Information
+                                  </div> 
+                                </div>
+                                <div className="col-lg-6">
+                                  <div className="form-group ">
+                                    <input type="radio" name="serviceRequired" onChange={this.handleChange} ref="serviceRequired" value="AddressForm" checked={this.state.serviceRequired === 'AddressForm'}/> Address Information
+                                  </div> 
+                                </div>
+                                <div className="col-lg-6">
+                                  <div className="form-group ">
+                                   <input type="radio" name="serviceRequired" onChange={this.handleChange} ref="serviceRequired" value="EducationForm" checked={this.state.serviceRequired === 'EducationForm'}/> Academic Information
+                                  </div> 
+                                </div>
+                                <div className="col-lg-6">
+                                  <div className="form-group">
+                                    <input type="radio" name="serviceRequired" onChange={this.handleChange} ref="serviceRequired" value="WorkForm" checked={this.state.serviceRequired  === 'WorkForm'}/> Employment Information
+                                  </div> 
+                                </div>
+                                <div className="col-lg-6">
+                                  <div className="form-group">
+                                    <input type="radio" name="serviceRequired" onChange={this.handleChange} ref="serviceRequired" value="SkillsCertificate" checked={this.state.serviceRequired  === 'SkillsCertificate'}/> Skills & Certification Information
+                                  </div> 
+                                </div>
+                                <div className="col-lg-6">
+                                  <div className="form-group">
+                                   <input type="radio" name="serviceRequired" onChange={this.handleChange} ref="serviceRequired" value="OtherInfoForm" checked={this.state.serviceRequired  === 'OtherInfoForm'}/> Other Information
+                                  </div> 
+                                </div>
+                              </div>
                             </div>
                            
                             <div className="savetemp col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -533,7 +492,7 @@ EditPageContainer = withTracker(({params}) => {
     // var editServices   = this.props.params.id;
     // console.log("Param" +editServices);
     const services = Services.findOne({"_id":_id})|| {};
-    console.log("services",services);
+    // console.log("services",services);
     const loading = !postHandle.ready();
     // const postHandle1    = Meteor.subscribe("checklistFieldExpert");
     // const loading1       = !postHandle1.ready();
@@ -550,5 +509,3 @@ EditPageContainer = withTracker(({params}) => {
 })(EditService);
 
 export default EditPageContainer;
-
-

@@ -6,6 +6,7 @@ import {TempServiceImages} from '../api/Services';
 import { createContainer } from 'meteor/react-meteor-data';
 import {browserHistory} from 'react-router';
 import { Link } from 'react-router';
+import { Packages } from '../api/Package.js';
 
 export default class ListOfServices extends TrackerReact(Component) {
   constructor(props) {
@@ -16,6 +17,7 @@ export default class ListOfServices extends TrackerReact(Component) {
         "singleServices" : Meteor.subscribe("singleServices"),
         "projectSettingsPublish" : Meteor.subscribe("projectSettingsPublish"),
         "tempServiceImages" : Meteor.subscribe("tempServiceImages"),
+        "packages" : Meteor.subscribe("packages"),
       }  
     }; 
   }
@@ -69,7 +71,7 @@ export default class ListOfServices extends TrackerReact(Component) {
               <td> {service.serviceFor} </td>
               <td> {service.serviceName} </td>
               <td> {service.serviceRate} </td>
-              <td>{service.serviceDayNumbers} {service.serviceDuration} </td>
+              <td>{service.serviceDayNumbers}</td>
               <td>
                 <Link to={'/admin/EditService/'+service._id} className="editButton" title="Edit">
                   <i className = "fa fa-pencil"> </i>
@@ -86,9 +88,10 @@ export default class ListOfServices extends TrackerReact(Component) {
   delete(e){
     e.preventDefault();
     let id = $(e.currentTarget).attr("id");
+
     swal({
       title: "Are you sure?",
-      text: "You want to delete this page!",
+      text: "You want to delete this package!",
       type: "warning",
       showCancelButton: true,
       confirmButtonColor: "#DD6B55",
@@ -96,14 +99,57 @@ export default class ListOfServices extends TrackerReact(Component) {
       closeOnConfirm: false,
       html: false
     }, function(){
-      Meteor.call("deleteService",id,function(error,result){
-          if(error){
-              console.log(error.reason);
-          }else{
-              // Bert.alert("Successfully Deleted..!!");
-              swal("Done","Your page has been deleted!.", "success");
-          }
-      });
+      // var allPackages = Packages.find({}).fetch();
+      // if (allPackages) {
+      //   for (var i = 0; i < allPackages.length; i++) {
+      //     var selectedServices = allPackages[i].selectedServices;
+      //     for (var j = 0; j < selectedServices.length; j++) {
+      //       if (id == selectedServices[j].serviceId) {
+      //         var matchedService = selectedServices[j];
+      //         if (matchedService.value == true) {
+      //           var selctedpackage = allPackages[i];
+      //             var packageId = selctedpackage._id;
+      //            if (selctedpackage) {
+      //                swal({
+      //                 title: "Are you sure?",
+      //                 text: "You want to delete this service!",
+      //                 type: "warning",
+      //                 showCancelButton: true,
+      //                 confirmButtonColor: "#DD6B55",
+      //                 confirmButtonText: "Yes, delete it!",
+      //                 closeOnConfirm: false,
+      //                 html: false
+      //               }, function(){
+      //                Meteor.call('updatePackageStatus',packageId,function(error,result){
+      //                  if (error) {
+      //                    console.log(error.reason);
+      //                  }else{
+      //                    Meteor.call("deleteService",id,function(error,result){
+      //                       if(error){
+      //                           console.log(error.reason);
+      //                       }else{
+      //                           // Bert.alert("Successfully Deleted..!!");
+      //                           swal("Done","Your page has been deleted!.", "success");
+      //                       }
+      //                   });
+      //                  }
+      //                });
+      //               }
+      //             }else{
+                    Meteor.call("deleteService",id,function(error,result){
+                        if(error){
+                            console.log(error.reason);
+                        }else{
+                            // Bert.alert("Successfully Deleted..!!");
+                            swal("Done","Your page has been deleted!.", "success");
+                        }
+                    });
+      //             }
+      //         }
+      //       }
+      //     }
+      //   }
+      // }  
 
     });
   }

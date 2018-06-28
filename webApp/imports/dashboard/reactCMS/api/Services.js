@@ -98,10 +98,14 @@ import { ServiceImage } from "../UploadToServer/UploadServiceImgsServer.js";
            var data = TempServiceImages.findOne({"userId":Meteor.userId()});
             if(data){
                 var imageLink     = data.imageLink;
+                var fileName      = data.fileName;
+                var fileExt       = data.fileExt;
             }else{
                 var oldImgData    = Services.findOne({"_id":id},{sort:{"createdAt":-1}});
                 if(oldImgData){
                     var imageLink = oldImgData.image;
+                    var fileName  = oldImgData.fileName;
+                    var fileExt   = oldImgData.fileExt;
                 }
             }
              

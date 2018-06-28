@@ -19,6 +19,7 @@ import '../imports/dashboard/reactCMS/api/PhotoGallery.js';
 import '../imports/dashboard/reactCMS/api/Portfolios.js';
 import '../imports/dashboard/reactCMS/api/Products.js';
 import '../imports/dashboard/reactCMS/api/Services.js';
+import '../imports/dashboard/reactCMS/api/Package.js';
 import '../imports/dashboard/reactCMS/api/plivoDetails.js';
 import '../imports/dashboard/forms/api/NewsFeed.js';
 import '../imports/dashboard/forms/api/CodeAndReason.js';

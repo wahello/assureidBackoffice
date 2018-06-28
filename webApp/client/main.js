@@ -8,6 +8,7 @@ import { ProductImage } from '/imports/dashboard/product/addNewProduct/imageUplo
 import { ServiceImage } from '/imports/dashboard/reactCMS/UploadToClient/UploadServiceImgsClient.js';
 import { BlogImage } from '/imports/dashboard/reactCMS/UploadToClient/UploadBlogImgsClient.js';
 import { UserImage } from '/imports/dashboard/userManagement/UserPicUploadClient/UserPicUploadClient.js';
+import { PackageImage } from '/imports/dashboard/reactCMS/UploadToClient/UploadPackageImgsClient.js';
 // import { ProofDocuments } from '/imports/website/forms/UploadToClient/ProofUploadClient.js';
 import { NewsVideo } from '/imports/dashboard/forms/uploadToClient/uploadNewsVideoClient.js';
 import { TicketImages } from '/imports/dashboard/ticketManagement/uploadToClient/uploadImagesToClient.js';
@@ -572,6 +573,67 @@ addTicketVideoS3Function = function(file,self) {
 
     uploadInstance.on('progress', function (progress, fileObj) {
         Session.set("uploadVideoProgressbar",progress);
+        
+        self.setState({
+            progress : progress
+        })
+    });
+
+    uploadInstance.start(); // Must manually start the uploaded
+},
+// add package image function
+addPackageImageS3Function = function(file,self) {
+    // console.log("self",self);
+    uploadInstance = PackageImage.insert({
+                                        file: file,
+                                        meta: {
+                                        locator : self.props.fileLocator,
+                                        userId  : Meteor.userId() // Optional, used to check on server for file tampering
+                                        },
+                                        streams         : 'dynamic',
+                                        chunkSize       : 'dynamic',
+                                        allowWebWorkers : true // If you see issues with uploads, change this to false
+    }, false);
+
+    self.setState({
+        uploading  : uploadInstance, // Keep track of this instance to use below
+        inProgress : true // Show the progress bar now
+    });
+
+    // These are the event functions, don't need most of them, it shows where we are in the process
+    uploadInstance.on('start', function () {
+    });
+ 
+    uploadInstance.on('end', function (error, fileObj) {
+    });
+
+    uploadInstance.on('uploaded',  (error, fileObj) => {
+        if(fileObj){
+            // console.log("fileObj._id: ",fileObj._id);
+            Meteor.call("TempPackageImageToS3function",fileObj._id,(error, result)=>{
+            // swal({
+            //     position: 'top-right',
+            //     type: 'success',
+            //     title: 'Uploaded Successfully',
+            //     showConfirmButton: false,
+            //     timer: 1500
+            // });
+            
+          }); 
+        }
+
+        self.setState({
+            uploading  : [],
+            progress   : 0,
+            inProgress : false
+        });
+    });
+
+    uploadInstance.on('error', function (error, fileObj) {
+    });
+
+    uploadInstance.on('progress', function (progress, fileObj) {
+        Session.set("uploadPackageProgressbar",progress);
         
         self.setState({
             progress : progress

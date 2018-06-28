@@ -264,11 +264,6 @@ class Sidebar extends TrackerReact(Component){
                     </Link>
                   </li>
                   <li>
-                    <Link to="/admin/manageservicepackage">
-                      <i className="fa fa-circle-o" /> Add New Service Package
-                    </Link>
-                  </li>
-                  <li>
                     <Link to="/admin/ListOfServices">
                       <i className="fa fa-circle-o" /> List of Services
                     </Link>
@@ -322,12 +317,12 @@ class Sidebar extends TrackerReact(Component){
                 </Link>
                 <ul className="treeview-menu">
                   <li>
-                    <Link to="/ComingSoon">
+                    <Link to="/admin/manageservicepackage">
                       <i className="fa fa-circle-o" /> Add New Package
                     </Link>
                   </li>
                   <li>
-                    <Link to="/ComingSoon">
+                    <Link to="/admin/listOfPackages">
                       <i className="fa fa-circle-o" /> List of Packages
                     </Link>
                   </li>

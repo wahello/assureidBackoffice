@@ -8,67 +8,89 @@ import Validation from 'react-validation';
 import validator from 'validator';
 import {Tracker} from 'meteor/tracker';
 import { Link } from 'react-router';
-import { Services } from '../api/Services.js';
-import {TempServiceImages} from '../api/Services.js';
-import { Packages } from '../api/Package.js';
+import {Packages} from '../api/Package.js';
+import {TempPackageImages} from '../api/Package.js';
 import {browserHistory} from 'react-router';
+// import { ChecklistFieldExpert } from '../api/Services.js';
 
-class AddServicePackage extends TrackerReact (Component){ 
+class EditPackages extends TrackerReact(Component){
   constructor(props) {
-  super(props);
-  this.state = {
-      packageName       : '',
-      packageDuration   : '',
-      packageDiscount   : 'user',
-      packageDescription : '',
-      // selectedServices   : [] ,     
+    super(props); 
+    this.state = {
+      packageName         : '',
+      packageDuration     : '',
+      packageDiscount     : '',
+      packageDescription  : '',
+      image               : '',      
       "subscription"  : {
-        // "singleServices" : Meteor.subscribe("singleServices"),
-        // "projectSettingsPublish" : Meteor.subscribe("projectSettingsPublish"),
-        // "tempServiceImages" : Meteor.subscribe("tempServiceImages"),
-      } 
-  };
+      }  
+    }; 
     this.handleChange = this.handleChange.bind(this);
-}
-  // calculateProgress(){
-  //   this.uploadComputation = Tracker.autorun(() => {
-  //        const uploadProgress = Math.round(this.state.upload.progress() * 100);
-  //        if (!isNaN(uploadProgress)) this.setState({progressValue: uploadProgress +"%" });
-  //   });
-  // }
+  }
+  componentWillReceiveProps(nextProps) {
+    if(!nextProps.loading){
+      if(nextProps.singlepackage){
+        // console.log("nextProps.services",nextProps.services);
+         this.setState({
+             packageName         : nextProps.singlepackage.packageName,
+             packageDuration     : nextProps.singlepackage.packageDuration,
+             packageDescription  : nextProps.singlepackage.packageDescription,
+             image               : nextProps.singlepackage.image,
+             id                  : nextProps.singlepackage._id,
+             packageDiscount     : nextProps.singlepackage.packageDiscount,
+             selectedServices    : nextProps.singlepackage.selectedServices,
+         });
+      }
+    }else{
+      this.setState({
+            packageName         : nextProps.singlepackage.packageName,
+             packageDuration     : nextProps.singlepackage.packageDuration,
+             packageDescription  : nextProps.singlepackage.packageDescription,
+             image               : nextProps.singlepackage.image,
+             id                  : nextProps.singlepackage._id,
+             packageDiscount     : nextProps.singlepackage.packageDiscount,
+             selectedServices    : nextProps.singlepackage.selectedServices,
+      });
+    }
+    // console.log("nextProps.services",nextProps.services);
+
+    this.handleChange = this.handleChange.bind(this);
+  }
+
   handleChange(event){
-    const target = event.target;
+   const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
-    
     const name = target.name;
+    // console.log("name",name);
+    // console.log("value",value);
     this.setState({
-      [name] : value
+      [name]: value
     });
+    
   }
   handleChangeForServices(event){
     const target = event.target;
     // console.log("target",target);
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    
-    const name = target.name;
-    var dataNumber    = $(event.currentTarget).attr('data-number');
-    // console.log("dataNumber",dataNumber);
-    // const number = parseInt(target.attr('data-number'));
+    const value  = target.type === 'checkbox' ? target.checked : target.value;
+    // console.log("value",value);
+    const name   = target.name;
+    var index    = $(event.currentTarget).attr('id');
+    this.state.selectedServices[index].value = value;
+
     this.setState({
-      [name] : value,
-      // "packageDuration" : dataNumber,
+     [name]: event.target.value,
     });
   }
   componentDidMount() {
-    $("html,body").scrollTop(0);
+   $("html,body").scrollTop(0);
+    $(".serviceName").focus();
     if (!$("#adminLte").length>0 && !$('body').hasClass('adminLte')) {
-     var adminLte = document.createElement("script");
-     adminLte.type="text/javascript"; 
-     adminLte.src = "/js/adminLte.js"; 
-     $("body").append(adminLte); 
+     var adminLte = document.createElement("script");  
+     adminLte.type="text/javascript";  
+     adminLte.src = "/js/adminLte.js";  
+     $("body").append(adminLte);  
     }
-    
-    $("#packageForm").validate({
+     $("#packageForm").validate({
         rules: {
           packageName: {
             required: true, 
@@ -96,9 +118,12 @@ class AddServicePackage extends TrackerReact (Component){
         }
     });
   }
-
+  componentWillMount() {
+    
+  }
   componentWillUnmount() {
-     $("script[src='/js/adminLte.js']").remove(); 
+      $("script[src='/js/adminLte.js']").remove(); 
+
   }
   handleUpload(event){
     event.preventDefault();
@@ -126,22 +151,21 @@ class AddServicePackage extends TrackerReact (Component){
       }
     }
   }
-
-  handleSubmit(e){
-    e.preventDefault();
-      if($("#packageForm").valid()){ 
+ 
+  updatePackage(e){
+      e.preventDefault();
+       if($("#packageForm").valid()){ 
         var selectedServices   = [];
         var packageName        = this.refs.packageName.value;
         var packageDuration    = this.refs.packageDuration.value;
         var packageDiscount    = this.refs.packageDiscount.value;
         var packageDescription = this.refs.packageDescription.value;
-        var userId             = Meteor.userId();
-        var pageNameExist      = Packages.findOne({'packageName': packageName});
-        var serviceNameExist   = Services.findOne({'serviceName': packageName});
-        if (this.props.AllServices) {
-          for(var i = 0 ; i < this.props.AllServices.length; i++){
-            console.log("hi");
-            var serviceName = $("input:checkbox[id="+[i]+"]:checked").val();
+        var id                 = this.props.params.id;
+
+        if (this.state.selectedServices) {
+          for(var i = 0 ; i < this.state.selectedServices.length; i++){
+            var value       = $("input:checkbox[id="+[i]+"]:checked").val();
+            var serviceName = $("input:checkbox[id="+[i]+"]:checked").attr('data-name');
             var serviceId   = $("input:checkbox[id="+[i]+"]:checked").attr('data-id');
             var index       = parseInt($("input:checkbox[id="+[i]+"]:checked").attr('id'));
             var serviceDuration = $("input:checkbox[id="+[i]+"]:checked").attr('data-number');            
@@ -157,27 +181,25 @@ class AddServicePackage extends TrackerReact (Component){
 
           }
         }
-         if(pageNameExist){
-           swal("Oops...!","This Package name is already taken!","error");
-          }else if(serviceNameExist) {
-             swal("Oops...!","This Package name is same as service name!","error");
-          }else{
-              Meteor.call('createPackage',packageName,packageDuration,packageDiscount,packageDescription,selectedServices,userId,(error,result)=>{
-                  if(error){
-                      
-                  }else{                     
-                     swal("Done","Your page has been Created!.","success");
-                      $('.uploadedImageFromLocl').attr('src', "");
-                      $('.packageName').val("");
-                      $(".packageDuration").val("");  
-                      $(".packageDiscount").val("");  
-                      $(".packageDescription").val("");  
-                  }
-              });
-          }
-      }    
-  }
+        if (id) {
+            Meteor.call('updatePackage',id,packageName,packageDuration,packageDiscount,packageDescription,selectedServices,(error,result)=>{
+              if(error){
+                  
+              }else{                     
+                 // swal("Done","Your page has been Created!.","success");
+                   var path = "/admin/ListOfPackages";
+                  browserHistory.replace(path);
+                  $('.uploadedImageFromLocl').attr('src', "");
+                  $('.packageName').val("");
+                  $(".packageDuration").val("");  
+                  $(".packageDiscount").val("");  
+                  $(".packageDescription").val("");  
 
+              }
+          });
+        }      
+      } 
+  }
   getUploadImagePercentage(){
     var uploadProgressPercent = Session.get("uploadPackageProgressbar");
     if(uploadProgressPercent){
@@ -221,7 +243,8 @@ class AddServicePackage extends TrackerReact (Component){
           </div>
         );
     }
-}
+  }
+ 
   render(){
     return(
       <div>
@@ -233,7 +256,7 @@ class AddServicePackage extends TrackerReact (Component){
             <ol className="breadcrumb">
               <li>
                 <a href="#"><i className="fa fa-briefcase" />Package Management</a></li>
-              <li className="active">Add Package</li>
+              <li className="active">Edit Package</li>
             </ol>
           </section>
           {/* Main content */}
@@ -243,7 +266,7 @@ class AddServicePackage extends TrackerReact (Component){
                 <div className="box box-primary">
                   <div className="box-header with-border">
                     <h3 className="box-title">
-                      Add Package
+                      Edit Package
                     </h3>
                   </div>
                   {/* /.box-header */}
@@ -257,7 +280,7 @@ class AddServicePackage extends TrackerReact (Component){
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                   <div className="form-group">
                                    <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12 label-category">Package Name:</label>
-                                     <input type="text" ref="packageName" id="packageName" name="packageName" onChange={this.handleChange} className="templateName packageName col-lg-12 col-md-12 col-sm-12 col-xs-12 inputValid" />
+                                     <input type="text" ref="packageName" id="packageName" name="packageName" value={this.state.packageName} onChange={this.handleChange} className="templateName packageName col-lg-12 col-md-12 col-sm-12 col-xs-12 inputValid" />
                                   </div>
                                 </div>
                               </div>
@@ -272,7 +295,7 @@ class AddServicePackage extends TrackerReact (Component){
                                   
                                   <div className="col-lg-6 uploadedImageFromLocl2">    
                                       <div className="uploadedImageFromLocl3">       
-                                          <img src="" alt="" className="img-responsive uploadedImageFromLocl"/>   
+                                          <img src={this.state.image} alt="" className="img-responsive uploadedImageFromLocl"/>   
                                       </div>
                                   </div>
                                   <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
@@ -287,13 +310,13 @@ class AddServicePackage extends TrackerReact (Component){
                                        <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12 label-category">Select Services:</label>
                                       </div> 
                                   </div>
-                                  {this.props.AllServices ? 
-                                     this.props.AllServices.length > 0 ? 
-                                     this.props.AllServices.map((allServices,index)=>{
+                                  {this.state.selectedServices ? 
+                                     this.state.selectedServices.length > 0 ? 
+                                     this.state.selectedServices.map((allServices,index)=>{
                                        return(
                                           <div className="col-lg-6" key={index}>
                                             <div className="form-group">
-                                              <input type="checkbox" name="service" onChange={this.handleChangeForServices.bind(this)} data-id={allServices._id} data-number={allServices.serviceDayNumbers} ref="service" value={allServices.serviceName} id={index}/> {allServices.serviceName} ({allServices.serviceDayNumbers} Days)
+                                              <input type="checkbox" name="service" onChange={this.handleChangeForServices.bind(this)} data-id={allServices.serviceId} data-name={allServices.serviceName} data-number={allServices.serviceDuration}  ref="service" value={allServices.value} checked={allServices.value} id={index}/> {allServices.serviceName} ({allServices.serviceDuration} Days)
                                             </div> 
                                           </div>
                                         );
@@ -303,20 +326,19 @@ class AddServicePackage extends TrackerReact (Component){
                                     :
                                     <span>No service added!</span>
                                   }
-                                  
                                 </div>
                               </div>
                               <div className="row inputrow">
                                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                   <div className="form-group">
                                    <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12 label-category">Duration:</label>
-                                     <input type="number" ref="packageDuration" id="packageDuration" name="packageDuration" onChange={this.handleChange} className="templateName packageDuration col-lg-12 col-md-12 col-sm-12 col-xs-12 inputValid" />
+                                     <input type="number" ref="packageDuration" id="packageDuration" name="packageDuration" value={this.state.packageDuration} onChange={this.handleChange} className="templateName packageDuration col-lg-12 col-md-12 col-sm-12 col-xs-12 inputValid" />
                                   </div>
                                 </div>
                                 <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                   <div className="form-group">
                                    <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12 label-category">Discount:</label>
-                                     <input type="number" ref="packageDiscount" id="packageDiscount" name="packageDiscount" onChange={this.handleChange} className="templateName packageDiscount col-lg-12 col-md-12 col-sm-12 col-xs-12 inputValid" />
+                                     <input type="number" ref="packageDiscount" id="packageDiscount" name="packageDiscount" value={this.state.packageDiscount} onChange={this.handleChange} className="templateName packageDiscount col-lg-12 col-md-12 col-sm-12 col-xs-12 inputValid" />
                                   </div>
                                 </div>
                               </div>
@@ -325,14 +347,14 @@ class AddServicePackage extends TrackerReact (Component){
                                   <div className="form-group">
                                       <label className="label-category">Description:</label>
                                       {/*<div id="servicesDescription" className="col-lg-12 col-md-12 col-sm-12 col-xs-12" name="servicesDescription" ref="servicesDescription" value={this.state.servicesDescription} onChange={this.handleChange} ></div>*/}
-                                      <textarea name="packageDescription" ref="packageDescription" id="packageDescription"  onChange={this.handleChange} className="form-control packageDescription col-lg-12 col-md-12 col-sm-12 col-xs-12" rows="5"></textarea>                           
+                                      <textarea name="packageDescription" ref="packageDescription" id="packageDescription" value={this.state.packageDescription}  onChange={this.handleChange} className="form-control packageDescription col-lg-12 col-md-12 col-sm-12 col-xs-12" rows="5"></textarea>                           
                                    </div>
                                 </div>
                               </div>
                             
                               
                               <div className="savetemp col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                <button onClick={this.handleSubmit.bind(this)} type="submit" className="col-lg-2 col-md-3 col-sm-6 col-xs-12 btn btn-primary pull-right sendtxtmsgbtn">ADD</button>
+                                <button type="submit" className="col-lg-2 col-md-3 col-sm-6 col-xs-12 btn btn-primary pull-right sendtxtmsgbtn" onClick={this.updatePackage.bind(this)}>Update</button>
                               </div>
                             </form>
                           </div>
@@ -349,16 +371,18 @@ class AddServicePackage extends TrackerReact (Component){
         {/* /.content-wrapper */}
       </div>
     );
-  }
 }
-AddServicePackageContainer = withTracker(({props}) => {
-    const postHandle    = Meteor.subscribe("services");
-    const AllServices      = Services.find({}).fetch()||[];
-    // console.log("AllServices",AllServices);
-    const loading       = !postHandle.ready();
-    return {
-      loading,
-      AllServices,
-    };
-})(AddServicePackage);
-export default AddServicePackageContainer;
+}
+export default EditPackagePageContainer = withTracker(({params}) => {
+    var _id = params.id;
+    const postHandle = Meteor.subscribe('singlePackages',_id);
+    const singlepackage = Packages.findOne({"_id":_id})|| {};
+    const loading = !postHandle.ready();
+    
+    if(_id){
+      return {
+          loading,
+          singlepackage,
+      };
+    }
+})(EditPackages);
