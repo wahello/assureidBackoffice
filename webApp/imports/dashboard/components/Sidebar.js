@@ -312,12 +312,12 @@ class Sidebar extends TrackerReact(Component){
                   <i className="fa fa-archive" />
                   <span> Package Management</span>
                   <span className="pull-right-container">
-                    <i className="fa fa-angle-left pull-right" />
+                    <i className="fa fa-angle-left pull-right"/>
                   </span>
                 </Link>
                 <ul className="treeview-menu">
                   <li>
-                    <Link to="/admin/manageservicepackage">
+                    <Link to="/ComingSoon">
                       <i className="fa fa-circle-o" /> Add New Package
                     </Link>
                   </li>
