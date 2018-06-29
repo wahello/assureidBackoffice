@@ -24,12 +24,13 @@ import { ServiceImage } from "../UploadToServer/UploadServiceImgsServer.js";
     });
     Meteor.methods({
       //add Checklist to ChecklistFieldExpert collection
-      "createChecklist" : function (checkListFor,task,checkListFrom,createdAt) {
+      "createChecklist" : function (checkListFor,task,checkListFrom,relatedFieldArr) {
          ChecklistFieldExpert.insert({
           "checkListFor": checkListFor,
           "task"        : task,
           "checkListFrom": checkListFrom,
-          "createdAt"    : createdAt,
+          "relatedFields": relatedFieldArr,
+          "createdAt"    : new Date(),
         });
       },
       //delete task from ChecklistFieldExpert
@@ -37,23 +38,27 @@ import { ServiceImage } from "../UploadToServer/UploadServiceImgsServer.js";
         ChecklistFieldExpert.remove({"_id":id});
       },
       //update task from ChecklistFieldExpert
-      'updateChecklist': function (id,checkListFor,task,checkListFrom) {
-        ChecklistFieldExpert.update({"_id":id},{$set:{'checkListFor'  : checkListFor,'task'  : task, 'checkListFrom' : checkListFrom}});
+      'updateChecklist': function (id,checkListFor,task,checkListFrom,relatedFieldArr) {
+          
+          ChecklistFieldExpert.update({"_id":id},{$set:{'checkListFor'  : checkListFor,'task'  : task, 'checkListFrom' : checkListFrom,"relatedFields": relatedFieldArr}});
       },
       //add image to TempServiceImages
       "addNewTemporaryServiceImage": function (id) {
         var data = ServiceImage.findOne({"_id" : id});
         var imageLink = data.link();
           TempServiceImages.insert({
-          "userId"    : Meteor.userId(),
-          "imageLink" : imageLink,
-          "fileName"  : data.name,
-          "fileExt"   : data.ext,
-          "createdAt" : new Date(),
-          },(error, result)=>{});
-      }, 
+          "userId": Meteor.userId(),
+          "imageLink":imageLink,
+          "fileName": data.name,
+          "fileExt": data.ext,
+          "createdAt":new Date(),
+          },(error, result)=>{
+
+        });
+      },
+  
       //add service method
-      'createService':function(serviceName,serviceRate,serviceDayNumbers,servicesDescription,serviceRequired,userId,lastModified,serviceFor){
+      'createService':function(ProfileForms,StatutoryForm,AddressForm,EducationForm,WorkForm,SkillsCertificate,OtherInfoForm,serviceName,serviceRate,serviceDuration,servicesDescription,userId,lastModified,serviceFor,serviceDayNumbers){
         var getImage              = TempServiceImages.findOne({}, {sort: {createdAt: -1, limit: 1}});
         if(getImage){
           var image               = getImage.imageLink;
@@ -66,11 +71,18 @@ import { ServiceImage } from "../UploadToServer/UploadServiceImgsServer.js";
         }
 
         Services.insert({
+          'ProfileForms'          : ProfileForms,
+          'StatutoryForm'         : StatutoryForm,
+          'AddressForm'           : AddressForm,
+          'EducationForm'         : EducationForm,
+          'serviceDayNumbers'     : serviceDayNumbers,
+          'WorkForm'              : WorkForm,
+          'SkillsCertificate'     : SkillsCertificate,
+          'OtherInfoForm'         : OtherInfoForm,
           'serviceName'           : serviceName,
           'serviceRate'           : serviceRate,
-          'serviceDayNumbers'     : serviceDayNumbers,
+          'serviceDuration'       : serviceDuration,
           'servicesDescription'   : servicesDescription,
-          'serviceRequired'       : serviceRequired,
           'image'                 : image,
           'fileName'              : fileName,
           'fileExt'               : fileExt,
@@ -82,10 +94,10 @@ import { ServiceImage } from "../UploadToServer/UploadServiceImgsServer.js";
         TempServiceImages.remove({});
       },
       //update service method
-      'updateService':function(id,serviceName,serviceRate,serviceDayNumbers,servicesDescription,serviceRequired,userId,lastModified,serviceFor){
+      'updateService':function(id,ProfileForms,StatutoryForm,AddressForm,EducationForm,WorkForm,SkillsCertificate,OtherInfoForm,serviceName,serviceRate,serviceDuration,servicesDescription,userId,lastModified,serviceDayNumbers,serviceFor){
            var data = TempServiceImages.findOne({"userId":Meteor.userId()});
             if(data){
-                var imageLink     = data.imageLink+'.'+data.fileExt;
+                var imageLink     = data.imageLink;
             }else{
                 var oldImgData    = Services.findOne({"_id":id},{sort:{"createdAt":-1}});
                 if(oldImgData){
@@ -97,11 +109,19 @@ import { ServiceImage } from "../UploadToServer/UploadServiceImgsServer.js";
           { '_id': id },
               {
                 $set:{
+                  'ProfileForms'          : ProfileForms,
+                  'StatutoryForm'         : StatutoryForm,
+                  'AddressForm'           : AddressForm,
+                  'EducationForm'         : EducationForm,
+                  'serviceDayNumbers'     : serviceDayNumbers,
+                  'WorkForm'              : WorkForm,
+                  'SkillsCertificate'     : SkillsCertificate,
+                  'OtherInfoForm'         : OtherInfoForm,
                   'serviceName'           : serviceName,
                   'serviceRate'           : serviceRate,
                   'serviceDayNumbers'     : serviceDayNumbers,
+                  'serviceDuration'       : serviceDuration,
                   'servicesDescription'   : servicesDescription,
-                  'serviceRequired'       : serviceRequired,
                   'image'                 : imageLink,
                   'authorUserId'          : userId,
                   'lastModified'          : lastModified,

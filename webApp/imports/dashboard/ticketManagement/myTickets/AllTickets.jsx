@@ -40,7 +40,7 @@ class AllTickets extends TrackerReact(Component){
       }
  
       if($("#selectTMMember option:selected").val() !="--Select--"){
-        insertData.allocatedToUserid = $("#selectTMMember option:selected").val();
+        insertData.allocatedToUserid   = $("#selectTMMember option:selected").val();
         insertData.allocatedToUserName = $("#selectTMMember option:selected").text();
       }else{
         swal({   
@@ -56,7 +56,13 @@ class AllTickets extends TrackerReact(Component){
 				checkedUsersList.push(this.value);
       });
       if(checkedUsersList.length>0 && selectedValue!=""){
-        Meteor.call('updateCheckBoxTM',checkedUsersList,insertData);
+        Meteor.call('updateCheckBoxTM',checkedUsersList,insertData,(error,result)=>{
+          // if(result == 1){
+          //   console.log("client side result")
+          //   this.refs.selectTMMember.value = ""
+          //   // $("#selectTMMember").value = "";
+          // }
+        });
       }else{
         swal({   
           position: 'top-right',    
@@ -66,6 +72,10 @@ class AllTickets extends TrackerReact(Component){
           timer: 1500     
         });  
       }
+
+      $("#selectTMMember").val("");
+      // this.refs.selectTMMember.value = "";
+      
   }
 
   checkAll(event) {
@@ -99,8 +109,8 @@ class AllTickets extends TrackerReact(Component){
                                   {
                                     this.props.role == "team leader" ? 
                                       <div className="col-lg-4 col-md-4 col-sm-8 col-xs-8 pull-right">
-                                        <select className="col-lg-6 col-md-6 col-sm-4 col-xs-5 tmDropList tmListWrap" id="selectTMMember"ref="userListDropdown" name="userListDropdown"> 
-                                          <option>--Select--</option>
+                                        <select className="col-lg-6 col-md-6 col-sm-4 col-xs-5 tmDropList tmListWrap" id="selectTMMember" ref="selectTMMember" name="userListDropdown"> 
+                                          <option value="">--Select--</option>
                                             {
                                               this.showTMList('team member').map((data,i)=>{
                                                 return(

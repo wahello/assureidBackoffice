@@ -55,7 +55,10 @@ if(Meteor.isServer){
 		
 		for(var i=0;i<checkedUsersList.length;i++){
 			console.log(checkedUsersList[i]);
-			Meteor.call('genericUpdateTicketMasterElement',checkedUsersList[i],insertData);
+			var x = Meteor.call('genericUpdateTicketMasterElement',checkedUsersList[i],insertData);
+			console.log('x: ', x);
+
+			return x;
 		}
 	},
 

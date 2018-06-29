@@ -70,7 +70,7 @@ class VerifyDetailsDocument extends TrackerReact(Component){
                                 {     
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <h5 className="dataDetails">Permanent Address</h5>
-                                    <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad addressdetails">
                                         {this.props.getTicket.verificationData.line1}{this.props.getTicket.verificationData.line1 ? "," : ""}<br/>
                                         {this.props.getTicket.verificationData.line2}{this.props.getTicket.verificationData.line2 ? "," : ""}<br/>
@@ -90,7 +90,7 @@ class VerifyDetailsDocument extends TrackerReact(Component){
                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 singledocwrp">                                     
                                 {
                                         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad">
-                                            <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12 ">
+                                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
                                             <h5 className="dataDetails"> Current Address</h5>
                                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad addressdetails">
                                                     {this.props.getTicket.verificationData.tempLine1},<br/>
@@ -115,7 +115,7 @@ class VerifyDetailsDocument extends TrackerReact(Component){
                                 
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <h5 className="dataDetails">{this.props.getTicket.verificationData.verificationType}</h5>
-                                    <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad addressdetails">
                                           <span className="col-lg-3 col-sm-3"><b>Education Level <span className="pull-right">:</span></b></span><span className="col-lg-9 col-md-9">{this.props.getTicket.verificationData.educationLevel ? this.props.getTicket.verificationData.educationLevel : " - "}</span><br/>
                                         </div>
@@ -160,7 +160,7 @@ class VerifyDetailsDocument extends TrackerReact(Component){
                             
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <h5 className="dataDetails">{this.props.getTicket.verificationData.verificationType}</h5>
-                                    <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad addressdetails">
                                         Certificate Name - &nbsp;{this.props.getTicket.verificationData.certificateName ? this.props.getTicket.verificationData.certificateName : "-"}<br/>
                                         Issued Date - &nbsp;{this.props.getTicket.verificationData.issuedBy ? this.props.getTicket.verificationData.issuedBy :"-"}<br/>
@@ -182,7 +182,7 @@ class VerifyDetailsDocument extends TrackerReact(Component){
                                     
                                         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                             <h5 className="dataDetails">{this.props.getTicket.verificationData.verificationType}</h5>
-                                            <div className="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                                            <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad addressdetails">
                                                 Qualification - &nbsp;{this.props.getTicket.verificationData.professionalQualification ? this.props.getTicket.verificationData.professionalQualification :"-"}
                                                 Registration No. - &nbsp;{this.props.getTicket.verificationData.registrationNo ? this.props.getTicket.verificationData.registrationNo:"-"}
