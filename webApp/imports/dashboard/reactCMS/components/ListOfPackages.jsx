@@ -33,27 +33,11 @@ class ListOfPackages extends TrackerReact(Component) {
     $("script[src='/js/adminLte.js']").remove(); 
      // $("link[href='/css/dashboard.css']").remove();
   }
-  renderTableRow(){
-    return this.props.packages.map((packages,index) =>{
-      return <tr key={index}>
-              <td> {packages.packageName} </td>
-              <td> {packages.packageDuration} Days </td> 
-              <td>
-                {packages.packageDiscount}
-              </td>
-              <td><img src={packages.image} className="img-responsive serviceLogo" /></td>
-              <td>
-                <Link to={'/admin/manageservicepackage/'+packages._id} className="editButton" title="Edit">
-                  <i className = "fa fa-pencil"> </i>
-                </Link>
-             
-                <a href="#" id={packages._id} onClick={this.delete.bind(this)} className="deleteButton" title="Delete">
-                  <i className="fa fa-trash-o"></i>  
-                </a>
-              </td>
-            </tr>;
-      });
-  }
+  // renderTableRow(){
+  //   return(
+      
+  //   )
+  // }
   
   delete(e){
     e.preventDefault();
@@ -103,19 +87,49 @@ class ListOfPackages extends TrackerReact(Component) {
                 </div>
                 <div className="box-body">  
                   <div className="dataTable tableBasicPage col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <table className="display table table-bordered servicesTable" width="100%" cellSpacing="0">
-                      <thead>
-                          <tr>
-                              <th>Package Name</th>
-                              <th>Package Duration</th>
-                              <th>Package Discount</th>
-                              <th>Image</th>
-                              <th>Actions</th>
+                    <table className="display table table-bordered servicesTable">
+                      <thead className="table-head col-lg-12" style={{"padding":"0"}}>
+                          <tr className="col-lg-12" style={{"padding":"0"}}>
+                              <th className="col-lg-3">Package Name</th>
+                              <th className="col-lg-2">Package Duration</th>
+                              <th className="col-lg-4">Package Discount</th>
+                              <th className="col-lg-3">Image</th>
+                              <th className="col-lg-2">Actions</th>
                           </tr>
                       </thead>
-                       
                       <tbody>
-                        {this.renderTableRow()}
+                        { this.props.packages.map((packages,index) =>{
+                          return( <tr className="col-lg-12" key={index}>
+                                    <tr className="col-lg-12" >
+                                      <td className="col-lg-3"> {packages.packageName} </td>
+                                      <td className="col-lg-2"> {packages.packageDuration} Days </td> 
+                                      <td className="col-lg-4">
+                                        {packages.packageDiscount}
+                                      </td>
+                                      <td className="col-lg-3"><img src={packages.image} className="img-responsive serviceLogo" /></td>
+                                      <td className="col-lg-2">
+                                        <Link to={'/admin/manageservicepackage/'+packages._id} className="editButton" title="Edit">
+                                          <i className = "fa fa-pencil"> </i>
+                                        </Link>
+                                           <a href="#" id={packages._id} onClick={this.delete.bind(this)} className="deleteButton" title="Delete">
+                                            <i className="fa fa-trash-o"></i>  
+                                          </a>
+                                      </td>
+                                  </tr>
+                                  <tr className="col-lg-12 text-danger">
+                                    { packages.packageStatus == "Inactive" ?
+                                       <div className="col-lg-12">
+                                       <span className="col-lg-12"> Service included in this packages is deleted, Edit it for active this package.</span>
+                                        </div>
+                                        :
+                                        ""
+                                    }
+                                  </tr>
+                                    
+                                </tr>
+                              )
+                          })
+                        }
                       </tbody>
                     </table>
                   </div>

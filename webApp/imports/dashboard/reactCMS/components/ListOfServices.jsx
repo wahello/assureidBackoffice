@@ -91,66 +91,71 @@ export default class ListOfServices extends TrackerReact(Component) {
 
     swal({
       title: "Are you sure?",
-      text: "You want to delete this package!",
+      text: "You want to delete this service!",
       type: "warning",
       showCancelButton: true,
       confirmButtonColor: "#DD6B55",
-      confirmButtonText: "Yes, delete it!",
+      confirmButtonText: "Continue",
       closeOnConfirm: false,
       html: false
     }, function(){
-      // var allPackages = Packages.find({}).fetch();
-      // if (allPackages) {
-      //   for (var i = 0; i < allPackages.length; i++) {
-      //     var selectedServices = allPackages[i].selectedServices;
-      //     for (var j = 0; j < selectedServices.length; j++) {
-      //       if (id == selectedServices[j].serviceId) {
-      //         var matchedService = selectedServices[j];
-      //         if (matchedService.value == true) {
-      //           var selctedpackage = allPackages[i];
-      //             var packageId = selctedpackage._id;
-      //            if (selctedpackage) {
-      //                swal({
-      //                 title: "Are you sure?",
-      //                 text: "You want to delete this service!",
-      //                 type: "warning",
-      //                 showCancelButton: true,
-      //                 confirmButtonColor: "#DD6B55",
-      //                 confirmButtonText: "Yes, delete it!",
-      //                 closeOnConfirm: false,
-      //                 html: false
-      //               }, function(){
-      //                Meteor.call('updatePackageStatus',packageId,function(error,result){
-      //                  if (error) {
-      //                    console.log(error.reason);
-      //                  }else{
-      //                    Meteor.call("deleteService",id,function(error,result){
-      //                       if(error){
-      //                           console.log(error.reason);
-      //                       }else{
-      //                           // Bert.alert("Successfully Deleted..!!");
-      //                           swal("Done","Your page has been deleted!.", "success");
-      //                       }
-      //                   });
-      //                  }
-      //                });
-      //               }
-      //             }else{
-                    Meteor.call("deleteService",id,function(error,result){
-                        if(error){
-                            console.log(error.reason);
-                        }else{
-                            // Bert.alert("Successfully Deleted..!!");
-                            swal("Done","Your page has been deleted!.", "success");
-                        }
-                    });
-      //             }
-      //         }
-      //       }
-      //     }
-      //   }
-      // }  
-
+      var selctedpackage = [];
+      var allPackages = Packages.find({}).fetch();
+      if (allPackages) {
+        for (var i = 0; i < allPackages.length; i++) {
+          var selectedServices = allPackages[i].selectedServices;
+          for (var j = 0; j < selectedServices.length; j++) {
+            if (id == selectedServices[j].serviceId) {
+              var matchedService = selectedServices[j];
+              if (matchedService.value == true) {
+                selctedpackage.push(allPackages[i]);
+              }
+            }
+          }
+        }
+      }
+      if (selctedpackage) {
+        if (selctedpackage.length > 0) {
+         swal({
+          title: "Are you sure?",
+          text: "You want to delete this service, it is already added in package then package will be inactive",
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#DD6B55",
+          confirmButtonText: "Yes, delete it!",
+          closeOnConfirm: false,
+          html: false
+        }, function(){
+          for (var i = 0; i < selctedpackage.length; i++) {         
+             var packageId = selctedpackage[i]._id;
+               Meteor.call('updatePackageStatus',packageId,function(error,result){
+                 if (error) {
+                   console.log(error.reason);
+                 }else{
+                   
+                 }
+               });
+            }
+             Meteor.call("deleteService",id,function(error,result){
+                if(error){
+                    console.log(error.reason);
+                }else{
+                    // Bert.alert("Successfully Deleted..!!");
+                    swal("Done","Your page has been deleted!.", "success");
+                }
+            });
+          });
+        }
+      }else{
+        Meteor.call("deleteService",id,function(error,result){
+            if(error){
+                console.log(error.reason);
+            }else{
+                // Bert.alert("Successfully Deleted..!!");
+                swal("Done","Your page has been deleted!.", "success");
+            }
+        });
+      }
     });
   }
 

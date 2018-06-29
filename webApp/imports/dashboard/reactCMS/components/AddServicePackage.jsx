@@ -46,17 +46,30 @@ class AddServicePackage extends TrackerReact (Component){
     });
   }
   handleChangeForServices(event){
-    const target = event.target;
+    const target    = event.target;
     // console.log("target",target);
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    
-    const name = target.name;
-    var dataNumber    = $(event.currentTarget).attr('data-number');
+    const value     = target.type === 'checkbox' ? target.checked : target.value;
+    const name      = target.name;
+    var dataNumber  = parseInt($(event.currentTarget).attr('data-number'));
     // console.log("dataNumber",dataNumber);
-    // const number = parseInt(target.attr('data-number'));
+    // var services = this.props.AllServices;
+    // if (services) {
+    //   for (var i = 0; i < services.length; i++) {
+    //     if (dataNumber >= parseInt(services[i].serviceDayNumbers)) {
+    //       console.log("hi");
+    //       this.setState({
+    //         packageDuration : dataNumber,
+    //           });
+    //     }else{
+    //        this.setState({
+    //         packageDuration : '',
+    //         });
+    //     }
+    //   }
+    // } 
     this.setState({
       [name] : value,
-      // "packageDuration" : dataNumber,
+      // packageDuration : dataNumber,
     });
   }
   componentDidMount() {
@@ -221,7 +234,7 @@ class AddServicePackage extends TrackerReact (Component){
           </div>
         );
     }
-}
+  }
   render(){
     return(
       <div>

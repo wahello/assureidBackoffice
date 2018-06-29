@@ -30,7 +30,7 @@ class EditPackages extends TrackerReact(Component){
   componentWillReceiveProps(nextProps) {
     if(!nextProps.loading){
       if(nextProps.singlepackage){
-        // console.log("nextProps.services",nextProps.services);
+        // console.log("nextProps.services",nextProps.singlepackage);
          this.setState({
              packageName         : nextProps.singlepackage.packageName,
              packageDuration     : nextProps.singlepackage.packageDuration,
@@ -40,6 +40,7 @@ class EditPackages extends TrackerReact(Component){
              packageDiscount     : nextProps.singlepackage.packageDiscount,
              selectedServices    : nextProps.singlepackage.selectedServices,
          });
+
       }
     }else{
       this.setState({
@@ -52,7 +53,6 @@ class EditPackages extends TrackerReact(Component){
              selectedServices    : nextProps.singlepackage.selectedServices,
       });
     }
-    // console.log("nextProps.services",nextProps.services);
 
     this.handleChange = this.handleChange.bind(this);
   }
@@ -172,7 +172,7 @@ class EditPackages extends TrackerReact(Component){
             if (serviceName) {
               selectedServices.push({"serviceId" : serviceId, "serviceName" : serviceName,"serviceDuration":serviceDuration, "index": index, "value":true});
             }else{
-              var uncheckedserviceName = $("input:checkbox[id="+[i]+"]:not(:checked)").val();
+              var uncheckedserviceName = $("input:checkbox[id="+[i]+"]:not(:checked)").attr('data-name');
               var uncheckedserviceId   = $("input:checkbox[id="+[i]+"]:not(:checked)").attr('data-id');
               var uncheckedindex       = parseInt($("input:checkbox[id="+[i]+"]:not(:checked)").attr('id'));
               var uncheckedserviceDuration = $("input:checkbox[id="+[i]+"]:not(:checked)").attr('data-number');            
@@ -289,7 +289,7 @@ class EditPackages extends TrackerReact(Component){
                                   <div className="col-lg-6 uploadedImageFromLocl1">
                                      <div className="form-group subjectDiv">
                                        <label className="col-lg-12 col-md-12 col-sm-12 col-xs-12 label-category">Image Upload:</label>
-                                        <input type="file" ref="serviceImageFile" id="s3file" name="serviceImageFile"  onChange={this.handleUpload.bind(this)}  className="subject uploadServiceImage col-lg-12 col-md-12 col-sm-12 col-xs-12 inputValid"  required/>     
+                                        <input type="file" ref="serviceImageFile" id="s3file" name="serviceImageFile"  onChange={this.handleUpload.bind(this)}  className="subject uploadServiceImage col-lg-12 col-md-12 col-sm-12 col-xs-12 inputValid" />     
                                       </div> 
                                   </div>
                                   
