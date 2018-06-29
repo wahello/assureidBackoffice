@@ -56,14 +56,16 @@ class AddServicePackage extends TrackerReact (Component){
     // if (services) {
     //   for (var i = 0; i < services.length; i++) {
     //     if (dataNumber >= parseInt(services[i].serviceDayNumbers)) {
-    //       console.log("hi");
-    //       this.setState({
-    //         packageDuration : dataNumber,
-    //           });
+    //       // console.log("hi");
+    //       $('#packageDuration').val(dataNumber);
+    //       // this.setState({
+    //       //   packageDuration : dataNumber,
+    //       //     });
     //     }else{
-    //        this.setState({
-    //         packageDuration : '',
-    //         });
+    //        // this.setState({
+    //        //  packageDuration : '',
+    //        //  });
+    //       $('#packageDuration').val('');
     //     }
     //   }
     // } 
@@ -109,7 +111,6 @@ class AddServicePackage extends TrackerReact (Component){
         }
     });
   }
-
   componentWillUnmount() {
      $("script[src='/js/adminLte.js']").remove(); 
   }

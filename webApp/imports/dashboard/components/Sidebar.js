@@ -317,7 +317,7 @@ class Sidebar extends TrackerReact(Component){
                 </Link>
                 <ul className="treeview-menu">
                   <li>
-                    <Link to="/ComingSoon">
+                    <Link to="/admin/manageservicepackage">
                       <i className="fa fa-circle-o" /> Add New Package
                     </Link>
                   </li>
