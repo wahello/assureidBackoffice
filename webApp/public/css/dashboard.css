@@ -6738,3 +6738,6 @@ border-top: 2px solid #aaa;
 .table-head tr th{
  text-align: center; 
 }
+.userEmailIds{
+  word-wrap: break-word;
+}

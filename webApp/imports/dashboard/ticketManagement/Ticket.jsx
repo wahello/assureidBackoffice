@@ -20,9 +20,7 @@ import TicketDocumentDetails from '/imports/dashboard/ticketManagement/TicketDoc
 import DocumentStatus from './DocumentStatus.jsx';
 import VerificationDataSubmit from './VerificationDataSubmit.jsx';
 import ReportHeader from '/imports/dashboard/generation/components/ReportHeader.jsx';
-
 // import VerificationDataSubmit from './VerificationDataSubmit.jsx';
-
 import VerifyDetailsDocument from './VerifyDetailsDocument.jsx';
 import { UserProfile } from '../../website/forms/api/userProfile.js';
 import SubmittedDocuments from './SubmittedDocuments.jsx';

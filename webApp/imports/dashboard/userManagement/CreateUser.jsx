@@ -460,7 +460,8 @@ export default CreateUserContainer = withTracker(props => {
 
  if(allRoles.length >0){
     for(var j=0;j<allRoles.length;j++){
-      if((allRoles[j].name!="superAdmin") && (allRoles[j].name!= "admin") && (allRoles[j].name!= "user"))  {
+
+      if((allRoles[j].name!="superAdmin") && (allRoles[j].name!= "admin") && (allRoles[j].name!= "user") && (allRoles[j].name!= "backofficestaff") )  {
 
         var rolevalue = allRoles[j].name;
         roleArray.push(rolevalue);

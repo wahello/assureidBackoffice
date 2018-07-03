@@ -98,7 +98,7 @@ if(Meteor.isServer){
             }else{
               var ticketStatus = 'Reject';
             }
-            Meteor.call('actulStatuofVerificationType',ticketDetails.userId,ticketDetails.verificationType,ticketDetails.verificationId,ticketStatus);
+            Meteor.call('actulStatuofVerificationType',ticketDetails.userId,ticketDetails.verificationType,ticketDetails.verificationId,ticketStatus,reportLink);
           }
           var ticketList = orderDetails.ticket;
           var orderStatus = 'Completed';

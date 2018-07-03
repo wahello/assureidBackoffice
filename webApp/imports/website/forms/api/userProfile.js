@@ -265,7 +265,7 @@ if(Meteor.isServer){
             console.log('status ',status);
         },
 
-        'actulStatuofVerificationType':function(userId,verificationType,verificationId,remark){
+        'actulStatuofVerificationType':function(userId,verificationType,verificationId,remark,reportLink){
           if (verificationType == "permanentAddress") {
             var verificationUniqueId = "permanentAddressId";
           }else if (verificationType == "currentAddress") {
@@ -282,7 +282,8 @@ if(Meteor.isServer){
           var status =  UserProfile.update(
               {'userId':userId, [verificationType+'.'+verificationUniqueId] : parseInt(verificationId)},
               { $set:{
-                      [verificationType+'.$'+'.verifiedStatus']           :  remark,
+                      [verificationType+'.$'+'.verifiedStatus']           : remark,
+                      [verificationType+'.$'+'.report']                   : reportLink,
                 } 
 
               }

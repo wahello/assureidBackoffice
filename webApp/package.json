@@ -6,7 +6,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0-beta.51",
-    "aws-sdk": "^2.246.1",
+    "aws-sdk": "^2.266.1",
     "babel-runtime": "^6.26.0",
     "bcrypt": "^1.0.3",
     "buffer": "^5.1.0",
@@ -17,7 +17,7 @@
     "loadjs": "^3.5.1",
     "meteor-node-stubs": "^0.2.11",
     "plivo": "^0.4.2",
-    "prop-types": "^15.6.1",
+    "prop-types": "^15.6.2",
     "react": "^15.6.2",
     "react-dom": "^15.6.2",
     "react-gcaptcha": "^4.2.0",
