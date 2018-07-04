@@ -157,6 +157,37 @@ if(Meteor.isServer){
 					// 
 					Meteor.call('changeStatusMethod',ticketid,ticketDetails.userId,insertData.remark,ticketDetails.verificationType,ticketDetails.verificationId);
 				}
+				  var newDate     = new Date();
+	      	var msgvariable = {                       
+	                        '[username]' : firstLastNm,
+	                        '[date]'     : moment(newDate).format("DD/MM/YYYY"),
+	                       };
+	      	// Format for send Email //
+	      	var inputObj = {
+	          from         : adminId,
+	          to           : newID,
+	          templateName : 'Document Reject by screening committee',
+	          variables    : msgvariable,
+	      	}
+	      	sendMailNotification(inputObj);
+	      
+	      	// Format for sending SMS //
+	      	var smsObj = {
+	          to           : newID,
+	          templateName : 'Document Reject by screening committee',
+	          number       : mobNumber,
+	          variables    : msgvariable,
+	      	}
+	      	// 
+	      	sendSMS(smsObj);
+
+	      	// Format for sending notification //
+	      	var notifictaionObj = {
+		        to           : newID,
+		        templateName : 'Document Reject by screening committee',
+		        variables    : msgvariable,
+		    }
+	      	sendInAppNotification(notifictaionObj);
 				break;
 			case 'Assign':
 		

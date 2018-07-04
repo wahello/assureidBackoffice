@@ -66,7 +66,6 @@ class VerificationDataSubmit extends TrackerReact(Component){
     }
     handleChangeChecklist(event){
         // event.preventDefault();
-
         const target = event.target;
         const value  = target.type === 'checkbox' ? target.checked : target.value;
         const name   = target.name;
@@ -751,9 +750,9 @@ class VerificationDataSubmit extends TrackerReact(Component){
                             <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 wholeborder ">
                                 <div className="imgtitile col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 noLRPad Selectimg"> Select images:
-                                    {/* <span className="starcolor1">*</span>&nbsp; */}
+                                     <span className="starcolor1">*</span>&nbsp;
                                     </div>
-                                    <input type="file" ref="ticketImageFile" id="s3file" name="ticketImageFile"  onChange={this.handleUpload.bind(this)} className="col-lg-12 noLRPad" multiple/>
+                                    <input type="file" ref="ticketImageFile" id="s3file" name="ticketImageFile"  onChange={this.handleUpload.bind(this)} className="col-lg-12 noLRPad" multiple required/>
                                 </div>
                                 {/*<label>(You can choose maximum 5 images)</label>*/}
                                 <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">

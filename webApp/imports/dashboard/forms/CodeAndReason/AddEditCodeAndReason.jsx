@@ -54,29 +54,34 @@ class AddEditCodeAndReason extends TrackerReact(Component) {
       var code            = this.refs.code.value;
       var reason          = this.refs.reason.value;
       var id              = this.props.params.id;
-      if(id){ 
-        Meteor.call('updateField',id,code,reason,(error,result)=>{
-          if(error){
-              console.log(error.reason);
-          }else{                      
-            swal("Done","Your Field has been Updated!.","success");  
-            var path = "/admin/CodeAndReason";
-            browserHistory.replace(path);
-            $(".code").val("");
-            $(".reason").val("");
-          }            
-        });
+      var alreadyExists   = CodeAndReason.findOne({"code" : code});
+      if (alreadyExists) {
+          swal("Oops...!","This code is already taken!","error");
       }else{
-        Meteor.call('createField',code,reason,(error,result)=>{
-          if(error){
-              console.log(error.reason);
-          }else{                      
-            swal("Done","Your data has been Created!.","success"); 
-            // $(".UniversityName").val("");
-            $(".code").val("");
-            $(".reason").val("");
-          }            
-        });  
+        if(id){ 
+          Meteor.call('updateField',id,code,reason,(error,result)=>{
+            if(error){
+                console.log(error.reason);
+            }else{                      
+              swal("Done","Your Field has been Updated!.","success");  
+              var path = "/admin/CodeAndReason";
+              browserHistory.replace(path);
+              $(".code").val("");
+              $(".reason").val("");
+            }            
+          });
+        }else{
+          Meteor.call('createField',code,reason,(error,result)=>{
+            if(error){
+                console.log(error.reason);
+            }else{                      
+              swal("Done","Your data has been Created!.","success"); 
+              // $(".UniversityName").val("");
+              $(".code").val("");
+              $(".reason").val("");
+            }            
+          });  
+        }
       }
     }
   }
